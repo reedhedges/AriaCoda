@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="ArNetworkingSwigJava"
+	ProjectGUID="{AC5CCD7A-1657-4A3D-9E09-C1434B49AEFB}"
+	RootNamespace="ArNetworkingSwigJava"
+	Keyword="ManagedCProj">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			ManagedExtensions="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="1"
+				WarningLevel="3"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Custom Build Step: Running C:\swig\swig.exe to generate Java wrapper code"
+				CommandLine="mkdir &quot;$(ProjectDir)\com\mobilerobots\ArNetworking&quot;
+del /q  &quot;$(ProjectDir)\com\mobilerobots\*.*&quot;
+C:\swig\swig.exe -Fmicrosoft -c++ -java -package com.mobilerobots.ArNetworking -module ArNetworkingJava -DWIN32 -DAREXPORT -outdir &quot;$(ProjectDir)\com\mobilerobots\ArNetworking&quot;  -o ArNetworkingJava_wrap.cpp &quot;-I$(ProjectDir)\..\include&quot; &quot;-I$(ProjectDir)\..\ArNetworking\include&quot; &quot;$(ProjectDir)\..\ArNetworking\include\wrapper.i&quot;
+&quot;$(JAVA_BIN)\javac&quot; -classpath &quot;$(ProjectDir)\Aria.jar;$(ProjectDir)\com\mobilerobots\ArNetworking&quot; $(ProjectDir)\com\mobilerobots\ArNetworking\*.java
+cd &quot;$(ProjectDir)&quot;
+&quot;$(JAVA_BIN)\jar&quot; cf &quot;$(ProjectDir)\ArNetworking.jar&quot; com\mobilerobots\ArNetworking\*.class
+"
+				AdditionalDependencies="../ArNetworking/include/wrapper.i"
+				Outputs="$(ProjectDir)\ArNetworking_wrap.cpp;$(ProjectDir)\ArNetworking_wrap.h;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.java;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.class;$(ProjectDir)\ArNetworking.jar"/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(PYTHON_LIBDIR)"
+				GenerateDebugInformation="TRUE"
+				AssemblyDebug="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(ProjectDir)\ArNetworking"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			ManagedExtensions="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				MinimalRebuild="FALSE"
+				RuntimeLibrary="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Custom Build Step: Running C:\swig\swig.exe to generate Java wrapper code"
+				CommandLine="cd &quot;$(ProjectDir)&quot;
+mkdir &quot;$(ProjectDir)\com\mobilerobots\ArNetworking&quot;
+del /q  &quot;$(ProjectDir)\com\mobilerobots\*.*&quot;
+C:\swig\swig.exe -Fmicrosoft -c++ -java -package com.mobilerobots.ArNetworking -module ArNetworkingJava -DWIN32 -DAREXPORT -outdir com\mobilerobots\ArNetworking  -o ArNetworkingJava_wrap.cpp -I..\include -I..\ArNetworking\include ..\ArNetworking\include\wrapper.i
+&quot;$(JAVA_BIN)\javac&quot; -classpath &quot;Aria.jar;com\mobilerobots\ArNetworking&quot; com\mobilerobots\ArNetworking\*.java
+&quot;$(JAVA_BIN)\jar&quot; cf ArNetworking.jar com\mobilerobots\ArNetworking\*.class
+"
+				AdditionalDependencies="../ArNetworking/include/wrapper.i"
+				Outputs="$(ProjectDir)\ArNetworkingJava_wrap.cpp;$(ProjectDir)\ArNetworkingJava_wrap.h;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.java;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.class;$(ProjectDir)\ArNetworking.jar"/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				LinkIncremental="1"
+				GenerateDebugInformation="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<File
+			RelativePath="..\ArNetworking\include\wrapper.i">
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

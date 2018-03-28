@@ -1,0 +1,494 @@
+
+ARIA 2.9.4
+
+Summary of command line options
+
+Some classes in ARIA and ArNetworking check a program's run time options to
+specify parameters and options. These options are used to configure run time
+accessory device parameters (ports, speeds, etc.) used by ARIA; host names,
+port numbers, etc. used by ArNetworking; and various other run time options.
+Options may be given as program arguments on the command line, or globally
+saved as defaults in the file /etc/Aria.args if on Linux, or in the ARIAARGS
+environment variable.  Arguments given on the command line may override some
+internal defaults or values read from the robot parameter files.
+
+Note, an option will be available only in programs that instantiate an
+object of the class that uses it. Some programs may also check for
+program-specific command line options.
+
+Use the special "-help" command line option to cause a program to 
+print out its available options.
+
+A list of options used by each class follows.
+
+
+ArRobotConnector
+----------------
+Options for ArRobotConnector (see docs for more details):
+
+Robot options:
+-remoteHost <remoteHostNameOrIP>
+-rh <remoteHostNameOrIP>
+-robotPort <robotSerialPort>
+-rp <robotSerialPort>
+-robotBaud <baud>
+-rb <baud>
+-remoteRobotTcpPort <remoteRobotTcpPort>
+-rrtp <remoteRobotTcpPort>
+-remoteIsSim
+-ris
+-remoteIsNotSim
+-rins
+-robotLogPacketsReceived
+-rlpr
+-robotLogPacketsSent
+-rlps
+-robotLogMovementReceived
+-rlmr
+-robotLogMovementSent
+-rlms
+-robotLogVelocitiesReceived
+-rlvr
+-robotLogActions
+-rla
+
+ArLaserConnector
+----------------
+Laser types and options may also be set in the robot parameter file.  See the
+ARIA reference documentation for details.
+
+If a program supports multiple lasers, then options for additional lasers
+after the first are given by appending the laser number (e.g. -laserType2)
+To enable use of a laser, choose its type with the -laserType<N> options
+(e.g.: -laserType lms2xx -laserType2 urg2.0)
+
+The default laser type for the primary laser (laser 1) is specified in the
+robot type parameter file in the ARIA "params" directory. For many robots
+it is "lms2xx", the SICK LMS200. For some it is "lms1xx", for the SICK
+LMS100 or LMS111.
+
+Instruct a program to connect to a laser using the -connectLaser<N> option
+or by setting LaserAutoConnect to true in the robot's parameter file.
+If a program requires use of a laser it usually always attempts to connect to
+the primary laser, however.
+
+The index number is optional in any options for the primary laser; i.e. 1 is
+assumed if the index number is omitted.
+
+
+
+For laser type "lms2xx" (SICK LMS-200):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 32000
+-laserDegrees <100|180>
+-ld <100|180>
+-laserIncrement <half|one>
+-li <half|one>
+-laserUnits <1mm|1cm|10cm>
+-lu <1mm|1cm|10cm>
+-laserReflectorBits <1ref|2ref|3ref>
+-lrb <1ref|2ref|3ref>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserStartingBaud <9600|19200|38400>
+-lsb <9600|19200|38400>
+-laserAutoBaud <9600|19200|38400>
+-lab <9600|19200|38400>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "lms1xx" (SICK LMS-100, LMS-111, etc.):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 50000
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and 135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -135 and 135
+-laserIncrement <half|quarter>
+-li <half|quarter>
+-laserReflectorBits <none|8bits>
+-lrb <none|8bits>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "urg2.0" (URG with SCIP 2.0):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 262144
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -180 and 180
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -180 and 180
+-laserIncrementByDegrees <incrementByDegrees>
+-libd <incrementByDegrees>
+	<incrementByDegrees> is a double between 0 and 180
+-laserStartingBaud <0|019200|057600|115200|250000|500000|750000>
+-lsb <0|019200|057600|115200|250000|500000|750000>
+-laserAutoBaud <0|019200|057600|115200|250000|500000|750000>
+-lab <0|019200|057600|115200|250000|500000|750000>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "urg" (URG with old SCIP 1.0):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 4095
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and 135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -135 and 135
+-laserIncrementByDegrees <incrementByDegrees>
+-libd <incrementByDegrees>
+	<incrementByDegrees> is a double between 0 and 135
+-laserStartingBaud <019200|057600|115200|250000|500000|750000>
+-lsb <019200|057600|115200|250000|500000|750000>
+-laserAutoBaud <019200|057600|115200|250000|500000|750000>
+-lab <019200|057600|115200|250000|500000|750000>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "lms5XX" (SICK LMS-500):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 80000
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -95 and 95
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -95 and 95
+-laserIncrement <half|one|quarter>
+-li <half|one|quarter>
+-laserReflectorBits <none|8bits>
+-lrb <none|8bits>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "sZseries" (Keyence SZ):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 16382
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and -135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between 135 and 135
+-laserIncrementByDegrees <incrementByDegrees>
+-libd <incrementByDegrees>
+	<incrementByDegrees> is a double between 0.5 and 0.5
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserStartingBaud <9600|19200|38400|57600|115200|230400|460800>
+-lsb <9600|19200|38400|57600|115200|230400|460800>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "s3series" (SICK S-300, S-3000, etc.):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 20000
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and -135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between 135 and 135
+-laserIncrement <half>
+-li <half>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserStartingBaud <9600|19200|38400|57600|115200|230400|460800>
+-lsb <9600|19200|38400|57600|115200|230400|460800>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "tim510" or "tim3XX" (SICK TiM310 and TiM510):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 4000
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and 135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -135 and 135
+-laserIncrement <three>
+-li <three>
+-laserReflectorBits <none|8bits>
+-lrb <none|8bits>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserStartingBaud <115200>
+-lsb <115200>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "tim551" (SICK TiM551):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 10000
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and 135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -135 and 135
+-laserIncrement <one>
+-li <one>
+-laserReflectorBits <none|8bits>
+-lrb <none|8bits>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "tim561" (SICK TiM561):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 10000
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and 135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -135 and 135
+-laserIncrement <one>
+-li <one>
+-laserReflectorBits <none|8bits>
+-lrb <none|8bits>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+For laser type "tim571" (SICK TiM571):
+
+-laserPort <laserPort>
+-lp <laserPort>
+-laserPortType <serial|serial422|tcp>
+-lpt <serial|serial422|tcp>
+-remoteLaserTcpPort <remoteLaserTcpPort>
+-rltp <remoteLaserTcpPort>
+-laserFlipped <true|false>
+-lf <true|false>
+-laserMaxRange <maxRange>
+-lmr <maxRange>
+	<maxRange> is an unsigned int less than 25000
+-laserDegreesStart <startAngle>
+-lds <startAngle>
+	<startAngle> is a double between -135 and 135
+-laserDegreesEnd <endAngle>
+-lde <endAngle>
+	<endAngle> is a double between -135 and 135
+-laserIncrement <third>
+-li <third>
+-laserReflectorBits <none|8bits>
+-lrb <none|8bits>
+-laserPowerControlled <true|false>
+-lpc <true|false>
+-laserAdditionalIgnoreReadings <readings>
+-lair <readings>
+	<readings> is a string that contains readings to ignore separated by commas, where ranges are acceptable with a -, example '75,76,90-100,-75,-76,-90--100'
+
+ArPTZConnector
+--------------
+Common PTU and Camera PTZ options:
+
+	-ptzType <type>	Select PTZ/PTU type. Required.  Available types are:
+		dpptu
+		rvision
+		sony
+		vcc
+		vcc4
+		vcc50i
+		none
+	-ptzInverted <true|false>	If true, reverse tilt and pan axes for cameras mounted upside down.
+
+Only one of the following sets of connection parameters may be given:
+
+For computer serial port connections:
+	-ptzSerialPort <port>	Serial port name.
+
+For Pioneer robot auxilliary serial port connections:
+	-ptzRobotAuxSerialPort <1|2|3>	Use specified Pioneer robot auxilliary serial port.
+
+For network connections:
+	-ptzAddress <address>	Network address or hostname for network connection.
+	-ptzTcpPort <port>	TCP port number for network connections.
+	-ptzUsername <username>	Username, if camera requires it
+	-ptzPassword <password>	Password, if camera requires it
+
+Parameters for multiple cameras/units may be given like: -ptz1Type, -ptz2Type, -ptz3Type, etc.
+Some PTZ/PTU types may accept additional type-specific options. Refer to option documentation text specific to those types.
+
+ArGPSConnector
+--------------
+GPS options:
+-gpsType <standard|novatel|novatelspan|trimble|sim>	Select GPS device type (default: standard)
+-gpsPort <gpsSerialPort>	Use the given serial port (default: /dev/ttyS1)
+-gpsBaud <gpsSerialBaudRate>	Use the given serial Baud rate (default: 9600)
+-remoteGpsTcpHost <host>	Use a TCP connection instead of serial, and connect to remote host <host>
+-remoteGpsTcpPort <host>	Use the given port number for TCP connection, if using TCP. (default 8103)
+
+ArCompassConnector
+------------------
+Compass options:
+-compassType <robot|serialTCM>	Select compass device type (default: robot)
+-compassPort <port>	Serial port for "serialTCM" type compass. (default: /dev/ttyS3)
+
+ArSonarConnector
+----------------
+Options for ArSonarConnector:
+-sonarLogPacketsReceived
+-slpr
+-sonarLogPacketsSent
+-slps
+
+Options shown are for currently set up sonars.  Activate sonars with -sonarType<N> option
+to see options for that sonar (e.g. "-help -sonarType1 sonarMTX").
+Valid sonar types are: mtx
+
+See docs for details.
+
+ArBatteryConnector
+------------------
+Options for ArBatteryConnector:
+-batteryLogPacketsReceived
+-blpr
+-batteryLogPacketsSent
+-blps
+
+Options shown are for currently set up batteries.  Activate batteries with -batteryType<N> option
+to see options for that battery (e.g. "-help -batteryType1 batteryMTX").
+Valid battery types are: mtx
+
+See docs for details.
+
+ArLCDConnector
+--------------
+Options for ArLCDConnector:
+-lcdLogPacketsReceived
+-lcdlpr
+-lcdLogPacketsSent
+-lcdlps
+
+Options shown are for currently set up lcds.  Activate lcds with -lcdType<N> option
+to see options for that lcd (e.g. "-help -lcdType1 lcdMTX").
+Valid lcd types are: mtx
+
+See docs for details.
+
+

@@ -1,0 +1,285 @@
+
+
+/**
+
+@page ParamFiles Robot Parameter Files
+
+ARIA's robot parameter files contain information that can differ between
+different robot model types (e.g. "p3dx", "p3dx-sh", "p3at", "p3at-sh", 
+"amigo", "amigo-sh", etc.), and between
+individual robots. This includes some physical dimensions, device connection
+settings, and protocol conversion factors.  The parameter files are included
+with ARIA and are installed along with the rest of ARIA in the "params"
+subdirectory. These files always end with ".p".
+
+The parameter files are read by ArRobot after it connects to the robot, and
+stored in the ArRobot and ArRobotParams classes (Use
+ArRobot::getRobotParams() to get a pointer to its ArRobotParams object.)
+
+When ArRobot connects to a robot it receives strings identifying the robot model
+(the model's Pioneer "subtype" or "subclass") and an individual robot nickname. It uses
+these names to load parameter files. It first loads the parameter file that
+corresponds to the model subtype, e.g. "p3dx-sh.p" or "powerbot.p" and stores
+those parameters. A log message is printed indicating that it loaded parameters
+from that file. ARIA includes robot parameter files for all current robot types.
+If such a file cannot be found, but ARIA recognizes the robot
+subtype, it stores internal default constants as those parameter values, and
+prints a log message indicating this.  
+
+Next, if a file exists which corresponds
+to this particular robot's nickname (<i>name</i>.p), then it loads that file,
+which can override any settings provided in the robot type parameters or
+defaults.
+
+An individual robot's nickname is stored in the robot firmware configuration,
+and may be changed using the firmware configuration tool. For example, if a
+robot uses the ARCOS firmware for the SH microcontroller, connect with ARCOScf
+and change the "Name" parameter, then save the new configuration.  Each robot is
+assigned a unique name when assembled and configured by MobileRobots, but you
+may change it if you want to use your own names.  However, if you change the
+name stored in the firmware configuration, you must rename its parameter files
+in any ARIA or ARNL/SONARNL/MOGS installation on all computers that connect to
+it as well.
+
+In almost all circumstances, modifying
+the standard parameters for robot types is unneccesary; change your robot's <i>name</i>.p
+instead.
+
+
+@section ParamFileDeviceParams Device Parameters
+
+The most common parameters that must be changed in <i>name</i>.p are parameters
+regarding how some of an individual robot's devices are connected to the robot 
+or the onboard computer, if an individual robot has a unique configuration. 
+
+If you are using a <i>name</i>.p file, and later remove ARIA, reinstall the operating system and
+erase the disk, make a backup of this file.   If you change any connections, or
+need to recreate a lost <i>name</i>.p file, however, you can edit <i>name</i>.p
+in the "params" subdirectory.
+
+
+In addition to the parameter files, if a program is using ARIA's argument parsing and
+connector classes, then it can be executed with command-line arguments which 
+also affect robot and device parameters (see @ref CommandLineOptions), and may override some of the device
+parameters given in the parameter file.
+
+@subsection ParamFileGeneralParams General Robot Parameters
+
+The "General settings", "Conversion factors" and "Movement control
+parameters" sections give some general parameters about the robot.
+Many of these parameters are invariant for all instances of a particular robot
+type (such as the conversion factors, class/subclass names), and should not be
+changed. You could change the physical dimensions if you have modified the
+robot;
+ARNL uses these when path planning.  You can also set @a SwitchToBaudRate
+to 0 to disable the automatic renegotiation of connection data rate after ARIA
+connects (if, for example, this causes problems with your particular
+computer or a USB-serial device).
+
+For example, p3dx-sh.p contains the following:
+
+@verbatim
+Section General settings
+Class Pioneer            ; general type of robot
+Subclass p3dx-sh         ; specific type of robot
+RobotRadius 250          ; radius in mm
+RobotDiagonal 120        ; half-height to diagonal of octagon
+RobotWidth 425           ; width in mm
+RobotLength 511          ; length in mm of the whole robot
+RobotLengthFront 210     ; length in mm to the front of the robot (if this is 0
+                         ; (or non existant) this value will be set to half of
+                         ; RobotLength)
+RobotLengthRear 301      ; length in mm to the rear of the robot (if this is 0
+                         ; (or non existant) this value will be set to half of
+                         ; RobotLength)
+Holonomic true           ; turns in own radius
+MaxRVelocity 500         ; absolute maximum degrees / sec
+MaxVelocity 2200         ; absolute maximum mm / sec
+MaxLatVelocity 0         ; absolute lateral maximum mm / sec
+HasMoveCommand true      ; has built in move command
+RequestIOPackets false   ; automatically request IO packets
+RequestEncoderPackets false ; automatically request encoder packets
+SwitchToBaudRate 38400   ; switch to this baud if non-0 and supported on robot
+
+
+Section Movement control parameters
+;  if these are 0 the parameters from robot flash will be used, otherwise these
+;  values will be used
+SettableVelMaxes true    ; if TransVelMax and RotVelMax can be set
+TransVelMax 0            ; maximum desired translational velocity for the robot
+RotVelMax 0              ; maximum desired rotational velocity for the robot
+SettableAccsDecs true    ; if the accel and decel parameters can be set
+TransAccel 0             ; translational acceleration
+TransDecel 0             ; translational deceleration
+RotAccel 0               ; rotational acceleration
+RotDecel 0               ; rotational deceleration
+HasLatVel false          ; if the robot has lateral velocity
+LatVelMax 0              ; maximum desired lateral velocity for the robot
+LatAccel 0               ; lateral acceleration
+LatDecel 0               ; lateral deceleration
+@endverbatim
+
+
+@subsection ParamFileLaserParams Laser Rangefinding Devices
+
+For each laser rangefinder device, a "Laser parameters" section is added to the parameter
+file. 
+
+@verbatim
+Section Laser parameters
+LaserType lms2xx         ; type of laser
+LaserPortType            ; type of port the laser is on
+LaserPort COM3           ; port the laser is on
+LaserAutoConnect false   ; if the laser connector should autoconnect this laser
+                         ; or not
+LaserFlipped false       ; if the laser is upside-down or not
+LaserPowerControlled true ; if the power to the laser is controlled by serial port connection, and ARIA should wait for laser initialization after opening connection
+LaserMaxRange 0          ; Max range of the laser, 0 to use default (only use
+                         ; if you want to shorten it from the default), mm
+LaserX 21                ; x location of laser, mm
+LaserY 0                 ; y location of laser, mm
+LaserTh 0                ; rotation of laser, deg
+LaserZ 0                 ; height of the laser off the ground, mm (0 means
+                         ; unknown)
+LaserIgnore              ; Readings within a degree of the listed degrees
+                         ; (separated by a space) will be ignored
+LaserStartDegrees        ; start degrees for the sensor (leave blank for
+                         ; default, use this to constrain the range) (double)
+LaserEndDegrees          ; start degrees for the sensor (leave blank for
+                         ; default, use this to constrain the range) (double)
+LaserDegreesChoice       ; degrees choice for the sensor (leave blank for
+                         ; default, use this to constrain the range)
+LaserIncrement           ; Increment for the sensor (leave blank for default,
+                         ; use this to have a custom increment) (double)
+LaserIncrementChoice     ; Increment for the sensor (leave blank for default,
+                         ; use this to have a larger increment)
+LaserUnitsChoice         ; Units for the sensor (leave blank for default, use
+                         ; this to have a larger units)
+LaserReflectorBitsChoice  ; ReflectorBits for the sensor (leave blank for
+                         ; default, use this to have a larger units)
+LaserStartingBaudChoice  ; StartingBaud for the sensor (leave blank for
+                         ; default, use this to have a larger StartingBaud)
+LaserAutoBaudChoice      ; AutoBaud for the sensor (leave blank for default,
+                         ; use this to have a larger units)
+@endverbatim
+
+The first and default laser is in the "Laser parameters" section.  The second laser
+is in "Laser 2 parameters", the third in "Laser 3 parameters", and so on.
+
+@a LaserType indicates the kind of laser device present: <code>lms2xx</code> for a SICK LMS 200 and compatible,
+or <code>urg</code> for an Hokoyu URG or UTM. Other types will be added as support is added to ARIA.
+
+@a LaserPortType and @a LaserPort indicate how the laser is connected to the onboard computer.
+@a LaserPortType currently is either blank or has the value <code>serial</code> for a serial port. 
+@a LaserPort identifies which port of the given type to use: <code>COM1</code>, <code>COM2</code>, <code>COM3</code>, etc. 
+for the first, second, third, etc. serial ports (use the "COM" notation both on Linux and Windows).  
+As support for other connection types such as USB and TCP are added in the future new types will be possible.
+
+@a LaserAutoConnect indicates whether an ArLaserConnector object should automatically connect to the laser. If <code>false</code>,
+then a program must specifically request that the connector initiate the connection; however most programs do this 
+if they expect to use a laser. 
+
+@a LaserFlipped, @a LaserX, @a LaserY, @a LaserTh, and @a LaserZ indicate the
+physical positioning of the laser on the robot. X, Y, Z and Th give its position
+relative to the center of the robot. If @a LaserFlipped is true then the order
+of the readings supplied by ArRangeDevice objects is reversed, so the order is
+correct for a laser mounted upside-down from normal. 
+
+You can list a set of degree values for which laser readings should be ignored
+after @a LaserIgnore.  Use this if parts of the robot or mounted equipment
+obscure the laser's field of detection and cause undesirable readings.
+
+@a LaserPowerControlled indidcates whether ARIA should expect that the laser's 
+power state is controlled by the data device connection (e.g. serial port).
+If true, ARIA should (re)-initialize the laser
+after opening the connection, and wait for the laser to finish initializing. 
+If false ARIA should expect to be able to read valid data soon after opening 
+the connection.  This value should be left as is for any particular type of
+robot, unless you have modified the way the laser is connected from the
+standard installation.
+
+The other parameters affect the configuration of the laser itself, and their
+meaning may depend on the type of laser.  You may leave them empty (supply no
+value) to use defaults for that type.
+
+@subsection ParamFileGPSParams GPS Devices
+
+@verbatim
+Section GPS parameters
+GPSPossessed false       ; if the robot has a gps
+GPSPX -160               ; x location of gps receiver antenna on robot, mm
+GPSPY 120                ; y location of gps receiver antenna on robot, mm
+GPSType standard         ; type of gps receiver (trimble, novatel, standard)
+GPSPort COM2             ; port the gps is on
+GPSBaud 9600             ; gps baud rate (9600, 19200, 38400, etc.)
+@endverbatim
+
+@subsection ParamFileOtherDeviceParams Other Accessory Device Flags and Options
+
+The "Accessories" section contains advisory flags indicating whether the robot
+has certain optional accessories. These are reflected in ArRobot and programs
+can check them to determine the robot's capabilities, but ARIA's internal
+default behavior is generally not affected by them:
+
+@verbatim
+Section Accessories the robot has
+TableSensingIR false     ; if robot has upwards facing table sensing IR
+NewTableSensingIR false  ; if table sensing IR are sent in IO packet
+FrontBumpers false       ; if robot has a front bump ring
+NumFrontBumpers 5        ; number of front bumpers on the robot
+RearBumpers false        ; if the robot has a rear bump ring
+NumRearBumpers 5         ; number of rear bumpers on the robot
+@endverbatim
+
+The "Sonar" and "IR" parameters sections indicates the physical layout of the sonar
+and IR proximity sensors (if any).  ARIA will use 
+these to position obstacle readings in space. The "Num" value must be accurate
+with respect to the number of "Unit" lines that follow, but ARIA uses the number of readings
+actually supplied by the firmware when calculating and storing readings. (For
+example, if the robot only provides 8 sonar range readings, only 8 obstacle
+positions will be calculated and stored.)
+
+(Example from p3dx-sh.p:)
+
+@verbatim
+Section Sonar parameters
+SonarNum 16              ; number of sonar on the robot
+;  SonarUnit <sonarNumber> <x position, mm> <y position, mm> <heading of disc,
+;  degrees>
+SonarUnit 0 69 136 90
+SonarUnit 1 114 119 50
+SonarUnit 2 148 78 30
+SonarUnit 3 166 27 10
+SonarUnit 4 166 -27 -10
+SonarUnit 5 148 -78 -30
+SonarUnit 6 114 -119 -50
+SonarUnit 7 69 -136 -90
+SonarUnit 8 -157 -136 -90
+SonarUnit 9 -203 -119 -130
+SonarUnit 10 -237 -78 -150
+SonarUnit 11 -255 -27 -170
+SonarUnit 12 -255 27 170
+SonarUnit 13 -237 78 150
+SonarUnit 14 -203 119 130
+SonarUnit 15 -157 136 90
+
+Section IR parameters
+IRNum 0                  ; number of IRs on the robot
+; For each IR, give a line like this:
+;  IRUnit <IR Number> <IR Type> <Persistance, cycles> <x position, mm> <y
+;  position, mm>
+@endverbatim
+
+The "Compass parameters" section indicates what kind of compass and compass
+installation method the robot has. Almost all robots have a "robot" integrated
+compass, serialTCM is never used in normal production robots.
+
+@verbatim
+Section Compass parameters
+;SectionFlags for Compass parameters: 
+CompassType robot        ; type of compass: robot (typical configuration), or
+                         ; serialTCM (computer serial port)
+CompassPort              ; serial port name, if CompassType is serialTCM
+@endverbatim
+
+*/

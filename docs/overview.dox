@@ -1,0 +1,1829 @@
+
+/** 
+  @defgroup ImportantClasses Important Classes
+  @brief These classes are essential far all programs using Aria to control a robot.
+
+  @defgroup OptionalClasses Optional Classes
+  @brief These classes provide additional features that may be used in some programs.
+
+  @defgroup ActionClasses Predefined ArAction Classes
+  @brief These classes implement component behaviors as ArAction subclasses (see ArAction and the overview for more details on actions)
+  
+  @defgroup DeviceClasses Device Interface Classes
+  @brief These classes provide interfaces to hardware devices such as sensors. Some use
+"connector" objects for configure, connection and sometimes to create the
+interface objects. Read documentation fro details.
+
+  @defgroup UtilityClasses Utility Classes
+  @brief These classes provide useful cross-platform system tools, math and string tools, and other miscellaneous programming utilities.
+
+  @defgroup MTX MTX/Pioneer LX Specific Classes
+  @brief These classes are only used on Pioneer LX and other MTX-type robots.
+
+  @defgroup easy Easy Subset of ARIA for Beginners
+  @brief This category highlights a minimal, essential set of features to get started using ARIA as quickly as possible, especially when writing short programs or Python scripts to experiment and learn
+*/
+
+/**
+  \mainpage ARIA Developer's Reference Manual
+
+MobileRobots <b>Advanced Robotics Interface for Applications (ARIA)</b>
+
+<p>
+Copyright 2002, 2003, 2004, 2005 ActivMedia Robotics, LLC. All rights reserved.<br>
+Copyright 2006, 2007, 2008, 2009, 2010 MobileRobots Inc. All rights reserved.<br>
+Copyright 2011, 2012, 2013, 2014, 2015 Adept Technology. All rights reserved.
+Copyright 2016, 2017 Omron Adept MobileRobots. All rights reserved.
+</p>
+
+
+\htmlonly
+<style type="text/css">
+  dt.file {
+    font-family: monospace, typewriter, sans;
+  }
+  dl {
+    font-size: small;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+</style>
+\endhtmlonly
+
+\section toc Contents
+<ul>
+ <li>\ref intro
+   <ul>
+     <li>\ref javapython</li>
+     <li>\ref matlab</li>
+   </ul>
+ </li>
+ <li>\ref licensing</li>
+ <li>\ref AriaPackage
+    <ul>
+      <li>\ref arpack</li>
+      <li>\ref arpackother</li>
+    </ul>
+ </li>
+ <li>\ref codingConventions</li>
+ <li>\ref arCliServ</li>
+ <li>\ref commClasses
+  <ul>
+    <li>\ref connectRobot</li>
+  </ul>
+ </li>
+ <li>\ref HardwareConfiguration
+  <ul>
+   <li>\ref RobotParameterFiles</li>
+   <li>\ref RuntimeOptions</li>
+  </ul>
+ </li>
+ <li>\ref robot
+  <ul>
+    <li>\ref commands</li>
+    <li>\ref packetHandlers</li>
+    <li>\ref CommandPackets</li>
+    <li>\ref syncRobot</li>
+    <li>\ref stateReflection</li>
+    <li>\ref callback</li>
+  </ul>
+ </li>
+ <li>\ref ClientCommands
+  <ul>
+    <li>\ref robotDirectCommands</li>
+    <li>\ref robotMotionCommands</li>
+    <li>\ref actions</li>
+    <li>\ref actionDesired</li>
+    <li>\ref resolvers</li>
+    <li>\ref predefinedActions</li>
+    <li>\ref actionInteractions</li>
+  </ul>
+ </li>
+ <li>\ref rangeDevices</li>
+ <li>\ref functors</li>
+ <li>\ref userInput</li>
+ <li>\ref threading
+  <ul>
+    <li>\ref syncObject</li>
+    <li>\ref asynctasks</li>
+  </ul>
+ </li>
+ <li>\ref aria</li>
+</ul>
+
+\subsection tocToolbox Additional tools in the ARIA toolbox:
+<ul>
+ <li>\ref devices</li>
+ <li>\ref utility</li>
+ <li>\ref arconfig</li>
+ <li>\ref sockets</li>
+ <li>\ref arinfogroup</li>
+ <li>\ref maps</li>
+ <li>\ref ArNetworking</li>
+ <li>\ref sound</li>
+</ul>
+
+\subsection tocDevHelp Helpful information about C++ development with ARIA:
+<ul>
+ <li>\ref emacs</li>
+ <li>\ref noneverydayC
+  <ul>
+    <li>\ref stl</li>
+    <li>\ref defaultArgs</li>
+    <li>\ref constructorChaining</li>
+    <li>\ref charsAndStrings</li>
+    <li>\ref arexport</li>
+    <li>\ref exceptions</li>
+  </ul>
+ </li>
+</ul>
+
+
+\subsection tocAdv Advanced Usage:
+<ul>
+ <li>\ref pieceMealUse</li>
+ <li>\ref hardConnectRobot
+  <ul>
+    <li>\ref openDevice</li>
+    <li>\ref devConnect</li>
+    <li>\ref connrw</li>
+  </ul>
+ </li>
+</ul>
+
+  \section intro Introduction
+
+Welcome to ARIA, an object-oriented, robot control
+applications-programming interface for MobileRobots (and ActivMedia)
+intelligent mobile robots.
+
+Written in the C++ language, ARIA is client-side software for easy,
+high-performance access to and management of the robot, as well
+as to the many accessory robot sensors and effectors.  ARIA includes
+many useful utilities for general robot programming and cross-platform
+(Linux and Windows) programming as well.
+   
+You can access ARIA at different
+levels, from simply sending commands to the robot through ArRobot
+to development of higher-level intelligent behavior using @ref actions.
+(For a description of how to integrate parts of ARIA with
+your other code, see \ref pieceMealUse.)
+
+An auxiliary library called ArNetworking is also included with ARIA.
+ArNetworking provides an easy to use, extensible framework for communication with
+remote programs over a network, such as MobileEyes.
+
+This page contains an overview of ARIA. Read this overview to become familiar
+with the ARIA library and how to get started using it. 
+Click a class or function link to view its details.
+A selection of the most important ARIA classes is listed in @ref
+ImportantClasses in the menu to the left, as well as @ref OptionalClasses, @ref
+DeviceClasses, @ref UtilityClasses and @ref ActionClasses. All
+classes are available in the full class list and hierarchy links on the left.
+
+New users should view this document along with the ARIA examples, README.txt, and
+your robot's operating manual as well. 
+
+You can download new versions of ARIA from http://robots.mobilerobots.com/ARIA
+
+ \subsection whouses	What is ARIA? How does it relate to other MobileRobots software?
+
+ARIA is a programming library (SDK) for C++ programmers 
+who want to access their MobileRobots or ActivMedia platform and accessories at either
+a high or low level.  
+ARIA is also for those who have already prepared robot-control software and want to 
+deploy it on one or more MobileRobots or ActivMedia mobile robot platforms. 
+ARIA also provides various tools useful for robot programming in general.
+
+In addition to providing a complete robot and accessory API to developers, 
+ARIA also serves as a 
+foundation for other libraries providing additional
+capabilities: For creating applications with built-in advanced navigation routines,
+you can use the additional ARNL or SONARNL libraries.  To communicate with the
+MobileEyes graphical display/control program, or for general
+communication over the network, you can use ArNetworking. ArNetworking is
+included with ARIA in the ArNetworking directory. 
+See the ArNetworking Reference
+Manual for more information.
+
+Other libraries are available as well for specialized purposes, including
+speech synthesis and recognition, audio stream recording, playback and network
+transmission, video image capture, color tracking, etc.
+Browse the MobileRobots support web pages http://www.activrobots.com and
+http://robots.mobilerobots.com for these libraries and other mobile robotics 
+resources, including the MobileSim simulator which can be used used for
+programming and debugging before driving an actual robot. 
+
+Programmers working with ARIA should be familiar with
+using typical C++ concepts, including
+using classes and objects with simple inheritance, pointers, memory management,
+the STL containers, and the compiling and linking process. (See below
+for notes about accessing ARIA from Python or Java.)  Experience with
+multiple threads is also helpful.
+
+Read on for information about the key pieces of ARIA and how to get started.
+See the README.txt file for a brief practical overview of ARIA software development
+on Linux and Windows.  Many example programs are available as well.
+
+ \subsection javapython Java and Python
+
+ARIA, ArNetworking, ARNL and SONARNL now work in Java and Python!  Each library has a 
+Java wrapper and a Python
+wrapper.  This means that you can write
+ARIA programs in Java or Python almost as if ARIA itself was written in these
+languages.  This wrapper is automatically generated by <a
+href="http://www.swig.org">SWIG</a>,
+and the Python and Java APIs are almost the same as the
+C++ library. Exceptions will be noted in this reference manual.
+
+Read javaExamples/README.txt file for directions on how to use
+the Java wrapper and pythonExamples/README.txt for directions
+on how to use the Python wrapper, and likewise see <a class="file"
+href="../ArNetworking/javaExamples">ArNetworking/javaExamples</a>
+and <a class="file" href="../ArNetworking/pythonExamples">ArNetworking/pythonExamples</a> for information about and examples of the
+ArNetworking Java and Python wrappers.
+
+ \subsection matlab Matlab
+
+A subset of essential robot control and accessor functions from ARIA are now also available for use in
+Matlab.  See matlab/README.txt for instructions on how to create
+and use this interface, and notes on what is available and what its requirements and supported platforms are.
+
+ \section licensing License and Sharing
+
+ARIA is released under the GNU Public License, which means that the entire
+source code is included and may be copied. However, if you
+distribute any work which incorporates ARIA, you must also distribute the entire
+source code to that work, including ARIA with any modifications you may have
+made, under the same license terms.  Read the included <a
+href="../LICENSE.txt">license text</a> for
+details. We open-sourced ARIA under the GPL not only for your convenience,
+but also so that you could share your enhancements to the software with the
+robotics community (you can share them via the aria-users mailing list).  If
+you wish your enhancements to make it into the ARIA baseline, you will
+need to assign the copyright on those changes to MobileRobots, contact
+aria-support@mobilerobots.com with these changes or with questions about
+this.
+
+Accordingly, please do share your work, and please sign up for the
+exclusive ARIA-users@mobilerobots.com newslist so that you can benefit
+from others' work, too.
+
+For answers to frequently asked questions about what the GPL allows
+and requires, see http://www.gnu.org/licenses/gpl-faq.html .
+
+On the other hand, ARIA may be also licensed for proprietary, closed-source applications.
+Contact sales@mobilerobots.com for details.
+
+ \section AriaPackage The ARIA Package
+
+ \subsection arpack ARIA/
+
+\htmlonly
+<dl>
+  <dt class="file">README.txt</dt>
+    <dd>Getting started; essential info. Includes tips on installing
+        ARIA, rebuilding it, building example programs, and 
+        using platform development tools. 
+        Also see the README files in the examples/, advanced/, and tests/
+        directories.</dd>
+
+  <dt class="file">LICENSE.txt</dt>
+    <dd>GPL license for redistributing ARIA or programs using ARIA</dd>
+
+  <dt class="file">Changes.txt</dt>
+    <dd>Summary of changes featured in each version of ARIA</dd>
+
+  <dt class="file">INSTALL.txt</dt>
+    <dd>Detailed instructions for installing ARIA on different platforms</dd>
+
+  <dt class="file">docs/</dt>
+    <dd>Library reference documentation (this manual).</dd>
+
+  <dt class="file">examples/</dt>
+    <dd>ARIA example programs -- a good place to start. Also see the Examples
+        section of this reference manual; selected examples are also linked from
+        classes and methods used by those examples.
+    </dd>
+
+
+  <dt class="file">include/</dt>
+    <dd>Header files for ARIA</dd>
+
+  <dt class="file">src/</dt>
+    <dd>ARIA C++ source code files</dd>
+
+  <dt class="file">params/</dt>
+    <dd>Robot definition (parameter) files (p3dx.p, for example).
+        Mostly used transparently by ARIA, but can be customized 
+        if neccesary.
+    </dd>
+
+  <dt class="file">lib/</dt>
+    <dd>Win32 DLL export library (.lib) files and Linux shared library (.so)
+    files</dd>
+
+  <dt class="file">bin/</dt>
+    <dd>Win32 binaries and DLLs</dd>
+</dl>
+\endhtmlonly
+
+ \subsection arpackother Other ARIA Files of Note
+
+\htmlonly
+<dl>
+  <dt class="file">Makefile</dt>        <dd>Linux makefile for building ARIA and
+  examples</dd>
+  <dt class="file">Makefile.dep</dt>    <dd>Linux file dependency rules (used internally
+  by Makefile)</dd>
+  <dt class="file">utils/</dt>
+    <dd>Utility programs, used internally by MobileRobots software development,
+        plus some file format conversion tools
+    </dd>
+  <dt class="file">ArNetworking/</dt>   <dd>Networking infrastructure library,
+  included with ARIA, but a separate library</dd>
+  <dt class="file">tests/</dt>          <dd>Test files, somewhat esoteric but
+  useful during ARIA development</dd>
+  <dt class="file">advanced/</dt>       <dd>Advanced demos and examples, not
+  always for the faint of heart (or ARIA novice)</dd>
+  <dt class="file">pythonExamples/</dt> <dd>Information about and examples of
+  using ARIA via Python</dd>
+  <dt class="file">javaExamples/</dt>   <dd>Information about and examples of
+  using ARIA via Java</dd>
+  <dt class="file">python/</dt>         <dd>Contains ARIA Python module and
+  other files</dd>
+  <dt class="file">java/</dt>           <dd>Contains ARIA Java package and other
+  files</dd>
+</dl>
+\endhtmlonly
+
+ \section codingConventions Documentation and Coding Convention
+
+ARIA follows the following coding conventions:
+
+<ol>
+  <li>Class names begin with "Ar" and are in mixed case.</li>
+  <li>Enums and other constants either begin with a capital letter or are all in caps.</li>
+  <li>Avoid preprocessor definitions whenever possible (instead using enumerations or inline methods)</li>
+  <li>Member variables in classes are prefixed with 'my'.</li> 
+  <li>Static variables in classes are prefixed with 'our'.</li>
+  <li>Member function names start with a lower case.</li>
+  <li>Capitalize each word except the first one in a variable or method name; <code>likeThisForExample</code></li>
+  <li>All classes may be used in a multi-threaded program, either by being
+    inherently threadsafe, or (more typically) by providing an API for protecting it by
+    locking mutexes. See class documentation for notes on access from
+    multiple threads.
+  </li>
+</ol>
+
+@sa @ref emacs
+
+ \section arCliServ ARIA-Robot Client-Server Relationship
+
+For those of you who are familiar with SRI International's Saphira
+software and ActivMedia Robotics' mobile robots and their related
+technologies, the underlying client-server control architecture for
+the mobile platform, sensors, and accessories hasn't changed much in
+ARIA. It's just gotten a lot better and more accessible.
+
+The core mobile robot "server" proceses are implemented in the Pioneer and AmigoBot Operating
+System firmware (ARCOS, AROS, P2OS, AmigOS, etc.), which runs 
+on the robot's microcontroller.
+These proceses manage the more critical and time-sensitive low-level tasks of robot control and operation, including
+maintaining requested motion and heading state and estimating position from odometry, as well as acquiring sensor information
+(sonar and compass, for example) and driving many accessory components like
+the PTZ camera, TCM2 compass/inclinometer, and the Pioneer 5-DOF
+Arm. The robot, its microcontroller, firmware, and integrated devices (such as
+sonar) together are sometimes referred
+to as the "robot platform". The robot firmware does not, however, perform any high-level robotic tasks.
+Rather, it is the job of an intelligent client running on a connected
+PC to perform these application-level robotic control strategies and tasks,
+such as obstacle detection and avoidance, sensor fusion, localization,
+features recognition, mapping, intelligent navigation, PTZ camera
+control, Arm motion, and much more. ARIA's role is to support these client applications
+and their communcation with the robot firmware, to any devices that connect to
+the computer rather than the robot platform, and to remote software via a
+network.
+
+The heart of ARIA is the ArRobot class. This class manages the communication
+cycle with the firmware, receiving and providing access to data about the
+robot platform's operating state,
+triggering tasks within that cycle and determining commands to be sent back
+to the robot (see @ref actions and @ref syncRobot). It also serves as a container for references to other ARIA objects
+(such as range devices) and a toolbox of general functions related to the mobile
+robot.
+
+Through its @ref actions infrastructure, ARIA provides a powerful
+mechanism for combining independent behaviors to achieve
+coordinated motion control and intelligent guidance. With 
+Actions, you easily implement the motion aspects of applications
+such as guided teleoperation, visual tracking, autonomous navigation, etc.
+
+Other ARIA classes provide interfaces to
+access and control accessory sensors and devices,
+including operation and state reflection for sonar and laser range
+finders, pan-tilt units, arms, inertial navigation devices, and many
+others.  
+
+  
+ \section commClasses Robot Communication
+
+One of the most important functions of ARIA, and one of the first and
+things that your application program must do, is to establish 
+the connection between an ArRobot object instance and the robot platform
+operating system (firmware).
+
+In addition to the mobile robot itself, some accessories, 
+such as the sonar, the Pioneer Gripper, PTZ cameras, Pioneer Arm, compass, and others, are 
+internally connected to the robot microcontroller's AUX or digital I/O
+lines, and use the robot connection as well (therefore the interface
+classes for these objects require a reference to an ArRobot object,
+which must be connected for the devices to work).  Other accessories, such as
+the SICK laser, video capture cards, etc. are connected directly to the onboard
+computer.
+
+There are several ways to connect a computer running ARIA to the robot's
+microcontroller or to a simulator.
+<a href="figures/Robot_Communication_Options.png">This figure</a> provides
+a schematic overview of the many ARIA-robot communication options.
+Consult your robot Operations Manual for more information about computer-robot
+hardware setup and communications.
+
+ \subsection connectRobot Connecting with a Robot or the Simulator 
+
+An ArRobotConnector object is used to set up and
+perform the connection to the robot, based on robot parameter files,
+and run-time configuration via command-line
+arguments (see \ref HardwareConfiguration). Similarly, ArLaserConnector
+is used to connect to laser rangefinding devices. (Other connectors are 
+also used for other kinds of accessory devices.)
+ArRobotConnector and ArLaserConnector are used in most of the example programs, including
+@ref simpleConnect.cpp, @ref wander.cpp, and @ref demo.cpp. (Some
+example still use the older ArSimpleConnector).
+ArRobotConnector will first try to connect to 
+a simulator on a local TCP port, and if no simulator is running, it will then 
+connect to the robot on a local serial port.
+This makes it easy to develop and debug your program using the simulator, then
+simply copy it onto the robot's computer and run without modification.
+ArRobotConnector also parses some command line arguments if supplied, which
+can explicitly specify a remote hostname and/or port to connect with via TCP, 
+or to specify an alternate local serial port to use for robot connection, 
+as well as other options. If a program uses ArRobotConnector, running it
+with the "-help" command line argument will print a list of options.
+
+Here is an example which uses ArRobotConnector to connect the ArRobot and
+ArLaserConnector to connect to a laser rangefinder.
+@code
+#include "Aria.h"
+int main(int argc, char** argv)
+{
+  Aria::init();
+  ArArgumentParser parser(&argc, argv);
+  parser.loadDefaultArguments();
+  ArRobot robot;
+  ArRobotConnector robotConnector(&parser, &robot);
+
+  // Try connecting to the robot.
+  if(!robotConnector.connectRobot(&robot))
+  {
+    // Error!
+    ArLog::log(ArLog::Terse, "Error, could not connect to robot.\n");
+    robotConnector.logOptions();
+    Aria::exit(1);
+  }
+
+  // Run the ArRobot processing/task cycle thread.
+  robot.runAsync(true);
+
+  ArLaserConnector laserConnector(&parser, &robot, &robotConnector);
+
+  // Parse command line arguments (there may be arguments specifying 
+  // what lasers to try to connect to)
+  if(!Aria::parseArgs())
+  {
+    Aria::logOptions();
+    Aria::exit(2);
+  }
+
+  // Try connecting to all lasers specified in the robot's parameter file
+  // and in command line arguments
+  if(!laserConnector.connectLasers())
+  {
+    ArLog::log(ArLog::Terse, "Error, could not connect to lasers.\n");
+    Aria::logOptions();
+    Aria::exit(3);
+  }
+
+  // Now we're connected, and the robot and laser objects are running in 
+  // background threads reading and processing data. (You can get access
+  // to the ArLaser objects using ArRobot::findLaser() or
+  // ArRobot::getLaserMap().
+  ...
+@endcode
+
+
+ \section HardwareConfiguration Specifying Details about Robot and Device Connections
+
+On any individual robot, there are many possible combinations of hardware
+accessories, and several options for connecting accessories to the robot 
+and computer.  The device interface and connector classes (ArRobotConnector,
+ArLaserConnector, etc.) need information about what devices are connected
+and how they are connected, especially if they vary from their defaults.
+
+This information is obtained from two sources: ARIA's parameter file(s) for 
+the robot,
+and from program runtime arguments via ArArgumentParser (which reads
+default program argument values from /etc/Aria.args (on Linux) and the ARIAARGS
+environment variable (on both Linux and Windows), then reads current
+program arguments from the command line). 
+
+Some examples of hardware configuration options that may need to be
+specified are what kinds of laser rangefinders are connected, and
+to which ports, laser connection and data parameters, what kind
+of GPS is connected and to what port (if a GPS is used).  Furthermore,
+if you are connecting to a robot over a wireless TCP connection from an offboard
+computer rather than an onboard computer, you must provide a runtime
+command line argument giving the robot network name (and optionally port number).
+
+\subsection RobotParameterFiles Robot Parameter Files
+
+Robot parameter files are read by ARIA after a connection to the robot is 
+made and the robot type and individual name are obtained (see @ref
+connectRobot). These files provide ARIA with robot-specific conversion factors
+and physical charactaristics, as well as accessory device connection information.
+
+See @ref ParamFiles for more information.
+
+\subsection RuntimeOptions Program Runtime Options
+
+Various classes in ARIA (notably the Connector classes) use program runtime
+options (a/k/a command-line arguments).
+
+See @ref CommandLineOptions for a summary of all the options that various
+classes in ARIA accept.
+
+Arguments are provided to other ARIA classes by an ArArgumentParser
+object.  All ARIA programs should create an ArArgumentParser, call
+ArArgumentParser::loadDefaultArguments() to load any arguments that 
+appear in the <code>/etc/Aria.args</code> file or <code>ARIAARGS</code> environment variable,
+and provide that object to any class constructors that accept it.
+Once all such objects are created, you can call Aria::logOptions() to
+print out a summary of all relevant options (e.g. call Aria::logOptions();
+and Aria::exit() if ArArgumentParser::checkHelpAndWarnUnparsed() returns
+<code>true</code>, because the user gave the <code>--help</code> option). Finally, call 
+Aria::parseArgs() to cause each of them to check the ArArgumentParser for 
+their respective arguments.  
+
+
+
+ \section robot ArRobot
+
+ArRobot is the heart of an ARIA program, acting as
+robot communications gateway, central manager
+of robot state, tool for synchronizing program-added tasks and callbacks,
+ArAction objects, etc.
+
+ \subsection commands Client Commands and Server Information Packets
+
+Client-server communications between ARIA and a
+mobile robot platform or simulator use packet-based
+protocols. (In this context, the <i>client</i> is the software using
+ARIA to operate a robot, and the <i>server</i> is the robot platform's firmware.)
+The details of the client-server protocol can be found in your robot's 
+Operations or Technical Manual.
+
+ArRobot (using the
+ArDeviceConnection, ArRobotPacketReceiver, ArRobotPacketSender, ArRobotPacket,
+and ArSerialConnection classes)
+handles the details of constructing and sending a
+command packets to the robot as well as receiving and decoding
+the packets recieved from the robot server.
+
+ \subsection packetHandlers Packet Handlers
+
+Server Information Packets (SIPs) are packets sent by the robot server 
+containing information updates about the
+robot and its accessories. 
+The <i>standard SIP</i> is sent by the
+robot to a connected client automatically every 100 milliseconds 
+(this frequency may be configured in the firmware parameters).
+It contains the robot's current position and estimates,
+current translational and rotational speeds, sonar
+reading updates, battery voltage, analog and digital I/O states, and more. 
+These data are stored and used
+by ArRobot's State Reflection (see \ref stateReflection
+below) and are accessible via methods of the ArRobot class.  
+(Note, within the ArRobot source code the standard SIP is also called a "motor" packet.)
+
+<i>Extended SIPs</i> use the same packet format as the
+standard SIP, but with a different packet "type" code. Examples of extended
+SIPs include I/O port data, data from the gripper, or special robot
+data like raw encoder data.  
+To receive extended SIPs, the client program
+must request them. In ARIA, this is normally done by the device interface
+classes (see @ref devices) when they are initialized or when the robot connection is established. 
+You may also attach your own custom packet handlers to ArRobot using
+ArRobot::addPacketHandler(). You can use this to do your own additional processing
+of extended SIP data, or if creating an alternate implementation of a device
+interface class.
+
+ \subsection CommandPackets Command Packets
+
+To control the robot platform, a client program sends <i>command packets</i>
+through the robot connection. This can be done using %ArRobot's @ref
+robotMotionCommands, using @ref actions, or at the most basic level,
+@ref robotDirectCommands.
+Each of these methods results in command packets sent to
+the robot. This means that if both Actions and motion commands are used,
+or if independent program modules are sending motion commands, they may conflict.
+See \ref ClientCommands below for more about sending motion commands.
+
+
+ \subsection syncRobot Robot Synchronization Cycle
+
+The standard SIP is sent on a constant cycle, and reception of this 
+SIP triggers a new iteration of ArRobot's
+<i>synchronized task processing cycle</i>.  
+This cycle consists of a series of tasks,
+including SIP packet handling, invocation of sensor interpretation tasks, action handling and
+resolution, state reflection, and invocation of user tasks, in that order. 
+Since the task cycle is (normally) triggered by the
+reception of each SIP (unless the robot platform begins to fails to send SIPs
+or the task cycle is explicitly dissasociated from the robot connection -- see
+below), each task will be invoked in a predictable order,
+have the most recent data to act upon, no task will miss an opportunity
+to use a SIP, and as long as the tasks do not take too much time to execute,
+each SIP is handled as soon as possible after the robot sends it.
+
+@image html ArRobot_Task_Cycle.png Overview of the ArRobot task cycle
+
+To begin the processing cycle, call ArRobot::run() to enter
+the cycle synchronously, or ArRobot::runAsync() to run the cycle
+in a new background thread. ArRobot::stopRunning() stops the 
+processing cycle.
+
+ArRobot provides methods to add your own sensor-interpretation
+and generic user task callbacks. To add a task callback, create an ArFunctor
+function object (see \ref functors) and
+then add it using ArRobot::addSensorInterpTask() or
+ArRobot::addUserTask(). These tasks
+can be removed using ArRobot::remSensorInterpTask() or
+ArRobot::remUserTask(). 
+
+ArRobot locks it's mutex (see ArRobot::lock() and ArRobot::unlock())  during
+each iteration of the task cycle, so your task callbacks must not lock this
+mutex--a deadlock will occur.  
+(However, locks must still be used for safe access to any other thread
+or ArAsyncTask, such as lasers and other range devices, or ARNL's planning or
+localization tasks.) This mutex lock protects ArRobot data from
+modification by other threads (if they correctly use the lock during access), 
+and interruption of the series of tasks.  So if you access ArRobot from any other thread (including the main
+thread, if you used ArRobot::runAsync() to run the task cycle), you must
+use ArRobot::lock() and ArRobot::unlock() to lock and unlock the robot before
+and after any method call or use of any data in ArRobot. 
+
+It is also possible to run the processing cycle without a connection to a robot,
+if desired.  
+This alternative cycle is not triggered by receiving a packet, instead it has its own 
+steady, "chained" cycle time (default is 100 milliseconds which you may
+examine and reset with ArRobot::getCycleTime() and
+ArRobot::setCycleTime()). 
+You may also explicitly disassociate ArRobot's processing cycle from incoming
+SIP processing at any time by calling ArRobot::setCycleChained() ("Chained" means that it is 
+the end of a previous cycle that triggers the next after suitable delay to meet
+the desired cycle frequency). However, in doing so,
+you may degrade performance, as the robot's cycle will only be
+run  every ArRobot::getCycleTime() milliseconds, and each time only the most recently
+read (oldest) SIP is used (even if the robot has sent more than one since the
+last cycle).
+
+
+ArRobot's synchronization task list is ipmlemented as a tree, with five
+major branches. Though it is uncommon to do so, a client program may modify this
+tree or disable branch tasks of the tree.  
+If a particular task is disabled, none of its
+children will be called. 
+The root of the task tree can be obtained by calling ArRobot::getSyncTaskRoot(), 
+which returns an ArSyncTask object.
+
+
+@warning A user task or sensor interpretation task must run quickly. If one or more 
+user tasks or actions runs such that the task cycle takes too long (more that 100ms)
+then the performance and behavior of the robot and of ARIA-robot communications
+will be negatively affected. In particular, do not call any functions that
+could block or wait for an unknown amount of time (such as locking a mutex
+that could be locked for a long time by another thread)
+or do any long loops waiting for a condition.  Long-running activity can be performed
+in a separate asynchronous thread (See ArASyncTask) instead, and results can be
+shared with the user task via storage which is protected by a mutex only during
+immediate reading and writing of the storage variables.
+
+
+ \subsection stateReflection State Reflection
+
+State reflection in the ArRobot class is the way ARIA maintains
+a snapshot of the robot's operating conditions and values, such
+as estimated pose, current velocity, battery voltage, etc.
+as extracted from the latest standard SIP. ArRobot methods for
+examining these values include ArRobot::getPose(), ArRobot::getX(),
+ArRobot::getY(), ArRobot::getTh(), ArRobot::getVel(), ArRobot::getRotVel(),
+ArRobot::getBatteryVoltage(), ArRobot::isLeftMotorStalled(),
+ArRobot::isRightMotorStalled(), ArRobot::getCompass(),
+ArRobot::getAnalogPortSelected(), ArRobot::getAnalog(), ArRobot::getDigIn(),
+ArRobot::getDigOut().
+
+The standard SIP also contains sonar reading updates, which are
+reflected in ArRobot and examined with the methods:
+ArRobot::getNumSonar(), ArRobot::getSonarRange(), ArRobot::isSonarNew(),
+ArRobot::getSonarReading(), ArRobot::getClosestSonarRange(),
+ArRobot::getClosestSonarNumber().  The sonar interface class, ArSonarDevice,
+also receives this information (see \ref rangeDevices).
+
+ArRobot also uses the state reflection task to send previously requested
+motion commands (see @ref robotMotionCommands) to the robot, so the motion
+commands sent to the robot reflects those desired values set in ArRobot's state
+reflection by actions or motion command methods, and also so that the watchdog
+on the robot does not time out and disable the robot (if no motion command is
+set, ArCommands::PULSE is sent each cycle).
+You can further tune state reflection's motion command sending rate if neccesary with ArRobot::setStateReflectionRefreshTime().)
+If desired, you may turn the motion-control state reflector off in the
+ArRobot::ArRobot() constructor (set the @a doStateReflection parameter to
+false).  This will cause motion command functions to only be send the command once directly to the
+robot whenever they are called, rather than storing the command to send each cycle.
+
+ \subsection callback Robot Callbacks
+
+There are a number of useful callbacks invoked by ArRobot on connection
+events. You can add and remove them with the functions
+ArRobot::addConnectCB(), ArRobot::remConnectCB(),
+ArRobot::addFailedConnectCB(), ArRobot::remFailedConnectCB(),
+ArRobot::addDisconnectNormallyCB(), ArRobot::remDisconnectNormallyCB(),
+ArRobot::addDisconnectOnErrorCB(), ArRobot::remDisconnectOnErrorCB(),
+ArRobot::addRunExitCB(), ArRobot::remRunExitCB().  Read their individual
+documentation pages for details.
+
+@sa @ref robotConnectionCallbacks.cpp
+
+
+ \section ClientCommands Controlling the robot with Commands and Actions
+
+Your ARIA client can drive the robot and run its various accessories
+through ArRobot's Direct Commands, Motion Commands, or through Actions.
+
+@note The robot's movement speed will be limited by several parameters.  First,
+the maximum velocities, accelerations and decelerations given in ARIA's robot
+parameter file (.p file) (TransVelMax,
+RotVelMax, TransAccel, TransDecel, RotAccel, RotDecel, and for the Seekur only,
+LatVelMax, LatAccel and LatDecel)  are used to limit motion
+commands sent by ARIA, if the value is nonzero.  Next, the max velocities given in the 
+robot firmware (ARCOS) configuration are used to limit motion commands recieved by the robot.  
+All of these maximum values can be changed at runtime with the ArRobot::setTransVelMax(),
+ArRobot::setRotVelMax(), and for the Seekur only, ArRobot::setLatVelMax() calls.
+These calls change the parameters in the robot firmware, as well as in ARIA.
+That is, they override any maximum values given in the robot parameter file (.p file).
+Finally, the "Top" parameters in the firmware (ARCOS) configuration limit
+speeds; these cannot be changed at runtime, only using the configuration
+program.  Most robot parameter files use 0 values as maximums, disabling ARIA's
+initial limiting check; however, to make the Seekur easier to initially teleoperate at safe
+speeds, the velocity limits in seekur.p are set.  Change these limits to 0 to remove
+those speed limits, and use the platform's defaults, or use ArRobot's methods to 
+change them at program runtime.
+
+ \subsection robotDirectCommands Direct Commands
+
+At the lowest level of robot access, you may send any command packet directly to the robot
+or simulator platform through ArRobot. Direct commands consist of a 1-byte command
+number followed by none or more arguments, as defined by the robot's
+operating system (ARCOS, AROS, P2OS, AmigOS, etc.). For example, the command
+number 4, ENABLE, enables the robot's motors if accompanied by the
+argument 1, and disables the motors with the argument 0.
+Use ArRobot::com() for commands that
+have no argument, such as PULSE; ArRobot::comInt() for a 2-byte integer
+argument, signed or unsigned, such as the motors ENABLE command;
+ArRobot::com2Bytes() for commands that accept two individual bytes 
+as the argument, such as the VEL2 command; and ArRobot::comStr() or
+ArRobot::comStrN() for a null-terminated or fixed-length
+string argument, respectively, such as the sonar POLLING
+sequencing command.
+
+The ArCommands class contains an enum with all the direct commands;
+ArCommands::ENABLE, for example.  Not all Direct Commands are supported by every
+MobileRobots robot, but unrecognized (or malformed)
+commands are simply ignored.
+
+Please consult your robot's technical manual for details, such
+as the Chapter 6 in the Pioneer 3
+Operations Manual, for client command numbers and syntax.
+
+For most commands, a method exists in ArRobot that either sends the command
+immediately, or stores it for the state reflection task to send. However,
+the direct command methods allow you to send any unusual or special commands
+directly to the robot platform or simulator, without any intervening processing.
+
+ \subsection robotMotionCommands Motion Command Functions
+
+At a level just above ArRobot's Direct Commands are the Motion
+Command Functions. These are explicit simple movement commands sent by ArRobot's 
+state reflection task.
+For example, ArRobot::setVel() to set the translational velocity,
+ArRobot::setRotVel to set rotational velocity, ArRobot::setVel2() to
+or set each wheel speeds separately, ArRobot::setHeading() to set a
+global heading angle  to turn to, ArRobot::move() to drive a given distance,
+or ArRobot::stop() to stop all motion. ArRobot also provides methods
+for setting speed limits beyond the limits set in the firmware configuration.
+These motion functions work at part of with @ref stateReflection, and ArRobot may
+resend commands each cycle to try to achieve the desired state.
+
+Be aware that a Direct or a Motion Command may conflict with controls
+from Actions or other upper-level processes and lead to unexpected
+consequences. Use ArRobot::clearDirectMotion() to cancel the overriding
+effect of a previously set Motion Command so that your Action is able to regain
+control the robot. Or limit the time a Motion Command prevents other
+motion actions with ArRobot::setDirectMotionPrecedenceTime(). Otherwise,
+the Motion Command will prevent actions forever.  Use
+ArRobot::getDirectMotionPrecedenceTime() to see how long a Motion
+Command takes precedence once set.
+
+ \subsection actions Actions
+
+While simple sequences motion commands can be easy to use, trying to achieve
+more sophisticated motion using only motion commands 
+can quickly become difficult.  To make it possible to define
+complex behaviors out of independent, reusable components,
+ARIA provides the higher-level <i>Actions</i> system.
+Actions are individual objects that independently 
+provide motion requests which are evaluated and then combined each cycle 
+to produce a final set of movement commands. This allows you to build complex
+behavior from simple building blocks for dynamic and continuous motion control.
+
+Actions are defined by creating a subclass of the ArAction the base class
+which overloads the ArAction::fire() method.
+See the <code>@ref actionExample.cpp</code> example program.
+ARIA also includes some useful pre-made action classes (see @ref ActionClasses
+for a list).  Include these in your programs, or use them as examples when
+creating your own custom ArAction subclass.
+
+Actions are attached to an ArRobot object with ArRobot::addAction(), along with
+a priority which determines its position in the action list.
+ArAction::setRobot() is called on an action object when it is added to a robot.
+You can override this in your action subclass. (For example, this would be useful to add a
+connection callback, if there were some calculations you wished to do
+upon connection to the robot.)
+
+Actions are evaluated by ArRobot's <i>action resolver</i> in descending order of priority
+(highest priority first, lowest priority last) in each task cycle just prior
+to @ref stateReflection.  The action resolver invokes each action's fire()
+method, combining their desired motion commands (the ArActionDesired objects
+they return) to a
+single ArActionDesired object, which is then used in state reflection to send
+motion commands to the robot.
+
+@note Sending simple motion commands (e.g. by using ArRobot::setVel()) while
+actions are also active can result in conflicts between your simple motion
+commands and the action resolver's commands. See the discussion of
+@ref robotMotionCommands above.
+
+As the resolver is invoking each action, by it passes 
+the current desired motion combined from the previously invoked, higher priority
+actions, as the currentDesired argument to fire().
+This can be useful information if
+needed. (For example, a stall-recovery action could
+be programmed not to exert its motion effects if it has been
+pre-empted by a stop action, so this stall-recovery action would check
+currentDesired to see if either the "strength" is "used up" or if there is a maximum
+velocity, and if so, reset its own state.) However, there is no need
+for an action to pay attention to the currentDesired if not necessary.  
+
+@warning An action must run quickly. If one or more actions or robot
+user tasks runs such that the task cycle takes too long (more that 100ms)
+then the performance and behavior of the robot and of ARIA-robot communications
+will be negatively affected. In particular, do not call any functions that
+could block or wait for an unknown amount of time (such as locking a mutex
+that could be locked for a long time by another thread)
+or do any long loops waiting for a condition.  Long-running activity can be performed
+in a separate asynchronous thread (See ArASyncTask) instead, and results can be
+shared with the action via storage which is protected by a mutex only during
+immediate reading and writing of the storage variables.
+
+ \subsection actionDesired Action Desired
+
+ArActionDesired objects are used to pass desired action channel values
+and strengths out of an ArAction::fire() method back to the resolver.
+An ArActionDesired object should always be
+reset (ArActionDesired::reset()) before it is reused.
+
+There are six action channels: velocity (ArActionDesired::setVel), 
+heading (ArActionDesired::setDeltaHeading or 
+ArActionDesired::setHeading for absolute heading),
+maximum forward translational velocity
+(ArActionDesired::setMaxVel), maximum reverse translational velocity
+(ArActionDesired::setMaxNegVel), and maximum rotational velocity
+(ArActionDesired::setMaxRotVel).
+
+An action gives each channel a strength between 0.0, the lowest, and 1.0,
+the highest. Strengths are used by the resolver to compute the
+relative effect of the associated channel when combining multiple
+actions' desired movements. 
+
+The maximum velocity, maximum negative velocity, and maximum
+rotational velocity channels simply impose speed limits and thereby
+indirectly control the robot.
+
+For more advanced usage, ArActionDesired objects can be merged
+(ArActionDesired::merge) and averaged (ArActionDesired::startAverage,
+ArActionDesired::addAverage, ArActionDesired::endAverage).
+
+ \subsection resolvers The Action Resolver
+
+ArResolver is the base action resolver class.  ArPriorityResolver is
+the default resolver used by ArRobot. 
+
+The resolver used by ArRobot may be changed by calling ArRobot::setResolver,
+if you wish to create an alternative ArResolver implementation.
+There may only be one resolver per ArRobot object. 
+(Though a resolver could contain
+within it multiple resolvers of its own.)  Note that although a robot has
+one particular resolver bound to it, a resolver instance is not tied to
+any robot.  
+
+The priority resolver works by iterating through the action list in descending
+priority (from greatest priority value to lowest), setting each robot movement channel (trans. velocity, heading,
+max. velocity, etc.) based on 
+the contributing actions' desired values (as returned from their fire() methods) 
+in proportion to their
+respective strengths as well as the actions' priorities, updating each movement channel
+until its strength becomes 1.0 or the action
+list is exhausted. Once a channel's accumulated strength reaches 1.0, no more changes may be made to
+that channel (this is how higher priority actions can prevent lower priority
+actions from changing a channel). Same-priority actions are averaged together if
+they both provide outputs for the same channel.
+
+As an example, the following table illustrates at each step an action's desired value
+and strength for the <b>velocity</b> channel, and the resulting change to
+the resolver's final velocity channel value and strength decision,
+for four fictional actions (A, B, C and D):
+
+<table border="1" cellspacing="0" style="td, th { font-size: 90%; }" summary="Example result for velocity channel from four enabled actions">
+<tr><th>step #</th> <th>action</th> <th>priority</th> <th>value of action's desired-velocity channel</th> <th>strength of action's desired-velocity channel</th> <th>current final velocity value</th> <th>current final velocity strength</th></tr>
+<tr><td>1</td>      <td>A</td>     <td>4</td>        <td>-400</td>            <td>0.25</td>     <td>-400</td>           <td>0.25</td></tr>
+<tr><td>2</td>      <td>B</td>     <td>3</td>        <td>-100</td>            <td>1.0</td>      <td colspan="2" rowspan="2" valign="middle" align="center">Combined for use in step 4</td></tr>
+<tr><td>3</td>      <td>C</td>     <td>3</td>        <td>200</td>             <td>0.50</td>     </tr>
+<tr><td>4</td>      <td>B&C</td>  <td>3</td>        <td>0</td>               <td>0.75</td>     <td>-100</td>           <td>1.0</td></tr></td></tr>
+<tr><td>5</td>      <td>D</td>     <td>1</td>        <td>500</td>             <td>0.50</td> <td>no change</td> <td>no change</td></tr>
+<tr><th colspan="3" align="left">final result</th><td></td><td></td><td>-100</td><td>1.0</td></tr>
+</table>
+
+
+Notice in the example that the same-priority actions B and C are
+averaged before being combined with the previously computed values from step 1.
+The resulting combination is: 
+( (B desired velocity: -100) X (B velocity strength: 1.0) + 
+(C desired velocity: 200) X (C velocity strength: 0.5) ) / 2 =&gt; (-100 + 100) / 2 =&gt; 0
+Therefore actions B and C end up cancelling each other out. Combining this result with 
+the "currentDesired" values computed in step 1 gives
+(step 1 desired velocity: -400) X (step 1 velocity strength: 0.25) + (step 4
+desired velocity: 0) X
+(step 4 velocity strength: 0.75) =&gt; -100.
+
+In this example, it turns out that at step 5, action D has no effect since the 
+strength for this channel has reached 1.0 at step 4, before that action was
+considered by the resolver.
+
+The same method is used for all of the other channels. 
+
+ \subsection predefinedActions Predefined Actions
+
+ARIA includes several predefined action classes. 
+See @ref ActionClasses for a list.  Include these in your programs, or use them as examples when
+creating your own custom ArAction subclass.
+
+<i>Movement</i> action classes have an "ArAction" prefix and set
+either or both the translational velocity (setVel) and heading
+(setDeltaHeading and setHeading) channels to effect motion. <i>Limiting</i> action classes
+are prefixed with "ArActionLimiter" and set one or more of the
+maximum translational and rotational velocity channels, to slow down or 
+prevent motion, usually based on conditions such as nearby sensor readings.
+
+See the ArAction base class's list of subclasses.
+
+ \subsection actionInteractions Mixing Actions
+
+Actions are most useful when mixed. The @ref teleopActionsExample.cpp 
+example program is a good
+example of mixing limiting and movement actions. It creates
+several limiting actions, including Limiter, LimiterFar, and so
+on, and two movement actions, joydriveAct and
+keydriveAct. The limiting actions have higher priority than the
+movement ones, thereby preventing driving if it might be potentially unsafe
+due to obstacles detected by sensors.
+
+This example also illustrates fundamental, yet very powerful features
+of ARIA actions and how they contribute to the overall behavior of the
+mobile robot. Because they are individuals, contributing discretely to
+the movements of the robot, actions are easily reusable. For example, a 
+limiting action that prevents the robot from crashing
+into a wall when translating forward, can be used, as is, in
+another ARIA program and have the identical effect, except that
+instead of driving the robot with a joystick, the new program's
+lower-priority movement action might use color-tracking to have the
+robot follow a rolling ball. The ball-following action doesn't need
+to know anything about the finer arts of safe navigation--the
+higher-priority limiting actions take care of that.
+
+Another ARIA example program, @ref wander.cpp demonstrates how
+different movement actions can be used and how they interact. The
+stall-recover action in wander (ArActionStallRecover) influences the
+robot's movements only when the motors are stalled, disabling the
+lower priority actions by using up all translational and rotational
+strength until the robot has extracted from the stall. You should also
+examine %ArActionStallRecover.cpp in the src/ directory 
+to see how the action changes its motion control
+influences based on the stall state.
+Also note how ArActionAvoidFront and ArActionConstantVelocity
+interact.
+
+ \subsection actionGroups Action Groups
+
+Action groups allow you to easily enable (activate) or disable (de-activate)
+a set of actions at once.
+You must first create an ArActionGroup attached to an ArRobot. Then, when you
+add an ArAction to the ArActionGroup, it is automatically added to the ArRobot, as
+well as to the group.  
+
+Several predefined action groups are provided by ARIA.
+
+@sa @ref actionGroupExample.cpp 
+
+
+ \section rangeDevices Range Devices
+
+Range devices (ArRangeDevice) are abstractions of sensors which detect
+the presence of obstacles in the space around the robot, providing
+a series of spatial readings over time. 
+ARIA's range device classes transform all readings into specific points in the same 
+two-dimensional global coordinate system. (This is the same coordinate system
+as ArRobot's pose).
+
+Currently, the main
+ArRangeDevice implementations included with ARIA are: sonar (ArSonarDevice), 
+laser (ArLaser and subclasses), the robot bumpers (ArBumpers), and the "table-sensing" infrared
+sensors of a PeopleBot (ArIRs).  Camera and 3D range devices (MobileRanger
+devices) are supported by separate software.
+In addition, ArForbiddenRangeDevice is a "virtual" range device that creates range readings
+that border "forbidden area" and "forbidden line" regions
+in an ArMap, and ArRangeDeviceFilter processes the output
+another ArRangeDevice object in a few ways and provides the processed data through the
+ArRangeDevice interface. Its parameters can be modified on line through
+ArConfig.
+
+ArRangeDevice holds two kinds of ArRangeBuffer objects to store readings:
+<i>current</i> and
+<i>cumulative</i>, though not all ArRangeDevice implementations supply data to the
+cumulative buffer.  The current buffer contains the
+most recent set of readings; the cumulative buffer contains readings gathered
+over a longer period time, limited by the buffer's size (see
+ArRangeBuffer::setSize()).
+
+Some range devices also provide "raw" readings, which are the original values given
+by the device itself. Some range devices are also considered "Planar", which
+means that the readings may undergo some processing to remove duplicates etc.,
+and which include raw readings.  This includes the lasers.
+
+Range devices are connected to a specific ArRobot instance, to obtain
+position and other information from the robot when readings are received and
+stored, and also to provide a way to find all range devices attached to the robot.
+Some range devices use the robot connection to communicate to their device (e.g.
+ArSonarDevice,
+ArBumpers, ArIRs).
+Attach an ArRangeDevice to your ArRobot object with ArRobot::addRangeDevice() and
+remove it with ArRobot::remRangeDevice(). The list of all attached devices
+can be queried using ArRobot::findRangeDevice() and ArRobot::hasRangeDevice().
+The list can be obtained by calling ArRobot::getRangeDeviceList().
+
+(Note that although sonar are integrated with the robot microcontroller, and
+the microcontroller always sends sonar data to the robot (if the robot has
+sonar), you still must attach an ArSonarDevice object to the robot to use it.)
+
+ArRangeDevice also includes some methods to help find the closest reading to the
+robot within a selected box, or a polar sector:
+ArRangeDevice::currentReadingPolar(),
+ArRangeDevice::currentReadingBox(),
+ArRangeDevice::cumulativeReadingPolar(),
+ArRangeDevice::cumulativeReadingBox().  
+
+ArRobot also includes similar methods to do common operations on all
+attached range devices,
+including ArRobot::checkRangeDevicesCurrentPolar(),
+ArRobot::checkRangeDevicesCurrentBox(),
+ArRobot::checkRangesDevicesCumulativePolar(), and
+ArRobot::checkRangeDevicesCumulativeBox() to find the closest range reading
+to the robot within some region.
+
+Each range device has a mutex
+(Use ArRangeDevice::lockDevice() and ArRangeDevice::unlockDevice() to lock
+and unlock it) 
+so that it can be accessed safely by multiple threads. For
+example, ArLMS2xx  uses a thread to read data from a laser, but the
+checkRangeDevice functions in ArRobot lockDevice() so they can read
+the data without conflicting with ArLMS2xx's data-reading thread, then use
+unlockDevice() when done.  See \ref threading for more about threading in ARIA.
+
+
+
+
+ \section functors Functors
+
+Functors are used throughout ARIA.
+Functor is short for function pointer. A Functor lets you call a
+function without knowing the declaration of the function. Instead, the
+compiler and linker figure out how to properly call the function.
+
+Function pointers are fully supported by the C language. C++ treats
+function pointers like C, but to call class methods, an instance object
+is required, as well as type information about the class.
+Therefore, ARIA contains a set of template classes to contain this information.
+
+ARIA makes heavy use of ArFunctors as "callback" functions. 
+To instantiate a functor, you first need to
+identify how many arguments the function needs and if it returns a
+value.  Many times a pointer to the abstract ArFunctor base class is used, which
+can be invoked with no arguments and no return value.
+Subclasses are used for functions with different numbers of arguments 
+and return values. ArFunctor1, ArFunctor2,
+ArRetFunctor, ArRetFunctor1, and ArRetFunctor2 for example.  When invoked,
+the arguments may be supplied which are passed to the target function or
+method, and a return value may also be given.  The types for the arguments
+and/or return value are given as template arguments.
+
+When creating a functor object, however, you must also provide the type
+and instance of an object to invoke the method of; or explicitly state
+that the function is a class-less global function. Do this by using one
+of the concrete base classes of ArFunctor instead of the abstract classes:
+ArFunctorC, ArFunctor1C, ArFunctor2C, ArRetFunctorC, ArRetFunctor1C,
+ArRetFunctor2C, ArGlobalFunctor, ArGlobalFunctor1, etc.
+
+Example:
+
+@code
+    class ExampleClass {
+    public:
+        void aFunction(int n);
+    };
+  
+    ...
+      
+    ExampleClass obj;
+    ArFunctor1C<ExampleClass, int> functor(&obj, &ExampleClass::aFunction);
+
+    ...
+
+    functor.invoke(42);
+@endcode
+
+<code>ExampleClass</code> is a class which contains a function called
+<code>aFunction()</code>. The functor <code>functor</code> is declared
+as an <code>ArFunctor1C</code>, a functor which invokes a class method
+and takes one argument. The template parameters specify the type of the
+class (<code>ExampleClass</code>) and the type of the method argument
+(<code>int</code>).  <code>functor</code> is then initialized with
+a pointer to the <code>ExampleClass</code> instance to call the
+method on, and a pointer to the class method to call.  When a functor
+is contained within the class, it is typcially initialized in the
+constructor, giving <code>this</code> as the object instance.
+
+A functor must be initialized with the method to call and, if a "C" functor,
+a class instance. An unitilialized functor will crash at runtime when invoked.
+
+It is also possible to give values for the method arguments in the functor
+initialization, see ArFunctor documentation for details. 
+
+Once the functor object is created in this fashion, it can now be
+passed to another function or object that wants a callback functor. And the
+method <code>ExampleClass::aFunction()</code> will be called on the object
+<code>obj</code> when the functor is invoked.
+
+To invoke a functor, simply call the invoke() function
+on the functor. If it takes arguments, call invoke() with those
+arguments. If the functor has a return value, call invokeR. The
+return value of the function will be passed back through the invokeR()
+function. If the functor was initialized with argument values,
+and invoke() is called without argument values, the argument values
+provided at initialization are passed.
+
+
+
+
+ \section userInput Keyboard and Joystick Input
+
+ARIA provides several classes getting live joystick and keyboard input,
+and action classes (see @ref actions) that use that input to drive the robot.
+
+ArJoyHandler is a cross-platform interface to joystick data.
+It's key functions are ArJoyHandler::getButtons, ArJoyHandler::getAdjusted,
+ArJoyHandler::setSpeeds, and ArJoyHandler::getDoubles.  
+
+ArKeyHandler is a cross-platform interface for recieving single keystroke
+events (instead of buffered lines of text).
+It's key function is ArKeyHandler::addKeyHandler,
+which binds a specific key to a given functor. It contains an enum
+ArKeyHandler::KEY that contains values for special keys.
+You can also attach a key handler to a robot with ArRobot::attachKeyHandler(),
+which adds some default key handlers, including a handler for Escape that 
+disconnects and exits the program (especially useful on Windows, where Ctrl-C
+or the terminal close box won't properly clean up).
+Since a PC can only have ony keyboard, ARIA keeps an ArKeyHandler pointer
+globally, which may be queried with Aria::getKeyHandler().
+
+@note if you are using Linux, creating a key handler will make the program hang
+if put into the background with Ctrl-Z.
+
+ARIA provides two simple actions, ArActionKeydrive and ArActionJoydrive, to
+drive a robot from keyboard and joystick input.
+These actions are used by 
+the @ref teleopActionsExample.cpp example program.  
+ARIA also provides a more flexible
+ArActionRatioInput, which can combine several input sources (such as keyboard,
+computer joystick, robot-platform (microcontroller) joystick, 
+or teleoperation commands recieved via ArNetworking) in a more
+consistent and configurable manner.  See the class documentation for more
+details.
+
+
+
+
+
+ \section threading Threading
+
+ARIA is highly multi-threaded. This section presents some of the
+critical concepts behind writing threaded ARIA code.
+
+ARIA provides a number of support classes to make it easier to write
+object-oriented threaded code. They are: ArASyncTask, ArCondition,
+ArMutex, and ArThread.
+
+Thread-safe code mostly means proper coordination between threads when
+handling the same data. You want to avoid the problem of one
+or more threads reading or writing the data at the same time that other
+threads read or write the data.
+data. To prevent this problem from happening, the data needs to be
+protected with synchronization objects.
+
+ \subsection syncObject Thread Syncronizing Objects
+
+In ARIA, the synchronization objects are ArMutex and ArCondition.
+ArMutex is the most useful one. ArMutex (<i>mutex</i> is short for <i>mut</i>ual
+<i>ex</i>clusion.) provides a wrapper around system calls (pthreads functions
+on Linux and CriticalSection functions on Windows) that
+exclude other threads from continuing while the mutex object is "locked".
+When threads lock a mutex while accessing shared data, it is ensured
+that only one thread is accessing that shared data at a time.
+Therefore, the proper way to use a mutex is to lock it right
+before accessing the shared data, and to always unlock it when done.  
+If the mutex is not already locked, then it becomes locked and the thread
+continues. If the mutex is already locked by another thread, then it blocks
+in the lock call until the other thread unlocks it. If a mutex is never
+unlocked (e.g. a function returns due to an error condition without unlocking
+it), then any further attempts to lock it will block forever, creating
+a "deadlock".
+See the mutex example program to see how ArMutex is used.  The documentation of a method 
+may indicate whether locking is necessary before using it; in general,
+when using an object that may be shared by other threads,
+all threads using it must lock the same mutex (usually contained within
+the object's class with methods provided for locking and unlocking) while using
+the object.
+
+ArCondition is an occasionally used utility that puts the current thread to sleep until another thread
+signals it to wake up and continue executing.  This can be used to wait in a
+thread for an indefinite amount of time until some event occurs in a another
+thread which signals the ArCondition.
+
+ \subsection asynctasks Asynchronous Task Class 
+
+ARIA provides the ArASyncTask which can be subclassed to implement a
+long-running thread and its state
+as an object. As opposed to robot-syncronized tasks, asynchronous tasks run
+in seperate threads. Like ArMutex, this class wraps the operating system's threading 
+calls in a cross-platform way.  Typically, an ArASyncTask will reperesent a
+thread that runs in a loop for the entire program.
+
+To use ArASyncTask, derive a class from ArASyncTask and
+override the ArASyncTask::runThread() function. This function is
+automatically called within the new thread when that new thread
+gets created. To create and start the thread, call
+ArASyncTask::create(). When the ArASyncTask::runThread() function
+exits, the thread will exit and be destroyed. Seperate threads can 
+request that the task exit by calling ArASyncTask::stopRunning(), and within the thread,
+you can check for this request with ArASyncTask::getRunningWithLock().
+
+This class is mainly a convenience wrapper around ArThread so that you
+can easily create your own object that encapsulates the concept of a
+thread.
+
+
+
+
+ \section aria Global Data
+
+The static Aria class contains miscellaneous global data in ARIA.
+
+ARIA contains a list of all the ArRobot instances. Use the
+Aria::findRobot() to find a robot by name, or use Aria::getRobotList()
+to get a list of the robots.
+
+Use Aria::getDirectory() to find ARIA's top-level path 
+(Usually either <code>C:\\Program Files\\MobileRobots\\%Aria</code> on Windows, or
+<code>/usr/local/Aria</code> on Linux). This is useful, 
+for instance, to locate
+robot parameter files for individual operational details. Use
+Aria::setDirectory() to change this path for the run of the program if
+you feel the need to override what ARIA has decided.
+
+Call Aria::init() at program start to perform global initialization, and use 
+Aria::exit() to exit all ARIA threads before exiting your program.
+
+The Aria class also contains global objects for sharing configuration 
+parameters and other information: see \ref arconfig and \ref arinfogroup
+sections below.
+
+@sa @ref arconfig
+@sa @ref arinfogroup
+
+
+
+ \section devices Device and Accessory Interface Classes
+
+ARIA includes classes to communicate with various kinds of devices.
+
+(Many of these devices are optional accessories, and not all robots have them
+installed.)
+
+Some are mentioned below. See @ref DeviceClasses for a list.
+
+<ul>
+  <li>Range devices.  See @ref rangeDevices for more about range devices. 
+    <ul>
+      <li>The various subclasses of ArLaser are for laser rangefinder sensors. Use ArLaserConnector
+      to automatically create and set up ArLaser objects of the appropriate
+types based on robot and program configuration parameters. The lasers created by ArLaserConnector will be available as ArLaser objects stored in ArRobot.</li>
+      <li>ArSonarDevice for Pioneer and Amigobot built-in sonar.</li>
+      <li>ArBumpers treats the robot's bumper switch triggers as positions for range device
+      readings.</li>
+      <li>ArRangeDeviceFilter provides an ArRangeDevice interface to data from any
+      other range device that has been filtered in different ways.</li>
+      <li>ArForbiddenRangeDevice is a virtual range device that returns readings
+      indicating the edges of forbidden lines and forbidden areas from
+      an ArMap</li>
+      <li>ArIRs treats triggers of a Peoplebot's infrared "table" sensors as
+      positions for range device readings.</li>
+    </ul>
+    
+  </li>
+
+  <li>Pan/Tilt servos and camera bases.
+    ArPTZ defines a common interface, and subclasses access specific devices,
+    including:
+    <ul>
+      <li>ArVCC4 provides pan, tilt, zoom and other control of a Canon camera
+      via the robot microcontroller's AUX serial port.</li>
+      <li>ArSonyPTZ provides pan, tilt, zoom and other actions of a Sony camera
+      via the robot microcontroller's AUX serial port.</li>
+      <li>ArDPPTU provides control of a Directed Perceptions Pan/Tilt unit (used
+      for stereo cameras).</li>
+    </ul>
+  </li>
+
+  <li>ArAnalogGyro provides data from the optional analog gyro  on Pioneer,
+PeopleBot, PatrolBot, PowerBot or AmigoBot.  If the HasGyro parameter in the robot's
+internal firmware configuration is 2 (the default on most robots), then the robot automatically uses the gyro for
+position correction before sending its pose estimate to ARIA.  However,
+if GyroType is 1, then create an ArAnalogGyro object to begin receiving data
+from the robot and allow it to apply those corrections to the position in the
+ArRobot object. 
+
+  The gyro also measures its own temperature as part of its operation,
+  and ArAnalogGyro makes that value available as well.
+  </li>
+
+  <li>ArGripper provides access to a Pioneer gripper.</li>
+
+  <li>ArP2Arm provides access to a Pioneer arm.</li>
+
+  <li>ArTCM2 provides access to an on-board TCM2 compass, if present.</li>
+  
+  <li>ArACTS_1_2 communicates with the ACTS program to get object tracking
+      information.
+
+  <li>ArVersalogicIO provides access to the digital and analog I/O ports
+    on Versalogic motherboards (Linux only). (Support depends on 
+    whether the robot has a Versalogic motherboard, and which board it has.)</li>
+  </li>
+
+  <li>ArSystemStatus provides data about the operating system (Linux only)
+   such as CPU usage and wireless network signal strength.
+  </li>
+
+  <li>ArGPS provides access to data received from a Global Positioning System
+  device. Subclasses implement special actions required for specific devices,
+  such as ArNovatelGPS for the NovAtel G2 and similar devices and ArTrimbleGPS
+for the Trimble GPS.  Use ArGPSConnector to create the appropriate ArGPS device
+based on robot and program configuration parameters.
+  </li>
+</ul>
+
+Some device interfaces are provided by additional libraries, as well. See
+those libraries for details.
+
+
+
+
+
+
+
+ \section utility Utility Classes
+
+Some of the general-purpose utility classes included with are ArMath, ArUtil, ArTime, ArPose, ArLog, 
+ArSectors, ArRingQueue, ArLineFinder, the GPS-related subclasses of Ar3DPoint, ArMD5Calculator
+(and the functions in md5.h), ArMutex, ArCondition and ArASyncTask. See @ref
+UtilityClasses for a list of utility classes.
+
+ \section arconfig ArConfig
+
+ArConfig is a mechanism for storing configuration parameters for different
+independent modules in a text file.  The global Aria class
+maintains a global ArConfig pointer which any program module may access.
+Use ArConfig::addParam to register a new parameter with ArConfig, and use
+ArConfig::addProcessFileCB to register a callback functor called when the 
+configuration changes (by loading the file with ArConfig::parseFile, or other 
+means such as an update from a remote client via ArNetworking).
+
+ \section arinfogroup Shared Info Groups
+
+In a program composed of multiple independent modules, it is often necessary
+to exchange or combine data between them in a general and immediate way.  To do this, ARIA provides 
+the ArStringInfoGroup class, of which the global ARIA class contains an instance
+(in addition to an ArConfig instance used specifically for configuration information
+which changes infrequently, by loading a file or by user input.)
+An example of ArStringInfoGroup is the ArServerInfoStrings class contained in 
+the ArNetworking auxiliary library.  At program initialization, a callback 
+functor may be added to the global ArStringInfoGroup object which on invocation immediately passes a 
+string key/value pair from the ArStringInfoGroup object over to an ArServerInfoStrings
+object, which provides access to this data over the network (e.g. to MobileEyes).  
+Independent components of the program may then change the values in the InfoGroup
+object without needing any special
+knowledge of the recipients of the data (in this example is the
+ArServerInfoStrings class).  Since MobileEyes displays this data in a small table
+next to other robot information like position in speed, this is a useful way
+to provide informative statistics about the robot and software's current operation.
+(On Linux, for example, you could use the ArSystemStatus class to publish 
+information from the operating system, like CPU load).
+
+  \section maps Maps
+
+In mobile robot applications, you will often need to store a map of the robot's 
+environment to use in navigation, localization, etc.  ARIA provides the ArMap
+class for reading map data from a file, obtaining and modifying its contents in your
+application, and writing it back to file. An ArMap contains data about the 
+sensed/sensable environment (walls, obstacles, etc.), and human-provided
+objects such as goal points.
+
+The \ref MapFileFormat page describes the map file format in detail.
+
+ARNL, SONARNL and MobileSim all use ArMap format map files.
+
+ \section sockets Sockets
+
+The ArSocket class is a wrapper around the socket network
+communication layer of your operating system. ARIA mostly uses
+ArSocket to open a server port and to connect to another server port.
+
+To connect to a port, simply construct a socket containing the
+hostname or IP address of the host, a port number, and the ARIA socket
+type (TCP or UDP). For example:
+
+@code
+     ArSocket sock("host.name.com", 4040, ArSocket::TCP);
+@endcode
+
+Or call the ArSocket::connect() function, such as:
+
+@code
+     ArSocket sock;
+     sock.connect("host.name.com", 4040, ArSocket::TCP);
+@endcode
+
+To open a server on (for example) port 4040, simply construct a socket:
+
+@code
+     ArSocket sock(4040, true, ArSocket::TCP);
+@endcode
+
+Or call <code>open(4040, ArSocket::TCP)</code> on an ArSocket object constructed
+with the default constructor.
+
+
+ \section ArNetworking ArNetworking
+
+    For a more advanced networking infrastructure, see <a target="_top"
+    href="../ArNetworking/docs/index.html">the ArNetworking companion
+    library</a>, 
+    distributed with ARIA.  ArNetworking provides an extensible system of
+    data requests and updates between client and server applications via TCP or
+    UDP, using the same base "packet" concept as robot communication.  
+    For example, use ArNetworking to connect multiple robots working together, 
+    off-board user interfaces to on-board control servers, or robot control programs to 
+    off-board data resources.
+
+ \section sound Sound and Speech
+
+ 
+ARIA provides some basic sound support.
+ 
+ARIA's ArSoundsQueue provides a method for handling sound output 
+generated by various components of a large ARIA application in sequence 
+and in loops.  It is a sound playback manager, which 
+uses a thread-safe queue of sound requests, and runs
+a background processing thread for it. This lets you play sounds or trigger
+speech in order rather than simultaneously.
+
+ARIA's ArSoundPlayer provides a basic cross-platform sound-file playback 
+capability.
+Sound files are in WAV (Windows RIFF) format. This class provides static methods
+that can be used by ArSoundsQueue for sound file playback.
+
+Note: The ARIA-based speech libraries (ArSpeechSynth_Cepstral,
+ArSpeechSynth_Festival, ArSpeechRec_Sphinx) are no longer supported by MobileRobots.
+Several open-source and commercial speech synthesis libraries are
+available.
+
+Note: The ArNetAudio library is no longer supported by MobileRobots.
+
+ 
+ \section emacs Emacs
+
+Here is the configuration specification the developers at MobileRobots
+Inc. use in their .emacs files, in case you want to modify the
+code using emacs and not deal with differences in indentation and
+such.
+
+<pre>
+    (setq c-default-style '((other . "user")))
+    (c-set-offset 'substatement-open 0)
+    (c-set-offset 'defun-block-intro 2)
+    (c-set-offset 'statement-block-intro 2)
+    (c-set-offset 'substatement 2)
+    (c-set-offset 'topmost-intro -2)
+    (c-set-offset 'arglist-intro '++)
+    (c-set-offset 'statement-case-intro '*)
+    (c-set-offset 'member-init-intro 2)
+    (c-set-offset 'inline-open 0)
+    (c-set-offset 'brace-list-intro 2)
+    (c-set-offset 'statement-cont 0)
+    (defvar c-mode-hook 'c++-mode)
+</pre>
+
+ \section noneverydayC Non-everyday use of C++
+
+ARIA uses some features of C++ that some programmers may not be aware of yet,
+and includes some workarounds for platform differences.
+
+ \subsection stl Standard Template Library
+
+ARIA makes heavy use of the C++ standard template library (STL).  So you
+should understand the STL in order to get the best use from some of
+the more advanced parts of ARIA. 
+
+ \subsection defaultArgs Default Arguments 
+
+In the function declaration a default value for an argument may be specified.
+Arguments with default values may then be omitted from the function call.
+
+For example, after declaring this function with a default value for its integer
+argument: 
+@code
+     void foo(int number = 3);
+@endcode
+it can be used in two different ways:
+@code
+     // Use the default value for the argument:
+     foo();
+
+     // Or, use don't use the default:
+     foo(99);   
+@endcode
+
+This behavior is quite useful for having defaults for more obscure options 
+you will usually not need to change, but still allowing you to change them if
+necessary without making ARIA more complex.
+
+Also note that the function definition must not have the assignment in
+it, only the declaration. Therefore the definition if our example function would 
+look like this:
+@code
+  void foo(int number)
+  { 
+    //...
+  }
+@endcode
+
+ \subsection constructorChaining Constructor Chaining
+
+Constructor chaining is quite simple though sometimes not used by C++ programmers.  Each
+constructor can give arguments to the constructors of the member
+variables it contains and to the constructors of classes from which it inherits.  For
+example if you have:
+
+@code
+     class BaseClass
+     {
+     public:
+       BaseClass(int someNumber);
+     };
+@endcode
+and 
+@code
+     class SubClass : public BaseClass
+     {
+     public:
+       SubClass(void);
+       int anotherNumber;
+     };
+@endcode
+When you write your constructor for SubClass you can initialize both
+baseClass and anotherNumber:
+@code
+     SubClass::SubClass(void) : BaseClass(3), anotherNumber(37)
+     {
+         // ...
+     }
+@endcode
+Note how the constructors to be initialized must follow a colon (:) after the
+constructor, and be separated by commas.  Member variables 
+must  be initialized in the order they are in the class.  Note
+that initializing integers is not all that unique or useful, but using
+this to initialize callback \ref functors is quite useful.
+
+Constructor chaining is used in many many places by ARIA, thus it must
+be understood in order to understand ARIA, but the above is all that
+really needs to be known.
+
+ \subsection charsAndStrings Chars and Strings, Win workaround
+
+During development problems were encountered with Windows if
+a <code>std::string</code> was passed into a DLL.  Thus for all input to ARIA 
+<code>const char *</code> is used, but for all internal storage and all reporting
+<code>std::string</code>s are passed back out of ARIA.
+
+ \subsection arexport AREXPORT
+
+Because of the Windows set up for using DLLs, this macro is used
+to take care of the required declaration attributes for DLLs.  Largely 
+users do not need to worry about <code>AREXPORT</code>, but only functions which have 
+<code>AREXPORT</code> and inline functions are usable with DLLs in Windows (all of the 
+ARIA functions which are documented in this manual are usable).
+
+ \subsection exceptions Exceptions
+
+ARIA neither throws nor catches any exceptions.
+
+
+
+
+
+ \section Advanced Topics and Esoterica
+
+ \subsection pieceMealUse Piecemeal Use of ARIA
+
+The most basic layer of ARIA is ArDeviceConnection and subclasses, which
+handle low-level communication with the robot server.  On top of the
+connection layer, we have a packet layer--ArBasePacket and
+ArRobotPacket--the basic algorithms for constructing command packets
+and decoding server information packets.
+
+Above the packet layer is the packet handler classes,
+ArRobotPacketReceiver and ArRobotPacketSender, when send and receive
+packets to and from the robot.  Finally, on top of all these lowest
+layers is ArRobot, which is a gathering point for all things, but can
+be used in a quite basic format without all of the bells and whistles.
+ArRobot has built-in tasks, actions, state reflection and so forth, all
+of which can be disabled from the constructor (ArRobot::ArRobot) and
+ignored or reimplemented.
+
+Also note that if all you do is turn off state reflection, which only
+affects sending ArRobot-mediated motion commands to the robot, not
+receiving SIPs from the robot, none of the other activities which
+ArRobot engages on its loop will take up hardly any time, so it
+probably isn't worth building your own set of tasks, but the power to
+do so is there for the intrepid.
+
+One other thing worth noting is that you can call ArRobot::loopOnce()
+and it will run through its loop a single time and return.  This is so
+that you can use ARIA from your own loop or control structure.  You
+must call loopOnce() regularly and at least every 100ms to maintain 
+consistent communication with the robot.
+
+
+ \subsection hardConnectRobot Connecting with a Robot or the Simulator the hard way
+
+ArDeviceConnection is ARIA's communications object; ArSerialConnection
+and ArTcpConnection are its built-in children most commonly used to
+manage communication between a MobileRobots or ActivMedia robot or the robot
+simulator, respectively. These classes are not device-specific,
+however, so use ArSerialConnection, for instance, to also configure a
+serial port and establish a connection with a robot accessory, such as
+with the SICK laser range finder.
+
+
+ \subsection openDevice Opening the Connection
+
+After creating and opening a device connection, associate it with its
+ARIA device handlers, most commonly with ArRobot::setDeviceConnection
+for the robot or the simulator.
+
+For example, early in an ARIA program, specify the connection device and 
+associate it with the robot:
+
+@code
+  ArTcpConnection con;
+  ArRobot robot;
+@endcode
+
+Later in the program, after initializing the ARIA system
+(Aria::init(); is mandatory), set the Connection port to its default
+values (for TCP, host is "localhost" and port number is 8101), and
+then open the port:
+
+@code
+ con.setPort();
+ if (!con.openSimple())
+  {
+    printf("Open failed.");
+    Aria::shutdown();
+    return 1;
+  }
+@endcode
+
+TCP and Serial connections have their own implementation of open which
+is not inherited, but has default arguments that make the generic open
+work for the all default cases.  And open returns a status integer
+which can be passed to the re-implemented and inherited
+ArDeviceConnection::getOpenMessage in order to retrieve related status
+string, which is useful in reporting errors to the user without having
+to know about the underlying device.
+
+ \subsection devConnect Robot Client-Server Connection
+
+After associating the device with the robot, now connect with the
+robot's servers, ArRobot::blockingConnect or ArRobot::asyncConnect, for
+example, to establish the client-server connection between ARIA
+ArRobot and the robot microcontroller or robot
+simulator. The blockingConnect method doesn't return from the call until
+a connection succeeds or fails:
+
+@code
+  robot.setDeviceConnection(&con);
+  if (!robot.blockingConnect())
+  {
+    printf("Could not connect to robot... Exiting.");
+    Aria::shutdown();
+    return 1;
+  }
+@endcode
+
+The previous examples connect with the simulator through a TCP
+socket on your PC. Use <code>tcpConn.setPort(host, port)</code> to set the TCP
+hostname or IP address and related socket number to another machine on
+the network. For instance, use <code>tcpConn.setPort("bill", 8101);</code> to
+connect to the simulator which is running on the networked computer
+"bill" through port 8101.
+
+Replace <code>ArTcpConnection con;</code> with <code>ArSerialConnection con;</code>
+to connect with a robot through the default serial port (<code>/dev/ttyS0</code> 
+or <code>COM1</code>), or another you specify with ArSerialConnection::setPort(), 
+ such as <code>con.setPort("COM3");</code>.
+
+At some point, you may want to open the port with the more
+verbose <code>con.open()</code>.
+
+ \subsection connrw Connection Read, Write, Close and Timestamping
+
+The two main functions of a device connection are
+ArDeviceConnection::read and ArDeviceConnection::write. Simple
+enough. ArDeviceConnection::close also is inherited and important. You
+probably won't use direct read or write to the robot device, although
+you could. Rather, ArRobot provides a host of convenient methods that
+package your robot commands, and gather and distribute the various
+robot information packets, so that you don't have to attend those
+mundane details. See the next section for details.
+
+All ArDeviceConnection subclasses have support for timestamping
+(ArDeviceConnection::getTimeRead). With the robot connection,
+timestamping merely says what time a robot SIP came in, which can be
+useful for interpolating the robot's location more precisely.
+
+
+
+*/
+
+
+
+

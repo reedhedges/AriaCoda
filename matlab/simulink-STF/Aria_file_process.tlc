@@ -1,0 +1,46 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% $Revision$
+%% $Date$
+%%
+%% Abstract:
+%%   Code generation custom file processing template.
+%%
+%%   Note: This file can contain any valid TLC code, which is 
+%%   executed just prior to writing the generated source files to disk.
+%%
+%% Copyright 1994-2010 The MathWorks, Inc.
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% $RCSfile$
+%% $Revision$
+%% $Date$
+%%
+%% Abstract:
+%%   Example Embedded Coder custom file processing template.
+%%
+%%   Note: This file can contain any valid TLC code, which Embedded Coder
+%%   executes just prior to writing the generated source files to disk.
+%%   Using this template "hook" file, you are able to augment the generated
+%%   source code and create additional files.
+%%
+%% Copyright 1994-2010 The MathWorks, Inc.
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%selectfile NULL_FILE
+
+  %% Need to set the template compliance flag before you can use the API
+  %<LibSetCodeTemplateComplianceLevel(1)>
+
+  %% Add a new C file timestwo.c and put a simple function in it
+ 
+  %% Create a simple main.
+
+  %if LibIsSingleRateModel() || LibIsSingleTasking()
+    %include "Aria_srmain.tlc"
+    %<FcnSingleTaskingMain()>
+  %else
+    %include "Aria_srmain.tlc"
+    %<FcnSingleTaskingMain()>
+  %endif

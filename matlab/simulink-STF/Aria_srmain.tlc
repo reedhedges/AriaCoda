@@ -1,0 +1,230 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Abstract:
+%%   Custom file processing to generate a "main" file.
+%%
+%% Copyright 1994-2011 The MathWorks, Inc.
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%selectfile NULL_FILE
+
+%function FcnSingleTaskingMain() void
+  
+  %if GenerateSampleERTMain
+    %assign ::CompiledModel.GenerateSampleERTMain = TLC_FALSE
+  %endif
+  %openfile tmpBuf
+  static boolean_T OverrunFlag = 0;\
+  
+  %<SLibDeclareFcnProtoCtlVariables()>\
+  
+  %<LibWriteModelData()>\
+  %closefile tmpBuf
+  
+  %<SLibCacheCodeToFile("mainSrc_data_defn", tmpBuf)>
+ 
+  %openfile tmpBuf 
+
+  #include "%<LibGetMdlPubHdrBaseName()>.h"
+  #include <time.h>
+ 
+  %if MatFileLogging != 0
+     #include "rt_logging.h"
+  %endif
+  
+  %if CreateTransitionTable == 1 
+     #include "dt_info.h"
+  %endif
+
+  %if ExtMode == 1
+     #include "ext_work.h"
+  %endif
+  %if UsingMalloc || FcnIsERTMalloc() || isRSim || isRSimWithSolverModule %% ok Model Reference
+     #include "<stdlib.h>"
+  %endif
+ %<LibDeclareERTDefines(0)>\
+  %closefile tmpBuf
+
+  %<SLibCacheCodeToFile("mainSrc_incl", tmpBuf)>
+  %%<LibSetSourceFileSection(cFile, "Declarations", tmpBuf)>
+
+  %openfile tmpBuf
+  %assign fcnReturns = "void"
+  %assign fcnName = "rt_OneStep"
+  %assign fcnParams = ""
+  %assign fcnCategory = "main"
+  %createrecord fcnRec {Name fcnName; Returns fcnReturns; Params fcnParams; ...
+    Abstract ""; Category fcnCategory; GeneratedBy "Aria_srmain.tlc"; ...
+    Type "Utility"}
+  %<SLibDumpFunctionBanner(fcnRec)>
+  %undef fcnRec
+  %<fcnReturns> %<fcnName>(%<fcnParams>)
+  {
+
+%% Start Timer Code %%
+%assign simulateStep = ERTSimulateOneStep()
+
+%if simulateStep
+            real_T             t_diff     = 0.0;
+            real_T             t_current;
+            real_T             t_0;
+    static  real_T             t_previous = 0.0;
+            real_T             t_elapsed;
+            real_T             clockspersec = CLOCKS_PER_SEC; //Significant Slowdown for macro
+%endif
+%% Start Timer Code %%
+
+    /* Disable interrupts here */
+    /* Check for overun */
+    if (OverrunFlag++) {
+      %<LibSetRTModelErrorStatus("\"Overrun\"")>;
+      return;
+    }
+    
+    /* Save FPU context here (if necessary) */
+    /* Re-enable timer or interrupt here */
+
+%% Start Timer Code %%
+%if simulateStep
+    /* Get clock time at the beginning of this step*/   
+    t_previous = (real_T)clock()/clockspersec;
+    t_0 = (real_T)clock()/clockspersec;
+%endif
+%% End Timer Code %%
+
+    %% Model Step Operation %%
+    %<LibCallModelStep(0)>\
+
+%% Start Timer Code %%
+%if simulateStep
+    while (t_diff < %<LibGetClockTickStepSize(0)>){
+        t_current = (real_T) clock()/clockspersec;
+        /* Look for wrapup */
+        if (t_current<t_previous){
+            t_elapsed = t_previous - t_0;
+            t_0 = (real_T) clock()/clockspersec - t_elapsed;
+        }
+        t_diff = t_current - t_0;
+        t_previous = t_current;
+   }
+
+%endif    
+%% End Timer Code %%
+
+    OverrunFlag = FALSE;
+
+    /* Disable interrupts here */
+    /* Restore FPU context here (if necessary) */
+    /* Enable interrupts here */
+    %if ExtMode == 1
+      rtExtModeCheckEndTrigger();
+    %endif
+    
+  }
+   
+  %assign fcnReturns = "int_T"
+  %assign fcnName = "main"
+  %assign fcnParams = "int_T argc, const char *argv[]"
+  %assign fcnCategory = "main"
+  %createrecord fcnRec {Name fcnName; Returns fcnReturns; Params fcnParams; ...
+    Abstract ""; Category fcnCategory; GeneratedBy "bareboard_srmain.tlc"; ...
+    Type "Main"}
+  %<SLibDumpFunctionBanner(fcnRec)>
+  %undef fcnRec
+  %<fcnReturns> %<fcnName>(%<fcnParams>)
+  {
+    /* Aria Initalization */
+    int init = 0;             
+    int conn = 0;   
+    init = aria_init(argc, argv);
+
+    %%EXTERNAL MODE START%%
+    %if ExtMode == 1
+      /* External mode */
+        rtParseArgsForExtMode(argc,argv);
+    %endif
+    %%EXTERNAL MODE END%%
+
+    if(!init){return;}
+    conn = arrobot_connect();
+    if(!conn){return;} 
+    
+    /* Initialize model */
+    %<LibCallModelInitialize()>\
+    %%EXTERNAL MODE START%%
+    %if ExtMode == 1
+      /* External mode */
+      %if !PurelyIntegerCode
+	    rtSetTFinalForExtMode(&%<RTMGet("TFinal")>);
+      %else
+	    rtSetTFinalForExtMode(rteiGetPtrTFinalTicks(%<RTMGet("RTWExtModeInfo")>));
+      %endif
+      rtExtModeCheckInit(%<NumSynchronousSampleTimes>);
+      {
+	  boolean_T rtmStopReq = FALSE;
+	  rtExtModeWaitForStartPkt(%<RTMGet("RTWExtModeInfo")>, ...
+	  %<NumSynchronousSampleTimes>, ...
+	  &rtmStopReq);
+	  if (rtmStopReq) {
+	    %<RTMSetStopRequested("TRUE")>;
+	    }
+      }
+    %endif
+    %%EXTERNAL MODE END %%
+    /* Associate rt_OneStep() with a timer that executes at the base rate of the model */\ 
+   %if simulateStep
+    while (rtmGetErrorStatus(%<LibGetMdlPubHdrBaseName()>_M) == (NULL) && !rtmGetStopRequested(%<LibGetMdlPubHdrBaseName()>_M)) {
+   %else
+        { 
+   %endif
+    %if ExtMode == 1
+    /* External mode */
+    {
+      boolean_T rtmStopReq = FALSE;
+      rtExtModePauseIfNeeded(%<LibGetMdlPubHdrBaseName()>_M->extModeInfo, 1, &rtmStopReq);
+      if (rtmStopReq) {
+        rtmSetStopRequested(%<LibGetMdlPubHdrBaseName()>_M, TRUE);
+      }
+
+      if (rtmGetStopRequested(%<LibGetMdlPubHdrBaseName()>_M) == TRUE) {
+        rtmSetErrorStatus(%<LibGetMdlPubHdrBaseName()>_M, "Simulation finished");
+        break;
+      }
+    }
+	%endif
+
+    %if ExtMode == 1 
+    /* External mode */
+    {
+      boolean_T rtmStopReq = FALSE;
+      rtExtModeOneStep(%<LibGetMdlPubHdrBaseName()>_M->extModeInfo, 1, &rtmStopReq);
+      if (rtmStopReq) {
+        rtmSetStopRequested(%<LibGetMdlPubHdrBaseName()>_M, TRUE);
+      }
+    }
+%endif
+        rt_OneStep();
+    }
+    
+
+%if MatFileLogging == 1 
+  /* Matfile logging */
+  rt_StopDataLogging(MATFILE, %<LibGetMdlPubHdrBaseName()>_M->rtwLogInfo);
+%endif
+
+%if ExtMode == 1
+  /* External mode */
+  rtExtModeShutdown(1);
+%endif
+
+    /* Aria Terminate */
+    %<LibCallModelTerminate()>\
+    arrobot_disconnect();
+    return 0;
+  }
+  %closefile tmpBuf
+  
+  %<SLibCacheCodeToFile("mainSrc_fcn_defn", tmpBuf)>
+  
+%endfunction

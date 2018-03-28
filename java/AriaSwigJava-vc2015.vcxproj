@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <RootNamespace>RunSwigJava</RootNamespace>
+    <Keyword>ManagedCProj</Keyword>
+    <ProjectGuid>{E333276C-952E-4A46-BED2-BC918AF7D957}</ProjectGuid>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>OldSyntax</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../java/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../obj/$(ProjectName)-$(Configuration)-VC14/</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../java/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../obj/$(ProjectName)-$(Configuration)-VC14/</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IntDir>../obj64/$(ProjectName)-$(Configuration)-VC14/</IntDir>
+    <OutDir>../java/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>../obj64/$(ProjectName)-$(Configuration)-VC14/</IntDir>
+    <OutDir>../java/</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <CustomBuildStep>
+      <Message>Custom Build Step: Running C:\swigwin-3\swig.exe to generate Java wrapper code%3b Compiling Java code%3b Building JAR file.</Message>
+      <Command>mkdir "$(ProjectDir)\com\mobilerobots\Aria"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.java"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.class"
+echo Running Swig (C:\swigwin-3\swig.exe)...
+C:\swigwin-3\swig.exe -Fmicrosoft -c++ -package com.mobilerobots.Aria -java -module AriaJava -DWIN32 -DSWIGWIN -DAREXPORT -outdir "$(ProjectDir)\com\mobilerobots\Aria"  -o AriaJava_wrap.cpp "-I$(ProjectDir)\..\include" "$(ProjectDir)\..\include\wrapper.i"
+echo Compiling Java ($(JAVA_BIN)\javac)...
+"$(JAVA_BIN)\javac" -classpath "$(ProjectDir)\com\mobilerobots\Aria" $(ProjectDir)\com\mobilerobots\Aria\*.java
+cd "$(ProjectDir)"
+echo Building JAR ($(JAVA_BIN)\jar)...
+"$(JAVA_BIN)\jar" cf "$(ProjectDir)\Aria.jar" com\mobilerobots\Aria\*.class
+</Command>
+      <Inputs>../include/wrapper.i;%(Inputs)</Inputs>
+      <Outputs>$(ProjectDir)\AriaJava_wrap.cpp;$(ProjectDir)\AriaJava_wrap.h;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.cpp;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.class;$(ProjectDir)\Aria.jar;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <AdditionalDependencies />
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <CustomBuildStep>
+      <Message>Custom Build Step: Running C:\swigwin-3\swig.exe to generate Java wrapper code%3b Compiling Java code%3b Building JAR file.</Message>
+      <Command>mkdir "$(ProjectDir)\com\mobilerobots\Aria"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.java"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.class"
+echo Running Swig (C:\swigwin-3\swig.exe)...
+C:\swigwin-3\swig.exe -Fmicrosoft -c++ -package com.mobilerobots.Aria -java -module AriaJava -DWIN32 -DSWIGWIN -DAREXPORT -outdir "$(ProjectDir)\com\mobilerobots\Aria"  -o AriaJava_wrap.cpp "-I$(ProjectDir)\..\include" "$(ProjectDir)\..\include\wrapper.i"
+echo Compiling Java ($(JAVA_BIN)\javac)...
+"$(JAVA_BIN)\javac" -classpath "$(ProjectDir)\com\mobilerobots\Aria" $(ProjectDir)\com\mobilerobots\Aria\*.java
+cd "$(ProjectDir)"
+echo Building JAR ($(JAVA_BIN)\jar)...
+"$(JAVA_BIN)\jar" cf "$(ProjectDir)\Aria.jar" com\mobilerobots\Aria\*.class
+</Command>
+      <Inputs>../include/wrapper.i;%(Inputs)</Inputs>
+      <Outputs>$(ProjectDir)\AriaJava_wrap.cpp;$(ProjectDir)\AriaJava_wrap.h;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.cpp;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.class;$(ProjectDir)\Aria.jar;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <CustomBuildStep>
+      <Message>(AriaSwigJava Custom Build Step) Running C:\swigwin-3\swig.exe to generate Java wrapper code%3b Compiling Java code%3b Building JAR file.</Message>
+      <Command>mkdir "$(ProjectDir)\com\mobilerobots\Aria"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.java"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.class"
+cd "$(ProjectDir)"
+cd
+echo Running Swig (C:\swigwin-3\swig.exe)...
+C:\swigwin-3\swig.exe -Fmicrosoft -c++ -package com.mobilerobots.Aria -java -module AriaJava -DARIA_WRAPPER -DWIN32 -DSWIGWIN -DAREXPORT -outdir "$(ProjectDir)\com\mobilerobots\Aria"  -o AriaJava_wrap.cpp "-I$(ProjectDir)\..\include" "$(ProjectDir)\..\include\wrapper.i"
+echo Compiling Java ($(JAVA_BIN)\javac)...
+"$(JAVA_BIN)\javac" -classpath "$(ProjectDir)\com\mobilerobots\Aria" com\mobilerobots\Aria\*.java
+cd "$(ProjectDir)"
+echo Building JAR ($(JAVA_BIN)\jar)...
+"$(JAVA_BIN)\jar" cf "$(ProjectDir)\Aria.jar" com\mobilerobots\Aria\*.class
+</Command>
+      <Inputs>../include/wrapper.i;../include/*.h;%(Inputs)</Inputs>
+      <Outputs>$(ProjectDir)\AriaJava_wrap.cpp;$(ProjectDir)\AriaJava_wrap.h;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.java;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.class;$(ProjectDir)\Aria.jar;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <CustomBuildStep>
+      <Message>(AriaSwigJava Custom Build Step) Running C:\swigwin-3\swig.exe to generate Java wrapper code%3b Compiling Java code%3b Building JAR file.</Message>
+      <Command>mkdir "$(ProjectDir)\com\mobilerobots\Aria"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.java"
+del "$(ProjectDir)\com\mobilerobots\Aria\*.class"
+cd "$(ProjectDir)"
+cd
+echo Running Swig (C:\swigwin-3\swig.exe)...
+C:\swigwin-3\swig.exe -Fmicrosoft -c++ -package com.mobilerobots.Aria -java -module AriaJava -DWIN32 -DSWIGWIN -DAREXPORT -outdir "$(ProjectDir)\com\mobilerobots\Aria"  -o AriaJava_wrap.cpp "-I$(ProjectDir)\..\include" "$(ProjectDir)\..\include\wrapper.i"
+echo Compiling Java ($(JAVA_BIN)\javac)...
+"$(JAVA_BIN)\javac" -classpath "$(ProjectDir)\com\mobilerobots\Aria" com\mobilerobots\Aria\*.java
+cd "$(ProjectDir)"
+echo Building JAR ($(JAVA_BIN)\jar)...
+"$(JAVA_BIN)\jar" cf "$(ProjectDir)\Aria.jar" com\mobilerobots\Aria\*.class
+</Command>
+      <Inputs>../include/wrapper.i;../include/*.h;%(Inputs)</Inputs>
+      <Outputs>$(ProjectDir)\AriaJava_wrap.cpp;$(ProjectDir)\AriaJava_wrap.h;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.java;$(ProjectDir)\com\mobilerobots\Aria\ArRobot.class;$(ProjectDir)\Aria.jar;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Link>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="..\include\wrapper.i" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\wrapper_ExtraClasses.h" />
+    <ClInclude Include="..\include\wrapper_Functors.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

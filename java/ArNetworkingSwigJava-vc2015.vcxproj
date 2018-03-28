@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <RootNamespace>ArNetworkingSwigJava</RootNamespace>
+    <Keyword>ManagedCProj</Keyword>
+    <ProjectGuid>{AC5CCD7A-1657-4A3D-9E09-C1434B49AEFB}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\java\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\obj\$(ProjectName)-$(Configuration)-VC14\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">ArNetworkingJava_wrap</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ArNetworkingJava_wrap</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.cpp</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.cpp</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IntDir>../obj64/$(ProjectName)-$(Configuration)-VC14/</IntDir>
+    <OutDir>../java/</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <CustomBuildStep>
+      <Message>Custom Build Step: Running C:\swigwin-3\swig.exe to generate Java wrapper code</Message>
+      <Command>cd "$(ProjectDir)"
+echo Creating com\mobilerobots\ArNetworking directory if missing...
+mkdir "$(ProjectDir)\com\mobilerobots\ArNetworking"
+echo Removing old Java code if present.
+del /q  "$(ProjectDir)\com\mobilerobots\ArNetworking\*.*"
+echo Generating Java code, ArNetworkingJava_wrap.cpp and ArNetworkingJava_wrap.h using C:\swigwin-3\swig.exe in $(ProjectDir)...
+C:\swigwin-3\swig.exe -Fmicrosoft -c++ -java -package com.mobilerobots.ArNetworking -module ArNetworkingJava -DWIN32 -DAREXPORT -outdir com\mobilerobots\ArNetworking  -o ArNetworkingJava_wrap.cpp -I..\include -I..\ArNetworking\include ..\ArNetworking\include\wrapper.i
+echo Compiling Java code using $(JAVA_BIN)\javac...
+"$(JAVA_BIN)\javac" -classpath "Aria.jar%3bcom\mobilerobots\ArNetworking" com\mobilerobots\ArNetworking\*.java
+echo Making JAR using $(JAVA_BIN)\jar...
+"$(JAVA_BIN)\jar" cf ArNetworking.jar com\mobilerobots\ArNetworking\*.class
+</Command>
+      <Inputs>../ArNetworking/include/wrapper.i;../ArNetworking/include/*.h;%(Inputs)</Inputs>
+      <Outputs>$(ProjectDir)\ArNetworkingJava_wrap.cpp;$(ProjectDir)\ArNetworkingJava_wrap.h;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.java;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.class;$(ProjectDir)\ArNetworking.jar</Outputs>
+    </CustomBuildStep>
+    <Link>
+      <OutputFile>$(ProjectDir)\ArNetworking_wrap.cpp</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+    <Xdcmake>
+      <OutputFile>
+      </OutputFile>
+    </Xdcmake>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <CustomBuildStep>
+      <Message>Custom Build Step: Running C:\swigwin-3\swig.exe to generate Java wrapper code</Message>
+      <Command>cd "$(ProjectDir)"
+echo Creating com\mobilerobots\ArNetworking directory if missing...
+mkdir "$(ProjectDir)\com\mobilerobots\ArNetworking"
+echo Removing old Java code if present.
+del /q  "$(ProjectDir)\com\mobilerobots\ArNetworking\*.*"
+echo Generating Java code, ArNetworkingJava_wrap.cpp and ArNetworkingJava_wrap.h using C:\swigwin-3\swig.exe in $(ProjectDir)...
+C:\swigwin-3\swig.exe -Fmicrosoft -c++ -java -package com.mobilerobots.ArNetworking -module ArNetworkingJava -DWIN32 -DAREXPORT -outdir com\mobilerobots\ArNetworking  -o ArNetworkingJava_wrap.cpp -I..\include -I..\ArNetworking\include ..\ArNetworking\include\wrapper.i
+echo Compiling Java code using $(JAVA_BIN)\javac...
+"$(JAVA_BIN)\javac" -classpath "Aria.jar%3bcom\mobilerobots\ArNetworking" com\mobilerobots\ArNetworking\*.java
+echo Making JAR using $(JAVA_BIN)\jar...
+"$(JAVA_BIN)\jar" cf ArNetworking.jar com\mobilerobots\ArNetworking\*.class
+</Command>
+      <Inputs>../ArNetworking/include/wrapper.i;../ArNetworking/include/*.h;%(Inputs)</Inputs>
+      <Outputs>$(ProjectDir)\ArNetworkingJava_wrap.cpp;$(ProjectDir)\ArNetworkingJava_wrap.h;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.java;$(ProjectDir)\com\mobilerobots\ArNetworking\ArServerBase.class;$(ProjectDir)\ArNetworking.jar</Outputs>
+    </CustomBuildStep>
+    <Link>
+      <OutputFile>$(ProjectDir)\ArNetworking_wrap.cpp</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Link>
+    <Xdcmake>
+      <OutputFile>
+      </OutputFile>
+    </Xdcmake>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ArNetworking\include\wrapper.i" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

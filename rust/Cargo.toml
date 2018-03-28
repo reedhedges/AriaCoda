@@ -1,0 +1,7 @@
+[package]
+name = "ariac-rust"
+version = "0.1.0"
+build = "build.rs"
+
+[build-dependencies]
+bindgen = "0.26.3"

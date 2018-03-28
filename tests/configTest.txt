@@ -1,0 +1,8 @@
+bool false
+int 20
+double 230
+pose 30 302 30
+string this is a fun wierd string that means something to someone maybe
+functor 1 boy oh boy
+functor 2 is this such a fun
+functor 3 string thing to do

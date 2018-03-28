@@ -1,0 +1,3 @@
+Compass options:
+-compassType <robot|serialTCM>	Select compass device type (default: robot)
+-compassPort <port>	Serial port for "serialTCM" type compass. (default: /dev/ttyS3)

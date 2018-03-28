@@ -1,0 +1,6 @@
+GPS options:
+-gpsType <standard|novatel|novatelspan|trimble|sim>	Select GPS device type (default: standard)
+-gpsPort <gpsSerialPort>	Use the given serial port (default: /dev/ttyS1)
+-gpsBaud <gpsSerialBaudRate>	Use the given serial Baud rate (default: 9600)
+-remoteGpsTcpHost <host>	Use a TCP connection instead of serial, and connect to remote host <host>
+-remoteGpsTcpPort <host>	Use the given port number for TCP connection, if using TCP. (default 8103)

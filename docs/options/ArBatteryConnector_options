@@ -1,0 +1,11 @@
+Options for ArBatteryConnector:
+-batteryLogPacketsReceived
+-blpr
+-batteryLogPacketsSent
+-blps
+
+Options shown are for currently set up batteries.  Activate batteries with -batteryType<N> option
+to see options for that battery (e.g. "-help -batteryType1 batteryMTX").
+Valid battery types are: mtx
+
+See docs for details.

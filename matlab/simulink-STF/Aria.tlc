@@ -1,0 +1,100 @@
+%% SYSTLC: Aria Robot Target TMF: ert_default_tmf MAKE: make_rtw \
+%% EXTMODE: ext_comm
+
+%% /* Copyright 2010 The MathWorks, Inc. */
+
+%selectfile NULL_FILE
+
+%assign CodeFormat = "Embedded-C"
+
+%assign TargetType = "RT"
+%assign Language   = "C"
+%assign AutoBuildProcedure = !GenerateSampleERTMain
+
+%% The model_SetEventsForThisBaseRate function is not required for the
+%% VxWorks environment, i.e., when using an operating system.
+%assign SuppressSetEventsForThisBaseRateFcn = (TargetOS == "VxWorksExample") 
+%assign InlineSetEventsForThisBaseRateFcn  = TLC_TRUE
+%assign SuppressMultiTaskScheduler = TLC_TRUE
+
+%include "codegenentry.tlc"
+
+%% The contents between 'BEGIN_RTW_OPTIONS' and 'END_RTW_OPTIONS' in this file
+%% are used to maintain backward compatibility to R13 and preR13 custom target 
+%% file only.  If you want to use this file as a template to develop your
+%% own system target file, you need to remove the 'CONFIGSET_TARGET_COMPONENT'
+%% section at the end of this file.
+%%
+/%
+  BEGIN_RTW_OPTIONS
+
+rtwoptions(1).prompt = 'Aria Target Options';
+rtwoptions(1).type = 'Category';
+rtwoptions(1).enable = 'on';
+rtwoptions(1).default = 6; % number of items under this category excluding this one.
+rtwoptions(1).popupstrings = '';
+rtwoptions(1).tlcvariable = '';
+rtwoptions(1).tooltip = '';
+rtwoptions(1).callback = '';
+rtwoptions(1).makevariable = '';
+
+rtwoptions(2).prompt = ['Robot''s IP Address'];
+rtwoptions(2).type = 'Edit';
+rtwoptions(2).default = '10.10.10.11';
+rtwoptions(2).tlcvariable = 'RobotIPAddr';
+rtwoptions(2).makevariable = '';
+rtwoptions(2).tooltip = ['Enter in the Robot''s IP address'];
+rtwoptions(2).callback = '';
+
+rtwoptions(3).prompt = ['TCPIP Port Number'];
+rtwoptions(3).type = 'Edit';
+rtwoptions(3).default = '17725';
+rtwoptions(3).tlcvariable = 'RobotPortNum';
+rtwoptions(3).makevariable = '';
+rtwoptions(3).tooltip = ['Enter in the TCPIP Port Number'];
+rtwoptions(3).callback = '';
+
+rtwoptions(4).prompt = ['User Login'];
+rtwoptions(4).type = 'Edit';
+rtwoptions(4).default = 'MathWorks';
+rtwoptions(4).tlcvariable = 'UserID';
+rtwoptions(4).makevariable = '';
+rtwoptions(4).tooltip = ['Enter User Name on Robot'];
+rtwoptions(4).callback = '';
+
+rtwoptions(5).prompt = ['User Password'];
+rtwoptions(5).type = 'Edit';
+rtwoptions(5).default = '';
+rtwoptions(5).tlcvariable = 'UserPW';
+rtwoptions(5).makevariable = '';
+rtwoptions(5).tooltip = ['Enter User Password for Robot'];
+rtwoptions(5).callback = '';
+
+rtwoptions(6).prompt = 'Download and Run on Target (Enables External Mode)';
+rtwoptions(6).type = 'Checkbox';
+rtwoptions(6).default = 'on';
+rtwoptions(6).tlcvariable = 'DL2Robot';
+rtwoptions(6).makevariable = '';
+rtwoptions(6).tooltip = ['Select whether or not to download and Run on Target'];
+rtwoptions(6).callback = 'Aria_Download_Setup(hDlg, hSrc)';
+
+rtwoptions(7).prompt = 'Update External Mode Parameters';
+rtwoptions(7).type = 'Pushbutton';
+rtwoptions(7).default = '';
+rtwoptions(7).tlcvariable = '';
+rtwoptions(7).makevariable = '';
+rtwoptions(7).tooltip = ['Update External Mode'];
+rtwoptions(7).callback = 'Aria_Download_Setup(hDlg, hSrc)';
+
+  %------------------------------------%
+  % Configure code generation settings %
+  %------------------------------------%
+  
+  rtwgensettings.BuildDirSuffix = '_Aria';
+  rtwgensettings.Version = '1';
+  rtwgensettings.DerivedFrom = 'ert.tlc';
+  rtwgensettings.SelectCallback = 'Aria_select_callback_handler(hDlg, hSrc)';
+
+  END_RTW_OPTIONS 
+ %/
+

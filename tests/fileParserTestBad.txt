@@ -1,0 +1,28 @@
+
+    
+
+keywordbuilder laksjdf kaljdsf df lkjasdlkf j
+keywordstring laksjdf kaljdsf lkjas kjasdlkf j
+
+woo hoo		
+keyworddouble 29923840928340983240983209483204.020302
+keyworddouble .000000000000000000000000000000000000000000000000000001
+keyworddouble alskjdflkasjdf
+keyworddouble 1.2
+keyworddouble -.4539
+
+keywordbool true
+keywordbool false
+keywordbool f20398
+keywordbool
+
+keywordint 2
+keywordint -209392
+keywordint 2.0
+keywordint asldkfj29
+keywordint 2039840293840928340928340928340238402938423408
+
+whee
+;keywordbool
+  ;
+fun

@@ -1,0 +1,11 @@
+Options for ArLCDConnector:
+-lcdLogPacketsReceived
+-lcdlpr
+-lcdLogPacketsSent
+-lcdlps
+
+Options shown are for currently set up lcds.  Activate lcds with -lcdType<N> option
+to see options for that lcd (e.g. "-help -lcdType1 lcdMTX").
+Valid lcd types are: mtx
+
+See docs for details.

@@ -1,0 +1,11 @@
+Options for ArSonarConnector:
+-sonarLogPacketsReceived
+-slpr
+-sonarLogPacketsSent
+-slps
+
+Options shown are for currently set up sonars.  Activate sonars with -sonarType<N> option
+to see options for that sonar (e.g. "-help -sonarType1 sonarMTX").
+Valid sonar types are: mtx
+
+See docs for details.

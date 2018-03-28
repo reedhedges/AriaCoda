@@ -1,0 +1,28 @@
+Common PTU and Camera PTZ options:
+
+	-ptzType <type>	Select PTZ/PTU type. Required.  Available types are:
+		dpptu
+		rvision
+		sony
+		vcc
+		vcc4
+		vcc50i
+		none
+	-ptzInverted <true|false>	If true, reverse tilt and pan axes for cameras mounted upside down.
+
+Only one of the following sets of connection parameters may be given:
+
+For computer serial port connections:
+	-ptzSerialPort <port>	Serial port name.
+
+For Pioneer robot auxilliary serial port connections:
+	-ptzRobotAuxSerialPort <1|2|3>	Use specified Pioneer robot auxilliary serial port.
+
+For network connections:
+	-ptzAddress <address>	Network address or hostname for network connection.
+	-ptzTcpPort <port>	TCP port number for network connections.
+	-ptzUsername <username>	Username, if camera requires it
+	-ptzPassword <password>	Password, if camera requires it
+
+Parameters for multiple cameras/units may be given like: -ptz1Type, -ptz2Type, -ptz3Type, etc.
+Some PTZ/PTU types may accept additional type-specific options. Refer to option documentation text specific to those types.

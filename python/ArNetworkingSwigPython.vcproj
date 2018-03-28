@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="ArNetworkingSwigPython"
+	ProjectGUID="{7D28CD1A-B1DE-4109-9653-D8B26D0DA521}"
+	RootNamespace="ArNetworkingSwigPython"
+	Keyword="ManagedCProj">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			ManagedExtensions="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				PreprocessorDefinitions="WIN32;_DEBUG"
+				MinimalRebuild="FALSE"
+				BasicRuntimeChecks="0"
+				RuntimeLibrary="1"
+				WarningLevel="3"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="Custom Build Step: Running C:\swig\swig.exe to generate Python wrapper code"
+				CommandLine="cd $(ProjectDir)
+C:\swig\swig.exe -Fmicrosoft -c++ -python -module ArNetworkingPy -DWIN32 -DAREXPORT -outdir $(ProjectDir)  -o ArNetworkingPy_wrap.cpp -I$(ProjectDir)\..\include -I$(ProjectDir)\..\ArNetworking\include $(ProjectDir)\..\ArNetworking\include\wrapper.i
+"
+				AdditionalDependencies="../ArNetworking/include/wrapper.i"
+				Outputs="ArNetworkingPy_d.py;ArNetworkingPy_wrap.cpp;ArNetworkingPy_wrap.h"/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="$(PYTHON_LIBDIR)"
+				GenerateDebugInformation="TRUE"
+				AssemblyDebug="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="1"
+			CharacterSet="2"
+			ManagedExtensions="TRUE">
+			<Tool
+				Name="VCCLCompilerTool"
+				PreprocessorDefinitions="WIN32;NDEBUG"
+				MinimalRebuild="FALSE"
+				RuntimeLibrary="0"
+				WarningLevel="3"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"
+				Description="(ArNetworkingSwigPython Custom Build Step) Running C:\swig\swig.exe to generate Python wrapper code"
+				CommandLine="del &quot;$(ProjectDir)\ArNetworkingPy_wrap.cpp&quot;
+del &quot;$(ProjectDir)\ArNetworkingPy_wrap.h&quot;
+del &quot;$(ProjectDir)\ArNetworkingPy.py&quot;
+cd $(ProjectDir)
+C:\swig\swig.exe -Fmicrosoft -c++ -python -module ArNetworkingPy -DWIN32 -DAREXPORT -outdir .  -o ArNetworkingPy_wrap.cpp -I..\include -I..\ArNetworking\include ..\ArNetworking\include\wrapper.i
+"
+				AdditionalDependencies="../ArNetworking/include/wrapper.i;../ArNetworking/include/*.h"
+				Outputs="$(ProjectDir)/ArNetworkingPy.py;$(ProjectDir)/ArNetworkingPy_wrap.cpp;$(ProjectDir)/ArNetworkingPy_wrap.h"/>
+			<Tool
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)\$(ProjectName).exe"
+				LinkIncremental="1"
+				GenerateDebugInformation="TRUE"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<File
+			RelativePath="..\ArNetworking\include\wrapper.i">
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>

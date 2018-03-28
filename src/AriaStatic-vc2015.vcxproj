@@ -1,0 +1,544 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>AriaStatic</ProjectName>
+    <SccProjectName />
+    <SccLocalPath />
+    <ProjectGuid>{527BBF7C-631F-486B-8E4F-EA594299A71A}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../lib/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../obj/$(ProjectName)-$(Configuration)-VC14-Static/</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../lib/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../obj/$(ProjectName)-$(Configuration)-VC14-Static/</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)DebugVC14</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectName)DebugVC14</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectName)VC14</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectName)VC14</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>../lib64/</OutDir>
+    <IntDir>../obj64/$(ProjectName)-$(Configuration)-VC14-Static/</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>../lib64/</OutDir>
+    <IntDir>../obj64/$(ProjectName)-$(Configuration)-VC14-Static/</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;ARIA_STATIC;ARIA_MSVC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeaderOutputFile>$(IntDir)/AriaStatic.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)-VC14.pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation> </ClCompile>
+    <Lib>
+      <OutputFile>../lib/AriaStaticDebugVC14.lib</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Lib>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <BuildLog>
+      <Path>$(IntDir)$(ProjectName)-$(Configuration)-BuildLog.htm</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;ARIA_STATIC;ARIA_MSVC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeaderOutputFile>$(IntDir)/AriaStatic.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)-VC14.pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation> </ClCompile>
+    <Lib>
+      <OutputFile>../lib64/AriaStaticDebugVC14.lib</OutputFile>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Lib>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <BuildLog>
+      <Path>$(IntDir)$(ProjectName)-$(Configuration)-BuildLog.htm</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;ARIA_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeaderOutputFile>$(IntDir)/AriaStatic.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)-VC7.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation> </ClCompile>
+    <Lib>
+      <OutputFile>..\lib\AriaStaticVC14.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Lib>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <BuildLog>
+      <Path>$(IntDir)$(ProjectName)-$(Configuration)-BuildLog.htm</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <AdditionalIncludeDirectories>../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;ARIA_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeaderOutputFile>$(IntDir)/AriaStatic.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)$(TargetName)-VC14.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation> </ClCompile>
+    <Lib>
+      <OutputFile>..\lib64\AriaStaticVC14.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Lib>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <BuildLog>
+      <Path>$(IntDir)$(ProjectName)-$(Configuration)-BuildLog.htm</Path>
+    </BuildLog>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ArAction.cpp"/>
+    <ClCompile Include="ArActionAvoidFront.cpp"/>
+    <ClCompile Include="ArActionAvoidSide.cpp"/>
+    <ClCompile Include="ArActionBumpers.cpp"/>
+    <ClCompile Include="ArActionColorFollow.cpp"/>
+    <ClCompile Include="ArActionConstantVelocity.cpp"/>
+    <ClCompile Include="ArActionDeceleratingLimiter.cpp" />
+    <ClCompile Include="ArActionDesired.cpp"/>
+    <ClCompile Include="ArActionDriveDistance.cpp" />
+    <ClCompile Include="ArActionGoto.cpp"/>
+    <ClCompile Include="ArActionGotoStraight.cpp" />
+    <ClCompile Include="ArActionGroup.cpp"/>
+    <ClCompile Include="ArActionGroups.cpp"/>
+    <ClCompile Include="ArActionInput.cpp"/>
+    <ClCompile Include="ArActionIRs.cpp" />
+    <ClCompile Include="ArActionJoydrive.cpp"/>
+    <ClCompile Include="ArActionKeydrive.cpp"/>
+    <ClCompile Include="ArActionLimiterBackwards.cpp"/>
+    <ClCompile Include="ArActionLimiterForwards.cpp"/>
+    <ClCompile Include="ArActionLimiterRot.cpp" />
+    <ClCompile Include="ArActionLimiterTableSensor.cpp"/>
+    <ClCompile Include="ArActionMovementParameters.cpp" />
+    <ClCompile Include="ArActionMovementParametersDebugging.cpp" />
+    <ClCompile Include="ArActionRatioInput.cpp" />
+    <ClCompile Include="ArActionRobotJoydrive.cpp" />
+    <ClCompile Include="ArActionStallRecover.cpp"/>
+    <ClCompile Include="ArActionStop.cpp"/>
+    <ClCompile Include="ArActionTriangleDriveTo.cpp" />
+    <ClCompile Include="ArActionTurn.cpp"/>
+    <ClCompile Include="ArACTS.cpp"/>
+    <ClCompile Include="ArAMPTU.cpp"/>
+    <ClCompile Include="ArAnalogGyro.cpp"/>
+    <ClCompile Include="ArArg.cpp"/>
+    <ClCompile Include="ArArgumentBuilder.cpp"/>
+    <ClCompile Include="ArArgumentParser.cpp"/>
+    <ClCompile Include="ArASyncTask.cpp"/>
+    <ClCompile Include="ArBasePacket.cpp" />
+    <ClCompile Include="ArBatteryConnector.cpp" />
+    <ClCompile Include="ArBatteryMTX.cpp" />
+    <ClCompile Include="ArBumpers.cpp" />
+    <ClCompile Include="ArCameraCollection.cpp" />
+    <ClCompile Include="ArCameraCommands.cpp" />
+    <ClCompile Include="ArCondition_WIN.cpp"/>
+    <ClCompile Include="ArConfig.cpp"/>
+    <ClCompile Include="ArConfigArg.cpp" />
+    <ClCompile Include="ArConfigGroup.cpp"/>
+    <ClCompile Include="ArDataLogger.cpp" />
+    <ClCompile Include="ArDeviceConnection.cpp"/>
+    <ClCompile Include="ArDPPTU.cpp"/>
+    <ClCompile Include="ArFileDeviceConnection.cpp" />
+    <ClCompile Include="ArFileParser.cpp"/>
+    <ClCompile Include="ArForbiddenRangeDevice.cpp" />
+    <ClCompile Include="ArFunctorASyncTask.cpp"/>
+    <ClCompile Include="ArGPS.cpp" />
+    <ClCompile Include="ArGPSConnector.cpp" />
+    <ClCompile Include="ArGPSCoords.cpp" />
+    <ClCompile Include="ArGripper.cpp"/>
+    <ClCompile Include="Aria.cpp"/>
+    <ClCompile Include="ariaUtil.cpp"/>
+    <ClCompile Include="ArInterpolation.cpp"/>
+    <ClCompile Include="ArIrrfDevice.cpp"/>
+    <ClCompile Include="ArIRs.cpp" />
+    <ClCompile Include="ArJoyHandler.cpp"/>
+    <ClCompile Include="ArJoyHandler_WIN.cpp"/>
+    <ClCompile Include="ArKeyHandler.cpp"/>
+    <ClCompile Include="ArLaser.cpp" />
+    <ClCompile Include="ArLaserConnector.cpp" />
+    <ClCompile Include="ArLaserFilter.cpp" />
+    <ClCompile Include="ArLaserLogger.cpp" />
+    <ClCompile Include="ArLaserReflectorDevice.cpp" />
+    <ClCompile Include="ArLCDConnector.cpp" />
+    <ClCompile Include="ArLCDMTX.cpp" />
+    <ClCompile Include="ArLineFinder.cpp" />
+    <ClCompile Include="ArLMS1XX.cpp" />
+    <ClCompile Include="ArLMS2xx.cpp" />
+    <ClCompile Include="ArLMS2xxPacket.cpp" />
+    <ClCompile Include="ArLMS2xxPacketReceiver.cpp" />
+    <ClCompile Include="ArLog.cpp"/>
+    <ClCompile Include="ArLogFileConnection.cpp"/>
+    <ClCompile Include="ArMap.cpp" />
+    <ClCompile Include="ArMapComponents.cpp" />
+    <ClCompile Include="ArMapInterface.cpp" />
+    <ClCompile Include="ArMapObject.cpp" />
+    <ClCompile Include="ArMapUtils.cpp" />
+    <ClCompile Include="ArMD5Calculator.cpp" />
+    <ClCompile Include="ArMode.cpp"/>
+    <ClCompile Include="ArModes.cpp"/>
+    <ClCompile Include="ArModule.cpp"/>
+    <ClCompile Include="ArModuleLoader.cpp"/>
+    <ClCompile Include="ArMutex.cpp" />
+    <ClCompile Include="ArMutex_WIN.cpp"/>
+    <ClCompile Include="ArNetServer.cpp"/>
+    <ClCompile Include="ArNMEAParser.cpp" />
+    <ClCompile Include="ArNovatelGPS.cpp" />
+    <ClCompile Include="ArP2Arm.cpp" />
+    <ClCompile Include="ArPriorityResolver.cpp"/>
+    <ClCompile Include="ArPTZ.cpp"/>
+    <ClCompile Include="ArPTZConnector.cpp" />
+    <ClCompile Include="ArRangeBuffer.cpp"/>
+    <ClCompile Include="ArRangeDevice.cpp"/>
+    <ClCompile Include="ArRangeDeviceThreaded.cpp"/>
+    <ClCompile Include="ArRatioInputJoydrive.cpp" />
+    <ClCompile Include="ArRatioInputKeydrive.cpp" />
+    <ClCompile Include="ArRatioInputRobotJoydrive.cpp" />
+    <ClCompile Include="ArRecurrentTask.cpp"/>
+    <ClCompile Include="ArRobot.cpp"/>
+    <ClCompile Include="ArRobotBatteryPacketReader.cpp" />
+    <ClCompile Include="ArRobotConfig.cpp" />
+    <ClCompile Include="ArRobotConfigPacketReader.cpp"/>
+    <ClCompile Include="ArRobotConnector.cpp" />
+    <ClCompile Include="ArRobotJoyHandler.cpp" />
+    <ClCompile Include="ArRobotPacket.cpp"/>
+    <ClCompile Include="ArRobotPacketReaderThread.cpp" />
+    <ClCompile Include="ArRobotPacketReceiver.cpp"/>
+    <ClCompile Include="ArRobotPacketSender.cpp"/>
+    <ClCompile Include="ArRobotParams.cpp"/>
+    <ClCompile Include="ArRobotTypes.cpp"/>
+    <ClCompile Include="ArRVisionPTZ.cpp" />
+    <ClCompile Include="ArS3Series.cpp" />
+    <ClCompile Include="ArSensorReading.cpp"/>
+    <ClCompile Include="ArSerialConnection_WIN.cpp"/>
+    <ClCompile Include="ArSick.cpp"/>
+    <ClCompile Include="ArSignalHandler_WIN.cpp"/>
+    <ClCompile Include="ArSimpleConnector.cpp"/>
+    <ClCompile Include="ArSimulatedLaser.cpp" />
+    <ClCompile Include="ArSocket.cpp"/>
+    <ClCompile Include="ArSocket_WIN.cpp"/>
+    <ClCompile Include="ArSonarAutoDisabler.cpp" />
+    <ClCompile Include="ArSonarConnector.cpp" />
+    <ClCompile Include="ArSonarDevice.cpp"/>
+    <ClCompile Include="ArSonarMTX.cpp" />
+    <ClCompile Include="ArSonyPTZ.cpp"/>
+    <ClCompile Include="ArSoundPlayer.cpp" />
+    <ClCompile Include="ArSoundsQueue.cpp" />
+    <ClCompile Include="ArSpeech.cpp" />
+    <ClCompile Include="ArStringInfoGroup.cpp" />
+    <ClCompile Include="ArSyncLoop.cpp"/>
+    <ClCompile Include="ArSyncTask.cpp"/>
+    <ClCompile Include="ArSystemStatus.cpp" />
+    <ClCompile Include="ArSZSeries.cpp" />
+    <ClCompile Include="ArTCM2.cpp" />
+    <ClCompile Include="ArTCMCompassDirect.cpp" />
+    <ClCompile Include="ArTCMCompassRobot.cpp" />
+    <ClCompile Include="ArTcpConnection.cpp"/>
+    <ClCompile Include="ArThread.cpp"/>
+    <ClCompile Include="ArThread_WIN.cpp"/>
+    <ClCompile Include="ArTransform.cpp"/>
+    <ClCompile Include="ArTrimbleGPS.cpp" />
+    <ClCompile Include="ArUrg.cpp" />
+    <ClCompile Include="ArUrg_2_0.cpp" />
+    <ClCompile Include="ArVCC4.cpp"/>
+    <ClCompile Include="md5.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\ArAction.h" />
+    <ClInclude Include="..\include\ArActionAvoidFront.h" />
+    <ClInclude Include="..\include\ArActionAvoidSide.h" />
+    <ClInclude Include="..\include\ArActionBumpers.h" />
+    <ClInclude Include="..\include\ArActionColorFollow.h" />
+    <ClInclude Include="..\include\ArActionConstantVelocity.h" />
+    <ClInclude Include="..\include\ArActionDeceleratingLimiter.h" />
+    <ClInclude Include="..\include\ArActionDesired.h" />
+    <ClInclude Include="..\include\ArActionDriveDistance.h" />
+    <ClInclude Include="..\include\ArActionGoto.h" />
+    <ClInclude Include="..\include\ArActionGotoStraight.h" />
+    <ClInclude Include="..\include\ArActionGroup.h" />
+    <ClInclude Include="..\include\ArActionGroups.h" />
+    <ClInclude Include="..\include\ArActionInput.h" />
+    <ClInclude Include="..\include\ArActionIRs.h" />
+    <ClInclude Include="..\include\ArActionJoydrive.h" />
+    <ClInclude Include="..\include\ArActionKeydrive.h" />
+    <ClInclude Include="..\include\ArActionLimiterBackwards.h" />
+    <ClInclude Include="..\include\ArActionLimiterForwards.h" />
+    <ClInclude Include="..\include\ArActionLimiterTableSensor.h" />
+    <ClInclude Include="..\include\ArActionMovementParameters.h" />
+    <ClInclude Include="..\include\ArActionRatioInput.h" />
+    <ClInclude Include="..\include\ArActionRobotJoydrive.h" />
+    <ClInclude Include="..\include\ArActionStallRecover.h" />
+    <ClInclude Include="..\include\ArActionStop.h" />
+    <ClInclude Include="..\include\ArActionTriangleDriveTo.h" />
+    <ClInclude Include="..\include\ArActionTurn.h" />
+    <ClInclude Include="..\include\ArActs.h" />
+    <ClInclude Include="..\include\ArAMPTU.h" />
+    <ClInclude Include="..\include\ArAnalogGyro.h" />
+    <ClInclude Include="..\include\ArArg.h" />
+    <ClInclude Include="..\include\ArArgumentBuilder.h" />
+    <ClInclude Include="..\include\ArArgumentParser.h" />
+    <ClInclude Include="..\include\ArASyncTask.h" />
+    <ClInclude Include="..\include\ArBasePacket.h" />
+    <ClInclude Include="..\include\ArBumpers.h" />
+    <ClInclude Include="..\include\ArCameraCollection.h" />
+    <ClInclude Include="..\include\ArCameraCommands.h" />
+    <ClInclude Include="..\include\ArCommands.h" />
+    <ClInclude Include="..\include\ArCondition.h" />
+    <ClInclude Include="..\include\ArConfig.h" />
+    <ClInclude Include="..\include\ArConfigArg.h" />
+    <ClInclude Include="..\include\ArConfigGroup.h" />
+    <ClInclude Include="..\include\ArDataLogger.h" />
+    <ClInclude Include="..\include\ArDeviceConnection.h" />
+    <ClInclude Include="..\include\ArDPPTU.h" />
+    <ClInclude Include="..\include\ArDrawingData.h" />
+    <ClInclude Include="..\include\ArExport.h" />
+    <ClInclude Include="..\include\ArFileParser.h" />
+    <ClInclude Include="..\include\ArForbiddenRangeDevice.h" />
+    <ClInclude Include="..\include\ArFunctor.h" />
+    <ClInclude Include="..\include\ArFunctorASyncTask.h" />
+    <ClInclude Include="..\include\ArGPS.h" />
+    <ClInclude Include="..\include\ArGPSConnector.h" />
+    <ClInclude Include="..\include\ArGPSCoords.h" />
+    <ClInclude Include="..\include\ArGripper.h" />
+    <ClInclude Include="..\include\Aria.h" />
+    <ClInclude Include="..\include\ariaInternal.h" />
+    <ClInclude Include="..\include\ariaOSDef.h" />
+    <ClInclude Include="..\include\ariaTypedefs.h" />
+    <ClInclude Include="..\include\ariaUtil.h" />
+    <ClInclude Include="..\include\ArInterpolation.h" />
+    <ClInclude Include="..\include\ArIrrfDevice.h" />
+    <ClInclude Include="..\include\ArIRs.h" />
+    <ClInclude Include="..\include\ArJoyHandler.h" />
+    <ClInclude Include="..\include\ArKeyHandler.h" />
+    <ClInclude Include="..\include\ArLaser.h" />
+    <ClInclude Include="..\include\ArLaserConnector.h" />
+    <ClInclude Include="..\include\ArLaserFilter.h" />
+    <ClInclude Include="..\include\ArLaserLogger.h" />
+    <ClInclude Include="..\include\ArLaserReflectorDevice.h" />
+    <ClInclude Include="..\include\ArLineFinder.h" />
+    <ClInclude Include="..\include\ArLMS2xx.h" />
+    <ClInclude Include="..\include\ArLMS2xxPacket.h" />
+    <ClInclude Include="..\include\ArLMS2xxPacketReceiver.h" />
+    <ClInclude Include="..\include\ArLog.h" />
+    <ClInclude Include="..\include\ArLogFileConnection.h" />
+    <ClInclude Include="..\include\ArMap.h" />
+    <ClInclude Include="..\include\ArMapComponents.h" />
+    <ClInclude Include="..\include\ArMapInterface.h" />
+    <ClInclude Include="..\include\ArMapObject.h" />
+    <ClInclude Include="..\include\ArMapUtils.h" />
+    <ClInclude Include="..\include\ArMD5Calculator.h" />
+    <ClInclude Include="..\include\ArMode.h" />
+    <ClInclude Include="..\include\ArModes.h" />
+    <ClInclude Include="..\include\ArModule.h" />
+    <ClInclude Include="..\include\ArModuleLoader.h" />
+    <ClInclude Include="..\include\ArMutex.h" />
+    <ClInclude Include="..\include\ArNetServer.h" />
+    <ClInclude Include="..\include\ArNMEAParser.h" />
+    <ClInclude Include="..\include\ArNovatelGPS.h" />
+    <ClInclude Include="..\include\ArP2Arm.h" />
+    <ClInclude Include="..\include\ArPixelDevice.h" />
+    <ClInclude Include="..\include\ArPriorityResolver.h" />
+    <ClInclude Include="..\include\ArPTZ.h" />
+    <ClInclude Include="..\include\ArRangeBuffer.h" />
+    <ClInclude Include="..\include\ArRangeDevice.h" />
+    <ClInclude Include="..\include\ArRangeDeviceThreaded.h" />
+    <ClInclude Include="..\include\ArRatioInputJoydrive.h" />
+    <ClInclude Include="..\include\ArRatioInputKeydrive.h" />
+    <ClInclude Include="..\include\ArRatioInputRobotJoydrive.h" />
+    <ClInclude Include="..\include\ArRecurrentTask.h" />
+    <ClInclude Include="..\include\ArResolver.h" />
+    <ClInclude Include="..\include\ArRingQueue.h" />
+    <ClInclude Include="..\include\ArRobot.h" />
+    <ClInclude Include="..\include\ArRobotConfig.h" />
+    <ClInclude Include="..\include\ArRobotConfigPacketReader.h" />
+    <ClInclude Include="..\include\ArRobotConnector.h" />
+    <ClInclude Include="..\include\ArRobotJoyHandler.h" />
+    <ClInclude Include="..\include\ArRobotPacket.h" />
+    <ClInclude Include="..\include\ArRobotPacketReceiver.h" />
+    <ClInclude Include="..\include\ArRobotPacketSender.h" />
+    <ClInclude Include="..\include\ArRobotParams.h" />
+    <ClInclude Include="..\include\ArRobotTypes.h" />
+    <ClInclude Include="..\include\ArRVisionPTZ.h" />
+    <ClInclude Include="..\include\ArS3Series.h" />
+    <ClInclude Include="..\include\ArSensorReading.h" />
+    <ClInclude Include="..\include\ArSerialConnection.h" />
+    <ClInclude Include="..\include\ArSick.h" />
+    <ClInclude Include="..\include\ArSignalHandler.h" />
+    <ClInclude Include="..\include\ArSimpleConnector.h" />
+    <ClInclude Include="..\include\ArSimulatedLaser.h" />
+    <ClInclude Include="..\include\ArSocket.h" />
+    <ClInclude Include="..\include\ArSonarAutoDisabler.h" />
+    <ClInclude Include="..\include\ArSonarConnector.h" />
+    <ClInclude Include="..\include\ArSonarDevice.h" />
+    <ClInclude Include="..\include\ArSonyPTZ.h" />
+    <ClInclude Include="..\include\ArSoundPlayer.h" />
+    <ClInclude Include="..\include\ArSoundsQueue.h" />
+    <ClInclude Include="..\include\ArSpeech.h" />
+    <ClInclude Include="..\include\ArStringInfoGroup.h" />
+    <ClInclude Include="..\include\ArSyncLoop.h" />
+    <ClInclude Include="..\include\ArSyncTask.h" />
+    <ClInclude Include="..\include\ArSystemStatus.h" />
+    <ClInclude Include="..\include\ArSZSeries.h" />
+    <ClInclude Include="..\include\ArTaskState.h" />
+    <ClInclude Include="..\include\ArTCM2.h" />
+    <ClInclude Include="..\include\ArTCMCompassDirect.h" />
+    <ClInclude Include="..\include\ArTCMCompassRobot.h" />
+    <ClInclude Include="..\include\ArTcpConnection.h" />
+    <ClInclude Include="..\include\ArThread.h" />
+    <ClInclude Include="..\include\ArTransform.h" />
+    <ClInclude Include="..\include\ArTrimbleGPS.h" />
+    <ClInclude Include="..\include\ArUrg.h" />
+    <ClInclude Include="..\include\ArUrg_2_0.h" />
+    <ClInclude Include="..\include\ArVCC4.h" />
+    <ClInclude Include="..\include\md5.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
