@@ -136,7 +136,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArLMS1XX.h"
 #include "ArUrg_2_0.h"
 #include "ArActionMovementParametersDebugging.h"
-#include "ArZippable.h"
+//#include "ArZippable.h"
 #include "ArS3Series.h"
 #include "ArSZSeries.h"
 #include "ArRobotPacketReaderThread.h"
