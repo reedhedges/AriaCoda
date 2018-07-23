@@ -15,13 +15,18 @@ TODO
   lines of code.
 * Reduce header dependencies. Fewer files should include Aria.h.  Eventually
   deprecate Aria.h.
-* Remove ArDrawingData
-* Remove various features in ARIA that are needed for ArNetworking/ARAM.
+* Remove ArDrawingData (move to ArNetworking)
+* Remove various features in ARIA that are needed for ArNetworking/ARAM only.
 * Rewrite README, overhaul other documentation.  
 * Add more data logger features.
 * Consolidate src/*.cpp and include/*.h in arialt/ subdirectory.  This will
   match header installation directory.  
+* Move matlab/ariac to ariac/. Update matlab and rust builds.
 * Remove weird stuff in ArSystemStatus
+* Set up Travis CI to test build (later tests).
+* Switch to CMake?
+* Start adding some real unit testing?
+ 
 
 Maybe TODO eventually
 ----------
