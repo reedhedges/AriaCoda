@@ -1,6 +1,8 @@
 
-> *The original ARIA 2.9.4 README follows. The code has been modified
->  by removing some obsolete or little-used classes and other changes.*
+> *IMPORTANT NOTE: The original ARIA 2.9.4 README follows. The code has since been modified
+>  by removing some obsolete or little-used classes and other changes.
+>  ArNetworking is also not currently included.  Therefore this README is now
+>  out of date. *
 
 ARIA
 ====
