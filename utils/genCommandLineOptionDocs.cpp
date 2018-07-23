@@ -44,14 +44,13 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
  * The files generated are:
  *   docs/options/<class name>
  *   docs/options/all_options.dox
- *   CommandLineOptions.txt.in
+ *   CommandLineOptions.txt
  * 
  * If FOR_ARIA is defined, then the classes whose options are included are:
  *   ArRobotConnector
  *   ArLaserConnector with each laser type
  *   ArPTZConnector
  *   ArGPSConnector
- *   ArCompassConnector
  *   ArSonarConnector
  *   [ArDaemonizer?]
  * 
@@ -79,9 +78,10 @@ public:
 #include "ArArgumentParser.h"
 #include "ArRobotConnector.h"
 #include "ArGPSConnector.h"
-#include "ArTCM2.h"
+//#include "ArTCM2.h"
 #include "ArSonarConnector.h"
 #include "ArPTZConnector.h"
+#include "ArLMS2xx.h"
 
 class ArRobotConnectorWrapper : 
   public ArRobotConnector,  public virtual Wrapper
@@ -238,6 +238,7 @@ public:
   }
 };
 
+/*
 class ArCompassConnectorWrapper : 
   public ArCompassConnector, 
   public virtual Wrapper
@@ -252,6 +253,7 @@ public:
     ArCompassConnector::logOptions();
   }
 };
+*/
 
 class ArSonarConnectorWrapper: public ArSonarConnector, public virtual Wrapper
 {
@@ -369,7 +371,7 @@ int main(int argc, char **argv)
   wrappers.push_back(WrapPair("ArLaserConnector", new ArLaserConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArPTZConnector", new ArPTZConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArGPSConnector", new ArGPSConnectorWrapper(&argParser)));
-  wrappers.push_back(WrapPair("ArCompassConnector", new ArCompassConnectorWrapper(&argParser)));
+//  wrappers.push_back(WrapPair("ArCompassConnector", new ArCompassConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArSonarConnector", new ArSonarConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArBatteryConnector", new ArBatteryConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArLCDConnector", new ArLCDConnectorWrapper(&argParser)));
@@ -411,12 +413,12 @@ int main(int argc, char **argv)
     fprintf(stderr, "genCommandLineOptionDocs: Wrote %s\n", filename.c_str());
   }
 
-  /* Write CommandLineOptions.txt.in */
-  redirectStdout("CommandLineOptions.txt.in");
+  /* Write CommandLineOptions.txt */
+  redirectStdout("CommandLineOptions.txt");
 #ifdef FOR_ARIA
-  puts("\nARIA @ARIA_VERSION@\n");
+  puts("\nARIA\n");
 #elif defined(FOR_ARNETWORKING)
-  puts("\nArNetworking @ARIA_VERSION@\n");
+  puts("\nArNetworking\n");
 #endif
   printf("Summary of command line options\n\n%s", EXPLANATION);
 
@@ -430,7 +432,7 @@ int main(int argc, char **argv)
     (*i).second->logOptions();
   }
   puts("\n");
-  fputs("genCommandLineOptionDocs: Wrote CommandLineOptions.txt.in\n", stderr);
+  fputs("genCommandLineOptionDocs: Wrote CommandLineOptions.txt\n", stderr);
 
   Aria::exit(0);
 }
