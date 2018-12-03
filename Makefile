@@ -674,14 +674,14 @@ install: all
 	$(INSTALL) -m 775 -d $(DESTDIR)$(INSTALL_DIR)
 	find    include src tests utils params docs examples maps \
 	        java javaExamples python pythonExamples matlab rust \
-	        obj rust csharp csharpExamples \
+	        obj rust \
 	        \( -name \*.o -or -name core -or -name CVS -or -name .\* -or -name \*~ -or -name tmp -or -name proprietary* -or -name \*.bak -or -name \*.class -or -name \*.lib -or -name \*.dll -or -name \*.exe \) -prune  \
 	        -or -type d   -exec $(INSTALL) -d -m 777 $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
 	        -or -type l   -exec cp --no-dereference \{\} $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
 	        -or -name \*.a -exec $(INSTALL) -D -m 666 \{\}  $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
 	        -or -perm /u=x  -exec $(INSTALL) -D --strip -m 777 \{\}  $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
 	        -or           -exec $(INSTALL) -D -m 666 \{\} $(DESTDIR)$(INSTALL_DIR)/\{\} \;
-	$(INSTALL) -D -m 664 LICENSE.txt INSTALL.txt README.txt Makefile Aria-Reference.html version.txt Changes.txt CommandLineOptions.txt icon.png $(DESTDIR)$(INSTALL_DIR)/
+	$(INSTALL) -D -m 664 LICENSE.txt Makefile icon.png $(DESTDIR)$(INSTALL_DIR)/
 	$(INSTALL) -D -m 666  Makefile.dep doxygen.conf $(DESTDIR)$(INSTALL_DIR)/
 	$(INSTALL) -d -m 777 $(DESTDIR)$(INSTALL_DIR)/lib/
 	$(INSTALL) -D --strip -m 666 lib/libAria.$(sosuffix) $(DESTDIR)$(INSTALL_DIR)/lib/
