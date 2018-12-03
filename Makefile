@@ -681,7 +681,7 @@ install: all
 	        -or -name \*.a -exec $(INSTALL) -D -m 666 \{\}  $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
 	        -or -perm /u=x  -exec $(INSTALL) -D --strip -m 777 \{\}  $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
 	        -or           -exec $(INSTALL) -D -m 666 \{\} $(DESTDIR)$(INSTALL_DIR)/\{\} \;
-	$(INSTALL) -D -m 664 LICENSE.txt Makefile icon.png $(DESTDIR)$(INSTALL_DIR)/
+	$(INSTALL) -D -m 664 README.md LICENSE.txt Makefile icon.png $(DESTDIR)$(INSTALL_DIR)/
 	$(INSTALL) -D -m 666  Makefile.dep doxygen.conf $(DESTDIR)$(INSTALL_DIR)/
 	$(INSTALL) -d -m 777 $(DESTDIR)$(INSTALL_DIR)/lib/
 	$(INSTALL) -D --strip -m 666 lib/libAria.$(sosuffix) $(DESTDIR)$(INSTALL_DIR)/lib/
