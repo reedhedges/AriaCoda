@@ -60,7 +60,8 @@ public:
 			    bool initSockets = true, 
 			    bool sigHandleExitNotShutdown = true);
 
-  /// Performs OS-specific deinitialization, used by shutdown() and exit().
+  /// Performs OS-specific deinitialization, used internally by shutdown() and exit().
+  /// @internal
   AREXPORT static void uninit();
 
   /// Adds a callback to call when Aria is initialized using init()
@@ -71,6 +72,7 @@ public:
 					 ArListPos::Pos position);
 
   /// Shutdown all Aria processes/threads
+  /// @sa exit()
   AREXPORT static void shutdown();
 
   /// Shutdown all Aria processes/threads, call exit callbacks, and exit the program
@@ -113,12 +115,15 @@ public:
   AREXPORT static void setExitCallbacksLogLevel(ArLog::LogLevel level);
 
   /// Force an exit of all Aria processes/threads (the old way)
+  /// @deprecated
   AREXPORT static void exitOld(int exitCode = 0);
 
   /// Internal, the callback for the signal handling
+  /// @internal
   AREXPORT static void signalHandlerCB(int sig);
 
   /// Internal, calls the exit callbacks
+  /// @internal
   AREXPORT static void callExitCallbacks(void);
 
   /// Adds a callback for when we parse arguments 
@@ -132,18 +137,22 @@ public:
   AREXPORT static void addLogOptionsCB(ArFunctor *functor, int position = 50);
 
   /// Adds a type of deviceConnection for Aria to be able to create
+  /// @internal
   AREXPORT static bool deviceConnectionAddCreator(
 	  const char *deviceConnectionType, 
 	  ArRetFunctor3<ArDeviceConnection *, const char *, const char *, const char *> *creator);
 
   
   /// Gets a list of the possible deviceConnection types
+  /// @internal
   AREXPORT static const char *deviceConnectionGetTypes(void);
 
   /// Gets a list of the possible deviceConnection types (for use in the config)
+  /// @internal
   AREXPORT static const char *deviceConnectionGetChoices(void);
   
   /// Creates a deviceConnection of the given type
+  /// @internal
   AREXPORT static ArDeviceConnection *deviceConnectionCreate(
 	  const char *deviceConnectionType, const char *port, 
 	  const char *defaultInfo, 
@@ -174,98 +183,125 @@ public:
   AREXPORT static std::list<ArRobot*> * getRobotList();
   
   /// Gets the maximum number of lasers to use
+  /// @internal
   AREXPORT static int getMaxNumLasers(void);
 
   /// Sets the maximum number of lasers to use
   AREXPORT static void setMaxNumLasers(int maxNumLasers);
 
   /// Gets the maximum number of sonars to use
+  /// @internal
   AREXPORT static int getMaxNumSonarBoards(void);
 
   /// Sets the maximum number of sonars to use
+  /// @internal
   AREXPORT static void setMaxNumSonarBoards(int maxNumSonarBoards);
 
   /// Gets the maximum number of batteris to use
+  /// @internal
   AREXPORT static int getMaxNumBatteries(void);
 
   /// Sets the maximum number of batteries to use
+  /// @internal
   AREXPORT static void setMaxNumBatteries(int maxNumBatteries);
 
   /// Gets the maximum number of lcds to use
+  /// @internal
   AREXPORT static int getMaxNumLCDs(void);
 
   /// Sets the maximum number of batteries to use
+  /// @internal
   AREXPORT static void setMaxNumLCDs(int maxNumLCDs);
 
   /// Creates a laser of the given type
+  /// @internal
   AREXPORT static ArLaser *laserCreate(
 	  const char *laserType, int laserNumber,
 	  const char *prefix = "Aria::laserCreate");
 
   /// Adds a type of laser for Aria to be able to create
+  /// @internal
   AREXPORT static bool laserAddCreator(
 	  const char *laserType, 
 	  ArRetFunctor2<ArLaser *, int, const char *> *creator);
   
   /// Gets a list of the possible laser types
+  /// @internal
   AREXPORT static const char *laserGetTypes(void);
 
   /// Gets a list of the possible laser types (for use in the config)
+  /// @internal
   AREXPORT static const char *laserGetChoices(void);
   
   /// Creates a battery of the given type
+  /// @internal
   AREXPORT static ArBatteryMTX *batteryCreate(
 	  const char *batteryType, int batteryNumber,
 	  const char *prefix = "Aria::batteryCreate");
 
   /// Adds a type of battery for Aria to be able to create
+  /// @internal
   AREXPORT static bool batteryAddCreator(
 	  const char *batteryType, 
 	  ArRetFunctor2<ArBatteryMTX *, int, const char *> *creator);
   
   /// Gets a list of the possible battery types
+  /// @internal
   AREXPORT static const char *batteryGetTypes(void);
   /// Gets a list of the possible battery types (for use in the config)
+  /// @internal
   AREXPORT static const char *batteryGetChoices(void);
 
   /// Creates a lcd of the given type
+  /// @internal
   AREXPORT static ArLCDMTX *lcdCreate(
 	  const char *lcdType, int lcdNumber,
 	  const char *prefix = "Aria::lcdCreate");
 
   /// Adds a type of lcd for Aria to be able to create
+  /// @internal
   AREXPORT static bool lcdAddCreator(
 	  const char *lcdType, 
 	  ArRetFunctor2<ArLCDMTX *, int, const char *> *creator);
   
   /// Gets a list of the possible lcd types
+  /// @internal
   AREXPORT static const char *lcdGetTypes(void);
   /// Gets a list of the possible lcd types (for use in the config)
+  /// @internal
   AREXPORT static const char *lcdGetChoices(void);
 
   /// Creates a sonar of the given type
+  /// @internal
   AREXPORT static ArSonarMTX *sonarCreate(
 	  const char *sonarType, int sonarNumber,
 	  const char *prefix = "Aria::sonarCreate");
 
   /// Adds a type of sonar for Aria to be able to create
+  /// @internal
   AREXPORT static bool sonarAddCreator(
 	  const char *sonarType, 
 	  ArRetFunctor2<ArSonarMTX *, int, const char *> *creator);
   
   /// Gets a list of the possible sonar types
+  /// @internal
   AREXPORT static const char *sonarGetTypes(void);
   /// Gets a list of the possible sonar types (for use in the config)
+  /// @internal
   AREXPORT static const char *sonarGetChoices(void);
   
   /// Set maximum limit on video devices (used by ArVideo library)
+  /// @internal
   AREXPORT static void setMaxNumVideoDevices(size_t n); 
   /// Get maximum limit on video devices (used by ArVideo library)
+  /// @internal
   AREXPORT static size_t getMaxNumVideoDevices(); 
  
   /// Set maximum limit on PTZ or PTU devices, used by ArPTZConnector. Call before connecting to PTZ devices with ArPTZConnector. 
+  /// @internal
   AREXPORT static void setMaxNumPTZs(size_t n); 
   /// Set maximum limit on PTZ or PTU devices, used by ArPTZConnector.
+  /// @internal
   AREXPORT static size_t getMaxNumPTZs();  
 
   /// Gets the identifier (for humans) used for this instance of Aria
