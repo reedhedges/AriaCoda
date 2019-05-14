@@ -119,8 +119,11 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 //
 
 
-/// Receives sonar data from an MTX robot
+/// Receives sonar data from an MTX robot in a background thread. 
 /// Use ArSonarConnector to establish the connection and create and initiate the ArSonarMTX thread.
+/// In most programs, this is created automatically by ArRobotConnector.  
+/// Then, to access sonar data, use ArSonarDevice or ArRobot interfaces.
+/// @sa ArSonarDevice
 /// @since 2.8.0
 class ArSonarMTX : public ArASyncTask
 {
