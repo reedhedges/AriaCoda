@@ -25,9 +25,18 @@ interface objects. Read documentation fro details.
 */
 
 /**
-  \mainpage ARIA Developer's Reference Manual
+  \mainpage AriaCoda reference manual
 
-MobileRobots <b>Advanced Robotics Interface for Applications (ARIA)</b>
+
+<p>
+<b>IMPORTANT NOTE: AriaCoda contains several differences from the original ARIA
+release, and will include more changes in the future.  What follows is the
+original reference documentation from the ARIA 2.9.4 open source release 
+(the last release by Adept MobileRobots).  Some information may be out of date.
+</b>
+</p>
+
+<b>Advanced Robotics Interface for Applications (ARIA)</b>
 
 <p>
 Copyright 2002, 2003, 2004, 2005 ActivMedia Robotics, LLC. All rights reserved.<br>
