@@ -251,7 +251,6 @@ AREXPORT bool ArSonarConnector::parseSonarArgs (ArArgumentParser *parser,
 		            sonarData->myNumber);
 		return false;
 	}
-	ArSonarMTX *sonar = sonarData->mySonar;
 	if (sonarData->myNumber == 1)
 		buf[0] = '\0';
 	else
