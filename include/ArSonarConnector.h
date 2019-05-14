@@ -117,7 +117,7 @@ public:
   AREXPORT bool replaceSonar(ArSonarMTX *sonar, int sonarNumber);
   
   AREXPORT bool disconnectSonars();
-protected:
+private:
 /// Class that holds information about the sonar data
 class SonarData
 {
