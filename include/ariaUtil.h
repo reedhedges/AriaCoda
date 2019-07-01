@@ -29,6 +29,11 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #define ARIAUTIL_H
 
 #define _GNU_SOURCE 1
+
+//#ifdef MINGW
+//#define _EMULATE_GLIBC 1
+//#endif
+
 #include <string>
 // #define _XOPEN_SOURCE 500
 #include <list>
@@ -38,6 +43,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
+#include <strings.h>
 #include <float.h>
 #include <vector>
 

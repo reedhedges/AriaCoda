@@ -28,11 +28,16 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #define ARTHREAD_H
 
 
-#include <map>
+
+#include "ariaTypedefs.h"
+
 #if !defined(WIN32) || defined(MINGW)
+// NOTE on MinGW pthread.h must be included after ariaTypedefs.h which includes winsock2.h.
+// (on MinGW, pthread.h will include winsock.h to get an errno definition, after which
+// winsock2.h will assert a preprocessor error.) 
 #include <pthread.h>
 #endif
-#include "ariaTypedefs.h"
+
 #include "ArMutex.h"
 #include "ArFunctor.h"
 #include "ArLog.h"
