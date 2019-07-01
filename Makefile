@@ -19,9 +19,11 @@ ifeq ($(host),MINGW32)
   $(info Building on MinGW)
   #CXXFLAGS+=-mwindows -mms-bitfields -D__MINGW__ -DMINGW
   BARECXXFLAGS+=-mms-bitfields -D__MINGW__ -DMINGW
-  ARIA_CXXLINK=-lpthreadGC2 -lwinmm -lws2_32 -lstdc++
+#  ARIA_CXXLINK=-lpthreadGC2 -lwinmm -lws2_32 -lstdc++
+  ARIA_CXXLINK=-lpthreadGC-3 -lwinmm -lws2_32 -lstdc++
   ARIA_CXXSTATICLINK=-Wl,-Bstatic -lpthread -Wl,-Bdynamic -lwinmm -lws2_32 -lstdc++
   binsuffix:=.exe
+  sosuffix:=so
 else
   BARECXXFLAGS+=-fPIC
   ARIA_CXXLINK=-lpthread -ldl 

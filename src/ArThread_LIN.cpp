@@ -25,9 +25,7 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 #include "ArExport.h"
-// ArThread.cc -- Thread classes
-
-
+#include "ariaTypedefs.h"
 #include <errno.h>
 #include <list>
 #include <sched.h>
