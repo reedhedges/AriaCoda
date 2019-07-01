@@ -1,0 +1,7 @@
+*.o
+*.exe
+*.a
+*.so
+Makefile.dep
+*.sw?
+*~
