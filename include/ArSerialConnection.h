@@ -111,7 +111,7 @@ class ArSerialConnection: public ArDeviceConnection
  protected:
   void buildStrMap(void);
 
-#ifndef WIN32
+#ifndef _WIN32
   // these both return -1 for errors
   int rateToBaud(int rate);
   int baudToRate(int baud);
@@ -126,7 +126,7 @@ class ArSerialConnection: public ArDeviceConnection
   int myStatus;
   bool myHardwareControl;
 
-#ifndef WIN32
+#ifndef _WIN32
   int myPort;
 #endif // ifdef linux
 

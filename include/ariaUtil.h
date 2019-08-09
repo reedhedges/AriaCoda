@@ -43,11 +43,10 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
-#include <strings.h>
 #include <float.h>
 #include <vector>
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32) || defined(_WIN32)
 #include <sys/timeb.h>
 #include <sys/stat.h>
 #else
@@ -492,7 +491,7 @@ is a pointer to object to be deleted using the 'delete' operator.
   AREXPORT static bool localtime(struct tm *result);
 
   // these aren't needed in windows since it ignores case anyhow
-#ifndef WIN32
+#ifndef _WIN32
   /// this matches the case out of what file we want
   AREXPORT static bool matchCase(const char *baseDir, const char *fileName, 
 			   char * result, size_t resultLen);
@@ -576,7 +575,7 @@ is a pointer to object to be deleted using the 'delete' operator.
   }
   
 protected:
-//#ifndef WIN32
+//#ifndef _WIN32
   /// this splits up a file name (it isn't exported since it'd crash with dlls)
   static std::list<std::string> splitFileName(const char *fileName);
 //#endif
@@ -2004,7 +2003,7 @@ public:
 };
 
 
-#if !defined(WIN32) && !defined(SWIG)
+#if !defined(_WIN32) && !defined(SWIG)
 /** @brief Switch to running the program as a background daemon (i.e. fork) (Only available in Linux)
   @swigomit
   @notwindows

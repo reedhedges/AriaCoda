@@ -4834,7 +4834,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
     char systemBuf[6400];
     int  systemBufLen = 6400;
 
-#ifndef WIN32
+#ifndef _WIN32
     const char *moveCmdName = "mv -f";
 #else
     const char *moveCmdName = "move";

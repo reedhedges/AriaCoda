@@ -169,7 +169,7 @@ AREXPORT int ArSocket::write(const void *buff, size_t len)
       if (WSAGetLastError() != WSAEWOULDBLOCK)
 	myBadWrite = true;
 #endif
-#ifndef WIN32
+#ifndef _WIN32
       if (errno != EAGAIN)
 	myBadWrite = true;
 #endif
@@ -228,7 +228,7 @@ AREXPORT int ArSocket::read(void *buff, size_t len, unsigned int msWait)
       if (WSAGetLastError() != WSAEWOULDBLOCK)
 	myBadRead = true;
 #endif
-#ifndef WIN32
+#ifndef _WIN32
       if (errno != EAGAIN)
 	myBadRead = true;
 #endif
@@ -426,7 +426,7 @@ AREXPORT char *ArSocket::readString(unsigned int msWait)
 	return myStringBufEmpty;
       }
 #endif
-#ifndef WIN32
+#ifndef _WIN32
       if (errno == EAGAIN)
       {
 	myStringPos = i;

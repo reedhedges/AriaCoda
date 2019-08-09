@@ -191,13 +191,13 @@ AREXPORT unsigned int ArUtil::getTime(void)
     return tp.tv_nsec / 1000000 + (tp.tv_sec % 1000000)*1000;
 // the old unix way as a fallback
 #endif // if it isn't the good way
-#if !defined(WIN32)
+#if !defined(_WIN32)
   struct timeval tv;
   if (gettimeofday(&tv,NULL) == 0)
     return tv.tv_usec/1000 + (tv.tv_sec % 1000000)*1000;
   else
     return 0;
-#elif defined(WIN32)
+#elif defined(_WIN32)
   return timeGetTime();
 #endif
 }
@@ -2047,7 +2047,7 @@ AREXPORT bool ArUtil::getFileName(const char *fileName,
 
 int ArUtil::filestat(const std::string &fileName, struct stat *buffer)
 {
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   // On Windows, stat() does not work if the filename contains any
   // extended/unicode characters.  Convert to the wide char version.
   // On Windows, it is necessary to convert the given UTF-8

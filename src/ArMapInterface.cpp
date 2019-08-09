@@ -129,7 +129,7 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
   } // end else non empty base directory
 
   // this isn't needed in windows since it ignores case no matter what
-#ifndef WIN32
+#ifndef _WIN32
   if (isIgnoreCase)
   {
     char directoryRaw[2048];

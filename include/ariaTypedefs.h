@@ -27,12 +27,13 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #ifndef ARTYPEDEFS_H
 #define ARTYPEDEFS_H
 
+
 #include <time.h>
 #include <string>
 #include <map>
 #include <list>
 
-#ifdef WIN32
+#ifdef _WIN32
 
 
 #ifndef SWIG
@@ -48,10 +49,10 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <winsock2.h>
 #include <windows.h>
 
-#endif //WIN32
+#endif //_WIN32
 
 
-#ifndef WIN32
+#ifndef _WIN32
 
 #define AREXPORT
 ////

@@ -37,7 +37,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 //#include "../ArNetworking/include/ArServerMode.h"
 
 #include <sys/types.h>
-#ifndef WIN32
+#ifndef _WIN32
 #include <dirent.h>
 #endif
 #include <ctype.h>
@@ -1447,7 +1447,7 @@ AREXPORT unsigned char ArLCDMTX::getBatteryPercentage()
 
 AREXPORT unsigned char ArLCDMTX::getWifiPercentage()
 {
-#ifndef WIN32
+#ifndef _WIN32
 	// if the link signal exists - then grab the wifi%
 	if (ArSystemStatus::getMTXWirelessLink() == 1) {
 		return ArSystemStatus::getMTXWirelessQuality();
@@ -1475,7 +1475,7 @@ AREXPORT void ArLCDMTX::getIpAddress()
 
 AREXPORT bool ArLCDMTX::hasIpAddressChanged()
 {
-#ifndef WIN32
+#ifndef _WIN32
 	char ip[1000];
 	sprintf(ip, "%d.%d.%d.%d",
 		ArSystemStatus::getMTXWirelessIpAddress1(),
@@ -2028,7 +2028,7 @@ AREXPORT std::string ArLCDMTX::searchForFile(
 	dirToLookIn,
 	fileName);
 	***/
-#ifndef WIN32
+#ifndef _WIN32
 
 	DIR *dir;
 	struct dirent *ent;
@@ -2083,7 +2083,7 @@ AREXPORT std::string ArLCDMTX::searchForFile(
 	//printf("!!!!!!!! %s", finding.c_str());
 	closedir(dir);
 
-#endif // ifndef WIN32
+#endif // ifndef _WIN32
 
 	return "";
 }

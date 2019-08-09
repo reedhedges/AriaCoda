@@ -32,7 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArLog.h"
 #include "ArRecurrentTask.h"
 
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
 // NOTE on MinGW pthread.h must be included after ariaTypedefs.h which includes winsock2.h.
 // (on MinGW, pthread.h will include winsock.h to get an errno definition, after which
 // winsock2.h will assert a preprocessor error.)
@@ -74,7 +74,7 @@ AREXPORT void *
 ArRecurrentTask::runThread(void *ptr) 
 {
   threadStarted();
-#ifndef WIN32
+#ifndef _WIN32
   pthread_setcancelstate(PTHREAD_CANCEL_ENABLE,NULL);
   pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS,NULL);
 #endif
@@ -90,7 +90,7 @@ ArRecurrentTask::runThread(void *ptr)
 	  if (doit)
 	    break;
 //	  yield();		// don't hog resources
-#ifndef WIN32
+#ifndef _WIN32
 	  usleep(10000);
 #else
 	  Sleep(10);

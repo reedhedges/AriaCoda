@@ -128,7 +128,7 @@ AREXPORT void Aria::init(SigHandleMethod method, bool initSockets,
 			 bool sigHandleExitNotShutdown)
 {
   // get this here so that the program update can be accurate
-#if !defined(__MACH__) && !defined(WIN32) // getUptime() not available on Windows or MacOSX
+#if !defined(__MACH__) && !defined(_WIN32) // getUptime() not available on Windows or MacOSX
   ArSystemStatus::getUptime();
 #endif
 
@@ -147,7 +147,7 @@ AREXPORT void Aria::init(SigHandleMethod method, bool initSockets,
     return;
 
   ourRunning = true;
-#ifndef WIN32
+#ifndef _WIN32
   srand48(time(NULL));
 #endif
 
@@ -194,7 +194,7 @@ AREXPORT void Aria::init(SigHandleMethod method, bool initSockets,
     }
     else
     {
-#ifndef WIN32
+#ifndef _WIN32
       ArUtil::getStringFromFile("/etc/Aria", buf, sizeof(buf));
       str = buf;
 #else // WIN32

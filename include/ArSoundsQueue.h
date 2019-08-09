@@ -438,7 +438,7 @@ public:
   /** Add a sound file to the queue for default sound file playback.  */
   AREXPORT void play(const char *filename);
   
-#if !(defined(WIN32) && defined(_MANAGED)) && !defined(SWIG)
+#if !(defined(_WIN32) && defined(_MANAGED)) && !defined(SWIG)
 
   /** Add a formatted text string (like printf) to the queue configured for default speech
    * synthesis. When reached in the queue while running, the text will be 

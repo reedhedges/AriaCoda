@@ -358,7 +358,7 @@ AREXPORT void ArSoundsQueue::play(const char *str)
   pushQueueItem(item);
 }
 
-#if !(defined(WIN32) && defined(_MANAGED)) // MS Managed C++ does not allow varargs
+#if !(defined(_WIN32) && defined(_MANAGED)) // MS Managed C++ does not allow varargs
 
 AREXPORT void ArSoundsQueue::speakf(const char *str, ...)
 {

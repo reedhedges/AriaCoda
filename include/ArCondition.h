@@ -31,7 +31,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include "ariaTypedefs.h"
 
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
 // NOTE on MinGW pthread.h must be included after ariaTypedefs.h which includes winsock2.h.
 // (on MinGW, pthread.h will include winsock.h to get an errno definition, after which
 // winsock2.h will assert a preprocessor error.) 
@@ -58,7 +58,7 @@ public:
   };
 
   /** @internal */
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   typedef HANDLE CondType;
 #else
   typedef pthread_cond_t CondType;
@@ -94,7 +94,7 @@ protected:
 
   bool myFailedInit;
   CondType myCond;
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   int myCount;
 #else
   ArMutex myMutex;

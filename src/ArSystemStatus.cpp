@@ -73,7 +73,7 @@ bool ArSystemStatus::ourShouldRefreshCPU = true;
 
 void ArSystemStatus::refreshCPU()
 {
-#ifndef WIN32
+#ifndef _WIN32
 	if (ourPeriodicUpdateThread && !ourShouldRefreshCPU) return;
 	unsigned long interval = ourLastCPURefreshTime.mSecSince();
 	FILE* statfp = ArUtil::fopen("/proc/stat", "r");
@@ -284,7 +284,7 @@ AREXPORT ArRetFunctor<int>* ArSystemStatus::getMTXWirelessQualityFunctor() {
 
 void ArSystemStatus::refreshWireless()
 {
-#ifndef WIN32
+#ifndef _WIN32
 	if (ourPeriodicUpdateThread && !ourShouldRefreshWireless) return;
 	FILE* fp = ArUtil::fopen("/proc/net/wireless", "r");
 	if (!fp)
@@ -333,7 +333,7 @@ void ArSystemStatus::refreshWireless()
 
 void ArSystemStatus::refreshMTXWireless()
 {
-#ifndef WIN32
+#ifndef _WIN32
 	if (ourPeriodicUpdateThread && !ourShouldRefreshMTXWireless) return;
 	FILE* fpIp = ArUtil::fopen("/mnt/status/network/wireless/ip", "r");
 	FILE* fpLink = ArUtil::fopen("/mnt/status/network/wireless/link", "r");

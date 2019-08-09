@@ -28,7 +28,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #define ARSOCKET_H
 
 
-#ifndef WIN32
+#ifndef _WIN32
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
