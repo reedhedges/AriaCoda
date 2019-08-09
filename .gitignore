@@ -13,11 +13,15 @@ Makefile.dep
 *.pdb
 *.suo
 *.obj
+*.dll
+*.lib
 *.tlog
-visualc\*\*\*.log
+visualc/**/*.log
 unsuccessfulbuild
-visualc\*.user
-visualc\.vs
+visualc/*.user
+visualc/.vs
 *.lastbuildstate
-visualc\*.filters
+visualc/*.filters
+*.FileListAbsolute.txt
+
 
