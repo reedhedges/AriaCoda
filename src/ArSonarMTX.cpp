@@ -34,7 +34,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArSerialConnection.h"
 #include "ariaInternal.h"
 #include <time.h>
-
+#include <assert.h>
 
 //#define TRACE 1
 #if (defined(TRACE))
@@ -1354,7 +1354,7 @@ AREXPORT bool ArSonarMTX::validateTransducers()
 
 	// send get transducer count
 	bool gotTransducerCount = false;
-	unsigned char *transBuf;
+	unsigned char *transBuf = NULL;
 
 	for (int i = 0; i < 10; i++) {
 		if (!sendGetTransducerCount()) {
@@ -1372,6 +1372,7 @@ AREXPORT bool ArSonarMTX::validateTransducers()
 		}
 
 		transBuf = (unsigned char *) packet->getBuf();
+		assert(transBuf);
 
 		// verify get num trans received
 		if ( (transBuf[3] != GET_NUM_TRANDUCERS) || (transBuf[4] == 0)) {
@@ -1415,7 +1416,7 @@ AREXPORT bool ArSonarMTX::validateGain()
 	ArRobotPacket *packet;
 	// send get gain
 	bool gotGain = false;
-	unsigned char *gainBuf;
+	unsigned char *gainBuf = NULL;
 
 	for (int j = 0; j < myNumTransducers; j++) {
 
@@ -1439,6 +1440,7 @@ AREXPORT bool ArSonarMTX::validateGain()
 			}
 
 			gainBuf = (unsigned char *) packet->getBuf();
+			assert(gainBuf);
 
 			// verify get num trans received
 			if ( (gainBuf[3] != GET_GAIN) || (gainBuf[4] != j)) {
@@ -1462,6 +1464,7 @@ AREXPORT bool ArSonarMTX::validateGain()
 
 		gotGain = false;
 
+		assert(gainBuf);
 		unsigned char gain = gainBuf[5];
 		IFDEBUG (
 		  ArLog::log (ArLog::Normal,
@@ -1493,7 +1496,7 @@ AREXPORT bool ArSonarMTX::validateDelay()
 	ArRobotPacket *packet;
 	// send get delay
 	bool gotDelay = false;
-	unsigned char *delayBuf;
+	unsigned char *delayBuf = NULL;
 
 	for (int i = 0; i < 10; i++) {
 		if (!sendGetDelay ()) {
@@ -1512,6 +1515,7 @@ AREXPORT bool ArSonarMTX::validateDelay()
 		}
 
 		delayBuf = (unsigned char *) packet->getBuf();
+		assert(delayBuf);
 
 		// verify get num trans received
 		if ( (delayBuf[3] != GET_SONAR_DELAY) || (delayBuf[4] == 0)) {
@@ -1535,6 +1539,7 @@ AREXPORT bool ArSonarMTX::validateDelay()
 
 	gotDelay = false;
 
+	assert(delayBuf);
 	unsigned char delay = delayBuf[4];
 	IFDEBUG (
 	  ArLog::log (ArLog::Normal,
@@ -1563,7 +1568,7 @@ AREXPORT bool ArSonarMTX::validateNumThresholdRanges()
 {
 	ArRobotPacket *packet;
 	bool gotNumThres = false;
-	unsigned char *numBuf;
+	unsigned char *numBuf = NULL;
 
 	for (int i = 0; i < 10; i++) {
 		if (!sendGetNumThresholdRanges ()) {
@@ -1582,6 +1587,7 @@ AREXPORT bool ArSonarMTX::validateNumThresholdRanges()
 		}
 
 		numBuf = (unsigned char *) packet->getBuf();
+		assert(numBuf);
 		gotNumThres = true;
 		break;
 	}
@@ -1593,6 +1599,7 @@ AREXPORT bool ArSonarMTX::validateNumThresholdRanges()
 		return false;
 	}
 
+	assert(numBuf);
 	unsigned char numThres = numBuf[4];
 
 	IFDEBUG (
@@ -1609,7 +1616,7 @@ AREXPORT bool ArSonarMTX::queryFirmwareVersion()
 	ArRobotPacket *packet;
 	// send get delay
 	bool gotVersion = false;
-	unsigned char *versionBuf;
+	unsigned char *versionBuf = NULL;
 
 	for (int i = 0; i < 10; i++) {
 		if (!requestFirmwareVersion ()) {
@@ -1629,6 +1636,7 @@ AREXPORT bool ArSonarMTX::queryFirmwareVersion()
 			}
 
 			versionBuf = (unsigned char *) packet->getBuf();
+			assert(versionBuf);
 
 			if ( (versionBuf[3] != GET_VERSION) || (versionBuf[4] == 0)) {
 				ArLog::log (ArLog::Normal,
@@ -1652,6 +1660,7 @@ AREXPORT bool ArSonarMTX::queryFirmwareVersion()
 		return false;
 	}
 
+	assert(versionBuf);
 	myFirmwareVersion = versionBuf[4];
 	IFDEBUG (
 	  ArLog::log (ArLog::Normal,
@@ -1669,7 +1678,7 @@ AREXPORT bool ArSonarMTX::validateMaxRange()
 
 	// send get echosamplesize
 	bool gotEchoSampleSize = false;
-	unsigned char *echosamplesizeBuf;
+	unsigned char *echosamplesizeBuf = NULL;
 
 	for (int j = 0; j < myNumTransducers; j++) {
 
@@ -1694,6 +1703,7 @@ AREXPORT bool ArSonarMTX::validateMaxRange()
 			}
 
 			echosamplesizeBuf = (unsigned char *) packet->getBuf();
+			assert(echosamplesizeBuf);
 
 			// verify get num max range received
 			if ( (echosamplesizeBuf[3] != GET_ECHO_SAMPLE_SIZE) || (echosamplesizeBuf[4] != j)) {
@@ -1755,7 +1765,7 @@ AREXPORT bool ArSonarMTX::validateThresholds()
 
 	// send get threshold
 	bool gotThresholds = false;
-	unsigned char *thresholdBuf;
+	unsigned char *thresholdBuf = NULL;
 
 	for (int j = 0; j < myNumTransducers; j++) {
 //	for (int j = 1; j < 2; j++) {
@@ -1781,6 +1791,7 @@ AREXPORT bool ArSonarMTX::validateThresholds()
 			}
 
 			thresholdBuf = (unsigned char *) packet->getBuf();
+			assert(thresholdBuf);
 
 			// verify get
 			if ( (thresholdBuf[3] != GET_THRESHOLDS) || (thresholdBuf[4] != j)) {

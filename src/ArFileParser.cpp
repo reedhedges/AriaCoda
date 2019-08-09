@@ -30,7 +30,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArLog.h"
 #include "ariaUtil.h"
 #include <ctype.h>
-
+#include <assert.h>
 
 /**
  * @param baseDirectory the char * name of the base directory; the file name
@@ -334,14 +334,14 @@ AREXPORT bool ArFileParser::parseLine(char *line,
 				                              char *errorBuffer, size_t errorBufferLen)
 {
   char keyword[512];
-  char *choppingPos;
-  char *valueStart;
+  char *choppingPos = NULL;
+  char *valueStart = NULL;
   size_t textStart;
   size_t len;
   size_t i;
   bool noArgs;
   std::map<std::string, HandlerCBType *, ArStrCaseCmpOp>::iterator it;
-  HandlerCBType *handler;
+  HandlerCBType *handler = NULL;
 
   myLineNumber++;
   noArgs = false;
@@ -507,7 +507,10 @@ AREXPORT bool ArFileParser::parseLine(char *line,
                             myIsPreCompressQuotes); // whether to pre-compress quotes
   // if we have arguments add them
   if (!noArgs)
-    builder.addPlain(valueStart);
+  {
+	  if (!valueStart) return false;
+	  builder.addPlain(valueStart);
+  }
   // if not we still set the name of whatever we parsed (unless we
   // didn't have a param of course)
   if (!usingRemainder)
