@@ -46,18 +46,18 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <float.h>
 #include <vector>
 
-#if defined(_WIN32) || defined(_WIN32)
+#if defined(_WIN32) && !defined(MINGW)
 #include <sys/timeb.h>
-#include <sys/stat.h>
 #else
 #include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/time.h>
 #include <unistd.h>
 #include <strings.h>
 #endif // ifndef win32
 
+#include <sys/stat.h>
 #include <time.h>
+
 #include "ariaTypedefs.h"
 #include "ArLog.h"
 #include "ArFunctor.h"
