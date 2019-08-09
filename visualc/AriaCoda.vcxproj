@@ -212,7 +212,6 @@
     <ClCompile Include="..\src\ArMapObject.cpp" />
     <ClCompile Include="..\src\ArMapUtils.cpp" />
     <ClCompile Include="..\src\ArMD5Calculator.cpp" />
-    <ClCompile Include="..\src\ArMTXIO.cpp" />
     <ClCompile Include="..\src\ArMutex.cpp" />
     <ClCompile Include="..\src\ArMutex_WIN.cpp" />
     <ClCompile Include="..\src\ArNMEAParser.cpp" />
@@ -356,7 +355,6 @@
     <ClInclude Include="..\include\ArMapObject.h" />
     <ClInclude Include="..\include\ArMapUtils.h" />
     <ClInclude Include="..\include\ArMD5Calculator.h" />
-    <ClInclude Include="..\include\ArMTXIO.h" />
     <ClInclude Include="..\include\ArMutex.h" />
     <ClInclude Include="..\include\ArNMEAParser.h" />
     <ClInclude Include="..\include\ArNovatelGPS.h" />
