@@ -491,11 +491,13 @@ public:
     myDefaultPlayConditionCB = f;
   }
   
+#ifndef ARIA_WRAPPPER
   /// main function for thread
   /** @internal */
   AREXPORT virtual void *runThread(void *arg);
+#endif
 
-protected:
+private:
   bool myInitialized;
   std::list<Item> myQueue;
   ArMutex myQueueMutex;
