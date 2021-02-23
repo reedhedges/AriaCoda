@@ -43,7 +43,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include "Aria.h"
 #include "ArSeekurIMU.h"
-
+#include "ArRobotConfigPacketReader.h"
 
 int main(int argc, char **argv) {
   Aria::init();

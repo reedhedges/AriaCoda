@@ -2,8 +2,7 @@
 TODO
 ====
 
-* [IN PRG] Update README
-* Clearly document dependencies
+* Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.
 * Provide refactoring tips and insttructions to users to transition existing
   code due to all changes below.
 * Use namespace?, remove class prefixes? 

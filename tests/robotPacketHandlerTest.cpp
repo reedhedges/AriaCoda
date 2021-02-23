@@ -40,21 +40,30 @@ bool testcb(ArRobotPacket* pkt)
 
 int main(int argc, char **argv)
 {
-  ArRobot robot;
   Aria::init();
-  ArSimpleConnector connector(&argc, argv);
-  if (!Aria::parseArgs())
+  ArArgumentParser argParser(&argc, argv);
+  argParser.loadDefaultArguments();
+  ArRobot robot;
+
+  ArRobotConnector robotConnector(&parser, &robot);
+
+  if(!robotConnector.connectRobot())
+  {
+    ArLog::log(ArLog::Normal, "robotPacketHandlerTest: Could not connect to robot.");
+    if(parser.checkHelpAndWarnUnparsed())
+    {
+      Aria::logOptions();
+      Aria::exit(2);
+    }
+    Aria::exit(1);
+  }
+
+  if(!Aria::parseArgs() || !parser.checkHelpAndWarnUnparesd())
   {
     Aria::logOptions();
-    Aria::shutdown();
-    return 1;
+    Aria::exit(2);
   }
-  
-  if (!connector.connectRobot(&robot))
-  {
-    ArLog::log(ArLog::Normal, "robotPacketHandlerTest: Could not connect to robot... exiting");
-    return 2;
-  }
+
 
   ArLog::log(ArLog::Normal, "robotPacketHandlerTest: Connected.");
 

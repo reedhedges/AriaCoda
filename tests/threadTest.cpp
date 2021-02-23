@@ -99,11 +99,16 @@ puts("creating 3 threads...");
   thread2.create();
   thread3.create();
 
-  printf("main thread name=\"%s\", OS handle=%lu, OS pointer=0x%x\n", ArThread::getThisThreadName(), ArThread::getThisOSThread(), (unsigned int) ArThread::getThisThread());
-  printf("thread1 thread name=\"%s\", OS handle=%lu, OS pointer=0x%x\n", thread1.getThreadName(), thread1.getOSThread(), (unsigned int) thread1.getThread());
-  printf("thread2 thread name=\"%s\", OS handle=%lu, OS pointer=0x%x\n", thread2.getThreadName(), thread2.getOSThread(), (unsigned int) thread2.getThread());
-  printf("thread3 thread name=\"%s\", OS handle=%lu, OS pointer=0x%x\n", thread3.getThreadName(), thread3.getOSThread(), (unsigned int) thread3.getThread());
-  printf("thread4 (not created yet) thread name=\"%s\", OS handle=%lu, OS pointer=0x%x\n", thread4.getThreadName(), thread4.getOSThread(), (unsigned int) thread4.getThread());
+  printf("main thread name=\"%s\", OS handle=%lu, OS pointer=0x%lx\n", 
+    ArThread::getThisThreadName(), ArThread::getThisOSThread(), (const unsigned long) ArThread::getThisThread());
+  printf("thread1 thread name=\"%s\", OS handle=%lu, OS pointer=0x%lx\n",
+    thread1.getThreadName(), thread1.getOSThread(), (const unsigned long) thread1.getThread());
+  printf("thread2 thread name=\"%s\", OS handle=%lu, OS pointer=0x%lx\n",
+    thread2.getThreadName(), thread2.getOSThread(), (const unsigned long) thread2.getThread());
+  printf("thread3 thread name=\"%s\", OS handle=%lu, OS pointer=0x%lx\n",
+    thread3.getThreadName(), thread3.getOSThread(), (const unsigned long) thread3.getThread());
+  printf("thread4 (not created yet) thread name=\"%s\", OS handle=%lu, OS pointer=0x%lx\n", 
+    thread4.getThreadName(), thread4.getOSThread(), (const unsigned long) thread4.getThread());
 
 #ifndef MINGW
   if(ArThread::getThisOSThread() == thread1.getOSThread() ||
