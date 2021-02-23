@@ -49,7 +49,7 @@ public:
   AREXPORT virtual ArActionDesired * fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  virtual const ArActionDesired *getDesired(void) const 
                                                         { return &myDesired; }
 #endif
 protected:

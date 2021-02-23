@@ -133,7 +133,7 @@ public:
   /// task cycle, call this instead.
   /// @internal
   AREXPORT void checkKeys(void);
-  
+
   /// internal, use addKeyHandler instead... Gets a key from the stdin if ones
   /// available, -1 if there aren't any available
   AREXPORT int getKey(void);

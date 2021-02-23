@@ -43,45 +43,45 @@ class ArLMS1XXPacket : public ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArLMS1XXPacket();
+  ArLMS1XXPacket();
   /// Destructor
-  AREXPORT virtual ~ArLMS1XXPacket();
+  virtual ~ArLMS1XXPacket();
 
   /// Gets the command type 
-  AREXPORT const char *getCommandType(void);
+  const char *getCommandType(void);
   /// Gets the command name
-  AREXPORT const char *getCommandName(void);
+  const char *getCommandName(void);
   
   // only call finalizePacket before a send
-  AREXPORT virtual void finalizePacket(void);
-  AREXPORT virtual void resetRead(void);
+  virtual void finalizePacket(void);
+  virtual void resetRead(void);
   
   /// Gets the time the packet was received at
-  AREXPORT ArTime getTimeReceived(void);
+  ArTime getTimeReceived(void);
   /// Sets the time the packet was received at
-  AREXPORT void setTimeReceived(ArTime timeReceived);
+  void setTimeReceived(ArTime timeReceived);
 
-  AREXPORT virtual void duplicatePacket(ArLMS1XXPacket *packet);
-  AREXPORT virtual void empty(void);
+  virtual void duplicatePacket(ArLMS1XXPacket *packet);
+  virtual void empty(void);
   
-  AREXPORT virtual void byteToBuf(ArTypes::Byte val);
-  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val);
-  AREXPORT virtual void byte4ToBuf(ArTypes::Byte4 val);
-  AREXPORT virtual void uByteToBuf(ArTypes::UByte val);
-  AREXPORT virtual void uByte2ToBuf(ArTypes::UByte2 val);
-  AREXPORT virtual void uByte4ToBuf(ArTypes::UByte4 val);
-  AREXPORT virtual void strToBuf(const char *str);
+  virtual void byteToBuf(ArTypes::Byte val);
+  virtual void byte2ToBuf(ArTypes::Byte2 val);
+  virtual void byte4ToBuf(ArTypes::Byte4 val);
+  virtual void uByteToBuf(ArTypes::UByte val);
+  virtual void uByte2ToBuf(ArTypes::UByte2 val);
+  virtual void uByte4ToBuf(ArTypes::UByte4 val);
+  virtual void strToBuf(const char *str);
 
-  AREXPORT virtual ArTypes::Byte bufToByte(void);
-  AREXPORT virtual ArTypes::Byte2 bufToByte2(void);
-  AREXPORT virtual ArTypes::Byte4 bufToByte4(void);
-  AREXPORT virtual ArTypes::UByte bufToUByte(void);
-  AREXPORT virtual ArTypes::UByte2 bufToUByte2(void);
-  AREXPORT virtual ArTypes::UByte4 bufToUByte4(void);
-  AREXPORT virtual void bufToStr(char *buf, int len);
+  virtual ArTypes::Byte bufToByte(void);
+  virtual ArTypes::Byte2 bufToByte2(void);
+  virtual ArTypes::Byte4 bufToByte4(void);
+  virtual ArTypes::UByte bufToUByte(void);
+  virtual ArTypes::UByte2 bufToUByte2(void);
+  virtual ArTypes::UByte4 bufToUByte4(void);
+  virtual void bufToStr(char *buf, int len);
 
   // adds a raw char to the buf
-  AREXPORT virtual void rawCharToBuf(unsigned char c);
+  virtual void rawCharToBuf(unsigned char c);
 protected:
   int deascii(char c);
 
@@ -91,43 +91,44 @@ protected:
   char myCommandType[1024]; 
   char myCommandName[1024]; 
 };
+#endif
 
-
+#ifndef ARIA_WRAPPER
 /// Given a device connection it receives packets from the sick through it
 /// @internal
 class ArLMS1XXPacketReceiver
 {
 public:
   /// Constructor with assignment of a device connection
-  AREXPORT ArLMS1XXPacketReceiver();
+  ArLMS1XXPacketReceiver();
   /// Destructor
-  AREXPORT virtual ~ArLMS1XXPacketReceiver();
+  virtual ~ArLMS1XXPacketReceiver();
   
   /// Receives a packet from the robot if there is one available
-  AREXPORT ArLMS1XXPacket *receivePacket(unsigned int msWait = 0,
+  ArLMS1XXPacket *receivePacket(unsigned int msWait = 0,
 					 bool shortcut = false, 
 					 bool ignoreRemainders = false);
 
-  AREXPORT ArLMS1XXPacket *receiveTiMPacket(unsigned int msWait = 0,
+  ArLMS1XXPacket *receiveTiMPacket(unsigned int msWait = 0,
 					 bool shortcut = false, 
 					 bool ignoreRemainders = false);
 
   /// Sets the device this instance receives packets from
-  AREXPORT void setDeviceConnection(ArDeviceConnection *conn);
+  void setDeviceConnection(ArDeviceConnection *conn);
   /// Gets the device this instance receives packets from
-  AREXPORT ArDeviceConnection *getDeviceConnection(void);
+  ArDeviceConnection *getDeviceConnection(void);
 
   // PS - added to pass info to this class
-  AREXPORT void	setmyInfoLogLevel(ArLog::LogLevel infoLogLevel)
+  void	setmyInfoLogLevel(ArLog::LogLevel infoLogLevel)
   { myInfoLogLevel = infoLogLevel; }
-  AREXPORT void setLaserModel(int laserModel)
+  void setLaserModel(int laserModel)
   { myLaserModel = laserModel; }
-  AREXPORT void setmyName(const char *name )
+  void setmyName(const char *name )
   { 
     strncpy(myName, name, sizeof(myName)); 
     myName[sizeof(myName)-1] = '\0';
   }
-  AREXPORT void setReadTimeout(int timeout )
+  void setReadTimeout(int timeout )
   { myReadTimeout = timeout; }
 
 

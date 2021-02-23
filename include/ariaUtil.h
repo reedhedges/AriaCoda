@@ -112,8 +112,8 @@ public:
   // These are functions we can use as the dummies
   //   for functor callbacks when we want it to
   //   always return true/false. 
-  AREXPORT static bool ReturnTrue() { return true; }
-  AREXPORT static bool ReturnFalse() { return false; }
+  //AREXPORT static bool ReturnTrue() { return true; }
+  //AREXPORT static bool ReturnFalse() { return false; }
 
 
 

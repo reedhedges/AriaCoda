@@ -222,6 +222,7 @@ public:
     bool myVertexSeenThisCycle;
     bool myVertexSeen;
   };
+
   /** Internal use only, sets if we're saving data or not
    *  @internal
    */

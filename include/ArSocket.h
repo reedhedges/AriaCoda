@@ -108,17 +108,20 @@ public:
   /// Converts the given socket type to a displayable text string (for debugging).
   AREXPORT static const char *toString(Type t);
 
+private:
   /** @internal */
-  AREXPORT static bool ourInitialized;
+  static bool ourInitialized;
 
   /// Copy internal socket structures
   /// @internal
-  AREXPORT bool copy(int fd, bool doclose);
+  bool copy(int fd, bool doclose);
 
   /// Copy socket 
   /// @internal
-  AREXPORT void copy(ArSocket *s)
+  void copy(ArSocket *s)
     {myFD=s->myFD; myDoClose=false; mySin=s->mySin;}
+
+public:
 
   /// Transfer ownership of a socket
   /** transfer() will transfer ownership to this socket. The input socket
