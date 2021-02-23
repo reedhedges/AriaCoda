@@ -339,28 +339,39 @@ is a pointer to object to be deleted using the 'delete' operator.
 					bool removeSpaces, bool fixOtherWhiteSpace = true);
 
 
+#ifndef ARIA_WRAPPER
+
   /// Lowers a string from src into dest, make sure there's enough space
+  /// @swigomit
   AREXPORT static void lower(char *dest, const char *src, 
 			     size_t maxLen);
   /// Returns true if this string is only alphanumeric (i.e. it contains only leters and numbers), false if it contains any non alphanumeric characters (punctuation, whitespace, control characters, etc.)
+  /// @swigomit
   AREXPORT static bool isOnlyAlphaNumeric(const char *str);
 
   /// Returns true if this string is only numeric (i.e. it contains only numeric
-  //digits), or it's null, or false if it contains any non nonnumeric characters (alphabetic, punctuation, whitespace, control characters, etc.)
+  /// digits), or it's null, or false if it contains any non nonnumeric characters (alphabetic, punctuation, whitespace, control characters, etc.)
+  /// @swigomit
   AREXPORT static bool isOnlyNumeric(const char *str);
 
   /// Returns true if the given string is null or of zero length, false otherwise
+  /// @swigomit
   AREXPORT static bool isStrEmpty(const char *str);
 
   /// Determines whether the given text is contained in the given list of strings.
+  /// @swigomit
   AREXPORT static bool isStrInList(const char *str,
                                    const std::list<std::string> &list,
                                    bool isIgnoreCase = false);
 
   /// Returns the floating point number from the string representation of that number in @a nptr, or HUGE_VAL for "inf" or -HUGE_VAL for "-inf".
+  /// @swigomit
   AREXPORT static double atof(const char *nptr);
 
-#ifndef SWIG
+  /// @swigomit
+  AREXPORT static int atoi(const char *str, bool *ok = NULL, 
+			   bool forceHex = false);
+
   /// Prints the given format string and arguments in a NON-localized fashion.
   /** @swigomit */
   AREXPORT static bool printValue(char *buf, size_t bufLen, const char *formatString, ...);
@@ -370,13 +381,10 @@ is a pointer to object to be deleted using the 'delete' operator.
   AREXPORT static double readDoubleValue(const char *buf, bool *ok);
 
 
-#endif
-
-
   /// Converts an integer value into a string for true or false
+  /** @swigomit */ 
   AREXPORT static const char *convertBool(int val);
 
-#ifndef SWIG
   /** Invoke a functor with a string generated via sprintf format conversion
       @param functor The functor to invoke with the formatted string
       @param formatstr The format string into which additional argument values are inserted using vsnprintf() 
@@ -586,8 +594,6 @@ is a pointer to object to be deleted using the 'delete' operator.
   /** Convert US feet  to meters */
   static double feetToMeters(const double f) { return f / 3.2808399; }
 
-  AREXPORT static int atoi(const char *str, bool *ok = NULL, 
-			   bool forceHex = false);
 
   /** @return Amount of free space on filesystem/disk containing the file given by
    * @a path, in kilobytes, or ULONG_MAX on error.  If @a ok is not NULL it is
