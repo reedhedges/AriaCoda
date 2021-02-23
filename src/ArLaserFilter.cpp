@@ -24,10 +24,10 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ArLaserFilter.h"
-#include "ArRobot.h"
-#include "ArConfig.h"
+#include "Aria/ArExport.h"
+#include "Aria/ArLaserFilter.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArConfig.h"
 
 //#define DEBUGRANGEFILTER
 

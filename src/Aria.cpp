@@ -24,24 +24,24 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "Aria.h"
-#include "ArSocket.h"
-#include "ArSignalHandler.h"
-#include "ArKeyHandler.h"
-#include "ArJoyHandler.h"
-//#include "ArModuleLoader.h"
-#include "ArRobotJoyHandler.h"
+#include "Aria/ArExport.h"
+#include "Aria/Aria.h"
+#include "Aria/ArSocket.h"
+#include "Aria/ArSignalHandler.h"
+#include "Aria/ArKeyHandler.h"
+#include "Aria/ArJoyHandler.h"
+//#include "Aria/ArModuleLoader.h"
+#include "Aria/ArRobotJoyHandler.h"
 #ifndef __MACH__
-#include "ArSystemStatus.h"
+#include "Aria/ArSystemStatus.h"
 #endif
 
 // to register PTZ types with PTZConnector:
-#include "ArPTZConnector.h"
-#include "ArRVisionPTZ.h"
-#include "ArVCC4.h"
-#include "ArDPPTU.h"
-//#include "ArSonyPTZ.h"
+#include "Aria/ArPTZConnector.h"
+#include "Aria/ArRVisionPTZ.h"
+#include "Aria/ArVCC4.h"
+#include "Aria/ArDPPTU.h"
+//#include "Aria/ArSonyPTZ.h"
 
 
 

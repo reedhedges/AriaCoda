@@ -25,7 +25,7 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 /* This program requests a set of motion debugging info. Most of this can be
  * supplied by MARC.  A few items may be supplied by SeekurOS.   ARCOS and uARCS

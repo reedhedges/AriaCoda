@@ -24,11 +24,11 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ariaOSDef.h"
-#include "ArCommands.h"
-#include "ArExport.h"
-#include "ArSonarAutoDisabler.h"
-#include "ArRobot.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArCommands.h"
+#include "Aria/ArExport.h"
+#include "Aria/ArSonarAutoDisabler.h"
+#include "Aria/ArRobot.h"
 
 AREXPORT ArSonarAutoDisabler::ArSonarAutoDisabler(ArRobot *robot) :
   myUserTaskCB(this, &ArSonarAutoDisabler::userTask),

@@ -55,7 +55,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
  *  race conditions.  
  */
 
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 
 /* A subclass of ArASyncTask, to contain a method that runs in a new thread */

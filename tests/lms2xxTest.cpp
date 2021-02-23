@@ -31,7 +31,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 // to the SICK LMS2xx using the ArLMS2xx class directly, not using
 // ArLaserConnector or ArRobot.
 
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 int main(int argc, char **argv)
 {

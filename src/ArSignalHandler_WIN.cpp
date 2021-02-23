@@ -25,10 +25,10 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArSignalHandler.h"
-#include "ArLog.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArSignalHandler.h"
+#include "Aria/ArLog.h"
 
 
 ArSignalHandler *ArSignalHandler::ourSignalHandler=0;

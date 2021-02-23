@@ -29,16 +29,16 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <vector>
 #include <sstream>
 
-#include "ArExport.h"
-#include "ariaUtil.h"
-#include "ariaInternal.h"
-#include "ArLog.h"
-#include "ArFunctor.h"
-#include "ArPTZ.h"
-#include "ArPTZConnector.h"
-#include "ArConfig.h"
-#include "ArRobot.h"
-#include "ArRobotParams.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ariaInternal.h"
+#include "Aria/ArLog.h"
+#include "Aria/ArFunctor.h"
+#include "Aria/ArPTZ.h"
+#include "Aria/ArPTZConnector.h"
+#include "Aria/ArConfig.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArRobotParams.h"
 
 std::map<std::string, ArPTZConnector::PTZCreateFunc*> ArPTZConnector::ourPTZCreateFuncs;
 

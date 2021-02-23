@@ -30,9 +30,9 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
  * ArGPS behavior with recorded data.
  */
 
-#include "Aria.h"
-#include "ArGPS.h"
-#include "ArFileDeviceConnection.h"
+#include "Aria/Aria.h"
+#include "Aria/ArGPS.h"
+#include "Aria/ArFileDeviceConnection.h"
 #include <iostream>
 
 int main(int argc, char** argv)

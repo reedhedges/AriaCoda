@@ -26,7 +26,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
 #include <inttypes.h>
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 
 bool tryport(const char *port, bool is422, int baud, char **argv, int argc, int maxread, int timeout);

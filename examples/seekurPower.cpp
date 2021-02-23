@@ -24,7 +24,7 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 /** @example seekurPower.cpp Control Seekur or Seekur Jr. accessory power
  * switching from command line options.   Run with -help for help on command

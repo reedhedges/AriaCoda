@@ -25,7 +25,7 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArPacketUtil.h"
+#include "Aria/ArPacketUtil.h"
 
 AREXPORT template<> void ArPacketUtil::addField<int>(ArBasePacket& p, const int& value)
 {

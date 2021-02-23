@@ -24,13 +24,13 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ArMD5Calculator.h"
+#include "Aria/ArExport.h"
+#include "Aria/ArMD5Calculator.h"
 
-#include "ariaOSDef.h"
-#include "ariaInternal.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ariaInternal.h"
 
-#include "ArLog.h"
+#include "Aria/ArLog.h"
 
 AREXPORT ArMD5Calculator::ArMD5Calculator(ArFunctor1<const char*> *secondFunctor) :
   myFunctor(this, &ArMD5Calculator::append),

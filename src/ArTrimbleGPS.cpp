@@ -25,10 +25,10 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArTrimbleGPS.h"
-#include "ArDeviceConnection.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArTrimbleGPS.h"
+#include "Aria/ArDeviceConnection.h"
 
 //#define DEBUG_ARTRIMBLEGPS 1
 

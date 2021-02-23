@@ -24,11 +24,11 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArRobot.h"
-#include "ariaUtil.h"
-#include "ArIRs.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ArIRs.h"
 
  /**
    @param currentBufferSize The number of readings to store in the current Buffer

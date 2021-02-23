@@ -24,8 +24,8 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "Aria.h"
-#include "ArMTXIO.h"
+#include "Aria/Aria.h"
+#include "Aria/ArMTXIO.h"
 #include <stdint.h>
 
 /** @example mtxAnalogIOExample.cpp  Reads and writes analog IO values.

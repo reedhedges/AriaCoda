@@ -24,13 +24,13 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
 #include <list>
-#include "ArThread.h"
-#include "ArLog.h"
-#include "ArSignalHandler.h"
-#include "ariaUtil.h"
+#include "Aria/ArThread.h"
+#include "Aria/ArLog.h"
+#include "Aria/ArSignalHandler.h"
+#include "Aria/ariaUtil.h"
 
 
 static DWORD WINAPI run(void *arg)

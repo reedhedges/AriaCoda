@@ -24,15 +24,15 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
+#include "Aria/ArExport.h"
 // ArThread.cc -- Thread classes
 
 
-#include "ariaOSDef.h"
+#include "Aria/ariaOSDef.h"
 #include <errno.h>
 #include <list>
-#include "ArThread.h"
-#include "ArLog.h"
+#include "Aria/ArThread.h"
+#include "Aria/ArLog.h"
 
 
 ArMutex ArThread::ourThreadsMutex;

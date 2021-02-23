@@ -26,8 +26,8 @@ TODO
 * Remove `ArDrawingData` (move to ArNetworking registry of what sensor
   visualizations should look like, maybe configurable in server config file)
 * [IN PRG] Remove various features in ARIA that are needed for ArNetworking/ARAM only.
-* Remove some less-useful classes:
-   * ArActionKeyDrive? ArRatioInputKeydrive? ArKeyHandler? (Move into demo.cpp)
+* Remove some more classes:
+   * ArActionKeyDrive? ArRatioInputKeydrive? ArKeyHandler? (Move into demo.cpp like ArModes was)
    * Move rest of classes from ArActionGroups.h/ArActionGroups.cpp into  
      inlined classes in examples/ActionGroups.h used by relevant examples.
 * overhaul other documentation.  
@@ -36,7 +36,7 @@ TODO
   match header installation directory.  
 * Move `matlab/ariac` to `ariac/`. Update matlab and ariac-rust builds.
 * Remove weird stuff in ArSystemStatus
-* Set up Travis CI to test build (later tests).
+* Set up Travis or Jenkins to test build on checkin (later also run tests).
 * Switch to CMake?
 * Start adding some real unit testing?
   * use doctest in python examples and tests, or in an examples/tests file?

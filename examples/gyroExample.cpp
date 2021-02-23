@@ -33,8 +33,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
  *
 */
 
-#include "Aria.h"
-#include "ArAnalogGyro.h"
+#include "Aria/Aria.h"
+#include "Aria/ArAnalogGyro.h"
 
 
 class GyroTask

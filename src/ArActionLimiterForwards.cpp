@@ -24,11 +24,11 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArActionLimiterForwards.h"
-#include "ArRobot.h"
-#include "ArRangeDevice.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArActionLimiterForwards.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArRangeDevice.h"
 
 /**
    @param name name of the action

@@ -25,11 +25,11 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArRobot.h"
-#include "ariaUtil.h"
-#include "ArForbiddenRangeDevice.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ArForbiddenRangeDevice.h"
 
 /**
    This will take a map and then convert the forbidden lines into

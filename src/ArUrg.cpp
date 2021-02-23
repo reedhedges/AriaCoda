@@ -24,12 +24,12 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArUrg.h"
-#include "ArRobot.h"
-#include "ArSerialConnection.h"
-#include "ariaInternal.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArUrg.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArSerialConnection.h"
+#include "Aria/ariaInternal.h"
 
 AREXPORT ArUrg::ArUrg(int laserNumber, const char *name) :
   ArLaser(laserNumber, name, 4095),

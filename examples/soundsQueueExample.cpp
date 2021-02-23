@@ -40,11 +40,11 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
  *    soundQueue <i>&lt;wav file names&gt;</i>
  */
 
-#include "Aria.h"
-#include "ariaTypedefs.h"
-#include "ariaUtil.h"
-#include "ArSoundsQueue.h"
-#include "ArSoundPlayer.h"
+#include "Aria/Aria.h"
+#include "Aria/ariaTypedefs.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ArSoundsQueue.h"
+#include "Aria/ArSoundPlayer.h"
 #include <iostream>
 #include <vector>
 
