@@ -35,6 +35,10 @@ using that version of Visual C++.  (Generally, Visual C++ project files
 are specific to versions of Visual C++, though Visual Studio can often 
 upgrade older project files.)
 
+Note: As new versions of Visual C++ are released in the future, 
+the Visual C++ project and solution files may be updated, requiring that 
+you update your Visual C++ version.
+
 In addition, some optional feaures have additional requirements. 
 * Doxygen, for API reference documentation generation. See  <http://www.doxygen.org>
 * SWIG, for interface generation for Python and Java interfaces. See <http://www.swig.org>.
@@ -71,8 +75,12 @@ Building AriaCoda
 On Linux, enter the AriaCoda source directory in a terminal,
 and run `make`.   
 
-On Windows, open `AriaCoda.sln` with Visual C++ and build the
-solution.
+On Windows, open `AriaCoda.sln` with Visual C++ 2019 and build the
+solution.  
+
+Note: As new versions of Visual C++ are released in the future, 
+the Visual C++ project and solution files may be updated, requiring that 
+you update your Visual C++ version.
 
 
 Installation
@@ -97,7 +105,7 @@ use the download link under "A binary distribution for Windows...".
 
 To generate the AriaCoda documentation on Windows, open a command prompt
 terminal (choose "Run..." from Start menu ond enter `cmd`), enter the 
-AriaCoda source directory (e.g. `cd %HOMEPAHT%\AriaCoda` or similar), and run 
+AriaCoda source directory (e.g. `cd %HOMEPATH%\AriaCoda` or similar), and run 
 Doxygen using the `doxygen.conf` configuration file by entering
 `C:\doxygen\bin\doxygen.exe doxygen.conf`.  (You can add `C:\doxygen\bin`
 to your program PATH in the System control panel, if desired, to allow
