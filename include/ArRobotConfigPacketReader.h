@@ -24,6 +24,9 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
+
+#ifndef ARIA_WRAPPER 
+
 #ifndef ARROBOTCONFIGPACKETREADER_H
 #define ARROBOTCONFIGPACKETREADER_H
 
@@ -36,6 +39,7 @@ class ArRobot;
 
 
 /// This class will read a config packet from the robot
+/// @internal
 class ArRobotConfigPacketReader
 {
 public:
@@ -300,4 +304,6 @@ protected:
   
 };
 
-#endif // ARROBOTCONFIGPACKETREADER_H
+#endif // ifndef ARROBOTCONFIGPACKETREADER_H
+
+#endif // ifndef ARIA_WRAPPER

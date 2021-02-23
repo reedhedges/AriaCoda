@@ -24,6 +24,9 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
+
+#ifndef ARIA_WRAPPER
+
 #ifndef ARROBOTTYPES_H
 #define ARROBOTTYPES_H
 
@@ -395,3 +398,4 @@ public:
 /** @endcond INCLUDE_INTERNAL_ROBOT_PARAM_CLASSES */
 
 #endif // ARROBOTTYPES_H
+#endif // not ARIA_WRAPPER

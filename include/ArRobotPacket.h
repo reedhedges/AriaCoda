@@ -27,6 +27,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #ifndef ARROBOTPACKET_H
 #define ARROBOTPACKET_H
 
+#ifndef ARIA_WRAPPER
+
 #include "ariaTypedefs.h"
 #include "ArBasePacket.h"
 #include "ariaUtil.h"
@@ -38,6 +40,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
    
    You can just look at the documentation for the ArBasePacket except for
    the 4 new functions here, verifyCheckSum, getID, print, and calcCheckSum.
+ 
+   @internal
  */
 class ArRobotPacket: public ArBasePacket
 {
@@ -79,4 +83,5 @@ protected:
   ArTime myTimeReceived;
 };
 
+#endif // not ARIA_WRAPPER
 #endif // ARROBOTPACKET_H

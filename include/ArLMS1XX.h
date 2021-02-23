@@ -32,6 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArLaser.h"   
 #include "ArFunctor.h"
 
+#ifndef ARIA_WRAPPER
 /** @internal 
   Constructs packets for LMS1xx ASCII protocol. 
   The various ...ToBuf() methods select argument types and how
@@ -151,6 +152,7 @@ protected:
 
   ArLog::LogLevel myInfoLogLevel;
 };
+#endif
 
 /**
   @since Aria 2.7.2

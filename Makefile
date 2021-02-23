@@ -467,6 +467,12 @@ python-doc: python/AriaPy.html
 python/AriaPy.html: python/AriaPy.py
 	cd python; pydoc -w AriaPy
 
+# When running swig, -DARIA_WRAPPER omits non-public API that is not needed.
+# -DAREXPORT forces a definition of the AREXPORT macro to empty. The SWIG
+# preprocessor symbol is also automatically defined by swig which omits things
+# specifically from being seen by swig (usually things swig can't deal with
+# automatically)
+
 python/AriaPy_wrap.cpp python/AriaPy.py: include/wrapper.i include/*.h python/DiscoverWiBox.py
 	#-rm -f `find python -maxdepth 1 -xtype f -name "*Aria*" | grep -v .ds | grep -v .sln | grep -v .vcproj`
 	cd python; $(SWIG) -Wall -c++ -python -modern -module AriaPy -DARIA_WRAPPER -Dlinux -DAREXPORT -o AriaPy_wrap.cpp -I../include ../include/wrapper.i 
@@ -515,6 +521,12 @@ obj/AriaJava_wrap.o: java/AriaJava_wrap.cpp
 	mkdir -p obj
 	$(CXX) -O2 -c $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux $< -o $@
 
+# When running swig, -DARIA_WRAPPER omits non-public API that is not needed.
+# -DAREXPORT forces a definition of the AREXPORT macro to empty. The SWIG
+# preprocessor symbol is also automatically defined by swig which omits things
+# specifically from being seen by swig (usually things swig can't deal with
+# automatically)
+
 java/AriaJava_wrap.cpp java/com/mobilerobots/Aria/ArRobot.java: include/wrapper.i $(HEADER_FILES)
 	-mkdir -p java/com/mobilerobots/Aria; 
 	-rm java/com/mobilerobots/Aria/*.java java/AriaJava_wrap.cpp java/AriaJava_wrap.h
@@ -536,6 +548,12 @@ csharp: csharp/libAriaCS.$(sosuffix) csharp/AriaCS.dll
 
 csharp/libAriaCS.$(sosuffix): csharp/AriaCS_wrap.cpp lib/libAria.$(sosuffix)
 	$(CXX) -O2 $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER -fPIC -shared -o $@ csharp/AriaCS_wrap.cpp -lpthread -ldl -lrt -Llib -lAria
+
+# When running swig, -DARIA_WRAPPER omits non-public API that is not needed.
+# -DAREXPORT forces a definition of the AREXPORT macro to empty. The SWIG
+# preprocessor symbol is also automatically defined by swig which omits things
+# specifically from being seen by swig (usually things swig can't deal with
+# automatically)
 
 csharp/AriaCS_wrap.cpp csharp/ArRobot.cs: include/wrapper.i $(HEADER_FILES)
 	-mkdir -p csharp

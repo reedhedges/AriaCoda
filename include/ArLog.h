@@ -90,12 +90,14 @@ public:
   /// Logs an error, adding the error and string the error mean at the
   /// end of this message
   AREXPORT static void logErrorFromOSPlain(LogLevel level, const char *str);
-#ifndef SWIG // these is internal we don't need to wrap it
+#ifndef ARIA_WRAPPER // these is internal we don't need to wrap it
   /// Logs an error, adding the error and string the error mean at the
   /// end of this message... internal version, don't use it
+  /// @internal
   AREXPORT static void logErrorFromOSNoLock(LogLevel level, const char *str, ...);
   /// Logs an error, adding the error and string the error mean at the
   /// end of this message... internal version, dont' use it
+  /// @internal
   AREXPORT static void logErrorFromOSPlainNoLock(LogLevel level, const char *str);
   // Do not use this unless you know what you are doing...
   /** @internal
@@ -120,7 +122,7 @@ public:
   /// Clear functor set by setFunctor().
   AREXPORT static void clearFunctor();
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   /// Internal function to force a lockup, only for debugging
   /// @internal
   static void internalForceLockup(void);

@@ -196,6 +196,7 @@ public:
   /// sets the Light Pole IO Output Control Register
   AREXPORT bool setLightPole(unsigned char *val);
 
+#ifndef ARIA_WRAPPER
   /// @internal
   AREXPORT bool getLPCTimeUSec(ArTypes::UByte4 *timeUSec);
 
@@ -229,10 +230,12 @@ public:
   /// gets the Power Status Register 2
   /// @internal
   AREXPORT bool getPowerStatus2(unsigned char *val);
+#endif
 
   /// gets the LIDAR Safety Status Register
   AREXPORT bool getLIDARSafety(unsigned char *val);
 
+#ifndef ARIA_WRAPPER
   /// gets the ESTOP status Registers
   /// @internal
   //@{
@@ -243,6 +246,7 @@ public:
   /// Compares the high nibble of this byte against the passed in val, returns true if it matches
   AREXPORT bool compareESTOPStatus4HighNibbleAgainst(int val);
   //@}
+#endif
 
   /// gets/sets Digital IO Output Control Registers 1 &amp; 2
   //@{
@@ -268,13 +272,14 @@ public:
   /// gets the motion power status
   AREXPORT bool getMotionPowerStatus(unsigned char *val);
 
+#ifndef ARIA_WRAPPER
   /// gets/sets the LIDAR Control Reg
   /// @internal
   //@{
   AREXPORT bool getLIDARControl(unsigned char *val);
   AREXPORT bool setLIDARControl(unsigned char *val);
   //@}
-
+#endif
 
   /// Get a value from analog IO block 1 (which contains 16 inputs. First 4
   //inputs have range 0-10v, then

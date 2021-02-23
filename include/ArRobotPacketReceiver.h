@@ -27,6 +27,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #ifndef ARROBOTPACKETRECEIVER_H
 #define ARROBOTPACKETRECEIVER_H
 
+#ifndef ARIA_WRAPPER
+
 #include "ariaTypedefs.h"
 #include "ArRobotPacket.h"
 
@@ -34,6 +36,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 class ArDeviceConnection;
 
 /// Given a device connection it receives packets from the robot through it
+/// @internal
 class ArRobotPacketReceiver
 {
 public:
@@ -103,4 +106,5 @@ protected:
   ArFunctor1<ArRobotPacket *> *myPacketReceivedCallback;
 };
 
+#endif // not ARIA_WRAPPER
 #endif // ARROBOTPACKETRECEIVER_H

@@ -24,16 +24,20 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
+
+#ifndef ARIA_WRAPPER
+
 #ifndef ARROBOTPACKETSENDER_H
 #define ARROBOTPACKETSENDER_H
 
 #include "ariaTypedefs.h"
 #include "ArRobotPacket.h"
 
+
 class ArDeviceConnection;
 
 /// Given a device connection this sends commands through it to the robot
-
+/// @internal
 class ArRobotPacketSender
 {
 public:
@@ -111,3 +115,4 @@ protected:
 
 
 #endif //ARROBOTPACKETSENDER_H
+#endif // not ARIA_WRAPPER

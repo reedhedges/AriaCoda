@@ -32,6 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #if (defined(_WIN32) || defined(WIN32)) && !defined(MINGW)
 
+#ifndef ARIA_WRAPPER
 #ifndef SWIG
 #ifndef ARIA_STATIC
 #undef AREXPORT
@@ -40,6 +41,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #define AREXPORT
 #endif // ARIA_STATIC
 #endif // SWIG
+#endif // ARIA_WRAPER
 
 #else // WIN32
 

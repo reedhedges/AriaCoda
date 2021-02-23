@@ -27,6 +27,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #ifndef ARROBOTPACKETREADER_H
 #define ARROBOTPACKETREADER_H
 
+#ifndef ARIA_WRAPPER
+
 
 #include "ariaTypedefs.h"
 #include "ArASyncTask.h"
@@ -34,7 +36,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 class ArRobot;
 
-
+/// @internal
 class ArRobotPacketReaderThread : public ArASyncTask
 {
 public:
@@ -56,5 +58,5 @@ protected:
   bool myInRun;
 };
 
-
-#endif // ARSYNCLOOP_H
+#endif // not ARIA_WRAPPER
+#endif // ARROBOTPACKETREADER_H

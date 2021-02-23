@@ -637,7 +637,7 @@ public:
     return ReadUpdated | ReadFinished;
   }
 private:
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   bool handleSimStatPacket(ArRobotPacket *pkt); 
 #endif
 };

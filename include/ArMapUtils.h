@@ -278,7 +278,7 @@ protected:
 }; // end class ArMapId
 
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
 
 
 // ============================================================================
@@ -976,7 +976,7 @@ class ArMapChangedHelper
    ArCallbackList myMapChangedLocalizationCBList;
  }; // end class ArMapChangedHelper
  
-#endif // ifndef SWIG
+#endif // ifndef ARIA_WRAPPER
 
 #endif // ARMAPUTILS_H
 

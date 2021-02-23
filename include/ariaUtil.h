@@ -124,6 +124,8 @@ public:
   /// Get the time in milliseconds
   AREXPORT static unsigned int getTime(void);
 
+#ifndef ARIA_WRAPPER
+
   /** Deletes (deallocates) memory pointed to by pointers in an iteratable
       container (but does not remove the pointer items from the container).
 
@@ -153,6 +155,8 @@ public:
         // MyBigClass instances have now been deleted using delete keyword, so old pointers are now invalid 
         pointers.erase(pointers.begin(), pointers.end());
       @endcode
+
+      @swigomit
   */
   template<class T> static void deleteSet(T begin, T end)
     {
@@ -188,6 +192,7 @@ is a pointer to object to be deleted using the 'delete' operator.
 	delete (*begin).second;
       }
     }
+#endif // not ARIA_WRAPPER
 
   /// Returns the minimum of the two values
   /// @ingroup easy
@@ -262,34 +267,45 @@ is a pointer to object to be deleted using the 'delete' operator.
 
 
 
+#ifndef ARIA_WRAPPER
   /// Finds out if two strings are equal
+  /// @swigomit
   AREXPORT static int strcmp(const std::string &str, const std::string &str2);
 
   /// Finds out if two strings are equal
+  /// @swigomit
   AREXPORT static int strcmp(const std::string &str, const char *str2);
 
   /// Finds out if two strings are equal
+  /// @swigomit
   AREXPORT static int strcmp(const char *str, const std::string &str2);
 
   /// Finds out if two strings are equal
+  /// @swigomit
   AREXPORT static int strcmp(const char *str, const char *str2);
 
   /// Finds out if two strings are equal (ignoring case)
+  /// @swigomit
   AREXPORT static int strcasecmp(const std::string &str, const std::string &str2);
 
   /// Finds out if two strings are equal (ignoring case)
+  /// @swigomit
   AREXPORT static int strcasecmp(const std::string &str, const char *str2);
 
   /// Finds out if two strings are equal (ignoring case)
+  /// @swigomit
   AREXPORT static int strcasecmp(const char *str, const std::string &str2);
 
   /// Finds out if two strings are equal (ignoring case)
+  /// @swigomit
   AREXPORT static int strcasecmp(const char *str, const char *str2);
 
   /// Finds out if a string has a suffix 
+  /// @swigomit
   AREXPORT static bool strSuffixCmp(const char *str, const char *suffix);
 
   /// Finds out if a string has a suffix 
+  /// @swigomit
   AREXPORT static bool strSuffixCaseCmp(const char *str, const char *suffix);
   
 
@@ -300,10 +316,12 @@ is a pointer to object to be deleted using the 'delete' operator.
    * @return int set to 0 if the two strings are equivalent, a negative 
    * number if str1 is "less than" str2, and a postive number if it is
    * "greater than".
+   * @swigomit
   **/
   AREXPORT static int strcasequotecmp(const std::string &str1, 
                                       const std::string &str2);
 
+#endif // not ARIA_WRAPPER
 
   /// Puts a \ before spaces in src, puts it into dest
   AREXPORT static void escapeSpaces(char *dest, const char *src, 
@@ -370,14 +388,18 @@ is a pointer to object to be deleted using the 'delete' operator.
   /// @deprecated format string should be a const char*
   AREXPORT static void functorPrintf(ArFunctor1<const char *> *functor,
 				     char *formatstr, ...);
-#endif
 
   /// Function for doing a fprintf to a file (here to make a functor for)
+  /** @swigomit */
   AREXPORT static void writeToFile(const char *str, FILE *file);
 
   /// Gets a string contained in an arbitrary file
+  /** @swigomit */
   AREXPORT static bool getStringFromFile(const char *fileName, 
 					 char *str, size_t strLen);
+
+#endif // not ARIA_WRAPPER
+
   /** 
   These are for passing into getStringFromRegistry
   **/
@@ -506,6 +528,7 @@ is a pointer to object to be deleted using the 'delete' operator.
   
 #ifndef SWIG
   /// Helper method that calls the appropriate version of the file stat() utility.
+  /** @swigomit */
   AREXPORT static int filestat(const std::string &fileName,
                                struct stat *buffer);
 #endif
@@ -519,29 +542,34 @@ is a pointer to object to be deleted using the 'delete' operator.
 							  const char *suffix);
 
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   /// Opens a file, defaulting it so that the file will close on exec
+  /** @swigomit */
   AREXPORT static FILE *fopen(const char *path, const char *mode, 
 			      bool closeOnExec = true);
   /// Opens a file, defaulting it so that the file will close on exec
+  /** @swigomit */
   AREXPORT static int open(const char *pathname, int flags, 
 			   bool closeOnExec = true);
   /// Opens a file, defaulting it so that the file will close on exec
+  /** @swigomit */
   AREXPORT static int open(const char *pathname, int flags, mode_t mode, 
 			   bool closeOnExec = true);
   AREXPORT static int close(int fd);
   /// Opens a file, defaulting it so that the file will close on exec
+  /** @swigomit */
   AREXPORT static int creat(const char *pathname, mode_t mode,
 			    bool closeOnExec = true);
   /// Opens a pipe, defaulting it so that the file will close on exec
+  /** @swigomit */
   AREXPORT static FILE *popen(const char *command, const char *type, 
 			      bool closeOnExec = true);
-#endif
 
   /// Sets if the file descriptor will be closed on exec or not
   AREXPORT static void setFileCloseOnExec(int fd, bool closeOnExec = true);
   /// Sets if the file descriptor will be closed on exec or not
   AREXPORT static void setFileCloseOnExec(FILE *file, bool closeOnExec = true);
+#endif // not ARIA_WRAPPER
 
   /** Return true if the value of @a f is not NaN and is not infinite (+/- INF) */
   AREXPORT static bool floatIsNormal(double f);
@@ -2092,9 +2120,13 @@ protected:
   static std::string ourUnknownPriorityName;
 };
 
+
+#ifndef ARIA_WRAPPER
+
 /// holds information about ArStringInfo component strings (it's a helper class for other things)
 /**
    This class holds information for about different strings that are available 
+    @internal
  **/
 class ArStringInfoHolder
 {
@@ -2118,6 +2150,7 @@ protected:
 };
 
 /// This class just holds some helper functions for the ArStringInfoHolder 
+/// @internal
 class ArStringInfoHolderFunctions
 {
 public:
@@ -2187,6 +2220,8 @@ public:
     { snprintf(buffer, bufferLen - 1, format, functor->invokeR()); 
     buffer[bufferLen-1] = '\0'; }
 };
+
+#endif // ifndef ARIA_WRAPPER
 
 /** A class to hold a list of callbacks to call
     GenericFunctor must be a pointer to an ArFunctor or subclass.
@@ -2666,7 +2701,7 @@ protected:
   ArCallbackList myCBList;
 };
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
 /// @internal
 class ArLaserCreatorHelper
 {
@@ -2758,9 +2793,9 @@ protected:
   static ArGlobalRetFunctor2<ArSonarMTX *, int, const char *> ourSonarMTXCB;
 };
 
-#endif // SWIG
+#endif // not ARIA_WRAPPER
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
 /// @internal
 class ArDeviceConnectionCreatorHelper
 {
@@ -2802,7 +2837,7 @@ protected:
 			     const char *> ourSerial422CB;
   static ArLog::LogLevel ourSuccessLogLevel;
 };
-#endif // SWIG
+#endif // not ARIA_WRAPPER
 
 /// Class for finding robot bounds from the basic measurements
 class ArPoseUtil

@@ -32,6 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArLMS2xxPacket.h"
 
 /// Given a device connection it receives packets from the sick through it
+/// @internal
 class ArLMS2xxPacketReceiver
 {
 public:

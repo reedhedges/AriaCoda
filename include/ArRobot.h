@@ -954,7 +954,7 @@ public:
 
   size_t getNumLasers() { return myLaserMap.size(); }
 
-
+#ifndef ARIA_WRAPPER
   /// Adds a battery to the robot's map of them
   /// @internal
   /// (ArBatteryConnector/ArRobotConnector will automatically add ArBatteryMTX
@@ -963,11 +963,14 @@ public:
   /// Remove a battery from the robot's list, by instance
   /// (MTX robots only)
   /// Primarily for ARIA internal use only.
+  /// @internal
   AREXPORT bool remBattery(ArBatteryMTX *battery);
   /// Remove a battery from the robot's list, by number
   /// (MTX robots only)
   /// Primarily for ARIA internal use only.
+  /// @internal
   AREXPORT bool remBattery(int batteryNumber);
+#endif
 
   /// Finds a battery in the robot's list (@a batteryNumber indices start at 1)
   /// (MTX robots only)
@@ -986,7 +989,7 @@ public:
   /// Finds whether a particular battery is attached to this robot or not
   AREXPORT bool hasBattery(ArBatteryMTX *device) const;
 
-
+#ifndef ARIA_WRAPPER
   /// Adds a lcd to the robot's map of them
   /// @internal
   /// (ArLCDConnector/ArRobotConnector will automatically add LCD interfaces if
@@ -1002,6 +1005,7 @@ public:
   /// (ArLCDConnector/ArRobotConnector will automatically add LCD interfaces if
   /// connected.)
   AREXPORT bool remLCD(int lcdNumber);
+#endif
 
   /// Finds a lcd in the robot's list (@a lcdNumber indices start at 1)
   /// (MTX robots only) 
@@ -1024,7 +1028,7 @@ public:
   AREXPORT bool hasLCD(ArLCDMTX *device) const;
 
 
-
+#ifndef ARIA_WRAPPER
   /// Adds a sonar to the robot's map of them
   /// @internal (ArSonarConnector/ArRobotConnector will automatically and MTX
   /// sonar interfaces upon connection)
@@ -1035,6 +1039,7 @@ public:
   /// Remove a sonar from the robot's list, by number
   /// @internal
   AREXPORT bool remSonar(int sonarNumber);
+#endif
 
   /// Finds a sonar in the robot's list (@a sonarNumber indices start at 1)
   /// (MTX robots only)
@@ -1487,6 +1492,7 @@ public:
   /// Gets the flag that controls if the robot won't switch baud rates
   bool getDoNotSwitchBaud(void) { return myDoNotSwitchBaud; }
   
+#ifndef ARIA_WRAPPER
   /// This is only for use by syncLoop
   /// @internal
   void incCounter(void) { myCounter++; }
@@ -1545,6 +1551,7 @@ public:
   /// Internal function, shouldn't be used, sets up the default packet handlers
   /// @internal
   AREXPORT void setUpPacketHandlers(void);
+#endif
 
   ArRetFunctor1C<bool, ArRobot, ArRobotPacket *> myMotorPacketCB;
   ArRetFunctor1C<bool, ArRobot, ArRobotPacket *> myEncoderPacketCB;
@@ -1561,7 +1568,7 @@ public:
   // with them, so they aren't documented... these process the cblists
   // and such
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
 
   // Internal function, shouldn't be used, does a single run of connecting
   int asyncConnectHandler(bool tryHarderToConnect);
@@ -1602,7 +1609,7 @@ public:
   AREXPORT std::list<ArFunctor *> * getRunExitListCopy();
   friend class ArSyncLoop; ///< Needs to call getRunExitListCopy()
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   // Internal function, processes a parameter file
   void processParamFile(void);
 #endif

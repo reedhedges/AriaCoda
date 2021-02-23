@@ -176,12 +176,13 @@ public:
                                                         { return &myDesired; }
 #endif
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   /**
     This is for some internal debugging, don't try to use it, it won't
     work in windows (memory allocation issues).  If there's desire for
     a feature like this I can add it later.
     @internal
+    @swigomit
   **/
   class Data 
   {
@@ -233,7 +234,7 @@ public:
    *  @internal
    */
   Data *getData(void);
-#endif // ifndef SWIG
+#endif // ifndef ARIA_WRAPPER
 protected:
   // Find our triangle, Internal function
   AREXPORT void findTriangle(bool initial, bool goStraight = false);

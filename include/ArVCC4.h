@@ -594,6 +594,7 @@ protected:
   // the list of error callbacks to step through when a error occurs
   std::list<ArFunctor *> myErrorCBList;
 
+#ifndef ARIA_WRAPPER
   /// Used by ArPTZConnector to create an ArVCC4 object based on robot parameters and program options.
   /// @since 2.7.6
   /// @internal
@@ -602,8 +603,10 @@ protected:
   /// @since 2.7.6
   /// @internal
   static ArPTZConnector::GlobalPTZCreateFunc ourCreateFunc;
+#endif
+
 public:
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   static void registerPTZType(); ///<@internal Called by Aria::init() toregister this class with ArPTZConnector for vcc4 and vcc50i PTZ types. @since 2.7.6
 #endif
 };

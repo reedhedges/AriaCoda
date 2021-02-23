@@ -24,6 +24,11 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
+
+#ifndef ARIA_WRAPPER
+
+
+
 #ifndef ARSYNCTASK_H
 #define ARSYNCTASK_H
 
@@ -32,6 +37,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ariaTypedefs.h"
 #include "ArFunctor.h"
 #include "ArTaskState.h"
+
 
 /// Class used internally to manage the tasks that are called every cycle
 /**
@@ -74,6 +80,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
    or if NULL than ArSyncTask will use its own member variable.
 
   @internal
+  @swigomit
 */
 
 class ArSyncTask
@@ -162,4 +169,6 @@ protected:
 
 
 
+
+#endif // ifndef ARIA_WRAPPER
 

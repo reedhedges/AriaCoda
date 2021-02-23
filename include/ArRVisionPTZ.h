@@ -125,7 +125,7 @@ public:
   /// called automatically by Aria::init()
   ///@since 2.7.6
   ///@internal
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   static void registerPTZType();
 #endif
 protected:

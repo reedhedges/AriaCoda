@@ -316,6 +316,8 @@ public:
   /// Gets the range that was chosen as a double
   /** @see canChooseDegrees **/
   double getDegreesChoiceDouble(void) { return myDegreesChoiceDouble; }
+
+#ifndef ARIA_WRAPPER
   /// Gets the map of degrees choices to what they mean 
   /** 
       This is mostly for the simulated laser
@@ -324,7 +326,7 @@ public:
   **/
   std::map<std::string, double> getDegreesChoicesMap(void) 
     { return myDegreesChoices; }
-
+#endif
 
   /**
      Gets if you can set an increment
@@ -370,6 +372,7 @@ public:
   /// Gets the increment that was chosen as a double
   /** @see canChooseIncrement **/
   double getIncrementChoiceDouble(void) { return myIncrementChoiceDouble; }
+#ifndef ARIA_WRAPPER
   /// Gets the map of increment choices to what they mean
   /** 
       This is mostly for the simulated laser
@@ -378,7 +381,7 @@ public:
   **/
   std::map<std::string, double> getIncrementChoicesMap(void) 
     { return myIncrementChoices; }
-
+#endif
   /**
      Gets if you can choose units for the laser.
 
@@ -542,6 +545,7 @@ public:
   /// override the default to keep track of its been set or not
   AREXPORT virtual void setCumulativeBufferSize(size_t size);
 
+#ifndef ARIA_WRAPPER
   /// Call the laser can implement to make sure the parameters
   /// are all okay or set the maximum range (based on the params)
   /**
@@ -563,6 +567,7 @@ public:
      @internal
   **/
   AREXPORT virtual bool laserCheckParams(void) { return true; }
+#endif
 
   /// Applies a transform to the buffers
   AREXPORT virtual void applyTransform(ArTransform trans,

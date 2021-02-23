@@ -392,9 +392,11 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
   /// Unlock this device
   AREXPORT virtual int unlockDevice() {return(myDeviceMutex.unlock());}
 
+#ifndef ARIA_WRAPPER
   /// Internal function to filter the readings based on age and distance
   /// @internal
   AREXPORT void filterCallback(void);
+#endif
 
 protected:
   /**

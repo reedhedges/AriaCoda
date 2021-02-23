@@ -347,10 +347,10 @@ public:
   /// Sets the rate the unit tilts at, relative to current slew
   AREXPORT bool tiltSlewRel(double deg) { return tiltSlew(myTiltSlew+deg); }
 
+#ifndef ARIA_WRAPPER
   /// called automatically by Aria::init()
   ///@since 2.7.6
   ///@internal
-#ifndef SWIG
   static void registerPTZType();
 #endif
 

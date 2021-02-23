@@ -57,13 +57,14 @@ public:
     STATUS_MUTEX_FAILED ///< The underlying mutex failed in some fashion
   };
 
+#ifndef ARIA_WRAPPER
   /** @internal */
 #if defined(WIN32) && !defined(MINGW)
   typedef HANDLE CondType;
 #else
   typedef pthread_cond_t CondType;
 #endif
-
+#endif
   /// Constructor
   AREXPORT ArCondition();
   /// Desctructor

@@ -31,7 +31,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArConfig.h"
 #include <vector>
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
 
 /// Stores a set of video device parameters read from one of the video sections of a robot parameter file.
 /// @internal
@@ -135,7 +135,7 @@ public:
   }
 };
 
-#endif // ifndef SWIG
+#endif // ifndef ARIA_WRAPPER
 
 ///Stores parameters read from the robot's parameter files
 /** 
@@ -887,7 +887,7 @@ public:
   /// Gets what port the compass is on
   const char *getCompassPort() const { return myCompassPort; }
 
-#ifndef SWIG
+#ifndef ARIA_WRAPPER
   /// For internal use only, gets a pointer to the dist conv factor value
   double *internalGetDistConvFactorPointer(void) { return &myDistConvFactor; }
   

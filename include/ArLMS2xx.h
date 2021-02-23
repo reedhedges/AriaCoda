@@ -36,6 +36,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArFunctor.h"
 #include "ArCondition.h"
 
+
 /// Interface to a SICK LMS-200 laser range device
 /**
  * This class processes incoming data from a SICK LMS-200
@@ -99,10 +100,13 @@ public:
   /// Sets the device connection
   AREXPORT virtual void setDeviceConnection(ArDeviceConnection *conn);
 
+#ifndef ARIA_WRAPPER
   /** The internal function used by the ArRangeDeviceThreaded
    *  @internal
    */
   AREXPORT virtual void * runThread(void *arg);
+#endif
+
   AREXPORT virtual void setRobot(ArRobot *robot);
 protected:
   // The packet handler for when connected to the simulator

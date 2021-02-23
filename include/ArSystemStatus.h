@@ -169,12 +169,14 @@ public:
   AREXPORT static ArRetFunctor<int>* getMTXWirelessLinkFunctor();
   AREXPORT static ArRetFunctor<int>* getMTXWirelessQualityFunctor();
 
-
+#ifndef ARIA_WRAPPER
   /** @internal */
   AREXPORT static void invalidate();
 
   /** @deprecated Calling this function is no longer neccesary. */
   AREXPORT static void refresh() { } 
+#endif
+
 private:
   
 

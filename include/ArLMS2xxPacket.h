@@ -27,6 +27,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #ifndef ARLMS2XXPACKET_H
 #define ARLMS2XXPACKET_H
 
+#ifndef ARIA_WRAPPER
+
 #include "ariaTypedefs.h"
 #include "ArBasePacket.h"
 #include "ariaUtil.h"
@@ -39,6 +41,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
    You can just look at the documentation for the ArBasePacket except
    for these functions here, setAddress, getAddress, verifyCheckSum,
    print, getID, and calcCheckSum.  
+
+   @internal
 */
 
 class ArLMS2xxPacket: public ArBasePacket
@@ -85,4 +89,5 @@ protected:
 
 typedef ArLMS2xxPacket ArSickPacket;
 
+#endif // not ARIA_WRAPPER
 #endif // ARSICKPACKET_H

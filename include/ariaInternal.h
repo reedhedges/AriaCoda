@@ -60,9 +60,11 @@ public:
 			    bool initSockets = true, 
 			    bool sigHandleExitNotShutdown = true);
 
+#ifndef ARIA_WRAPPER
   /// Performs OS-specific deinitialization, used internally by shutdown() and exit().
   /// @internal
   AREXPORT static void uninit();
+#endif
 
   /// Adds a callback to call when Aria is initialized using init()
   AREXPORT static void addInitCallBack(ArFunctor *cb, ArListPos::Pos position);
@@ -118,6 +120,7 @@ public:
   /// @deprecated
   AREXPORT static void exitOld(int exitCode = 0);
 
+#ifndef ARIA_WRAPPER
   /// Internal, the callback for the signal handling
   /// @internal
   AREXPORT static void signalHandlerCB(int sig);
@@ -125,6 +128,7 @@ public:
   /// Internal, calls the exit callbacks
   /// @internal
   AREXPORT static void callExitCallbacks(void);
+#endif
 
   /// Adds a callback for when we parse arguments 
   AREXPORT static void addParseArgsCB(ArRetFunctor<bool> *functor, 
@@ -136,6 +140,7 @@ public:
   /// Adds a callback for when we log options
   AREXPORT static void addLogOptionsCB(ArFunctor *functor, int position = 50);
 
+#ifndef ARIA_WRAPPER
   /// Adds a type of deviceConnection for Aria to be able to create
   /// @internal
   AREXPORT static bool deviceConnectionAddCreator(
@@ -157,6 +162,7 @@ public:
 	  const char *deviceConnectionType, const char *port, 
 	  const char *defaultInfo, 
 	  const char *prefix = "Aria::deviceConnectionCreate");
+#endif
 
   /// Sets the robot joystick handler, so that other classes can find it
   AREXPORT static void setRobotJoyHandler(ArRobotJoyHandler *robotJoyHandler);
@@ -213,6 +219,7 @@ public:
   /// @internal
   AREXPORT static void setMaxNumLCDs(int maxNumLCDs);
 
+#ifndef ARIA_WRAPPER
   /// Creates a laser of the given type
   /// @internal
   AREXPORT static ArLaser *laserCreate(
@@ -303,6 +310,7 @@ public:
   /// Set maximum limit on PTZ or PTU devices, used by ArPTZConnector.
   /// @internal
   AREXPORT static size_t getMaxNumPTZs();  
+#endif
 
   /// Gets the identifier (for humans) used for this instance of Aria
   AREXPORT static const char *getIdentifier(void);

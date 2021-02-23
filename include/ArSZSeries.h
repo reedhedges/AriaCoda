@@ -33,6 +33,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "ArLaser.h"   
 #include "ArFunctor.h"
 
+#ifndef ARIA_WRAPPER
 /** @internal */
 class ArSZSeriesPacket : public ArBasePacket
 {
@@ -143,6 +144,8 @@ protected:
 
 
 };
+
+#endif
 
 /**
   @since Aria 2.7.4
