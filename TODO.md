@@ -1,14 +1,17 @@
 
-
 TODO
-----
+====
+
 * [IN PRG] Update README
-* Use namespace, remove class prefixes, move header files to subdirectory,
-   provide automated refactoring tips and insttructions to users. 
+* Clearly document dependencies
+* Provide refactoring tips and insttructions to users to transition existing
+  code due to all changes below.
+* Use namespace?, remove class prefixes? 
+* move header files to subdirectory,
 * Change installation locations to match current OS standards (Linux and
   Windows)
 * Change robot parameter file loading to check user home directory 
-* Remove ArStringInfoGroup (merge with data logger, let classes
+* Remove `ArStringInfoGroup` (merge with data logger, let classes
   supply data accessors for data logger or other higher level uses 
   such as UI, middleware, etc.)
 * Remove barriers to simpler wrapper libraries (swig and non-swig)
@@ -17,21 +20,60 @@ TODO
 * Continue to reduce number of classes needed for typical applications.
   Reduce boilerplate needed on new programs. simpleConnect example should be <10
   lines of code.
-* Reduce header dependencies. Fewer files should include Aria.h.  Eventually
-  deprecate Aria.h?
-* Remove ArDrawingData (move to ArNetworking registry of what sensor
+* Reduce header dependencies. Fewer files should include Aria.h, ideally none -- 
+  Aria.h should only be for users who need a single file that includes
+  everything for convenience.
+* Remove `ArDrawingData` (move to ArNetworking registry of what sensor
   visualizations should look like, maybe configurable in server config file)
 * [IN PRG] Remove various features in ARIA that are needed for ArNetworking/ARAM only.
+* Remove some less-useful classes:
+   * ArActionKeyDrive? ArRatioInputKeydrive? ArKeyHandler? (Move into demo.cpp)
+   * Move rest of classes from ArActionGroups.h/ArActionGroups.cpp into  
+     inlined classes in examples/ActionGroups.h used by relevant examples.
 * overhaul other documentation.  
 * Add more data logger features.
-* Consolidate src/*.cpp and include/*.h in aria/ subdirectories, should
+* Consolidate `src/*.cpp` and `include/*.h` in `aria/` subdirectories? should
   match header installation directory.  
-* Move matlab/ariac to ariac/. Update matlab and rust builds.
+* Move `matlab/ariac` to `ariac/`. Update matlab and ariac-rust builds.
 * Remove weird stuff in ArSystemStatus
 * Set up Travis CI to test build (later tests).
 * Switch to CMake?
 * Start adding some real unit testing?
- 
+  * use doctest in python examples and tests, or in an examples/tests file?
+  * Use unit tests to check against regressions as we do the refactoring in this
+    list.
+* Replace some of the fixed size numeric typedefs with C/C++ standard types
+  (e.g. `UByte` to `uint8_t`, etc.
+* Use more modern portable C++/stdlib features (including tests that new standard library usage is equivalent to older usage)
+  * Replace (deprecate) ArTime and ArUtil::getTime(), ArUtil::putCurrentXXXXInString(), ArUtil::parseTime(), ArUtil::localtime(),  with std::chrono etc.
+  * Replace/deprecate some ariaTypedefs.h, ArUtil and ArMath functions:
+    * ArTypes::Byte -> int8_t
+    * ArTypes::Byte2 -> int16_t
+    * ArTypes::Byte4 -> int32_t
+    * ArTypes::Byte8 -> int64_t
+    * ArTypes::UByte -> uint8_t
+    * ArTypes::UByte2 -> uint16_t
+    * ArTypes::Ubyte4 -> uint32_t
+    * ArTypes::Ubyte8 -> uint64_t
+    * move ArListPos from ariaTypedefs.h into ariaUtil.h, remove ariaTypedefs.h.
+  * smart pointers
+  * Use standard library for threads rather than our own
+  * Replace ArFunctor usage with lamdas and other standard features 
+  * ArRangeBuffer and other collections should perhaps implement iterator or STL container
+    interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view.
+  * Find more opportunities to use improved STL algorithms including parallel.
+  * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics
+  * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
+  * Replace use of atof, atoi etc. (and ArUtil wrappers) with std::stod etc. 
+  * Use modern smart pointers
+* Mark some very frequently used inline methods noexcept? (because library might (or might not) have been compiled with -fno-exceptions but user applications probably won't be)
+* Javascript (NodeJS) wrapper via SWIG
+* Automated Rust wrapper via ritual or SWIG or other tool
+* Keep moving internal stuff into .cpp files, or if headers need to be shared
+  into an internal include directory inside src.  Only public API should be in
+  include/
+* Keep finding 'protected' members to make 'private'.  
+* Keep removing AREXPORT from inline and private members.
 
 Maybe TODO eventually
 ----------
@@ -48,6 +90,5 @@ Maybe TODO eventually
   implementations possible in other libraries or code units, e.g. user custom, ROS, HTTP REST, etc.)
 * Develop logging (ArLog) further.
 * enums in config items
-* replace ArFunctor with modern C++ replacement
-* generally update to modern C++
+
 

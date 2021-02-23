@@ -1,6 +1,10 @@
 AriaCoda
 =========
 
+AriaCoda is a C++03 library used to communicate with Pioneer and
+Pioneer-compatible mobile robot controllers, many sensors and other accessory
+devices, and includes various useful tools for mobile robotics applications.
+
 AriaCoda is based on ARIA (Copyright 2002, 2003, 2004, 2005 ActivMedia Robotics, LLC.
 Copyright 2006, 2007, 2008, 2009 MobileRobots Inc., Copyright 2010-2015 Adept Technology,
 Copyright 2016-2018 Omron Adept Technologies, Inc.)
@@ -21,11 +25,15 @@ On Linux, the GNU C++ compiler (g++/gcc), GNU Make, and standard shell
 tools are required.  On Ubuntu or Debian Linux, run 
 `sudo apt install make g++` to install. 
 
-On Windows, Visual C++ 2019 will be required (project files are still being
-updated and created).   The free "Community" edition can be downloaded
+On Windows, Visual C++ 2019 is required to use the provides project and
+solution files.  The free "Community" edition can be downloaded
 from <http://visualstudio.microsoft.com/downloads>.  (Only the C++ compiler
 and Windows SDK are required, no additional Visual Studio components
-are needed.) 
+are needed.)   It may be possible to use older versions of Visual C++ 
+if neccesary, but you will need to create new project files for AriaCoda
+using that version of Visual C++.  (Generally, Visual C++ project files
+are specific to versions of Visual C++, though Visual Studio can often 
+upgrade older project files.)
 
 In addition, some optional feaures have additional requirements. 
 * Doxygen, for API reference documentation generation
