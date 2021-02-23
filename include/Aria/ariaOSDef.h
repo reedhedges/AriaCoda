@@ -27,11 +27,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #ifndef ARIAOSDEF_H
 #define ARIAOSDEF_H
 
-#if defined(_WIN32) && !defined(WIN32)
-#define WIN32 _WIN32
-#endif
 
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
 
 ////
 //// Windows - Massage the windows compiler into working

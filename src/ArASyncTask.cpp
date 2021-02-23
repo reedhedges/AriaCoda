@@ -31,7 +31,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "Aria/ArASyncTask.h"
 #include "Aria/ArLog.h"
 
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
 // NOTE on MinGW pthread.h must be included after ariaTypedefs.h which includes winsock2.h.
 // (on MinGW, pthread.h will include winsock.h to get an errno definition, after which
 // winsock2.h will assert a preprocessor error.)
@@ -64,7 +64,7 @@ AREXPORT void * ArASyncTask::runInThisThread(void *arg)
 {
   myJoinable=true;
   myRunning=true;
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   myThread=GetCurrentThreadId();
 #else
   myThread=pthread_self();

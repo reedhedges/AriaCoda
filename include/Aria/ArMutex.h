@@ -30,7 +30,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <string>
 #include "Aria/ariaTypedefs.h"
 
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
 // NOTE on MinGW pthread.h must be included after ariaTypedefs.h which includes winsock2.h.
 // (on MinGW, pthread.h will include winsock.h to get an errno definition, after which
 // winsock2.h will assert a preprocessor error.) 
@@ -80,7 +80,7 @@ class ArMutex
 {
 public:
 
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   typedef HANDLE MutexType;
 #else
   typedef pthread_mutex_t MutexType;
@@ -193,7 +193,7 @@ protected:
   bool myFailedInit;
   MutexType myMutex;
 // Eliminating this from Windows in an attempt to debug a memory issue
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
   ArStrMap myStrMap;
 #endif 
 

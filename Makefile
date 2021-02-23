@@ -66,7 +66,11 @@ CSHARP_COMPILER:=mcs
 endif
 
 # Default targets to build in the default rule:
+ifeq ($(host),MINGW32)
+TARGETS:=lib/libAria.a examples/demo$(binsuffix)
+else
 TARGETS:=lib/libAria.$(sosuffix) examples/demo$(binsuffix)
+endif
 
 # Default static libraries and examples:
 STATIC_TARGETS:=lib/libAria.a examples/demoStatic$(binsuffix)

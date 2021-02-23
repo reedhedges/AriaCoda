@@ -31,7 +31,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include "Aria/ariaTypedefs.h"
 
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
 // NOTE on MinGW pthread.h must be included after ariaTypedefs.h which includes winsock2.h.
 // (on MinGW, pthread.h will include winsock.h to get an errno definition, after which
 // winsock2.h will assert a preprocessor error.) 
@@ -70,7 +70,7 @@ class ArThread
 {
 public:
 
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   typedef DWORD ThreadType;
 #else
   typedef pthread_t ThreadType;
@@ -223,7 +223,7 @@ public:
   /// Logs the information about this thread
   AREXPORT virtual void logThreadInfo(void);
 
-#ifndef WIN32
+#ifndef _WIN32
   pid_t getPID(void) { return myPID; }
   pid_t getTID(void) { return myTID; }
 #endif
@@ -238,7 +238,7 @@ public:
 protected:
   static ArMutex ourThreadsMutex;
   static MapType ourThreads;
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   static std::map<HANDLE, ArThread *> ourThreadHandles;
 #endif 
   AREXPORT static ArLog::LogLevel ourLogLevel; 
@@ -259,12 +259,12 @@ protected:
   ArStrMap myStrMap;
   ArFunctor *myFunc;
   ThreadType myThread;
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   HANDLE myThreadHandle;
 #endif
 
   
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
   pid_t myPID;
   pid_t myTID;
 #endif

@@ -167,7 +167,7 @@ AREXPORT void ArLog::logErrorFromOS(LogLevel level, const char *str, ...)
   if (level > ourLevel)
     return;
 
-#ifndef WIN32
+#ifndef _WIN32
   int err = errno;
 #else
   DWORD err = GetLastError();
@@ -206,7 +206,7 @@ AREXPORT void ArLog::logErrorFromOS(LogLevel level, const char *str, ...)
 
   char bufWithError[10200];  
 
-#ifndef WIN32
+#ifndef _WIN32
   const char *errorString = NULL;
   if (err < sys_nerr - 1)
     errorString = sys_errlist[err];
@@ -284,7 +284,7 @@ AREXPORT void ArLog::logErrorFromOSNoLock(LogLevel level, const char *str, ...)
   if (level > ourLevel)
     return;
 
-#ifndef WIN32
+#ifndef _WIN32
   int err = errno;
 #else
   DWORD err = GetLastError();
@@ -322,7 +322,7 @@ AREXPORT void ArLog::logErrorFromOSNoLock(LogLevel level, const char *str, ...)
 
   char bufWithError[10200];  
 
-#ifndef WIN32
+#ifndef _WIN32
   const char *errorString = NULL;
   if (err < sys_nerr - 1)
     errorString = sys_errlist[err];
@@ -550,7 +550,7 @@ AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
 
 AREXPORT void ArLog::logBacktrace(LogLevel level)
 {
-#ifndef WIN32
+#ifndef _WIN32
   int size = 100;
   int numEntries;
   void *buffer[size];

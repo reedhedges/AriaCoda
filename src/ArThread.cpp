@@ -37,7 +37,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 ArMutex ArThread::ourThreadsMutex;
 ArThread::MapType ArThread::ourThreads;
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
 std::map<HANDLE, ArThread *> ArThread::ourThreadHandles;
 #endif
 AREXPORT ArLog::LogLevel ArThread::ourLogLevel = ArLog::Verbose; // todo, instead of AREXPORT move accessors into .cpp?
@@ -92,7 +92,7 @@ AREXPORT ArThread::ArThread(bool blockAllSignals) :
   myStrMap(),
   myFunc(0),
   myThread(),
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   myThreadHandle(0)
 #else
   myPID(0)
@@ -111,7 +111,7 @@ AREXPORT ArThread::ArThread(ThreadType thread, bool joinable,
   myStrMap(),
   myFunc(0),
   myThread(thread),
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   myThreadHandle(0)
 #else
   myPID(0)
@@ -129,7 +129,7 @@ AREXPORT ArThread::ArThread(ArFunctor *func, bool joinable,
   myStrMap(),
   myFunc(func),
   myThread(),
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
   myThreadHandle(0)
 #else
   myPID(0)
@@ -138,7 +138,7 @@ AREXPORT ArThread::ArThread(ArFunctor *func, bool joinable,
   create(func, joinable);
 }
 
-#if !defined(WIN32) || defined(MINGW)
+#if !defined(_WIN32) || defined(MINGW)
 AREXPORT ArThread::~ArThread()
 {
   // Just make sure the thread is no longer in the map.

@@ -866,7 +866,7 @@ AREXPORT void ArLaserLogger::robotTask(void)
   if (myWrote)
   {
     fflush(myFile);
-#ifndef WIN32
+#ifndef _WIN32
     fsync(fileno(myFile));
 #endif
   }

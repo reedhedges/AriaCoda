@@ -32,7 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <map>
 #include <stdio.h>
 
-#ifndef WIN32
+#ifndef _WIN32
 #include <termios.h>
 #include <unistd.h>
 #endif
@@ -139,7 +139,7 @@ public:
   AREXPORT int getKey(void);
 
 protected:
-#ifndef WIN32
+#ifndef _WIN32
   int getChar(void);
   //int ungetChar(int c);
 #endif 
@@ -149,7 +149,7 @@ protected:
   
   bool myRestored;
   ArFunctorC<ArKeyHandler> myAriaExitCB;
-#ifndef WIN32
+#ifndef _WIN32
   struct termios myOriginalTermios;
 #endif
   

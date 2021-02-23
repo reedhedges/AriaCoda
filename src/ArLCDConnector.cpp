@@ -35,7 +35,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include <sys/types.h>
 
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
 #include <Windows.h>
 #else
 #include <dirent.h>
@@ -1084,7 +1084,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 
 
 // TODO move searchForFile to ariaUtil
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
 
 AREXPORT std::string ArLCDConnector::searchForFile(const char *dirname, const char *prefix, const char *suffix)
 {
@@ -1109,7 +1109,7 @@ AREXPORT std::string ArLCDConnector::searchForFile(
 	const char *dirToLookIn, const char *prefix, const char *suffix)
 {
 
-#if defined(WIN32) && !defined(MINGW)
+#if defined(_WIN32) && !defined(MINGW)
 	return "";
 #else
   /***

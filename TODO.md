@@ -1,20 +1,18 @@
 
 TODO
-====
 
-* Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.
+* Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and insttructions to users to transition existing
   code due to all changes below.
 * Use namespace?, remove class prefixes? 
-* move header files to subdirectory,
 * Change installation locations to match current OS standards (Linux and
   Windows)
 * Change robot parameter file loading to check user home directory 
 * Remove `ArStringInfoGroup` (merge with data logger, let classes
   supply data accessors for data logger or other higher level uses 
   such as UI, middleware, etc.)
-* Remove barriers to simpler wrapper libraries (swig and non-swig)
-* Separate into multiple libraries (with optional full aria build also for
+* Remove barriers to having simpler wrapper libraries (swig and non-swig)
+* Separate into multiple libraries? (with optional full aria build also for
   compatibilty)?  -- aria-core, aria-devices, aria-actionlib? 
 * Continue to reduce number of classes needed for typical applications.
   Reduce boilerplate needed on new programs. simpleConnect example should be <10
@@ -66,13 +64,16 @@ TODO
   * Replace use of atof, atoi etc. (and ArUtil wrappers) with std::stod etc. 
   * Use modern smart pointers
 * Mark some very frequently used inline methods noexcept? (because library might (or might not) have been compiled with -fno-exceptions but user applications probably won't be)
-* Javascript (NodeJS) wrapper via SWIG
-* Automated Rust wrapper via ritual or SWIG or other tool
+* Javascript (NodeJS) wrapper via SWIG (HELP WANTED)
+* Automated Rust wrapper via ritual or SWIG or other tool (HELP WANTED)
 * Keep moving internal stuff into .cpp files, or if headers need to be shared
   into an internal include directory inside src.  Only public API should be in
   include/
 * Keep finding 'protected' members to make 'private'.  
 * Keep removing AREXPORT from inline and private members.
+* Add modern packaging to python wrapper (HELP WANTED)
+* Add better rust packanging to rust wrapper (HELP WANTED)
+ 
 
 Maybe TODO eventually
 ----------
@@ -80,7 +81,7 @@ Maybe TODO eventually
 * Simplify ArMap.  (Restore from older version of ARIA without "Components"?)
 * Possibly refactor ArRobot to be a smaller class. Separate robot communications
   and control/data API from other higher level features
-* Replace old ArModuleLoader with similar
+* Replace old ArModuleLoader with similar with more useful/desirable features
 * Remove ArActions or move to another library.
 * Move device interfaces to separate libraries?
 * Add proper unit tests.

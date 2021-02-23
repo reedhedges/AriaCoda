@@ -27,7 +27,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #ifndef ARLOG_H
 #define ARLOG_H
 
-#ifndef WIN32
+#ifndef _WIN32
 #include <stdio.h>
 #endif
 #include <string>
