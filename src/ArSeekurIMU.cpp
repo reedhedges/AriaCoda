@@ -25,12 +25,12 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ariaUtil.h"
-#include "ArCommands.h"
-#include "ArSeekurIMU.h"
-#include "ArRobot.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ArCommands.h"
+#include "Aria/ArSeekurIMU.h"
+#include "Aria/ArRobot.h"
 
 AREXPORT ArSeekurIMU::ArSeekurIMU(ArRobot *robot) : 
   myHaveData(false),

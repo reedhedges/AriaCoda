@@ -24,8 +24,8 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "Aria.h"
-//#include "ArVideo.h"
+#include "Aria/Aria.h"
+//#include "Aria/ArVideo.h"
 
 /** @example cameraPTZExample.cpp This is an example showing how to connect to
  * and use a camera's PTZ control (or DPPTU)

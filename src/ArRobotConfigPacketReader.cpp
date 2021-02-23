@@ -24,12 +24,12 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ariaOSDef.h"
-#include "ArExport.h"
-#include "ArRobotConfigPacketReader.h"
-#include "ArRobot.h"
-#include "ArRobotPacket.h"
-#include "ArCommands.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArExport.h"
+#include "Aria/ArRobotConfigPacketReader.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArRobotPacket.h"
+#include "Aria/ArCommands.h"
 
 /**
    @param robot is the robot to connect this to

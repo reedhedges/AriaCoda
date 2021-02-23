@@ -12,7 +12,7 @@ Copyright 2016-2018 Omron Adept Technologies, Inc.)
 AriaCoda is distributed under the terms of the GNU General Public License
 (GPL) version 2.
 
-See LICENSE.txt for full license information about AriaCoda.
+See [LICENSE.txt](LICENSE.txt) for full license information about AriaCoda.
 
 
 Requirements
@@ -36,12 +36,33 @@ are specific to versions of Visual C++, though Visual Studio can often
 upgrade older project files.)
 
 In addition, some optional feaures have additional requirements. 
-* Doxygen, for API reference documentation generation
-* SWIG, for interface generation for Python and Java interfaces
+* Doxygen, for API reference documentation generation. See  <http://www.doxygen.org>
+* SWIG, for interface generation for Python and Java interfaces. See <http://www.swig.org>.
 * Java and Python developmen libraries for Python and Java interfaces
 * Matlab MEX compiler for Matlab interface
 * Rust bindgen tool for Rust interface (and cargo)
-* Debian packaging tools to create Debian packages
+* Debian/Ubuntu packaging tools to create Debian/Ubuntu packages
+
+Major Changes from previous Aria releases
+-----------------------------------------
+
+Several major changes have been made for AriaCoda since the last release of Aria
+by Omron/Adept MobileRobots:
+
+* All header files have been moved into an `Aria` subdirectory. All header file `#include` directives must be updated. For example, use `#include "Aria/ArRobot.h"` instead of `#include "ArRobot.h"`.
+* ArNetworking is no longer included or installed with Aria
+* Some classes have been removed (if obsolete, or only neccesary for use with ArNetworking or used in non-open source products).  Including the following:
+  * ArSimpleConnector (use ArRobotConnector, ArLaserConnector, and other connector classes instead.)
+  * ACTS related classes
+  * ArAMPTU, ArP2Arm, ArIrrfDevice, ArTCM2, ArSonyPTZ and ArVersalogicIO have been removed.
+  * ArMode and subclasses, and all keyboard handling code, generally only used by examples/demo.cpp, has just been moved into examples/demo.cpp.
+  * ArNetServer
+  * Support classes for ArNetworking (ArDrawingData etc.)
+Code for these classes has been moved into the `attic` subdirectory of the git
+repository.
+
+Several other changes are planned that will not be compatible with prior Aria
+releases, see [TODO.md](TODO.md).
 
 
 Building AriaCoda

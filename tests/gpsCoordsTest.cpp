@@ -26,8 +26,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 /** @example gpsCoordsTest.cpp : works the LLA2ENU and ENU2LLA coord transformations */
 
-#include "Aria.h"
-#include "ArGPSCoords.h"
+#include "Aria/Aria.h"
+#include "Aria/ArGPSCoords.h"
 
 int main(int argc, char **argv)
 {

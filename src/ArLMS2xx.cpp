@@ -24,14 +24,14 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArLMS2xx.h"
-#include "ArLMS2xxPacket.h"
-#include "ArLMS2xxPacketReceiver.h"
-#include "ArRobot.h"
-#include "ArSerialConnection.h"
-#include "ariaInternal.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArLMS2xx.h"
+#include "Aria/ArLMS2xxPacket.h"
+#include "Aria/ArLMS2xxPacketReceiver.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArSerialConnection.h"
+#include "Aria/ariaInternal.h"
 #include <time.h>
 
 AREXPORT ArLMS2xx::ArLMS2xx(

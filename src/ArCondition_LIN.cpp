@@ -24,15 +24,15 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
+#include "Aria/ArExport.h"
 #include <errno.h>
 #include <time.h>
 #include <math.h>
 #include <sys/time.h>
 #include <string.h>
-#include "ariaOSDef.h"
-#include "ArCondition.h"
-#include "ArLog.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArCondition.h"
+#include "Aria/ArLog.h"
 
 #include <time.h>
 

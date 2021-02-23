@@ -25,12 +25,12 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArRobotJoyHandler.h"
-#include "ArRobot.h"
-#include "ArCommands.h"
-#include "ariaInternal.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArRobotJoyHandler.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArCommands.h"
+#include "Aria/ariaInternal.h"
 
 AREXPORT ArRobotJoyHandler::ArRobotJoyHandler(ArRobot *robot) : 
     myHandleJoystickPacketCB(this, &ArRobotJoyHandler::handleJoystickPacket),

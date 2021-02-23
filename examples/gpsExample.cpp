@@ -29,10 +29,10 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
  * display data on the terminal.
  */
 
-#include "Aria.h"
-#include "ArGPS.h"
-#include "ArGPSConnector.h"
-#include "ArTrimbleGPS.h"
+#include "Aria/Aria.h"
+#include "Aria/ArGPS.h"
+#include "Aria/ArGPSConnector.h"
+#include "Aria/ArTrimbleGPS.h"
 #include <iostream>
 
 int main(int argc, char** argv)

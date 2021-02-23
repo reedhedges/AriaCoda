@@ -26,14 +26,14 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 #include <stdarg.h>
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArLaserLogger.h"
-#include "ArRobot.h"
-#include "ArLaser.h"
-#include "ArJoyHandler.h"
-#include "ArRobotJoyHandler.h"
-#include "ariaInternal.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArLaserLogger.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArLaser.h"
+#include "Aria/ArJoyHandler.h"
+#include "Aria/ArRobotJoyHandler.h"
+#include "Aria/ariaInternal.h"
 
 
 /** @page LaserLogFileFormat Laser Scan Log File Format 

@@ -24,13 +24,13 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ariaOSDef.h"
-#include "ArExport.h"
-#include "ArConfig.h"
-#include "ArRobotConfig.h"
-#include "ArRobot.h"
-#include "ArAnalogGyro.h"
-#include "ariaInternal.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArExport.h"
+#include "Aria/ArConfig.h"
+#include "Aria/ArRobotConfig.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArAnalogGyro.h"
+#include "Aria/ariaInternal.h"
 
 AREXPORT ArRobotConfig::ArRobotConfig(ArRobot *robot) : 
   myConnectCB(this, &ArRobotConfig::connectCallback),

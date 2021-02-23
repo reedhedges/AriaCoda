@@ -32,7 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 /* RH (ActivMedia/MobileRobots) including header from ARIA which defines AREXPORT to export
    functions from Windows DLLs, and added AREXPORT to functions defined below:
 */
-#include "ArExport.h"
+#include "Aria/ArExport.h"
 
 /*
   Copyright (C) 1999, 2000, 2002 Aladdin Enterprises.  All rights reserved.
@@ -86,7 +86,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
   1999-05-03 lpd Original version.
  */
 
-#include "md5.h"
+#include "Aria/md5.h"
 #include <string.h>
 
 #undef BYTE_ORDER	/* 1 = big-endian, -1 = little-endian, 0 = unknown */

@@ -24,14 +24,14 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArSonarConnector.h"
-#include "ArRobot.h"
-#include "ArSonarMTX.h"
-#include "ariaInternal.h"
-#include "ArCommands.h"
-#include "ArRobotConfigPacketReader.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArSonarConnector.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArSonarMTX.h"
+#include "Aria/ariaInternal.h"
+#include "Aria/ArCommands.h"
+#include "Aria/ArRobotConfigPacketReader.h"
 
 /** @warning do not delete @a parser during the lifetime of this
  ArSonarConnector, which may need to access its contents later.

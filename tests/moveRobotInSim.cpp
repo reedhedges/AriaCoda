@@ -28,12 +28,12 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 /* Tests SIM_SET_POSE command to move the robot in the simulator. */
 
 
-#include "ariaInternal.h"
-#include "ArArgumentParser.h";
-#include "ArRobotConnector.h"
-#include "ArRobot.h"
-#include "ArSimUtil.h"
-#include "ariaUtil.h"
+#include "Aria/ariaInternal.h"
+#include "Aria/ArArgumentParser.h";
+#include "Aria/ArRobotConnector.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArSimUtil.h"
+#include "Aria/ariaUtil.h"
 #include <stdio.h>
 
 

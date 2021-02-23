@@ -27,7 +27,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 
 #include <string>
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 
 /** @example functorExample.cpp  Illustrates the use of functors

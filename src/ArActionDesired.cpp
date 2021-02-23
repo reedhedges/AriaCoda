@@ -25,9 +25,9 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArActionDesired.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArActionDesired.h"
 
 /* Need to export symbols but can't prior to VS 2010 (The VS 2003 _MSC_VER is version 1310, 2005 is 14xx, 2008 is 15xx, 2010 is 1600)*/
 //#if (_MSC_VER < 1600)

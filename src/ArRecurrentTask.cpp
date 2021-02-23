@@ -24,13 +24,13 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
+#include "Aria/ArExport.h"
 // Recurrent task class
 
-#include "ariaOSDef.h"
-#include "ArASyncTask.h"
-#include "ArLog.h"
-#include "ArRecurrentTask.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArASyncTask.h"
+#include "Aria/ArLog.h"
+#include "Aria/ArRecurrentTask.h"
 
 #if !defined(WIN32) || defined(MINGW)
 // NOTE on MinGW pthread.h must be included after ariaTypedefs.h which includes winsock2.h.

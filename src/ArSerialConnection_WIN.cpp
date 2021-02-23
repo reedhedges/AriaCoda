@@ -24,11 +24,11 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArSerialConnection.h"
-#include "ArLog.h"
-#include "ariaUtil.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArSerialConnection.h"
+#include "Aria/ArLog.h"
+#include "Aria/ariaUtil.h"
 
 
 // PS 7/11/11 - nothing is done different for windows for 422

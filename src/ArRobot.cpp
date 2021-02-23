@@ -24,31 +24,31 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
 #include <time.h>
 #include <ctype.h>
 
-#include "ArRobot.h"
-#include "ArLog.h"
-#include "ArDeviceConnection.h"
-#include "ArTcpConnection.h"
-#include "ArSerialConnection.h"
-#include "ariaUtil.h"
-#include "ArSocket.h"
-#include "ArCommands.h"
-#include "ArRobotTypes.h"
-#include "ArSignalHandler.h"
-#include "ArPriorityResolver.h"
-#include "ArAction.h"
-#include "ArRangeDevice.h"
-#include "ArRobotConfigPacketReader.h"
-#include "ArRobotBatteryPacketReader.h"
-#include "ariaInternal.h"
-#include "ArLaser.h"
-#include "ArBatteryMTX.h"
-#include "ArSonarMTX.h"
-#include "ArLCDMTX.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArLog.h"
+#include "Aria/ArDeviceConnection.h"
+#include "Aria/ArTcpConnection.h"
+#include "Aria/ArSerialConnection.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ArSocket.h"
+#include "Aria/ArCommands.h"
+#include "Aria/ArRobotTypes.h"
+#include "Aria/ArSignalHandler.h"
+#include "Aria/ArPriorityResolver.h"
+#include "Aria/ArAction.h"
+#include "Aria/ArRangeDevice.h"
+#include "Aria/ArRobotConfigPacketReader.h"
+#include "Aria/ArRobotBatteryPacketReader.h"
+#include "Aria/ariaInternal.h"
+#include "Aria/ArLaser.h"
+#include "Aria/ArBatteryMTX.h"
+#include "Aria/ArSonarMTX.h"
+#include "Aria/ArLCDMTX.h"
 
 
 /**

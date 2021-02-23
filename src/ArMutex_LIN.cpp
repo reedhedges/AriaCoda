@@ -28,15 +28,15 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 /* Need to define this to get pthread_mutexattr_settype when using GCC 2.96 */
 #define _XOPEN_SOURCE 500
 
-#include "ArExport.h"
+#include "Aria/ArExport.h"
 #include <errno.h>
-#include "ariaOSDef.h"
-#include "ArMutex.h"
-#include "ArLog.h"
-#include "ArThread.h"
-#include "ariaUtil.h"
-#include "ariaInternal.h"
-#include "ArFunctor.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArMutex.h"
+#include "Aria/ArLog.h"
+#include "Aria/ArThread.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ariaInternal.h"
+#include "Aria/ArFunctor.h"
 
 #include <sys/types.h>
 #include <unistd.h>     // for getpid()

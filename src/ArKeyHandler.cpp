@@ -24,10 +24,10 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArKeyHandler.h"
-#include "ArLog.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArKeyHandler.h"
+#include "Aria/ArLog.h"
 
 #ifdef WIN32
 #include <conio.h>
@@ -37,7 +37,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <fcntl.h>
 #endif
 
-#include "ariaInternal.h"
+#include "Aria/ariaInternal.h"
 
 /**
    @param blocking whether or not to block waiting on keys, default is

@@ -25,8 +25,8 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "Aria.h"
-#include "ArMTXIO.h"
+#include "Aria/Aria.h"
+#include "Aria/ArMTXIO.h"
 
 typedef struct {
   const char *option;

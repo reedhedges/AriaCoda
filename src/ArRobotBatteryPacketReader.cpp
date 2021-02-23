@@ -24,12 +24,12 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ariaOSDef.h"
-#include "ArExport.h"
-#include "ArRobotBatteryPacketReader.h"
-#include "ArRobot.h"
-#include "ArRobotPacket.h"
-#include "ArCommands.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArExport.h"
+#include "Aria/ArRobotBatteryPacketReader.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArRobotPacket.h"
+#include "Aria/ArCommands.h"
 
 AREXPORT ArRobotBatteryPacketReader::ArRobotBatteryPacketReader(
 	ArRobot *robot) : 

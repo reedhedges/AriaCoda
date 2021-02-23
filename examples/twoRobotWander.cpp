@@ -24,7 +24,7 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 /** @example twoRobotWander.cpp Example showing how one program can connect to
    two robots using TCP network connection via ArTcpConnection objects (in simulator or to Amigobot or Pioneer with

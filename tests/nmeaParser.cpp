@@ -25,7 +25,7 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArNMEAParser.h"
+#include "Aria/ArNMEAParser.h"
 #include "assert.h"
 
 int main(int argc, char **argv) {

@@ -26,7 +26,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
 
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 /** @example lasers.cpp example showing how to connect to laser rangefinders attached to the robot and retrieve data from them.  What kinds of laser or lasers are connected to the robot, and their parameters, are loaded from the robot's parameter file in the params directory. First the default for this type of mobile robot is loaded (e.g. p3dx-sh.p for a Pioneer 3 DX), followed by a parameter file specific to this individual robot (based on its 'name'), if such a parameter file exists.  Laser parameters may also be given as command line options, use the -help option to list them. This program will only connect to any lasers that have LaserAutoConnect true in the parameter file, or if the -connectLaser or -cl command-line options are given. You may need to edit the parameter file for your robot to set LaserAutoConnect to true.
  

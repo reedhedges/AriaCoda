@@ -24,7 +24,7 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 /** @example singleThreadLoopExample.cpp example showing how to run ArRobot thread
  * from your own loop, without running a separate thread.  Only use this

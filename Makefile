@@ -473,9 +473,9 @@ python/AriaPy.html: python/AriaPy.py
 # specifically from being seen by swig (usually things swig can't deal with
 # automatically)
 
-python/AriaPy_wrap.cpp python/AriaPy.py: include/wrapper.i include/*.h python/DiscoverWiBox.py
+python/AriaPy_wrap.cpp python/AriaPy.py: include/Aria/wrapper.i include/Aria/*.h python/DiscoverWiBox.py
 	#-rm -f `find python -maxdepth 1 -xtype f -name "*Aria*" | grep -v .ds | grep -v .sln | grep -v .vcproj`
-	cd python; $(SWIG) -Wall -c++ -python -modern -module AriaPy -DARIA_WRAPPER -Dlinux -DAREXPORT -o AriaPy_wrap.cpp -I../include ../include/wrapper.i 
+	cd python; $(SWIG) -Wall -c++ -python -modern -module AriaPy -DARIA_WRAPPER -Dlinux -DAREXPORT -o AriaPy_wrap.cpp -I../include ../include/Aria/wrapper.i 
 
 python/_AriaPy.$(sosuffix): obj/AriaPy_wrap.o lib/libAria.$(sosuffix)
 	if ! test -f $(PYTHON_INCLUDE)/Python.h; then echo "Error: $(PYTHON_INCLUDE)/Python.h not found. Is the Python development package (python2.7-dev) installed on this system?"; exit 1; fi
@@ -527,10 +527,10 @@ obj/AriaJava_wrap.o: java/AriaJava_wrap.cpp
 # specifically from being seen by swig (usually things swig can't deal with
 # automatically)
 
-java/AriaJava_wrap.cpp java/com/mobilerobots/Aria/ArRobot.java: include/wrapper.i $(HEADER_FILES)
+java/AriaJava_wrap.cpp java/com/mobilerobots/Aria/ArRobot.java: include/Aria/wrapper.i $(HEADER_FILES)
 	-mkdir -p java/com/mobilerobots/Aria; 
 	-rm java/com/mobilerobots/Aria/*.java java/AriaJava_wrap.cpp java/AriaJava_wrap.h
-	$(SWIG) -Wall -c++ -java -package com.mobilerobots.Aria -outdir java/com/mobilerobots/Aria -module AriaJava -DARIA_WRAPPER -Dlinux -DAREXPORT -o java/AriaJava_wrap.cpp -Iinclude include/wrapper.i 
+	$(SWIG) -Wall -c++ -java -package com.mobilerobots.Aria -outdir java/com/mobilerobots/Aria -module AriaJava -DARIA_WRAPPER -Dlinux -DAREXPORT -o java/AriaJava_wrap.cpp -Iinclude include/Aria/wrapper.i 
     
 # The sed script is a hack to let subclasses outside of Aria work for ArFunctor;
 # for some reason SWIG doesn't use my %typmeap(javabody) for ArFunctor. 
@@ -555,10 +555,10 @@ csharp/libAriaCS.$(sosuffix): csharp/AriaCS_wrap.cpp lib/libAria.$(sosuffix)
 # specifically from being seen by swig (usually things swig can't deal with
 # automatically)
 
-csharp/AriaCS_wrap.cpp csharp/ArRobot.cs: include/wrapper.i $(HEADER_FILES)
+csharp/AriaCS_wrap.cpp csharp/ArRobot.cs: include/Aria/wrapper.i $(HEADER_FILES)
 	-mkdir -p csharp
 	-rm csharp/*.cs
-	$(SWIG) -Wall -c++ -csharp -namespace AriaCS -outdir csharp -module AriaCS -DARIA_WRAPPER -Dlinux -DAREXPORT -o csharp/AriaCS_wrap.cpp -Iinclude include/wrapper.i
+	$(SWIG) -Wall -c++ -csharp -namespace AriaCS -outdir csharp -module AriaCS -DARIA_WRAPPER -Dlinux -DAREXPORT -o csharp/AriaCS_wrap.cpp -Iinclude include/Aria/wrapper.i
 
 csharp/AriaCS.dll: csharp/ArRobot.cs
 	$(CSHARP_COMPILER) -nologo -out:$@ -target:library csharp/*.cs
@@ -636,7 +636,7 @@ obj/%.o : src/%.c
 obj/ArPacketUtil.o: src/ArPacketUtil.cpp
 	$(CXX) $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS) $(CXXINC) -c $< -o $@
 
-include/%.i: include/%.h 
+include/Aria/%.i: include/Aria/%.h 
 	$(CXX) -E $(CXXFLAGS) $(CXXINC) $< -o $@
 
 src/%.i: src/%.cpp 
@@ -653,99 +653,6 @@ src/%.i: src/%.cpp
 # will always get remade.
 FORCE:
 
-
-####
-#### Installation and distribution 
-####
-
-
-ifndef INSTALL_DIR
-INSTALL_DIR=/usr/local/Aria
-endif
-
-ifndef SYSTEM_ETC_DIR
-SYSTEM_ETC_DIR=/etc
-endif
-
-# What to put in /etc/Aria:
-ifndef STORED_INSTALL_DIR
-STORED_INSTALL_DIR=$(INSTALL_DIR)
-endif
-
-# How to run 'install' for the install rule:
-ifndef INSTALL
-INSTALL:=install --preserve-timestamps
-endif
-
-
-dist: FORCE
-	dist/dist.sh
-
-dist-install: install
-
-# Install rule.  This can be used by users or ARIA developers; in the latter
-# case it also installs various files needed to make a release distribution.
-# Override installation locations with INSTALL_DIR environment variable.
-# Things are installed group-writable so as to be hacked upon.
-install: all
-	@echo      	--------------------------------------
-	@echo		    Installing ARIA in $(DESTDIR)$(INSTALL_DIR)...
-	@echo      	--------------------------------------
-	$(INSTALL) -m 775 -d $(DESTDIR)$(INSTALL_DIR)
-	find    include src tests utils params docs examples maps \
-	        java javaExamples python pythonExamples matlab rust \
-	        obj rust \
-	        \( -name \*.o -or -name core -or -name CVS -or -name .\* -or -name \*~ -or -name tmp -or -name proprietary* -or -name \*.bak -or -name \*.class -or -name \*.lib -or -name \*.dll -or -name \*.exe \) -prune  \
-	        -or -type d   -exec $(INSTALL) -d -m 777 $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
-	        -or -type l   -exec cp --no-dereference \{\} $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
-	        -or -name \*.a -exec $(INSTALL) -D -m 666 \{\}  $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
-	        -or -perm /u=x  -exec $(INSTALL) -D --strip -m 777 \{\}  $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
-	        -or           -exec $(INSTALL) -D -m 666 \{\} $(DESTDIR)$(INSTALL_DIR)/\{\} \;
-	$(INSTALL) -D -m 664 README.md LICENSE.txt Makefile icon.png $(DESTDIR)$(INSTALL_DIR)/
-	$(INSTALL) -D -m 666  Makefile.dep doxygen.conf $(DESTDIR)$(INSTALL_DIR)/
-	$(INSTALL) -d -m 777 $(DESTDIR)$(INSTALL_DIR)/lib/
-	$(INSTALL) -D --strip -m 666 lib/libAria.$(sosuffix) $(DESTDIR)$(INSTALL_DIR)/lib/
-	if test -f lib/libAriaJava.$(sosuffix); then $(INSTALL) --strip -m 666 lib/libAriaJava.$(sosuffix) $(DESTDIR)$(INSTALL_DIR)/lib/; else echo Warning: lib/libAriaJava.$(sosuffix) not found. Use \"make java\" to build.; fi
-	@if test -z "$(DIST_INSTALL)"; then \
-		echo "if test \! -d $(DESTDIR)$(SYSTEM_ETC_DIR); then install -d $(DESTDIR)$(SYSTEM_ETC_DIR); fi" ;\
-		if test \! -d $(DESTDIR)$(SYSTEM_ETC_DIR); then install -d $(DESTDIR)$(SYSTEM_ETC_DIR); fi ;\
-		echo "echo $(STORED_INSTALL_DIR) > $(DESTDIR)$(SYSTEM_ETC_DIR)/Aria" ;\
-		echo $(STORED_INSTALL_DIR) > $(DESTDIR)$(SYSTEM_ETC_DIR)/Aria ;\
-		echo       ------------------------------------------------------------------------------------ ;\
-		echo       ARIA has been installed in $(DESTDIR)$(INSTALL_DIR). ;\
-		echo ;\
-		echo       To be able to use the ARIA libraries, you must now add $(DESTDIR)$(INSTALL_DIR)/lib ;\
-		if test "$(host)" = "Darwin"; \
-		then \
-			echo       to your DYLD_LIBRARY_PATH environment variable.; \
-		else \
-			echo       to your LD_LIBRARY_PATH environment variable, or to the /etc/ld.so.conf system file, ;\
-			echo       then run \'ldconfig\';\
-		fi ;\
-		echo     	 ------------------------------------------------------------------------------------ ;\
-	fi
-
-#		echo ;\
-#		echo       The files are owned by the group \"users\", and all members of that group ;\
-#		echo       can enter the directory, read files, and modify the \"examples\" directory. ;\
-
-
-# Source Code Install rule.  This is used to make source-code only packages.
-# It includes files needed for all platforms.
-srcdist-install: src-install
-
-src-install:
-	$(INSTALL) -m 775 -d $(DESTDIR)$(INSTALL_DIR)
-	find    include src tests utils params docs examples maps \
-	        java javaExamples python pythonExamples matlab rust \
-	        \( -name java/com -or -name \*.jar -or -name \*.a -or -name \*.$(sosuffix) -or -name \*.o -or -name core -or -name CVS -or -name .\* -or -name \*~ -or -name tmp -or -name proprietary* -or -name \*.bak -or -name \*.class \) -prune  \
-	        -or -type d   -exec $(INSTALL) -d -m 744 $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
-	        -or -type l   -exec cp --no-dereference \{\} $(DESTDIR)$(INSTALL_DIR)/\{\} \; \
-	        -or -perm /u=x  -prune \
-	        -or           -exec $(INSTALL) -D -m 644 \{\} $(DESTDIR)$(INSTALL_DIR)/\{\} \;
-	$(INSTALL) -D -m 644 LICENSE.txt INSTALL.txt README.txt Makefile Aria-Reference.html version.txt Changes.txt CommandLineOptions.txt icon.png $(DESTDIR)$(INSTALL_DIR)/
-	$(INSTALL) -D -m 644  Makefile.dep doxygen.conf $(DESTDIR)$(INSTALL_DIR)/
-	$(INSTALL) -D -m 644 bin/SIMULATOR_README.txt $(DESTDIR)$(INSTALL_DIR)/bin/SIMULATOR_README.txt
 
 tags: $(SRC_FILES) $(HEADER_FILES)
 	ctags $(SRC_FILES) $(HEADER_FILES)

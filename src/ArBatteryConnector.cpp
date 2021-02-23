@@ -24,14 +24,14 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArBatteryConnector.h"
-#include "ArRobot.h"
-#include "ArBatteryMTX.h"
-#include "ariaInternal.h"
-#include "ArCommands.h"
-#include "ArRobotConfigPacketReader.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArBatteryConnector.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArBatteryMTX.h"
+#include "Aria/ariaInternal.h"
+#include "Aria/ArCommands.h"
+#include "Aria/ArRobotConfigPacketReader.h"
 /** @warning do not delete @a parser during the lifetime of this
  ArBatteryConnector, which may need to access its contents later.
  @param parser the parser with the arguments to parse

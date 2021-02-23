@@ -38,7 +38,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
    See ArActionTriangleDriveTo for more information about the triangular target and what the action does and its parameters.
  **/
 
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 
 int main(int argc, char **argv)

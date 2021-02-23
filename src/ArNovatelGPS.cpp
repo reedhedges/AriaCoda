@@ -25,10 +25,10 @@ robots@mobilerobots.com or
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArNovatelGPS.h"
-#include "ArDeviceConnection.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArNovatelGPS.h"
+#include "Aria/ArDeviceConnection.h"
 
 
 AREXPORT ArNovatelGPS::ArNovatelGPS() :

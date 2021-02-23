@@ -24,16 +24,16 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
-#include "ArExport.h"
-#include "ariaOSDef.h"
-#include "ArLaserConnector.h"
-#include "ArRobot.h"
-#include "ArLaser.h"
-#include "ariaInternal.h"
-#include "ArUrg.h"
-#include "ArSimulatedLaser.h"
-#include "ArCommands.h"
-#include "ArRobotConfigPacketReader.h"
+#include "Aria/ArExport.h"
+#include "Aria/ariaOSDef.h"
+#include "Aria/ArLaserConnector.h"
+#include "Aria/ArRobot.h"
+#include "Aria/ArLaser.h"
+#include "Aria/ariaInternal.h"
+#include "Aria/ArUrg.h"
+#include "Aria/ArSimulatedLaser.h"
+#include "Aria/ArCommands.h"
+#include "Aria/ArRobotConfigPacketReader.h"
 
 /** @warning do not delete @a parser during the lifetime of this
  ArLaserConnector, which may need to access its contents later.

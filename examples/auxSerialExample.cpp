@@ -51,7 +51,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
   a GETAUX command to the robot to request more data.
 */
 
-#include "Aria.h"
+#include "Aria/Aria.h"
 
 // Amount of data (bytes) to request in each SERAUX packet
 const int SerAuxDataChunkSize = 24;
