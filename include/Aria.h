@@ -24,19 +24,24 @@ Adept MobileRobots for information about a commercial version of ARIA at
 robots@mobilerobots.com or 
 Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
+
 #ifndef ARIA_H
 #define ARIA_H
+
+
+// This file includes all headers defining the ARIA public interface. 
+// Internal classes should be omitted.
 
 #include "ariaOSDef.h"
 #include "ariaTypedefs.h"
 #include "ArSerialConnection.h"
 #include "ArTcpConnection.h"
 #include "ArLog.h"
-#include "ArRobotPacket.h"
-#include "ArRobotPacketSender.h"
-#include "ArRobotPacketReceiver.h"
-#include "ArRobotConfigPacketReader.h"
-#include "ArRobotTypes.h"
+//#include "ArRobotPacket.h"
+//#include "ArRobotPacketSender.h"
+//#include "ArRobotPacketReceiver.h"
+//#include "ArRobotConfigPacketReader.h"
+//#include "ArRobotTypes.h"
 #include "ariaUtil.h"
 #include "ArArgumentBuilder.h"
 #include "ArArgumentParser.h"
@@ -139,7 +144,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 //#include "ArZippable.h"
 #include "ArS3Series.h"
 #include "ArSZSeries.h"
-#include "ArRobotPacketReaderThread.h"
+//#include "ArRobotPacketReaderThread.h"
 #include "ArHasFileName.h"
 
 #endif // ARIA_H
