@@ -26,6 +26,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 #include "Aria/ArExport.h"
 #include <errno.h>
+#include <unistd.h>
 #include <time.h>
 #include <math.h>
 #include <sys/time.h>
@@ -34,7 +35,6 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "Aria/ArCondition.h"
 #include "Aria/ArLog.h"
 
-#include <time.h>
 
 
 ArStrMap ArCondition::ourStrMap;
