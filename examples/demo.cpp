@@ -54,7 +54,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <list>
 
 
-const size_t OutputBuffLen = 1024;
+const size_t OutputBuffLen = 1056;
 
 /** @example demo.cpp General purpose testing and demo program, using ArMode
  *    classes to provide keyboard control of various robot functions.
@@ -2726,38 +2726,38 @@ AREXPORT void ArModeIO::userTask()
   value = myRobot->getFlags();
   if (!myExplanationReady)
   {
-    sprintf(label, "flags");
-    sprintf(myExplanation, "%s%17s  ", myExplanation, label);
+    snprintf(label, label_size, "flags");
+    snprintf(myExplanation, OutputBuffLen, "%s%17s  ", myExplanation, label);
   }
   for (j = 0, bit = 1; j < 16; ++j, bit *= 2)
   {
     if (j == 8)
-      sprintf(myOutput, "%s ", myOutput);
+      snprintf(myOutput, OutputBuffLen, "%s ", myOutput);
     if (value & bit)
-      sprintf(myOutput, "%s%d", myOutput, 1);
+      snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
     else
-      sprintf(myOutput, "%s%d", myOutput, 0);
+      snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
   }
-  sprintf(myOutput, "%s  ", myOutput);
+  snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
 
   if (myRobot->hasFaultFlags())
   {
     value = myRobot->getFaultFlags();
     if (!myExplanationReady)
     {
-      sprintf(label, "fault_flags");
-      sprintf(myExplanation, "%s%17s  ", myExplanation, label);
+      snprintf(label, label_size, "fault_flags");
+      snprintf(myExplanation, OutputBuffLen, "%s%17s  ", myExplanation, label);
     }
     for (j = 0, bit = 1; j < 16; ++j, bit *= 2)
     {
       if (j == 8)
-        sprintf(myOutput, "%s ", myOutput);
+        snprintf(myOutput, OutputBuffLen, "%s ", myOutput);
       if (value & bit)
-        sprintf(myOutput, "%s%d", myOutput, 1);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
       else
-        sprintf(myOutput, "%s%d", myOutput, 0);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
     }
-    sprintf(myOutput, "%s  ", myOutput);
+    snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
   }
 
   num = myRobot->getIODigInSize();
@@ -2766,34 +2766,34 @@ AREXPORT void ArModeIO::userTask()
     value = myRobot->getIODigIn(i);
     if (!myExplanationReady)
     {
-      sprintf(label, "digin%d", i);
-      sprintf(myExplanation, "%s%8s  ", myExplanation, label);
+      snprintf(label, label_size, "digin%d", i);
+      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        sprintf(myOutput, "%s%d", myOutput, 1);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
       else
-        sprintf(myOutput, "%s%d", myOutput, 0);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
     }
-    sprintf(myOutput, "%s  ", myOutput);
+    snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
   }
   if(num == 0) // use default Pioneer IO from SIP only if no IODigIns
   {
     value = myRobot->getDigIn();
     if(!myExplanationReady)
     {
-      sprintf(label, "digin");
-      sprintf(myExplanation, "%s%8s  ", myExplanation, label);
+      snprintf(label, label_size, "digin");
+      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        sprintf(myOutput, "%s%d", myOutput, 1);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
       else
-        sprintf(myOutput, "%s%d", myOutput, 0);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
     }
-    sprintf(myOutput, "%s  ", myOutput);
+    snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
   }
 
 
@@ -2803,34 +2803,34 @@ AREXPORT void ArModeIO::userTask()
     value = myRobot->getIODigOut(i);
     if (!myExplanationReady)
     {
-      sprintf(label, "digout%d", i);
-      sprintf(myExplanation, "%s%8s  ", myExplanation, label);
+      snprintf(label, label_size, "digout%d", i);
+      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        sprintf(myOutput, "%s%d", myOutput, 1);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
       else
-        sprintf(myOutput, "%s%d", myOutput, 0);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
     }
-    sprintf(myOutput, "%s  ", myOutput);
+    //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
   }
   if(num == 0) // use default Pioneer IO from SIP only if no IODigIns
   {
     value = myRobot->getDigOut();
     if(!myExplanationReady)
     {
-      sprintf(label, "digout");
-      sprintf(myExplanation, "%s%8s  ", myExplanation, label);
+      snprintf(label, label_size, "digout");
+      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        sprintf(myOutput, "%s%d", myOutput, 1);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
       else
-        sprintf(myOutput, "%s%d", myOutput, 0);
+        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
     }
-    sprintf(myOutput, "%s  ", myOutput);
+    //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
   }
 
   num = myRobot->getIOAnalogSize();
@@ -2838,8 +2838,8 @@ AREXPORT void ArModeIO::userTask()
   {
     if (!myExplanationReady)
     {
-      sprintf(label, "a/d%d", i);
-      sprintf(myExplanation, "%s%6s", myExplanation, label);
+      snprintf(label, label_size, "a/d%d", i);
+      snprintf(myExplanation, OutputBuffLen, "%s%6s", myExplanation, label);
     }
     
     /*
@@ -2847,9 +2847,9 @@ AREXPORT void ArModeIO::userTask()
       double adVal;
     ad &= 0xfff;
     adVal = ad * .0048828;
-    sprintf(myOutput, "%s%6.2f", myOutput,adVal);
+    snprintf(myOutput, OutputBuffLen, "%s%6.2f", myOutput,adVal);
     */
-    sprintf(myOutput, "%s%6.2f", myOutput, myRobot->getIOAnalogVoltage(i));
+    snprintf(myOutput, OutputBuffLen, "%s%6.2f", myOutput, myRobot->getIOAnalogVoltage(i));
     
   }
 

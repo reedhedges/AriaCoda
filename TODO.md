@@ -76,6 +76,12 @@ TODO
 * Keep removing AREXPORT from inline and private members.
 * Add modern packaging to python wrapper (HELP WANTED)
 * Add better rust packanging to rust wrapper (HELP WANTED)
+* Fix all the sprintf errors in demo.cpp (it's trying to use sprintf to include
+  a copy of the previous string value in a new value, or append new formatted
+  values to the previous string value, which is a potential bug
+  and newer compilers warn about it. Instead a new string should be formatted
+  then appended with strcpy or similar. Or use std::string/IO streams to build
+  the string.) 
  
 
 Maybe TODO eventually
