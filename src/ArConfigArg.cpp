@@ -2484,7 +2484,7 @@ AREXPORT bool ArConfigArg::parseArgument(
             ArLog::log(ArLog::Normal, "%sParameter %s (cppstring) changed from '%s' to '%s'",
                        logPrefix, getName(), 
                        origString.c_str(), getCppString().c_str());
-            *changed = true;
+        *changed = true;
       }
       if (ok) {
         IFDEBUG(ArLog::log(ArLog::Verbose, 

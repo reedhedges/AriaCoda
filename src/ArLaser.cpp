@@ -225,13 +225,13 @@ void ArLaser::laserProcessReadings()
     sReading = (*sensIt);
 
     // if we have ignore readings then check them here
-    if (!myIgnoreReadings.empty() && 
+    if (!myIgnoreReadings.empty() && (
 	(myIgnoreReadings.find(
 		(int) ceil(sReading->getSensorTh())) != 
 	 myIgnoreReadings.end()) || 
 	myIgnoreReadings.find(
 		(int) floor(sReading->getSensorTh())) != 
-	myIgnoreReadings.end())
+	myIgnoreReadings.end()) )
       sReading->setIgnoreThisReading(true);
 
     // see if the reading is valid
@@ -360,9 +360,9 @@ void ArLaser::internalProcessReading(double x, double y,
        ++cit)
   {
     // if its closer to a reading than the filter near dist, just return
-    if (addReading && myMinDistBetweenCumulativeSquared < .0000001 ||
+    if (addReading && ( myMinDistBetweenCumulativeSquared < .0000001 ||
 	(ArMath::squaredDistanceBetween(x, y, (*cit)->getX(), (*cit)->getY()) <
-	 myMinDistBetweenCumulativeSquared))
+	 myMinDistBetweenCumulativeSquared) ) )
     {
       // if we're not cleaning it and its too close just return,
       // otherwise keep going (to clear out invalid readings)
