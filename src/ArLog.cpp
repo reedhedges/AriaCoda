@@ -32,6 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <time.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <string.h>
 #include "Aria/ariaInternal.h"
 
 
@@ -207,9 +208,9 @@ AREXPORT void ArLog::logErrorFromOS(LogLevel level, const char *str, ...)
   char bufWithError[10200];  
 
 #ifndef _WIN32
-  const char *errorString = NULL;
-  if (err < sys_nerr - 1)
-    errorString = sys_errlist[err];
+  const char *errorString = strerror(err);
+  //if (err < sys_nerr - 1)
+  //  errorString = sys_errlist[err];
   snprintf(bufWithError, sizeof(bufWithError) - 1, "%s | ErrorFromOSNum: %d ErrorFromOSString: %s", buf, err, errorString);
   bufWithError[sizeof(bufWithError) - 1] = '\0';
 #else
@@ -323,9 +324,9 @@ AREXPORT void ArLog::logErrorFromOSNoLock(LogLevel level, const char *str, ...)
   char bufWithError[10200];  
 
 #ifndef _WIN32
-  const char *errorString = NULL;
-  if (err < sys_nerr - 1)
-    errorString = sys_errlist[err];
+  const char *errorString = strerror(err);
+//  if (err < sys_nerr - 1)
+//    errorString = sys_errlist[err];
   snprintf(bufWithError, sizeof(bufWithError) - 1, "%s | ErrorFromOSNum: %d ErrorFromOSString: %s", buf, err, errorString);
   bufWithError[sizeof(bufWithError) - 1] = '\0';
 #else
