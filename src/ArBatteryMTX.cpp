@@ -46,10 +46,11 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 AREXPORT ArBatteryMTX::ArBatteryMTX (int batteryBoardNum, const char *name, 
 																			ArDeviceConnection *conn,
 																			ArRobot *robot) :
-	mySensorInterpTask (this, &ArBatteryMTX::sensorInterp),
 	myConn (conn),
+	myAsyncConnectState(-1),
 	myName (name),
 	myBoardNum (batteryBoardNum),
+	mySensorInterpTask (this, &ArBatteryMTX::sensorInterp),
 	myAriaExitCB (this, &ArBatteryMTX::disconnect)
 {
 

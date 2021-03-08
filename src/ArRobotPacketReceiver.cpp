@@ -98,15 +98,16 @@ AREXPORT ArRobotPacketReceiver::ArRobotPacketReceiver(
 	ArDeviceConnection *deviceConnection, bool allocatePackets,
 	unsigned char sync1, unsigned char sync2, bool tracking,
 	const char *trackingLogName) :
-  myPacket(sync1, sync2),
+  myDeviceConn(deviceConnection),
 	myTracking(tracking),
-	myTrackingLogName(trackingLogName)
+	myTrackingLogName(trackingLogName),
+  myAllocatePackets(allocatePackets),
+  myPacket(sync1, sync2),
+  mySync1(sync1),
+  mySync2(sync2),
+  myPacketReceivedCallback(NULL)
 {
-  myDeviceConn = deviceConnection;
-  myAllocatePackets = allocatePackets;
-  mySync1 = sync1;
-  mySync2 = sync2;
-  myPacketReceivedCallback = NULL;
+ 
 }
 
 AREXPORT ArRobotPacketReceiver::~ArRobotPacketReceiver() 

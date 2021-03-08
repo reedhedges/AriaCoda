@@ -56,12 +56,12 @@ std::string ArLCDMTX::ourFirmwareBaseDir("/usr/local/apps/marcDownload/");
 AREXPORT ArLCDMTX::ArLCDMTX(int lcdBoardNum, const char *name,
 	ArDeviceConnection *conn,
 	ArRobot *robot) :
-	mySensorInterpTask(this, &ArLCDMTX::sensorInterp),
 	myConn(conn),
 	myName(name),
-	myBoardNum(lcdBoardNum),
 	myConnFailOption(false),
+	myBoardNum(lcdBoardNum),
 	myFirmwareVersion(""),
+  mySensorInterpTask(this, &ArLCDMTX::sensorInterp),
 	myAriaExitCB(this, &ArLCDMTX::disconnect)
 {
 

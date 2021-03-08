@@ -47,7 +47,6 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 AREXPORT ArSonarMTX::ArSonarMTX (int sonarBoardNum,
 																	const char *name, ArDeviceConnection *conn,
                                  ArRobot *robot) :
-	mySensorInterpTask (this, &ArSonarMTX::sensorInterp),
 	myConn (conn),
 	myName (name),
   myTimeoutSeconds(1.0),
@@ -64,6 +63,7 @@ AREXPORT ArSonarMTX::ArSonarMTX (int sonarBoardNum,
 	myReceiver(NULL),
 	mySender(NULL),
 	myFirmwareVersion(0),
+	mySensorInterpTask (this, &ArSonarMTX::sensorInterp),
 	myAriaExitCB (this, &ArSonarMTX::disconnect)
 {
 
