@@ -69,7 +69,8 @@ public:
   }
 
   /// Unpack a field from a packet according to the type specified for T
-  AREXPORT template <typename T> static T getNextField(ArBasePacket& p) throw(std::out_of_range);
+  /// @throw std::out_of_range
+  AREXPORT template <typename T> static T getNextField(ArBasePacket& p); 
 
   /// @copydoc getNextField()
   AREXPORT template <typename VT> static std::vector<VT> getNextVectorField(ArBasePacket &p);
