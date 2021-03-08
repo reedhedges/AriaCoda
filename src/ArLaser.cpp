@@ -45,8 +45,8 @@ AREXPORT ArLaser::ArLaser(
   if (appendLaserNumberToName)
   {
     char buf[1024];
-    snprintf(buf, sizeof(buf) - 20, "%s", name);
-    sprintf(buf, "%s_%d", buf, myLaserNumber);
+    snprintf(buf, 1024, "%s_%d", name, myLaserNumber);
+    //sprintf(buf, "%s_%d", buf, myLaserNumber);
     myName = buf;
   }
   else
