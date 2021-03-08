@@ -221,7 +221,7 @@ AREXPORT bool ArUrg::setParamsBySteps(int startingStep, int endingStep,
   return true;
 }
 
-void ArUrg::clear(void)
+void ArUrg::clear()
 {
   myIsConnected = false;
   myTryingToConnect = false;
@@ -235,7 +235,7 @@ void ArUrg::clear(void)
   myStat = "";
 }
 
-AREXPORT void ArUrg::log(void)
+AREXPORT void ArUrg::log()
 {
   ArLog::log(ArLog::Normal, "URG %s:", getName());
   ArLog::log(ArLog::Normal, "Vendor information: %s", myVendor.c_str());
@@ -365,7 +365,7 @@ bool ArUrg::sendCommandAndRecvStatus(
   return true;
 }
 
-AREXPORT bool ArUrg::blockingConnect(void)
+AREXPORT bool ArUrg::blockingConnect()
 {
   if (!getRunning())
     runAsync();
@@ -433,7 +433,7 @@ AREXPORT bool ArUrg::blockingConnect(void)
 }
 
 
-bool ArUrg::internalConnect(void)
+bool ArUrg::internalConnect()
 
 {
   bool ret = true;
@@ -589,7 +589,7 @@ bool ArUrg::internalConnect(void)
 }
 
 
-AREXPORT bool ArUrg::asyncConnect(void)
+AREXPORT bool ArUrg::asyncConnect()
 {
   myStartConnect = true;
   if (!getRunning())
@@ -597,7 +597,7 @@ AREXPORT bool ArUrg::asyncConnect(void)
   return true;
 }
 
-AREXPORT bool ArUrg::disconnect(void)
+AREXPORT bool ArUrg::disconnect()
 {
   if (!isConnected())
     return true;
@@ -614,7 +614,7 @@ AREXPORT bool ArUrg::disconnect(void)
 
 }
 
-void ArUrg::sensorInterp(void)
+void ArUrg::sensorInterp()
 {
   ArTime readingRequested;
   std::string reading;
@@ -750,7 +750,7 @@ AREXPORT void * ArUrg::runThread(void *arg)
   return NULL;
 }
 
-bool ArUrg::internalGetReading(void)
+bool ArUrg::internalGetReading()
 {
   ArTime readingRequested;
   std::string reading;
@@ -802,7 +802,7 @@ bool ArUrg::internalGetReading(void)
   return false;
 }
 
-void ArUrg::failedToConnect(void)
+void ArUrg::failedToConnect()
 {
   lockDevice();
   myTryingToConnect = true;
@@ -810,7 +810,7 @@ void ArUrg::failedToConnect(void)
   laserFailedConnect();
 }
 
-bool ArUrg::laserCheckParams(void)
+bool ArUrg::laserCheckParams()
 {
   laserSetAbsoluteMaxRange(4095);
   return true;

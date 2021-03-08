@@ -270,7 +270,7 @@ AREXPORT bool ArUrg_2_0::setParamsBySteps(int startingStep, int endingStep,
   return true;
 }
 
-void ArUrg_2_0::clear(void)
+void ArUrg_2_0::clear()
 {
   myIsConnected = false;
   myTryingToConnect = false;
@@ -293,7 +293,7 @@ void ArUrg_2_0::clear(void)
   myScan = 0;
 }
 
-AREXPORT void ArUrg_2_0::log(void)
+AREXPORT void ArUrg_2_0::log()
 {
   ArLog::log(ArLog::Normal, "URG %s:", getName());
   ArLog::log(ArLog::Normal, "Vendor information: %s", myVendor.c_str());
@@ -489,7 +489,7 @@ bool ArUrg_2_0::sendCommandAndRecvStatus(
   return true;
 }
 
-AREXPORT bool ArUrg_2_0::blockingConnect(void)
+AREXPORT bool ArUrg_2_0::blockingConnect()
 {
   if (!getRunning())
     runAsync();
@@ -558,7 +558,7 @@ AREXPORT bool ArUrg_2_0::blockingConnect(void)
 }
 
 
-bool ArUrg_2_0::internalConnect(void)
+bool ArUrg_2_0::internalConnect()
 
 {
   bool ret = true;
@@ -798,7 +798,7 @@ bool ArUrg_2_0::internalConnect(void)
   return false;
 }
 
-AREXPORT bool ArUrg_2_0::asyncConnect(void)
+AREXPORT bool ArUrg_2_0::asyncConnect()
 {
   myStartConnect = true;
   if (!getRunning())
@@ -806,7 +806,7 @@ AREXPORT bool ArUrg_2_0::asyncConnect(void)
   return true;
 }
 
-AREXPORT bool ArUrg_2_0::disconnect(void)
+AREXPORT bool ArUrg_2_0::disconnect()
 {
   if (!isConnected())
     return true;
@@ -827,7 +827,7 @@ AREXPORT bool ArUrg_2_0::disconnect(void)
 }
 
 
-void ArUrg_2_0::sensorInterp(void)
+void ArUrg_2_0::sensorInterp()
 {
   ArTime readingRequested;
   std::string reading;
@@ -984,7 +984,7 @@ AREXPORT void * ArUrg_2_0::runThread(void *arg)
   return NULL;
 }
 
-bool ArUrg_2_0::internalGetReading(void)
+bool ArUrg_2_0::internalGetReading()
 {
   ArTime readingRequested;
   std::string reading;
@@ -1052,7 +1052,7 @@ bool ArUrg_2_0::internalGetReading(void)
   return false;
 }
 
-void ArUrg_2_0::failedToConnect(void)
+void ArUrg_2_0::failedToConnect()
 {
   lockDevice();
   myTryingToConnect = true;
@@ -1060,7 +1060,7 @@ void ArUrg_2_0::failedToConnect(void)
   laserFailedConnect();
 }
 
-bool ArUrg_2_0::laserCheckParams(void)
+bool ArUrg_2_0::laserCheckParams()
 {
   return true;
 }

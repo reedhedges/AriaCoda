@@ -83,15 +83,15 @@ class ArJoyHandler
   /// Destructor
   AREXPORT ~ArJoyHandler();
   /// Intializes the joystick, returns true if successful
-  AREXPORT bool init(void);
+  AREXPORT bool init();
   /// Returns if the joystick was successfully initialized or not
-  bool haveJoystick(void) { return myInitialized; }
+  bool haveJoystick() { return myInitialized; }
   /// Gets the adjusted reading, as floats, between -1.0 and 1.0
   AREXPORT void getDoubles(double *x, double *y, double *z = NULL);
   /// Gets the button 
   AREXPORT bool getButton(unsigned int button);
   /// Returns true if we definitely have a Z axis (we don't know in windows unless it moves)
-  bool haveZAxis(void) { return myHaveZ; }
+  bool haveZAxis() { return myHaveZ; }
 
   /// Sets the maximums for the x, y and optionally, z axes.
   void setSpeeds(int x, int y, int z = 0) 
@@ -100,20 +100,20 @@ class ArJoyHandler
   AREXPORT void getAdjusted(int *x, int *y, int *z = NULL);
 
   /// Gets the number of axes the joystick has
-  AREXPORT unsigned int getNumAxes(void);
+  AREXPORT unsigned int getNumAxes();
   /// Gets the floating (-1 to 1) location of the given joystick axis
   AREXPORT double getAxis(unsigned int axis);
   /// Gets the number of buttons the joystick has
-  AREXPORT unsigned int getNumButtons(void);
+  AREXPORT unsigned int getNumButtons();
 
   /// Sets whether to just use OS calibration or not
   AREXPORT void setUseOSCal(bool useOSCal);
   /// Gets whether to just use OS calibration or not
-  AREXPORT bool getUseOSCal(void);
+  AREXPORT bool getUseOSCal();
   /// Starts the calibration process
-  AREXPORT void startCal(void);
+  AREXPORT void startCal();
   /// Ends the calibration process
-  AREXPORT void endCal(void);
+  AREXPORT void endCal();
   /// Gets the unfilitered reading, mostly for internal use, maybe
   /// useful for Calibration
   AREXPORT void getUnfiltered(int *x, int *y, int *z = NULL);
@@ -128,7 +128,7 @@ class ArJoyHandler
 
  protected:
   // function to get the data for OS dependent part
-  void getData(void);
+  void getData();
   int myMaxX, myMinX, myMaxY, myMinY, myCenX, myCenY, myTopX, myTopY, myTopZ;
   bool myHaveZ;
 
@@ -150,8 +150,8 @@ class ArJoyHandler
   int myJoyNumber;
   char myJoyNameTemp[512];
   ArTime myLastOpenTry;
-  void getOldData(void);
-  void getNewData(void);
+  void getOldData();
+  void getNewData();
   #ifdef linux 
   struct JS_DATA_TYPE myJoyData; // structure for the buttons and x,y coords
   #else

@@ -44,7 +44,7 @@ class Ar3DPoint
 {
   public:
 
-  Ar3DPoint(void) : myX(0), myY(0), myZ(0) {}
+  Ar3DPoint() : myX(0), myY(0), myZ(0) {}
   Ar3DPoint(double x, double y, double z) : myX(x), myY(y), myZ(z) {}
   /// Destructor.
   ~Ar3DPoint() {}
@@ -119,7 +119,7 @@ protected:
 class ArWGS84
 {
   public:
-  ArWGS84(void) {}
+  ArWGS84() {}
   
   static double getE()     {return mye;}
   static double getA()     {return mya;}
@@ -152,7 +152,7 @@ class ArECEFCoords : public Ar3DPoint
 {
   public:
   ArECEFCoords(double x, double y, double z) : Ar3DPoint(x, y, z) {}
-  AREXPORT ArLLACoords ECEF2LLA(void);
+  AREXPORT ArLLACoords ECEF2LLA();
   AREXPORT ArENUCoords ECEF2ENU(ArECEFCoords ref);
 };
 
@@ -163,13 +163,13 @@ class ArECEFCoords : public Ar3DPoint
 class ArLLACoords : public Ar3DPoint
 {
   public:
-  ArLLACoords(void) : Ar3DPoint(0, 0, 0) {}
+  ArLLACoords() : Ar3DPoint(0, 0, 0) {}
   ArLLACoords(double x, double y, double z) : Ar3DPoint(x, y, z) {}
   ArLLACoords(ArPose pos, double alt) : Ar3DPoint(pos.getX(), pos.getY(), alt) {}
-  AREXPORT ArECEFCoords LLA2ECEF(void);
-  double getLatitude(void) const {return getX();}
-  double getLongitude(void) const {return getY();}
-  double getAltitude(void) const {return getZ();}
+  AREXPORT ArECEFCoords LLA2ECEF();
+  double getLatitude() const {return getX();}
+  double getLongitude() const {return getY();}
+  double getAltitude() const {return getZ();}
   void setLatitude(double l) { setX(l); }
   void setLongitude(double l) { setY(l); }
   void setAltitude(double a) { setZ(a); }
@@ -184,9 +184,9 @@ class ArENUCoords : public Ar3DPoint
   public:
   ArENUCoords(double x, double y, double z) : Ar3DPoint(x, y, z) {}
   AREXPORT ArECEFCoords ENU2ECEF(ArLLACoords ref);
-  double getEast(void) const {return getX();}
-  double getNorth(void) const {return getY();}
-  double getUp(void) const {return getZ();}
+  double getEast() const {return getX();}
+  double getNorth() const {return getY();}
+  double getUp() const {return getZ();}
   void setEast(double e) { setX(e); }
   void setNorth(double n) { setY(n); }
   void setUp(double u) { setZ(u); }

@@ -51,7 +51,7 @@ ArActionGroup *wander;
 
 // Activate the teleop action group. activateExlcusive() causes
 // all other active action groups to be deactivated.
-void teleopMode(void)
+void teleopMode()
 {
   teleop->activateExclusive();
   printf("\n== Teleoperation Mode ==\n");
@@ -60,7 +60,7 @@ void teleopMode(void)
 
 // Activate the wander action group. activateExlcusive() causes
 // all other active action groups to be deactivated.
-void wanderMode(void)
+void wanderMode()
 {
   wander->activateExclusive();
   printf("\n== Wander Mode ==\n");

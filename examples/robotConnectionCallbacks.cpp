@@ -40,19 +40,19 @@ public:
   ConnHandler(ArRobot *robot);
 
   // Destructor, its just empty
-  ~ConnHandler(void) {}
+  ~ConnHandler() {}
   
   // called if the connection was sucessfully made
-  void connected(void);
+  void connected();
 
   // called if the connection failed. stop the robot processing thread.
-  void connectionFailed(void);
+  void connectionFailed();
 
   // called when the connection is closed
-  void disconnected(void);
+  void disconnected();
 
   // called if the connection is lost due to an error
-  void connectionLost(void);
+  void connectionLost();
 
 protected:
   // keep a robot pointer
@@ -86,13 +86,13 @@ ConnHandler::ConnHandler(ArRobot *robot) :
 }
 
 // just exit if the connection failed
-void ConnHandler::connectionFailed(void)
+void ConnHandler::connectionFailed()
 {
   ArLog::log(ArLog::Normal, "ConnHandler: Connection failed. Exiting the program.");
   Aria::exit(1);
 }
 
-void ConnHandler::connected(void)
+void ConnHandler::connected()
 {
   ArLog::log(ArLog::Normal, "ConnHandler: Connected. Turning off sonar,");
   // turn off sonar, turn off amigobot sounds
@@ -101,14 +101,14 @@ void ConnHandler::connected(void)
 }
 
 // disconnected
-void ConnHandler::disconnected(void)
+void ConnHandler::disconnected()
 {
   ArLog::log(ArLog::Normal, "ConnHandler: Connection closed. Exiting the program.");
   Aria::exit(0);
 }
 
 // lost connection due to errror, exit
-void ConnHandler::connectionLost(void)
+void ConnHandler::connectionLost()
 {
   ArLog::log(ArLog::Normal, "ConnHandler: Lost connection due to an error! Exiting the program!");
   Aria::exit(1);

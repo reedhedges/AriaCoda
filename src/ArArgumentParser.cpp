@@ -657,7 +657,7 @@ void ArArgumentParser::removeArg(size_t which)
     }
 }
 
-AREXPORT size_t ArArgumentParser::getArgc(void) const
+AREXPORT size_t ArArgumentParser::getArgc() const
 {
   if (myUsingBuilder)
     return myBuilder->getArgc();
@@ -665,7 +665,7 @@ AREXPORT size_t ArArgumentParser::getArgc(void) const
     return *myArgc;
 }
 
-AREXPORT char** ArArgumentParser::getArgv(void) const
+AREXPORT char** ArArgumentParser::getArgv() const
 {
   if (myUsingBuilder)
     return myBuilder->getArgv();
@@ -681,7 +681,7 @@ AREXPORT const char* ArArgumentParser::getArg(size_t whichArg) const
     return getArgv()[whichArg];
 }
 
-AREXPORT void ArArgumentParser::log(void) const
+AREXPORT void ArArgumentParser::log() const
 {
   size_t i;
   ArLog::log(ArLog::Terse, "Num arguments: %d", getArgc());
@@ -689,7 +689,7 @@ AREXPORT void ArArgumentParser::log(void) const
     ArLog::log(ArLog::Terse, "Arg %d: %s", i, getArgv()[i]);
 }
 
-AREXPORT const char *ArArgumentParser::getStartingArguments(void) const
+AREXPORT const char *ArArgumentParser::getStartingArguments() const
 {
   if (myUsingBuilder)
     return myBuilder->getFullString();
@@ -812,7 +812,7 @@ AREXPORT void ArArgumentParser::addDefaultArgumentEnv(const char *env)
   ourDefaultArgumentLocIsFile.push_back(false);
 }
 
-AREXPORT void ArArgumentParser::logDefaultArgumentLocations(void)
+AREXPORT void ArArgumentParser::logDefaultArgumentLocations()
 {
   std::list<std::string>::iterator it;
   std::list<bool>::iterator bIt;
@@ -895,7 +895,7 @@ AREXPORT void ArArgumentParser::setWasReallySetOnlyTrue(
 /**
    See the description for the class for more information about this 
 **/
-AREXPORT bool ArArgumentParser::getWasReallySetOnlyTrue(void)
+AREXPORT bool ArArgumentParser::getWasReallySetOnlyTrue()
 {
   return myReallySetOnlyTrue;
 }

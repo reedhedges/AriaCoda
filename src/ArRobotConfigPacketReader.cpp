@@ -56,13 +56,13 @@ AREXPORT ArRobotConfigPacketReader::ArRobotConfigPacketReader(
   myPacketArrivedCB = packetArrivedCB;
 }
 
-AREXPORT ArRobotConfigPacketReader::~ArRobotConfigPacketReader(void)
+AREXPORT ArRobotConfigPacketReader::~ArRobotConfigPacketReader()
 {
   myRobot->remPacketHandler(&myPacketHandlerCB);
   myRobot->remConnectCB(&myConnectedCB);
 }
 
-AREXPORT bool ArRobotConfigPacketReader::requestPacket(void)
+AREXPORT bool ArRobotConfigPacketReader::requestPacket()
 {
   // make sure we haven't already gotten one
   if (myOnlyOneRequest && myPacketArrived)
@@ -78,7 +78,7 @@ AREXPORT bool ArRobotConfigPacketReader::requestPacket(void)
   return true;
 }
 
-AREXPORT void ArRobotConfigPacketReader::connected(void)
+AREXPORT void ArRobotConfigPacketReader::connected()
 {
   if (myPacketRequested)
     myRobot->comInt(ArCommands::CONFIG, 1);
@@ -201,14 +201,14 @@ AREXPORT bool ArRobotConfigPacketReader::packetHandler(ArRobotPacket *packet)
   return true;
 }
   
-AREXPORT void ArRobotConfigPacketReader::log(void) const
+AREXPORT void ArRobotConfigPacketReader::log() const
 {
   std::string str;
   str = buildString();
   ArLog::log(ArLog::Terse, str.c_str());
 }
 
-AREXPORT void ArRobotConfigPacketReader::logMovement(void) const
+AREXPORT void ArRobotConfigPacketReader::logMovement() const
 {
   std::string str;
   str = buildStringMovement();
@@ -219,7 +219,7 @@ AREXPORT void ArRobotConfigPacketReader::logMovement(void) const
    Like most memory stuff this won't work across DLL's in windows,
    it should work fine in linux or with static library files in windows.
 **/
-AREXPORT std::string ArRobotConfigPacketReader::buildString(void) const
+AREXPORT std::string ArRobotConfigPacketReader::buildString() const
 {
   std::string ret;
 
@@ -370,7 +370,7 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString(void) const
    Like most memory stuff this won't work across DLL's in windows,
    it should work fine in linux or with static library files in windows.
 **/
-AREXPORT std::string ArRobotConfigPacketReader::buildStringMovement(void) const
+AREXPORT std::string ArRobotConfigPacketReader::buildStringMovement() const
 {
   std::string ret;
 

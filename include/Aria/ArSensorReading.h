@@ -88,7 +88,7 @@ public:
   /**
      @return the distance to the reading from the sensor itself
   */
-  unsigned int getRange(void) const { return myRange; }
+  unsigned int getRange() const { return myRange; }
 
   /// Given the counter from the robot, it returns whether the reading is new
   /**
@@ -98,50 +98,50 @@ public:
   */
   bool isNew(unsigned int counter) const { return counter == myCounterTaken; }
   /// Gets the X location of the sensor reading
-  double getX(void) const { return myReading.getX(); }
+  double getX() const { return myReading.getX(); }
   /// Gets the Y location of the sensor reading
-  double getY(void) const { return myReading.getY(); }
+  double getY() const { return myReading.getY(); }
   /// Gets the position of the reading 
   /// @return the position of the reading (ie where the sonar pinged back)
-  ArPose getPose(void) const { return myReading; }
+  ArPose getPose() const { return myReading; }
 
   /// Gets the X location of the sensor reading in local coords
-  double getLocalX(void) const { return myLocalReading.getX(); }
+  double getLocalX() const { return myLocalReading.getX(); }
   /// Gets the Y location of the sensor reading
-  double getLocalY(void) const { return myLocalReading.getY(); }
+  double getLocalY() const { return myLocalReading.getY(); }
   /// Gets the position of the reading 
   /// @return the position of the reading (ie the obstacle where the sonar pinged back)
-  ArPose getLocalPose(void) const { return myLocalReading; }
+  ArPose getLocalPose() const { return myLocalReading; }
 
   /** Gets the pose of the robot at which the reading was taken 
       @sa getEncoderPoseTaken()
       @sa getTimeTaken()
       @sa ArRobot::getPose()
   */
-  ArPose getPoseTaken(void) const { return myReadingTaken; }
+  ArPose getPoseTaken() const { return myReadingTaken; }
 
   /** Gets the robot's encoder pose the reading was taken at
       @sa getPoseTaken()
       @sa ArRobot::getEncoderPose()
   */
-  ArPose getEncoderPoseTaken(void) const { return myEncoderPoseTaken; }
+  ArPose getEncoderPoseTaken() const { return myEncoderPoseTaken; }
 
   /** Gets the X location of the sonar on the robot
       @sa getSensorPosition()
   */
-  double getSensorX(void) const { return mySensorPos.getX(); }
+  double getSensorX() const { return mySensorPos.getX(); }
   /** Gets the Y location of the sensor on the robot
       @sa getsensorPosition()
   */
-  double getSensorY(void) const { return mySensorPos.getY(); }
+  double getSensorY() const { return mySensorPos.getY(); }
   /** Gets the heading of the sensor on the robot
       @sa getsensorPosition()
   */
-  double getSensorTh(void) const { return mySensorPos.getTh(); }
+  double getSensorTh() const { return mySensorPos.getTh(); }
   
   /// Gets whether this reading should be ignore or not. e.g. the sensor
   /// encountered an error or did not actually detect anything.
-  bool getIgnoreThisReading(void) const { return myIgnoreThisReading; }
+  bool getIgnoreThisReading() const { return myIgnoreThisReading; }
 
   /// Gets the extra int with this reading
   /**
@@ -154,41 +154,41 @@ public:
      between 0 - 255 which is the measure of reflectance.  It should
      be 0 if that device doesn't measure reflectance (the default).
    **/
-  int getExtraInt(void) const { return myExtraInt; }
+  int getExtraInt() const { return myExtraInt; }
 
 
   /// Gets the sensor's position on the robot
   /** 
       @return the position of the sensor on the robot
   */
-  ArPose getSensorPosition(void) const { return mySensorPos; }
+  ArPose getSensorPosition() const { return mySensorPos; }
 
   /// Gets the cosine component of the heading of the sensor reading
-  double getSensorDX(void) const { return mySensorCos; }
+  double getSensorDX() const { return mySensorCos; }
   /// Gets the sine component of the heading of the sensor reading
-  double getSensorDY(void) const { return mySensorSin; }
+  double getSensorDY() const { return mySensorSin; }
 
   /** Gets the X locaiton of the robot when the reading was received
       @sa getPoseTaken()
   */
-  double getXTaken(void) const { return myReadingTaken.getX(); }
+  double getXTaken() const { return myReadingTaken.getX(); }
   /** Gets the Y location of the robot when the reading was received
       @sa getPoseTaken()
   */
-  double getYTaken(void) const { return myReadingTaken.getY(); }
+  double getYTaken() const { return myReadingTaken.getY(); }
   /** Gets the th (heading) of the robot when the reading was received
       @sa getPoseTaken()
   */
-  double getThTaken(void) const { return myReadingTaken.getTh(); }
+  double getThTaken() const { return myReadingTaken.getTh(); }
 
   /// Gets the counter from when the reading arrived
   /**
      @return the counter from the robot when the sonar reading was taken
      @see isNew
   */
-  unsigned int getCounterTaken(void) const { return myCounterTaken; }
+  unsigned int getCounterTaken() const { return myCounterTaken; }
 
-  ArTime getTimeTaken(void) const { return myTimeTaken; }
+  ArTime getTimeTaken() const { return myTimeTaken; }
   
   /**
     Update data. 
@@ -255,7 +255,7 @@ coordinate system.
   /// transform due to robot position and motion, etc. is normally initiated
   /// automatically by the range device class which is providing this sensor
   /// reading.)
-  AREXPORT bool getAdjusted(void) { return myAdjusted; }
+  AREXPORT bool getAdjusted() { return myAdjusted; }
   /// Applies a transform to the reading position, and where it was taken
   /// @internal
   AREXPORT void setAdjusted(bool adjusted) { myAdjusted = adjusted; }

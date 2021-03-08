@@ -81,12 +81,12 @@ AREXPORT void ArRatioInputJoydrive::setStopIfNoButtonPressed(
   myStopIfNoButtonPressed = stopIfNoButtonPressed;
 }
 
-AREXPORT bool ArRatioInputJoydrive::getStopIfNoButtonPressed(void)
+AREXPORT bool ArRatioInputJoydrive::getStopIfNoButtonPressed()
 {
   return myStopIfNoButtonPressed;
 }
 
-AREXPORT bool ArRatioInputJoydrive::joystickInited(void)
+AREXPORT bool ArRatioInputJoydrive::joystickInited()
 {
   return myJoyHandler->haveJoystick();
 }
@@ -104,13 +104,13 @@ AREXPORT void ArRatioInputJoydrive::setUseOSCal(bool useOSCal)
 /**
    @see ArJoyHandler::getUseOSCal
 **/
-AREXPORT bool ArRatioInputJoydrive::getUseOSCal(void)
+AREXPORT bool ArRatioInputJoydrive::getUseOSCal()
 {
   return myUseOSCal;
 }
 
 
-void ArRatioInputJoydrive::fireCallback(void)
+void ArRatioInputJoydrive::fireCallback()
 {
   double rot, trans, throttle;
 

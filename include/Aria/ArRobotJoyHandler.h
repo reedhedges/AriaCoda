@@ -59,25 +59,25 @@ class ArRobotJoyHandler
   /// Gets the adjusted reading, as floats
   AREXPORT void getDoubles(double *x, double *y, double *z);
   /// Gets the first button 
-  bool getButton1(void) { return myButton1; }
+  bool getButton1() { return myButton1; }
   /// Gets the second button 
-  bool getButton2(void) { return myButton2; }
+  bool getButton2() { return myButton2; }
   /// Gets the time we last got information back
-  AREXPORT ArTime getDataReceivedTime(void) { return myDataReceived; }
+  AREXPORT ArTime getDataReceivedTime() { return myDataReceived; }
   /// If we've ever gotten a packet back
-  AREXPORT bool gotData(void) { return myGotData; }
+  AREXPORT bool gotData() { return myGotData; }
   /// Adds to a section in a config
   AREXPORT void addToConfig(ArConfig *config, const char *section);
   /// Gets the X value (only use for information, or with the robot locked, getDoubles is preferred)
-  int getRawX(void) { return myRawX; }
+  int getRawX() { return myRawX; }
   /// Gets the Y value (only use for information, or with the robot locked, getDoubles is preferred)
-  int getRawY(void) { return myRawY; }
+  int getRawY() { return myRawY; }
   /// Gets the throttle value (only use for information, or with the robot locked, getDoubles is preferred)
-  int getRawThrottle(void) { return myRawThrottle; }
+  int getRawThrottle() { return myRawThrottle; }
 
  protected:
   AREXPORT bool handleJoystickPacket(ArRobotPacket *packet);
-  AREXPORT void connectCallback(void);
+  AREXPORT void connectCallback();
 
   ArRobot *myRobot;
   ArTime myDataReceived;

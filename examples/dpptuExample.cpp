@@ -82,28 +82,28 @@ class KeyPTU
 public:
   // constructor
   KeyPTU(ArRobot *robot, const char *port);
-  ~KeyPTU(void);
+  ~KeyPTU();
   
-  void up(void);
-  void down(void);
-  void left(void);
-  void right(void);
-  void space(void);
-  void i(void);
-  void plus(void);
-  void minus(void);
-  void greater(void);
-  void less(void);
-  void question(void);
-  void status(void);
-  void a(void);
-  void m(void);
-  void h(void);
-  void r(void);
+  void up();
+  void down();
+  void left();
+  void right();
+  void space();
+  void i();
+  void plus();
+  void minus();
+  void greater();
+  void less();
+  void question();
+  void status();
+  void a();
+  void m();
+  void h();
+  void r();
   void gotoPos(double p, double t);
 
   // the callback function
-  void drive(void);
+  void drive();
 
 protected:
   int myPanValPTU;
@@ -304,7 +304,7 @@ KeyPTU::~KeyPTU()
 
 
 
-void KeyPTU::left(void)
+void KeyPTU::left()
 {
   myDesiredPanPos += myPosIncrement;
 
@@ -312,7 +312,7 @@ void KeyPTU::left(void)
     myDesiredPanPos = myPTU.getMaxPosPan();
 }
 
-void KeyPTU::right(void)
+void KeyPTU::right()
 {
   myDesiredPanPos -= myPosIncrement;
 
@@ -320,7 +320,7 @@ void KeyPTU::right(void)
     myDesiredPanPos = myPTU.getMaxNegPan();
 }
 
-void KeyPTU::up(void)
+void KeyPTU::up()
 {
   myDesiredTiltPos += myPosIncrement;
  
@@ -328,7 +328,7 @@ void KeyPTU::up(void)
     myDesiredTiltPos = myPTU.getMaxPosTilt();
 }
 
-void KeyPTU::down(void)
+void KeyPTU::down()
 {
   myDesiredTiltPos -= myPosIncrement;
 
@@ -336,17 +336,17 @@ void KeyPTU::down(void)
     myDesiredTiltPos = myPTU.getMaxNegTilt();
 }
 
-void KeyPTU::space(void)
+void KeyPTU::space()
 {
   myReset = true;
 }
 
-void KeyPTU::i(void)
+void KeyPTU::i()
 {
   myInit = true;
 }
 
-void KeyPTU::plus(void)
+void KeyPTU::plus()
 {
   mySlew += mySlewIncrement;
 
@@ -356,7 +356,7 @@ void KeyPTU::plus(void)
   status();
 }
 
-void KeyPTU::minus(void)
+void KeyPTU::minus()
 {
   mySlew -= mySlewIncrement;
 
@@ -366,7 +366,7 @@ void KeyPTU::minus(void)
   status();
 }
 
-void KeyPTU::greater(void)
+void KeyPTU::greater()
 {
   myPosIncrement += POS_INCREMENT_ADJUSTMENT;
   
@@ -376,7 +376,7 @@ void KeyPTU::greater(void)
   status();
 }
 
-void KeyPTU::less(void)
+void KeyPTU::less()
 {
   myPosIncrement -= POS_INCREMENT_ADJUSTMENT;
 
@@ -386,7 +386,7 @@ void KeyPTU::less(void)
   status();
 }
 
-void KeyPTU::a(void)
+void KeyPTU::a()
 {
   myPTU.awaitExec();   
   ArLog::log(ArLog::Normal, "AwaitExecution command sent");
@@ -399,7 +399,7 @@ void KeyPTU::gotoPos(double p, double t)
   status();
 }
 
-void KeyPTU::question(void)
+void KeyPTU::question()
 {
   ArLog::log(ArLog::Normal, "\r\nCommands:\r\n_________________\r\n");
   ArLog::log(ArLog::Normal, "UP,DOWN    -- tilt up/down by one positional increment");
@@ -422,7 +422,7 @@ void KeyPTU::question(void)
   ArLog::log(ArLog::Normal, "\r\n");
 }
 
-void KeyPTU::status(void)
+void KeyPTU::status()
 {
   ArLog::log(ArLog::Normal, "\r\nStatus:\r\n_________________\r\n");
   ArLog::log(ArLog::Normal, "Last Pan Command      = %.1f deg", myPTU.getLastPanRequest());
@@ -439,7 +439,7 @@ void KeyPTU::status(void)
   ArLog::log(ArLog::Normal, "\r\n");
 }
 
-void KeyPTU::m(void)
+void KeyPTU::m()
 {
   if (!myMonitor)
   {
@@ -454,12 +454,12 @@ void KeyPTU::m(void)
   }
 }
 
-void KeyPTU::h(void)
+void KeyPTU::h()
 {
   myPTU.haltAll();
 }
 
-void KeyPTU::r(void)
+void KeyPTU::r()
 {
   if (!myAbsolute)
   {
@@ -474,7 +474,7 @@ void KeyPTU::r(void)
 
 
 // the important function
-void KeyPTU::drive(void)
+void KeyPTU::drive()
 {
 
   // if the PTU isn't initialized, initialize it here... it has to be 

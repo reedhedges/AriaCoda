@@ -129,7 +129,7 @@ public:
   double getYPos() const { return myPos[Y]; }
   
   /// Gets the average temperature the IMU has on all axes
-  float getTemperature(void) const { return myAvgTemperature; }
+  float getTemperature() const { return myAvgTemperature; }
 
   ArTime getTimeLastPacketReceived() { return myTimeLastPacketReceived; }
 
@@ -138,7 +138,7 @@ private:
   bool handleIMUPacket(ArRobotPacket *packet);
 
   /// Internal connection callback; delays for a short amount of time to give the IMU enough time to stabilize before we try to use it, then requests data.
-  void stabilizingCallback(void);
+  void stabilizingCallback();
 
   bool myHaveData;
   int myNumAxes;

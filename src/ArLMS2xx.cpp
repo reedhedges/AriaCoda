@@ -151,7 +151,7 @@ AREXPORT void ArLMS2xx::laserSetName(const char *name)
   ArLaser::laserSetName(getName());
 }
 
-AREXPORT bool ArLMS2xx::sickGetIsUsingSim(void)
+AREXPORT bool ArLMS2xx::sickGetIsUsingSim()
 {
   return myUseSim;
 }
@@ -370,7 +370,7 @@ AREXPORT void ArLMS2xx::switchState(State state)
    @internal
    @return 0 if its still trying to connect, 1 if it connected, 2 if it failed
 **/
-AREXPORT int ArLMS2xx::internalConnectHandler(void)
+AREXPORT int ArLMS2xx::internalConnectHandler()
 {
   ArLMS2xxPacket *packet;
   ArSerialConnection *conn;
@@ -940,7 +940,7 @@ AREXPORT int ArLMS2xx::internalConnectHandler(void)
 
    @return true if the commands were sent, false otherwise
 **/
-AREXPORT bool ArLMS2xx::internalConnectSim(void)
+AREXPORT bool ArLMS2xx::internalConnectSim()
 {
   lockDevice();
   double offset = myOffsetAmount;
@@ -974,7 +974,7 @@ AREXPORT bool ArLMS2xx::internalConnectSim(void)
 }
 
 /** @internal */
-AREXPORT void ArLMS2xx::dropConnection(void)
+AREXPORT void ArLMS2xx::dropConnection()
 {
   std::list<ArFunctor *>::iterator it;  
 
@@ -996,7 +996,7 @@ AREXPORT void ArLMS2xx::dropConnection(void)
 }
 
 /** @internal */
-AREXPORT void ArLMS2xx::failedConnect(void)
+AREXPORT void ArLMS2xx::failedConnect()
 {
   std::list<ArFunctor *>::iterator it;  
   
@@ -1009,7 +1009,7 @@ AREXPORT void ArLMS2xx::failedConnect(void)
 }
 
 /** @internal */
-AREXPORT void ArLMS2xx::madeConnection(void)
+AREXPORT void ArLMS2xx::madeConnection()
 {
   myLastReading.setToNow();
 
@@ -1024,7 +1024,7 @@ AREXPORT void ArLMS2xx::madeConnection(void)
    
    @return true if it could disconnect from the laser cleanly
 **/
-AREXPORT bool ArLMS2xx::disconnect(void)
+AREXPORT bool ArLMS2xx::disconnect()
 {
   std::list<ArFunctor *>::iterator it;  
   bool ret;
@@ -1104,7 +1104,7 @@ AREXPORT bool ArLMS2xx::disconnect(void)
   }
 }
 
-bool ArLMS2xx::finishParams(void)
+bool ArLMS2xx::finishParams()
 {
   if (!getRunning())
     runAsync();
@@ -1119,7 +1119,7 @@ bool ArLMS2xx::finishParams(void)
   return laserCheckParams();
 }
 
-AREXPORT bool ArLMS2xx::laserCheckParams(void)
+AREXPORT bool ArLMS2xx::laserCheckParams()
 {
   myOffsetAmount = getDegreesChoiceDouble() / 2.0;
   if (getFlipped())
@@ -1206,7 +1206,7 @@ AREXPORT bool ArLMS2xx::laserCheckParams(void)
    @return true if a connection was successfully made, false otherwise
 **/
  
-AREXPORT bool ArLMS2xx::blockingConnect(void)
+AREXPORT bool ArLMS2xx::blockingConnect()
 {
   int ret;
 
@@ -1259,7 +1259,7 @@ AREXPORT bool ArLMS2xx::blockingConnect(void)
   @see configure(), ArRangeDeviceThreaded::run(),
   ArRangeDeviceThreaded::runAsync(), runOnRobot()
 **/
-AREXPORT bool ArLMS2xx::asyncConnect(void)
+AREXPORT bool ArLMS2xx::asyncConnect()
 {
   if (myState == STATE_CONNECTED)
   {
@@ -1291,7 +1291,7 @@ AREXPORT bool ArLMS2xx::asyncConnect(void)
    You should lock the robot and lockDevice() this laser before calling this if 
    other things are running already.
 **/
-AREXPORT bool ArLMS2xx::internalRunOnRobot(void)
+AREXPORT bool ArLMS2xx::internalRunOnRobot()
 {
   if (myRobot == NULL)
     return false;
@@ -1558,7 +1558,7 @@ AREXPORT void ArLMS2xx::runOnce(bool lockRobot)
 }
 
 /** @internal */
-AREXPORT void ArLMS2xx::sensorInterpCallback(void)
+AREXPORT void ArLMS2xx::sensorInterpCallback()
 {
   std::list<ArLMS2xxPacket *>::iterator it;
   std::list<ArLMS2xxPacket *> processed;

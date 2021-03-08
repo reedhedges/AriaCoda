@@ -53,10 +53,10 @@ public:
       if (myStrength < MIN_STRENGTH)
 	myStrength = NO_STRENGTH;
     }
-  double getDesired(void) const { return myDesired; }
-  double getStrength(void) const { return myStrength; }
-  double getAllowOverride(void) const { return myAllowOverride; }
-  void reset(void) 
+  double getDesired() const { return myDesired; }
+  double getStrength() const { return myStrength; }
+  double getAllowOverride() const { return myAllowOverride; }
+  void reset() 
     { myDesired = 0; myStrength = NO_STRENGTH; myAllowOverride = true; }
   void merge(ArActionDesiredChannel *desiredChannel)
     {
@@ -93,7 +93,7 @@ public:
 		      (desiredChannel->getDesired() * otherStrength)) 
 		     / (myStrength));
     }
-  void startAverage(void)
+  void startAverage()
     {
       myDesiredTotal = myDesired * myStrength;
       myStrengthTotal = myStrength;
@@ -128,7 +128,7 @@ public:
 			 desiredChannel->getStrength());
       myStrengthTotal += desiredChannel->getStrength();
     }
-  void endAverage(void)
+  void endAverage()
     {
       if (myStrengthTotal < MIN_STRENGTH)
       {
@@ -508,7 +508,7 @@ public:
     { myLatDecelDes.setDesired(latDecel, strength, useFastest);  }
 
   /// Resets the strengths to 0
-  virtual void reset(void) 
+  virtual void reset() 
     {
       myVelDes.reset(); 
       myMaxVelDes.reset(); myMaxNegVelDes.reset(); 
@@ -527,155 +527,155 @@ public:
     }
 
   /// Gets the translational velocity desired (mm/sec)
-  virtual double getVel(void) const
+  virtual double getVel() const
     { return myVelDes.getDesired(); }
   /// Gets the strength of the translational velocity desired
-  virtual double getVelStrength(void) const
+  virtual double getVelStrength() const
     { return myVelDes.getStrength(); }
   /// Gets the heading desired (deg)
-  virtual double getHeading(void) const
+  virtual double getHeading() const
     { return myHeading; }
   /// Gets the strength of the heading desired
-  virtual double getHeadingStrength(void) const
+  virtual double getHeadingStrength() const
     { return myHeadingStrength; }
   /// Gets the delta heading desired (deg)
-  virtual double getDeltaHeading(void) const
+  virtual double getDeltaHeading() const
     { return myDeltaHeadingDes.getDesired(); }
   /// Gets the strength of the delta heading desired
-  virtual double getDeltaHeadingStrength(void) const
+  virtual double getDeltaHeadingStrength() const
     { return myDeltaHeadingDes.getStrength(); }
   /// Gets the rot vel that was set
-  virtual double getRotVel(void) const { return myRotVelDes.getDesired(); }
+  virtual double getRotVel() const { return myRotVelDes.getDesired(); }
   /// Gets the rot vel des (deg/sec)
-  virtual double getRotVelStrength(void) const 
+  virtual double getRotVelStrength() const 
     { return myRotVelDes.getStrength(); }
 
   /// Gets the desired maximum velocity (mm/sec)
-  virtual double getMaxVel(void) const
+  virtual double getMaxVel() const
     { return myMaxVelDes.getDesired(); }
   /// Gets the maximum velocity strength
-  virtual double getMaxVelStrength(void) const
+  virtual double getMaxVelStrength() const
     { return myMaxVelDes.getStrength(); }
   /// Gets whether the slowest is being used or not
-  virtual double getMaxVelSlowestUsed(void) const
+  virtual double getMaxVelSlowestUsed() const
     { return myMaxVelDes.getAllowOverride(); }
   /// Gets the desired maximum negative velocity (-mm/sec)
-  virtual double getMaxNegVel(void) const
+  virtual double getMaxNegVel() const
     { return myMaxNegVelDes.getDesired(); }
   /// Gets the desired maximum negative velocity strength
-  virtual double getMaxNegVelStrength(void) const
+  virtual double getMaxNegVelStrength() const
     { return myMaxNegVelDes.getStrength(); }
   /// Gets whether the slowest is being used or not
-  virtual double getMaxNegVelSlowestUsed(void) const
+  virtual double getMaxNegVelSlowestUsed() const
     { return myMaxNegVelDes.getAllowOverride(); }
   /// Gets the desired trans acceleration (mm/sec)
-  virtual double getTransAccel(void) const
+  virtual double getTransAccel() const
     { return myTransAccelDes.getDesired(); }
   /// Gets the desired trans acceleration strength
-  virtual double getTransAccelStrength(void) const
+  virtual double getTransAccelStrength() const
     { return myTransAccelDes.getStrength(); }
   /// Gets whether the slowest accel is being used or not
-  virtual double getTransAccelSlowestUsed(void) const
+  virtual double getTransAccelSlowestUsed() const
     { return myTransAccelDes.getAllowOverride(); }
   /// Gets the desired trans deceleration (-mm/sec/sec)
-  virtual double getTransDecel(void) const
+  virtual double getTransDecel() const
     { return myTransDecelDes.getDesired(); }
   /// Gets the desired trans deceleration strength
-  virtual double getTransDecelStrength(void) const
+  virtual double getTransDecelStrength() const
     { return myTransDecelDes.getStrength(); }
   /// Gets whether the fastest decel is being used or not
-  virtual double getTransDecelFastestUsed(void) const
+  virtual double getTransDecelFastestUsed() const
     { return myTransDecelDes.getAllowOverride(); }
 
   /// Gets the maximum rotational velocity
-  virtual double getMaxRotVel(void) const
+  virtual double getMaxRotVel() const
     { return myMaxRotVelDes.getDesired(); }
   /// Gets the maximum rotational velocity strength
-  virtual double getMaxRotVelStrength(void) const
+  virtual double getMaxRotVelStrength() const
     { return myMaxRotVelDes.getStrength(); }
   /// Gets whether the slowest rot vel is being used or not
-  virtual double getMaxRotVelSlowestUsed(void) const
+  virtual double getMaxRotVelSlowestUsed() const
     { return myMaxRotVelDes.getAllowOverride(); }
 
   /// Gets the maximum rotational velocity in the positive direction
-  virtual double getMaxRotVelPos(void) const
+  virtual double getMaxRotVelPos() const
     { return myMaxRotVelPosDes.getDesired(); }
   /// Gets the maximum rotational velocity in the positive direction strength
-  virtual double getMaxRotVelPosStrength(void) const
+  virtual double getMaxRotVelPosStrength() const
     { return myMaxRotVelPosDes.getStrength(); }
   /// Gets whether the slowest rot vel in the positive direction is being used or not
-  virtual double getMaxRotVelPosSlowestUsed(void) const
+  virtual double getMaxRotVelPosSlowestUsed() const
     { return myMaxRotVelPosDes.getAllowOverride(); }
 
   /// Gets the maximum rotational velocity in the negative direction
-  virtual double getMaxRotVelNeg(void) const
+  virtual double getMaxRotVelNeg() const
     { return myMaxRotVelNegDes.getDesired(); }
   /// Gets the maximum rotational velocity in the negative direction strength
-  virtual double getMaxRotVelNegStrength(void) const
+  virtual double getMaxRotVelNegStrength() const
     { return myMaxRotVelNegDes.getStrength(); }
   /// Gets whether the slowest rot vel in the negative direction is being used or not
-  virtual double getMaxRotVelNegSlowestUsed(void) const
+  virtual double getMaxRotVelNegSlowestUsed() const
     { return myMaxRotVelNegDes.getAllowOverride(); }
 
   /// Gets the desired rotational acceleration (mm/sec)
-  virtual double getRotAccel(void) const
+  virtual double getRotAccel() const
     { return myRotAccelDes.getDesired(); }
   /// Gets the desired rotational acceleration strength
-  virtual double getRotAccelStrength(void) const
+  virtual double getRotAccelStrength() const
     { return myRotAccelDes.getStrength(); }
   /// Gets whether the slowest rot accel is being used or not
-  virtual double getRotAccelSlowestUsed(void) const
+  virtual double getRotAccelSlowestUsed() const
     { return myRotAccelDes.getAllowOverride(); }
   /// Gets the desired rotational deceleration (-mm/sec/sec)
-  virtual double getRotDecel(void) const
+  virtual double getRotDecel() const
     { return myRotDecelDes.getDesired(); }
   /// Gets the desired rotational deceleration strength
-  virtual double getRotDecelStrength(void) const
+  virtual double getRotDecelStrength() const
     { return myRotDecelDes.getStrength(); }
   /// Gets whether the fastest rot decel is being used or not
-  virtual double getRotDecelFastestUsed(void) const
+  virtual double getRotDecelFastestUsed() const
     { return myRotDecelDes.getAllowOverride(); }
 
   /// Gets the lat vel that was set
-  virtual double getLatVel(void) const { return myLatVelDes.getDesired(); }
+  virtual double getLatVel() const { return myLatVelDes.getDesired(); }
   /// Gets the lat vel des (deg/sec)
-  virtual double getLatVelStrength(void) const 
+  virtual double getLatVelStrength() const 
     { return myLatVelDes.getStrength(); }
   /// Gets the maximum lateral velocity
-  virtual double getMaxLeftLatVel(void) const
+  virtual double getMaxLeftLatVel() const
     { return myMaxLeftLatVelDes.getDesired(); }
   /// Gets the maximum lateral velocity strength
-  virtual double getMaxLeftLatVelStrength(void) const
+  virtual double getMaxLeftLatVelStrength() const
     { return myMaxLeftLatVelDes.getStrength(); }
   /// Gets whether the slowest lat vel is being used or not
-  virtual double getMaxLeftLatVelSlowestUsed(void) const
+  virtual double getMaxLeftLatVelSlowestUsed() const
     { return myMaxLeftLatVelDes.getAllowOverride(); }
   /// Gets the maximum lateral velocity
-  virtual double getMaxRightLatVel(void) const
+  virtual double getMaxRightLatVel() const
     { return myMaxRightLatVelDes.getDesired(); }
   /// Gets the maximum lateral velocity strength
-  virtual double getMaxRightLatVelStrength(void) const
+  virtual double getMaxRightLatVelStrength() const
     { return myMaxRightLatVelDes.getStrength(); }
   /// Gets whether the slowest lat vel is being used or not
-  virtual double getMaxRightLatVelSlowestUsed(void) const
+  virtual double getMaxRightLatVelSlowestUsed() const
     { return myMaxRightLatVelDes.getAllowOverride(); }
   /// Gets the desired lateral acceleration (mm/sec)
-  virtual double getLatAccel(void) const
+  virtual double getLatAccel() const
     { return myLatAccelDes.getDesired(); }
   /// Gets the desired lateral acceleration strength
-  virtual double getLatAccelStrength(void) const
+  virtual double getLatAccelStrength() const
     { return myLatAccelDes.getStrength(); }
   /// Gets whether the slowest lat accel is being used or not
-  virtual double getLatAccelSlowestUsed(void) const
+  virtual double getLatAccelSlowestUsed() const
     { return myLatAccelDes.getAllowOverride(); }
   /// Gets the desired lateral deceleration (-mm/sec/sec)
-  virtual double getLatDecel(void) const
+  virtual double getLatDecel() const
     { return myLatDecelDes.getDesired(); }
   /// Gets the desired lateral deceleration strength
-  virtual double getLatDecelStrength(void) const
+  virtual double getLatDecelStrength() const
     { return myLatDecelDes.getStrength(); }
   /// Gets whether the fastest lat decel is being used or not
-  virtual double getLatDecelFastestUsed(void) const
+  virtual double getLatDecelFastestUsed() const
     { return myLatDecelDes.getAllowOverride(); }
 
 
@@ -731,7 +731,7 @@ public:
      should be used, after that is done then the normal process of getting
      the results out should be done.
   */
-  virtual void startAverage(void)
+  virtual void startAverage()
     {
       myVelDes.startAverage();
       myMaxVelDes.startAverage();
@@ -805,7 +805,7 @@ public:
   /**
      For a description of how to use this, see startAverage.
   */
-  virtual void endAverage(void)
+  virtual void endAverage()
     {
       myVelDes.endAverage();
       myMaxVelDes.endAverage();
@@ -842,9 +842,9 @@ public:
       myHeadingSet = false;
     }
   /// Logs what is desired
-  AREXPORT virtual void log(void) const;
+  AREXPORT virtual void log() const;
   /// Gets whether anything is desired (should only really be used in relation to logging)
-  AREXPORT virtual bool isAnythingDesired(void) const;
+  AREXPORT virtual bool isAnythingDesired() const;
   /// Do a sanity check on the action (this is set up this way so the
   /// action name can be passed in)
   AREXPORT virtual void sanityCheck(const char *actionName);

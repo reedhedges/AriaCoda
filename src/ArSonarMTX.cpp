@@ -106,7 +106,7 @@ AREXPORT void ArSonarMTX::setDeviceConnection (
 }
 
 
-AREXPORT ArDeviceConnection *ArSonarMTX::getDeviceConnection (void)
+AREXPORT ArDeviceConnection *ArSonarMTX::getDeviceConnection ()
 {
 	return myConn;
 }
@@ -278,7 +278,7 @@ AREXPORT void ArSonarMTX::setRobot (ArRobot *robot)
 }
 
 
-void ArSonarMTX::clear (void)
+void ArSonarMTX::clear ()
 {
 	myIsConnected = false;
 	myTryingToConnect = false;
@@ -309,7 +309,7 @@ AREXPORT int ArSonarMTX::getReadingCount()
   return 0;
 }
 
-AREXPORT void ArSonarMTX::internalGotReading(void)
+AREXPORT void ArSonarMTX::internalGotReading()
 {
   IFDEBUG(puts("internalGotReading");)
   if (myTimeLastReading != time(NULL)) 
@@ -324,7 +324,7 @@ AREXPORT void ArSonarMTX::internalGotReading(void)
   
 }
 
-AREXPORT bool ArSonarMTX::disconnect (void)
+AREXPORT bool ArSonarMTX::disconnect ()
 {
 	if (!isConnected())
 		return true;
@@ -337,7 +337,7 @@ AREXPORT bool ArSonarMTX::disconnect (void)
 	return true;
 }
 
-void ArSonarMTX::failedToConnect (void)
+void ArSonarMTX::failedToConnect ()
 {
 
 	ArLog::log (ArLog::Normal,
@@ -349,7 +349,7 @@ void ArSonarMTX::failedToConnect (void)
 	myDeviceMutex.unlock();
 }
 
-void ArSonarMTX::sensorInterp (void)
+void ArSonarMTX::sensorInterp ()
 {
 	//ArSonarMTXPacket *packet;
 	ArRobotPacket *packet;
@@ -916,12 +916,12 @@ AREXPORT bool ArSonarMTX::fakeConnect ()
 
 }
 
-AREXPORT const char * ArSonarMTX::getName (void) const
+AREXPORT const char * ArSonarMTX::getName () const
 {
 	return myName.c_str();
 }
 
-AREXPORT const char * ArSonarMTX::getNameWithBoard (void) const
+AREXPORT const char * ArSonarMTX::getNameWithBoard () const
 {
 	return myNameWithBoard;
 }
@@ -990,7 +990,7 @@ AREXPORT void * ArSonarMTX::runThread (void *arg)
    getConnectionTimeoutSeconds.  If there is a robot then it will not
    start the check until the sonar is running and connected.
 **/
-AREXPORT bool ArSonarMTX::checkLostConnection(void)
+AREXPORT bool ArSonarMTX::checkLostConnection()
 {
   //puts("checkLostConnection"); fflush(stdout);
   if ((myRobot == NULL || myRobotRunningAndConnected) && 
@@ -1008,7 +1008,7 @@ AREXPORT bool ArSonarMTX::checkLostConnection(void)
   return false;
 }
 
-AREXPORT void ArSonarMTX::disconnectOnError(void)
+AREXPORT void ArSonarMTX::disconnectOnError()
 {
   ArLog::log(ArLog::Normal, "%s: Disconnected because of error", getNameWithBoard());
   myDisconnectOnErrorCBList.invoke();

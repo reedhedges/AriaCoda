@@ -308,7 +308,7 @@ AREXPORT void ArActionRatioInput::remDeactivateCallback(ArFunctor *functor)
   myDeactivateCallbacks.remove(functor);
 }
 
-AREXPORT void ArActionRatioInput::activate(void)
+AREXPORT void ArActionRatioInput::activate()
 {
   std::list<ArFunctor *>::iterator it;
 
@@ -326,7 +326,7 @@ AREXPORT void ArActionRatioInput::activate(void)
   ArAction::activate();
 }
 
-AREXPORT void ArActionRatioInput::deactivate(void)
+AREXPORT void ArActionRatioInput::deactivate()
 {
   std::list<ArFunctor *>::iterator it;
 

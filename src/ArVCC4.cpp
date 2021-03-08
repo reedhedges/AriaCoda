@@ -62,7 +62,7 @@ AREXPORT void ArVCC4Packet::byte2ToBuf(ArTypes::Byte4 val)
 
 
 /* Automatically tacks on footer char */
-AREXPORT void ArVCC4Packet::finalizePacket(void)
+AREXPORT void ArVCC4Packet::finalizePacket()
 {
   uByteToBuf(ArVCC4Commands::FOOTER);
 }
@@ -225,7 +225,7 @@ AREXPORT ArVCC4::~ArVCC4()
     myRobot->remUserTask(&myTaskCB);
 }
 
-void ArVCC4::connectHandler(void)
+void ArVCC4::connectHandler()
 {
 }
 
@@ -289,7 +289,7 @@ This is the user task for the camera.  It controls the state that the camera is 
 
 The POWERED_ON state will send commands as needed, and then switch the state into a state of waiting for a response.  If that state waits for too long without a response, it will timeout.  The states wait for a responseReceived flag, which says that a valid response packet was received back from the camera.  Based on that, it uses the myError variable to determine what the packet said.  If there is not responseReceived, or if operating in undirectional mode, the state will wait for a timeout, at which point it will fail if in bidirectional, or assume success in unidirectional mode.
 */
-void ArVCC4::camTask(void)
+void ArVCC4::camTask()
 {
 
   switch(myState)
@@ -1459,7 +1459,7 @@ bool ArVCC4::timeout(int mSec)
   If it reads and gets a good header and footer, then it puts the data
   in a packet, so that packetHandler will be called.
 */
-ArBasePacket* ArVCC4::readPacket(void)
+ArBasePacket* ArVCC4::readPacket()
 {
   unsigned char data[MAX_RESPONSE_BYTES];
   unsigned char byte;
@@ -1746,7 +1746,7 @@ AREXPORT bool ArVCC4::packetHandler(ArBasePacket *packet)
 }
 
 /* This needs to eventually use digital zooming, too */
-AREXPORT int ArVCC4::getMaxZoom(void) const
+AREXPORT int ArVCC4::getMaxZoom() const
 {
   if (myCameraType == CAMERA_C50I)
     return MAX_ZOOM_OPTIC;
@@ -1806,7 +1806,7 @@ AREXPORT bool ArVCC4::digitalZoom(int deg)
    This will process a response from the camera for where it thinks it
   is panned and tilted to.
 */
-void ArVCC4::processGetPanTiltResponse(void)
+void ArVCC4::processGetPanTiltResponse()
 {
   unsigned char buf[4];
   char byte;
@@ -1855,7 +1855,7 @@ void ArVCC4::processGetPanTiltResponse(void)
   This will process the response from the camera when requesting to find
   out where it thinks it is zoomed to.
 */
-void ArVCC4::processGetZoomResponse(void)
+void ArVCC4::processGetZoomResponse()
 {
   unsigned char buf[4];
   char byte;
@@ -1893,7 +1893,7 @@ void ArVCC4::processGetZoomResponse(void)
 /* This is not implemented yet, but should eventually determine the product name
  */
 /*
-void ArVCC4::processGetProductNameResponse(void)
+void ArVCC4::processGetProductNameResponse()
 {
   char byte;
   int i;
@@ -1905,7 +1905,7 @@ void ArVCC4::processGetProductNameResponse(void)
   }
 }*/
 
-bool ArVCC4::sendPower(void)
+bool ArVCC4::sendPower()
 {
   myPacket.empty();
   preparePacket(&myPacket);
@@ -1927,7 +1927,7 @@ bool ArVCC4::sendPower(void)
   return sendPacket(&myPacket);
 }
 
-bool ArVCC4::setControlMode(void)
+bool ArVCC4::setControlMode()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::setControlMode: sending control mode packet\n");
   myPacket.empty();             //Send Control command
@@ -1956,7 +1956,7 @@ AREXPORT void ArVCC4::remErrorCB(ArFunctor *functor)
   myErrorCBList.remove(functor);
 }
 
-void ArVCC4::throwError(void)
+void ArVCC4::throwError()
 {
   std::list<ArFunctor *>::iterator it;
 
@@ -1967,7 +1967,7 @@ void ArVCC4::throwError(void)
 
 }
 
-bool ArVCC4::sendInit(void)
+bool ArVCC4::sendInit()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendInit: sending init packet\n");
 
@@ -1988,7 +1988,7 @@ bool ArVCC4::sendInit(void)
 /*
 It's necessary to set the default ranges, because the camera defaults to a max tilt range of +30, instead of +90.
 */
-bool ArVCC4::setDefaultRange(void)
+bool ArVCC4::setDefaultRange()
 {
 
   ArLog::log(ArLog::Verbose,"ArVCC4::setDefaultRange: setting default range for camera movements");
@@ -2112,7 +2112,7 @@ bool ArVCC4::sendDigitalZoom()
 
 
 
-bool ArVCC4::sendHaltPanTilt(void)
+bool ArVCC4::sendHaltPanTilt()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendHaltPanTilt: sending halt pantilt packet");
   myPacket.empty();
@@ -2125,7 +2125,7 @@ bool ArVCC4::sendHaltPanTilt(void)
 }
 
 
-bool ArVCC4::sendHaltZoom(void)
+bool ArVCC4::sendHaltZoom()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendHaltZoom: sending halt zoom packet");
   myPacket.empty();
@@ -2138,7 +2138,7 @@ bool ArVCC4::sendHaltZoom(void)
 }
 
 
-bool ArVCC4::sendPanSlew(void)
+bool ArVCC4::sendPanSlew()
 {
   char buf[4];
 
@@ -2177,7 +2177,7 @@ bool ArVCC4::sendPanSlew(void)
 }
 
 
-bool ArVCC4::sendTiltSlew(void)
+bool ArVCC4::sendTiltSlew()
 {
   char buf[4];
 
@@ -2213,7 +2213,7 @@ bool ArVCC4::sendTiltSlew(void)
   return true;
 }
 
-bool ArVCC4::sendRealPanTiltRequest(void)
+bool ArVCC4::sendRealPanTiltRequest()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendRealPanTiltRequest: sending request for real pan/tilt information");
 
@@ -2228,7 +2228,7 @@ bool ArVCC4::sendRealPanTiltRequest(void)
 }
 
 
-bool ArVCC4::sendRealZoomRequest(void)
+bool ArVCC4::sendRealZoomRequest()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendRealZoomRequest: sending request for real zoom position.");
 
@@ -2252,7 +2252,7 @@ This controls the status of the LED.
 4 - orange forced on
 **/
 
-bool ArVCC4::sendLEDControlMode(void)
+bool ArVCC4::sendLEDControlMode()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendLEDControlMode: sending LED control packet.");
 
@@ -2273,7 +2273,7 @@ bool ArVCC4::sendLEDControlMode(void)
   return sendPacket(&myPacket);
 }
 
-bool ArVCC4::sendIRFilterControl(void)
+bool ArVCC4::sendIRFilterControl()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendIRFilterControl: sending IR cut filter control packet.");
 
@@ -2294,7 +2294,7 @@ bool ArVCC4::sendIRFilterControl(void)
 /* The camera automatically shuts off the IR after some specified period of time.
  This command tells the camera to leave them on for the max of 6 hours.
  */
-bool ArVCC4::sendIRLEDControl(void)
+bool ArVCC4::sendIRLEDControl()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendIRLEDControl: sending IR-LED control packet.");
 
@@ -2311,7 +2311,7 @@ bool ArVCC4::sendIRLEDControl(void)
   return sendPacket(&myPacket);
 }
 
-bool ArVCC4::sendProductNameRequest(void)
+bool ArVCC4::sendProductNameRequest()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendProductNameRequest: sending request for product name.");
 
@@ -2322,7 +2322,7 @@ bool ArVCC4::sendProductNameRequest(void)
   return sendPacket(&myPacket);
 }
 
-bool ArVCC4::sendFocus(void)
+bool ArVCC4::sendFocus()
 {
   ArLog::log(ArLog::Verbose,
     "ArVCC4::sendFocus: sending focus control packet with mode %d (value 0x%X in packet).", 

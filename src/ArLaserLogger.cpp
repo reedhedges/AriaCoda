@@ -513,12 +513,12 @@ AREXPORT void ArLaserLogger::addInfoToLog(const char *str, ...)
   va_end(ptr);
 }
 
-void ArLaserLogger::goalKeyCallback(void)
+void ArLaserLogger::goalKeyCallback()
 {
   myAddGoalKeyboard = true;
 }
 
-void ArLaserLogger::internalAddGoal(void)
+void ArLaserLogger::internalAddGoal()
 {
   bool joyButton;
   bool robotJoyButton;
@@ -569,7 +569,7 @@ void ArLaserLogger::internalAddGoal(void)
   myAddGoalKeyboard = false;
 }
 
-void ArLaserLogger::internalWriteTags(void)
+void ArLaserLogger::internalWriteTags()
 {
   time_t msec;
 
@@ -601,7 +601,7 @@ void ArLaserLogger::internalWriteTags(void)
   }
 }
 
-void ArLaserLogger::internalTakeReading(void)
+void ArLaserLogger::internalTakeReading()
 {
   time_t msec;
 
@@ -849,7 +849,7 @@ void ArLaserLogger::internalPrintPos(ArPose encoderPoseTaken,
   }
 }
 
-AREXPORT void ArLaserLogger::robotTask(void)
+AREXPORT void ArLaserLogger::robotTask()
 {
 
   // call our function to check goals

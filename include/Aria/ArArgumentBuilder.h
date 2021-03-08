@@ -63,19 +63,19 @@ public:
   /// Adds the given string thats divided (but doesn't touch the strings)
   AREXPORT void addStringsAsIs(int argc, char **argv, int position = -1);
   /// Gets the original string of the input
-  AREXPORT const char *getFullString(void) const;
+  AREXPORT const char *getFullString() const;
   /// Sets the full string (this is so you can have a more raw full string)
   AREXPORT void setFullString(const char *str);
   /// Gets the extra string of the input, used differently by different things
-  AREXPORT const char *getExtraString(void) const;
+  AREXPORT const char *getExtraString() const;
   /// Sets the extra string of the input, used differently by different things
   AREXPORT void setExtraString(const char *str);
   /// Prints out the arguments
-  AREXPORT void log(void) const;
+  AREXPORT void log() const;
   /// Gets the argc
-  AREXPORT size_t getArgc(void) const;
+  AREXPORT size_t getArgc() const;
   /// Gets the argv
-  AREXPORT char** getArgv(void) const;
+  AREXPORT char** getArgv() const;
   /// Gets a specific argument as a string
   AREXPORT const char* getArg(size_t whichArg) const;
 
@@ -225,7 +225,7 @@ protected:
   /// Determines whether the specified character is an acceptable space (either normal or extra)
   bool isSpace(char c);
 
-  size_t getArgvLen(void) const { return myArgvLen; }
+  size_t getArgvLen() const { return myArgvLen; }
   // how many arguments we had originally (so we can delete 'em)
   size_t myOrigArgc;
   // how many arguments we have

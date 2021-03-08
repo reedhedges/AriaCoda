@@ -161,7 +161,7 @@ public:
 
   AREXPORT virtual void byte2ToBuf(ArTypes::Byte4 val);
 
-  AREXPORT virtual void finalizePacket(void);
+  AREXPORT virtual void finalizePacket();
 
 protected:
 };
@@ -187,14 +187,14 @@ public:
   AREXPORT virtual ~ArVCC4();
 
   AREXPORT virtual bool power(bool state) { myPowerStateDesired = state; return true; }
-  AREXPORT bool getPower(void) { return myPowerState; }
-  AREXPORT virtual bool init(void) { myInitRequested = true; return true; }
-  AREXPORT virtual void reset(void) { ArPTZ::reset(); init(); }
+  AREXPORT bool getPower() { return myPowerState; }
+  AREXPORT virtual bool init() { myInitRequested = true; return true; }
+  AREXPORT virtual void reset() { ArPTZ::reset(); init(); }
   AREXPORT virtual const char  *getTypeName() { return "vcc4"; }
 
   /// Returns true if the camera has been initialized
-   bool isInitted(void) { return myCameraIsInitted; }
-  AREXPORT virtual void connectHandler(void);
+   bool isInitted() { return myCameraIsInitted; }
+  AREXPORT virtual void connectHandler();
   AREXPORT virtual bool packetHandler(ArBasePacket *packet);
 
 protected:
@@ -207,27 +207,27 @@ protected:
 public:
 
   /*
-  AREXPORT virtual double getMaxPosPan(void) const 
+  AREXPORT virtual double getMaxPosPan() const 
     { if (myInverted) return invert(MIN_PAN); else return MAX_PAN; }
-  AREXPORT virtual double getMaxNegPan(void) const 
+  AREXPORT virtual double getMaxNegPan() const 
     { if (myInverted) return invert(MAX_PAN); else return MIN_PAN; }
-  AREXPORT virtual double getMaxPosTilt(void) const 
+  AREXPORT virtual double getMaxPosTilt() const 
     { if (myInverted) return invert(MIN_TILT); else return MAX_TILT; }
-  AREXPORT virtual double getMaxNegTilt(void) const
+  AREXPORT virtual double getMaxNegTilt() const
     { if (myInverted) return invert(MAX_TILT); else return MIN_TILT; }
  */
 
   /// Requests that a packet be sent to the camera to retrieve what
   /// the camera thinks are its pan/tilt positions. getPan() and getTilt()
   /// will then return this information instead of your last requested values.
-  AREXPORT void getRealPanTilt(void) { myRealPanTiltRequested = true; }
+  AREXPORT void getRealPanTilt() { myRealPanTiltRequested = true; }
 
   /// Requests that a packet be sent to the camera to retrieve what
   /// the camera thinks is its zoom position. getZoom()
   /// will then return this information instead of your last requested value.
-  AREXPORT void getRealZoomPos(void) { myRealZoomRequested = true; }
+  AREXPORT void getRealZoomPos() { myRealZoomRequested = true; }
 
-  AREXPORT virtual bool canZoom(void) const { return true; }
+  AREXPORT virtual bool canZoom() const { return true; }
 
 protected:
   AREXPORT virtual bool panTilt_i(double pdeg, double tdeg);
@@ -247,9 +247,9 @@ public:
   AREXPORT void remErrorCB(ArFunctor *functor);
 
   /// Halts all pan-tilt movement
-  AREXPORT bool haltPanTilt(void) { myHaltPanTiltRequested = true; return true; }
+  AREXPORT bool haltPanTilt() { myHaltPanTiltRequested = true; return true; }
   /// Halts zoom movement
-  AREXPORT bool haltZoom(void) { myHaltZoomRequested = true; return true; }
+  AREXPORT bool haltZoom() { myHaltZoomRequested = true; return true; }
 
   /// Sets the rate that the unit pans at
   AREXPORT bool panSlew(double deg) { myPanSlewDesired = deg; return true; }
@@ -261,26 +261,26 @@ public:
   AREXPORT void preparePacket(ArVCC4Packet *packet);
 
 protected:
-  AREXPORT virtual double getPan_i(void) const { return myPanDesired; }
-  AREXPORT virtual double getTilt_i(void) const { return myTiltDesired; }
+  AREXPORT virtual double getPan_i() const { return myPanDesired; }
+  AREXPORT virtual double getTilt_i() const { return myTiltDesired; }
 
 public:
-  AREXPORT virtual int getZoom(void) const { return myZoomDesired; }
-  AREXPORT double getDigitalZoom(void) const { return myDigitalZoomDesired; }
+  AREXPORT virtual int getZoom() const { return myZoomDesired; }
+  AREXPORT double getDigitalZoom() const { return myDigitalZoomDesired; }
 
-  AREXPORT virtual bool canGetRealPanTilt(void) const { return true; }
-  AREXPORT virtual bool canGetRealZoom(void) const { return true; }
-  AREXPORT virtual bool canSetFocus(void) const { return false; }
+  AREXPORT virtual bool canGetRealPanTilt() const { return true; }
+  AREXPORT virtual bool canGetRealZoom() const { return true; }
+  AREXPORT virtual bool canSetFocus() const { return false; }
   /// Set autofocus mode:
   /// @deprecated use setAutoFocus() instead
-  AREXPORT virtual bool autoFocus(void) { myFocusModeDesired = 0; return true;}
+  AREXPORT virtual bool autoFocus() { myFocusModeDesired = 0; return true;}
   /// set manual focus mode
   /// @deprecated use setAutoFocus() instead
-  AREXPORT virtual bool manualFocus(void) { myFocusModeDesired = 1; return true;}
+  AREXPORT virtual bool manualFocus() { myFocusModeDesired = 1; return true;}
   /// auto-focus on a near object
-  AREXPORT virtual bool focusNear(void) { myFocusModeDesired = 2; return true;}
+  AREXPORT virtual bool focusNear() { myFocusModeDesired = 2; return true;}
   /// auto-focus on a far object
-  AREXPORT virtual bool focusFar(void) { myFocusModeDesired = 3; return true; }
+  AREXPORT virtual bool focusFar() { myFocusModeDesired = 3; return true; }
 
   AREXPORT virtual bool setAutoFocus(bool af = true) 
   {
@@ -291,52 +291,52 @@ public:
   }
 
   /// Gets the current pan slew
-  AREXPORT double getPanSlew(void) { return myPanSlewDesired; }
+  AREXPORT double getPanSlew() { return myPanSlewDesired; }
   /// Gets the maximum pan slew
-  AREXPORT double getMaxPanSlew(void) { return MAX_PAN_SLEW; }
+  AREXPORT double getMaxPanSlew() { return MAX_PAN_SLEW; }
   /// Gets the minimum pan slew
-  AREXPORT double getMinPanSlew(void) { return MIN_PAN_SLEW; }
+  AREXPORT double getMinPanSlew() { return MIN_PAN_SLEW; }
 
   /// Gets the current tilt slew
-  AREXPORT double getTiltSlew(void) { return myTiltSlewDesired; }
+  AREXPORT double getTiltSlew() { return myTiltSlewDesired; }
   /// Gets the maximum tilt slew
-  AREXPORT double getMaxTiltSlew(void) { return MAX_TILT_SLEW; }
+  AREXPORT double getMaxTiltSlew() { return MAX_TILT_SLEW; }
   /// Gets the minimum tilt slew
-  AREXPORT double getMinTiltSlew(void) { return MIN_TILT_SLEW; }
+  AREXPORT double getMinTiltSlew() { return MIN_TILT_SLEW; }
 
-  AREXPORT virtual int getMaxZoom(void) const;
-  AREXPORT virtual int getMinZoom(void) const { return MIN_ZOOM; }
+  AREXPORT virtual int getMaxZoom() const;
+  AREXPORT virtual int getMinZoom() const { return MIN_ZOOM; }
 
-  AREXPORT virtual bool canGetFOV(void) { return true; }
+  AREXPORT virtual bool canGetFOV() { return true; }
   /// Gets the field of view at maximum zoom
-  AREXPORT virtual double getFOVAtMaxZoom(void) { return myFOVAtMaxZoom; }
+  AREXPORT virtual double getFOVAtMaxZoom() { return myFOVAtMaxZoom; }
   /// Gets the field of view at minimum zoom
-  AREXPORT virtual double getFOVAtMinZoom(void) { return myFOVAtMinZoom; }
+  AREXPORT virtual double getFOVAtMinZoom() { return myFOVAtMinZoom; }
 
 
   /// Returns true if the error callback list was called during the last cycle
-  AREXPORT bool wasError(void) { return myWasError; }
+  AREXPORT bool wasError() { return myWasError; }
 
   /// Toggle the state of the auto-update
-  AREXPORT void enableAutoUpdate(void) { myAutoUpdate = true; }
-  AREXPORT void disableAutoUpdate(void) { myAutoUpdate = false; }
-  AREXPORT bool getAutoUpdate(void) { return myAutoUpdate; }
+  AREXPORT void enableAutoUpdate() { myAutoUpdate = true; }
+  AREXPORT void disableAutoUpdate() { myAutoUpdate = false; }
+  AREXPORT bool getAutoUpdate() { return myAutoUpdate; }
 
   /// Set the control mode for the status LED on the front of the camera
   /// 0 = auto-control, 1 = Green ON, 2 = All OFF, 3 = Red ON, 4 = Orange ON
   AREXPORT void setLEDControlMode(int controlMode) { myDesiredLEDControlMode = controlMode; }
   /// Turn on IR LEDs.  IR-filter must be in place for LEDs to turn on
-  AREXPORT void enableIRLEDs(void) { myDesiredIRLEDsMode = true; }
+  AREXPORT void enableIRLEDs() { myDesiredIRLEDsMode = true; }
   /// Turn off IR LEDs
-  AREXPORT void disableIRLEDs(void) { myDesiredIRLEDsMode = false; }
+  AREXPORT void disableIRLEDs() { myDesiredIRLEDsMode = false; }
   /// Returns true if the IR LEDs are on
-  AREXPORT bool getIRLEDsEnabled(void) { return myIRLEDsEnabled; }
+  AREXPORT bool getIRLEDsEnabled() { return myIRLEDsEnabled; }
   /// Enable physical IR cutoff filter
-  AREXPORT void enableIRFilterMode(void) { myDesiredIRFilterMode = true; }
+  AREXPORT void enableIRFilterMode() { myDesiredIRFilterMode = true; }
   /// Disable IR cutoff filter.  This also turns off the LEDs, if they're on
-  AREXPORT void disableIRFilterMode(void) { myDesiredIRFilterMode = false; }
+  AREXPORT void disableIRFilterMode() { myDesiredIRFilterMode = false; }
   /// Returns true if the IR cutoff filter is in place
-  AREXPORT bool getIRFilterModeEnabled (void) { return myIRFilterModeEnabled; }
+  AREXPORT bool getIRFilterModeEnabled () { return myIRFilterModeEnabled; }
 protected:
 
   // preset limits on movements.  Based on empirical data
@@ -426,13 +426,13 @@ protected:
   CommState myCommType;
 
   // used to read data if the camera is attached directly to a computer
-  virtual ArBasePacket* readPacket(void);
+  virtual ArBasePacket* readPacket();
 
   // the functor to add as a usertask
   ArFunctorC<ArVCC4> myTaskCB;
 
   // the actual task to be added as a usertask
-  void camTask(void);
+  void camTask();
 
   // true when a response has been received from the camera, but has
   // not yet been acted on by the state machine
@@ -468,31 +468,31 @@ protected:
   int myBytesLeft;
 
   // these all send commands to the camera.
-  bool sendPanTilt(void);
-  bool sendZoom(void);
-  bool sendPanSlew(void);
-  bool sendTiltSlew(void);
-  bool sendPower(void);
-  bool sendHaltPanTilt(void);
-  bool sendHaltZoom(void);
-  bool sendRealPanTiltRequest(void);
-  bool sendRealZoomRequest(void);
-  bool sendDigitalZoom(void);
-  bool sendFocus(void);
+  bool sendPanTilt();
+  bool sendZoom();
+  bool sendPanSlew();
+  bool sendTiltSlew();
+  bool sendPower();
+  bool sendHaltPanTilt();
+  bool sendHaltZoom();
+  bool sendRealPanTiltRequest();
+  bool sendRealZoomRequest();
+  bool sendDigitalZoom();
+  bool sendFocus();
   
   // this is currently not used because it doesn't work right
-  bool sendProductNameRequest(void);
+  bool sendProductNameRequest();
 
   // the camera type is used to specify VC-C4 vs. C50i
   CameraType myCameraType;
   bool myRequestProductName;
 
-  bool sendLEDControlMode(void);
-  bool sendCameraNameRequest(void);
+  bool sendLEDControlMode();
+  bool sendCameraNameRequest();
   int myDesiredLEDControlMode;
 
-  bool sendIRFilterControl(void);
-  bool sendIRLEDControl(void);
+  bool sendIRFilterControl();
+  bool sendIRLEDControl();
   bool myIRLEDsEnabled;
   bool myDesiredIRLEDsMode;
   bool myIRFilterModeEnabled;
@@ -500,15 +500,15 @@ protected:
 
   // These should only be used by the state machine to initialize the 
   // camera for the first time
-  bool setDefaultRange(void);
-  bool setControlMode(void);
-  bool sendInit(void);
+  bool setDefaultRange();
+  bool setControlMode();
+  bool sendInit();
 
   // process the packet data for a camera response that has accurate
   // pan/tilt positional information in it, and the product name
-  void processGetPanTiltResponse(void);
-  void processGetZoomResponse(void);
-  void processGetProductNameResponse(void);
+  void processGetPanTiltResponse();
+  void processGetZoomResponse();
+  void processGetProductNameResponse();
 
   // true if autoupdating of camera's position should be used  
   bool myAutoUpdate;

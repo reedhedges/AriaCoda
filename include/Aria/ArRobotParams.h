@@ -156,66 +156,66 @@ public:
   /// Destructor
   AREXPORT virtual ~ArRobotParams();
   /// Returns the class from the parameter file
-  const char *getClassName(void) const { return myClass; }
+  const char *getClassName() const { return myClass; }
   /// Returns the subclass from the parameter file
-  const char *getSubClassName(void) const { return mySubClass; }
+  const char *getSubClassName() const { return mySubClass; }
   /// Returns the robot's radius
-  double getRobotRadius(void) const { return myRobotRadius; }
+  double getRobotRadius() const { return myRobotRadius; }
   /// Returns the robot diagonal (half-height to diagonal of octagon)
-  double getRobotDiagonal(void) const { return myRobotDiagonal; }
+  double getRobotDiagonal() const { return myRobotDiagonal; }
   /// Returns the robot's width
-  double getRobotWidth(void) const { return myRobotWidth; }
+  double getRobotWidth() const { return myRobotWidth; }
   /// Returns the robot's length
-  double getRobotLength(void) const { return myRobotLength; }
+  double getRobotLength() const { return myRobotLength; }
   /// Returns the robot's length to the front of the robot
-  double getRobotLengthFront(void) const { return myRobotLengthFront; }
+  double getRobotLengthFront() const { return myRobotLengthFront; }
   /// Returns the robot's length to the rear of the robot
-  double getRobotLengthRear(void) const { return myRobotLengthRear; }
+  double getRobotLengthRear() const { return myRobotLengthRear; }
   /// Returns whether the robot is holonomic or not
-  bool isHolonomic(void) const { return myHolonomic; }
+  bool isHolonomic() const { return myHolonomic; }
   /// Returns if the robot has a built in move command
-  bool hasMoveCommand(void) const { return myHaveMoveCommand; }
+  bool hasMoveCommand() const { return myHaveMoveCommand; }
   /// Returns the max velocity of the robot
-  int getAbsoluteMaxVelocity(void) const { return myAbsoluteMaxVelocity; }
+  int getAbsoluteMaxVelocity() const { return myAbsoluteMaxVelocity; }
   /// Returns the max rotational velocity of the robot
-  int getAbsoluteMaxRotVelocity(void) const { return myAbsoluteMaxRVelocity; }
+  int getAbsoluteMaxRotVelocity() const { return myAbsoluteMaxRVelocity; }
   /// Returns the max lateral velocity of the robot
-  int getAbsoluteMaxLatVelocity(void) const 
+  int getAbsoluteMaxLatVelocity() const 
     { return myAbsoluteMaxLatVelocity; }
   /// Returns true if IO packets are automatically requested upon connection to the robot.
-  bool getRequestIOPackets(void) const { return myRequestIOPackets; }
+  bool getRequestIOPackets() const { return myRequestIOPackets; }
   /// Returns true if encoder packets are automatically requested upon connection to the robot.
-  bool getRequestEncoderPackets(void) const { return myRequestEncoderPackets; }
+  bool getRequestEncoderPackets() const { return myRequestEncoderPackets; }
   /// Returns the baud rate set in the param to talk to the robot at
-  int getSwitchToBaudRate(void) const { return mySwitchToBaudRate; }
+  int getSwitchToBaudRate() const { return mySwitchToBaudRate; }
   /// Returns the angle conversion factor 
-  double getAngleConvFactor(void) const { return myAngleConvFactor; }
+  double getAngleConvFactor() const { return myAngleConvFactor; }
   /// Returns the distance conversion factor
-  double getDistConvFactor(void) const { return myDistConvFactor; }
+  double getDistConvFactor() const { return myDistConvFactor; }
   /// Returns the velocity conversion factor
-  double getVelConvFactor(void) const { return myVelConvFactor; }
+  double getVelConvFactor() const { return myVelConvFactor; }
   /// Returns the sonar range conversion factor
-  double getRangeConvFactor(void) const { return myRangeConvFactor; }
+  double getRangeConvFactor() const { return myRangeConvFactor; }
   /// Returns the wheel velocity difference to angular velocity conv factor
-  double getDiffConvFactor(void) const { return myDiffConvFactor; }
+  double getDiffConvFactor() const { return myDiffConvFactor; }
   /// Returns the multiplier for VEL2 commands
-  double getVel2Divisor(void) const { return myVel2Divisor; }
+  double getVel2Divisor() const { return myVel2Divisor; }
   /// Returns the multiplier for the Analog Gyro
-  double getGyroScaler(void) const { return myGyroScaler; }
+  double getGyroScaler() const { return myGyroScaler; }
   /// Returns true if the robot has table sensing IR
-  bool haveTableSensingIR(void) const { return myTableSensingIR; }
+  bool haveTableSensingIR() const { return myTableSensingIR; }
   /// Returns true if the robot's table sensing IR bits are sent in the 4th-byte of the IO packet
-  bool haveNewTableSensingIR(void) const { return myNewTableSensingIR; }
+  bool haveNewTableSensingIR() const { return myNewTableSensingIR; }
   /// Returns true if the robot has front bumpers
-  bool haveFrontBumpers(void) const { return myFrontBumpers; }
+  bool haveFrontBumpers() const { return myFrontBumpers; }
   /// Returns the number of front bumpers
-  int numFrontBumpers(void) const { return myNumFrontBumpers; }
+  int numFrontBumpers() const { return myNumFrontBumpers; }
   /// Returns true if the robot has rear bumpers
-  bool haveRearBumpers(void) const { return myRearBumpers; }
+  bool haveRearBumpers() const { return myRearBumpers; }
   /// Returns the number of rear bumpers
-  int numRearBumpers(void) const { return myNumRearBumpers; }
+  int numRearBumpers() const { return myNumRearBumpers; }
   /// Returns the number of IRs
-  int getNumIR(void) const { return myNumIR; }
+  int getNumIR() const { return myNumIR; }
   /// Returns if the IR of the given number is valid
   bool haveIR(int number) const
     {
@@ -269,13 +269,13 @@ public:
     }
 
   /// Returns the number of sonar
-  int getNumSonar(void) const { return myNumSonar; }
+  int getNumSonar() const { return myNumSonar; }
 
   /// Returns if the robot has a laser (according to param file)
   /**
      @deprecated
   **/
-  bool getLaserPossessed(void) const 
+  bool getLaserPossessed() const 
     { 
       ArLog::log(ArLog::Normal, "Something called ArRobotParams::getLaserPossessed, but this is obsolete and doesn't mean anything.");
       return false; 
@@ -840,31 +840,31 @@ public:
 
 
   /// Gets whether the VelMax values are settable or not
-  bool hasSettableVelMaxes(void) const { return mySettableVelMaxes; }
+  bool hasSettableVelMaxes() const { return mySettableVelMaxes; }
   /// Gets the max trans vel from param file (0 uses microcontroller param)
-  int getTransVelMax(void) const { return myTransVelMax; }
+  int getTransVelMax() const { return myTransVelMax; }
   /// Gets the max rot vel from param file (0 uses microcontroller param)
-  int getRotVelMax(void) const { return myRotVelMax; }
+  int getRotVelMax() const { return myRotVelMax; }
   /// Whether the accelerations and decelerations are settable or not
-  bool hasSettableAccsDecs(void) const { return mySettableAccsDecs; }
+  bool hasSettableAccsDecs() const { return mySettableAccsDecs; }
   /// Gets the trans accel from param file (0 uses microcontroller param)
-  int getTransAccel(void) const { return myTransAccel; }
+  int getTransAccel() const { return myTransAccel; }
   /// Gets the trans decel from param file (0 uses microcontroller param)
-  int getTransDecel(void) const { return myTransDecel; }
+  int getTransDecel() const { return myTransDecel; }
   /// Gets the rot accel from param file (0 uses microcontroller param)
-  int getRotAccel(void) const { return myRotAccel; }
+  int getRotAccel() const { return myRotAccel; }
   /// Gets the rot decel from param file (0 uses microcontroller param)
-  int getRotDecel(void) const { return myRotDecel; }
+  int getRotDecel() const { return myRotDecel; }
   /// Whether we have lateral control or not
-  bool hasLatVel(void) const { return myHasLatVel; }
+  bool hasLatVel() const { return myHasLatVel; }
   /// Gets the max lat vel from param file (0 uses microcontroller param)
-  int getLatVelMax(void) const { return myTransVelMax; }
+  int getLatVelMax() const { return myTransVelMax; }
   /// Gets the lat accel from param file (0 uses microcontroller param)
-  int getLatAccel(void) const { return myTransAccel; }
+  int getLatAccel() const { return myTransAccel; }
   /// Gets the lat decel from param file (0 uses microcontroller param)
-  int getLatDecel(void) const { return myTransDecel; }
+  int getLatDecel() const { return myTransDecel; }
   /// Saves it to the subtype.p in Aria::getDirectory/params
-  AREXPORT bool save(void);
+  AREXPORT bool save();
 
   /// The X (forward-back) location of the GPS (antenna) on the robot
   int getGPSX() const { return myGPSX; }
@@ -889,7 +889,7 @@ public:
 
 #ifndef ARIA_WRAPPER
   /// For internal use only, gets a pointer to the dist conv factor value
-  double *internalGetDistConvFactorPointer(void) { return &myDistConvFactor; }
+  double *internalGetDistConvFactorPointer() { return &myDistConvFactor; }
   
   /// Internal function to set if we use the default behavior
   /// (shouldn't be used outside of core developers)
@@ -898,11 +898,11 @@ public:
 
   /// Internal function to get if we use the default behavior
   /// (shouldn't be used outside of core developers)
-  static bool internalGetUseDefaultBehavior(void);
+  static bool internalGetUseDefaultBehavior();
 
   /// Internal call that adds to this config the same way it's always
   /// been done (this is only exposed for some internal testing)
-  void internalAddToConfigDefault(void);
+  void internalAddToConfigDefault();
 #endif
 
   /// return a const reference to the video device parameters
@@ -938,7 +938,7 @@ protected:
   AREXPORT void addVideoToConfig(int i, ArConfig *config);
   
   // Processes the config for commercial
-  AREXPORT bool commercialProcessFile(void);
+  AREXPORT bool commercialProcessFile();
     
   char myClass[1024];
   char mySubClass[1024];
@@ -1234,8 +1234,8 @@ protected:
   AREXPORT void internalSetSonarUseFlag(int num, bool flag);
   AREXPORT bool parseSonarUnit(ArArgumentBuilder *builder);
   AREXPORT bool parseMTXSonarUnit(ArArgumentBuilder *builder);
-	AREXPORT const std::list<ArArgumentBuilder *> *getSonarUnits(void);
-	//AREXPORT const std::list<ArArgumentBuilder *> *getMTXSonarUnits(void);
+	AREXPORT const std::list<ArArgumentBuilder *> *getSonarUnits();
+	//AREXPORT const std::list<ArArgumentBuilder *> *getMTXSonarUnits();
   std::list<ArArgumentBuilder *> myGetSonarUnitList;
   ArRetFunctorC<const std::list<ArArgumentBuilder *> *, ArRobotParams> mySonarUnitGetFunctor;
   ArRetFunctor1C<bool, ArRobotParams, ArArgumentBuilder *> mySonarUnitSetFunctor;
@@ -1262,7 +1262,7 @@ protected:
   };
   AREXPORT void internalSetIR(int num, int type, int cycles, int x, int y);
   AREXPORT bool parseIRUnit(ArArgumentBuilder *builder);
-  AREXPORT const std::list<ArArgumentBuilder *> *getIRUnits(void);
+  AREXPORT const std::list<ArArgumentBuilder *> *getIRUnits();
   std::list<ArArgumentBuilder *> myGetIRUnitList;
   ArRetFunctorC<const std::list<ArArgumentBuilder *> *, ArRobotParams> myIRUnitGetFunctor;
   ArRetFunctor1C<bool, ArRobotParams, ArArgumentBuilder *> myIRUnitSetFunctor;

@@ -56,7 +56,7 @@ AREXPORT void ArLMS2xxPacket::setSendingAddress(unsigned char address)
    the address is put into the appropriate spot in the packet. 
    @return the address of the laser to be addressed 
 */
-AREXPORT unsigned char ArLMS2xxPacket::getSendingAddress(void)
+AREXPORT unsigned char ArLMS2xxPacket::getSendingAddress()
 {
   return mySendingAddress;
 }
@@ -67,7 +67,7 @@ AREXPORT unsigned char ArLMS2xxPacket::getSendingAddress(void)
    to know where a packet was addressed to use getSendingAdress instead.
    @return the address a packet was received from
 */
-AREXPORT unsigned char ArLMS2xxPacket::getReceivedAddress(void)
+AREXPORT unsigned char ArLMS2xxPacket::getReceivedAddress()
 {
   int len = myReadLength;
   unsigned char address;
@@ -79,7 +79,7 @@ AREXPORT unsigned char ArLMS2xxPacket::getReceivedAddress(void)
   return address;
 }
 
-AREXPORT ArTypes::UByte ArLMS2xxPacket::getID(void)
+AREXPORT ArTypes::UByte ArLMS2xxPacket::getID()
 {
  if (myLength >= 5)
     return myBuf[4];
@@ -87,12 +87,12 @@ AREXPORT ArTypes::UByte ArLMS2xxPacket::getID(void)
     return 0;
 }
 
-AREXPORT void ArLMS2xxPacket::resetRead(void)
+AREXPORT void ArLMS2xxPacket::resetRead()
 {
   myReadLength = myHeaderLength + 1;
 }
 
-AREXPORT void ArLMS2xxPacket::finalizePacket(void)
+AREXPORT void ArLMS2xxPacket::finalizePacket()
 {
   int len = myLength;
   int chkSum;
@@ -131,7 +131,7 @@ AREXPORT void ArLMS2xxPacket::duplicatePacket(ArLMS2xxPacket *packet)
   
 }
 
-AREXPORT ArTypes::Byte2 ArLMS2xxPacket::calcCRC(void)
+AREXPORT ArTypes::Byte2 ArLMS2xxPacket::calcCRC()
 {
   unsigned short uCrc16;
   unsigned char abData[2];
@@ -159,7 +159,7 @@ AREXPORT ArTypes::Byte2 ArLMS2xxPacket::calcCRC(void)
   return uCrc16;
 }
 
-AREXPORT bool ArLMS2xxPacket::verifyCRC(void) 
+AREXPORT bool ArLMS2xxPacket::verifyCRC() 
 {
   int readLen = myReadLength;
   int len = myLength;
@@ -187,7 +187,7 @@ AREXPORT bool ArLMS2xxPacket::verifyCRC(void)
   
 }
 
-AREXPORT ArTime ArLMS2xxPacket::getTimeReceived(void)
+AREXPORT ArTime ArLMS2xxPacket::getTimeReceived()
 {
   return myTimeReceived;
 }

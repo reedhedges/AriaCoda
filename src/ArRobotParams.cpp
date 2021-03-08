@@ -47,7 +47,7 @@ void ArRobotParams::internalSetUseDefaultBehavior(bool useDefaultBehavior,
 	     ourPowerOutputDisplayHint.c_str());
 }
 
-bool ArRobotParams::internalGetUseDefaultBehavior(void)
+bool ArRobotParams::internalGetUseDefaultBehavior()
 {
   return ourUseDefaultBehavior;
 }
@@ -144,7 +144,7 @@ AREXPORT ArRobotParams::~ArRobotParams()
 }
 
 
-void ArRobotParams::internalAddToConfigDefault(void)
+void ArRobotParams::internalAddToConfigDefault()
 {
   addComment("Robot parameter file");
 //  addComment("");
@@ -971,7 +971,7 @@ AREXPORT void ArRobotParams::internalSetSonarUseFlag(int num, bool flag)
 }
 
 #if 0
-AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getSonarUnits(void)
+AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getSonarUnits()
 {
   std::map<int, std::map<int, int> >::iterator it;
   int num, x, y, th;
@@ -1147,8 +1147,8 @@ if (builder->getArgc() > 10) {
   return true;
 }
 
-AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getSonarUnits(void)
-//AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getMTXSonarUnits(void)
+AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getSonarUnits()
+//AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getMTXSonarUnits()
 {
 //  ArLog::log(ArLog::Normal, "Saving sonar units?");
 
@@ -1206,7 +1206,7 @@ AREXPORT bool ArRobotParams::parseIRUnit(ArArgumentBuilder *builder)
   return true;
 }
 
-AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getIRUnits(void)
+AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getIRUnits()
 {
   std::map<int, std::map<int, int> >::iterator it;
   int num, type, cycles,  x, y;
@@ -1234,7 +1234,7 @@ AREXPORT void ArRobotParams::internalSetIR(int num, int type, int cycles, int x,
   myIRMap[num][IR_Y] = y;
 }
 
-AREXPORT bool ArRobotParams::save(void)
+AREXPORT bool ArRobotParams::save()
 {
   char buf[10000];
   sprintf(buf, "%sparams/", Aria::getDirectory());

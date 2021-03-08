@@ -47,7 +47,7 @@ public:
   // constructor
   Joydrive(ArRobot *robot);
   // empty destructor
-  ~Joydrive(void) {}
+  ~Joydrive() {}
 
   // the function to run in the new thread, this just is called once, so 
   // only return when you want th ethread to exit
@@ -145,13 +145,13 @@ public:
   // constructor
   ConnHandler(ArRobot *robot, Joydrive *jd);
     // Destructor, its just empty
-  ~ConnHandler(void) {}
+  ~ConnHandler() {}
   // to be called if the connection was made
-  void connected(void);
+  void connected();
   // to call if the connection failed
-  void connFail(void);
+  void connFail();
   // to be called if the connection was lost
-  void disconnected(void);
+  void disconnected();
 protected:
   // robot pointer
   ArRobot *myRobot;
@@ -184,7 +184,7 @@ ConnHandler::ConnHandler(ArRobot *robot, Joydrive *jd)
 
 // when we connect turn off the sonar, turn on the motors, and disable amigobot
 // sound
-void ConnHandler::connected(void)
+void ConnHandler::connected()
 {
   myRobot->comInt(ArCommands::SONAR, 0);
   myRobot->comInt(ArCommands::ENABLE, 1);
@@ -192,7 +192,7 @@ void ConnHandler::connected(void)
 }
 
 // just exit if we failed to connect
-void ConnHandler::connFail(void)
+void ConnHandler::connFail()
 {
   printf("Failed to connect.\n");
   myRobot->stopRunning();
@@ -201,7 +201,7 @@ void ConnHandler::connFail(void)
 }
 
 // if we lost connection then exit
-void ConnHandler::disconnected(void)
+void ConnHandler::disconnected()
 {
   printf("Lost connection\n");
   myRobot->stopRunning();

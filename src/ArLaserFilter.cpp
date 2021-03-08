@@ -236,7 +236,7 @@ AREXPORT void ArLaserFilter::setRobot(ArRobot *robot)
   ArLaser::setRobot(robot);
 }
 
-void ArLaserFilter::processReadings(void)
+void ArLaserFilter::processReadings()
 {
   myLaser->lockDevice();
   selfLockDevice();
@@ -498,17 +498,17 @@ bool ArLaserFilter::checkRanges(int thisReading, int otherReading,
 }
 
 
-AREXPORT int ArLaserFilter::selfLockDevice(void)
+AREXPORT int ArLaserFilter::selfLockDevice()
 {
   return lockDevice();
 }
 
-AREXPORT int ArLaserFilter::selfTryLockDevice(void)
+AREXPORT int ArLaserFilter::selfTryLockDevice()
 {
   return tryLockDevice();
 }
 
-AREXPORT int ArLaserFilter::selfUnlockDevice(void)
+AREXPORT int ArLaserFilter::selfUnlockDevice()
 {
   return unlockDevice();
 }

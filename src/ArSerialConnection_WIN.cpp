@@ -51,7 +51,7 @@ AREXPORT ArSerialConnection::~ArSerialConnection()
     close();
 }
 
-void ArSerialConnection::buildStrMap(void)
+void ArSerialConnection::buildStrMap()
 {
   myStrMap[OPEN_COULD_NOT_OPEN_PORT] = "Could not open serial port.";
   myStrMap[OPEN_COULD_NOT_SET_UP_PORT] = "Could not set up serial port.";
@@ -65,7 +65,7 @@ AREXPORT const char * ArSerialConnection::getOpenMessage(int messageNumber)
   return myStrMap[messageNumber].c_str();
 }
 
-AREXPORT bool ArSerialConnection::openSimple(void)
+AREXPORT bool ArSerialConnection::openSimple()
 {
   if (internalOpen() == 0)
     return true;
@@ -91,7 +91,7 @@ AREXPORT void ArSerialConnection::setPort(const char *port)
 /**
    @return The seiral port to connect to
 **/
-AREXPORT const char * ArSerialConnection::getPort(void)
+AREXPORT const char * ArSerialConnection::getPort()
 {
   return myPortName.c_str();
 }
@@ -110,7 +110,7 @@ AREXPORT int ArSerialConnection::open(const char *port)
 
 
 
-AREXPORT int ArSerialConnection::internalOpen(void)
+AREXPORT int ArSerialConnection::internalOpen()
 {
   DCB dcb;
 
@@ -214,7 +214,7 @@ AREXPORT int ArSerialConnection::internalOpen(void)
 
 
 
-AREXPORT bool ArSerialConnection::close(void)
+AREXPORT bool ArSerialConnection::close()
 {
   bool ret;
 
@@ -241,7 +241,7 @@ AREXPORT bool ArSerialConnection::close(void)
   return ret;
 }
 
-AREXPORT int ArSerialConnection::getBaud(void)
+AREXPORT int ArSerialConnection::getBaud()
 {
    return myBaudRate;
 }
@@ -276,7 +276,7 @@ AREXPORT bool ArSerialConnection::setBaud(int baud)
   return true;
 }
 
-AREXPORT bool ArSerialConnection::getHardwareControl(void)
+AREXPORT bool ArSerialConnection::getHardwareControl()
 {
   return myHardwareControl;
 }
@@ -385,12 +385,12 @@ AREXPORT int ArSerialConnection::read(const char *data, unsigned int size,
 }
 
 
-AREXPORT int ArSerialConnection::getStatus(void)
+AREXPORT int ArSerialConnection::getStatus()
 {
   return myStatus;
 }
 
-AREXPORT bool ArSerialConnection::isTimeStamping(void)
+AREXPORT bool ArSerialConnection::isTimeStamping()
 {
   return false;
 }
@@ -402,7 +402,7 @@ AREXPORT ArTime ArSerialConnection::getTimeRead(int index)
   return now;
 }
 
-AREXPORT bool ArSerialConnection::getCTS(void)
+AREXPORT bool ArSerialConnection::getCTS()
 {
   DWORD modemStat;
   if (GetCommModemStatus(myPort, &modemStat))
@@ -416,7 +416,7 @@ AREXPORT bool ArSerialConnection::getCTS(void)
   }
 } 
 
-AREXPORT bool ArSerialConnection::getDSR(void)
+AREXPORT bool ArSerialConnection::getDSR()
 {
   DWORD modemStat;
   if (GetCommModemStatus(myPort, &modemStat))
@@ -430,7 +430,7 @@ AREXPORT bool ArSerialConnection::getDSR(void)
   }
 } 
 
-AREXPORT bool ArSerialConnection::getDCD(void)
+AREXPORT bool ArSerialConnection::getDCD()
 {
   DWORD modemStat;
   if (GetCommModemStatus(myPort, &modemStat))
@@ -444,7 +444,7 @@ AREXPORT bool ArSerialConnection::getDCD(void)
   }
 }
 
-AREXPORT bool ArSerialConnection::getRing(void)
+AREXPORT bool ArSerialConnection::getRing()
 {
   DWORD modemStat;
   if (GetCommModemStatus(myPort, &modemStat))

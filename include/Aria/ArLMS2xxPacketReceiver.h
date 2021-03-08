@@ -54,10 +54,10 @@ public:
   /// Sets the device this instance receives packets from
   AREXPORT void setDeviceConnection(ArDeviceConnection *deviceConnection);
   /// Gets the device this instance receives packets from
-  AREXPORT ArDeviceConnection *getDeviceConnection(void);
+  AREXPORT ArDeviceConnection *getDeviceConnection();
   
   /// Gets whether or not the receiver is allocating packets
-  AREXPORT bool isAllocatingPackets(void) { return myAllocatePackets; }
+  AREXPORT bool isAllocatingPackets() { return myAllocatePackets; }
 
 protected:
   ArDeviceConnection *myDeviceConn;

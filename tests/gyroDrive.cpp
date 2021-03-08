@@ -31,12 +31,12 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 **/
 ArRobot *robot;
 
-void printer(void)
+void printer()
 {
   printf("%.2f\n", robot->getTh());  
 }
 
-void hardExit(void)
+void hardExit()
 {
   ArKeyHandler *keyHandler;
   robot->disconnect();

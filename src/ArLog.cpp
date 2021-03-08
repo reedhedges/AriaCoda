@@ -634,7 +634,7 @@ AREXPORT void ArLog::addToConfig(ArConfig *config)
   config->addProcessFileCB(&ourConfigProcessFileCB, 200);
 }
 
-bool ArLog::processFile(void)
+bool ArLog::processFile()
 {
   if (ourConfigLogType != ourType || ourConfigLogLevel != ourLevel ||
       strcmp(ourConfigFileName, ourFileName.c_str()) != 0 || 
@@ -665,7 +665,7 @@ void ArLog::invokeFunctor(const char *message)
     functor->invoke(message);
 }
 
-void ArLog::checkFileSize(void)
+void ArLog::checkFileSize()
 {
   long size;
   size = ArUtil::sizeFile(ourFileName);
@@ -675,7 +675,7 @@ void ArLog::checkFileSize(void)
   }
 }
 
-void ArLog::internalForceLockup(void)
+void ArLog::internalForceLockup()
 {
   ArLog::log(ArLog::Terse, "ArLog: forcing internal lockup");
   ourMutex.lock();

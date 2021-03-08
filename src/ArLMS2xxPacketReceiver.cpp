@@ -75,7 +75,7 @@ AREXPORT void ArLMS2xxPacketReceiver::setDeviceConnection(
   myDeviceConn = deviceConnection;
 }
 
-AREXPORT ArDeviceConnection *ArLMS2xxPacketReceiver::getDeviceConnection(void)
+AREXPORT ArDeviceConnection *ArLMS2xxPacketReceiver::getDeviceConnection()
 {
   return myDeviceConn;
 }

@@ -79,25 +79,25 @@ public:
   /// Sets the name
   AREXPORT void setName(const char *name);
   /// Gets the name
-  AREXPORT const char *getName(void);
+  AREXPORT const char *getName();
   /// Sets the allowed milliseconds for prediction
   AREXPORT void setAllowedMSForPrediction(int ms = -1);
   /// Sets the allowed milliseconds for prediction
-  AREXPORT int getAllowedMSForPrediction(void);
+  AREXPORT int getAllowedMSForPrediction();
   /// Sets the allowed percentage for prediction
   AREXPORT void setAllowedPercentageForPrediction(int percentage = 5000);
   /// Sets the allowed milliseconds for prediction
-  AREXPORT int getAllowedPercentageForPrediction(void);
+  AREXPORT int getAllowedPercentageForPrediction();
   /// Sets if we should log events for this interpolation
   AREXPORT void setLogPrediction(bool logPrediction = false);
   /// Gets if we should log events for this interpolation
-  AREXPORT bool getLogPrediction(void);
+  AREXPORT bool getLogPrediction();
   /// Sets the number of readings this instance holds back in time
   AREXPORT void setNumberOfReadings(size_t numberOfReadings);
   /// Gets the number of readings this instance holds back in time
-  AREXPORT size_t getNumberOfReadings(void) const;
+  AREXPORT size_t getNumberOfReadings() const;
   /// Empties the interpolated positions
-  AREXPORT void reset(void);
+  AREXPORT void reset();
 protected:
   ArMutex myDataMutex;
   std::string myName;

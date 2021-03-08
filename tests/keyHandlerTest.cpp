@@ -28,27 +28,27 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 ArKeyHandler keyHandler;
 
-void up(void)
+void up()
 {
   printf("Up\n");
 }
 
-void down(void)
+void down()
 {
   printf("Down\n");
 }
 
-void right(void)
+void right()
 {
   printf("Right\n");
 }
 
-void left(void)
+void left()
 {
   printf("Left\n");
 }
 
-void escape(void)
+void escape()
 {
   printf("Escape\n");
   printf("exiting\n");
@@ -57,12 +57,12 @@ void escape(void)
   exit(0);
 }
 
-void space(void)
+void space()
 {
   printf("Space\n");
 }
 
-void a(void)
+void a()
 {
   printf("a\n");
 }

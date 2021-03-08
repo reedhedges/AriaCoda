@@ -234,7 +234,7 @@ AREXPORT void ArThread::yieldProcessor()
 }
 
 
-AREXPORT void ArThread::threadStarted(void)
+AREXPORT void ArThread::threadStarted()
 {
   myStarted = true;
   if (myName.size() == 0)
@@ -245,7 +245,7 @@ AREXPORT void ArThread::threadStarted(void)
 	             myName.c_str(), myThread);
 }
 
-AREXPORT void ArThread::threadFinished(void)
+AREXPORT void ArThread::threadFinished()
 {
   myFinished = true;
   if (myName.size() == 0)
@@ -256,7 +256,7 @@ AREXPORT void ArThread::threadFinished(void)
 	             myName.c_str(), myThread);
 }
 
-AREXPORT void ArThread::logThreadInfo(void)
+AREXPORT void ArThread::logThreadInfo()
 {
   if (myName.size() == 0)
     ArLog::log(ourLogLevel, "Anonymous thread (%d) is running",

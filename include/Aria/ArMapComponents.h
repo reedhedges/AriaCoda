@@ -474,7 +474,7 @@ public :
                                                     (const char *type,
                                                      bool isIncludeWithHeading = false);
 
-  AREXPORT virtual std::list<ArMapObject *> *getMapObjects(void);
+  AREXPORT virtual std::list<ArMapObject *> *getMapObjects();
 
   AREXPORT virtual void setMapObjects(const std::list<ArMapObject *> *mapObjects,
                                       bool isSortedObjects = false,
@@ -580,7 +580,7 @@ public:
   AREXPORT virtual std::list<ArArgumentBuilder *> *getInfo(const char *infoName);
 
   AREXPORT virtual std::list<ArArgumentBuilder *> *getInfo(int infoType);
-  AREXPORT virtual std::list<ArArgumentBuilder *> *getMapInfo(void);
+  AREXPORT virtual std::list<ArArgumentBuilder *> *getMapInfo();
 
   AREXPORT virtual int getInfoCount() const;
 
@@ -842,7 +842,7 @@ public:
   /// Assignment operator
   AREXPORT ArMapSimple &operator=(const ArMapSimple &other);
   /// Destructor
-  AREXPORT virtual ~ArMapSimple(void);
+  AREXPORT virtual ~ArMapSimple();
 
 
   AREXPORT virtual void clear();
@@ -876,7 +876,7 @@ public:
 
   AREXPORT virtual std::list<ArArgumentBuilder *> *getInfo(const char *infoName);
   AREXPORT virtual std::list<ArArgumentBuilder *> *getInfo(int infoType);
-  AREXPORT virtual std::list<ArArgumentBuilder *> *getMapInfo(void);
+  AREXPORT virtual std::list<ArArgumentBuilder *> *getMapInfo();
   
   AREXPORT virtual int getInfoCount() const;
   
@@ -915,7 +915,7 @@ public:
                                                     (const char *type,
                                                      bool isIncludeWithHeading = false);
 
-  AREXPORT virtual std::list<ArMapObject *> *getMapObjects(void);
+  AREXPORT virtual std::list<ArMapObject *> *getMapObjects();
 
   AREXPORT virtual void setMapObjects(const std::list<ArMapObject *> *mapObjects,
                                       bool isSortedObjects = false,
@@ -1020,7 +1020,7 @@ public:
   // Map Changed / Callback Methods
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  AREXPORT virtual void mapChanged(void);
+  AREXPORT virtual void mapChanged();
   AREXPORT virtual void mapChanged(bool invokePathPlanningCB,
                                    bool invokeLocalizationCB);
 
@@ -1047,7 +1047,7 @@ public:
 
   AREXPORT virtual void setMapChangedLogLevel(ArLog::LogLevel level);
 
-  AREXPORT virtual ArLog::LogLevel getMapChangedLogLevel(void);
+  AREXPORT virtual ArLog::LogLevel getMapChangedLogLevel();
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Persistence
@@ -1099,17 +1099,17 @@ public:
   AREXPORT virtual bool calculateChecksum(unsigned char *md5DigestBuffer,
                                           size_t md5DigestBufferLen);
   
-  AREXPORT virtual const char *getBaseDirectory(void) const;
+  AREXPORT virtual const char *getBaseDirectory() const;
 
   AREXPORT virtual void setBaseDirectory(const char *baseDirectory);
 
-  AREXPORT virtual const char *getTempDirectory(void) const;
+  AREXPORT virtual const char *getTempDirectory() const;
 
   AREXPORT virtual void setTempDirectory(const char *tempDirectory);
 
   AREXPORT virtual std::string createRealFileName(const char *fileName);
 
-  AREXPORT virtual const char *getFileName(void) const;
+  AREXPORT virtual const char *getFileName() const;
 
   AREXPORT virtual void setSourceFileName(const char *sourceName,
                                           const char *fileName,
@@ -1119,9 +1119,9 @@ public:
 
 
   virtual void setIgnoreEmptyFileName(bool ignore);
-  virtual bool getIgnoreEmptyFileName(void);
+  virtual bool getIgnoreEmptyFileName();
   virtual void setIgnoreCase(bool ignoreCase = false);
-  virtual bool getIgnoreCase(void);
+  virtual bool getIgnoreCase();
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Inactive Section
@@ -1155,7 +1155,7 @@ public:
   AREXPORT virtual void setQuiet(bool isQuiet);
  	
   AREXPORT bool parseLine(char *line);
-  AREXPORT void parsingComplete(void);
+  AREXPORT void parsingComplete();
 
   AREXPORT bool isLoadingDataStarted(); 
   AREXPORT bool isLoadingLinesAndDataStarted(); 

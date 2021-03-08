@@ -90,7 +90,7 @@ class ArDeviceConnection
      @return the status of the connection
      @see getStatusMessage
   */
-  AREXPORT virtual int getStatus(void) = 0;
+  AREXPORT virtual int getStatus() = 0;
   /// Gets the description string associated with the status
   /** 
       @param messageNumber the int from getStatus you want the string for
@@ -101,13 +101,13 @@ class ArDeviceConnection
 
   /// Opens the connection again, using the values from setLocation or 
   // a previous open
-  virtual bool openSimple(void) = 0;
+  virtual bool openSimple() = 0;
     
   /// Closes the connection
   /**
      @return whether the close succeeded or not
   */
-  virtual bool close(void) { return false; }
+  virtual bool close() { return false; }
   /// Gets the string of the message associated with opening the device
   /**
      Each class inherited from this one has an open method which returns 0
@@ -133,21 +133,21 @@ class ArDeviceConnection
   AREXPORT virtual ArTime getTimeRead(int index) = 0;
   /// sees if timestamping is really going on or not
   /** @return true if real timestamping is happening, false otherwise */
-  AREXPORT virtual bool isTimeStamping(void) = 0;
+  AREXPORT virtual bool isTimeStamping() = 0;
 
   /// Gets the port name
-  AREXPORT const char *getPortName(void) const;
+  AREXPORT const char *getPortName() const;
   /// Gets the port type
-  AREXPORT const char *getPortType(void) const;
+  AREXPORT const char *getPortType() const;
   
   /// Sets the device type (what this is connecting to)
   AREXPORT void setDeviceName(const char *deviceName);
   /// Gets the device type (what this is connecting to)
-  AREXPORT const char *getDeviceName(void) const;
+  AREXPORT const char *getDeviceName() const;
 
   /// Notifies the device connection that the start of a packet is
   /// trying to be read
-  AREXPORT void debugStartPacket(void);
+  AREXPORT void debugStartPacket();
   /// Notifies the device connection that some bytes were read (should
   /// call with 0 if it read but got no bytes)
   AREXPORT void debugBytesRead(int bytesRead);
@@ -162,7 +162,7 @@ class ArDeviceConnection
   /// Sets the port type
   AREXPORT void setPortType(const char *portType);
 
-  void buildStrMap(void);
+  void buildStrMap();
   static bool ourStrMapInited;
   static ArStrMap ourStrMap;
 

@@ -183,7 +183,7 @@ public:
   /** @deprecated
    *  @see isPlaying()
    */
-  AREXPORT bool isSpeakingOrPlaying(void) { return (myPlayingSomething); }
+  AREXPORT bool isSpeakingOrPlaying() { return (myPlayingSomething); }
 
   /// Returns true if an item is currently being played.
   AREXPORT bool isPlaying() { return myPlayingSomething; }
@@ -197,10 +197,10 @@ public:
 
 
   /// Begin processing the sounds queue synchronously (in this thread; does not return)
-  AREXPORT void run(void) { runInThisThread(); }
+  AREXPORT void run() { runInThisThread(); }
 
   /// Begin processing the sounds queue in a background thread
-  AREXPORT void runAsync(void) { create(false); }
+  AREXPORT void runAsync() { create(false); }
 
   /** Temporarily stop processing the sounds queue. (Any currently playing sound
       or speech utterance will finish. The sound device may remain open.)

@@ -43,9 +43,9 @@ public:
   /// Adds a gyro to turn on and off
   AREXPORT void addAnalogGyro(ArAnalogGyro *gyro);
   /// Called when we process the config
-  AREXPORT bool processFile(void);
+  AREXPORT bool processFile();
   /// Called when we connect to the robot
-  AREXPORT void connectCallback(void);
+  AREXPORT void connectCallback();
 protected:
   ArRobot *myRobot;
   ArAnalogGyro *myAnalogGyro;

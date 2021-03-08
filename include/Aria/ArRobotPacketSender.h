@@ -75,7 +75,7 @@ public:
   /// Sets the device this instance sends commands to
   AREXPORT void setDeviceConnection(ArDeviceConnection *deviceConnection);
   /// Gets the device this instance sends commands to
-  AREXPORT ArDeviceConnection *getDeviceConnection(void);
+  AREXPORT ArDeviceConnection *getDeviceConnection();
 
   /// Sets a callback that gets called with the finalized version of
   /// every packet set... this is ONLY for very internal very
@@ -98,7 +98,7 @@ public:
     myTrackingLogName = n;
   }
 protected:
-  bool connValid(void);
+  bool connValid();
   ArDeviceConnection * myDeviceConn;
   ArRobotPacket myPacket;
 

@@ -81,31 +81,31 @@ public:
   AREXPORT static void exit(int exitCode = 0);
 
   /// Sees if Aria is still running (mostly for the thread in main)
-  AREXPORT static bool getRunning(void);
+  AREXPORT static bool getRunning();
 
   /// Sets the directory that ARIA resides in, to override default
   AREXPORT static void setDirectory(const char * directory);
 
   /// Gets the directory that ARIA resides in
-  AREXPORT static const char *getDirectory(void);
+  AREXPORT static const char *getDirectory();
 
   /// Parses the arguments for the program (calls all the callbacks added with addParseArgsCB())
-  AREXPORT static bool parseArgs(void);
+  AREXPORT static bool parseArgs();
 
   /// Logs all the options for the program (Calls all the callbacks added with addLogOptionsCB())
-  AREXPORT static void logOptions(void);
+  AREXPORT static void logOptions();
 
   /// Sets the key handler, so that other classes can find it using getKeyHandler()
   AREXPORT static void setKeyHandler(ArKeyHandler *keyHandler);
 
   /// Gets a pointer to the global key handler, if one has been set with setKeyHandler()
-  AREXPORT static ArKeyHandler *getKeyHandler(void);
+  AREXPORT static ArKeyHandler *getKeyHandler();
 
   /// Sets the joystick handler, so that other classes can find it using getJoyHandler()
   AREXPORT static void setJoyHandler(ArJoyHandler *joyHandler);
 
   /// Get a pointer to the joystick handler if one has been set with setJoyHandler()
-  AREXPORT static ArJoyHandler *getJoyHandler(void);
+  AREXPORT static ArJoyHandler *getJoyHandler();
 
   /// Adds a functor to by called before program exit by Aria::exit()
   AREXPORT static void addExitCallback(ArFunctor *functor, int position = 50);
@@ -127,7 +127,7 @@ public:
 
   /// Internal, calls the exit callbacks
   /// @internal
-  AREXPORT static void callExitCallbacks(void);
+  AREXPORT static void callExitCallbacks();
 #endif
 
   /// Adds a callback for when we parse arguments 
@@ -150,11 +150,11 @@ public:
   
   /// Gets a list of the possible deviceConnection types
   /// @internal
-  AREXPORT static const char *deviceConnectionGetTypes(void);
+  AREXPORT static const char *deviceConnectionGetTypes();
 
   /// Gets a list of the possible deviceConnection types (for use in the config)
   /// @internal
-  AREXPORT static const char *deviceConnectionGetChoices(void);
+  AREXPORT static const char *deviceConnectionGetChoices();
   
   /// Creates a deviceConnection of the given type
   /// @internal
@@ -168,13 +168,13 @@ public:
   AREXPORT static void setRobotJoyHandler(ArRobotJoyHandler *robotJoyHandler);
 
   /// Gets the robot joystick handler if one has been set
-  AREXPORT static ArRobotJoyHandler *getRobotJoyHandler(void);
+  AREXPORT static ArRobotJoyHandler *getRobotJoyHandler();
 
   /// Gets the ArConfig for this program
-  AREXPORT static ArConfig *getConfig(void);
+  AREXPORT static ArConfig *getConfig();
 
   /// Gets the ArStringInfoGroup for this program
-  AREXPORT static ArStringInfoGroup *getInfoGroup(void);
+  AREXPORT static ArStringInfoGroup *getInfoGroup();
 
   /// Add a robot to the global list of robots
   AREXPORT static void addRobot(ArRobot *robot);
@@ -190,14 +190,14 @@ public:
   
   /// Gets the maximum number of lasers to use
   /// @internal
-  AREXPORT static int getMaxNumLasers(void);
+  AREXPORT static int getMaxNumLasers();
 
   /// Sets the maximum number of lasers to use
   AREXPORT static void setMaxNumLasers(int maxNumLasers);
 
   /// Gets the maximum number of sonars to use
   /// @internal
-  AREXPORT static int getMaxNumSonarBoards(void);
+  AREXPORT static int getMaxNumSonarBoards();
 
   /// Sets the maximum number of sonars to use
   /// @internal
@@ -205,7 +205,7 @@ public:
 
   /// Gets the maximum number of batteris to use
   /// @internal
-  AREXPORT static int getMaxNumBatteries(void);
+  AREXPORT static int getMaxNumBatteries();
 
   /// Sets the maximum number of batteries to use
   /// @internal
@@ -213,7 +213,7 @@ public:
 
   /// Gets the maximum number of lcds to use
   /// @internal
-  AREXPORT static int getMaxNumLCDs(void);
+  AREXPORT static int getMaxNumLCDs();
 
   /// Sets the maximum number of batteries to use
   /// @internal
@@ -234,11 +234,11 @@ public:
   
   /// Gets a list of the possible laser types
   /// @internal
-  AREXPORT static const char *laserGetTypes(void);
+  AREXPORT static const char *laserGetTypes();
 
   /// Gets a list of the possible laser types (for use in the config)
   /// @internal
-  AREXPORT static const char *laserGetChoices(void);
+  AREXPORT static const char *laserGetChoices();
   
   /// Creates a battery of the given type
   /// @internal
@@ -254,10 +254,10 @@ public:
   
   /// Gets a list of the possible battery types
   /// @internal
-  AREXPORT static const char *batteryGetTypes(void);
+  AREXPORT static const char *batteryGetTypes();
   /// Gets a list of the possible battery types (for use in the config)
   /// @internal
-  AREXPORT static const char *batteryGetChoices(void);
+  AREXPORT static const char *batteryGetChoices();
 
   /// Creates a lcd of the given type
   /// @internal
@@ -273,10 +273,10 @@ public:
   
   /// Gets a list of the possible lcd types
   /// @internal
-  AREXPORT static const char *lcdGetTypes(void);
+  AREXPORT static const char *lcdGetTypes();
   /// Gets a list of the possible lcd types (for use in the config)
   /// @internal
-  AREXPORT static const char *lcdGetChoices(void);
+  AREXPORT static const char *lcdGetChoices();
 
   /// Creates a sonar of the given type
   /// @internal
@@ -292,10 +292,10 @@ public:
   
   /// Gets a list of the possible sonar types
   /// @internal
-  AREXPORT static const char *sonarGetTypes(void);
+  AREXPORT static const char *sonarGetTypes();
   /// Gets a list of the possible sonar types (for use in the config)
   /// @internal
-  AREXPORT static const char *sonarGetChoices(void);
+  AREXPORT static const char *sonarGetChoices();
   
   /// Set maximum limit on video devices (used by ArVideo library)
   /// @internal
@@ -313,7 +313,7 @@ public:
 #endif
 
   /// Gets the identifier (for humans) used for this instance of Aria
-  AREXPORT static const char *getIdentifier(void);
+  AREXPORT static const char *getIdentifier();
   /// Sets the identifier (for humans) used for this instance of Aria
   AREXPORT static void setIdentifier(const char *identifier);
 

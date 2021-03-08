@@ -174,7 +174,7 @@ AREXPORT ArMTXIO::ArMTXIO(const char * dev) :
 
 /** Destructor.  Attempt to close the device if it was opened
  **/
-AREXPORT ArMTXIO::~ArMTXIO(void)
+AREXPORT ArMTXIO::~ArMTXIO()
 {
   if (myEnabled)
     closeIO();
@@ -183,7 +183,7 @@ AREXPORT ArMTXIO::~ArMTXIO(void)
 
 /** Close the device when Aria exits
  **/
-AREXPORT bool ArMTXIO::closeIO(void)
+AREXPORT bool ArMTXIO::closeIO()
 {
   myEnabled = false;
 

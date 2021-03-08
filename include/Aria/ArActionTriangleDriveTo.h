@@ -84,11 +84,11 @@ public:
   /// Sets if we will turn to see if we can acquire the triangle
   void setAcquire(bool acquire = false) { myAcquire = acquire; }
   /// Gets if we will turn to see if we can acquire the triangle
-  bool getAcquire(void) { return myAcquire; }
+  bool getAcquire() { return myAcquire; }
   /// Sets the final distance from vertex
   void setFinalDistFromVertex(double dist) { myFinalDistFromVertex = dist; }
   /// Sets the final distance from vertex
-  double getFinalDistFromVertex(void) { return myFinalDistFromVertex; }
+  double getFinalDistFromVertex() { return myFinalDistFromVertex; }
   /// Sets the parameter of the triangle we're looking for
   void setTriangleParams(double line1Length = 254, 
 			 double angleBetween = 135,
@@ -101,7 +101,7 @@ public:
 			      double acquireTurnSpeed = 30);
 
   /// Gets whether we adjust the vertex or not
-  bool getAdjustVertex(void) { return myAdjustVertex; }
+  bool getAdjustVertex() { return myAdjustVertex; }
   /// Sets whether we adjust the vertex or not
   void setAdjustVertex(bool adjustVertex) { myAdjustVertex = adjustVertex; }
   /// Sets the vertex offset
@@ -112,9 +112,9 @@ public:
   void setUseLegacyVertexOffset(bool useLegacyVertexOffset)
     { myUseLegacyVertexOffset = useLegacyVertexOffset; }
   /// Gets if we are use the legacy vertex mode or not
-  bool getUseLegacyVertexOffset(void) { return myUseLegacyVertexOffset; }
+  bool getUseLegacyVertexOffset() { return myUseLegacyVertexOffset; }
   /// Gets whether it always goto the vertex and not the point in front
-  bool getGotoVertex(void) { return myGotoVertex; }
+  bool getGotoVertex() { return myGotoVertex; }
   /// Sets whether it always goto the vertex and not the point in front
   void setGotoVertex(bool gotoVertex) 
     { myGotoVertex = gotoVertex; }
@@ -124,14 +124,14 @@ public:
     { myIgnoreTriangleDist = dist; 
     myUseIgnoreInGoto = useIgnoreInGotoVertexMode; }
   /// Gets the distance to the triangle at which we start ignoring it
-  double getIgnoreTriangleDist(void) { return myIgnoreTriangleDist; }
+  double getIgnoreTriangleDist() { return myIgnoreTriangleDist; }
   /// Gets if we're ignoring the triangle in goto vertex mode
-  bool getUseIgnoreInGotoVertexMode(void) { return myUseIgnoreInGoto; }
+  bool getUseIgnoreInGotoVertexMode() { return myUseIgnoreInGoto; }
   /// How long to keep going without having seen the vertex (0 is no timeout)
   void setVertexUnseenStopMSecs(int vertexUnseenStopMSecs = 4000)
     { myVertexUnseenStopMSecs = vertexUnseenStopMSecs; }
   /// How long to keep going without having seen the vertex (0 is no timeout)
-  int getVertexUnseenStopMSecs(void) { return myVertexUnseenStopMSecs; }
+  int getVertexUnseenStopMSecs() { return myVertexUnseenStopMSecs; }
   /// Sets the maximum distance between points in a line
   void setMaxDistBetweenLinePoints(int maxDistBetweenLinePoints = 0) 
     { myMaxDistBetweenLinePoints = maxDistBetweenLinePoints; }
@@ -154,25 +154,25 @@ public:
     STATE_FAILED ///< if we're not acquiring and we lost the vertex we fail
   };
   /// Gets the state
-  State getState(void) { return myState; }
+  State getState() { return myState; }
   /// Gets if we've seen the vertex ever for this attempted drive (it gets reset in searching, but that's the only time, so will only be set once an activation by default (unless setAcquire is called)
-  bool getVertexSeen(void) { return myVertexSeen; }
+  bool getVertexSeen() { return myVertexSeen; }
   /// Sets the line finder to use
   AREXPORT void setLineFinder(ArLineFinder *lineFinder);
   /// Sets the line finder used
-  AREXPORT ArLineFinder *getLineFinder(void) { return myLineFinder; }
+  AREXPORT ArLineFinder *getLineFinder() { return myLineFinder; }
   
   /// Sets whether we're logging the driving or not
   void setLogging(bool logging) { myPrinting = logging; }
   /// Gets whether we're logging the driving or not
-  bool setLogging(void) { return myPrinting; }
-  AREXPORT virtual void activate(void);
-  AREXPORT virtual void deactivate(void);
+  bool setLogging() { return myPrinting; }
+  AREXPORT virtual void activate();
+  AREXPORT virtual void deactivate();
   AREXPORT virtual void setRobot(ArRobot *robot);
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
 
@@ -230,11 +230,11 @@ public:
   /** Internal use only, gets if we're saving data or not
    *  @internal
    */
-  bool getSaveData(void) { return mySaveData; }
+  bool getSaveData() { return mySaveData; }
   /** Interal use only, gets the data we've saved
    *  @internal
    */
-  Data *getData(void);
+  Data *getData();
 #endif // ifndef ARIA_WRAPPER
 protected:
   // Find our triangle, Internal function

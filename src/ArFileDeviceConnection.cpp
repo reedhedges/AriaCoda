@@ -108,7 +108,7 @@ AREXPORT int ArFileDeviceConnection::open(const char *infilename, const char *ou
   return 0;
 }
 
-AREXPORT bool ArFileDeviceConnection::close(void)
+AREXPORT bool ArFileDeviceConnection::close()
 {
   ArUtil::close(myInFD);
   ArUtil::close(myOutFD);
@@ -141,7 +141,7 @@ AREXPORT int ArFileDeviceConnection::write(const char *data, unsigned int size)
 }
 
 
-AREXPORT bool ArFileDeviceConnection::isTimeStamping(void)
+AREXPORT bool ArFileDeviceConnection::isTimeStamping()
 {
   return false;
 }

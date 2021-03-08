@@ -126,7 +126,7 @@ void testNotPerp(ArLineSegment *segment, ArPose perp, char *name)
   }
 }
 
-int main(void)
+int main()
 {
   ArPose pose;
 

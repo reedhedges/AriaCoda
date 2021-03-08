@@ -42,7 +42,7 @@ AREXPORT ArS3SeriesPacket::~ArS3SeriesPacket() {
 
 }
 
-AREXPORT ArTime ArS3SeriesPacket::getTimeReceived(void) {
+AREXPORT ArTime ArS3SeriesPacket::getTimeReceived() {
 	return myTimeReceived;
 }
 
@@ -74,7 +74,7 @@ AREXPORT void ArS3SeriesPacket::duplicatePacket(ArS3SeriesPacket *packet) {
 	memcpy(myBuf, packet->getBuf(), myLength);
 }
 
-AREXPORT void ArS3SeriesPacket::empty(void) {
+AREXPORT void ArS3SeriesPacket::empty() {
 	myLength = 0;
 	myReadLength = 0;
 }
@@ -92,7 +92,7 @@ AREXPORT void ArS3SeriesPacketReceiver::setDeviceConnection(
 	myConn = conn;
 }
 
-AREXPORT ArDeviceConnection *ArS3SeriesPacketReceiver::getDeviceConnection(void) {
+AREXPORT ArDeviceConnection *ArS3SeriesPacketReceiver::getDeviceConnection() {
 	return myConn;
 }
 
@@ -692,7 +692,7 @@ AREXPORT ArS3Series::~ArS3Series() {
 	unlockDevice();
 }
 
-void ArS3Series::clear(void) {
+void ArS3Series::clear() {
 	myIsConnected = false;
 	myTryingToConnect = false;
 	myStartConnect = false;
@@ -725,14 +725,14 @@ AREXPORT void ArS3Series::setRobot(ArRobot *robot) {
 	ArLaser::setRobot(robot);
 }
 
-AREXPORT bool ArS3Series::asyncConnect(void) {
+AREXPORT bool ArS3Series::asyncConnect() {
 	myStartConnect = true;
 	if (!getRunning())
 		runAsync();
 	return true;
 }
 
-AREXPORT bool ArS3Series::disconnect(void) {
+AREXPORT bool ArS3Series::disconnect() {
 	if (!isConnected())
 		return true;
 
@@ -742,14 +742,14 @@ AREXPORT bool ArS3Series::disconnect(void) {
 	return true;
 }
 
-void ArS3Series::failedToConnect(void) {
+void ArS3Series::failedToConnect() {
 	lockDevice();
 	myTryingToConnect = true;
 	unlockDevice();
 	laserFailedConnect();
 }
 
-void ArS3Series::sensorInterp(void) {
+void ArS3Series::sensorInterp() {
 	ArS3SeriesPacket *packet;
 
 	bool safetyDebugging = false;
@@ -1153,7 +1153,7 @@ void ArS3Series::sensorInterp(void) {
 	unlockDevice();
 }
 
-AREXPORT bool ArS3Series::blockingConnect(void) {
+AREXPORT bool ArS3Series::blockingConnect() {
 	long timeToRunFor;
 
 	if (!getRunning())

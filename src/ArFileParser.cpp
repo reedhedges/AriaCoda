@@ -66,7 +66,7 @@ AREXPORT ArFileParser::ArFileParser(const char *baseDirectory,
   setMaxNumArguments();
 }
 
-AREXPORT ArFileParser::~ArFileParser(void)
+AREXPORT ArFileParser::~ArFileParser()
 {
   ArUtil::deleteSetPairs(myMap.begin(), myMap.end());
   myMap.clear();
@@ -280,7 +280,7 @@ AREXPORT void ArFileParser::setBaseDirectory(const char *baseDirectory)
     myBaseDir = "";
 }
 
-AREXPORT const char *ArFileParser::getBaseDirectory(void) const
+AREXPORT const char *ArFileParser::getBaseDirectory() const
 {
   return myBaseDir.c_str();
 }
@@ -325,7 +325,7 @@ AREXPORT void ArFileParser::clearCommentDelimiters()
 } // end method clearCommentDelimiters
 
 
-AREXPORT void ArFileParser::resetCounters(void)
+AREXPORT void ArFileParser::resetCounters()
 {
   myLineNumber = 0;
 }

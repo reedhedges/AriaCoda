@@ -2055,7 +2055,7 @@ AREXPORT std::list<ArMapObject *> ArMapObjects::findMapObjectsOfType
   return ret;
 } // end method findMapObjectsOfType
 
-AREXPORT std::list<ArMapObject *> *ArMapObjects::getMapObjects(void)
+AREXPORT std::list<ArMapObject *> *ArMapObjects::getMapObjects()
 {
   // Think this should be done in getMapObjects....
   if (!myIsSortedObjects) {
@@ -2567,7 +2567,7 @@ AREXPORT std::list<ArArgumentBuilder *> *ArMapInfo::getInfo(const char *infoName
 } // end method getInfo
 
 
-AREXPORT std::list<ArArgumentBuilder *> *ArMapInfo::getMapInfo(void)
+AREXPORT std::list<ArArgumentBuilder *> *ArMapInfo::getMapInfo()
 {
   return getInfo(MAP_INFO_NAME);
 }
@@ -3504,7 +3504,7 @@ AREXPORT ArMapSimple &ArMapSimple::operator=(const ArMapSimple &other)
 } // end operator=
 
 
-AREXPORT ArMapSimple::~ArMapSimple(void)
+AREXPORT ArMapSimple::~ArMapSimple()
 { 
 
   if (myIsReadInProgress) {
@@ -4959,14 +4959,14 @@ AREXPORT bool ArMapSimple::calculateChecksum(unsigned char *md5DigestBuffer,
 } // end method calculateChecksum
 
 
-AREXPORT const char *ArMapSimple::getBaseDirectory(void) const
+AREXPORT const char *ArMapSimple::getBaseDirectory() const
 { 
   return myBaseDirectory.c_str();
 
 } // end method getBaseDirectory
 
 
-AREXPORT const char *ArMapSimple::getFileName(void) const 
+AREXPORT const char *ArMapSimple::getFileName() const 
 {
   return myFileName.c_str();
 
@@ -4980,7 +4980,7 @@ void ArMapSimple::setIgnoreEmptyFileName(bool ignore)
 } // end method setIgnoreEmptyFileName
 
 
-bool ArMapSimple::getIgnoreEmptyFileName(void)
+bool ArMapSimple::getIgnoreEmptyFileName()
 { 
   return myIgnoreEmptyFileName;
 
@@ -4994,7 +4994,7 @@ void ArMapSimple::setIgnoreCase(bool ignoreCase)
 } // end method setIgnoreCase
 
 
-bool ArMapSimple::getIgnoreCase(void) 
+bool ArMapSimple::getIgnoreCase() 
 { 
   return myIgnoreCase;
 
@@ -5012,7 +5012,7 @@ AREXPORT void ArMapSimple::setBaseDirectory(const char *baseDirectory)
 
 } // end method setBaseDirectory
 
-AREXPORT const char *ArMapSimple::getTempDirectory(void) const
+AREXPORT const char *ArMapSimple::getTempDirectory() const
 {
   if (myIsWriteToTempFile) {
     return myTempDirectory.c_str();
@@ -5341,7 +5341,7 @@ AREXPORT void ArMapSimple::setQuiet(bool isQuiet)
 } // end method setQuiet
 	
 
-AREXPORT void ArMapSimple::mapChanged(void)
+AREXPORT void ArMapSimple::mapChanged()
 { 
   ArTime maxScanTimeChanged = findMaxMapScanTimeChanged();
 //  ArLog::log(level, "ArMap: Calling mapChanged callbacks");
@@ -5540,7 +5540,7 @@ AREXPORT void ArMapSimple::setMapChangedLogLevel(ArLog::LogLevel level)
 
 } // end method setMapChangedLogLevel
 
-AREXPORT ArLog::LogLevel ArMapSimple::getMapChangedLogLevel(void)
+AREXPORT ArLog::LogLevel ArMapSimple::getMapChangedLogLevel()
 { 
   return myMapChangedHelper->getMapChangedLogLevel();
 
@@ -5581,7 +5581,7 @@ AREXPORT std::list<ArArgumentBuilder *> *ArMapSimple::getInfo(int infoType)
 
 } // end method getInfo
 
-AREXPORT std::list<ArArgumentBuilder *> *ArMapSimple::getMapInfo(void)
+AREXPORT std::list<ArArgumentBuilder *> *ArMapSimple::getMapInfo()
 { 
   return myMapInfo->getInfo(ArMapInfo::MAP_INFO_NAME);
 
@@ -5677,7 +5677,7 @@ AREXPORT std::list<ArMapObject *> ArMapSimple::findMapObjectsOfType
 }
 
 
-AREXPORT std::list<ArMapObject *> *ArMapSimple::getMapObjects(void)
+AREXPORT std::list<ArMapObject *> *ArMapSimple::getMapObjects()
 { 
   return myMapObjects->getMapObjects();
 
@@ -6257,7 +6257,7 @@ AREXPORT bool ArMapSimple::parseLine(char *line)
 
 } // end method parseLine
 
-AREXPORT void ArMapSimple::parsingComplete(void)
+AREXPORT void ArMapSimple::parsingComplete()
 { 
   lock();
   mapChanged();

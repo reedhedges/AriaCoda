@@ -31,7 +31,7 @@ class ConfigTester
 public:
   ConfigTester(const char *section);
   virtual ~ConfigTester();
-  bool processFile(void);
+  bool processFile();
 
   std::string mySection;
   int myInt;
@@ -46,7 +46,7 @@ public:
   bool listAdder(ArArgumentBuilder *builder) 
     { myList.push_front(builder->getFullString()); 
     printf("Added %s\n", builder->getFullString()); return true; }
-  const std::list<ArArgumentBuilder *> *getList(void) 
+  const std::list<ArArgumentBuilder *> *getList() 
     {
       std::list<ArArgumentBuilder *>::iterator argIt;
       std::list<std::string>::iterator listIt;
@@ -109,7 +109,7 @@ ConfigTester::~ConfigTester()
   }
 }
 
-bool ConfigTester::processFile(void)
+bool ConfigTester::processFile()
 {
   printf("%s: int %d double %g bool %s string '%s'\n", 
 	 mySection.c_str(), myInt, myDouble,
@@ -118,25 +118,25 @@ bool ConfigTester::processFile(void)
   return true;
 }
 
-bool func100(void)
+bool func100()
 {
   printf("100\n");
   return true;
 }
 
-bool func90a(void)
+bool func90a()
 {
   printf("90a\n");
   return true;
 }
 
-bool func90b(void)
+bool func90b()
 {
   printf("90b\n");
   return true;
 }
 
-bool func50(void)
+bool func50()
 {
   printf("50\n");
   return true;

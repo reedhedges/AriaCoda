@@ -101,12 +101,12 @@ AREXPORT void ArActionJoydrive::setStopIfNoButtonPressed(
   myStopIfNoButtonPressed = stopIfNoButtonPressed;
 }
 
-AREXPORT bool ArActionJoydrive::getStopIfNoButtonPressed(void)
+AREXPORT bool ArActionJoydrive::getStopIfNoButtonPressed()
 {
   return myStopIfNoButtonPressed;
 }
 
-AREXPORT bool ArActionJoydrive::joystickInited(void)
+AREXPORT bool ArActionJoydrive::joystickInited()
 {
   return myJoyHandler->haveJoystick();
 }
@@ -124,7 +124,7 @@ AREXPORT void ArActionJoydrive::setUseOSCal(bool useOSCal)
 /**
    @see ArJoyHandler::getUseOSCal
 **/
-AREXPORT bool ArActionJoydrive::getUseOSCal(void)
+AREXPORT bool ArActionJoydrive::getUseOSCal()
 {
   return myUseOSCal;
 }

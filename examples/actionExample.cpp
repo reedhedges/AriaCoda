@@ -69,7 +69,7 @@ public:
   // constructor, sets myMaxSpeed and myStopDistance
   ActionGo(double maxSpeed, double stopDistance);
   // destructor. does not need to do anything
-  virtual ~ActionGo(void) {};
+  virtual ~ActionGo() {};
   // called by the action resolver to obtain this action's requested behavior
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
   // store the robot pointer, and it's ArSonarDevice object, or deactivate this action if there is no sonar.
@@ -100,7 +100,7 @@ public:
   // constructor, sets the turnThreshold, and turnAmount
   ActionTurn(double turnThreshold, double turnAmount);
   // destructor, its just empty, we don't need to do anything
-  virtual ~ActionTurn(void) {};
+  virtual ~ActionTurn() {};
   // fire, this is what the resolver calls to figure out what this action wants
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
   // sets the robot pointer, also gets the sonar device, or deactivates this action if there is no sonar.

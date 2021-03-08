@@ -124,7 +124,7 @@ public:
   /// Sets stdin back to its original settings, if its been restored
   /// it won't read anymore. For internal or special use, since it's 
   /// called in the destructor.
-  AREXPORT void restore(void);
+  AREXPORT void restore();
 
   /// Internal: Use addKeyHandler() instead. This internal method Checks for keys and handles them. This is automatically done in an
   /// ArRobot task if a keyhandler attached to ArRobot with
@@ -132,15 +132,15 @@ public:
   /// you do not need to call it.  If not using or running an ArRobot 
   /// task cycle, call this instead.
   /// @internal
-  AREXPORT void checkKeys(void);
+  AREXPORT void checkKeys();
 
   /// internal, use addKeyHandler instead... Gets a key from the stdin if ones
   /// available, -1 if there aren't any available
-  AREXPORT int getKey(void);
+  AREXPORT int getKey();
 
 protected:
 #ifndef _WIN32
-  int getChar(void);
+  int getChar();
   //int ungetChar(int c);
 #endif 
 

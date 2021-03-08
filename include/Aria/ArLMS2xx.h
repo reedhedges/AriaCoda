@@ -79,15 +79,15 @@ public:
   AREXPORT virtual ~ArLMS2xx();
 
   /// Connect to the laser while blocking
-  AREXPORT virtual bool blockingConnect(void);
+  AREXPORT virtual bool blockingConnect();
   /// Connect to the laser asyncronously
-  AREXPORT bool asyncConnect(void);
+  AREXPORT bool asyncConnect();
   /// Disconnect from the laser
-  AREXPORT virtual bool disconnect(void);
+  AREXPORT virtual bool disconnect();
   /// Sees if this is connected to the laser
-  AREXPORT virtual bool isConnected(void) 
+  AREXPORT virtual bool isConnected() 
     { if (myState == STATE_CONNECTED) return true; else return false; }
-  AREXPORT virtual bool isTryingToConnect(void) 
+  AREXPORT virtual bool isTryingToConnect() 
     { 
       if (myState != STATE_CONNECTED && myState != STATE_NONE) 
 	return true; 
@@ -112,11 +112,11 @@ protected:
   // The packet handler for when connected to the simulator
   AREXPORT bool simPacketHandler(ArRobotPacket * packet);
   // The function called if the laser isn't running in its own thread and isn't simulated
-  AREXPORT void sensorInterpCallback(void);
+  AREXPORT void sensorInterpCallback();
   // An internal function for connecting to the sim
-  AREXPORT bool internalConnectSim(void);
+  AREXPORT bool internalConnectSim();
   /// An internal function, single loop event to connect to laser
-  AREXPORT int internalConnectHandler(void);
+  AREXPORT int internalConnectHandler();
   // The internal function which processes the sickPackets
   AREXPORT void processPacket(ArLMS2xxPacket *packet, ArPose pose, 
 			      ArPose encoderPose, unsigned int counter,
@@ -124,26 +124,26 @@ protected:
   // The internal function that gets does the work
   AREXPORT void runOnce(bool lockRobot);
   // Internal function, shouldn't be used, drops the conn because of error
-  AREXPORT void dropConnection(void);
+  AREXPORT void dropConnection();
   // Internal function, shouldn't be used, denotes the conn failed
-  AREXPORT void failedConnect(void);
+  AREXPORT void failedConnect();
   // Internal function, shouldn't be used, does the after conn stuff
-  AREXPORT void madeConnection(void);
+  AREXPORT void madeConnection();
 
   /// Internal function that gets whether the laser is simulated or not (just for the old ArSick)
-  AREXPORT bool sickGetIsUsingSim(void);
+  AREXPORT bool sickGetIsUsingSim();
 
   /// Internal function that sets whether the laser is simulated or not (just for the old ArSick)
   AREXPORT void sickSetIsUsingSim(bool usingSim);
 
   /// internal function to runOnRobot so that ArSick can do that while this class won't
-  AREXPORT bool internalRunOnRobot(void);
+  AREXPORT bool internalRunOnRobot();
 
   /// Finishes getting the unset parameters from the robot then
   /// setting some internal variables that need it
-  bool finishParams(void);
+  bool finishParams();
 
-  AREXPORT virtual bool laserCheckParams(void);
+  AREXPORT virtual bool laserCheckParams();
 
   AREXPORT virtual void laserSetName(const char *name);
 

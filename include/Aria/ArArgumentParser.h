@@ -74,7 +74,7 @@ public:
   /// If we should only set wasReallySet to true
   AREXPORT void setWasReallySetOnlyTrue(bool wasReallySetOnlyTrue);
   /// If we only set wasReallySet to true
-  AREXPORT bool getWasReallySetOnlyTrue(void);
+  AREXPORT bool getWasReallySetOnlyTrue();
   /// Returns true if the argument was found
   AREXPORT bool checkArgument(const char *argument);
   /// Returns the word/argument after given argument 
@@ -112,18 +112,18 @@ public:
   /// Checks for the help argument  
   AREXPORT bool checkHelp();
   /// Gets how many arguments are left in this parser
-  AREXPORT size_t getArgc(void) const;
+  AREXPORT size_t getArgc() const;
   /// Gets the argv
-  AREXPORT char** getArgv(void) const;
+  AREXPORT char** getArgv() const;
   /// Gets the argument builder, if one is being used (may be NULL)
-  AREXPORT const ArArgumentBuilder *getArgumentBuilder(void) const 
+  AREXPORT const ArArgumentBuilder *getArgumentBuilder() const 
     { return myBuilder; }
   /// Gets a specific argument
   AREXPORT const char* getArg(size_t whichArg) const;
   /// Prints out the arguments left in this parser
-  AREXPORT void log(void) const;
+  AREXPORT void log() const;
   /// Gets the arguments this parser started with (if possible, NULL otherwise)
-  AREXPORT const char *getStartingArguments(void) const;
+  AREXPORT const char *getStartingArguments() const;
   /// Internal function to remove an argument that was parsed
   AREXPORT void removeArg(size_t which);
   /// Adds another file or environmental variable to the list of defaults
@@ -131,7 +131,7 @@ public:
   /// Adds another file or environmental variable to the list of defaults
   AREXPORT static void addDefaultArgumentEnv(const char *env);
   /// Logs the default argument locations
-  AREXPORT static void logDefaultArgumentLocations(void);
+  AREXPORT static void logDefaultArgumentLocations();
 #ifndef SWIG
   /** @brief Returns true if the argument was found
    *  @swigomit

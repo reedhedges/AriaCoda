@@ -78,11 +78,11 @@ public:
   /// Sets the throttle ratio (from 0 (stopped) to 100 (full throttle)
   AREXPORT void setThrottleRatio(double throttleRatio);
   /// Gets the trans ratio (from -100 (full backwards) to 100 (full forwards)
-  double getTransRatio(void) { return myTransRatio; }
+  double getTransRatio() { return myTransRatio; }
   /// Gets the rot ratio (from -100 (full right) to 100 (full left)
-  double getRotRatio(void) { return myRotRatio; }
+  double getRotRatio() { return myRotRatio; }
   /// Gets the throttle ratio (from 0 (stopped) to 100 (full throttle)
-  double getThrottleRatio(void) { return myThrottleRatio; }
+  double getThrottleRatio() { return myThrottleRatio; }
   /// Adds a callback functor that is invoked at the begining this action's
   /// fire() function, every action/task cycle. (More than one can be added, 
   /// they will be invoked according to @a priority.) 
@@ -111,13 +111,13 @@ public:
   /// Adds to a section in a config
   AREXPORT void addToConfig(ArConfig *config, const char *section);
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
-  AREXPORT virtual void activate(void);
-  AREXPORT virtual void deactivate(void);
+  AREXPORT virtual void activate();
+  AREXPORT virtual void deactivate();
 protected:
   std::multimap<int, ArFunctor *> myFireCallbacks;
   std::list<ArFunctor *> myActivateCallbacks;

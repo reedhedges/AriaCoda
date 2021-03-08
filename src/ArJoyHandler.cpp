@@ -68,7 +68,7 @@ AREXPORT void ArJoyHandler::setUseOSCal(bool useOSCal)
    max and use those values for calibration
 **/
 
-AREXPORT bool ArJoyHandler::getUseOSCal(void)
+AREXPORT bool ArJoyHandler::getUseOSCal()
 {
   return myUseOSCal;
 }
@@ -77,7 +77,7 @@ AREXPORT bool ArJoyHandler::getUseOSCal(void)
    Starts the calibration, which resets all the min and max variables as well
    as the center variables.
    @see endCal */
-AREXPORT void ArJoyHandler::startCal(void)
+AREXPORT void ArJoyHandler::startCal()
 {
   int x, y;
   getUnfiltered(&x, &y);
@@ -96,7 +96,7 @@ AREXPORT void ArJoyHandler::startCal(void)
     @see startCal
 */
     
-AREXPORT void ArJoyHandler::endCal(void)
+AREXPORT void ArJoyHandler::endCal()
 {
   int x, y;
   
@@ -315,7 +315,7 @@ AREXPORT bool ArJoyHandler::getButton(unsigned int button)
    @return the number of axes (axes are indexed as 1 through this number)
 **/
 
-AREXPORT unsigned int ArJoyHandler::getNumAxes(void)
+AREXPORT unsigned int ArJoyHandler::getNumAxes()
 {
   return (unsigned int) myAxes.size();
 }
@@ -324,7 +324,7 @@ AREXPORT unsigned int ArJoyHandler::getNumAxes(void)
    @return the number of buttons (buttons are indexed as 1 through this number)
 **/
 
-AREXPORT unsigned int ArJoyHandler::getNumButtons(void)
+AREXPORT unsigned int ArJoyHandler::getNumButtons()
 {
   return (unsigned int) myButtons.size();
 }

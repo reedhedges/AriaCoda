@@ -51,28 +51,28 @@ public:
   AREXPORT void setSpeeds(double transVelMax, double turnAmountMax);
   /// For setting the increment amounts
   AREXPORT void setIncrements(double velIncrement, double turnIncrement);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
   AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT virtual void activate(void);
-  AREXPORT virtual void deactivate(void);
+  AREXPORT virtual void activate();
+  AREXPORT virtual void deactivate();
   /// Takes the keys this action wants to use to drive
-  AREXPORT void takeKeys(void);
+  AREXPORT void takeKeys();
   /// Gives up the keys this action wants to use to drive
-  AREXPORT void giveUpKeys(void);
+  AREXPORT void giveUpKeys();
   /// Internal, callback for up arrow
-  AREXPORT void up(void);
+  AREXPORT void up();
   /// Internal, callback for down arrow
-  AREXPORT void down(void);
+  AREXPORT void down();
   /// Internal, callback for left arrow
-  AREXPORT void left(void);
+  AREXPORT void left();
   /// Internal, callback for right arrow
-  AREXPORT void right(void);
+  AREXPORT void right();
   /// Internal, callback for space key
-  AREXPORT void space(void);
+  AREXPORT void space();
 
 protected:
   ArFunctorC<ArActionKeydrive> myUpCB;

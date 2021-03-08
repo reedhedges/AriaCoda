@@ -43,20 +43,20 @@ public:
   /// Destructor
   AREXPORT virtual ~ArActionMovementParametersDebugging();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
   /// Sees if this action is enabled (separate from activating it)
-  AREXPORT bool isEnabled(void) { return myEnabled; }
+  AREXPORT bool isEnabled() { return myEnabled; }
   /// Enables this action (separate from activating it)
-  AREXPORT void enable(void) { myEnabled = true; }
+  AREXPORT void enable() { myEnabled = true; }
   /// Enables this action in a way that'll work from the sector callbacks
   AREXPORT void enableOnceFromSector(ArMapObject *mapObject) 
     { myEnableOnce = true; }
   /// Disables this action (separate from deactivating it)
-  AREXPORT void disable(void) { myEnabled = false; }
+  AREXPORT void disable() { myEnabled = false; }
   /// Adds to the ArConfig given, in section, with prefix
   AREXPORT void addToConfig(ArConfig *config, const char *section,
 			    const char *prefix = NULL);

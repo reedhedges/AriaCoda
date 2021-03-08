@@ -182,7 +182,7 @@ timeGetTime() function is used from the winmm library -- this means programs
 using ARIA on Windows must be linked to the winmm.lib library as well as ARIA.
    @return millisecond time
 */
-AREXPORT unsigned int ArUtil::getTime(void)
+AREXPORT unsigned int ArUtil::getTime()
 {
 // the good unix way
 #if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK) && !defined(__MACH__)
@@ -1267,7 +1267,7 @@ bool ArTime::ourMonotonicClock = true;
 bool ArTime::ourMonotonicClock = false;
 #endif 
 
-AREXPORT void ArTime::setToNow(void)
+AREXPORT void ArTime::setToNow()
 {
 // if we have the best way of finding time use that
 #if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK) && !defined(__MACH__)
@@ -1337,7 +1337,7 @@ AREXPORT ArRunningAverage::~ArRunningAverage()
 
 }
 
-AREXPORT double ArRunningAverage::getAverage(void) const
+AREXPORT double ArRunningAverage::getAverage() const
 {
   if (myNum == 0)
     return 0.0;
@@ -1367,7 +1367,7 @@ AREXPORT void ArRunningAverage::add(double val)
   }
 }
 
-AREXPORT void ArRunningAverage::clear(void)
+AREXPORT void ArRunningAverage::clear()
 {
   while (myVals.size() > 0)
     myVals.pop_back();
@@ -1375,7 +1375,7 @@ AREXPORT void ArRunningAverage::clear(void)
   myTotal = 0;
 }
 
-AREXPORT size_t ArRunningAverage::getNumToAverage(void) const
+AREXPORT size_t ArRunningAverage::getNumToAverage() const
 {
   return myNumToAverage;
 }
@@ -1394,7 +1394,7 @@ AREXPORT void ArRunningAverage::setNumToAverage(size_t numToAverage)
   }
 }
 
-AREXPORT size_t ArRunningAverage::getCurrentNumAveraged(void)
+AREXPORT size_t ArRunningAverage::getCurrentNumAveraged()
 {
   return myNum;
 }
@@ -1417,7 +1417,7 @@ AREXPORT void ArRunningAverage::setUseRootMeanSquare(bool useRootMeanSquare)
   myUseRootMeanSquare = useRootMeanSquare;
 }
 
-AREXPORT bool ArRunningAverage::getUseRootMeanSquare(void)
+AREXPORT bool ArRunningAverage::getUseRootMeanSquare()
 {
   return myUseRootMeanSquare;
 }
@@ -1433,7 +1433,7 @@ AREXPORT ArRootMeanSquareCalculator::~ArRootMeanSquareCalculator()
 
 }
 
-AREXPORT double ArRootMeanSquareCalculator::getRootMeanSquare (void) const
+AREXPORT double ArRootMeanSquareCalculator::getRootMeanSquare () const
 {
   if (myNum == 0)
     return 0;
@@ -1454,13 +1454,13 @@ AREXPORT void ArRootMeanSquareCalculator::add(int val)
   }
 }
 
-AREXPORT void ArRootMeanSquareCalculator::clear(void)
+AREXPORT void ArRootMeanSquareCalculator::clear()
 {
   myTotal = 0;
   myNum = 0;
 }
 
-AREXPORT size_t ArRootMeanSquareCalculator::getCurrentNumAveraged(void)
+AREXPORT size_t ArRootMeanSquareCalculator::getCurrentNumAveraged()
 {
   return myNum;
 }
@@ -1473,7 +1473,7 @@ AREXPORT void ArRootMeanSquareCalculator::setName(const char *name)
     myName = "ArRootMeanSquareCalculator";
 }
 
-AREXPORT const char *ArRootMeanSquareCalculator::getName(void)
+AREXPORT const char *ArRootMeanSquareCalculator::getName()
 {
   return myName.c_str();
 }
@@ -1495,7 +1495,7 @@ AREXPORT ArDaemonizer::~ArDaemonizer()
 
 }
 
-AREXPORT bool ArDaemonizer::daemonize(void)
+AREXPORT bool ArDaemonizer::daemonize()
 {
   if (myParser.checkArgument("-daemonize") ||
       myParser.checkArgument("-d"))
@@ -1511,7 +1511,7 @@ AREXPORT bool ArDaemonizer::daemonize(void)
    This returns true if daemonizing worked, returns false if it
    didn't... the parent process exits here if forking worked.
  **/
-AREXPORT bool ArDaemonizer::forceDaemonize(void)
+AREXPORT bool ArDaemonizer::forceDaemonize()
 {
     switch (fork())
     {
@@ -1533,7 +1533,7 @@ AREXPORT bool ArDaemonizer::forceDaemonize(void)
     }
 }
 
-AREXPORT void ArDaemonizer::logOptions(void) const
+AREXPORT void ArDaemonizer::logOptions() const
 {
   ArLog::log(ArLog::Terse, "Options for Daemonizing:");
   ArLog::log(ArLog::Terse, "-daemonize");
@@ -2524,17 +2524,17 @@ ArGlobalRetFunctor4<ArLaser*, int, const char*, const char *, ArLMS1XX::LaserMod
 TiM571CB(&createAnyLMS1xx, -1, "", "tim571", ArLMS1XX::TiM571);
 
 ArRetFunctor2<ArLaser *, int, const char *> *
-ArLaserCreatorHelper::getCreateTiM551CB(void) {
+ArLaserCreatorHelper::getCreateTiM551CB() {
   return &TiM551CB;
 }
 
 ArRetFunctor2<ArLaser *, int, const char *> *
-ArLaserCreatorHelper::getCreateTiM561CB(void) {
+ArLaserCreatorHelper::getCreateTiM561CB() {
   return &TiM561CB;
 }
 
 ArRetFunctor2<ArLaser *, int, const char *> *
-ArLaserCreatorHelper::getCreateTiM571CB(void) {
+ArLaserCreatorHelper::getCreateTiM571CB() {
   return &TiM571CB;
 }
 
@@ -2555,7 +2555,7 @@ ArLaser *ArLaserCreatorHelper::createLMS2xx(int laserNumber,
   return new ArLMS2xx(laserNumber);
 }
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS2xxCB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS2xxCB()
 {
   return &ourLMS2xxCB;
 }
@@ -2566,7 +2566,7 @@ ArLaser *ArLaserCreatorHelper::createUrg(int laserNumber, const char *logPrefix)
 }
 
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrgCB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrgCB()
 {
   return &ourUrgCB;
 }
@@ -2576,7 +2576,7 @@ ArLaser *ArLaserCreatorHelper::createLMS1XX(int laserNumber, const char *logPref
 	return new ArLMS1XX(laserNumber, "lms1xx", ArLMS1XX::LMS1XX);
 }
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS1XXCB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS1XXCB()
 {
   return &ourLMS1XXCB;
 }
@@ -2587,7 +2587,7 @@ ArLaser *ArLaserCreatorHelper::createS3Series(int laserNumber,
   return new ArS3Series(laserNumber);
 }
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateS3SeriesCB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateS3SeriesCB()
 {
   return &ourS3SeriesCB;
 }
@@ -2600,7 +2600,7 @@ ArLaser *ArLaserCreatorHelper::createUrg_2_0(int laserNumber,
 }
 
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrg_2_0CB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrg_2_0CB()
 {
   return &ourUrg_2_0CB;
 }
@@ -2613,7 +2613,7 @@ ArLaser *ArLaserCreatorHelper::createLMS5XX(int laserNumber,
 	return new ArLMS1XX(laserNumber, "lms5XX", ArLMS1XX::LMS5XX);
 }
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS5XXCB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS5XXCB()
 {
   return &ourLMS5XXCB;
 }
@@ -2626,7 +2626,7 @@ ArLaser *ArLaserCreatorHelper::createTiM3XX(int laserNumber,
 	return new ArLMS1XX(laserNumber, "tim3XX", ArLMS1XX::TiM3XX);
 }
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateTiM3XXCB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateTiM3XXCB()
 {
   return &ourTiM3XXCB;
 }
@@ -2638,7 +2638,7 @@ ArLaser *ArLaserCreatorHelper::createSZSeries(int laserNumber,
   return new ArSZSeries(laserNumber);
 }
 
-ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateSZSeriesCB(void)
+ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateSZSeriesCB()
 {
   return &ourSZSeriesCB;
 }
@@ -2649,7 +2649,7 @@ ArBatteryMTX *ArBatteryMTXCreatorHelper::createBatteryMTX(int batteryNumber,
   return new ArBatteryMTX(batteryNumber);
 }
 
-ArRetFunctor2<ArBatteryMTX *, int, const char *> *ArBatteryMTXCreatorHelper::getCreateBatteryMTXCB(void)
+ArRetFunctor2<ArBatteryMTX *, int, const char *> *ArBatteryMTXCreatorHelper::getCreateBatteryMTXCB()
 {
   return &ourBatteryMTXCB;
 }
@@ -2660,7 +2660,7 @@ ArLCDMTX *ArLCDMTXCreatorHelper::createLCDMTX(int lcdNumber,
   return new ArLCDMTX(lcdNumber);
 }
 
-ArRetFunctor2<ArLCDMTX *, int, const char *> *ArLCDMTXCreatorHelper::getCreateLCDMTXCB(void)
+ArRetFunctor2<ArLCDMTX *, int, const char *> *ArLCDMTXCreatorHelper::getCreateLCDMTXCB()
 {
   return &ourLCDMTXCB;
 }
@@ -2671,7 +2671,7 @@ ArSonarMTX *ArSonarMTXCreatorHelper::createSonarMTX(int sonarNumber,
   return new ArSonarMTX(sonarNumber);
 }
 
-ArRetFunctor2<ArSonarMTX *, int, const char *> *ArSonarMTXCreatorHelper::getCreateSonarMTXCB(void)
+ArRetFunctor2<ArSonarMTX *, int, const char *> *ArSonarMTXCreatorHelper::getCreateSonarMTXCB()
 {
   return &ourSonarMTXCB;
 }
@@ -2780,13 +2780,13 @@ ArDeviceConnection *ArDeviceConnectionCreatorHelper::internalCreateSerialConnect
 
 
 ArRetFunctor3<ArDeviceConnection *, const char *, const char *, const char *> *
-ArDeviceConnectionCreatorHelper::getCreateSerialCB(void)
+ArDeviceConnectionCreatorHelper::getCreateSerialCB()
 {
   return &ourSerialCB;
 }
 
 ArRetFunctor3<ArDeviceConnection *, const char *, const char *, const char *> *
-ArDeviceConnectionCreatorHelper::getCreateSerial422CB(void)
+ArDeviceConnectionCreatorHelper::getCreateSerial422CB()
 {
   return &ourSerial422CB;
 }
@@ -2827,7 +2827,7 @@ ArDeviceConnection *ArDeviceConnectionCreatorHelper::createTcpConnection(
 }
 
 ArRetFunctor3<ArDeviceConnection *, const char *, const char *, const char *> *
-ArDeviceConnectionCreatorHelper::getCreateTcpCB(void)
+ArDeviceConnectionCreatorHelper::getCreateTcpCB()
 {
   return &ourTcpCB;
 }
@@ -2838,7 +2838,7 @@ void ArDeviceConnectionCreatorHelper::setSuccessLogLevel(
   ourSuccessLogLevel = successLogLevel;
 }
 
-ArLog::LogLevel ArDeviceConnectionCreatorHelper::setSuccessLogLevel(void)
+ArLog::LogLevel ArDeviceConnectionCreatorHelper::setSuccessLogLevel()
 {
   return ourSuccessLogLevel;
 }
@@ -3119,7 +3119,7 @@ AREXPORT ArTimeChecker::~ArTimeChecker()
 
 }
 
-AREXPORT void ArTimeChecker::start(void)
+AREXPORT void ArTimeChecker::start()
 {
   if (myLogEverything)
     ArLog::log(ArLog::Normal, "%s: Start", myName.c_str());
@@ -3145,7 +3145,7 @@ AREXPORT void ArTimeChecker::check(const char *subName)
 }
 
 
-AREXPORT void ArTimeChecker::finish(void)
+AREXPORT void ArTimeChecker::finish()
 {
   long long took = myStarted.mSecSinceLL();
   

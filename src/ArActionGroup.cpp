@@ -82,7 +82,7 @@ AREXPORT void ArActionGroup::remAction(ArAction *action)
   myRobot->remAction(action);
 }
 
-AREXPORT void ArActionGroup::activate(void)
+AREXPORT void ArActionGroup::activate()
 {
   std::list<ArAction *>::iterator it;
   if (myRobot == NULL)
@@ -95,7 +95,7 @@ AREXPORT void ArActionGroup::activate(void)
     (*it)->activate();
 }
 
-AREXPORT void ArActionGroup::activateExclusive(void)
+AREXPORT void ArActionGroup::activateExclusive()
 {
   std::list<ArAction *>::iterator it;
   
@@ -110,7 +110,7 @@ AREXPORT void ArActionGroup::activateExclusive(void)
     (*it)->activate();
 }
 
-AREXPORT void ArActionGroup::deactivate(void)
+AREXPORT void ArActionGroup::deactivate()
 {
   std::list<ArAction *>::iterator it;
   if (myRobot == NULL)
@@ -127,12 +127,12 @@ AREXPORT void ArActionGroup::deactivate(void)
     (*it)->deactivate();
 }
 
-AREXPORT std::list<ArAction *> *ArActionGroup::getActionList(void)
+AREXPORT std::list<ArAction *> *ArActionGroup::getActionList()
 {
   return &myActions;
 }
 
-AREXPORT void ArActionGroup::removeActions(void)
+AREXPORT void ArActionGroup::removeActions()
 {
   std::list<ArAction *>::iterator it;
 
@@ -147,7 +147,7 @@ AREXPORT void ArActionGroup::removeActions(void)
     myRobot->remAction((*it));
 }
 
-AREXPORT void ArActionGroup::deleteActions(void)
+AREXPORT void ArActionGroup::deleteActions()
 {
   /* MPL removed this since it doesn't differentiate between actions it added and actions added to it, double deletes are no fun
    */

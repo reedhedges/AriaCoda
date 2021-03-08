@@ -57,26 +57,26 @@ public:
   AREXPORT void setSendingAddress(unsigned char address);
 
   /// Sets the address to send this packet to (only use for sending)
-  AREXPORT unsigned char getSendingAddress(void);
+  AREXPORT unsigned char getSendingAddress();
 
   /// Gets the address this packet was sent from (only use for receiving)
-  AREXPORT unsigned char getReceivedAddress(void);
+  AREXPORT unsigned char getReceivedAddress();
   
   /// returns true if the crc matches what it should be
-  AREXPORT bool verifyCRC(void);
+  AREXPORT bool verifyCRC();
   
   /// returns the ID of the packet (first byte of data)
-  AREXPORT ArTypes::UByte getID(void);
+  AREXPORT ArTypes::UByte getID();
 
   /// returns the crc, probably used only internally
-  AREXPORT ArTypes::Byte2 calcCRC(void);
+  AREXPORT ArTypes::Byte2 calcCRC();
   
   // only call finalizePacket before a send
-  AREXPORT virtual void finalizePacket(void);
-  AREXPORT virtual void resetRead(void);
+  AREXPORT virtual void finalizePacket();
+  AREXPORT virtual void resetRead();
   
   /// Gets the time the packet was received at
-  AREXPORT ArTime getTimeReceived(void);
+  AREXPORT ArTime getTimeReceived();
   /// Sets the time the packet was received at
   AREXPORT void setTimeReceived(ArTime timeReceived);
 

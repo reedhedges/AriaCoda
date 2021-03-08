@@ -30,7 +30,7 @@ class ActionTest : public ArAction
 {
 public:
   ActionTest(double turnAmount, double speed);
-  virtual ~ActionTest(void) {}
+  virtual ~ActionTest() {}
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
   
 protected:

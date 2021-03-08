@@ -69,7 +69,7 @@ AREXPORT ArRatioInputKeydrive::~ArRatioInputKeydrive()
 }
 
 
-AREXPORT void ArRatioInputKeydrive::takeKeys(void)
+AREXPORT void ArRatioInputKeydrive::takeKeys()
 {
   myHaveKeys = true;
   ArKeyHandler *keyHandler;
@@ -110,7 +110,7 @@ AREXPORT void ArRatioInputKeydrive::takeKeys(void)
   }
 }
 
-AREXPORT void ArRatioInputKeydrive::giveUpKeys(void)
+AREXPORT void ArRatioInputKeydrive::giveUpKeys()
 {
   ArKeyHandler *keyHandler;
   myHaveKeys = false;
@@ -147,7 +147,7 @@ AREXPORT void ArRatioInputKeydrive::giveUpKeys(void)
 }
 
 
-AREXPORT void ArRatioInputKeydrive::up(void)
+AREXPORT void ArRatioInputKeydrive::up()
 {
   if (myPrinting)
     printf("up\n");
@@ -156,7 +156,7 @@ AREXPORT void ArRatioInputKeydrive::up(void)
     myTransRatio = 100;
 }
 
-AREXPORT void ArRatioInputKeydrive::down(void)
+AREXPORT void ArRatioInputKeydrive::down()
 {
   if (myPrinting)
     printf("down\n");
@@ -165,21 +165,21 @@ AREXPORT void ArRatioInputKeydrive::down(void)
     myTransRatio = -100;
 }
 
-AREXPORT void ArRatioInputKeydrive::left(void)
+AREXPORT void ArRatioInputKeydrive::left()
 {
   if (myPrinting)
     printf("left\n");
   myRotRatio = 100;
 }
 
-AREXPORT void ArRatioInputKeydrive::right(void)
+AREXPORT void ArRatioInputKeydrive::right()
 {
   if (myPrinting)
     printf("right\n");
   myRotRatio = -100;
 }
 
-AREXPORT void ArRatioInputKeydrive::space(void)
+AREXPORT void ArRatioInputKeydrive::space()
 {
   if (myPrinting)
     printf("stop\n");
@@ -188,7 +188,7 @@ AREXPORT void ArRatioInputKeydrive::space(void)
   myLatRatio = 0;
 }
 
-AREXPORT void ArRatioInputKeydrive::z(void)
+AREXPORT void ArRatioInputKeydrive::z()
 {
   if (myPrinting)
     printf("up\n");
@@ -197,7 +197,7 @@ AREXPORT void ArRatioInputKeydrive::z(void)
     myLatRatio = 100;
 }
 
-AREXPORT void ArRatioInputKeydrive::x(void)
+AREXPORT void ArRatioInputKeydrive::x()
 {
   if (myPrinting)
     printf("down\n");
@@ -206,7 +206,7 @@ AREXPORT void ArRatioInputKeydrive::x(void)
     myLatRatio = -100;
 }
 
-AREXPORT void ArRatioInputKeydrive::activate(void)
+AREXPORT void ArRatioInputKeydrive::activate()
 {
   // set things so we'll stop
   myTransRatio = 0;
@@ -216,13 +216,13 @@ AREXPORT void ArRatioInputKeydrive::activate(void)
     takeKeys();
 }
 
-AREXPORT void ArRatioInputKeydrive::deactivate(void)
+AREXPORT void ArRatioInputKeydrive::deactivate()
 {
   if (myHaveKeys)
     giveUpKeys();
 }
 
-AREXPORT void ArRatioInputKeydrive::fireCallback(void)
+AREXPORT void ArRatioInputKeydrive::fireCallback()
 {
   // set what we want to do
   myInput->setTransRatio(myTransRatio);

@@ -180,7 +180,7 @@ AREXPORT ArArg::~ArArg()
 {
 }
 
-AREXPORT void ArArg::clear(void)
+AREXPORT void ArArg::clear()
 {
   myIntPointer = NULL;
   myDoublePointer = NULL;
@@ -204,42 +204,42 @@ AREXPORT void ArArg::clear(void)
    @see DOUBLE
    @see BOOL
    @see POSE */
-AREXPORT ArArg::Type ArArg::getType(void) const
+AREXPORT ArArg::Type ArArg::getType() const
 {
   return myType;
 }
 
-AREXPORT int ArArg::getMinInt(void) const
+AREXPORT int ArArg::getMinInt() const
 {
   return myMinInt;
 }
 
-AREXPORT int ArArg::getMaxInt(void) const
+AREXPORT int ArArg::getMaxInt() const
 {
   return myMaxInt;
 }
 
-AREXPORT double ArArg::getMinDouble(void) const
+AREXPORT double ArArg::getMinDouble() const
 {
   return myMinDouble;
 }
 
-AREXPORT double ArArg::getMaxDouble(void) const
+AREXPORT double ArArg::getMaxDouble() const
 {
   return myMaxDouble;
 }
 
-AREXPORT const char *ArArg::getName(void) const
+AREXPORT const char *ArArg::getName() const
 {
   return myName.c_str();
 }
 
-AREXPORT const char *ArArg::getDescription(void) const
+AREXPORT const char *ArArg::getDescription() const
 {
   return myDescription.c_str();
 }
 
-AREXPORT int ArArg::getInt(void) const
+AREXPORT int ArArg::getInt() const
 { 
   if (myIntPointer != NULL)
     return *myIntPointer;
@@ -247,7 +247,7 @@ AREXPORT int ArArg::getInt(void) const
     return 0;
 }
 
-AREXPORT double ArArg::getDouble(void) const 
+AREXPORT double ArArg::getDouble() const 
 {
   if (myDoublePointer != NULL)
     return *myDoublePointer; 
@@ -255,7 +255,7 @@ AREXPORT double ArArg::getDouble(void) const
     return 0;
 }
 
-AREXPORT bool ArArg::getBool(void) const
+AREXPORT bool ArArg::getBool() const
 {
   if (myBoolPointer != NULL)
     return *myBoolPointer;
@@ -263,7 +263,7 @@ AREXPORT bool ArArg::getBool(void) const
     return false;
 }
 
-AREXPORT const char *ArArg::getString(void) const
+AREXPORT const char *ArArg::getString() const
 {
   if (myStringPointer != NULL)
     return myStringPointer;
@@ -271,7 +271,7 @@ AREXPORT const char *ArArg::getString(void) const
     return NULL;
 }
 
-AREXPORT ArPose ArArg::getPose(void) const
+AREXPORT ArPose ArArg::getPose() const
 {
   ArPose pose;
   if (myPosePointer != NULL)
@@ -280,7 +280,7 @@ AREXPORT ArPose ArArg::getPose(void) const
     return pose;
 }
 
-AREXPORT const std::list<ArArgumentBuilder *> *ArArg::getArgsWithFunctor(void) const
+AREXPORT const std::list<ArArgumentBuilder *> *ArArg::getArgsWithFunctor() const
 {
   if (myGetFunctor == NULL)
     return NULL;
@@ -385,7 +385,7 @@ AREXPORT bool ArArg::setArgWithFunctor(ArArgumentBuilder *argument)
 }
 
 
-AREXPORT void ArArg::log(void) const
+AREXPORT void ArArg::log() const
 {
   std::list<ArArgumentBuilder *>::const_iterator it;
   const std::list<ArArgumentBuilder *> *argList;
@@ -464,7 +464,7 @@ AREXPORT void ArArg::log(void) const
    If this is true then the config priority is set and you can use
    getConfigPriority.
 **/
-AREXPORT bool ArArg::getConfigPrioritySet(void) const
+AREXPORT bool ArArg::getConfigPrioritySet() const
 {
   return myConfigPrioritySet;
 }
@@ -472,7 +472,7 @@ AREXPORT bool ArArg::getConfigPrioritySet(void) const
 /**
    The priority of this argument when used in ArConfig.
  **/
-AREXPORT ArPriority::Priority ArArg::getConfigPriority(void) const
+AREXPORT ArPriority::Priority ArArg::getConfigPriority() const
 {
   return myConfigPriority;
 }

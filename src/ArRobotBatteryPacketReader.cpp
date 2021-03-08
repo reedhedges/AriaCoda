@@ -47,36 +47,36 @@ AREXPORT ArRobotBatteryPacketReader::ArRobotBatteryPacketReader(
   myRobot->addConnectCB(&myConnectCB);
 }
 
-AREXPORT ArRobotBatteryPacketReader::~ArRobotBatteryPacketReader(void)
+AREXPORT ArRobotBatteryPacketReader::~ArRobotBatteryPacketReader()
 {
   myRobot->remPacketHandler(&myPacketHandlerCB);
   myRobot->remConnectCB(&myConnectCB);
 }
 
-AREXPORT void ArRobotBatteryPacketReader::connectCallback(void)
+AREXPORT void ArRobotBatteryPacketReader::connectCallback()
 {
   requestSinglePacket();
 }
 
-AREXPORT void ArRobotBatteryPacketReader::requestSinglePacket(void)
+AREXPORT void ArRobotBatteryPacketReader::requestSinglePacket()
 {
   myRobot->comInt(ArCommands::BATTERYINFO, 1);
   myRequestedBatteryPackets = false;
 }
 
-AREXPORT void ArRobotBatteryPacketReader::requestContinuousPackets(void)
+AREXPORT void ArRobotBatteryPacketReader::requestContinuousPackets()
 {
   myRobot->comInt(ArCommands::BATTERYINFO, 2);
   myRequestedBatteryPackets = true;
 }
 
-AREXPORT void ArRobotBatteryPacketReader::stopPackets(void)
+AREXPORT void ArRobotBatteryPacketReader::stopPackets()
 {
   myRobot->comInt(ArCommands::BATTERYINFO, 0);
   myRequestedBatteryPackets = false;
 }
 
-AREXPORT bool ArRobotBatteryPacketReader::haveRequestedPackets(void)
+AREXPORT bool ArRobotBatteryPacketReader::haveRequestedPackets()
 {
   return myRequestedBatteryPackets;
 }

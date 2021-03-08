@@ -101,27 +101,27 @@ public:
   /// Destructor
   AREXPORT virtual ~ArAnalogGyro();
   /// Gets if we really have a gyro or not
-  bool isActive(void) { return myIsActive; }
+  bool isActive() { return myIsActive; }
   /// Lets the gyro correct readings
-  AREXPORT void activate(void);
+  AREXPORT void activate();
   /// Stops the gyro from correcting readings (still accumulates)
-  AREXPORT void deactivate(void);
+  AREXPORT void deactivate();
   /// If we have a gyro only mode
-  bool hasGyroOnlyMode(void) { return myHasGyroOnlyMode; }
+  bool hasGyroOnlyMode() { return myHasGyroOnlyMode; }
   /// If we're using gyro only mode
-  bool isGyroOnlyActive(void) { return myIsGyroOnlyActive; }
+  bool isGyroOnlyActive() { return myIsGyroOnlyActive; }
   /// Activates it and puts it in gyro only mode
-  AREXPORT void activateGyroOnly(void);
+  AREXPORT void activateGyroOnly();
   /// If this class actually has data or not (if it has no data, the
   /// robot is all there is)
-  bool hasNoInternalData(void) { return myHasNoData; }
+  bool hasNoInternalData() { return myHasNoData; }
   /// Returns true if any amount of gyro data has yet been received, false if no readings have yet been received from the robot.
-  bool haveGottenData(void) { return myHaveGottenData; }
+  bool haveGottenData() { return myHaveGottenData; }
   bool haveData() { return myHaveGottenData; }
   /// Gets a heading calculated from past gyro readings
-  double getHeading(void) const { return myHeading; }
+  double getHeading() const { return myHeading; }
   /// Gets the temperature the gyro has
-  int getTemperature(void) const { return myTemperature; }
+  int getTemperature() const { return myTemperature; }
   /// Set the parameters of the Kalman filter model
   /**
      @param gyroSigma the amount its off statically
@@ -139,15 +139,15 @@ public:
       myRotVarianceModel = rotVar; myTransVarianceModel = transVar; };
 
   /// Returns the number of readings taken in the last second
-  int getPacCount(void) { return myPacCount; }
+  int getPacCount() { return myPacCount; }
 
   /// Gets the most recently calculated average rotational velocity (over one
   //second)
-  double getAverage(void) const { return myLastAverage; }
+  double getAverage() const { return myLastAverage; }
   /// Gets the time the last average was taken 
-  ArTime getAverageTaken(void) const { return myLastAverageTaken; }
+  ArTime getAverageTaken() const { return myLastAverageTaken; }
   /// Gets the scaling factor used for multiplying the reading values received (default 1.626)
-  double getScalingFactor(void) const { return myScalingFactor; }
+  double getScalingFactor() const { return myScalingFactor; }
   /// Sets the scaling factor used for multiplying the readings
   void setScalingFactor(double factor) { myScalingFactor = factor; }
 
@@ -160,9 +160,9 @@ private:
   /// internal function for correcting the encoder readings with the gyro data
   double encoderCorrect(ArPoseWithTime deltaPose);
   /// Internal connection callback; delays for a short amount of time to give the gyro enough time to stabilize before we try to use it
-  void stabilizingCallback(void);
+  void stabilizingCallback();
   /// Internal user task callback, check some status flags about the gyro provided by the robot
-  void userTaskCallback(void);
+  void userTaskCallback();
   // whether we're correcting readings or not
   bool myIsActive;
   // whether we're really getting readings or not

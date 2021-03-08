@@ -855,7 +855,7 @@ public:
 
 
   /// Invokes the functor; this method shouldn't be called.
-  virtual void invoke(void) {};
+  virtual void invoke() {};
 
   /// Invokes the functor
   /**
@@ -953,7 +953,7 @@ class ArMapChangedHelper
    /// Sets the level we log our map changed callback at
    AREXPORT virtual void setMapChangedLogLevel(ArLog::LogLevel level);
    /// Gets the level we log our map changed callback at
-   AREXPORT virtual ArLog::LogLevel getMapChangedLogLevel(void);
+   AREXPORT virtual ArLog::LogLevel getMapChangedLogLevel();
    
  private:
  

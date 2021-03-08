@@ -43,10 +43,10 @@ public:
   PrintingTask(ArRobot *robot);
 
   // Destructor. Removes our user task from the robot
-  ~PrintingTask(void);
+  ~PrintingTask();
   
   // This method will be called by the callback functor
-  void doTask(void);
+  void doTask();
 protected:
   ArRobot *myRobot;
 
@@ -69,7 +69,7 @@ PrintingTask::~PrintingTask()
   myRobot->remSensorInterpTask(&myTaskCB);
 }
 
-void PrintingTask::doTask(void)
+void PrintingTask::doTask()
 {
   // print out some info about the robot
   printf("\rx %6.1f  y %6.1f  th  %6.1f vel %7.1f mpacs %3d", myRobot->getX(),

@@ -74,14 +74,14 @@ public:
    thread to run it in. It performs the needed setup then calls runThread() 
    directly instead of letting the system threading system do it in a new thread.
 */
-  virtual void run(void) { runInThisThread(); }
+  virtual void run() { runInThisThread(); }
   
   /// Run in its own thread
-  virtual void runAsync(void) { create(); }
+  virtual void runAsync() { create(); }
 
   // reimplemented here just so its easier to see in the docs
   /// Stop the thread
-  virtual void stopRunning(void) {myRunning=false;}
+  virtual void stopRunning() {myRunning=false;}
 
   /// Create the task and start it going
   AREXPORT virtual int create(bool joinable=true, bool lowerPriority=true);
@@ -95,7 +95,7 @@ public:
   /// Gets a string that describes what the thread is doing, or NULL if it
   /// doesn't know. Override this in your subclass to return a status
   /// string. This can be used for debugging or UI display.
-  virtual const char *getThreadActivity(void) { return NULL; }
+  virtual const char *getThreadActivity() { return NULL; }
 private:
 
   // Hide regular Thread::Create

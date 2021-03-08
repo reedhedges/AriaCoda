@@ -107,7 +107,7 @@ AREXPORT ArRobotConnector::ArRobotConnector(
 
 }
 
-AREXPORT ArRobotConnector::~ArRobotConnector(void)
+AREXPORT ArRobotConnector::~ArRobotConnector()
 {
   if(myBatteryConnector)
     delete myBatteryConnector;
@@ -127,7 +127,7 @@ AREXPORT ArRobotConnector::~ArRobotConnector(void)
   @return true if the arguments were parsed successfully false if not
  **/
 
-AREXPORT bool ArRobotConnector::parseArgs(void)
+AREXPORT bool ArRobotConnector::parseArgs()
 {
   if(myParser)
     return parseArgs(myParser);
@@ -248,7 +248,7 @@ AREXPORT bool ArRobotConnector::parseArgs(ArArgumentParser *parser)
 }
 
 /** Normally called by Aria::logOptions(). */
-AREXPORT void ArRobotConnector::logOptions(void) const
+AREXPORT void ArRobotConnector::logOptions() const
 {
   ArLog::log(ArLog::Terse, "Options for ArRobotConnector (see docs for more details):");
   ArLog::log(ArLog::Terse, "");
@@ -436,7 +436,7 @@ AREXPORT bool ArRobotConnector::disconnectAll()
  * If you wish to simply prepare the ArRobot object, but not begin
  * the connection, then use setupRobot().
  */
-AREXPORT bool ArRobotConnector::connectRobot(void)
+AREXPORT bool ArRobotConnector::connectRobot()
 {
   if(! connectRobot(myRobot) )
     return false;
@@ -503,13 +503,13 @@ AREXPORT bool ArRobotConnector::connectRobot(ArRobot *robot)
     return robot->blockingConnect(myTryHarderToConnect);
 }
 
-AREXPORT const char *ArRobotConnector::getRemoteHost(void) const
+AREXPORT const char *ArRobotConnector::getRemoteHost() const
 {
   return myRemoteHost;
 }
 
 
-AREXPORT bool ArRobotConnector::getRemoteIsSim(void) const
+AREXPORT bool ArRobotConnector::getRemoteIsSim() const
 {
   if (myRemoteIsSim) 
     return true;
@@ -536,7 +536,7 @@ AREXPORT void ArRobotConnector::setRemoteIsSim(bool remoteIsSim)
   }
 }
 
-AREXPORT ArRobot *ArRobotConnector::getRobot(void) 
+AREXPORT ArRobot *ArRobotConnector::getRobot() 
 {
   return myRobot;
 }

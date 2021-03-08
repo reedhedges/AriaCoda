@@ -37,7 +37,7 @@ ArTime lastOut;
 FILE *outFile;
 bool first = true;
 
-void batteryLogger(void)
+void batteryLogger()
 {
   if (outFile == NULL)
   {

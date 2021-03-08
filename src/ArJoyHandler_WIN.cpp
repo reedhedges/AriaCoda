@@ -28,7 +28,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "Aria/ariaOSDef.h"
 #include "Aria/ArJoyHandler.h"
 
-AREXPORT bool ArJoyHandler::init(void)
+AREXPORT bool ArJoyHandler::init()
 {
 
   myPhysMax = 1;
@@ -98,7 +98,7 @@ AREXPORT bool ArJoyHandler::init(void)
 }
 
 
-void ArJoyHandler::getData(void)
+void ArJoyHandler::getData()
 {
   int x, y, z, r, u, v;
   if (!myFirstData && myLastDataGathered.mSecSince() < 5)
@@ -232,7 +232,7 @@ void ArJoyHandler::getData(void)
 
 #if 0
 
-void ArJoyHandler::getData(void)
+void ArJoyHandler::getData()
 {
   int x, y, z;
   if (!myFirstData && myLastDataGathered.mSecSince() < 5)

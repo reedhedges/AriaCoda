@@ -36,7 +36,7 @@ void printIt(const char *printing)
     printf("String '%s' didn't work\n", printing);
 }
 
-int main(void)
+int main()
 {
   char buffer[512];
   

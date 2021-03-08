@@ -62,24 +62,24 @@ public:
   AREXPORT virtual ~ArActionJoydrive();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   /// Whether the joystick is initalized or not
-  AREXPORT bool joystickInited(void);
+  AREXPORT bool joystickInited();
   /// Set Speeds
   AREXPORT void setSpeeds(double transVelMax, double turnAmountMax);
   /// Set if we'll stop if no button is pressed, otherwise just do nothing
   AREXPORT void setStopIfNoButtonPressed(bool stopIfNoButtonPressed);
   /// Get if we'll stop if no button is pressed, otherwise just do nothing
-  AREXPORT bool getStopIfNoButtonPressed(void);
+  AREXPORT bool getStopIfNoButtonPressed();
   /// Sets the params on the throttle (throttle unused unless you call this)
   AREXPORT void setThrottleParams(double lowSpeed, double highSpeed);
   /// Sets whether to use OSCalibration the joystick or not
   AREXPORT void setUseOSCal(bool useOSCal);
   /// Gets whether OSCalibration is being used for the joystick or not
-  AREXPORT bool getUseOSCal(void);
+  AREXPORT bool getUseOSCal();
   /// Gets the joyHandler
-  AREXPORT ArJoyHandler *getJoyHandler(void) { return myJoyHandler; }
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT ArJoyHandler *getJoyHandler() { return myJoyHandler; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const { return &myDesired; }
+  AREXPORT virtual const ArActionDesired *getDesired() const { return &myDesired; }
 #endif
 protected:
   bool myUseThrottle;

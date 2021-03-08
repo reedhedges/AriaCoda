@@ -54,9 +54,9 @@ public:
   virtual ArActionDesired *resolve(ActionMap *actions, ArRobot *robot,
 				   bool logActions = false) = 0;
   /// Gets the name of the resolver
-  virtual const char *getName(void) const { return myName.c_str(); }
+  virtual const char *getName() const { return myName.c_str(); }
   /// Gets the long description fo the resolver
-  virtual const char *getDescription(void) const { return myDescription.c_str(); }
+  virtual const char *getDescription() const { return myDescription.c_str(); }
   
 protected:
   std::string myName;

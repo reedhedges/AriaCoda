@@ -31,9 +31,9 @@ class JoydriveEnc
 {
 public:
   JoydriveEnc(ArRobot *robot, int num);
-  ~JoydriveEnc(void) {}
+  ~JoydriveEnc() {}
 
-  void drive(void);
+  void drive();
 
   
   double originEncoder(ArPoseWithTime delta);
@@ -73,7 +73,7 @@ JoydriveEnc::JoydriveEnc(ArRobot *robot, int num) :
   }
 }
 
-void JoydriveEnc::drive(void)
+void JoydriveEnc::drive()
 {
   int trans, rot;
   if (!myRobot->isConnected())

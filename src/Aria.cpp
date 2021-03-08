@@ -379,7 +379,7 @@ AREXPORT void Aria::exit(int exitCode)
 }
 
 /** @internal */
-AREXPORT void Aria::callExitCallbacks(void)
+AREXPORT void Aria::callExitCallbacks()
 {
   ourRunning = false;
 
@@ -605,7 +605,7 @@ AREXPORT void Aria::setDirectory(const char *directory)
    @return the directory ARIA is located in
    @see setDirectory
 */
-AREXPORT const char *Aria::getDirectory(void)
+AREXPORT const char *Aria::getDirectory()
 {
   return ourDirectory.c_str();
 }
@@ -617,7 +617,7 @@ AREXPORT void Aria::setKeyHandler(ArKeyHandler *keyHandler)
 }
 
 /// Gets the key handler if one has been set
-AREXPORT ArKeyHandler *Aria::getKeyHandler(void)
+AREXPORT ArKeyHandler *Aria::getKeyHandler()
 {
   return ourKeyHandler;
 }
@@ -629,7 +629,7 @@ AREXPORT void Aria::setJoyHandler(ArJoyHandler *joyHandler)
 }
 
 /// Gets the joy handler if one has been set
-AREXPORT ArJoyHandler *Aria::getJoyHandler(void)
+AREXPORT ArJoyHandler *Aria::getJoyHandler()
 {
   return ourJoyHandler;
 }
@@ -641,7 +641,7 @@ AREXPORT void Aria::setRobotJoyHandler(ArRobotJoyHandler *robotJoyHandler)
 }
 
 /// Gets the robot joy handler if one has been set
-AREXPORT ArRobotJoyHandler *Aria::getRobotJoyHandler(void)
+AREXPORT ArRobotJoyHandler *Aria::getRobotJoyHandler()
 {
   return ourRobotJoyHandler;
 }
@@ -649,7 +649,7 @@ AREXPORT ArRobotJoyHandler *Aria::getRobotJoyHandler(void)
 /**
    This gets the global config aria uses.
  **/
-AREXPORT ArConfig *Aria::getConfig(void)
+AREXPORT ArConfig *Aria::getConfig()
 {
   return &ourConfig;
 }
@@ -657,7 +657,7 @@ AREXPORT ArConfig *Aria::getConfig(void)
 /**
    This gets the global string group aria uses.
  **/
-AREXPORT ArStringInfoGroup *Aria::getInfoGroup(void)
+AREXPORT ArStringInfoGroup *Aria::getInfoGroup()
 {
   return &ourInfoGroup;
 }
@@ -665,7 +665,7 @@ AREXPORT ArStringInfoGroup *Aria::getInfoGroup(void)
 /**
    Gets the maximum number of lasers to check for and use
 **/
-AREXPORT int Aria::getMaxNumLasers(void)
+AREXPORT int Aria::getMaxNumLasers()
 {
   return ourMaxNumLasers;
 }
@@ -683,7 +683,7 @@ AREXPORT void Aria::setMaxNumLasers(int maxNumLasers)
 /**
    Gets the maximum number of sonar boards to check for and use
 **/
-AREXPORT int Aria::getMaxNumSonarBoards(void)
+AREXPORT int Aria::getMaxNumSonarBoards()
 {
   return ourMaxNumSonarBoards;
 }
@@ -700,7 +700,7 @@ AREXPORT void Aria::setMaxNumSonarBoards(int maxNumSonarBoards)
 /**
    Gets the maximum number of batteries to check for and use
 **/
-AREXPORT int Aria::getMaxNumBatteries(void)
+AREXPORT int Aria::getMaxNumBatteries()
 {
   return ourMaxNumBatteries;
 }
@@ -717,7 +717,7 @@ AREXPORT void Aria::setMaxNumBatteries(int maxNumBatteries)
 /**
    Gets the maximum number of lcds to check for and use
 **/
-AREXPORT int Aria::getMaxNumLCDs(void)
+AREXPORT int Aria::getMaxNumLCDs()
 {
   return ourMaxNumLCDs;
 }
@@ -738,13 +738,13 @@ AREXPORT void Aria::setMaxNumLCDs(int maxNumLCDs)
    a call to Aria::shutdown() or Aria::exit() and an operating system signal has not occured (e.g. 
    external KILL signal)
 **/
-AREXPORT bool Aria::getRunning(void)
+AREXPORT bool Aria::getRunning()
 {
   return ourRunning;
 }
 
 /** @sa addParseArgsCB() */
-AREXPORT bool Aria::parseArgs(void)
+AREXPORT bool Aria::parseArgs()
 {
   std::multimap<int, ArRetFunctor<bool> *>::reverse_iterator it;
   ArRetFunctor<bool> *callback;
@@ -779,7 +779,7 @@ AREXPORT bool Aria::parseArgs(void)
 }
 
 /** @sa addLogOptionsCB() */
-AREXPORT void Aria::logOptions(void)
+AREXPORT void Aria::logOptions()
 {
   std::multimap<int, ArFunctor *>::reverse_iterator it;
 
@@ -858,7 +858,7 @@ AREXPORT bool Aria::laserAddCreator(
    Gets a string that is the types of lasers that can be created
    separated by | characters.  Mostly for internal use by ArLaserConnector.
 **/
-AREXPORT const char *Aria::laserGetTypes(void)
+AREXPORT const char *Aria::laserGetTypes()
 {
   return ourLaserTypes.c_str();
 }
@@ -867,7 +867,7 @@ AREXPORT const char *Aria::laserGetTypes(void)
    Gets a string that is the types of lasers that can be created
    separated by ;; characters.  Mostly for internal use by the config
 **/
-AREXPORT const char *Aria::laserGetChoices(void)
+AREXPORT const char *Aria::laserGetChoices()
 {
   return ourLaserChoices.c_str();
 }
@@ -939,7 +939,7 @@ AREXPORT bool Aria::batteryAddCreator(
    Gets a string that is the types of batteries that can be created
    separated by | characters.  Mostly for internal use by ArBatteryConnector.
 **/
-AREXPORT const char *Aria::batteryGetTypes(void)
+AREXPORT const char *Aria::batteryGetTypes()
 {
   return ourBatteryTypes.c_str();
 }
@@ -948,7 +948,7 @@ AREXPORT const char *Aria::batteryGetTypes(void)
    Gets a string that is the types of batteries that can be created
    separated by ;; characters.  Mostly for internal use by the config.
 **/
-AREXPORT const char *Aria::batteryGetChoices(void)
+AREXPORT const char *Aria::batteryGetChoices()
 {
   return ourBatteryChoices.c_str();
 }
@@ -1022,7 +1022,7 @@ AREXPORT bool Aria::lcdAddCreator(
    Gets a string that is the types of batteries that can be created
    separated by | characters.  Mostly for internal use by ArLCDConnector.
 **/
-AREXPORT const char *Aria::lcdGetTypes(void)
+AREXPORT const char *Aria::lcdGetTypes()
 {
   return ourLCDTypes.c_str();
 }
@@ -1031,7 +1031,7 @@ AREXPORT const char *Aria::lcdGetTypes(void)
    Gets a string that is the types of batteries that can be created
    separated by ;; characters.  Mostly for internal use by ArLCDConnector.
 **/
-AREXPORT const char *Aria::lcdGetChoices(void)
+AREXPORT const char *Aria::lcdGetChoices()
 {
   return ourLCDChoices.c_str();
 }
@@ -1103,7 +1103,7 @@ AREXPORT bool Aria::sonarAddCreator(
    Gets a string that is the types of sonars that can be created
    separated by | characters.  Mostly for internal use by ArSonarConnector.
 **/
-AREXPORT const char *Aria::sonarGetTypes(void)
+AREXPORT const char *Aria::sonarGetTypes()
 {
   return ourSonarTypes.c_str();
 }
@@ -1112,7 +1112,7 @@ AREXPORT const char *Aria::sonarGetTypes(void)
    Gets a string that is the types of sonars that can be created
    separated by ;; characters.  Mostly for internal use by the config.
 **/
-AREXPORT const char *Aria::sonarGetChoices(void)
+AREXPORT const char *Aria::sonarGetChoices()
 {
   return ourSonarChoices.c_str();
 }
@@ -1188,7 +1188,7 @@ AREXPORT bool Aria::deviceConnectionAddCreator(
    Gets a string that is the types of device connections that can be created
    separated by | characters.  Mostly for internal use by ArLaserConnector.
 **/
-AREXPORT const char *Aria::deviceConnectionGetTypes(void)
+AREXPORT const char *Aria::deviceConnectionGetTypes()
 {
     return ourDeviceConnectionTypes.c_str();
 }
@@ -1197,7 +1197,7 @@ AREXPORT const char *Aria::deviceConnectionGetTypes(void)
    Gets a string that is the types of device connections that can be created
    separated by ;; characters.  Mostly for internal use by the config.
 **/
-AREXPORT const char *Aria::deviceConnectionGetChoices(void)
+AREXPORT const char *Aria::deviceConnectionGetChoices()
 {
     return ourDeviceConnectionChoices.c_str();
 }
@@ -1239,7 +1239,7 @@ AREXPORT  size_t Aria::getMaxNumVideoDevices() { return ourMaxNumVideoDevices; }
 AREXPORT  void Aria::setMaxNumPTZs(size_t n) { ourMaxNumVideoDevices = n; }
 AREXPORT  size_t Aria::getMaxNumPTZs() { return ourMaxNumVideoDevices; }
 
-AREXPORT const char *Aria::getIdentifier(void)
+AREXPORT const char *Aria::getIdentifier()
 {
   return ourIdentifier.c_str();
 }

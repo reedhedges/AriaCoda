@@ -62,8 +62,8 @@ public:
   AREXPORT void setRotVel(double rotVel);
   AREXPORT void setHeading(double heading);
   AREXPORT void deltaHeadingFromCurrent(double delta);
-  AREXPORT void clear(void);
-  AREXPORT ArActionInput *getActionInput(void);
+  AREXPORT void clear();
+  AREXPORT ArActionInput *getActionInput();
 protected:
   ArActionInput *myInput;
 };
@@ -79,7 +79,7 @@ class ArActionGroupStop : public ArActionGroup
 public:
   AREXPORT ArActionGroupStop(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupStop();
-  AREXPORT ArActionStop *getActionStop(void);
+  AREXPORT ArActionStop *getActionStop();
 public:
   ArActionStop *myActionStop;
 };
@@ -143,7 +143,7 @@ class ArActionGroupRatioDrive : public ArActionGroup
 public:
   AREXPORT ArActionGroupRatioDrive(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupRatioDrive();
-  AREXPORT ArActionRatioInput *getActionRatioInput(void);
+  AREXPORT ArActionRatioInput *getActionRatioInput();
   AREXPORT void addToConfig(ArConfig *config, const char *section);
 protected:
   ArActionDeceleratingLimiter *myDeceleratingLimiterForward;
@@ -170,7 +170,7 @@ class ArActionGroupRatioDriveUnsafe : public ArActionGroup
 public:
   AREXPORT ArActionGroupRatioDriveUnsafe(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupRatioDriveUnsafe();
-  AREXPORT ArActionRatioInput *getActionRatioInput(void);
+  AREXPORT ArActionRatioInput *getActionRatioInput();
   AREXPORT void addToConfig(ArConfig *config, const char *section);
 protected:
   ArActionRatioInput *myInput;

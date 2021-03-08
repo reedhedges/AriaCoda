@@ -47,14 +47,14 @@ class ArFileDeviceConnection: public ArDeviceConnection
   /// Opens a connection to the given host and port
   AREXPORT int open(const char *infilename = NULL, const char *outfilename = NULL, int outflags = 0);
   bool openSimple() { return this->open() == 0; }
-  AREXPORT virtual bool close(void);
+  AREXPORT virtual bool close();
   AREXPORT virtual int read(const char *data, unsigned int size, 
 			    unsigned int msWait = 0);
   AREXPORT virtual int write(const char *data, unsigned int size);
   virtual int getStatus() { return myStatus; }
   AREXPORT virtual const char *getOpenMessage(int err);
   AREXPORT virtual ArTime getTimeRead(int index);
-  AREXPORT virtual bool isTimeStamping(void);
+  AREXPORT virtual bool isTimeStamping();
 
   /// If >0 then only read at most this many bytes during read(), regardless of supplied size argument
   void setForceReadBufferSize(unsigned int s) { myForceReadBufferSize = s; }

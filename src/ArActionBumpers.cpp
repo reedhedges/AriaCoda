@@ -74,7 +74,7 @@ AREXPORT ArActionBumpers::~ArActionBumpers()
 
 }
 
-AREXPORT void ArActionBumpers::activate(void)
+AREXPORT void ArActionBumpers::activate()
 {
   myFiring = false;
   ArAction::activate();

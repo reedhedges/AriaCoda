@@ -51,13 +51,13 @@ public:
   /// Destructor
   virtual ~ArColor() {}
   /// Gets the red value (uses full range of 0-255)
-  unsigned char getRed(void) { return myRed; }
+  unsigned char getRed() { return myRed; }
   /// Gets the green value (uses full range of 0-255)
-  unsigned char getGreen(void) { return myGreen; }
+  unsigned char getGreen() { return myGreen; }
   /// Gets the blue value (uses full range of 0-255)
-  unsigned char getBlue(void) { return myBlue; }
+  unsigned char getBlue() { return myBlue; }
   /// Gets the color in a byte 4 for putting into a buffer
-  ArTypes::Byte4 colorToByte4(void) 
+  ArTypes::Byte4 colorToByte4() 
     { return ((myRed << 16) | (myGreen << 8) | myBlue); }
 protected:
   unsigned char myRed;
@@ -176,19 +176,19 @@ public:
   /// Destructor
   virtual ~ArDrawingData() {}
   /// Returns the shape of data to draw
-  const char * getShape(void) { return myShape.c_str(); }
+  const char * getShape() { return myShape.c_str(); }
   /// Gets the primary color (meaning depending on shape)
-  ArColor getPrimaryColor(void) { return myPrimaryColor; }
+  ArColor getPrimaryColor() { return myPrimaryColor; }
   /// Gets the size (meaning depends on shape, but its in mm)
-  int getSize(void) { return mySize; }
+  int getSize() { return mySize; }
   /// Gets the layer to draw at (see MobileEyes docs for what layer means)
-  int getLayer(void) { return myLayer; }
+  int getLayer() { return myLayer; }
   /// Gets how often this data should be drawn (0 == only when explicitly sent)
-  unsigned int getDefaultRefreshTime(void) { return myDefaultRefreshTime; }
+  unsigned int getDefaultRefreshTime() { return myDefaultRefreshTime; }
   /// Gets the secondary color (meaning depends on shape)
-  ArColor getSecondaryColor(void) { return mySecondaryColor; }
+  ArColor getSecondaryColor() { return mySecondaryColor; }
   /// Gets the visibility of the drawing data
-  const char *getVisibility(void) { return myVisibility.c_str(); }
+  const char *getVisibility() { return myVisibility.c_str(); }
 
   /// Sets the shape of data to draw
   void setShape(const char *shape) { myShape = shape; }

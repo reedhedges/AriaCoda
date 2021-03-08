@@ -31,7 +31,7 @@ ArRobot *robot;
 
 ArTime startTime;
 
-void sonarPrinter(void)
+void sonarPrinter()
 {
   if(startTime.secSince() > 5)
     Aria::exit(0);

@@ -59,17 +59,17 @@ public:
   /// Removes the action from this group's robot and dissasociates it from this group.
   AREXPORT virtual void remAction(ArAction *action);
   /// Activates all the actions in this group
-  AREXPORT virtual void activate(void);
+  AREXPORT virtual void activate();
   /// Activates all the actions in this group and deactivates all others
-  AREXPORT virtual void activateExclusive(void);
+  AREXPORT virtual void activateExclusive();
   /// Deactivates all the actions in this group
-  AREXPORT virtual void deactivate(void);
+  AREXPORT virtual void deactivate();
   /// Removes all the actions in this group from the robot
-  AREXPORT virtual void removeActions(void);
+  AREXPORT virtual void removeActions();
   /// Delets all the actions in this group (doesn't delete them right now)
-  AREXPORT virtual void deleteActions(void);
+  AREXPORT virtual void deleteActions();
   /// Gets the action list (use this to delete actions after doing removeActions)
-  AREXPORT virtual std::list<ArAction *> *getActionList(void);
+  AREXPORT virtual std::list<ArAction *> *getActionList();
 protected:
   std::list<ArAction *> myActions;
   ArRobot *myRobot;

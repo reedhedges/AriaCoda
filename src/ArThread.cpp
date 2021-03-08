@@ -190,7 +190,7 @@ AREXPORT bool ArThread::isThreadFinished() const
   return myFinished;
 }
 
-AREXPORT const char *ArThread::getThisThreadName(void) 
+AREXPORT const char *ArThread::getThisThreadName() 
 {
   ArThread *self;
   if ((self = ArThread::self()) != NULL)
@@ -199,7 +199,7 @@ AREXPORT const char *ArThread::getThisThreadName(void)
     return ourUnknownThreadName.c_str();
 }
 
-AREXPORT const ArThread::ThreadType * ArThread::getThisThread(void)
+AREXPORT const ArThread::ThreadType * ArThread::getThisThread()
 {
   ArThread *self;
   if ((self = ArThread::self()) != NULL)
@@ -208,7 +208,7 @@ AREXPORT const ArThread::ThreadType * ArThread::getThisThread(void)
     return NULL;
 }
 
-AREXPORT ArThread::ThreadType ArThread::getThisOSThread(void)
+AREXPORT ArThread::ThreadType ArThread::getThisOSThread()
 {
   ArThread *self;
   if ((self = ArThread::self()) != NULL)

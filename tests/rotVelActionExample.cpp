@@ -53,7 +53,7 @@ public:
   // constructor, sets myMaxSpeed and myStopDistance
   ActionGo(double maxSpeed, double stopDistance);
   // destructor, its just empty, we don't need to do anything
-  virtual ~ActionGo(void) {};
+  virtual ~ActionGo() {};
   // fire, this is what the resolver calls to figure out what this action wants
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
   // sets the robot pointer, also gets the sonar device
@@ -76,7 +76,7 @@ public:
   // constructor, sets the turnThreshold, and rotVel
   ActionTurn(double turnThreshold, double rotVel);
   // destructor, its just empty, we don't need to do anything
-  virtual ~ActionTurn(void) {};
+  virtual ~ActionTurn() {};
   // fire, this is what the resolver calls to figure out what this action wants
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
   // sets the robot pointer, also gets the sonar device
@@ -248,7 +248,7 @@ ArActionDesired *ActionTurn::fire(ArActionDesired currentDesired)
   return &myDesired;
 }
 
-int main(void)
+int main()
 {
   // The connection we'll use to talk to the robot
   ArTcpConnection con;

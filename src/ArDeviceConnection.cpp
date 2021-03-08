@@ -80,7 +80,7 @@ AREXPORT ArDeviceConnection::~ArDeviceConnection()
 }
 
 
-void ArDeviceConnection::buildStrMap(void)
+void ArDeviceConnection::buildStrMap()
 {
   ourStrMap[STATUS_NEVER_OPENED] = "never opened";
   ourStrMap[STATUS_OPEN] = "open";
@@ -106,7 +106,7 @@ AREXPORT void ArDeviceConnection::setPortName(const char *portName)
     myDCPortName = "Unknown port name";
 }
 
-AREXPORT const char *ArDeviceConnection::getPortName(void) const
+AREXPORT const char *ArDeviceConnection::getPortName() const
 {
   return myDCPortName.c_str();
 }
@@ -119,7 +119,7 @@ AREXPORT void ArDeviceConnection::setPortType(const char *portType)
     myDCPortType = "Unknown port type";
 }
 
-AREXPORT const char *ArDeviceConnection::getPortType(void) const
+AREXPORT const char *ArDeviceConnection::getPortType() const
 {
   return myDCPortType.c_str();
 }
@@ -132,12 +132,12 @@ AREXPORT void ArDeviceConnection::setDeviceName(const char *deviceName)
     myDCDeviceName = "Unknown device name";
 }
 
-AREXPORT const char *ArDeviceConnection::getDeviceName(void) const
+AREXPORT const char *ArDeviceConnection::getDeviceName() const
 {
   return myDCDeviceName.c_str();
 }
 
-AREXPORT void ArDeviceConnection::debugStartPacket(void)
+AREXPORT void ArDeviceConnection::debugStartPacket()
 {
   if (!ourDCDebugShouldLog)
     return;

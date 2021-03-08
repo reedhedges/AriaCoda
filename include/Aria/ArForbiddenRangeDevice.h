@@ -44,22 +44,22 @@ public:
   /// Destructor
   AREXPORT virtual ~ArForbiddenRangeDevice();
   /// Saves the forbidden lines from the map
-  AREXPORT void processMap(void);
+  AREXPORT void processMap();
   /// Remakes the readings 
-  AREXPORT void processReadings(void);
+  AREXPORT void processReadings();
   /// Sets the robot pointer and attachs its process function
   AREXPORT virtual void setRobot(ArRobot *robot);
 
   /// Enable readings 
-  AREXPORT void enable(void);
+  AREXPORT void enable();
   /// Disables readings until reenabled
-  AREXPORT void disable(void);
+  AREXPORT void disable();
   /// Sees if this device is active or not
-  AREXPORT bool isEnabled(void) const { return myIsEnabled;; }
+  AREXPORT bool isEnabled() const { return myIsEnabled;; }
   /// Gets a callback to enable the device
-  AREXPORT ArFunctor *getEnableCB(void) { return &myEnableCB; } 
+  AREXPORT ArFunctor *getEnableCB() { return &myEnableCB; } 
   /// Gets a callback to disable the device
-  AREXPORT ArFunctor *getDisableCB(void) { return &myDisableCB; } 
+  AREXPORT ArFunctor *getDisableCB() { return &myDisableCB; } 
 protected:
   ArMutex myDataMutex;
   ArMapInterface *myMap;

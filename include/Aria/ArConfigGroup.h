@@ -36,7 +36,7 @@ public:
   /// Constructor
   AREXPORT ArConfigGroup(const char *baseDirectory = NULL);
   /// Destructor
-  AREXPORT ~ArConfigGroup(void);
+  AREXPORT ~ArConfigGroup();
   /// Adds a config to the group
   AREXPORT void addConfig(ArConfig *config);
   /// Removes a config from the group
@@ -50,7 +50,7 @@ public:
   /// Sets the base directory on all configs this contains
   AREXPORT void setBaseDirectory(const char *baseDirectory);
   /// Gets the baes directory of this group (not the configs it contains)
-  AREXPORT const char *getBaseDirectory(void) const;
+  AREXPORT const char *getBaseDirectory() const;
 protected:
   std::string myBaseDirectory;
   std::string myLastFile;

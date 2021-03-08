@@ -54,7 +54,7 @@ AREXPORT ArActionGotoStraight::~ArActionGotoStraight()
 
 }
 
-AREXPORT bool ArActionGotoStraight::haveAchievedGoal(void)
+AREXPORT bool ArActionGotoStraight::haveAchievedGoal()
 {
   if (myState == STATE_ACHIEVED_GOAL)
     return true;
@@ -62,7 +62,7 @@ AREXPORT bool ArActionGotoStraight::haveAchievedGoal(void)
     return false;
 }
 
-AREXPORT void ArActionGotoStraight::cancelGoal(void)
+AREXPORT void ArActionGotoStraight::cancelGoal()
 {
   myState = STATE_NO_GOAL;
 }

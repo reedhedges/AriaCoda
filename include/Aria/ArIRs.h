@@ -45,10 +45,10 @@ public:
 		     size_t cumulativeBufferSize = 10,
 		     const char *name = "irs",
 		     int maxSecondsToKeepCurrent = 15);
-  AREXPORT virtual ~ArIRs(void);
+  AREXPORT virtual ~ArIRs();
 
   AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT void processReadings(void);
+  AREXPORT void processReadings();
 
 protected:
   ArFunctorC<ArIRs> myProcessCB;

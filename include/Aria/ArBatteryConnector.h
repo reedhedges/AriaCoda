@@ -87,7 +87,7 @@ public:
 			    bool autoParseArgs = true,
 			    ArLog::LogLevel infoLogLevel = ArLog::Verbose);
   /// Destructor
-  AREXPORT ~ArBatteryConnector(void);
+  AREXPORT ~ArBatteryConnector();
   /// Connects all the batteries the robot has that should be auto connected
   AREXPORT bool connectBatteries(bool continueOnFailedConnect = false,
 			      bool addConnectedBatteriesToRobot = true,
@@ -106,11 +106,11 @@ public:
   AREXPORT bool addBattery(ArBatteryMTX *battery,
 			 int batteryNumber = 1);
   /// Function to parse the arguments given in the constructor
-  AREXPORT bool parseArgs(void);
+  AREXPORT bool parseArgs();
   /// Function to parse the arguments given in an arbitrary parser
   AREXPORT bool parseArgs(ArArgumentParser *parser);
   /// Log the options the simple connector has
-  AREXPORT void logOptions(void) const;
+  AREXPORT void logOptions() const;
   /// Internal function to get the battery (only useful between parseArgs and connectBatteries)
   AREXPORT ArBatteryMTX *getBattery(int batteryNumber);
 

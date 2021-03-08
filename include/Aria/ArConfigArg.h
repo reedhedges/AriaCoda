@@ -330,11 +330,11 @@ public:
   AREXPORT bool isListType() const;
 
   /// Gets the type of the argument
-  AREXPORT ArConfigArg::Type getType(void) const;
+  AREXPORT ArConfigArg::Type getType() const;
   /// Gets the name of the argument
-  AREXPORT const char *getName(void) const;
+  AREXPORT const char *getName() const;
   /// Gets the brief description of the argument
-  AREXPORT const char *getDescription(void) const;
+  AREXPORT const char *getDescription() const;
 
   /// Sets the description (normally given in the constructor)
   AREXPORT void setDescription(const char *description);
@@ -461,7 +461,7 @@ public:
 
 
   /// Gets the priority (only used by ArConfig)
-  AREXPORT ArPriority::Priority getConfigPriority(void) const;
+  AREXPORT ArPriority::Priority getConfigPriority() const;
   /// Sets the priority (only used by ArConfig)
   AREXPORT void setConfigPriority(ArPriority::Priority priority);
 
@@ -477,7 +477,7 @@ public:
 
   /// Gets if notifications of changes are suppressed (for the central
   /// server config)
-  AREXPORT bool getSuppressChanges(void) const;
+  AREXPORT bool getSuppressChanges() const;
   /// Sets if notifications of changes are suppressed (for the central
   /// server config)
   AREXPORT void setSuppressChanges(bool suppressChanges);
@@ -502,7 +502,7 @@ public:
 
 
   /// Replaces spaces in the name with underscores
-  AREXPORT void replaceSpacesInName(void);
+  AREXPORT void replaceSpacesInName();
 
   /// Returns whether the arg has a minimum value, currently applicable to INTs and DOUBLEs
   AREXPORT bool hasMinBound() const;
@@ -628,13 +628,13 @@ public:
                          bool isVerifyArgNames = false);
 
   /// Gets whether this value has been set since it was last cleared or not
-  bool isValueSet(void) { return myValueSet; }
+  bool isValueSet() { return myValueSet; }
   
   /// Tells the configArg that the value hasn't been set
-  void clearValueSet(void) { myValueSet = false; }
+  void clearValueSet() { myValueSet = false; }
 
   /// For special arg types (such as LIST), sets the flag to indicate the value was set.
-  void setValueSet(void) { myValueSet = true; }
+  void setValueSet() { myValueSet = true; }
 
 
   /// Returns whether the arg has been translated by a resource file.

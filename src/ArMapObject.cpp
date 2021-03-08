@@ -306,10 +306,10 @@ AREXPORT ArMapObject::~ArMapObject()
 }
 
 /// Gets the type of the object
-AREXPORT const char *ArMapObject::getType(void) const { return myType.c_str(); }
+AREXPORT const char *ArMapObject::getType() const { return myType.c_str(); }
 
 
-AREXPORT const char *ArMapObject::getBaseType(void) const 
+AREXPORT const char *ArMapObject::getBaseType() const 
 { 
   if (!myBaseType.empty()) {
     return myBaseType.c_str();
@@ -320,7 +320,7 @@ AREXPORT const char *ArMapObject::getBaseType(void) const
 }
 
 /// Gets the pose of the object 
-AREXPORT ArPose ArMapObject::getPose(void) const { return myPose; }
+AREXPORT ArPose ArMapObject::getPose() const { return myPose; }
 
 /// Gets the fileName of the object (probably never used for maps)
 /**
@@ -330,10 +330,10 @@ AREXPORT ArPose ArMapObject::getPose(void) const { return myPose; }
 * description attribute).
 * @deprecated 
 **/
-AREXPORT const char *ArMapObject::getFileName(void) const { return myDescription.c_str(); }
+AREXPORT const char *ArMapObject::getFileName() const { return myDescription.c_str(); }
 
 /// Gets the icon string of the object 
-AREXPORT const char *ArMapObject::getIconName(void) const { return myIconName.c_str(); }
+AREXPORT const char *ArMapObject::getIconName() const { return myIconName.c_str(); }
 
 /// Returns the numerical identifier of the object, when auto-numbering is on.
 AREXPORT int ArMapObject::getId() const
@@ -358,15 +358,15 @@ AREXPORT int ArMapObject::getId() const
 
 
 /// Gets the name of the object (if any)
-AREXPORT const char *ArMapObject::getName(void) const { return myName.c_str(); }
+AREXPORT const char *ArMapObject::getName() const { return myName.c_str(); }
 /// Gets the addition args of the object
-AREXPORT bool ArMapObject::hasFromTo(void) const { return myHasFromTo; }
+AREXPORT bool ArMapObject::hasFromTo() const { return myHasFromTo; }
 /// Gets the from pose (could be for line or box, depending)
-AREXPORT ArPose ArMapObject::getFromPose(void) const { return myFromPose; }
+AREXPORT ArPose ArMapObject::getFromPose() const { return myFromPose; }
 /// Gets the to pose (could be for line or box, depending)
-AREXPORT ArPose ArMapObject::getToPose(void) const { return myToPose; }
+AREXPORT ArPose ArMapObject::getToPose() const { return myToPose; }
 
-AREXPORT double ArMapObject::getFromToRotation(void) const
+AREXPORT double ArMapObject::getFromToRotation() const
 {
   if (myHasFromTo) {
     return myPose.getTh();
@@ -410,17 +410,17 @@ AREXPORT void ArMapObject::log(const char *intro) const {
 }
 
 
-AREXPORT std::list<ArLineSegment> ArMapObject::getFromToSegments(void)
+AREXPORT std::list<ArLineSegment> ArMapObject::getFromToSegments()
 {
   return myFromToSegments;
 }
 
-AREXPORT ArLineSegment ArMapObject::getFromToSegment(void)
+AREXPORT ArLineSegment ArMapObject::getFromToSegment()
 {
   return myFromToSegment;
 }
 
-AREXPORT ArPose ArMapObject::findCenter(void) const
+AREXPORT ArPose ArMapObject::findCenter() const
 {
   if (!myHasFromTo) {
     return myPose;
@@ -447,7 +447,7 @@ AREXPORT ArPose ArMapObject::findCenter(void) const
 
 
 
-AREXPORT const char *ArMapObject::toString(void) const
+AREXPORT const char *ArMapObject::toString() const
 {
   // Since the ArMapObject is effectively immutable, this is okay to do...
   if (myStringRepresentation.empty()) {

@@ -100,7 +100,7 @@ AREXPORT ArActionTriangleDriveTo::~ArActionTriangleDriveTo()
     delete myLineFinder;
 }
 
-AREXPORT void ArActionTriangleDriveTo::activate(void)
+AREXPORT void ArActionTriangleDriveTo::activate()
 {
   if (myPrinting)
     ArLog::log(ArLog::Normal, "ArActionTriangleDriveTo: Activating");
@@ -124,7 +124,7 @@ AREXPORT void ArActionTriangleDriveTo::activate(void)
 
 }
 
-AREXPORT void ArActionTriangleDriveTo::deactivate(void)
+AREXPORT void ArActionTriangleDriveTo::deactivate()
 {
   ArAction::deactivate();
   myState = STATE_INACTIVE;
@@ -952,7 +952,7 @@ AREXPORT ArActionDesired *ArActionTriangleDriveTo::fire(
 
 }
 
-ArActionTriangleDriveTo::Data *ArActionTriangleDriveTo::getData(void)
+ArActionTriangleDriveTo::Data *ArActionTriangleDriveTo::getData()
 {
   Data *data = NULL;
   myDataMutex.lock();

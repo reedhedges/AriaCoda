@@ -44,10 +44,10 @@ public:
   // class ArSimpleUserTask
   GyroTask(ArRobot *robot);
   // empty destructor
-  ~GyroTask(void) {}
+  ~GyroTask() {}
   
   // the task we want to do
-  void doTask(void);
+  void doTask();
 
   bool handlePacket(ArRobotPacket *pkt);
 protected:
@@ -111,7 +111,7 @@ GyroTask::GyroTask(ArRobot *robot) :
 
 }
 
-void GyroTask::doTask(void)
+void GyroTask::doTask()
 {
   /*
   double degrees = -((myRobot->getAnalog() * 5.0 / 255) - 2.509) * 150 / 2.5 * 1.265;

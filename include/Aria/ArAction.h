@@ -70,11 +70,11 @@ public:
   /// Desructor
   AREXPORT virtual ~ArAction();
   /// Returns whether the action is active or not
-  AREXPORT virtual bool isActive(void) const;
+  AREXPORT virtual bool isActive() const;
   /// Activate the action
-  AREXPORT virtual void activate(void);
+  AREXPORT virtual void activate();
   /// Deactivate the action
-  AREXPORT virtual void deactivate(void);
+  AREXPORT virtual void deactivate();
   /// Fires the action, returning what the action wants to do
   /** 
       @param currentDesired this is the tentative result, based
@@ -94,7 +94,7 @@ public:
   /// Sets the robot this action is driving
   AREXPORT virtual void setRobot(ArRobot *robot);
   /// Find the number of arguments this action takes
-  AREXPORT virtual int getNumArgs(void) const;
+  AREXPORT virtual int getNumArgs() const;
 #ifndef SWIG
   /** Gets the numbered argument
    * @swignote Not available
@@ -104,13 +104,13 @@ public:
   /// Gets the numbered argument
   AREXPORT virtual ArArg *getArg(int number);
   /// Gets the name of the action
-  AREXPORT virtual const char *getName(void) const;
+  AREXPORT virtual const char *getName() const;
   /// Gets the long description of the action
-  AREXPORT virtual const char *getDescription(void) const;
+  AREXPORT virtual const char *getDescription() const;
   /// Gets what this action wants to do (for display purposes)
-  AREXPORT virtual ArActionDesired *getDesired(void) { return NULL; }
+  AREXPORT virtual ArActionDesired *getDesired() { return NULL; }
   /// Gets what this action wants to do (for display purposes)
-  AREXPORT virtual const ArActionDesired *getDesired(void) const { return NULL; }
+  AREXPORT virtual const ArActionDesired *getDesired() const { return NULL; }
   /// Log information about this action using ArLog.
   AREXPORT virtual void log(bool verbose = true) const;
 
@@ -121,7 +121,7 @@ public:
   static void setDefaultActivationState(bool defaultActivationState)
     { ourDefaultActivationState = defaultActivationState; }
   /// Gets the default activation state for all ArActions
-  static bool getDefaultActivationState(void)
+  static bool getDefaultActivationState()
     { return ourDefaultActivationState; }
 protected:  
   /// Sets the argument type for the next argument (must only be used in a constructor!)

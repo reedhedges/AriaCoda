@@ -71,7 +71,7 @@ AREXPORT ArRobotJoyHandler::~ArRobotJoyHandler()
   Aria::remExitCallback(&myStopPacketsCB);
 }
 
-AREXPORT void ArRobotJoyHandler::connectCallback(void)
+AREXPORT void ArRobotJoyHandler::connectCallback()
 {
   myRobot->addDisconnectNormallyCB(&myStopPacketsCB);
   Aria::addExitCallback(&myStopPacketsCB);

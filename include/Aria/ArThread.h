@@ -110,25 +110,25 @@ public:
   AREXPORT virtual ~ArThread();
 
   /// Initialize the internal book keeping structures
-  AREXPORT static void init(void);
+  AREXPORT static void init();
   /// Returns the instance of your own thread (the current one)
-  AREXPORT static ArThread * self(void);
+  AREXPORT static ArThread * self();
   /// Returns the os self of the current thread
-  AREXPORT static ThreadType osSelf(void);
+  AREXPORT static ThreadType osSelf();
   /// Stop all threads
   AREXPORT static void stopAll();
   /// Cancel all threads
-  AREXPORT static void cancelAll(void);
+  AREXPORT static void cancelAll();
   /// Join on all threads
-  AREXPORT static void joinAll(void);
+  AREXPORT static void joinAll();
 
   /// Shuts down and deletes the last remaining thread; call after joinAll
   AREXPORT static void shutdown();
 
   /// Yield the processor to another thread
-  AREXPORT static void yieldProcessor(void);
+  AREXPORT static void yieldProcessor();
   /// Gets the logging level for thread information
-  static ArLog::LogLevel getLogLevel(void) { return ourLogLevel; }
+  static ArLog::LogLevel getLogLevel() { return ourLogLevel; }
   /// Sets the logging level for thread information
   static void setLogLevel(ArLog::LogLevel level) { ourLogLevel = level; }
 
@@ -136,27 +136,27 @@ public:
   AREXPORT virtual int create(ArFunctor *func, bool joinable=true,
 			      bool lowerPriority=true);
   /// Stop the thread
-  virtual void stopRunning(void) {myRunning=false;}
+  virtual void stopRunning() {myRunning=false;}
   /// Join on the thread
   AREXPORT virtual int join(void **r=NULL);
   /// Detatch the thread so it cant be joined
-  AREXPORT virtual int detach(void);
+  AREXPORT virtual int detach();
   /// Cancel the thread
-  AREXPORT virtual void cancel(void);
+  AREXPORT virtual void cancel();
 
   /// Get the running status of the thread
-  virtual bool getRunning(void) const {return(myRunning);}
+  virtual bool getRunning() const {return(myRunning);}
   /// Get the running status of the thread, locking around the variable
-  virtual bool getRunningWithLock(void) 
+  virtual bool getRunningWithLock() 
     { bool running; lock(); running = myRunning; unlock(); return running; }
   /// Get the joinable status of the thread
-  virtual bool getJoinable(void) const {return(myJoinable);}
+  virtual bool getJoinable() const {return(myJoinable);}
   /// Get the underlying thread type
-  virtual const ThreadType * getThread(void) const {return(&myThread);}
+  virtual const ThreadType * getThread() const {return(&myThread);}
   /// Get the underlying os thread type
-  virtual ThreadType getOSThread(void) const {return(myThread);}
+  virtual ThreadType getOSThread() const {return(myThread);}
   /// Get the functor that the thread runs
-  virtual ArFunctor * getFunc(void) const {return(myFunc);}
+  virtual ArFunctor * getFunc() const {return(myFunc);}
 
   /// Set the running value on the thread
   virtual void setRunning(bool running) {myRunning=running;}
@@ -165,29 +165,29 @@ public:
   /** Lock the thread instance
       @swigomit
   */
-  int lock(void) {return(myMutex.lock());}
+  int lock() {return(myMutex.lock());}
   /** Try to lock the thread instance without blocking
       @swigomit
   */
-  int tryLock(void) {return(myMutex.tryLock());}
+  int tryLock() {return(myMutex.tryLock());}
   /** Unlock the thread instance
       @swigomit
   */
-  int unlock(void) {return(myMutex.unlock());}
+  int unlock() {return(myMutex.unlock());}
 #endif
 
   /// Do we block all process signals at startup?
-  bool getBlockAllSignals(void) {return(myBlockAllSignals);}
+  bool getBlockAllSignals() {return(myBlockAllSignals);}
 
   /// Gets the name of the thread
-  virtual const char *getThreadName(void) { return myName.c_str();  }
+  virtual const char *getThreadName() { return myName.c_str();  }
 
   /// Sets the name of the thread
   AREXPORT virtual void setThreadName(const char *name);
 
   /// Gets a string that describes what the thread is doing NULL if it
   /// doesn't know
-  virtual const char *getThreadActivity(void) { return NULL; }
+  virtual const char *getThreadActivity() { return NULL; }
 
   /// Marks the thread as started and logs useful debugging information.
   /**
@@ -195,7 +195,7 @@ public:
      then call some things for logging (to make debugging easier)
      This method should be called before the main thread loop begins.
    **/
-  AREXPORT virtual void threadStarted(void);
+  AREXPORT virtual void threadStarted();
 
   /// Marks the thread as finished and logs useful debugging information.
   /**
@@ -203,7 +203,7 @@ public:
      enables the creator of the thread to determine that the thread has
      actually been completed and can be deleted.
    **/
-  AREXPORT virtual void threadFinished(void);
+  AREXPORT virtual void threadFinished();
 
   /// Returns whether the thread has been started.
   /**
@@ -221,19 +221,19 @@ public:
 
 
   /// Logs the information about this thread
-  AREXPORT virtual void logThreadInfo(void);
+  AREXPORT virtual void logThreadInfo();
 
 #ifndef _WIN32
-  pid_t getPID(void) { return myPID; }
-  pid_t getTID(void) { return myTID; }
+  pid_t getPID() { return myPID; }
+  pid_t getTID() { return myTID; }
 #endif
 
   /// Gets the name of the this thread
-  AREXPORT static const char *getThisThreadName(void);
+  AREXPORT static const char *getThisThreadName();
   /// Get the underlying thread type of this thread
-  AREXPORT static const ThreadType * getThisThread(void);
+  AREXPORT static const ThreadType * getThisThread();
   /// Get the underlying os thread type of this thread
-  AREXPORT static ThreadType getThisOSThread(void);
+  AREXPORT static ThreadType getThisOSThread();
 
 protected:
   static ArMutex ourThreadsMutex;

@@ -70,7 +70,7 @@ AREXPORT ArSyncTask::~ArSyncTask()
   myMultiMap.clear();
 }
 
-AREXPORT ArTaskState::State ArSyncTask::getState(void)
+AREXPORT ArTaskState::State ArSyncTask::getState()
 {
   if (myStatePointer != NULL)
     return *myStatePointer;
@@ -86,7 +86,7 @@ AREXPORT void ArSyncTask::setState(ArTaskState::State state)
     myState = state;
 }
 
-AREXPORT std::string ArSyncTask::getName(void)
+AREXPORT std::string ArSyncTask::getName()
 {
   return myName;
 }
@@ -228,12 +228,12 @@ AREXPORT void ArSyncTask::remove(ArSyncTask *proc)
   }
 }
 
-AREXPORT bool ArSyncTask::isDeleting(void)
+AREXPORT bool ArSyncTask::isDeleting()
 {
   return myIsDeleting;
 }
 
-AREXPORT ArFunctor *ArSyncTask::getFunctor(void)
+AREXPORT ArFunctor *ArSyncTask::getFunctor()
 {
   return myFunctor;
 }
@@ -243,7 +243,7 @@ AREXPORT ArFunctor *ArSyncTask::getFunctor(void)
    a branch it goes through all of the children in the order of
    highest position to lowest position and calls run on them.
 **/
-AREXPORT void ArSyncTask::run(void)
+AREXPORT void ArSyncTask::run()
 {
   myRunning = true;
 
@@ -307,7 +307,7 @@ AREXPORT void ArSyncTask::setWarningTimeCB(ArRetFunctor<unsigned int> *functor)
    task such that if it takes longer than this number of ms to run a
    warning message will be issued, sets this on the children too.
 **/
-AREXPORT ArRetFunctor<unsigned int> *ArSyncTask::getWarningTimeCB(void)
+AREXPORT ArRetFunctor<unsigned int> *ArSyncTask::getWarningTimeCB()
 {
   return myWarningTimeCB;
 }
@@ -328,7 +328,7 @@ AREXPORT void ArSyncTask::setNoTimeWarningCB(ArRetFunctor<bool> *functor)
    This sets a functor which will be called to see if we should warn
    this time through or not.
 **/
-AREXPORT ArRetFunctor<bool> *ArSyncTask::getNoTimeWarningCB(void)
+AREXPORT ArRetFunctor<bool> *ArSyncTask::getNoTimeWarningCB()
 {
   return myNoTimeWarningCB;
 }
@@ -383,7 +383,7 @@ AREXPORT void ArSyncTask::log(int depth)
 
 
 /// Returns what this is running, if anything (recurses)
-AREXPORT ArSyncTask *ArSyncTask::getRunning(void)
+AREXPORT ArSyncTask *ArSyncTask::getRunning()
 {
   if (!myRunning)
     return NULL;

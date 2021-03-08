@@ -50,7 +50,7 @@ AREXPORT ArActionDriveDistance::~ArActionDriveDistance()
 
 }
 
-AREXPORT bool ArActionDriveDistance::haveAchievedDistance(void)
+AREXPORT bool ArActionDriveDistance::haveAchievedDistance()
 {
   if (myState == STATE_ACHIEVED_DISTANCE)
     return true;
@@ -58,7 +58,7 @@ AREXPORT bool ArActionDriveDistance::haveAchievedDistance(void)
     return false;
 }
 
-AREXPORT void ArActionDriveDistance::cancelDistance(void)
+AREXPORT void ArActionDriveDistance::cancelDistance()
 {
   myState = STATE_NO_DISTANCE;
 }

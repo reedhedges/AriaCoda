@@ -61,28 +61,28 @@ public:
   AREXPORT virtual ~ArActionDriveDistance();
 
   /// Sees if the goal has been achieved
-  AREXPORT bool haveAchievedDistance(void);
+  AREXPORT bool haveAchievedDistance();
   /// Cancels the goal the robot has
-  AREXPORT void cancelDistance(void);
+  AREXPORT void cancelDistance();
   /// Sets a new goal and sets the action to go there
   AREXPORT void setDistance(double distance, bool useEncoders = true);
   /// Gets whether we're using the encoder position or the normal position
-  bool usingEncoders(void) { return myUseEncoders; }
+  bool usingEncoders() { return myUseEncoders; }
   /// Sets the speed the action will travel at (mm/sec)
   void setSpeed(double speed = 400) { mySpeed = speed; }
   /// Gets the speed the action will travel at (mm/sec)
-  double getSpeed(void) { return mySpeed; }
+  double getSpeed() { return mySpeed; }
   /// Sets the deceleration the action will use (mm/sec/sec)
   void setDeceleration(double deceleration = 200) 
     { myDeceleration = deceleration; }
   /// Gets the deceleration the action will use (mm/sec/sec)
-  double getDeceleration(void) { return myDeceleration; }
+  double getDeceleration() { return myDeceleration; }
   /// Sets if we're printing or not
   void setPrinting(bool printing) { myPrinting = printing; }
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
 protected:

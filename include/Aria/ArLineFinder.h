@@ -50,10 +50,10 @@ public:
 #ifndef SWIG
   /// Finds the lines and returns a pointer to ArLineFinder's map of them 
   /** @swigomit */
-  AREXPORT std::map<int, ArLineFinderSegment *> *getLines(void);
+  AREXPORT std::map<int, ArLineFinderSegment *> *getLines();
   /// Finds the lines, but then returns a pointer to ArLineFinder's map of the points that AREN'T in lines
   /** @swigomit */
-  AREXPORT std::map<int, ArPose> *getNonLinePoints(void);
+  AREXPORT std::map<int, ArPose> *getNonLinePoints();
 #endif
   /// Finds the lines, then copies @b pointers to them them into a new set
   AREXPORT std::set<ArLineFinderSegment*> getLinesAsSet();
@@ -62,15 +62,15 @@ public:
 
   /// Gets the robot pose at which the data from the range device (provided in
   /// constructor) was received
-  ArPose getLinesTakenPose(void) { return myPoseTaken; }
+  ArPose getLinesTakenPose() { return myPoseTaken; }
   /// Logs all the points and lines from the last getLines
-  AREXPORT void saveLast(void);
+  AREXPORT void saveLast();
   /// Gets the lines, then prints them
-  AREXPORT void getLinesAndSaveThem(void);
+  AREXPORT void getLinesAndSaveThem();
   /// Whether to print verbose information about line decisions
   void setVerbose(bool verbose) { myPrinting = verbose; }
   /// Whether to print verbose information about line decisions
-  bool getVerbose(void) { return myPrinting; }
+  bool getVerbose() { return myPrinting; }
   /// Sets some parameters for line creation
   void setLineCreationParams(int minLineLen = 40, int minLinePoints = 2)
     { myMakingMinLen = minLineLen; myMakingMinPoints = minLinePoints; }
@@ -108,9 +108,9 @@ protected:
   std::map<int, ArLineFinderSegment *> *myLines;
   std::map<int, ArPose> *myNonLinePoints;
   // fills up the myPoints variable from sick laser
-  AREXPORT void fillPointsFromLaser(void);
+  AREXPORT void fillPointsFromLaser();
   // fills up the myLines variable from the myPoints
-  AREXPORT void findLines(void);
+  AREXPORT void findLines();
   // cleans the lines and puts them into myLines 
   AREXPORT bool combineLines();
   // takes two segments and sees if it can average them
@@ -155,14 +155,14 @@ public:
       myEndPoint = endPoint;
       myAveDistFromLine = 0;
     }
-  double getLineAngle(void) { return myLineAngle; }
-  double getLength(void) { return myLength; }
-  int getNumPoints(void) { return myNumPoints; }
-  int getStartPoint(void) { return myStartPoint; }
-  int getEndPoint(void) { return myEndPoint; }
+  double getLineAngle() { return myLineAngle; }
+  double getLength() { return myLength; }
+  int getNumPoints() { return myNumPoints; }
+  int getStartPoint() { return myStartPoint; }
+  int getEndPoint() { return myEndPoint; }
   void setAveDistFromLine(double aveDistFromLine) 
     { myAveDistFromLine = aveDistFromLine; }
-  double getAveDistFromLine(void) { return myAveDistFromLine; }
+  double getAveDistFromLine() { return myAveDistFromLine; }
 protected:
   double myLineAngle;
   double myLength;

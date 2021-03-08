@@ -107,7 +107,7 @@ AREXPORT void ArLCDMTX::setDeviceConnection(
 	myConn->setDeviceName(getName());
 }
 
-AREXPORT ArDeviceConnection *ArLCDMTX::getDeviceConnection(void)
+AREXPORT ArDeviceConnection *ArLCDMTX::getDeviceConnection()
 {
 	return myConn;
 }
@@ -130,7 +130,7 @@ AREXPORT void ArLCDMTX::setRobot(ArRobot *robot)
 	}
 }
 
-void ArLCDMTX::clear(void)
+void ArLCDMTX::clear()
 {
 	myIsConnected = false;
 	myTryingToConnect = false;
@@ -149,7 +149,7 @@ AREXPORT void ArLCDMTX::lcdSetName(const char *name)
 
 }
 
-AREXPORT bool ArLCDMTX::disconnect(void)
+AREXPORT bool ArLCDMTX::disconnect()
 {
 	if (!isConnected())
 		return true;
@@ -166,7 +166,7 @@ AREXPORT int ArLCDMTX::getReadingCount()
 	return 0;
 }
 
-AREXPORT void ArLCDMTX::internalGotReading(void)
+AREXPORT void ArLCDMTX::internalGotReading()
 {
 	if (myTimeLastReading != time(NULL))
 	{
@@ -180,7 +180,7 @@ AREXPORT void ArLCDMTX::internalGotReading(void)
 
 }
 
-void ArLCDMTX::failedToConnect(void)
+void ArLCDMTX::failedToConnect()
 {
 	ArLog::log(ArLog::Normal,
 		"%s:failedToConnect Cound not connect to lcd",
@@ -190,7 +190,7 @@ void ArLCDMTX::failedToConnect(void)
 	myDeviceMutex.unlock();
 }
 
-void ArLCDMTX::sensorInterp(void)
+void ArLCDMTX::sensorInterp()
 {
 	//ArLCDMTXPacket *packet;
 	ArRobotPacket *packet;
@@ -464,7 +464,7 @@ AREXPORT bool ArLCDMTX::blockingConnect(bool sendTracking, bool recvTracking,
 
 } // end blockingConnect
 
-AREXPORT const char * ArLCDMTX::getName(void) const
+AREXPORT const char * ArLCDMTX::getName() const
 {
 	return myName.c_str();
 }
@@ -930,7 +930,7 @@ robot it is a straightforward check of last reading time against
 getConnectionTimeoutSeconds.  If there is a robot then it will not
 start the check until the lcd is running and connected.
 **/
-AREXPORT bool ArLCDMTX::checkLostConnection(void)
+AREXPORT bool ArLCDMTX::checkLostConnection()
 {
 
 	if ((myRobot == NULL || myRobotRunningAndConnected) &&
@@ -948,7 +948,7 @@ AREXPORT bool ArLCDMTX::checkLostConnection(void)
 	return false;
 }
 
-AREXPORT void ArLCDMTX::disconnectOnError(void)
+AREXPORT void ArLCDMTX::disconnectOnError()
 {
 	ArLog::log(ArLog::Normal, "%s: Disconnected because of error", getName());
 	myDisconnectOnErrorCBList.invoke();

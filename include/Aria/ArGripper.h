@@ -82,53 +82,53 @@ public:
   /// Destructor
   AREXPORT virtual ~ArGripper();
   /// Opens the gripper paddles
-  AREXPORT bool gripOpen(void);
+  AREXPORT bool gripOpen();
   /// Closes the gripper paddles
-  AREXPORT bool gripClose(void);
+  AREXPORT bool gripClose();
   /// Stops the gripper paddles
-  AREXPORT bool gripStop(void);
+  AREXPORT bool gripStop();
   /// Raises the lift to the top
-  AREXPORT bool liftUp(void);
+  AREXPORT bool liftUp();
   /// Lowers the lift to the bottom
-  AREXPORT bool liftDown(void);
+  AREXPORT bool liftDown();
   /// Stops the lift
-  AREXPORT bool liftStop(void);
+  AREXPORT bool liftStop();
   /// Puts the gripper in a storage position
-  AREXPORT bool gripperStore(void);
+  AREXPORT bool gripperStore();
   /// Puts the gripper in a deployed position, ready for use
-  AREXPORT bool gripperDeploy(void);
+  AREXPORT bool gripperDeploy();
   /// Halts the lift and the gripper paddles
-  AREXPORT bool gripperHalt(void);
+  AREXPORT bool gripperHalt();
   /// Sets the amount of pressure the gripper applies
   AREXPORT bool gripPressure(int mSecIntervals);
   /// Raises the lift by a given amount of time
   AREXPORT bool liftCarry(int mSecIntervals);
   /// Returns true if the gripper paddles are moving
-  AREXPORT bool isGripMoving(void) const;
+  AREXPORT bool isGripMoving() const;
   /// Returns true if the lift is moving
-  AREXPORT bool isLiftMoving(void) const;
+  AREXPORT bool isLiftMoving() const;
   /// Returns the state of the gripper paddles
-  AREXPORT int getGripState(void) const;
+  AREXPORT int getGripState() const;
   /// Returns the state of each gripper paddle
-  AREXPORT int getPaddleState(void) const;
+  AREXPORT int getPaddleState() const;
   /// Returns the state of the gripper's breakbeams
-  AREXPORT int getBreakBeamState(void) const;
+  AREXPORT int getBreakBeamState() const;
   /// Returns the state of the lift
-  AREXPORT bool isLiftMaxed(void) const;
+  AREXPORT bool isLiftMaxed() const;
   /// Gets the type of the gripper
-  AREXPORT int getType(void) const;
+  AREXPORT int getType() const;
   /// Sets the type of the gripper
   AREXPORT void setType(int type);
   /// Gets the number of mSec since the last gripper packet
-  AREXPORT long getMSecSinceLastPacket(void) const;
+  AREXPORT long getMSecSinceLastPacket() const;
   /// Gets the grasp time
-  AREXPORT int getGraspTime(void) const;
+  AREXPORT int getGraspTime() const;
   /// logs the gripper state
-  AREXPORT void logState(void) const;
+  AREXPORT void logState() const;
   /// Parses the gripper packet
   AREXPORT bool packetHandler(ArRobotPacket *packet);
   /// The handler for when the robot connects
-  AREXPORT void connectHandler(void);
+  AREXPORT void connectHandler();
   /// These are the types for the gripper
   enum Type {
     QUERYTYPE, ///< Finds out what type from the robot, default

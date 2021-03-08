@@ -61,7 +61,7 @@ AREXPORT void ArTcpConnection::setSocket(ArSocket *socket)
   mySocket = socket;
 }
 
-AREXPORT ArSocket *ArTcpConnection::getSocket(void)
+AREXPORT ArSocket *ArTcpConnection::getSocket()
 {
   return mySocket;
 }
@@ -90,7 +90,7 @@ AREXPORT void ArTcpConnection::setPort(const char *host, int port)
   setPortName(portName.c_str());
 }
 
-AREXPORT bool ArTcpConnection::openSimple(void)
+AREXPORT bool ArTcpConnection::openSimple()
 {
   if (internalOpen() == 0)
     return true;
@@ -112,7 +112,7 @@ AREXPORT int ArTcpConnection::open(const char *host, int port)
   return internalOpen();
 }
 
-AREXPORT int ArTcpConnection::internalOpen(void)
+AREXPORT int ArTcpConnection::internalOpen()
 {
   mySocket->init();
 
@@ -146,7 +146,7 @@ AREXPORT int ArTcpConnection::internalOpen(void)
 
 }
 
-void ArTcpConnection::buildStrMap(void)
+void ArTcpConnection::buildStrMap()
 {
   myStrMap[OPEN_NET_FAIL] = "Network failed.";
   myStrMap[OPEN_BAD_HOST] = "Could not find host.";
@@ -159,7 +159,7 @@ AREXPORT const char *ArTcpConnection::getOpenMessage(int messageNumber)
   return myStrMap[messageNumber].c_str();
 }
 
-AREXPORT bool ArTcpConnection::close(void)
+AREXPORT bool ArTcpConnection::close()
 {
   myStatus = STATUS_CLOSED_NORMALLY;
   return mySocket->close();
@@ -243,7 +243,7 @@ AREXPORT int ArTcpConnection::write(const char *data, unsigned int size)
     @return the name of the host connected to
     @see getPort
 */
-AREXPORT std::string ArTcpConnection::getHost(void)
+AREXPORT std::string ArTcpConnection::getHost()
 {
   return myHostName;
 }
@@ -252,17 +252,17 @@ AREXPORT std::string ArTcpConnection::getHost(void)
    @return the number of the port connected to
    @see getHost
 */
-AREXPORT int ArTcpConnection::getPort(void)
+AREXPORT int ArTcpConnection::getPort()
 {
   return myPortNum;
 }
 
-AREXPORT int ArTcpConnection::getStatus(void)
+AREXPORT int ArTcpConnection::getStatus()
 {
   return myStatus;
 }
 
-AREXPORT bool ArTcpConnection::isTimeStamping(void)
+AREXPORT bool ArTcpConnection::isTimeStamping()
 {
   return false;
 }

@@ -265,13 +265,13 @@ public:
     { myErrorTracking = errorTracking; }
 
   /// Gets whether we're doing error tracking or not
-  AREXPORT bool getErrorTracking(void) { return myErrorTracking; }
+  AREXPORT bool getErrorTracking() { return myErrorTracking; }
 
   /// Gets if we've had a bad write (you have to use error tracking for this)
-  AREXPORT bool getBadWrite(void) const { return myBadWrite; }
+  AREXPORT bool getBadWrite() const { return myBadWrite; }
 
   /// Gets if we've had a bad read (you have to use error tracking for this)
-  AREXPORT bool getBadRead(void) const { return myBadRead; }
+  AREXPORT bool getBadRead() const { return myBadRead; }
 
 
 #ifndef SWIG
@@ -291,31 +291,31 @@ public:
   AREXPORT void setReadStringIgnoreReturn(bool ignore)
     { myStringIgnoreReturn = ignore; }
   /// Clears the partial string read
-  AREXPORT void clearPartialReadString(void);
+  AREXPORT void clearPartialReadString();
   /// Compares a string against what was partially read
   AREXPORT int comparePartialReadString(const char *partialString);
   /// Gets the time we last successfully read a string from the socket
-  AREXPORT ArTime getLastStringReadTime(void) { return myLastStringReadTime; }
+  AREXPORT ArTime getLastStringReadTime() { return myLastStringReadTime; }
   /// Sets echoing on the readString calls this socket does
   AREXPORT void setEcho(bool echo) 
   { myStringAutoEcho = false; myStringEcho = echo; }
   /// Gets if we are echoing on the readString calls this socket does
-  AREXPORT bool getEcho(void) { return myStringEcho; }
+  AREXPORT bool getEcho() { return myStringEcho; }
   /// Sets whether we log the writeStrings or not
   AREXPORT void setLogWriteStrings(bool logWriteStrings) 
     { myLogWriteStrings = logWriteStrings; }
   /// Gets whether we log the writeStrings or not
-  AREXPORT bool getLogWriteStrings(void) { return myLogWriteStrings; }
+  AREXPORT bool getLogWriteStrings() { return myLogWriteStrings; }
   /// Sets whether we use the wrong (legacy) end chars or not
   AREXPORT void setStringUseWrongEndChars(bool useWrongEndChars) 
     { myStringWrongEndChars = useWrongEndChars; }
   /// Gets whether we log the writeStrings or not
-  AREXPORT bool getStringUseWrongEndChars(void) 
+  AREXPORT bool getStringUseWrongEndChars() 
     { return myStringWrongEndChars; }
   /// Gets the raw ip number as a string
-  AREXPORT const char *getRawIPString(void) const { return myRawIPString; }
+  AREXPORT const char *getRawIPString() const { return myRawIPString; }
   /// Gets the ip number as a string (this can be modified though)
-  AREXPORT const char *getIPString(void) const { return myIPString.c_str(); }
+  AREXPORT const char *getIPString() const { return myIPString.c_str(); }
   /// Sets the ip string
   AREXPORT void setIPString(const char *ipString) 
     { if (ipString != NULL) myIPString = ipString; else myIPString = ""; }
@@ -323,17 +323,17 @@ public:
   AREXPORT void setCloseCallback(ArFunctor *functor) 
     { myCloseFunctor = functor; }
   /// Sets the callback for when the socket is closed (nicely or harshly)
-  AREXPORT ArFunctor *getCloseCallback(void) { return myCloseFunctor; }
+  AREXPORT ArFunctor *getCloseCallback() { return myCloseFunctor; }
   /// Gets the number of writes we've done
-  long getSends(void) { return mySends; }
+  long getSends() { return mySends; }
   /// Gets the number of bytes we've written
-  long getBytesSent(void) { return myBytesSent; }
+  long getBytesSent() { return myBytesSent; }
   /// Gets the number of reads we've done
-  long getRecvs(void) { return myRecvs; }
+  long getRecvs() { return myRecvs; }
   /// Gets the number of bytes we've read
-  long getBytesRecvd(void) { return myBytesRecvd; }
+  long getBytesRecvd() { return myBytesRecvd; }
   /// Resets the tracking information on the socket
-  void resetTracking(void) 
+  void resetTracking() 
     { mySends = 0; myBytesSent = 0; myRecvs = 0; myBytesRecvd = 0; }
   
   /// Sets NODELAY option on TCP socket, which can reduce latency for small packet sizes.
@@ -342,11 +342,11 @@ public:
 protected:
   /// Sets the ip string
   /// internal function that sets the ip string from the inAddr
-  void setRawIPString(void);
+  void setRawIPString();
   /// internal function that echos strings from read string
-  void doStringEcho(void);
+  void doStringEcho();
   // internal crossplatform init (mostly for string reading stuff)
-  void internalInit(void);
+  void internalInit();
 
   // separates out a host string (possibly host:port) into a host and
   // the port that should be used.

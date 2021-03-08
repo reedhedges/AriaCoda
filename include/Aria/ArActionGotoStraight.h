@@ -73,9 +73,9 @@ public:
   AREXPORT virtual ~ArActionGotoStraight();
 
   /// Sees if the goal has been achieved
-  AREXPORT bool haveAchievedGoal(void);
+  AREXPORT bool haveAchievedGoal();
   /// Cancels the goal the robot has
-  AREXPORT void cancelGoal(void);
+  AREXPORT void cancelGoal();
   /// Sets a new goal and sets the action to go there
   AREXPORT void setGoal(ArPose goal, bool backwards = false, 
 			bool justDistance = true);
@@ -83,9 +83,9 @@ public:
   AREXPORT void setGoalRel(double dist, double deltaHeading, 
 			   bool backwards = false, bool justDistance = true);
   /// Gets the goal the action has
-  ArPose getGoal(void) { return myGoal; }
+  ArPose getGoal() { return myGoal; }
   /// Gets whether we're using the encoder goal or the normal goal
-  bool usingEncoderGoal(void) { return myUseEncoderGoal; }
+  bool usingEncoderGoal() { return myUseEncoderGoal; }
   /// Sets a new goal and sets the action to go there
   AREXPORT void setEncoderGoal(ArPose encoderGoal, bool backwards = false,
 			       bool justDistance = true);
@@ -94,17 +94,17 @@ public:
 				  bool backwards = false, 
 				  bool justDistance = true);
   /// Gets the goal the action has
-  ArPose getEncoderGoal(void) { return myEncoderGoal; }
+  ArPose getEncoderGoal() { return myEncoderGoal; }
   /// Sets the speed the action will travel to the goal at (mm/sec)
   void setSpeed(double speed) { mySpeed = speed; }
   /// Gets the speed the action will travel to the goal at (mm/sec)
-  double getSpeed(void) { return mySpeed; }
+  double getSpeed() { return mySpeed; }
   /// Sets how close we have to get if we're not in just distance mode
   void setCloseDist(double closeDist = 100) { myCloseDist = closeDist; } 
   /// Gets how close we have to get if we're not in just distance mode
-  double getCloseDist(void) { return myCloseDist; }
+  double getCloseDist() { return myCloseDist; }
   /// Sets whether we're backing up there or not (set in the setGoals)
-  bool getBacking(void) { return myBacking; }
+  bool getBacking() { return myBacking; }
   
   /// If the angle at which the robot must rotate to face the goal point is
   /// greater than @a threshAngle, turn in place rather than moving forward and
@@ -131,9 +131,9 @@ public:
 
 protected:
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
 protected:

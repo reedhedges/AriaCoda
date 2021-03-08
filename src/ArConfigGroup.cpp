@@ -38,7 +38,7 @@ AREXPORT ArConfigGroup::ArConfigGroup(const char *baseDirectory)
     myBaseDirectory = "";
 }
 
-AREXPORT ArConfigGroup::~ArConfigGroup(void)
+AREXPORT ArConfigGroup::~ArConfigGroup()
 {
   
 }
@@ -125,7 +125,7 @@ AREXPORT void ArConfigGroup::setBaseDirectory(const char *baseDirectory)
   myBaseDirectory = baseDirectory;
 }
 
-AREXPORT const char *ArConfigGroup::getBaseDirectory(void) const
+AREXPORT const char *ArConfigGroup::getBaseDirectory() const
 {
   return myBaseDirectory.c_str();
 }

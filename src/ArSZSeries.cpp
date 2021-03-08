@@ -48,7 +48,7 @@ AREXPORT ArSZSeriesPacket::~ArSZSeriesPacket() {
 
 }
 
-AREXPORT ArTime ArSZSeriesPacket::getTimeReceived(void) {
+AREXPORT ArTime ArSZSeriesPacket::getTimeReceived() {
 	return myTimeReceived;
 }
 
@@ -69,7 +69,7 @@ AREXPORT void ArSZSeriesPacket::duplicatePacket(ArSZSeriesPacket *packet) {
 	memcpy(myBuf, packet->getBuf(), myLength);
 }
 
-AREXPORT void ArSZSeriesPacket::empty(void) {
+AREXPORT void ArSZSeriesPacket::empty() {
 	myLength = 0;
 	myReadLength = 0;
 }
@@ -94,7 +94,7 @@ AREXPORT void ArSZSeriesPacket::byteToBuf(ArTypes::Byte val)
 }
 
 
-AREXPORT ArTypes::Byte ArSZSeriesPacket::bufToByte(void)
+AREXPORT ArTypes::Byte ArSZSeriesPacket::bufToByte()
 {
 	ArTypes::Byte ret=0;
 
@@ -143,7 +143,7 @@ AREXPORT void ArSZSeriesPacketReceiver::setDeviceConnection(
 	myConn = conn;
 }
 
-AREXPORT ArDeviceConnection *ArSZSeriesPacketReceiver::getDeviceConnection(void) {
+AREXPORT ArDeviceConnection *ArSZSeriesPacketReceiver::getDeviceConnection() {
 	return myConn;
 }
 
@@ -578,7 +578,7 @@ AREXPORT ArSZSeries::~ArSZSeries() {
 	unlockDevice();
 }
 
-void ArSZSeries::clear(void) {
+void ArSZSeries::clear() {
 	myIsConnected = false;
 	myTryingToConnect = false;
 	myStartConnect = false;
@@ -607,14 +607,14 @@ AREXPORT void ArSZSeries::setRobot(ArRobot *robot) {
 	ArLaser::setRobot(robot);
 }
 
-AREXPORT bool ArSZSeries::asyncConnect(void) {
+AREXPORT bool ArSZSeries::asyncConnect() {
 	myStartConnect = true;
 	if (!getRunning())
 		runAsync();
 	return true;
 }
 
-AREXPORT bool ArSZSeries::disconnect(void) {
+AREXPORT bool ArSZSeries::disconnect() {
 	if (!isConnected())
 		return true;
 
@@ -624,14 +624,14 @@ AREXPORT bool ArSZSeries::disconnect(void) {
 	return true;
 }
 
-void ArSZSeries::failedToConnect(void) {
+void ArSZSeries::failedToConnect() {
 	lockDevice();
 	myTryingToConnect = true;
 	unlockDevice();
 	laserFailedConnect();
 }
 
-void ArSZSeries::sensorInterp(void) {
+void ArSZSeries::sensorInterp() {
 	ArSZSeriesPacket *packet;
 
 	while (1) {
@@ -815,7 +815,7 @@ void ArSZSeries::sensorInterp(void) {
 	}
 }
 
-AREXPORT bool ArSZSeries::blockingConnect(void) {
+AREXPORT bool ArSZSeries::blockingConnect() {
 
 	if (!getRunning())
 		runAsync();

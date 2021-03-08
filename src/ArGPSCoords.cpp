@@ -61,7 +61,7 @@ AREXPORT void Ar3DPoint::print(const char *head)
  *
  */
 AREXPORT ArLLACoords
-ArECEFCoords::ECEF2LLA(void)
+ArECEFCoords::ECEF2LLA()
 {
   // ECEF2LLA - convert earth-centered earth-fixed (ECEF)
   // cartesian coordinates to latitude, longitude,
@@ -159,7 +159,7 @@ ArECEFCoords::ECEF2ENU(ArECEFCoords ref)
  *
  */
 AREXPORT ArECEFCoords
-ArLLACoords::LLA2ECEF(void)
+ArLLACoords::LLA2ECEF()
 {
   // LLA2ECEF - convert latitude, longitude, and altitude to
   // earth-centered, earth-fixed (ECEF) cartesian

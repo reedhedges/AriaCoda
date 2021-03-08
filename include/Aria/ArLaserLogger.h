@@ -94,35 +94,35 @@ public:
   /// Sets the distance at which the robot will take a new reading
   void setDistDiff(double distDiff) { myDistDiff = ArMath::fabs(distDiff); }
   /// Gets the distance at which the robot will take a new reading
-  double getDistDiff(void) { return myDistDiff; }
+  double getDistDiff() { return myDistDiff; }
   /// Sets the degrees to turn at which the robot will take a new reading
   void setDegDiff(double degDiff) { myDistDiff = ArMath::fabs(degDiff); }
   /// Gets the degrees to turn at which the robot will take a new reading
-  double getDegDiff(void) { return myDegDiff; }
+  double getDegDiff() { return myDegDiff; }
   /// Explicitly tells the robot to take a reading
-  void takeReading(void) { myTakeReadingExplicit = true; }
+  void takeReading() { myTakeReadingExplicit = true; }
   /// Adds a goal where the robot is at the moment
-  void addGoal(void) { myAddGoalExplicit = true; }
+  void addGoal() { myAddGoalExplicit = true; }
   /// Sees if the file was opened successfully
-  bool wasFileOpenedSuccessfully(void) 
+  bool wasFileOpenedSuccessfully() 
     { if (myFile != NULL) return true; else return false; }
   /// Gets if we're taking old (sick1:) readings
-  bool takingOldReadings(void) { return myOldReadings; }
+  bool takingOldReadings() { return myOldReadings; }
   /// Sets if we're taking old (sick1:) readings
   void takeOldReadings(bool takeOld) { myOldReadings = takeOld; }
   /// Gets if we're taking new (scan1:) readings
-  bool takingNewReadings(void) { return myNewReadings; }
+  bool takingNewReadings() { return myNewReadings; }
   /// Sets if we're taking old (scan1:) readings
   void takeNewReadings(bool takeNew) { myNewReadings = takeNew; }
 protected:
   /// The task which gets attached to the robot
-  AREXPORT void robotTask(void);
+  AREXPORT void robotTask();
   // internal function that adds goals if needed (and specified)
-  void internalAddGoal(void);
+  void internalAddGoal();
   // internal function that writes tags
-  void internalWriteTags(void);
+  void internalWriteTags();
   // internal function that takes a reading
-  void internalTakeReading(void);
+  void internalTakeReading();
   // internal function that takes a reading from one laser
   void internalTakeLaserReading(ArLaser *laser, int laserNumber);
   // internal function that prints the position
@@ -175,7 +175,7 @@ protected:
   ArPose myLastGoalTakenPose;
   ArTime myLastGoalTakenTime;
 
-  void goalKeyCallback(void);
+  void goalKeyCallback();
   unsigned char myLastLoops;
   
   // the lasers all have this, so shouldn't need it anymore...

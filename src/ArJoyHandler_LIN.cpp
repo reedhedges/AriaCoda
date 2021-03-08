@@ -31,7 +31,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <errno.h>
 #include "Aria/ariaUtil.h"
 
-bool ArJoyHandler::init(void)
+bool ArJoyHandler::init()
 {
   int i;
 
@@ -76,7 +76,7 @@ bool ArJoyHandler::init(void)
   }
 }
 
-void ArJoyHandler::getData(void)
+void ArJoyHandler::getData()
 {
   if (myUseOld && !myInitialized)
     return;
@@ -91,7 +91,7 @@ void ArJoyHandler::getData(void)
     getNewData();
 }
 
-void ArJoyHandler::getOldData(void)
+void ArJoyHandler::getOldData()
 {
 #ifdef linux
   int x, y;
@@ -130,7 +130,7 @@ void ArJoyHandler::getOldData(void)
 }
 
 /// Handles the reading of the data into the bins
-void ArJoyHandler::getNewData(void)
+void ArJoyHandler::getNewData()
 {
 #ifdef linux
   if (myLastOpenTry.mSecSince() > 125)

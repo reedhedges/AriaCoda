@@ -110,12 +110,12 @@ AREXPORT void ArRobotPacketSender::setDeviceConnection(
   myDeviceConn = deviceConnection;
 }
 
-AREXPORT ArDeviceConnection *ArRobotPacketSender::getDeviceConnection(void)
+AREXPORT ArDeviceConnection *ArRobotPacketSender::getDeviceConnection()
 {
   return myDeviceConn;
 }
 
-bool ArRobotPacketSender::connValid(void)
+bool ArRobotPacketSender::connValid()
 {
   return (myDeviceConn != NULL && 
 	  myDeviceConn->getStatus() == ArDeviceConnection::STATUS_OPEN);

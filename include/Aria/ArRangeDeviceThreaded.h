@@ -54,20 +54,20 @@ public:
   /// The functor you need to implement that will be the one executed by the thread
   AREXPORT virtual void * runThread(void *arg) = 0;
   /// Run in this thread
-  AREXPORT virtual void run(void) { myTask.run(); }
+  AREXPORT virtual void run() { myTask.run(); }
   /// Run in its own thread
-  AREXPORT virtual void runAsync(void) { myTask.runAsync(); }
+  AREXPORT virtual void runAsync() { myTask.runAsync(); }
   /// Stop the thread
-  AREXPORT virtual void stopRunning(void) { myTask.stopRunning(); }
+  AREXPORT virtual void stopRunning() { myTask.stopRunning(); }
   /// Get the running status of the thread
-  AREXPORT virtual bool getRunning(void) { return myTask.getRunning();}
+  AREXPORT virtual bool getRunning() { return myTask.getRunning();}
   /// Get the running status of the thread, locking around the variable
-  AREXPORT virtual bool getRunningWithLock(void) 
+  AREXPORT virtual bool getRunningWithLock() 
     { return myTask.getRunningWithLock(); }
 
-  AREXPORT virtual int lockDevice(void) { return myTask.lock(); }
-  AREXPORT virtual int tryLockDevice(void) { return myTask.tryLock(); }
-  AREXPORT virtual int unlockDevice(void) { return myTask.unlock(); }
+  AREXPORT virtual int lockDevice() { return myTask.lock(); }
+  AREXPORT virtual int tryLockDevice() { return myTask.tryLock(); }
+  AREXPORT virtual int unlockDevice() { return myTask.unlock(); }
 protected:
   ArRetFunctor1C<void *, ArRangeDeviceThreaded, void *> myRunThreadCB;
   ArFunctorASyncTask myTask;

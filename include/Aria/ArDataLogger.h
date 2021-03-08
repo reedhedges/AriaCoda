@@ -86,7 +86,7 @@ public:
   /// Gets the functor for adding a string (for ArStringInfoGroup)
   ArFunctor3<const char *, ArTypes::UByte2,
 				    ArFunctor2<char *, ArTypes::UByte2> *> *
-                     getAddStringFunctor(void) { return &myAddStringFunctor; }
+                     getAddStringFunctor() { return &myAddStringFunctor; }
 
   AREXPORT void startLogging(int interval);
 
@@ -143,10 +143,10 @@ public:
   }
 
 protected:
-  void connectCallback(void);
+  void connectCallback();
   bool processFile(char *errorBuffer, size_t errorBufferLen);
   void writeHeader();
-  void userTask(void);
+  void userTask();
   ArRobot *myRobot;
   ArTime myLastLogged;
   ArConfig *myConfig;

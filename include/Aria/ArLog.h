@@ -125,7 +125,7 @@ public:
 #ifndef ARIA_WRAPPER
   /// Internal function to force a lockup, only for debugging
   /// @internal
-  static void internalForceLockup(void);
+  static void internalForceLockup();
 #endif
 
   /// Convenience function to log a message at Terse log level with "Warning: " prepended
@@ -146,9 +146,9 @@ public:
   AREXPORT static unsigned long getAvailableDiskSpaceMB();
 
 protected:
-  static bool processFile(void);
+  static bool processFile();
   static void invokeFunctor(const char *message);
-  static void checkFileSize(void);
+  static void checkFileSize();
 
   static ArLog *ourLog;
   static ArMutex ourMutex;

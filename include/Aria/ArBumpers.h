@@ -48,10 +48,10 @@ public:
 		     const char *name = "bumpers",
 		     int maxSecondsToKeepCurrent = 15,
 		     double angleRange = 135);
-  AREXPORT virtual ~ArBumpers(void);
+  AREXPORT virtual ~ArBumpers();
 
   AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT void processReadings(void);
+  AREXPORT void processReadings();
   AREXPORT void addBumpToBuffer(int bumpValue, int whichBumper);
 
 protected:

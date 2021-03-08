@@ -158,7 +158,7 @@ AREXPORT void * ArSyncLoop::runThread(void *arg)
   return(0);
 }
 
-AREXPORT const char *ArSyncLoop::getThreadActivity(void)
+AREXPORT const char *ArSyncLoop::getThreadActivity()
 {
   if (myRunning)
   {

@@ -65,7 +65,7 @@ AREXPORT void ArActionInput::setHeading(double heading)
   myRotVal = heading;
 }
 
-AREXPORT void ArActionInput::clear(void)
+AREXPORT void ArActionInput::clear()
 {
   myUsingVel = false;
   myRotRegime = NONE;

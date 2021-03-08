@@ -63,7 +63,7 @@ public:
   /// Destructor
   AREXPORT virtual ~ArRatioInputRobotJoydrive();
 protected:
-  AREXPORT void fireCallback(void);
+  AREXPORT void fireCallback();
 
   ArRobot *myRobot;
   ArActionRatioInput *myInput;

@@ -91,26 +91,26 @@ public:
   /// Destructor
   AREXPORT virtual ~ArRangeDevice();
   /// Gets the name of the device
-  AREXPORT virtual const char *getName(void) const;
+  AREXPORT virtual const char *getName() const;
   /// Sets the robot this device is attached to
   AREXPORT virtual void setRobot(ArRobot *robot);
   /// Gets the robot this device is attached to
-  AREXPORT virtual ArRobot *getRobot(void);
+  AREXPORT virtual ArRobot *getRobot();
   /// Sets the maximum size of the buffer for current readings
   /// Will be initialized to default size by ArRangeDevice implementation subclass, you normally do not need to set this externally.
   AREXPORT virtual void setCurrentBufferSize(size_t size);
   /// Gets the maximum size of the buffer for current readings
-  AREXPORT virtual size_t getCurrentBufferSize(void) const;
+  AREXPORT virtual size_t getCurrentBufferSize() const;
   /// Sets the maximum size of the buffer for cumulative readings
   /// Will be initialized to default size by ArRangeDevice implementation subclass, you normally do not need to set this externally.
   AREXPORT virtual void setCumulativeBufferSize(size_t size);
   /// Sets the maximum size of the buffer for cumulative readings
-  AREXPORT virtual size_t getCumulativeBufferSize(void) const;
+  AREXPORT virtual size_t getCumulativeBufferSize() const;
   /// Adds a reading to the buffer
   /// For use by subclasses only
   AREXPORT virtual void addReading(double x, double y, bool *wasAdded = NULL);
   /// Gets if this device is location dependent or not
-  bool isLocationDependent(void) { return myIsLocationDependent; }
+  bool isLocationDependent() { return myIsLocationDependent; }
   /// Gets the closest current reading in the given polar region
   AREXPORT virtual double currentReadingPolar(double startAngle, 
 					      double endAngle,
@@ -131,48 +131,48 @@ public:
   /** @brief Gets the current range buffer
    *  @swigomit See getCurrentBufferAsVector()
    */
-  virtual const ArRangeBuffer *getCurrentRangeBuffer(void) const
+  virtual const ArRangeBuffer *getCurrentRangeBuffer() const
     { return &myCurrentBuffer; }
   /** @brief Gets the cumulative range buffer
    *  @swigomit See getCumulativeBufferAsVector()
    */
-  virtual const ArRangeBuffer *getCumulativeRangeBuffer(void) const
+  virtual const ArRangeBuffer *getCumulativeRangeBuffer() const
     { return &myCumulativeBuffer; }
   /** @brief Gets the current buffer of readings
    *  @swigomit See getCurrentBufferAsVector()
    */
-  virtual const std::list<ArPoseWithTime *> *getCurrentBuffer(void) const
+  virtual const std::list<ArPoseWithTime *> *getCurrentBuffer() const
     { return myCurrentBuffer.getBuffer(); }
   /** @brief Gets the current buffer of readings
    *  @swigomit See getCumulativeBufferAsVector()
    */
-  virtual const std::list<ArPoseWithTime *> *getCumulativeBuffer(void) const
+  virtual const std::list<ArPoseWithTime *> *getCumulativeBuffer() const
     { return myCumulativeBuffer.getBuffer(); }
 #endif // SWIG
 
   /// Gets the current range buffer
-  virtual ArRangeBuffer *getCurrentRangeBuffer(void)
+  virtual ArRangeBuffer *getCurrentRangeBuffer()
     { return &myCurrentBuffer; }
   /// Gets the cumulative range buffer
-  virtual ArRangeBuffer *getCumulativeRangeBuffer(void) 
+  virtual ArRangeBuffer *getCumulativeRangeBuffer() 
     { return &myCumulativeBuffer; }
   /// Gets the current buffer of readings
-  virtual std::list<ArPoseWithTime *> *getCurrentBuffer(void) 
+  virtual std::list<ArPoseWithTime *> *getCurrentBuffer() 
     { return myCurrentBuffer.getBuffer(); }
   /** @brief Gets the current buffer of readings as a vector
    *  @swignote The return type will be named 
    *   ArPoseWithTimeVector instead of the std::vector template.
    */
-  virtual std::vector<ArPoseWithTime> *getCurrentBufferAsVector(void) 
+  virtual std::vector<ArPoseWithTime> *getCurrentBufferAsVector() 
     { return myCurrentBuffer.getBufferAsVector(); }
   /// Gets the current buffer of readings
-  virtual std::list<ArPoseWithTime *> *getCumulativeBuffer(void) 
+  virtual std::list<ArPoseWithTime *> *getCumulativeBuffer() 
     { return myCumulativeBuffer.getBuffer(); }
   /** @brief Gets the cumulative buffer of readings as a vector
    *  @swignote The return type will be named ArPoseWithTimeVector
    *    instead of the std::vector template.
    */
-  virtual std::vector<ArPoseWithTime> *getCumulativeBufferAsVector(void) 
+  virtual std::vector<ArPoseWithTime> *getCumulativeBufferAsVector() 
     { return myCumulativeBuffer.getBufferAsVector(); }
 
   /// Gets the raw unfiltered readings from the device
@@ -189,11 +189,11 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
       Other kinds of range devices are sufficiently different from lasers that
       any "raw" information provided would usually require very different interpretation.
   **/
-  virtual const std::list<ArSensorReading *> *getRawReadings(void) const
+  virtual const std::list<ArSensorReading *> *getRawReadings() const
     { return myRawReadings; }
 
   ///  Gets the raw unfiltered readings from the device into a vector 
-  AREXPORT virtual std::vector<ArSensorReading> *getRawReadingsAsVector(void);
+  AREXPORT virtual std::vector<ArSensorReading> *getRawReadingsAsVector();
 
   /// Gets the raw unfiltered readings from the device (but pose takens are corrected)
   /** The raw readings are the full set of unfiltered readings from
@@ -209,11 +209,11 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
       @note Only lasers provides this data currently.  Sonar, bumpers,
       etc. do not provide raw readings.
   **/
-  virtual const std::list<ArSensorReading *> *getAdjustedRawReadings(void) const
+  virtual const std::list<ArSensorReading *> *getAdjustedRawReadings() const
     { return myAdjustedRawReadings; }
 
   ///  Gets the raw adjusted readings from the device into a vector 
-  AREXPORT virtual std::vector<ArSensorReading> *getAdjustedRawReadingsAsVector(void);
+  AREXPORT virtual std::vector<ArSensorReading> *getAdjustedRawReadingsAsVector();
 
 
   /// Sets the maximum seconds to keep current readings around
@@ -231,7 +231,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
    around for, if less than 0 then they are not automatically removed
    because of this
   **/
-  int getMaxSecondsToKeepCurrent(void) { return myMaxSecondsToKeepCurrent; }
+  int getMaxSecondsToKeepCurrent() { return myMaxSecondsToKeepCurrent; }
 
   /// Sets the minimum distance between current readings
   /**
@@ -252,7 +252,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
      applied in the addReading call so range devices need to call that
      for this to take effect.
   **/
-  double getMinDistBetweenCurrent(void)
+  double getMinDistBetweenCurrent()
     {
       return myMinDistBetweenCurrent;
     }
@@ -272,7 +272,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
    around for, if less than 0 then they are not automatically removed
    because of this
   **/
-  int getMaxSecondsToKeepCumulative(void) 
+  int getMaxSecondsToKeepCumulative() 
     { return myMaxSecondsToKeepCumulative; }
 
   /// sets the maximum distance cumulative readings can be from current pose
@@ -294,7 +294,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
    current pose they are removed, if this is less than 0 they are not
    removed because of this
   **/
-  double getMaxDistToKeepCumulative(void) { return myMaxDistToKeepCumulative; }
+  double getMaxDistToKeepCumulative() { return myMaxDistToKeepCumulative; }
 
   /// Sets the minimum distance between cumulative readings
   /**
@@ -315,7 +315,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
      applied in the addReading call so range devices need to call that
      for this to take effect.
   **/
-  double getMinDistBetweenCumulative(void)
+  double getMinDistBetweenCumulative()
     {
       return myMinDistBetweenCumulative;
     }
@@ -342,15 +342,15 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
      cumulative readings, this is applied in the addReading call so
      range devices need to call that for this to take effect.
   **/
-  double getMaxInsertDistCumulative(void)
+  double getMaxInsertDistCumulative()
     {
       return myMaxInsertDistCumulative;
     }
 
   /// Clears all the current readings
-  virtual void clearCurrentReadings(void) { myCurrentBuffer.clear(); }
+  virtual void clearCurrentReadings() { myCurrentBuffer.clear(); }
   /// Clears all the cumulative readings
-  virtual void clearCumulativeReadings(void) { myCumulativeBuffer.clear(); }
+  virtual void clearCumulativeReadings() { myCumulativeBuffer.clear(); }
   /// Clears all the cumulative readings older than this number of milliseconds
   virtual void clearCumulativeOlderThan(int milliSeconds) 
     { myCumulativeBuffer.clearOlderThan(milliSeconds); }
@@ -360,7 +360,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
     { myCumulativeBuffer.clearOlderThanSeconds(seconds); }
   
   /// Gets the maximum range for this device
-  virtual unsigned int getMaxRange(void) const { return myMaxRange; }
+  virtual unsigned int getMaxRange() const { return myMaxRange; }
   /// Sets the maximum range for this device
   virtual void setMaxRange(unsigned int maxRange) 
     { myMaxRange = maxRange; }
@@ -371,10 +371,10 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
 				       bool doCumulative = true);
 
   /// Gets data used for visualizing the current buffer (see ArNetworking)
-  virtual ArDrawingData *getCurrentDrawingData(void) 
+  virtual ArDrawingData *getCurrentDrawingData() 
     { return myCurrentDrawingData; }
   /// Gets data used for visualizing the cumulative buffer (see ArNetworking)
-  virtual ArDrawingData *getCumulativeDrawingData(void) 
+  virtual ArDrawingData *getCumulativeDrawingData() 
     { return myCumulativeDrawingData; }
   /// Sets data for visualizing the current buffer (and if we own it)
   AREXPORT virtual void setCurrentDrawingData(ArDrawingData *data, 
@@ -395,7 +395,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
 #ifndef ARIA_WRAPPER
   /// Internal function to filter the readings based on age and distance
   /// @internal
-  AREXPORT void filterCallback(void);
+  AREXPORT void filterCallback();
 #endif
 
 protected:

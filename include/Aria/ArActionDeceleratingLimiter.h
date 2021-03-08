@@ -60,9 +60,9 @@ public:
   /// Destructor
   AREXPORT virtual ~ArActionDeceleratingLimiter();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
   /// Sets the parameters (don't use this if you're using the addToConfig)
@@ -77,14 +77,14 @@ public:
 			      bool useEStop = false,
 			      double maxEmergencyDecel = 0);
   /// Gets if this will control us when going forwards
-  LimiterType getType(void) { return myType; }
+  LimiterType getType() { return myType; }
   /// Sets if this will control us when going forwards
   void setType(LimiterType type) { myType = type; }
   /// Adds to the ArConfig given, in section, with prefix
   AREXPORT void addToConfig(ArConfig *config, const char *section,
 			    const char *prefix = NULL);
   /// Sets if we're using locationDependent range devices or not
-  bool getUseLocationDependentDevices(void) 
+  bool getUseLocationDependentDevices() 
     { return myUseLocationDependentDevices; }
   /// Sets if we're using locationDependent range devices or not
   void setUseLocationDependentDevices(bool useLocationDependentDevices)

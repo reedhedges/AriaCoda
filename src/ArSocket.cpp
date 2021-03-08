@@ -43,7 +43,7 @@ AREXPORT const char *ArSocket::toString(Type t)
 
 } // end method toString
 
-void ArSocket::internalInit(void)
+void ArSocket::internalInit()
 {
   myReadStringMutex.setLogName("ArMutex::myReadStringMutex");
   myWriteStringMutex.setLogName("ArMutex::myWriteStringMutex");
@@ -294,7 +294,7 @@ AREXPORT int ArSocket::writeString(const char *str, ...)
 }
 #endif
 
-void ArSocket::setRawIPString(void)
+void ArSocket::setRawIPString()
 {
   unsigned char *bytes;
   bytes = (unsigned char *)inAddr();
@@ -456,7 +456,7 @@ AREXPORT char *ArSocket::readString(unsigned int msWait)
   return NULL;
 }
 
-AREXPORT void ArSocket::clearPartialReadString(void)
+AREXPORT void ArSocket::clearPartialReadString()
 {
   myReadStringMutex.lock();
   myStringBuf[0] = '\0';
@@ -473,7 +473,7 @@ AREXPORT int ArSocket::comparePartialReadString(const char *partialString)
   return ret;
 }
 
-void ArSocket::doStringEcho(void)
+void ArSocket::doStringEcho()
 {
   size_t to;
 

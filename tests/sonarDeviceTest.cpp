@@ -30,7 +30,7 @@ ArRobot *robot;
 
 ArSonarDevice sonar;
 
-void sonarPrinter(void)
+void sonarPrinter()
 {
   ArSonarDevice *sd;
   
@@ -87,7 +87,7 @@ void sonarPrinter(void)
   fflush(stdout);
 }
 
-int main(void)
+int main()
 {
   std::string str;
   int ret;

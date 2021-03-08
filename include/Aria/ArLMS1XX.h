@@ -48,21 +48,21 @@ public:
   virtual ~ArLMS1XXPacket();
 
   /// Gets the command type 
-  const char *getCommandType(void);
+  const char *getCommandType();
   /// Gets the command name
-  const char *getCommandName(void);
+  const char *getCommandName();
   
   // only call finalizePacket before a send
-  virtual void finalizePacket(void);
-  virtual void resetRead(void);
+  virtual void finalizePacket();
+  virtual void resetRead();
   
   /// Gets the time the packet was received at
-  ArTime getTimeReceived(void);
+  ArTime getTimeReceived();
   /// Sets the time the packet was received at
   void setTimeReceived(ArTime timeReceived);
 
   virtual void duplicatePacket(ArLMS1XXPacket *packet);
-  virtual void empty(void);
+  virtual void empty();
   
   virtual void byteToBuf(ArTypes::Byte val);
   virtual void byte2ToBuf(ArTypes::Byte2 val);
@@ -72,12 +72,12 @@ public:
   virtual void uByte4ToBuf(ArTypes::UByte4 val);
   virtual void strToBuf(const char *str);
 
-  virtual ArTypes::Byte bufToByte(void);
-  virtual ArTypes::Byte2 bufToByte2(void);
-  virtual ArTypes::Byte4 bufToByte4(void);
-  virtual ArTypes::UByte bufToUByte(void);
-  virtual ArTypes::UByte2 bufToUByte2(void);
-  virtual ArTypes::UByte4 bufToUByte4(void);
+  virtual ArTypes::Byte bufToByte();
+  virtual ArTypes::Byte2 bufToByte2();
+  virtual ArTypes::Byte4 bufToByte4();
+  virtual ArTypes::UByte bufToUByte();
+  virtual ArTypes::UByte2 bufToUByte2();
+  virtual ArTypes::UByte4 bufToUByte4();
   virtual void bufToStr(char *buf, int len);
 
   // adds a raw char to the buf
@@ -116,7 +116,7 @@ public:
   /// Sets the device this instance receives packets from
   void setDeviceConnection(ArDeviceConnection *conn);
   /// Gets the device this instance receives packets from
-  ArDeviceConnection *getDeviceConnection(void);
+  ArDeviceConnection *getDeviceConnection();
 
   // PS - added to pass info to this class
   void	setmyInfoLogLevel(ArLog::LogLevel infoLogLevel)
@@ -186,17 +186,17 @@ public:
 
   /// Destructor
   AREXPORT ~ArLMS1XX();
-  AREXPORT virtual bool blockingConnect(void);
+  AREXPORT virtual bool blockingConnect();
 
 	// specific init routine per laser
-  AREXPORT virtual bool lms5xxConnect(void);
-  AREXPORT virtual bool lms1xxConnect(void);
-  AREXPORT virtual bool timConnect(void);
+  AREXPORT virtual bool lms5xxConnect();
+  AREXPORT virtual bool lms1xxConnect();
+  AREXPORT virtual bool timConnect();
 
-  AREXPORT virtual bool asyncConnect(void);
-  AREXPORT virtual bool disconnect(void);
-  AREXPORT virtual bool isConnected(void) { return myIsConnected; }
-  AREXPORT virtual bool isTryingToConnect(void) 
+  AREXPORT virtual bool asyncConnect();
+  AREXPORT virtual bool disconnect();
+  AREXPORT virtual bool isConnected() { return myIsConnected; }
+  AREXPORT virtual bool isTryingToConnect() 
     { 
       if (myStartConnect)
 	return true;
@@ -207,7 +207,7 @@ public:
     }  
 
   /// Logs the information about the sensor
-  AREXPORT void log(void);
+  AREXPORT void log();
 
 
 protected:
@@ -216,9 +216,9 @@ protected:
   AREXPORT virtual void setRobot(ArRobot *robot);
   AREXPORT ArLMS1XXPacket *sendAndRecv(
 	  ArTime timeout, ArLMS1XXPacket *sendPacket, const char *recvName);
-  void sensorInterp(void);
-  void failedToConnect(void);
-  void clear(void);
+  void sensorInterp();
+  void failedToConnect();
+  void clear();
 
   /// @return true if message contents matches checksum, false otherwise.
   bool validateCheckSum(ArLMS1XXPacket *packet);

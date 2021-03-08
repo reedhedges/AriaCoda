@@ -32,7 +32,7 @@ ArRobot *robot;
 FILE *file;
 ArTime lastFiled;
 
-void printer(void)
+void printer()
 {
   printf("\r%.1f, %.2f", robot->getBatteryVoltage(), 
          robot->getIOAnalogVoltage(4));

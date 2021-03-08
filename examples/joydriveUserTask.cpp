@@ -40,10 +40,10 @@ public:
   // the constructor
   Joydrive(ArRobot *robot);
   // the destructor
-  ~Joydrive(void);
+  ~Joydrive();
 
   // the function which'll drive the robot
-  void drive(void);
+  void drive();
 
 protected:
   // the joystick handler
@@ -83,14 +83,14 @@ Joydrive::Joydrive(ArRobot *robot) :
   }
 }
 
-Joydrive::~Joydrive(void)
+Joydrive::~Joydrive()
 {
   // remove the user task from the robot
   if (myRobot != NULL)
     myRobot->remUserTask(&myDriveCB);
 }
 
-void Joydrive::drive(void)
+void Joydrive::drive()
 {
   int trans, rot;
 

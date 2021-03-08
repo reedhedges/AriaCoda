@@ -56,22 +56,22 @@ public:
   AREXPORT ArRobotPacket &operator=(const ArRobotPacket &other);
 
   /// returns true if the checksum matches what it should be
-  AREXPORT bool verifyCheckSum(void);
+  AREXPORT bool verifyCheckSum();
 
   /// returns the ID of the packet 
-  AREXPORT ArTypes::UByte getID(void);
+  AREXPORT ArTypes::UByte getID();
 
   /// Sets the ID of the packet 
   AREXPORT void setID(ArTypes::UByte id);
 
   /// returns the checksum, probably used only internally
-  AREXPORT ArTypes::Byte2 calcCheckSum(void);
+  AREXPORT ArTypes::Byte2 calcCheckSum();
   
   // only call finalizePacket before a send
-  AREXPORT virtual void finalizePacket(void);
+  AREXPORT virtual void finalizePacket();
   
   /// Gets the time the packet was received at
-  AREXPORT ArTime getTimeReceived(void);
+  AREXPORT ArTime getTimeReceived();
   /// Sets the time the packet was received at
   AREXPORT void setTimeReceived(ArTime timeReceived);
 

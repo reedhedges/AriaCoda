@@ -60,7 +60,7 @@ public:
   AREXPORT virtual ~ArSonarDevice();
   /// Grabs the new readings from the robot and adds them to the buffers
   /// (Primarily for internal use.)
-  AREXPORT void processReadings(void);
+  AREXPORT void processReadings();
 
   /// Sets the robot pointer, also attaches its process function to the
   /// robot as a Sensor Interpretation task.
@@ -75,7 +75,7 @@ public:
   AREXPORT void setIgnoreReadingCB(ArRetFunctor1<bool, ArPose> *ignoreReadingCB);
  
   /// Gets the callback which if it returns true will ignore the reading
-  AREXPORT ArRetFunctor1<bool, ArPose> *getIgnoreReadingCB(void)
+  AREXPORT ArRetFunctor1<bool, ArPose> *getIgnoreReadingCB()
     { return myIgnoreReadingCB; }
 
   /** @deprecated

@@ -147,7 +147,7 @@ public:
   // --------------------------------------------------------------------------
 
   /// Returns the type of the map object
-  AREXPORT const char *getType(void) const;
+  AREXPORT const char *getType() const;
 
   /// Returns the "base" (or root) type of the map object
   /**
@@ -158,10 +158,10 @@ public:
    * If the map object type does not end with "WithHeading", then the base 
    * is the same as the type.
   **/
-  AREXPORT const char *getBaseType(void) const;
+  AREXPORT const char *getBaseType() const;
 
   /// Returns the name of the map object (if any)
-  AREXPORT const char *getName(void) const;
+  AREXPORT const char *getName() const;
 
   /// Returns the optional description of the map object
   AREXPORT const char *getDescription() const ;
@@ -172,7 +172,7 @@ public:
    * either the string "ICON" or "ID=<n>".  The ID is used only when auto-numbering
    * has been turned on in the MapInfo.
   **/
-  AREXPORT const char *getIconName(void) const;
+  AREXPORT const char *getIconName() const;
 
   /// Returns the numerical identifier of the object, when auto-numbering is on.
   /**
@@ -198,15 +198,15 @@ public:
    * For points, this is the map object's location; for rectangles, this 
    * specifies the rotation of the rectangle (in getPose().getTh())
   **/
-  AREXPORT ArPose getPose(void) const;
+  AREXPORT ArPose getPose() const;
 
   /// Returns true if the map object has valid "from/to" poses (i.e. is a line or rectangle)
-  AREXPORT bool hasFromTo(void) const;
+  AREXPORT bool hasFromTo() const;
 
   /// Returns the "from" pose for lines and rectangles; valid only if hasFromTo() 
-  AREXPORT ArPose getFromPose(void) const;
+  AREXPORT ArPose getFromPose() const;
   /// Returns the "to" pose for lines and rectangles; valid only if hasFromTo() 
-  AREXPORT ArPose getToPose(void) const;
+  AREXPORT ArPose getToPose() const;
 
   void setPose(ArPose p) { myPose = p; }
   AREXPORT void setFromTo(ArPose from, ArPose to);
@@ -218,7 +218,7 @@ public:
    * on a ForbiddenArea but not a ForbiddenLine.)
    *
   **/
-  AREXPORT double getFromToRotation(void) const;
+  AREXPORT double getFromToRotation() const;
 
   /// Gets a list of fromTo line segments that have been rotated
   /**
@@ -232,7 +232,7 @@ public:
    * changes).  It may not make much difference on a modern processor
    * though (its set up this way for safety).
   **/
-  AREXPORT std::list<ArLineSegment> getFromToSegments(void);
+  AREXPORT std::list<ArLineSegment> getFromToSegments();
 
   /// Gets a line segment that goes from the from to the to
   /**
@@ -245,7 +245,7 @@ public:
    * the copy if the map changes).  It may not make much difference on
    * a modern processor though (its set up this way for safety).
   **/
-  AREXPORT ArLineSegment getFromToSegment(void);
+  AREXPORT ArLineSegment getFromToSegment();
 
   /// Computes the center pose of the map object.
   /**
@@ -253,7 +253,7 @@ public:
    * "to" pose (i.e. lines and rectangles).  For map objects that are poses, 
    * this method simply returns the pose.
   **/
-  AREXPORT ArPose findCenter(void) const;
+  AREXPORT ArPose findCenter() const;
 
   /** Return true if the given point is inside the region of this object,
    * assuming that this object is a region or sector.  False if not.
@@ -318,7 +318,7 @@ public:
   * description attribute).
   * @deprecated 
   **/
-  AREXPORT const char *getFileName(void) const;
+  AREXPORT const char *getFileName() const;
 
 private:
 

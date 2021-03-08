@@ -80,7 +80,7 @@ void testSet(double x1, double y1, double x2, double y2, double initial,
   
 }
 
-int main(void)
+int main()
 {
   ArPose origin;
   ArPose sonar;

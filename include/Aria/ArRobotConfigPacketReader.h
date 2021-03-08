@@ -50,168 +50,168 @@ public:
   /// Destructor
   AREXPORT ~ArRobotConfigPacketReader();
   /// Request a packet.. true if we could, false if onlyOneRequest already done
-  AREXPORT bool requestPacket(void);
+  AREXPORT bool requestPacket();
   /// See if we've requested a packet yet
-  bool hasPacketBeenRequested(void) const { return myPacketRequested; }
+  bool hasPacketBeenRequested() const { return myPacketRequested; }
   /// See if we've gotten the data
-  bool hasPacketArrived(void) const { return myPacketArrived; }
+  bool hasPacketArrived() const { return myPacketArrived; }
   /// Gets a pointer to the packet that we built the config packet from
-  const ArRobotPacket *getRobotPacket(void) const { return &myPacket; } 
+  const ArRobotPacket *getRobotPacket() const { return &myPacket; } 
   /// Log the config
-  AREXPORT void log(void) const;
+  AREXPORT void log() const;
   /// Log the movement part of the config config
-  AREXPORT void logMovement(void) const;
+  AREXPORT void logMovement() const;
   /// Builds a string of the info
-  AREXPORT std::string buildString(void) const;
+  AREXPORT std::string buildString() const;
   /// Builds a string of the movement info
-  AREXPORT std::string buildStringMovement(void) const;
+  AREXPORT std::string buildStringMovement() const;
   /// Gets the type of robot
-  const char *getType(void) const { return myType.c_str(); }
+  const char *getType() const { return myType.c_str(); }
   /// Gets the subtype of robot
-  const char *getSubType(void) const { return mySubType.c_str(); }
+  const char *getSubType() const { return mySubType.c_str(); }
   /// Gets the serial number of the robot
-  const char *getSerialNumber(void) const { return mySerialNumber.c_str(); }
+  const char *getSerialNumber() const { return mySerialNumber.c_str(); }
   /// Gets the absolute maximum rotational velocity in deg/sec (cannot be set above this in firmware or through software)
-  int getRotVelTop(void) const { return myRotVelTop; }
+  int getRotVelTop() const { return myRotVelTop; }
   /// Gets the absolute maximum translational velocity in mm/sec (cannot be set above this in firmware or through software)
-  int getTransVelTop(void) const { return myTransVelTop; }
+  int getTransVelTop() const { return myTransVelTop; }
   /// Gets the absolute maximum rotational acceleration in deg/sec/sec (cannot be set above this in firmware or through software)
-  int getRotAccelTop(void) const { return myRotAccelTop; }
+  int getRotAccelTop() const { return myRotAccelTop; }
   /// Gets the absolute maximum translational acceleration in mm/sec/sec (cannot be set above this in firmware or through software)
-  int getTransAccelTop(void) const { return myTransAccelTop; }
+  int getTransAccelTop() const { return myTransAccelTop; }
   /// Gets the maximum PWM the robot will have (stallval cannot be above this)
-  int getPwmMax(void) const { return myPwmMax; }
+  int getPwmMax() const { return myPwmMax; }
   /// Gets the name of the robot
-  const char *getName(void) const { return myName.c_str(); }
+  const char *getName() const { return myName.c_str(); }
   /// Gets the cycle time in ms of the motor packets
-  int getSipCycleTime(void) const { return mySipCycleTime; }
+  int getSipCycleTime() const { return mySipCycleTime; }
   /// Gets the host baud number, look at the manual for what these mean
-  int getHostBaud(void) const { return myHostBaud; }
+  int getHostBaud() const { return myHostBaud; }
   /// Gets the host baud number, look at the manual for what these mean
-  int getAux1Baud(void) const { return myAux1Baud; }
+  int getAux1Baud() const { return myAux1Baud; }
   /// Gets the gripper value (whether or not the robot has a gripper)
-  bool getHasGripper(void) const { return myHasGripper; }
+  bool getHasGripper() const { return myHasGripper; }
   /// Gets whether or not the robot has front sonar
-  bool getFrontSonar(void) const { return myFrontSonar; }
+  bool getFrontSonar() const { return myFrontSonar; }
   /// Gets whether or not the robot has rear sonar
-  bool getRearSonar(void) const { return myRearSonar; }
+  bool getRearSonar() const { return myRearSonar; }
   /// Gets the low battery beeping indicating voltage times 10
-  int getLowBattery(void) const { return myLowBattery; }
+  int getLowBattery() const { return myLowBattery; }
   /// Gets the revcount
-  int getRevCount(void) const { return myRevCount; }
+  int getRevCount() const { return myRevCount; }
   /// Gets the watchdog (how many ms after command robot stops)
-  int getWatchdog(void) const { return myWatchdog; }
+  int getWatchdog() const { return myWatchdog; }
   /// Returns if the robot is using normal packets or new style packets
-  bool getNormalMPacs(void) const { return myNormalMPacs; }
+  bool getNormalMPacs() const { return myNormalMPacs; }
   /// Returns the stallval (pwms at which robot stalls)
-  int getStallVal(void) const { return myStallVal; }
+  int getStallVal() const { return myStallVal; }
   /// Returns the stallcount (how many 10ms increments robot stops after stall)
-  int getStallCount(void) const { return myStallCount; }
+  int getStallCount() const { return myStallCount; }
   /// Returns the joystick translational velocity
-  int getJoyVel(void) const { return myJoyVel; }
+  int getJoyVel() const { return myJoyVel; }
   /// Returns the joystick rotational velocity
-  int getJoyRotVel(void) const { return myJoyRotVel; }
+  int getJoyRotVel() const { return myJoyRotVel; }
   /// Returns the current maximum rotational velocity (deg/sec) (can be set)
-  int getRotVelMax(void) const { return myRotVelMax; } 
+  int getRotVelMax() const { return myRotVelMax; } 
   /// Returns the current maximum translational velocity (mm/sec) (can be set)
-  int getTransVelMax(void) const { return myTransVelMax; } 
+  int getTransVelMax() const { return myTransVelMax; } 
   /// Returns the rotational acceleration
-  int getRotAccel(void) const { return myRotAccel; }
+  int getRotAccel() const { return myRotAccel; }
   /// Returns the rotational deceleration
-  int getRotDecel(void) const { return myRotDecel; }
+  int getRotDecel() const { return myRotDecel; }
   /// Returns the rotational KP value (look at the manual)
-  int getRotKP(void) const { return myRotKP; }
+  int getRotKP() const { return myRotKP; }
   /// Returns the rotational KV value (look at the manual)
-  int getRotKV(void) const { return myRotKV; }
+  int getRotKV() const { return myRotKV; }
   /// Returns the rotational KI value (look at the manual)
-  int getRotKI(void) const { return myRotKI; }
+  int getRotKI() const { return myRotKI; }
   /// Returns the translational acceleration
-  int getTransAccel(void) const { return myTransAccel; }
+  int getTransAccel() const { return myTransAccel; }
   /// Returns the translational deceleration
-  int getTransDecel(void) const { return myTransDecel; }
+  int getTransDecel() const { return myTransDecel; }
   /// Returns the translational KP value (look at the manual)
-  int getTransKP(void) const { return myTransKP; }
+  int getTransKP() const { return myTransKP; }
   /// Returns the translational KV value (look at the manual)
-  int getTransKV(void) const { return myTransKV; }
+  int getTransKV() const { return myTransKV; }
   /// Returns the translational KI value (look at the manual)
-  int getTransKI(void) const { return myTransKI; }
+  int getTransKI() const { return myTransKI; }
   /// Returns the number of front bumpers
-  int getFrontBumps(void) const { return myFrontBumps; }
+  int getFrontBumps() const { return myFrontBumps; }
   /// Returns the number of rear bumpers
-  int getRearBumps(void) const { return myRearBumps; }
+  int getRearBumps() const { return myRearBumps; }
   /// Returns whether the robot has a charger
-  int getHasCharger(void) const { return myHasCharger; }
+  int getHasCharger() const { return myHasCharger; }
   /// Returns the number of ms the sonar cycle is (default is 40)
-  int getSonarCycle(void) const { return mySonarCycle; }
+  int getSonarCycle() const { return mySonarCycle; }
   /// Returns the baud rate
-  bool getResetBaud(void) const { return myResetBaud; }
+  bool getResetBaud() const { return myResetBaud; }
   /// Returns if the robot has a gyro or not
-  bool getHasGyro(void) const { return myHasGyro; }
+  bool getHasGyro() const { return myHasGyro; }
   /// Returns if the robot has a gyro or not
-  int getGyroType(void) const { return myGyroType; }
+  int getGyroType() const { return myGyroType; }
   /// Returns the DriftFactor value (see the manual)
-  int getDriftFactor(void) const { return myDriftFactor; }
+  int getDriftFactor() const { return myDriftFactor; }
   /// Returns the Aux2 baud number, look at the manual for what these mean
-  int getAux2Baud(void) const { return myAux2Baud; }
+  int getAux2Baud() const { return myAux2Baud; }
   /// Returns the Aux3 baud number, look at the manual for what these mean
-  int getAux3Baud(void) const { return myAux3Baud; }
+  int getAux3Baud() const { return myAux3Baud; }
   /// Returns the Ticks/MM for the robot
-  int getTicksMM(void) const { return myTicksMM; }
+  int getTicksMM() const { return myTicksMM; }
   /// Returns the voltage (x10) that the robot will shut down the computer at
-  int getShutdownVoltage(void) const { return myShutdownVoltage; }
+  int getShutdownVoltage() const { return myShutdownVoltage; }
   /// Gets the firmware version
-  const char *getFirmwareVersion(void) const 
+  const char *getFirmwareVersion() const 
     { return myFirmwareVersion.c_str(); }
   /// Gets the gyro CW value
-  int getGyroCW(void) const { return myGyroCW; }
+  int getGyroCW() const { return myGyroCW; }
   /// Gets the gyro CCW value
-  int getGyroCCW(void) const { return myGyroCCW; }
+  int getGyroCCW() const { return myGyroCCW; }
   /// Gets the kinematics delay
-  int getKinematicsDelay(void) const { return myKinematicsDelay; }
+  int getKinematicsDelay() const { return myKinematicsDelay; }
   /// Gets the absolute maximum lateral velocity in mm/sec (cannot be set above this in firmware or through software)
-  int getLatVelTop(void) const { return myLatVelTop; }
+  int getLatVelTop() const { return myLatVelTop; }
   /// Gets the absolute maximum lateral acceleration in mm/sec/sec (cannot be set above this in firmware or through software)
-  int getLatAccelTop(void) const { return myLatAccelTop; }
+  int getLatAccelTop() const { return myLatAccelTop; }
   /// Returns the current maximum lateral velocity (mm/sec) (can be set)
-  int getLatVelMax(void) const { return myLatVelMax; } 
+  int getLatVelMax() const { return myLatVelMax; } 
   /// Returns the lateral acceleration
-  int getLatAccel(void) const { return myLatAccel; }
+  int getLatAccel() const { return myLatAccel; }
   /// Returns the lateral deceleration
-  int getLatDecel(void) const { return myLatDecel; }
+  int getLatDecel() const { return myLatDecel; }
   /// Gets the powerbot charge threshold
-  int getPowerbotChargeThreshold(void) const 
+  int getPowerbotChargeThreshold() const 
     { return myPowerbotChargeThreshold; }
   /// Gets the port the PDB is on
-  unsigned char getPDBPort(void) const 
+  unsigned char getPDBPort() const 
     { return myPDBPort; }
   /// Gets the port the PDB is on
-  int getGyroRateLimit(void) const 
+  int getGyroRateLimit() const 
     { return myGyroRateLimit; }
   /// Gets the high temperature threshold
-  char getHighTemperatureShutdown(void) const 
+  char getHighTemperatureShutdown() const 
     { return myHighTemperatureShutdown; }
   /// Gets the power bits
-  int getPowerBits(void) const
+  int getPowerBits() const
     { return myPowerBits; }
   /// Gets the battery type 
-  unsigned char getBatteryType(void) const
+  unsigned char getBatteryType() const
     { return myBatteryType; }
   /// Gets the warning state of charge
-  int getStateOfChargeLow(void) const
+  int getStateOfChargeLow() const
     { return myStateOfChargeLow; }
   /// Gets the shutdown state of charge
-  int getStateOfChargeShutdown(void) const
+  int getStateOfChargeShutdown() const
     { return myStateOfChargeShutdown; }
-  const char *getFirmwareBootloaderVersion(void) const 
+  const char *getFirmwareBootloaderVersion() const 
     { return myFirmwareBootloaderVersion.c_str(); }
-  unsigned int getConfigFlags(void) const 
+  unsigned int getConfigFlags() const 
     { return myConfigFlags; }
-  int getGyroFWVersion(void) const 
+  int getGyroFWVersion() const 
     { return myGyroFWVersion; }
   /// internal, packet handler
   AREXPORT bool packetHandler(ArRobotPacket *packet);
   /// internal, connection callback
-  AREXPORT void connected(void);
+  AREXPORT void connected();
 protected:
   // the different parameters from the robot
   std::string myType;

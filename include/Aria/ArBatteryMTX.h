@@ -61,9 +61,9 @@ public:
   AREXPORT virtual ~ArBatteryMTX();
   // Grabs the new readings from the robot and adds them to the buffers
   // (Primarily for internal use.)
-  //AREXPORT void processReadings(void);
+  //AREXPORT void processReadings();
 
-	int getBoardNum(void)
+	int getBoardNum()
 		{ return myBoardNum; }
 
   /// Sets the robot pointer, also attaches its process function to the
@@ -71,26 +71,26 @@ public:
   AREXPORT virtual void setRobot(ArRobot *robot);
 
   /// Very Internal call that gets the packet sender, shouldn't be used
-  ArRobotPacketSender *getPacketSender(void)
+  ArRobotPacketSender *getPacketSender()
     { return mySender; }
   /// Very Internal call that gets the packet sender, shouldn't be used
-  ArRobotPacketReceiver *getPacketReceiver(void)
+  ArRobotPacketReceiver *getPacketReceiver()
     { return myReceiver; }
 
   /// Sets the device this instance receives packets from
   AREXPORT void setDeviceConnection(ArDeviceConnection *conn);
   /// Gets the device this instance receives packets from
-  AREXPORT ArDeviceConnection *getDeviceConnection(void);
+  AREXPORT ArDeviceConnection *getDeviceConnection();
 
-	AREXPORT int getAsyncConnectState(void);
+	AREXPORT int getAsyncConnectState();
 
 	ArRobotPacket getCellPacket()
 	{ return myCellPacket; }
 
   AREXPORT virtual bool blockingConnect(bool sendTracking, bool recvTracking);
-  AREXPORT virtual bool disconnect(void);
-  virtual bool isConnected(void) { return myIsConnected; }
-  virtual bool isTryingToConnect(void) 
+  AREXPORT virtual bool disconnect();
+  virtual bool isConnected() { return myIsConnected; }
+  virtual bool isTryingToConnect() 
     { 
     if (myStartConnect)
 			return true;
@@ -139,68 +139,68 @@ public:
 
 	// basic info
   /// Charge estimate (in percentage, 0-100)
-	double getChargeEstimate(void) const
+	double getChargeEstimate() const
 		{ return myChargeEstimate; }
   /// Current draw (amps, negative is charging)
-	double getCurrentDraw(void) const
+	double getCurrentDraw() const
 		{ return myCurrentDraw; }
   /// volts
-	double getPackVoltage(void) const
+	double getPackVoltage() const
 		{ return myPackVoltage; }
-	int getStatusFlags(void) const
+	int getStatusFlags() const
 		{ return myStatusFlags; }
-	int getErrorFlags(void) const
+	int getErrorFlags() const
 		{ return myErrorFlags; }
 
-  bool onCharger(void) const 
+  bool onCharger() const 
     { return (myStatusFlags & STATUS_ON_CHARGER); }
-  ArRobot::ChargeState getChargeState(void) const
+  ArRobot::ChargeState getChargeState() const
     { return myChargeState; }
-  int getChargeStateAsInt(void) const
+  int getChargeStateAsInt() const
     { return myChargeState; }
 
 	// system info 
-	int getId(void) const
+	int getId() const
 		{ return myId; }
-	int getFirmwareVersion(void) const
+	int getFirmwareVersion() const
 		{ return myFirmwareVersion; }
-	int getSerialNumber(void) const
+	int getSerialNumber() const
 		{ return mySerialNumber; }
-	//int getCurrentTime(void) const
+	//int getCurrentTime() const
 	//	{ return myCurrentTime; }
-	long long getCurrentTime(void) const
+	long long getCurrentTime() const
 		{ return myCurrentTime; }
-	long long getLastChargeTime(void) const
+	long long getLastChargeTime() const
 		{ return myLastChargeTime; }
-	int getChargeRemainingEstimate(void) const
+	int getChargeRemainingEstimate() const
 		{ return myChargeRemainingEstimate; }
-	int getCapacityEstimate(void) const
+	int getCapacityEstimate() const
 		{ return myCapacityEstimate; }
-	double getDelay(void) const
+	double getDelay() const
 		{ return myDelay; }
-	int getCycleCount(void) const
+	int getCycleCount() const
 		{ return myCycleCount; }
-	double getTemperature(void) const
+	double getTemperature() const
 		{ return myTemperature; }
-	double getPaddleVolts(void) const
+	double getPaddleVolts() const
 		{ return myPaddleVolts; }
-	double getVoltage(void) const
+	double getVoltage() const
 		{ return myVoltage; }
-	double getFuseVoltage(void) const
+	double getFuseVoltage() const
 		{ return myFuseVoltage; }
-	double getChargeCurrent(void) const
+	double getChargeCurrent() const
 		{ return myChargeCurrent; }
-	double getDisChargeCurrent(void) const
+	double getDisChargeCurrent() const
 		{ return myDisChargeCurrent; }
-	double getCellImbalance(void) const
+	double getCellImbalance() const
 		{ return myCellImbalance; }
-	double getImbalanceQuality(void) const
+	double getImbalanceQuality() const
 		{ return myImbalanceQuality; }
-	double getReserveChargeValue(void) const
+	double getReserveChargeValue() const
 		{ return myReserveChargeValue; }
 
 	// cell info
-	int getNumCells(void) const
+	int getNumCells() const
 		{ return myNumCells; }
 
 
@@ -249,29 +249,29 @@ public:
 		} }
 
   /// Request a continous stream of packets
-  AREXPORT void requestContinuousSysInfoPackets(void);
+  AREXPORT void requestContinuousSysInfoPackets();
   /// Stop the stream of packets
-  AREXPORT void stopSysInfoPackets(void);
+  AREXPORT void stopSysInfoPackets();
   /// See if we've requested packets
-  AREXPORT bool haveRequestedSysInfoPackets(void);
+  AREXPORT bool haveRequestedSysInfoPackets();
 
   /// Request a continous stream of packets
-  AREXPORT void requestContinuousCellInfoPackets(void);
+  AREXPORT void requestContinuousCellInfoPackets();
   /// Stop the stream of packets
-  AREXPORT void stopCellInfoPackets(void);
+  AREXPORT void stopCellInfoPackets();
   /// See if we've requested packets
-  AREXPORT bool haveRequestedCellInfoPackets(void);
+  AREXPORT bool haveRequestedCellInfoPackets();
 
-  AREXPORT virtual const char *getName(void) const;
+  AREXPORT virtual const char *getName() const;
 
   void	setInfoLogLevel(ArLog::LogLevel infoLogLevel)
   { myInfoLogLevel = infoLogLevel; }
 	
   /// Gets the default port type for the battery
-  const char *getDefaultPortType(void) { return myDefaultPortType.c_str(); }
+  const char *getDefaultPortType() { return myDefaultPortType.c_str(); }
 
   /// Gets the default port type for the battery
-  const char *getDefaultTcpPort(void) { return myDefaultTcpPort.c_str(); }
+  const char *getDefaultTcpPort() { return myDefaultTcpPort.c_str(); }
 
   /// Sets the numter of seconds without a response until connection assumed lost
   virtual void setConnectionTimeoutSeconds(double seconds)
@@ -280,19 +280,19 @@ public:
 		     getName(), seconds);
 	  myTimeoutSeconds = seconds; }
   /// Gets the number of seconds without a response until connection assumed lost
-  virtual double getConnectionTimeoutSeconds(void)
+  virtual double getConnectionTimeoutSeconds()
 	{return myTimeoutSeconds; }
 	/// check for lost connections
-	AREXPORT bool checkLostConnection(void);
+	AREXPORT bool checkLostConnection();
 	/// disconnect 
-	AREXPORT void disconnectOnError(void);
+	AREXPORT void disconnectOnError();
   /// Gets the time data was last receieved
-  ArTime getLastReadingTime(void) { return myLastReading; }
+  ArTime getLastReadingTime() { return myLastReading; }
   /// Gets the number of battery readings received in the last second
-  AREXPORT int getReadingCount(void);
+  AREXPORT int getReadingCount();
   // Function called in sensorInterp to indicate that a
   // reading was received
-  AREXPORT virtual void internalGotReading(void);
+  AREXPORT virtual void internalGotReading();
 
   /// Adds a callback for when disconnection happens because of an error
   void addDisconnectOnErrorCB(ArFunctor *functor, 
@@ -390,16 +390,16 @@ protected:
 	AREXPORT bool getCellInfo();
 	AREXPORT bool getBasicInfo();
 
-  void interpBasicInfo(void);
-  void interpErrors(void);
+  void interpBasicInfo();
+  void interpErrors();
   void checkAndSetCurrentErrors(ErrorFlags errorFlag, const char *errorString);
 
 	// PS - need this because of debug log - battery won't send continuous cell
   ArRobotPacket myCellPacket;
 
-  void sensorInterp(void);
-  void failedToConnect(void);
-  void clear(void);
+  void sensorInterp();
+  void failedToConnect();
+  void clear();
   bool myIsConnected;
   bool myTryingToConnect;
   bool myStartConnect;

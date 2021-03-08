@@ -65,7 +65,7 @@ AREXPORT ArBatteryConnector::ArBatteryConnector (
 	myLogOptionsCB.setName ("ArBatteryConnector");
 	Aria::addLogOptionsCB (&myLogOptionsCB, 80);
 }
-AREXPORT ArBatteryConnector::~ArBatteryConnector (void)
+AREXPORT ArBatteryConnector::~ArBatteryConnector ()
 {
 //  Aria::remLogOptionsCB(&myLogOptionsCB);
 //  Aria::remParseArgsCB(&myParseArgsCB);
@@ -77,7 +77,7 @@ AREXPORT ArBatteryConnector::~ArBatteryConnector (void)
  *
   @return true if the arguments were parsed successfully false if not
  **/
-AREXPORT bool ArBatteryConnector::parseArgs (void)
+AREXPORT bool ArBatteryConnector::parseArgs ()
 {
 	return parseArgs (myParser);
 }
@@ -430,7 +430,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 	battery->setDeviceConnection (batteryData->myConn);
 	return true;
 }
-AREXPORT void ArBatteryConnector::logOptions (void) const
+AREXPORT void ArBatteryConnector::logOptions () const
 {
 	ArLog::log (ArLog::Terse, "Options for ArBatteryConnector:");
   ArLog::log(ArLog::Terse, "-batteryLogPacketsReceived");

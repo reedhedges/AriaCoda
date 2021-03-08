@@ -48,7 +48,7 @@ AREXPORT const double ArActionDesiredChannel::MAX_STRENGTH =
                                                 ArActionDesired::MAX_STRENGTH;
 
 
-AREXPORT void ArActionDesired::log(void) const
+AREXPORT void ArActionDesired::log() const
 {
   // all those maxes and movement parameters
   if (getMaxVelStrength() >= ArActionDesired::MIN_STRENGTH)
@@ -108,7 +108,7 @@ AREXPORT void ArActionDesired::log(void) const
 }
 
 
-AREXPORT bool ArActionDesired::isAnythingDesired(void) const
+AREXPORT bool ArActionDesired::isAnythingDesired() const
 {
   if (getVelStrength() >= ArActionDesired::MIN_STRENGTH ||
       getMaxVelStrength() >= ArActionDesired::MIN_STRENGTH ||

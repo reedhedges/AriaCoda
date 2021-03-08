@@ -185,7 +185,7 @@ AREXPORT void ArLaser::laserSetAbsoluteMaxRange(unsigned int absoluteMaxRange)
    This also calls the reading callbacks.
 **/
 
-void ArLaser::laserProcessReadings(void)
+void ArLaser::laserProcessReadings()
 {
   // if we have no readings... don't do anything
   if (myRawReadings == NULL || myRawReadings->begin() == myRawReadings->end())
@@ -398,7 +398,7 @@ void ArLaser::internalProcessReading(double x, double y,
 
 }
 
-AREXPORT bool ArLaser::laserPullUnsetParamsFromRobot(void)
+AREXPORT bool ArLaser::laserPullUnsetParamsFromRobot()
 {
   if (myRobot == NULL)
   {
@@ -624,7 +624,7 @@ AREXPORT void ArLaser::setDeviceConnection(ArDeviceConnection *conn)
   myConnMutex.unlock();
 }
 
-AREXPORT ArDeviceConnection *ArLaser::getDeviceConnection(void)
+AREXPORT ArDeviceConnection *ArLaser::getDeviceConnection()
 {
   return myConn;
 }
@@ -665,12 +665,12 @@ AREXPORT void ArLaser::setConnectionTimeoutSeconds(double seconds)
    reading time against this value.  If there is a robot then it will
    not start the check until the laser is running and connected.
 **/
-double ArLaser::getConnectionTimeoutSeconds(void)
+double ArLaser::getConnectionTimeoutSeconds()
 {
   return myTimeoutSeconds;
 }
 
-AREXPORT void ArLaser::laserConnect(void)
+AREXPORT void ArLaser::laserConnect()
 {
   // figure out how many readings we can have and set the current
   // buffer size to that
@@ -731,25 +731,25 @@ AREXPORT void ArLaser::laserConnect(void)
   myConnectCBList.invoke();
 }
 
-AREXPORT void ArLaser::laserFailedConnect(void)
+AREXPORT void ArLaser::laserFailedConnect()
 {
   ArLog::log(myInfoLogLevel, "%s: Failed to connect", getName());
   myFailedConnectCBList.invoke();
 }
 
-AREXPORT void ArLaser::laserDisconnectNormally(void)
+AREXPORT void ArLaser::laserDisconnectNormally()
 {
   ArLog::log(myInfoLogLevel, "%s: Disconnected normally", getName());
   myDisconnectNormallyCBList.invoke();
 }
 
-AREXPORT void ArLaser::laserDisconnectOnError(void)
+AREXPORT void ArLaser::laserDisconnectOnError()
 {
   ArLog::log(ArLog::Normal, "%s: Disconnected because of error", getName());
   myDisconnectOnErrorCBList.invoke();
 }
 
-AREXPORT void ArLaser::internalGotReading(void)
+AREXPORT void ArLaser::internalGotReading()
 {
   if (myTimeLastReading != time(NULL)) 
   {
@@ -1370,7 +1370,7 @@ AREXPORT void ArLaser::applyTransform(ArTransform trans,
    getConnectionTimeoutSeconds.  If there is a robot then it will not
    start the check until the laser is running and connected.
 **/
-AREXPORT bool ArLaser::laserCheckLostConnection(void)
+AREXPORT bool ArLaser::laserCheckLostConnection()
 {
 	
   if ((myRobot == NULL || myRobotRunningAndConnected) && 
@@ -1395,7 +1395,7 @@ AREXPORT void ArLaser::copyReadingCount(const ArLaser* laser)
   myReadingCount = laser->myReadingCount;
 }
 
-AREXPORT void ArLaser::useSimpleNamingForAllLasers(void)
+AREXPORT void ArLaser::useSimpleNamingForAllLasers()
 {
   ArLog::log(ArLog::Normal, "ArLaser: Will use simple naming for all lasers");
   ourUseSimpleNaming = true;

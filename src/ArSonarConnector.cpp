@@ -76,7 +76,7 @@ AREXPORT ArSonarConnector::ArSonarConnector (
 	myLogOptionsCB.setName ("ArSonarConnector");
 	Aria::addLogOptionsCB (&myLogOptionsCB, 80);
 }
-AREXPORT ArSonarConnector::~ArSonarConnector (void)
+AREXPORT ArSonarConnector::~ArSonarConnector ()
 {
 //  Aria::remParseArgsCB(&myParseArgsCB);
 //  Aria::remLogOptionsCB(&myLogOptionsCB);
@@ -88,7 +88,7 @@ AREXPORT ArSonarConnector::~ArSonarConnector (void)
  *
   @return true if the arguments were parsed successfully false if not
  **/
-AREXPORT bool ArSonarConnector::parseArgs (void)
+AREXPORT bool ArSonarConnector::parseArgs ()
 {
 	return parseArgs (myParser);
 }
@@ -448,7 +448,7 @@ bool ArSonarConnector::internalConfigureSonar (
 
 	return true;
 }
-AREXPORT void ArSonarConnector::logOptions (void) const
+AREXPORT void ArSonarConnector::logOptions () const
 {
 	ArLog::log (ArLog::Terse, "Options for ArSonarConnector:");
   ArLog::log(ArLog::Terse, "-sonarLogPacketsReceived");

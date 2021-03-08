@@ -176,7 +176,7 @@ public:
   /** Gets the lock warning time (sec)
       @linuxonly
   */
-  static double getLockWarningTime(void)
+  static double getLockWarningTime()
     { return ourLockWarningMS/1000.0; }
   /** Sets the unlock warning time (sec). If it takes more than @a unlockWarningSeconds between the mutex being locked with lock() then unlocked with unlock(), log a warning.
       @linuxonly
@@ -186,7 +186,7 @@ public:
   /** Gets the lock warning time (sec)
       @linuxonly
   */
-  static double getUnlockWarningTime(void)
+  static double getUnlockWarningTime()
     { return ourUnlockWarningMS/1000.0; }
 protected:
   

@@ -29,7 +29,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 /*
   This program just outputs the values from the joystick
 */
-int main(void)
+int main()
 {
   Aria::init();
   ArLog::init(ArLog::StdOut, ArLog::Verbose);

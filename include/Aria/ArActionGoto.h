@@ -66,29 +66,29 @@ public:
   /** Sees if the goal has been achieved. The goal is achieved when
    *  the robot's repordet position is within a certain distance
    *  (given in the constructor or in setCloseDist) from the goal pose. */
-  AREXPORT bool haveAchievedGoal(void);
+  AREXPORT bool haveAchievedGoal();
 
   /** Cancels the goal; this action will stop requesting movement. However,
    *  any currently requested motion (either previously requested by this
    *  action or by another action) will continue to be used. Use an ArActionStop
    *  action (activate it, or set it at a lower priority) to stop the robot.
    */
-  AREXPORT void cancelGoal(void);
+  AREXPORT void cancelGoal();
 
   /// Sets a new goal and sets the action to go there
   AREXPORT void setGoal(ArPose goal);
 
   /// Gets the goal the action has
-  AREXPORT ArPose getGoal(void) { return myGoal; }
+  AREXPORT ArPose getGoal() { return myGoal; }
 
   /// Set the distance which is close enough to the goal (mm);
   AREXPORT void setCloseDist(double closeDist) { myCloseDist = closeDist; }
   /// Gets the distance which is close enough to the goal (mm)
-  AREXPORT double getCloseDist(void) { return myCloseDist; }
+  AREXPORT double getCloseDist() { return myCloseDist; }
   /// Sets the speed the action will travel to the goal at (mm/sec)
   AREXPORT void setSpeed(double speed) { mySpeed = speed; }
   /// Gets the speed the action will travel to the goal at (mm/sec)
-  AREXPORT double getSpeed(void) { return mySpeed; }
+  AREXPORT double getSpeed() { return mySpeed; }
 
   /** Called by the action resover; request movement towards goal if we
    *  have one. 
@@ -97,9 +97,9 @@ public:
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
 
   /** Used by the action resolvel; return current desired action. */
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
 protected:

@@ -88,18 +88,18 @@ public:
   AREXPORT virtual ~ArBasePacket();
 
   /// resets the length for more data to be added
-  AREXPORT virtual void empty(void);
+  AREXPORT virtual void empty();
 
   /// MakeFinals the packet in preparation for sending, must be done
-  AREXPORT virtual void finalizePacket(void) {}
+  AREXPORT virtual void finalizePacket() {}
 
   /// ArLogs the hex and decimal values of each byte of the packet, and possibly extra metadata as well
-  AREXPORT virtual void log(void);
+  AREXPORT virtual void log();
   /// ArLogs the hex value of each byte in the packet 
-  AREXPORT virtual void printHex(void);
+  AREXPORT virtual void printHex();
 
   /// Returns whether the packet is valid, i.e. no error has occurred when reading/writing.
-  AREXPORT virtual bool isValid(void);
+  AREXPORT virtual bool isValid();
 
   /// Resets the valid state of the packet.
   AREXPORT virtual void resetValid();
@@ -143,22 +143,22 @@ public:
   // Utility functions to read differet data types from a bufer. Each read
   // will increment the myReadLength.
   /// Gets a ArTypes::Byte from the buffer
-  AREXPORT virtual ArTypes::Byte bufToByte(void);
+  AREXPORT virtual ArTypes::Byte bufToByte();
   /// Gets a ArTypes::Byte2 from the buffer
-  AREXPORT virtual ArTypes::Byte2 bufToByte2(void);
+  AREXPORT virtual ArTypes::Byte2 bufToByte2();
   /// Gets a ArTypes::Byte4 from the buffer
-  AREXPORT virtual ArTypes::Byte4 bufToByte4(void);
+  AREXPORT virtual ArTypes::Byte4 bufToByte4();
   /// Gets a ArTypes::Byte8 from the buffer
-  AREXPORT virtual ArTypes::Byte8 bufToByte8(void);
+  AREXPORT virtual ArTypes::Byte8 bufToByte8();
 
   /// Gets a ArTypes::UByte from the buffer
-  AREXPORT virtual ArTypes::UByte bufToUByte(void);
+  AREXPORT virtual ArTypes::UByte bufToUByte();
   /// Gets a ArTypes::UByte2 from the buffer
-  AREXPORT virtual ArTypes::UByte2 bufToUByte2(void);
+  AREXPORT virtual ArTypes::UByte2 bufToUByte2();
   /// Gets a ArTypes::UByte4 from the buffer
-  AREXPORT virtual ArTypes::UByte4 bufToUByte4(void);
+  AREXPORT virtual ArTypes::UByte4 bufToUByte4();
   /// Gets a ArTypes::UByte8 from the buffer
-  AREXPORT virtual ArTypes::UByte8 bufToUByte8(void);
+  AREXPORT virtual ArTypes::UByte8 bufToUByte8();
 
   /// Gets a null-terminated string from the buffer
   AREXPORT virtual void bufToStr(char *buf, int maxlen);
@@ -172,34 +172,34 @@ public:
   AREXPORT virtual void bufToData(unsigned char * data, int length);
 
   /// Restart the reading process
-  AREXPORT virtual void resetRead(void);
+  AREXPORT virtual void resetRead();
 
   // Accessors
 
   /// Gets the total length of the packet
-  virtual ArTypes::UByte2 getLength(void) const { return myLength; }
+  virtual ArTypes::UByte2 getLength() const { return myLength; }
   /// Gets the length of the data in the packet
-  AREXPORT virtual ArTypes::UByte2 getDataLength(void) const;
+  AREXPORT virtual ArTypes::UByte2 getDataLength() const;
 
   /// Gets how far into the packet that has been read
-  virtual ArTypes::UByte2 getReadLength(void) const { return myReadLength; }
+  virtual ArTypes::UByte2 getReadLength() const { return myReadLength; }
   /// Gets how far into the data of the packet that has been read
-  virtual ArTypes::UByte2 getDataReadLength(void) const { return myReadLength - myHeaderLength; }
+  virtual ArTypes::UByte2 getDataReadLength() const { return myReadLength - myHeaderLength; }
   /// Gets the length of the header
-  virtual ArTypes::UByte2 getHeaderLength(void) const
+  virtual ArTypes::UByte2 getHeaderLength() const
   { return myHeaderLength; }
   /// Gets the length of the header
-  virtual ArTypes::UByte2 getFooterLength(void) const
+  virtual ArTypes::UByte2 getFooterLength() const
   { return myFooterLength; }
 
   /// Gets the maximum length packet
-  virtual ArTypes::UByte2 getMaxLength(void) const { return myMaxLength; }
+  virtual ArTypes::UByte2 getMaxLength() const { return myMaxLength; }
 
   /// Gets a const pointer to the buffer the packet uses 
-  AREXPORT virtual const char * getBuf(void) const;
+  AREXPORT virtual const char * getBuf() const;
 
   /// Gets a pointer to the buffer the packet uses 
-  AREXPORT virtual char * getBuf(void);
+  AREXPORT virtual char * getBuf();
 
   /// Sets the buffer the packet is using
   AREXPORT virtual void setBuf(char *buf, ArTypes::UByte2 bufferSize);

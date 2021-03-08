@@ -61,12 +61,12 @@ public:
   /// Destructor
   AREXPORT virtual ~ArSimulatedLaser();
 
-  AREXPORT virtual bool blockingConnect(void);
-  AREXPORT virtual bool asyncConnect(void);
-  AREXPORT virtual bool disconnect(void);
-  AREXPORT virtual bool isConnected(void)
+  AREXPORT virtual bool blockingConnect();
+  AREXPORT virtual bool asyncConnect();
+  AREXPORT virtual bool disconnect();
+  AREXPORT virtual bool isConnected()
     { return myIsConnected; }
-  AREXPORT virtual bool isTryingToConnect(void)
+  AREXPORT virtual bool isTryingToConnect()
     { 
       if (myStartConnect)
 	return true;
@@ -78,8 +78,8 @@ public:
 
 protected:
   AREXPORT virtual void * runThread(void *arg);
-  AREXPORT virtual bool laserCheckParams(void);
-  AREXPORT bool finishParams(void);
+  AREXPORT virtual bool laserCheckParams();
+  AREXPORT bool finishParams();
   AREXPORT bool simPacketHandler(ArRobotPacket *packet);
   ArLaser *myLaser;
 

@@ -59,7 +59,7 @@ AREXPORT ArSeekurIMU::~ArSeekurIMU()
   myRobot->remStabilizingCB(&myStabilizingCB);
 }
 
-void ArSeekurIMU::stabilizingCallback(void)
+void ArSeekurIMU::stabilizingCallback()
 {
   //if (myRobot->getOrigRobotConfig() != NULL &&
   //    myRobot->getOrigRobotConfig()->getHasIMU() == 1)

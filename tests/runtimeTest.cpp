@@ -52,7 +52,7 @@ class PeoplebotTest
 {
   public:
     PeoplebotTest(ArRobot *robot, int wanderTime, int restTime, std::string hostname);
-    ~PeoplebotTest(void);
+    ~PeoplebotTest();
 
   private:
     ArRobot *myRobot;
@@ -67,7 +67,7 @@ class PeoplebotTest
 
     ArFunctorC<PeoplebotTest> myPeoplebotTestCB;
     State myState;
-    void userTask(void);
+    void userTask();
     bool timeout(int mSec);
     int myWanderingTimeout;
     int myRestingTimeout;
@@ -105,7 +105,7 @@ myPeoplebotTestCB(this, &PeoplebotTest::userTask)
   myHostname = hostname;
 }
 
-PeoplebotTest::~PeoplebotTest(void)
+PeoplebotTest::~PeoplebotTest()
 {
   if (myRobot != NULL)
     myRobot->remUserTask(&myPeoplebotTestCB);
@@ -130,7 +130,7 @@ bool PeoplebotTest::timeout(int min)
   return (myStateTime.mSecSince() > 60*1000*min);
 }
 
-void PeoplebotTest::userTask(void)
+void PeoplebotTest::userTask()
 {
   switch (myState)
   {

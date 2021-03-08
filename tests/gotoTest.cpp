@@ -33,7 +33,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
   close up and exit.
 */
 
-int main(void)
+int main()
 {
   // the serial connection (robot)
   ArSerialConnection serConn;

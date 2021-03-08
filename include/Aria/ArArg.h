@@ -37,7 +37,7 @@ class ArArgumentBuilder;
 /** 
     This is designed to be easy to add another type to the arguments... 
     All you have to do to do so, is add an enum to the Type enum, add a 
-    newType getNewType(void), add a void setNewType(newType nt), and add
+    newType getNewType(), add a void setNewType(newType nt), and add
     a case statement for the newType to ArArg::print.  You should probably also
     add an @see newType to the documentation for ArArg::getType.
 
@@ -101,11 +101,11 @@ public:
   AREXPORT virtual ~ArArg();
 
   /// Gets the type of the argument
-  AREXPORT Type getType(void) const;
+  AREXPORT Type getType() const;
   /// Gets the name of the argument
-  AREXPORT const char *getName(void) const;
+  AREXPORT const char *getName() const;
   /// Gets the long description of the argument
-  AREXPORT const char *getDescription(void) const;
+  AREXPORT const char *getDescription() const;
   /// Sets the argument value, for int arguments
   AREXPORT bool setInt(int val);
   /// Sets the argument value, for double arguments
@@ -119,37 +119,37 @@ public:
   /// Sets the argument by calling the setFunctor callback
   AREXPORT bool setArgWithFunctor(ArArgumentBuilder *argument);
   /// Gets the argument value, for int arguments
-  AREXPORT int getInt(void) const; 
+  AREXPORT int getInt() const; 
   /// Gets the argument value, for double arguments
-  AREXPORT double getDouble(void) const;
+  AREXPORT double getDouble() const;
   /// Gets the argument value, for bool arguments
-  AREXPORT bool getBool(void) const;
+  AREXPORT bool getBool() const;
   /// Gets the argument value, for pose arguments
-  AREXPORT ArPose getPose(void) const;
+  AREXPORT ArPose getPose() const;
   /// Gets the argument value, for string arguments
-  AREXPORT const char *getString(void) const;
+  AREXPORT const char *getString() const;
   /// Gets the argument value, which is a list of argumentbuilders here
-  AREXPORT const std::list<ArArgumentBuilder *> *getArgsWithFunctor(void) const;
+  AREXPORT const std::list<ArArgumentBuilder *> *getArgsWithFunctor() const;
   /// Logs the type, name, and value of this argument
-  AREXPORT void log(void) const;
+  AREXPORT void log() const;
   /// Gets the minimum int value
-  AREXPORT int getMinInt(void) const;
+  AREXPORT int getMinInt() const;
   /// Gets the maximum int value
-  AREXPORT int getMaxInt(void) const;
+  AREXPORT int getMaxInt() const;
   /// Gets the minimum double value
-  AREXPORT double getMinDouble(void) const;
+  AREXPORT double getMinDouble() const;
   /// Gets the maximum double value
-  AREXPORT double getMaxDouble(void) const;
+  AREXPORT double getMaxDouble() const;
   /// Gets if the config priority is set
-  AREXPORT bool getConfigPrioritySet(void) const;
+  AREXPORT bool getConfigPrioritySet() const;
   /// Gets the priority (only used by ArConfig)
-  AREXPORT ArPriority::Priority getConfigPriority(void) const;
+  AREXPORT ArPriority::Priority getConfigPriority() const;
   /// Sets the priority (only used by ArConfig)
   AREXPORT void setConfigPriority(ArPriority::Priority priority);
 
 private:
   /// Internal helper function
-  AREXPORT void clear(void);
+  AREXPORT void clear();
 
 protected:
 

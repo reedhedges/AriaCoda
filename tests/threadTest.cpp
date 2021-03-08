@@ -31,7 +31,7 @@ class TestThread : public ArASyncTask
 {
 public:
   TestThread(int number, ArMutex &mutex);
-  ~TestThread(void) {}
+  ~TestThread() {}
 
   virtual void * runThread(void *arg);
 

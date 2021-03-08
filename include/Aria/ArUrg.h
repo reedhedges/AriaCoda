@@ -48,11 +48,11 @@ public:
 		 const char *name = "urg");
   /// Destructor
   AREXPORT ~ArUrg();
-  AREXPORT virtual bool blockingConnect(void);
-  AREXPORT virtual bool asyncConnect(void);
-  AREXPORT virtual bool disconnect(void);
-  AREXPORT virtual bool isConnected(void) { return myIsConnected; }
-  AREXPORT virtual bool isTryingToConnect(void) 
+  AREXPORT virtual bool blockingConnect();
+  AREXPORT virtual bool asyncConnect();
+  AREXPORT virtual bool disconnect();
+  AREXPORT virtual bool isConnected() { return myIsConnected; }
+  AREXPORT virtual bool isTryingToConnect() 
     { 
       if (myStartConnect)
 	return true;
@@ -63,7 +63,7 @@ public:
     }  
 
   /// Logs the information about the sensor
-  AREXPORT void log(void);
+  AREXPORT void log();
 protected:
   /// Sets the parameters that control what data you get from the urg
   AREXPORT bool setParams(
@@ -84,12 +84,12 @@ protected:
 	  const char *command, const char *commandDesc, 
 	  char *status, unsigned int size, unsigned int msWait);
   
-  void sensorInterp(void);
+  void sensorInterp();
   AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT virtual bool laserCheckParams(void);
+  AREXPORT virtual bool laserCheckParams();
   AREXPORT virtual void laserSetName(const char *name);
   
-  void failedToConnect(void);
+  void failedToConnect();
   ArMutex myReadingMutex;
   ArMutex myDataMutex;
 
@@ -103,11 +103,11 @@ protected:
   char myRequestString[1024];
   double myClusterMiddleAngle;
 
-  bool internalConnect(void);
+  bool internalConnect();
 
-  bool internalGetReading(void);
+  bool internalGetReading();
 
-  void clear(void);
+  void clear();
   bool myIsConnected;
   bool myTryingToConnect;
   bool myStartConnect;

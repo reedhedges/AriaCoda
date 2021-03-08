@@ -94,12 +94,12 @@ public:
   AREXPORT virtual ~ArSyncTask();
 
   /// Runs the node, which runs all children of this node as well
-  AREXPORT void run(void);
+  AREXPORT void run();
   /// Prints the node, which prints all the children of this node as well
   AREXPORT void log(int depth = 0);
 
   /// Gets the state of the task
-  AREXPORT ArTaskState::State getState(void);
+  AREXPORT ArTaskState::State getState();
   /// Sets the state of the task
   AREXPORT void setState(ArTaskState::State state);
     
@@ -114,7 +114,7 @@ public:
   AREXPORT ArSyncTask *find(ArFunctor *functor);
 
   /// Returns what this is running, if anything (recurses)
-  AREXPORT ArSyncTask *getRunning(void);
+  AREXPORT ArSyncTask *getRunning();
 
   /// Adds a new branch to this instance
   AREXPORT void addNewBranch(const char *nameOfNew, int position, 
@@ -125,28 +125,28 @@ public:
 			   ArTaskState::State *state = NULL);
 
   /// Gets the name of this task
-  AREXPORT std::string getName(void);
+  AREXPORT std::string getName();
 
   /// Gets the functor this instance runs, if there is one
-  AREXPORT ArFunctor *getFunctor(void);
+  AREXPORT ArFunctor *getFunctor();
 
   /// Sets the functor called to get the cycle warning time (should only be used from the robot)
   AREXPORT void setWarningTimeCB(
 	  ArRetFunctor<unsigned int> *functor);
   /// Gets the functor called to get the cycle warning time (should only be used from the robot)
-  AREXPORT ArRetFunctor<unsigned int> *getWarningTimeCB(void);
+  AREXPORT ArRetFunctor<unsigned int> *getWarningTimeCB();
 
   /// Sets the functor called to check if there should be a time warning this cycle (should only be used from the robot)
   AREXPORT void setNoTimeWarningCB(
 	  ArRetFunctor<bool> *functor);
   /// Gets the functor called to check if there should be a time warning this cycle (should only be used from the robot)
-  AREXPORT ArRetFunctor<bool> *getNoTimeWarningCB(void);
+  AREXPORT ArRetFunctor<bool> *getNoTimeWarningCB();
   
   // removes this task from the map
   AREXPORT void remove(ArSyncTask * proc);
 
   // returns whether this node is deleting or not
-  AREXPORT bool isDeleting(void);
+  AREXPORT bool isDeleting();
 protected:
   std::multimap<int, ArSyncTask *> myMultiMap;
   ArTaskState::State *myStatePointer;

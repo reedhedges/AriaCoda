@@ -69,7 +69,7 @@ AREXPORT ArSerialConnection::~ArSerialConnection()
     close();
 }
 
-void ArSerialConnection::buildStrMap(void)
+void ArSerialConnection::buildStrMap()
 {
   myStrMap[OPEN_COULD_NOT_OPEN_PORT] = "Could not open serial port.";
   myStrMap[OPEN_COULD_NOT_SET_UP_PORT] = "Could not set up serial port.";
@@ -83,7 +83,7 @@ AREXPORT const char * ArSerialConnection::getOpenMessage(int messageNumber)
   return myStrMap[messageNumber].c_str();
 }
 
-AREXPORT int ArSerialConnection::internalOpen(void)
+AREXPORT int ArSerialConnection::internalOpen()
 {
   struct termios tio;
 
@@ -248,7 +248,7 @@ AREXPORT int ArSerialConnection::internalOpen(void)
   return 0;
 }
 
-AREXPORT bool ArSerialConnection::openSimple(void)
+AREXPORT bool ArSerialConnection::openSimple()
 {
   if (internalOpen() == 0)
     return true;
@@ -273,7 +273,7 @@ AREXPORT void ArSerialConnection::setPort(const char *port)
 /**
    @return The serial port to connect to
 **/
-AREXPORT const char * ArSerialConnection::getPort(void)
+AREXPORT const char * ArSerialConnection::getPort()
 {
   return myPortName.c_str();
 }
@@ -290,7 +290,7 @@ AREXPORT int ArSerialConnection::open(const char *port)
   return internalOpen();
 }
 
-AREXPORT bool ArSerialConnection::close(void)
+AREXPORT bool ArSerialConnection::close()
 {
   int ret;
 
@@ -360,7 +360,7 @@ AREXPORT bool ArSerialConnection::setBaud(int rate)
   return true;
 }
 
-AREXPORT void ArSerialConnection::startTimeStamping(void)
+AREXPORT void ArSerialConnection::startTimeStamping()
 {
   long baud;
   baud = myBaudRate;
@@ -374,7 +374,7 @@ AREXPORT void ArSerialConnection::startTimeStamping(void)
    @return the current baud rate of the connection
 */
 
-AREXPORT int ArSerialConnection::getBaud(void)
+AREXPORT int ArSerialConnection::getBaud()
 {
   return myBaudRate;
 }
@@ -466,7 +466,7 @@ AREXPORT bool ArSerialConnection::setHardwareControl(bool hardwareControl)
 /**
    @return true if hardware control of lines is enabled, false otherwise
 */
-AREXPORT bool ArSerialConnection::getHardwareControl(void)
+AREXPORT bool ArSerialConnection::getHardwareControl()
 {
   return myHardwareControl;
 }
@@ -563,7 +563,7 @@ AREXPORT int ArSerialConnection::read(const char *data, unsigned int size,
   return -1;
 }
 
-AREXPORT int ArSerialConnection::getStatus(void)
+AREXPORT int ArSerialConnection::getStatus()
 {
   return myStatus;
 }
@@ -595,13 +595,13 @@ AREXPORT ArTime ArSerialConnection::getTimeRead(int index)
   return ret;
 }
 
-AREXPORT bool ArSerialConnection::isTimeStamping(void)
+AREXPORT bool ArSerialConnection::isTimeStamping()
 {
   return myTakingTimeStamps;
 }
 
 
-AREXPORT bool ArSerialConnection::getCTS(void)
+AREXPORT bool ArSerialConnection::getCTS()
 {
   unsigned int value;
   if (ioctl(myPort, TIOCMGET, &value) == 0)
@@ -615,7 +615,7 @@ AREXPORT bool ArSerialConnection::getCTS(void)
   }
 }
 
-AREXPORT bool ArSerialConnection::getDSR(void)
+AREXPORT bool ArSerialConnection::getDSR()
 {
   unsigned int value;
   if (ioctl(myPort, TIOCMGET, &value) == 0)
@@ -629,7 +629,7 @@ AREXPORT bool ArSerialConnection::getDSR(void)
   }
 }
 
-AREXPORT bool ArSerialConnection::getDCD(void)
+AREXPORT bool ArSerialConnection::getDCD()
 {
   unsigned int value;
   if (ioctl(myPort, TIOCMGET, &value) == 0)
@@ -643,7 +643,7 @@ AREXPORT bool ArSerialConnection::getDCD(void)
   }
 }
 
-AREXPORT bool ArSerialConnection::getRing(void)
+AREXPORT bool ArSerialConnection::getRing()
 {
   unsigned int value;
   if (ioctl(myPort, TIOCMGET, &value) == 0)

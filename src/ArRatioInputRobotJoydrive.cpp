@@ -68,7 +68,7 @@ AREXPORT ArRatioInputRobotJoydrive::~ArRatioInputRobotJoydrive()
 
 }
 
-AREXPORT void ArRatioInputRobotJoydrive::fireCallback(void)
+AREXPORT void ArRatioInputRobotJoydrive::fireCallback()
 {
   bool printing = false;
 

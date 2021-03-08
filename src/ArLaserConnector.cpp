@@ -83,7 +83,7 @@ AREXPORT ArLaserConnector::ArLaserConnector(
   Aria::addLogOptionsCB(&myLogOptionsCB, 80);
 }
 
-AREXPORT ArLaserConnector::~ArLaserConnector(void)
+AREXPORT ArLaserConnector::~ArLaserConnector()
 {
 
 }
@@ -97,7 +97,7 @@ AREXPORT ArLaserConnector::~ArLaserConnector(void)
   @return true if the arguments were parsed successfully false if not
  **/
 
-AREXPORT bool ArLaserConnector::parseArgs(void)
+AREXPORT bool ArLaserConnector::parseArgs()
 {
   return parseArgs(myParser);
 }
@@ -754,7 +754,7 @@ bool ArLaserConnector::internalConfigureLaser(
   return true;
 }
 
-AREXPORT void ArLaserConnector::logOptions(void) const
+AREXPORT void ArLaserConnector::logOptions() const
 {
   ArLog::log(ArLog::Terse, "Options for ArLaserConnector:");
   ArLog::log(ArLog::Terse, "\nOptions shown are for currently set up lasers.  Activate lasers with -laserType<N> option");

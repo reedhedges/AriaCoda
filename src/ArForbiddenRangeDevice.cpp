@@ -67,7 +67,7 @@ AREXPORT ArForbiddenRangeDevice::~ArForbiddenRangeDevice()
 
 }
 
-AREXPORT void ArForbiddenRangeDevice::processMap(void)
+AREXPORT void ArForbiddenRangeDevice::processMap()
 {
   std::list<ArMapObject *>::const_iterator it;
   ArMapObject *obj;
@@ -110,7 +110,7 @@ AREXPORT void ArForbiddenRangeDevice::processMap(void)
   myDataMutex.unlock();
 }
 
-AREXPORT void ArForbiddenRangeDevice::processReadings(void)
+AREXPORT void ArForbiddenRangeDevice::processReadings()
 {
   ArPose intersection;
   std::list<ArLineSegment *>::iterator it;
@@ -205,14 +205,14 @@ AREXPORT void ArForbiddenRangeDevice::setRobot(ArRobot *robot)
   myMap->unlock();
 }
 
-AREXPORT void ArForbiddenRangeDevice::enable(void)
+AREXPORT void ArForbiddenRangeDevice::enable()
 {
   myDataMutex.lock();
   myIsEnabled = true;
   myDataMutex.unlock();
 }
 
-AREXPORT void ArForbiddenRangeDevice::disable(void)
+AREXPORT void ArForbiddenRangeDevice::disable()
 {
   myDataMutex.lock();
   myIsEnabled = false;

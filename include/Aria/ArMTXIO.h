@@ -77,16 +77,16 @@ public:
   /// Constructor
   AREXPORT ArMTXIO(const char * dev = "/dev/mtx");
   /// Destructor
-  AREXPORT virtual ~ArMTXIO(void);
+  AREXPORT virtual ~ArMTXIO();
 
   /// tries to close the device.  Returns false if operation failed
-  AREXPORT bool closeIO(void);
+  AREXPORT bool closeIO();
 
   /// returns true if the device is opened and operational
-  bool isEnabled(void) { return myEnabled; }
+  bool isEnabled() { return myEnabled; }
 
   /// returns true if analog values are supported
-  AREXPORT bool isAnalogSupported(void) { return myAnalogEnabled; }
+  AREXPORT bool isAnalogSupported() { return myAnalogEnabled; }
 
   /// for debugging purposes, just gets a raw register value
   AREXPORT bool getRegValue(unsigned short reg, unsigned char *val);
@@ -159,10 +159,10 @@ public:
 
   /// Lock global (shared) mutex for all ArMTXIO instances.
   /// This allows multiple access to MTX IO (through multiple ArMTXIO objects).
-  int lock(void){ return(ourMutex.lock()); }
+  int lock(){ return(ourMutex.lock()); }
   /// Unlock global (shared) mutex for all ArMTXIO instances.
   /// This allows multiple access to MTX IO (through multiple ArMTXIO objects).
-  int unlock(void){ return(ourMutex.unlock()); }
+  int unlock(){ return(ourMutex.unlock()); }
 
   /// Try to lock without blocking (see ArMutex::tryLock())
   int tryLock() {return(ourMutex.tryLock());}
@@ -201,7 +201,7 @@ public:
   AREXPORT bool getLPCTimeUSec(ArTypes::UByte4 *timeUSec);
 
   /// @internal
-  AREXPORT ArRetFunctor1<bool, ArTypes::UByte4 *> *getLPCTimeUSecCB(void)
+  AREXPORT ArRetFunctor1<bool, ArTypes::UByte4 *> *getLPCTimeUSecCB()
     { return &myLPCTimeUSecCB; }
 
   /// gets/sets the Semaphore Registers

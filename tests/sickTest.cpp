@@ -28,7 +28,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 ArSick *sick;
 
-void failedConnect(void)
+void failedConnect()
 {
   printf("Failed connect\n");
   system("echo 'Failed' >> results");

@@ -90,7 +90,7 @@ public:
 	  ArRetFunctor1<bool, const char *> *turnOnPowerOutputCB = NULL,
 	  ArRetFunctor1<bool, const char *> *turnOffPowerOutputCB = NULL);
   /// Destructor
-  AREXPORT ~ArLaserConnector(void);
+  AREXPORT ~ArLaserConnector();
   /// Connects all the lasers the robot has that should be auto connected
   AREXPORT bool connectLasers(bool continueOnFailedConnect = false,
 			      bool addConnectedLasersToRobot = true,
@@ -113,11 +113,11 @@ public:
 				    int laserNumber = 1,
 				    bool takeOwnershipOfPlaceholder = false);
   /// Function to parse the arguments given in the constructor
-  AREXPORT bool parseArgs(void);
+  AREXPORT bool parseArgs();
   /// Function to parse the arguments given in an arbitrary parser
   AREXPORT bool parseArgs(ArArgumentParser *parser);
   /// Log the command-line options available to the user
-  AREXPORT void logOptions(void) const;
+  AREXPORT void logOptions() const;
   /// Internal function to get the laser (only useful between parseArgs and connectLasers)
   AREXPORT ArLaser *getLaser(int laserNumber);
 

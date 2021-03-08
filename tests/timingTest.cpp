@@ -31,7 +31,7 @@ int loopTime;
 
 
 
-void loopTester(void)
+void loopTester()
 {
   printf("%6ld ms since last loop. ms longer than desired:  %6ld.\n",
 	 lastLoopTime.mSecSince(), 
@@ -40,7 +40,7 @@ void loopTester(void)
 
 }
 
-int main(void)
+int main()
 {
   ArRobot robot;
   ArTcpConnection conn;

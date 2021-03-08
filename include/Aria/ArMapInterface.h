@@ -518,7 +518,7 @@ public :
     * This method is not thread-safe.   
     * @return a list of pointers to all of the ArMapObject's in the map
    **/
-   AREXPORT virtual std::list<ArMapObject *> *getMapObjects(void) = 0;
+   AREXPORT virtual std::list<ArMapObject *> *getMapObjects() = 0;
  
    /// Sets the map objects (copies those passed in)
    /**
@@ -653,7 +653,7 @@ public :
    * This method is equivalent to getInfo(MAP_INFO_NAME).
    * @see getInfo
   **/
-  AREXPORT virtual std::list<ArArgumentBuilder *> *getMapInfo(void) = 0;
+  AREXPORT virtual std::list<ArArgumentBuilder *> *getMapInfo() = 0;
 
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -917,7 +917,7 @@ public:
   AREXPORT ArMapInterface() {}
 
   /// Destructor
-  AREXPORT virtual ~ArMapInterface(void) {}
+  AREXPORT virtual ~ArMapInterface() {}
 
 
   /// Clears the map, removing all info, objects and data points and lines.
@@ -1012,7 +1012,7 @@ public:
    * @see addMapChangedCB
    * @see addPreMapChangedCB
   **/
-  AREXPORT virtual void mapChanged(void) = 0;
+  AREXPORT virtual void mapChanged() = 0;
 
   AREXPORT virtual void mapChanged(bool invokePathPlanningCB,
                                    bool invokeLocalizationCB) = 0;
@@ -1212,7 +1212,7 @@ public:
   AREXPORT virtual void setMapChangedLogLevel(ArLog::LogLevel level) = 0; 
 
   /// Returns the level at which information about the map changed callbacks is logged
-  AREXPORT virtual ArLog::LogLevel getMapChangedLogLevel(void) = 0; 
+  AREXPORT virtual ArLog::LogLevel getMapChangedLogLevel() = 0; 
 
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1384,12 +1384,12 @@ public:
 
 
   /// Gets the base directory
-  AREXPORT virtual const char *getBaseDirectory(void) const = 0;
+  AREXPORT virtual const char *getBaseDirectory() const = 0;
   /// Sets the base directory
   AREXPORT virtual void setBaseDirectory(const char *baseDirectory) = 0;
 
   /// Gets the temp directory
-  AREXPORT virtual const char *getTempDirectory(void) const = 0;
+  AREXPORT virtual const char *getTempDirectory() const = 0;
   /// Sets the temp directory
   AREXPORT virtual void setTempDirectory(const char *tempDirectory) = 0;
 
@@ -1398,7 +1398,7 @@ public:
  	AREXPORT virtual std::string createRealFileName(const char *fileName) = 0;
 
   /// Gets the fileName that was loaded
-  AREXPORT virtual const char *getFileName(void) const = 0;
+  AREXPORT virtual const char *getFileName() const = 0;
 
   /// Sets the name of the source and the file from which the map was loaded.
   /**
@@ -1437,7 +1437,7 @@ public:
    * This method is primarily applicable to the active Aria map that is 
    * associated with the robot configuration. 
   **/
-  virtual bool getIgnoreEmptyFileName(void) = 0;
+  virtual bool getIgnoreEmptyFileName() = 0;
   /// Sets whether we ignore case or not
   /**
    * This method is primarily applicable to the active Aria map that is 
@@ -1449,7 +1449,7 @@ public:
    * This method is primarily applicable to the active Aria map that is 
    * associated with the robot configuration. 
   **/
-  virtual bool getIgnoreCase(void) = 0;
+  virtual bool getIgnoreCase() = 0;
 
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -1585,7 +1585,7 @@ public:
   /// Parses a map line
   AREXPORT virtual bool parseLine(char *line) = 0;
   /// Says that the parsing by lines is done and to use the parsed data
-  AREXPORT virtual void parsingComplete(void) = 0;
+  AREXPORT virtual void parsingComplete() = 0;
 
   // When loading a map, returns whether all header, objects, and lines have completed loading.
   /**

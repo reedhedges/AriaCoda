@@ -26,7 +26,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 */
 #include "Aria/Aria.h"
 
-ArPose fn1(void)
+ArPose fn1()
 {
   static ArPose pose;
   pose.setX(pose.getX() + 1);
@@ -40,7 +40,7 @@ void fn2(ArPose pose)
   pose.log();
 }
 
-int main(void)
+int main()
 {
   printf("Entering 100 iterations of incrementing pose X and Y and decrementing Theta...");
   for (int i = 0; i < 100; i++)

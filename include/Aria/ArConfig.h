@@ -234,7 +234,7 @@ public:
      @return true if the config parsed was good (parseFile will return
      true) false if the config parsed wasn't (parseFile will return false)
    **/
-  AREXPORT virtual bool processFile(void) { return true; }
+  AREXPORT virtual bool processFile() { return true; }
   /// Adds a callback to be invoked when the configuration is loaded or
   /// reloaded.
   AREXPORT void addProcessFileCB(ArRetFunctor<bool> *functor, 
@@ -287,23 +287,23 @@ public:
 			     size_t errorBufferLen = 0);
 
   /// Gets the restart level needed
-  AREXPORT ArConfigArg::RestartLevel getRestartLevelNeeded(void) const;
+  AREXPORT ArConfigArg::RestartLevel getRestartLevelNeeded() const;
 
   /// Gets the restart level needed
-  AREXPORT void resetRestartLevelNeeded(void);
+  AREXPORT void resetRestartLevelNeeded();
 
   /// Get the base directory
-  AREXPORT const char *getBaseDirectory(void) const;
+  AREXPORT const char *getBaseDirectory() const;
   /// Set the base directory
   AREXPORT void setBaseDirectory(const char *baseDirectory);
   /// Get the file name we loaded
-  AREXPORT const char *getFileName(void) const;
+  AREXPORT const char *getFileName() const;
 
   /// Set whether we have blanks between the params or not
   AREXPORT void setNoBlanksBetweenParams(bool noBlanksBetweenParams);
 
   /// Get whether we have blanks between the params or not
-  AREXPORT bool getNoBlanksBetweenParams(void);
+  AREXPORT bool getNoBlanksBetweenParams();
 
   /// Use an argument parser to change the config
   AREXPORT bool parseArgumentParser(ArArgumentParser *parser,
@@ -322,7 +322,7 @@ public:
   AREXPORT std::list<std::string> getSectionNames() const;
 
   /// Get the sections themselves (use only if you know what to do)
-  AREXPORT std::list<ArConfigSection *> *getSections(void);
+  AREXPORT std::list<ArConfigSection *> *getSections();
 
 
 
@@ -334,19 +334,19 @@ public:
   AREXPORT void setProcessFileCallbacksLogLevel(ArLog::LogLevel level) 
     {  myProcessFileCallbacksLogLevel = level; }
   /// Get the log level used when loading or reloading the configuration
-  AREXPORT ArLog::LogLevel getProcessFileCallbacksLogLevel(void)
+  AREXPORT ArLog::LogLevel getProcessFileCallbacksLogLevel()
     {  return myProcessFileCallbacksLogLevel; }
 
   /// Sets whether we save unknown items (if we don't save 'em we ignore 'em)
   AREXPORT void setSaveUnknown(bool saveUnknown) 
     { mySaveUnknown = saveUnknown; }
   /// Gets whether we save unknowns (if we don't save 'em we ignore 'em)
-  AREXPORT bool getSaveUnknown(void) { return mySaveUnknown; }
+  AREXPORT bool getSaveUnknown() { return mySaveUnknown; }
 
   /// Clears out all the section information
-  AREXPORT void clearSections(void);
+  AREXPORT void clearSections();
   /// Clears out all the section information and the processFileCBs
-  AREXPORT void clearAll(void);
+  AREXPORT void clearAll();
 
   /// adds a flag to a section
   AREXPORT bool addSectionFlags(const char *sectionName, 
@@ -356,11 +356,11 @@ public:
 			       const char *flag);
 
   /// calls clearValueSet on the whole config (internal for default configs)
-  AREXPORT void clearAllValueSet(void);
+  AREXPORT void clearAllValueSet();
   /// Removes all unset values from the config (internal for default configs)
-  AREXPORT void removeAllUnsetValues(void);
+  AREXPORT void removeAllUnsetValues();
   /// Removes all values from sections in which no value has been set (internal)
-  AREXPORT void removeAllUnsetSections(void);
+  AREXPORT void removeAllUnsetSections();
 
   /// Logs the config
   AREXPORT void log(bool isSummary = true,
@@ -455,7 +455,7 @@ protected:
       else 
         return false; 
     }
-    const char *getName(void) 
+    const char *getName() 
     { 
       if (myCallbackWithError != NULL)
         return myCallbackWithError->getName();
@@ -470,8 +470,8 @@ protected:
     ArRetFunctor<bool> *myCallback;
   };
 
-  void addParserHandlers(void);
-  void remParserHandlers(void);
+  void addParserHandlers();
+  void remParserHandlers();
 
   /// Optional name of the robot with which the config is associated.
   std::string myRobotName;
@@ -565,18 +565,18 @@ public:
   AREXPORT virtual void copyAndDetach(const ArConfigSection &section);
 
   /** @return The name of this section */
-  const char *getName(void) const { return myName.c_str(); }
+  const char *getName() const { return myName.c_str(); }
 
   /** @return A comment describing this section */
-  const char *getComment(void) const { return myComment.c_str(); }
+  const char *getComment() const { return myComment.c_str(); }
 
   /// Returns the name of the category that contains this section.
   AREXPORT const char *getCategoryName() const;
 
-  const char *getFlags(void) const { return myFlags->getFullString(); }
+  const char *getFlags() const { return myFlags->getFullString(); }
   AREXPORT bool hasFlag(const char *flag) const;
   
-  std::list<ArConfigArg> *getParams(void) { return &myParams; }
+  std::list<ArConfigArg> *getParams() { return &myParams; }
   
   AREXPORT void setName(const char *name);
 

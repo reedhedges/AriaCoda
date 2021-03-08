@@ -1334,7 +1334,7 @@ AREXPORT void ArMapChangedHelper::setMapChangedLogLevel(ArLog::LogLevel level)
 } // end method setMapChangedLogLevel
 
 
-AREXPORT ArLog::LogLevel ArMapChangedHelper::getMapChangedLogLevel(void)
+AREXPORT ArLog::LogLevel ArMapChangedHelper::getMapChangedLogLevel()
 {
   return myMapChangedLogLevel;
 

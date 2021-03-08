@@ -120,7 +120,7 @@ public:
   AREXPORT static void delHandlerCB(ArFunctor1<int> *func);
 
   /// Removes all the handlers
-  AREXPORT static void delAllHandlerCBs(void);
+  AREXPORT static void delAllHandlerCBs();
 
   /// Get a pointer to the single ArSignalHandler instance
   AREXPORT static ArSignalHandler * getHandler();
@@ -141,7 +141,7 @@ public:
 
   AREXPORT static void signalCB(int sig);
 
-  AREXPORT static void logThread(void);
+  AREXPORT static void logThread();
 protected:
 
   ArSignalHandler();

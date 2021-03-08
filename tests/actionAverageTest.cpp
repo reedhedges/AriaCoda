@@ -34,7 +34,7 @@ void addAction(ArAction *action, int priority)
   Actions.insert(std::pair<int, ArAction *>(priority, action));
 }
 
-int main(void)
+int main()
 {
   ArActionDesired *des;
 

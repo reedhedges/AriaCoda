@@ -231,7 +231,7 @@ AREXPORT int ArInterpolation::getPose(
   
 }
 
-AREXPORT size_t ArInterpolation::getNumberOfReadings(void) const
+AREXPORT size_t ArInterpolation::getNumberOfReadings() const
 {
   return mySize;
 }
@@ -248,7 +248,7 @@ AREXPORT void ArInterpolation::setNumberOfReadings(size_t numberOfReadings)
   myDataMutex.unlock();
 }
 
-AREXPORT void ArInterpolation::reset(void)
+AREXPORT void ArInterpolation::reset()
 {
   myDataMutex.lock();
   while (myTimes.size() > 0)
@@ -269,7 +269,7 @@ AREXPORT void ArInterpolation::setName(const char *name)
   myDataMutex.unlock();
 }
 
-AREXPORT const char * ArInterpolation::getName(void)
+AREXPORT const char * ArInterpolation::getName()
 {
   return myName.c_str();
 }
@@ -281,7 +281,7 @@ AREXPORT void ArInterpolation::setAllowedMSForPrediction(int ms)
   myDataMutex.unlock();
 }
 
-AREXPORT int ArInterpolation::getAllowedMSForPrediction(void)
+AREXPORT int ArInterpolation::getAllowedMSForPrediction()
 {
   int ret;
   myDataMutex.lock();
@@ -297,7 +297,7 @@ AREXPORT void ArInterpolation::setAllowedPercentageForPrediction(int percentage)
   myDataMutex.unlock();
 }
 
-AREXPORT int ArInterpolation::getAllowedPercentageForPrediction(void)
+AREXPORT int ArInterpolation::getAllowedPercentageForPrediction()
 {
   int ret;
   myDataMutex.lock();
@@ -313,7 +313,7 @@ AREXPORT void ArInterpolation::setLogPrediction(bool logPrediction)
   myDataMutex.unlock();
 }
 
-AREXPORT bool ArInterpolation::getLogPrediction(void)
+AREXPORT bool ArInterpolation::getLogPrediction()
 {
   bool ret;
   myDataMutex.lock();

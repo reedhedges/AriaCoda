@@ -85,30 +85,30 @@ public:
   AREXPORT ArRobotConnector(ArArgumentParser *parser, ArRobot *robot, 
 			    bool autoParseArgs = true, bool connectAllComponents = true);
   /// Destructor
-  AREXPORT ~ArRobotConnector(void);
+  AREXPORT ~ArRobotConnector();
   /// Sets up the robot then connects it
-  AREXPORT bool connectRobot(void);
+  AREXPORT bool connectRobot();
   /// Sets up the robot then connects it
   AREXPORT bool connectRobot(ArRobot *robot);
   void setResetOldConnection(bool r) { myTryHarderToConnect = r; }
   /// Configures connection, but does not connect, connectRobot() is recommended instead in most cases.
-  AREXPORT bool setupRobot(void);
+  AREXPORT bool setupRobot();
   /// Configures connection, but does not connect, connectRobot() is recommended instead in most cases.
   AREXPORT bool setupRobot(ArRobot *robot);
   /// Function to parse the arguments given in the constructor
-  AREXPORT bool parseArgs(void);
+  AREXPORT bool parseArgs();
   /// Function to parse the arguments given in an arbitrary parser
   AREXPORT bool parseArgs(ArArgumentParser *parser);
   /// Log the options the simple connector has
-  AREXPORT void logOptions(void) const;
+  AREXPORT void logOptions() const;
   /// Gets the remote host, if one was used, or NULL if it wasn't
-  AREXPORT const char *getRemoteHost(void) const;
+  AREXPORT const char *getRemoteHost() const;
   /// Gets if the remote connection is a sim
-  AREXPORT bool getRemoteIsSim(void) const;
+  AREXPORT bool getRemoteIsSim() const;
   /// Call for forcing the remote to be a sim (mostly for internal use)
   AREXPORT void setRemoteIsSim(bool remoteIsSim);
   /// Gets the robot this connector is using (mostly for backwards compatibility stuff)
-  AREXPORT ArRobot *getRobot(void);
+  AREXPORT ArRobot *getRobot();
   /// Disconnect from any robot components connected to. If connectAllComponents
   /// was not set to false in constructor, then connections to all robot components, and the
   /// robot itself, are disconnected.

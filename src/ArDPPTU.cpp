@@ -83,7 +83,7 @@ AREXPORT void ArDPPTUPacket::byte2ToBuf(int val)
   }
 }
 
-AREXPORT void ArDPPTUPacket::finalizePacket(void)
+AREXPORT void ArDPPTUPacket::finalizePacket()
 {
     ArDPPTUPacket::uByteToBuf(ArDPPTUCommands::DELIM);
 }
@@ -209,13 +209,13 @@ void ArDPPTU::shutdown()
   myInit = false;
 }
 
-void ArDPPTU::preparePacket(void)
+void ArDPPTU::preparePacket()
 {
   myPacket.empty();
   myPacket.byteToBuf(ArDPPTUCommands::DELIM);
 }
 
-AREXPORT bool ArDPPTU::init(void)
+AREXPORT bool ArDPPTU::init()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::INIT);
@@ -284,7 +284,7 @@ AREXPORT bool ArDPPTU::init(void)
 }
 
 /** A blank packet can be sent to exit monitor mode **/
-AREXPORT bool ArDPPTU::blank(void)
+AREXPORT bool ArDPPTU::blank()
 {
   myPacket.empty();
   return sendPacket(&myPacket);
@@ -376,14 +376,14 @@ AREXPORT bool ArDPPTU::tiltSlew(double deg)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::resetCalib(void)
+AREXPORT bool ArDPPTU::resetCalib()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::RESET);
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::disableReset(void)
+AREXPORT bool ArDPPTU::disableReset()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::RESET);
@@ -392,7 +392,7 @@ AREXPORT bool ArDPPTU::disableReset(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::resetTilt(void)
+AREXPORT bool ArDPPTU::resetTilt()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::RESET);
@@ -401,7 +401,7 @@ AREXPORT bool ArDPPTU::resetTilt(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::resetPan(void)
+AREXPORT bool ArDPPTU::resetPan()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::RESET);
@@ -410,7 +410,7 @@ AREXPORT bool ArDPPTU::resetPan(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::resetAll(void)
+AREXPORT bool ArDPPTU::resetAll()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::RESET);
@@ -419,7 +419,7 @@ AREXPORT bool ArDPPTU::resetAll(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::saveSet(void)
+AREXPORT bool ArDPPTU::saveSet()
 {
   preparePacket();
   myPacket.byteToBuf('D'); //ArDPPTUCommands::DISABLE);
@@ -428,7 +428,7 @@ AREXPORT bool ArDPPTU::saveSet(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::restoreSet(void)
+AREXPORT bool ArDPPTU::restoreSet()
 {
   preparePacket();
   myPacket.byteToBuf('D'); //ArDPPTUCommands::DISABLE);
@@ -437,7 +437,7 @@ AREXPORT bool ArDPPTU::restoreSet(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::factorySet(void)
+AREXPORT bool ArDPPTU::factorySet()
 {
   preparePacket();
   myPacket.byteToBuf('D'); //ArDPPTUCommands::DISABLE);
@@ -459,7 +459,7 @@ AREXPORT bool ArDPPTU::limitEnforce(bool val)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::immedExec(void)
+AREXPORT bool ArDPPTU::immedExec()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::IMMED);
@@ -467,7 +467,7 @@ AREXPORT bool ArDPPTU::immedExec(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::slaveExec(void)
+AREXPORT bool ArDPPTU::slaveExec()
 {
   preparePacket();
   myPacket.byteToBuf('S'); //ArDPPTUCommands::SPEED);
@@ -475,7 +475,7 @@ AREXPORT bool ArDPPTU::slaveExec(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::awaitExec(void)
+AREXPORT bool ArDPPTU::awaitExec()
 {
   preparePacket();
   myPacket.byteToBuf('A'); //ArDPPTUCommands::ACCEL);
@@ -484,7 +484,7 @@ AREXPORT bool ArDPPTU::awaitExec(void)
 }
 
 
-AREXPORT bool ArDPPTU::haltAll(void)
+AREXPORT bool ArDPPTU::haltAll()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::HALT);
@@ -492,7 +492,7 @@ AREXPORT bool ArDPPTU::haltAll(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::haltPan(void)
+AREXPORT bool ArDPPTU::haltPan()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::HALT);
@@ -501,7 +501,7 @@ AREXPORT bool ArDPPTU::haltPan(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::haltTilt(void)
+AREXPORT bool ArDPPTU::haltTilt()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::HALT);
@@ -613,7 +613,7 @@ AREXPORT bool ArDPPTU::lowerTiltSlew(double deg)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::indepMove(void)
+AREXPORT bool ArDPPTU::indepMove()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::CONTROL);
@@ -622,7 +622,7 @@ AREXPORT bool ArDPPTU::indepMove(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::velMove(void)
+AREXPORT bool ArDPPTU::velMove()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::CONTROL);
@@ -631,7 +631,7 @@ AREXPORT bool ArDPPTU::velMove(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::enMon(void)
+AREXPORT bool ArDPPTU::enMon()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::MONITOR);
@@ -640,7 +640,7 @@ AREXPORT bool ArDPPTU::enMon(void)
   return sendPacket(&myPacket);
 }
 
-AREXPORT bool ArDPPTU::disMon(void)
+AREXPORT bool ArDPPTU::disMon()
 {
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::MONITOR);

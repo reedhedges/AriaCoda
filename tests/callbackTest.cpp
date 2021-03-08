@@ -29,16 +29,16 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 class CBTest
 {
 public:
-  CBTest(void) {};
-  ~CBTest(void) {};
-  void connected(void) { printf("Connected\n"); }
-  void disconnected(void) { printf("Disconnected\n"); }
-  void disconnectedError(void) { printf("Disconnected Error\n"); }
-  void failedConnect(void) { printf("Failed Connect\n"); }
+  CBTest() {};
+  ~CBTest() {};
+  void connected() { printf("Connected\n"); }
+  void disconnected() { printf("Disconnected\n"); }
+  void disconnectedError() { printf("Disconnected Error\n"); }
+  void failedConnect() { printf("Failed Connect\n"); }
  
 };
 
-int main(void)
+int main()
 {
   int ret;
   std::string str;

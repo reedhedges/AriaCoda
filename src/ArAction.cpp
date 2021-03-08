@@ -49,17 +49,17 @@ AREXPORT ArAction::~ArAction()
     myRobot->remAction(this);
 }
 
-AREXPORT const char *ArAction::getName(void) const
+AREXPORT const char *ArAction::getName() const
 {
   return myName.c_str();
 }
 
-AREXPORT const char *ArAction::getDescription(void) const
+AREXPORT const char *ArAction::getDescription() const
 {
   return myDescription.c_str();
 }
 
-AREXPORT int ArAction::getNumArgs(void) const
+AREXPORT int ArAction::getNumArgs() const
 {
   return myNumArgs;
 }
@@ -103,17 +103,17 @@ AREXPORT void ArAction::setRobot(ArRobot *robot)
   myRobot = robot;
 }
 
-AREXPORT bool ArAction::isActive(void) const
+AREXPORT bool ArAction::isActive() const
 {
   return myIsActive;
 }
 
-AREXPORT void ArAction::activate(void)
+AREXPORT void ArAction::activate()
 {
   myIsActive = true;
 }
 
-AREXPORT void ArAction::deactivate(void)
+AREXPORT void ArAction::deactivate()
 {
   myIsActive = false;
 }

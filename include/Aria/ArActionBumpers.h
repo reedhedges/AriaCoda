@@ -53,13 +53,13 @@ public:
   /// Destructor
   AREXPORT virtual ~ArActionBumpers();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
   AREXPORT double findDegreesToTurn(int bumpValue, int whichBumper);
-  AREXPORT virtual void activate(void);
+  AREXPORT virtual void activate();
 protected:
   ArActionDesired myDesired;
   bool mySetMaximums;

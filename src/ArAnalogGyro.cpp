@@ -80,7 +80,7 @@ AREXPORT ArAnalogGyro::~ArAnalogGyro()
   myRobot->setEncoderCorrectionCallback(NULL);
 }
 
-void ArAnalogGyro::stabilizingCallback(void)
+void ArAnalogGyro::stabilizingCallback()
 {
   if (myRobot->getOrigRobotConfig() != NULL &&
       myRobot->getOrigRobotConfig()->getHasGyro() == 1)
@@ -296,7 +296,7 @@ double ArAnalogGyro::encoderCorrect(ArPoseWithTime deltaPose)
 }
 
 
-AREXPORT void ArAnalogGyro::activate(void)
+AREXPORT void ArAnalogGyro::activate()
 { 
   if (!myIsActive || myIsGyroOnlyActive)
     ArLog::log(ArLog::Normal, "Activating gyro"); 
@@ -306,7 +306,7 @@ AREXPORT void ArAnalogGyro::activate(void)
     myRobot->comInt(ArCommands::GYRO, 1);
 }
 
-AREXPORT void ArAnalogGyro::deactivate(void)
+AREXPORT void ArAnalogGyro::deactivate()
 { 
   if (myIsActive || myIsGyroOnlyActive)
     ArLog::log(ArLog::Normal, "Dectivating gyro"); 
@@ -316,7 +316,7 @@ AREXPORT void ArAnalogGyro::deactivate(void)
     myRobot->comInt(ArCommands::GYRO, 0);
 }
 
-AREXPORT void ArAnalogGyro::activateGyroOnly(void)
+AREXPORT void ArAnalogGyro::activateGyroOnly()
 { 
   if (!myHasGyroOnlyMode)
   {
@@ -332,7 +332,7 @@ AREXPORT void ArAnalogGyro::activateGyroOnly(void)
     myRobot->comInt(ArCommands::GYRO, 2);
 }
 
-void ArAnalogGyro::userTaskCallback(void)
+void ArAnalogGyro::userTaskCallback()
 {
   if ((myRobot->getFaultFlags() & ArUtil::BIT4) && myGyroWorking)
   {

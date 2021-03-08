@@ -30,7 +30,7 @@ ArRobot *robot;
 
 ArSonarDevice sonar;
 
-void sonarPrinter(void)
+void sonarPrinter()
 {
   double d;
   double th;

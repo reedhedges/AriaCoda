@@ -49,29 +49,29 @@ public:
   /// Destructor
   AREXPORT virtual ~ArRatioInputKeydrive();
   /// Takes the keys this action wants to use to drive
-  AREXPORT void takeKeys(void);
+  AREXPORT void takeKeys();
   /// Gives up the keys this action wants to use to drive
-  AREXPORT void giveUpKeys(void);
+  AREXPORT void giveUpKeys();
   /// Internal, callback for up arrow
-  AREXPORT void up(void);
+  AREXPORT void up();
   /// Internal, callback for down arrow
-  AREXPORT void down(void);
+  AREXPORT void down();
   /// Internal, callback for z
-  AREXPORT void z(void);
+  AREXPORT void z();
   /// Internal, callback for x 
-  AREXPORT void x(void);
+  AREXPORT void x();
   /// Internal, callback for left arrow
-  AREXPORT void left(void);
+  AREXPORT void left();
   /// Internal, callback for right arrow
-  AREXPORT void right(void);
+  AREXPORT void right();
   /// Internal, callback for space key
-  AREXPORT void space(void);
+  AREXPORT void space();
   /// Internal, gets our firecb
-  AREXPORT ArFunctor *getFireCB(void) { return &myFireCB; }
+  AREXPORT ArFunctor *getFireCB() { return &myFireCB; }
 protected:
-  AREXPORT void activate(void);
-  AREXPORT void deactivate(void);
-  AREXPORT void fireCallback(void);
+  AREXPORT void activate();
+  AREXPORT void deactivate();
+  AREXPORT void fireCallback();
   ArFunctorC<ArRatioInputKeydrive> myUpCB;
   ArFunctorC<ArRatioInputKeydrive> myDownCB;
   ArFunctorC<ArRatioInputKeydrive> myLeftCB;

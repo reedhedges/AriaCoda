@@ -100,12 +100,12 @@ AREXPORT bool ArPTZ::robotPacketHandler(ArRobotPacket *packet)
     return false;
 }
 
-AREXPORT void ArPTZ::connectHandler(void)
+AREXPORT void ArPTZ::connectHandler()
 {
   init();
 }
 
-AREXPORT void ArPTZ::sensorInterpHandler(void)
+AREXPORT void ArPTZ::sensorInterpHandler()
 {
   ArBasePacket *packet;
   while ((packet = readPacket()) != NULL)
@@ -140,7 +140,7 @@ AREXPORT bool ArPTZ::setDeviceConnection(ArDeviceConnection *connection,
     return true;
 }
 
-AREXPORT ArDeviceConnection *ArPTZ::getDeviceConnection(void)
+AREXPORT ArDeviceConnection *ArPTZ::getDeviceConnection()
 {
   return myConn;
 }

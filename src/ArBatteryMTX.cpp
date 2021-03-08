@@ -104,12 +104,12 @@ AREXPORT void ArBatteryMTX::setDeviceConnection (
   myConn->setDeviceName(getName());
 }
 
-AREXPORT ArDeviceConnection *ArBatteryMTX::getDeviceConnection (void)
+AREXPORT ArDeviceConnection *ArBatteryMTX::getDeviceConnection ()
 {
 	return myConn;
 }
 
-AREXPORT void ArBatteryMTX::requestContinuousSysInfoPackets (void)
+AREXPORT void ArBatteryMTX::requestContinuousSysInfoPackets ()
 {
 	if (myIsConnected) {
 		ArLog::log (ArLog::Verbose,
@@ -121,7 +121,7 @@ AREXPORT void ArBatteryMTX::requestContinuousSysInfoPackets (void)
 }
 
 
-AREXPORT void ArBatteryMTX::stopSysInfoPackets (void)
+AREXPORT void ArBatteryMTX::stopSysInfoPackets ()
 {
 	if (myIsConnected) {
 		ArLog::log (ArLog::Verbose,
@@ -132,12 +132,12 @@ AREXPORT void ArBatteryMTX::stopSysInfoPackets (void)
 	}
 }
 
-AREXPORT bool ArBatteryMTX::haveRequestedSysInfoPackets (void)
+AREXPORT bool ArBatteryMTX::haveRequestedSysInfoPackets ()
 {
 	return myRequestedSysInfoBatteryPackets;
 }
 
-AREXPORT void ArBatteryMTX::requestContinuousCellInfoPackets (void)
+AREXPORT void ArBatteryMTX::requestContinuousCellInfoPackets ()
 {
 	if (myIsConnected) {
 		ArLog::log (ArLog::Verbose,
@@ -148,7 +148,7 @@ AREXPORT void ArBatteryMTX::requestContinuousCellInfoPackets (void)
 	}
 }
 
-AREXPORT void ArBatteryMTX::stopCellInfoPackets (void)
+AREXPORT void ArBatteryMTX::stopCellInfoPackets ()
 {
 	if (myIsConnected) {
 		ArLog::log (ArLog::Verbose,
@@ -159,7 +159,7 @@ AREXPORT void ArBatteryMTX::stopCellInfoPackets (void)
 	}
 }
 
-AREXPORT bool ArBatteryMTX::haveRequestedCellInfoPackets (void)
+AREXPORT bool ArBatteryMTX::haveRequestedCellInfoPackets ()
 {
 	return myRequestedCellInfoBatteryPackets;
 }
@@ -175,7 +175,7 @@ AREXPORT void ArBatteryMTX::setRobot (ArRobot *robot)
 	}
 }
 
-void ArBatteryMTX::clear (void)
+void ArBatteryMTX::clear ()
 {
 	myIsConnected = false;
 	myTryingToConnect = false;
@@ -194,7 +194,7 @@ AREXPORT void ArBatteryMTX::batterySetName (const char *name)
 
 }
 
-AREXPORT bool ArBatteryMTX::disconnect (void)
+AREXPORT bool ArBatteryMTX::disconnect ()
 {
 	if (!isConnected())
 		return true;
@@ -213,7 +213,7 @@ AREXPORT int ArBatteryMTX::getReadingCount()
   return 0;
 }
 
-AREXPORT void ArBatteryMTX::internalGotReading(void)
+AREXPORT void ArBatteryMTX::internalGotReading()
 {
   if (myTimeLastReading != time(NULL)) 
   {
@@ -227,7 +227,7 @@ AREXPORT void ArBatteryMTX::internalGotReading(void)
   
 }
 
-void ArBatteryMTX::failedToConnect (void)
+void ArBatteryMTX::failedToConnect ()
 {
 	ArLog::log (ArLog::Normal,
 	            "%s:failedToConnect Cound not connect to battery",
@@ -237,7 +237,7 @@ void ArBatteryMTX::failedToConnect (void)
 	myDeviceMutex.unlock();
 }
 
-void ArBatteryMTX::sensorInterp (void)
+void ArBatteryMTX::sensorInterp ()
 {
 	//ArBatteryMTXPacket *packet;
 	ArRobotPacket *packet;
@@ -348,7 +348,7 @@ void ArBatteryMTX::sensorInterp (void)
 }
 
 
-void ArBatteryMTX::interpBasicInfo(void)
+void ArBatteryMTX::interpBasicInfo()
 {
   // If we don't think we're on a charger, or if the charger isn't on
   // put us to the not charging state
@@ -425,7 +425,7 @@ void ArBatteryMTX::interpBasicInfo(void)
 
 }
 
-void ArBatteryMTX::interpErrors(void)
+void ArBatteryMTX::interpErrors()
 {
   // reset the current error conditions 
   myErrorString = "";
@@ -646,7 +646,7 @@ AREXPORT bool ArBatteryMTX::blockingConnect (bool sendTracking, bool recvTrackin
 	return true;
 } // end blockingConnect
 
-AREXPORT const char * ArBatteryMTX::getName (void) const
+AREXPORT const char * ArBatteryMTX::getName () const
 {
 	return myName.c_str();
 }
@@ -712,7 +712,7 @@ while (getRunning() )
    getConnectionTimeoutSeconds.  If there is a robot then it will not
    start the check until the battery is running and connected.
 **/
-AREXPORT bool ArBatteryMTX::checkLostConnection(void)
+AREXPORT bool ArBatteryMTX::checkLostConnection()
 {
 	
   if ((myRobot == NULL || myRobotRunningAndConnected) && 
@@ -730,7 +730,7 @@ AREXPORT bool ArBatteryMTX::checkLostConnection(void)
   return false;
 }
 
-AREXPORT void ArBatteryMTX::disconnectOnError(void)
+AREXPORT void ArBatteryMTX::disconnectOnError()
 {
   ArLog::log(ArLog::Normal, "%s: Disconnected because of error", getName());
   myDisconnectOnErrorCBList.invoke();

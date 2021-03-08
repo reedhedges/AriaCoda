@@ -79,7 +79,7 @@ public:
       	  ArRetFunctor1<bool, const char *> *turnOnPowerOutputCB = NULL,
 	  ArRetFunctor1<bool, const char *> *turnOffPowerOutputCB = NULL);
   /// Destructor
-  AREXPORT ~ArSonarConnector(void);
+  AREXPORT ~ArSonarConnector();
   /// Connects all the sonars the robot has that should be auto connected
   AREXPORT bool connectSonars(
 						bool continueOnFailedConnect = false,
@@ -105,11 +105,11 @@ public:
   AREXPORT bool addSonar(ArSonarMTX *sonar,
 			 int sonarNumber = 1);
   /// Function to parse the arguments given in the constructor
-  AREXPORT bool parseArgs(void);
+  AREXPORT bool parseArgs();
   /// Function to parse the arguments given in an arbitrary parser
   AREXPORT bool parseArgs(ArArgumentParser *parser);
   /// Log the options the simple connector has
-  AREXPORT void logOptions(void) const;
+  AREXPORT void logOptions() const;
   /// Internal function to get the sonar (only useful between parseArgs and connectSonars)
   AREXPORT ArSonarMTX *getSonar(int sonarNumber);
 

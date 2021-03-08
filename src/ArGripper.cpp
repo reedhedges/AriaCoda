@@ -55,7 +55,7 @@ AREXPORT ArGripper::~ArGripper()
 {
 }
 
-AREXPORT void ArGripper::connectHandler(void)
+AREXPORT void ArGripper::connectHandler()
 {
   if (myRobot != NULL && (myType == GRIPPAC || myType == QUERYTYPE))
     myRobot->comInt(ArCommands::GRIPPERPACREQUEST, 2);
@@ -64,7 +64,7 @@ AREXPORT void ArGripper::connectHandler(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::gripOpen(void)
+AREXPORT bool ArGripper::gripOpen()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -76,7 +76,7 @@ AREXPORT bool ArGripper::gripOpen(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::gripClose(void)
+AREXPORT bool ArGripper::gripClose()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -88,7 +88,7 @@ AREXPORT bool ArGripper::gripClose(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::gripStop(void)
+AREXPORT bool ArGripper::gripStop()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -100,7 +100,7 @@ AREXPORT bool ArGripper::gripStop(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::liftUp(void)
+AREXPORT bool ArGripper::liftUp()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -112,7 +112,7 @@ AREXPORT bool ArGripper::liftUp(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::liftDown(void)
+AREXPORT bool ArGripper::liftDown()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -124,7 +124,7 @@ AREXPORT bool ArGripper::liftDown(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::liftStop(void)
+AREXPORT bool ArGripper::liftStop()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -136,7 +136,7 @@ AREXPORT bool ArGripper::liftStop(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::gripperStore(void)
+AREXPORT bool ArGripper::gripperStore()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -148,7 +148,7 @@ AREXPORT bool ArGripper::gripperStore(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::gripperDeploy(void)
+AREXPORT bool ArGripper::gripperDeploy()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -160,7 +160,7 @@ AREXPORT bool ArGripper::gripperDeploy(void)
 /**
    @return whether the command was sent to the robot or not 
 */
-AREXPORT bool ArGripper::gripperHalt(void)
+AREXPORT bool ArGripper::gripperHalt()
 {
   if (myRobot != NULL)
     return myRobot->comInt(ArCommands::GRIPPER, 
@@ -202,7 +202,7 @@ AREXPORT bool ArGripper::liftCarry(int mSecIntervals)
 /**
    @return true if the gripper paddles are moving
 */
-AREXPORT bool ArGripper::isGripMoving(void) const
+AREXPORT bool ArGripper::isGripMoving() const
 {
   int d;
 
@@ -234,7 +234,7 @@ AREXPORT bool ArGripper::isGripMoving(void) const
 /**
    @return true if the lift is moving
 */
-AREXPORT bool ArGripper::isLiftMoving(void) const
+AREXPORT bool ArGripper::isLiftMoving() const
 {
   int d;
 
@@ -267,7 +267,7 @@ AREXPORT bool ArGripper::isLiftMoving(void) const
    is triggered, 2 if the right paddle is triggered, 3 if both are
    triggered
 **/
-AREXPORT int ArGripper::getPaddleState(void) const
+AREXPORT int ArGripper::getPaddleState() const
 {
   int d;
   int ret = 0;
@@ -301,7 +301,7 @@ AREXPORT int ArGripper::getPaddleState(void) const
    @return 0 if gripper paddles between open and closed, 1 if gripper paddles 
    are open, 2 if gripper paddles are closed
 */
-AREXPORT int ArGripper::getGripState(void) const
+AREXPORT int ArGripper::getGripState() const
 {
   int d;
 
@@ -337,7 +337,7 @@ AREXPORT int ArGripper::getGripState(void) const
    @return 0 if no breakbeams broken, 1 if inner breakbeam broken, 2 if 
    outter breakbeam broken, 3 if both breakbeams broken
 */
-AREXPORT int ArGripper::getBreakBeamState(void) const
+AREXPORT int ArGripper::getBreakBeamState() const
 {
   int d;
 
@@ -375,7 +375,7 @@ AREXPORT int ArGripper::getBreakBeamState(void) const
    @return false if lift is between up and down, true is either all the 
    way up or down
 */
-AREXPORT bool ArGripper::isLiftMaxed(void) const
+AREXPORT bool ArGripper::isLiftMaxed() const
 {
   int d = 0;
 
@@ -404,7 +404,7 @@ AREXPORT bool ArGripper::isLiftMaxed(void) const
 }
   
 
-AREXPORT void ArGripper::logState(void) const
+AREXPORT void ArGripper::logState() const
 {
   char paddleBuf[128];
   char liftBuf[128];
@@ -509,7 +509,7 @@ AREXPORT bool ArGripper::packetHandler(ArRobotPacket *packet)
    @return the gripper type
    @see Type
 */
-AREXPORT int ArGripper::getType(void) const
+AREXPORT int ArGripper::getType() const
 {
   return myType;
 }
@@ -527,7 +527,7 @@ AREXPORT void ArGripper::setType(int type)
 /**
    @return the number of milliseconds since the last packet
 */
-AREXPORT long ArGripper::getMSecSinceLastPacket(void) const
+AREXPORT long ArGripper::getMSecSinceLastPacket() const
 {
   return myLastDataTime.mSecSince();
 }
@@ -539,7 +539,7 @@ AREXPORT long ArGripper::getMSecSinceLastPacket(void) const
    @return the number of 20 MSec intervals the gripper will continue grasping 
    for after both paddles are triggered
 */
-AREXPORT int ArGripper::getGraspTime(void) const
+AREXPORT int ArGripper::getGraspTime() const
 {
   return myGraspTime;
 }

@@ -124,10 +124,10 @@ public:
   virtual ~ArFunctor() {}
 
   /// Invokes the functor
-  virtual void invoke(void) = 0;
+  virtual void invoke() = 0;
 
   /// Gets the name of the functor
-  virtual const char *getName(void) { return myName.c_str();  }
+  virtual const char *getName() { return myName.c_str();  }
 
   /// Sets the name of the functor
   virtual void setName(const char *name) { myName = name; }
@@ -169,7 +169,7 @@ public:
   virtual ~ArFunctor1() {}
 
   /// Invokes the functor
-  virtual void invoke(void) = 0;
+  virtual void invoke() = 0;
 
   /// Invokes the functor
   /**
@@ -196,7 +196,7 @@ public:
   virtual ~ArFunctor2() {}
 
   /// Invokes the functor
-  virtual void invoke(void) = 0;
+  virtual void invoke() = 0;
 
   /// Invokes the functor
   /**
@@ -230,7 +230,7 @@ public:
   virtual ~ArFunctor3() {}
 
   /// Invokes the functor
-  virtual void invoke(void) = 0;
+  virtual void invoke() = 0;
 
   /// Invokes the functor
   /**
@@ -274,7 +274,7 @@ public:
   virtual ~ArFunctor4() {}
 
   /// Invokes the functor
-  virtual void invoke(void) = 0;
+  virtual void invoke() = 0;
 
   /// Invokes the functor
   /**
@@ -327,7 +327,7 @@ public:
   virtual ~ArFunctor5() {}
 
   /// Invokes the functor
-  virtual void invoke(void) = 0;
+  virtual void invoke() = 0;
 
   /// Invokes the functor
   /**
@@ -396,10 +396,10 @@ public:
   virtual ~ArRetFunctor() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {invokeR();}
+  virtual void invoke() {invokeR();}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) = 0;
+  virtual Ret invokeR() = 0;
 };
 
 /// Base class for functors with a return value with 1 parameter
@@ -421,7 +421,7 @@ public:
   virtual ~ArRetFunctor1() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) = 0;
+  virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
@@ -449,7 +449,7 @@ public:
   virtual ~ArRetFunctor2() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) = 0;
+  virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
@@ -484,7 +484,7 @@ public:
   virtual ~ArRetFunctor3() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) = 0;
+  virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
@@ -528,7 +528,7 @@ public:
   virtual ~ArRetFunctor4() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) = 0;
+  virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
@@ -580,7 +580,7 @@ public:
   virtual ~ArRetFunctor5() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) = 0;
+  virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
@@ -664,15 +664,15 @@ public:
   /**
      @param func global function pointer
   */
-  ArGlobalFunctor(void (*func)(void)) : myFunc(func) {}
+  ArGlobalFunctor(void (*func)()) : myFunc(func) {}
   /// Destructor
   virtual ~ArGlobalFunctor() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(*myFunc)();}
+  virtual void invoke() {(*myFunc)();}
 protected:
 
-  void (*myFunc)(void);
+  void (*myFunc)();
 };
 
 /// Functor for a global function with 1 parameter
@@ -709,7 +709,7 @@ public:
   virtual ~ArGlobalFunctor1() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(*myFunc)(myP1);}
+  virtual void invoke() {(*myFunc)(myP1);}
 
   /// Invokes the functor
   /**
@@ -790,7 +790,7 @@ public:
   virtual ~ArGlobalFunctor2() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(*myFunc)(myP1, myP2);}
+  virtual void invoke() {(*myFunc)(myP1, myP2);}
 
   /// Invokes the functor
   /**
@@ -879,7 +879,7 @@ public:
   virtual ~ArGlobalFunctor3() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(*myFunc)(myP1, myP2, myP3);}
+  virtual void invoke() {(*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor
   /**
@@ -996,7 +996,7 @@ public:
   virtual ~ArGlobalFunctor4() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual void invoke() {(*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
@@ -1140,7 +1140,7 @@ public:
   virtual ~ArGlobalFunctor5() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual void invoke() {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -1265,17 +1265,17 @@ public:
   /**
      @param func global function pointer
   */
-  ArGlobalRetFunctor(Ret (*func)(void)) : myFunc(func) {}
+  ArGlobalRetFunctor(Ret (*func)()) : myFunc(func) {}
 
   /// Destructor
   virtual ~ArGlobalRetFunctor() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (*myFunc)();}
+  virtual Ret invokeR() {return (*myFunc)();}
 
 protected:
 
-  Ret (*myFunc)(void);
+  Ret (*myFunc)();
 };
 
 
@@ -1315,7 +1315,7 @@ public:
   virtual ~ArGlobalRetFunctor1() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (*myFunc)(myP1);}
+  virtual Ret invokeR() {return (*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
@@ -1380,7 +1380,7 @@ public:
   virtual ~ArGlobalRetFunctor2() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (*myFunc)(myP1, myP2);}
+  virtual Ret invokeR() {return (*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
@@ -1469,7 +1469,7 @@ public:
   virtual ~ArGlobalRetFunctor3() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (*myFunc)(myP1, myP2, myP3);}
+  virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -1588,7 +1588,7 @@ public:
   virtual ~ArGlobalRetFunctor4() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -1732,7 +1732,7 @@ public:
   virtual ~ArGlobalRetFunctor5() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -1856,20 +1856,20 @@ public:
      @param obj object to call function on
      @param func member function pointer
   */
-  ArFunctorC(T &obj, void (T::*func)(void)) : myObj(&obj), myFunc(func) {}
+  ArFunctorC(T &obj, void (T::*func)()) : myObj(&obj), myFunc(func) {}
 
   /// Constructor - supply function pointer
   /**
      @param obj object to call function on
      @param func member function pointer
   */
-  ArFunctorC(T *obj, void (T::*func)(void)) : myObj(obj), myFunc(func) {}
+  ArFunctorC(T *obj, void (T::*func)()) : myObj(obj), myFunc(func) {}
 
   /// Destructor
   virtual ~ArFunctorC() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)();}
+  virtual void invoke() {(myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -1886,7 +1886,7 @@ public:
 protected:
 
   T *myObj;
-  void (T::*myFunc)(void);
+  void (T::*myFunc)();
 };
 
 
@@ -1945,7 +1945,7 @@ public:
   virtual ~ArFunctor1C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1);}
+  virtual void invoke() {(myObj->*myFunc)(myP1);}
 
   /// Invokes the functor
   /**
@@ -2086,7 +2086,7 @@ public:
   virtual ~ArFunctor2C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor
   /**
@@ -2230,7 +2230,7 @@ public:
   virtual ~ArFunctor3C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2, myP3);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor
   /**
@@ -2416,7 +2416,7 @@ public:
   virtual ~ArFunctor4C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
@@ -2644,7 +2644,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
   virtual ~ArFunctor5C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -2783,20 +2783,20 @@ public:
      @param obj object to call function on
      @param func member function pointer
   */
-  ArRetFunctorC(T &obj, Ret (T::*func)(void)) : myObj(&obj), myFunc(func) {}
+  ArRetFunctorC(T &obj, Ret (T::*func)()) : myObj(&obj), myFunc(func) {}
 
   /// Constructor - supply function pointer
   /**
      @param obj object to call function on
      @param func member function pointer
   */
-  ArRetFunctorC(T *obj, Ret (T::*func)(void)) : myObj(obj), myFunc(func) {}
+  ArRetFunctorC(T *obj, Ret (T::*func)()) : myObj(obj), myFunc(func) {}
 
   /// Destructor - supply function pointer
   virtual ~ArRetFunctorC() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)();}
+  virtual Ret invokeR() {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -2813,7 +2813,7 @@ public:
 protected:
 
   T *myObj;
-  Ret (T::*myFunc)(void);
+  Ret (T::*myFunc)();
 };
 
 /// Functor for a member function with return value and 1 parameter
@@ -2872,7 +2872,7 @@ public:
   virtual ~ArRetFunctor1C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
@@ -2981,7 +2981,7 @@ public:
   virtual ~ArRetFunctor2C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
@@ -3126,7 +3126,7 @@ public:
   virtual ~ArRetFunctor3C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -3321,7 +3321,7 @@ public:
   virtual ~ArRetFunctor4C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -3556,7 +3556,7 @@ public:
   virtual ~ArRetFunctor5C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -3698,20 +3698,20 @@ public:
      @param obj object to call function on
      @param func const member function pointer
   */
-  ArConstFunctorC(T &obj, void (T::*func)(void) const) : myObj(&obj), myFunc(func) {}
+  ArConstFunctorC(T &obj, void (T::*func)() const) : myObj(&obj), myFunc(func) {}
 
   /// Constructor - supply function pointer
   /**
      @param obj object to call function on
      @param func const member function pointer
   */
-  ArConstFunctorC(T *obj, void (T::*func)(void) const) : myObj(obj), myFunc(func) {}
+  ArConstFunctorC(T *obj, void (T::*func)() const) : myObj(obj), myFunc(func) {}
 
   /// Destructor
   virtual ~ArConstFunctorC() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)();}
+  virtual void invoke() {(myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -3728,7 +3728,7 @@ public:
 protected:
 
   T *myObj;
-  void (T::*myFunc)(void) const;
+  void (T::*myFunc)() const;
 };
 
 
@@ -3787,7 +3787,7 @@ public:
   virtual ~ArConstFunctor1C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1);}
+  virtual void invoke() {(myObj->*myFunc)(myP1);}
 
   /// Invokes the functor
   /**
@@ -3896,7 +3896,7 @@ public:
   virtual ~ArConstFunctor2C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor
   /**
@@ -4040,7 +4040,7 @@ public:
   virtual ~ArConstFunctor3C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2, myP3);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor
   /**
@@ -4224,7 +4224,7 @@ public:
   virtual ~ArConstFunctor4C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
@@ -4453,7 +4453,7 @@ public:
   virtual ~ArConstFunctor5C() {}
 
   /// Invokes the functor
-  virtual void invoke(void) {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -4590,20 +4590,20 @@ public:
      @param obj object to call function on
      @param func const member function pointer
   */
-  ArConstRetFunctorC(T &obj, Ret (T::*func)(void) const) : myObj(&obj), myFunc(func) {}
+  ArConstRetFunctorC(T &obj, Ret (T::*func)() const) : myObj(&obj), myFunc(func) {}
 
   /// Constructor - supply function pointer
   /**
      @param obj object to call function on
      @param func const member function pointer
   */
-  ArConstRetFunctorC(T *obj, Ret (T::*func)(void) const) : myObj(obj), myFunc(func) {}
+  ArConstRetFunctorC(T *obj, Ret (T::*func)() const) : myObj(obj), myFunc(func) {}
 
   /// Destructor - supply function pointer
   virtual ~ArConstRetFunctorC() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)();}
+  virtual Ret invokeR() {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -4620,7 +4620,7 @@ public:
 protected:
 
   T *myObj;
-  Ret (T::*myFunc)(void) const;
+  Ret (T::*myFunc)() const;
 };
 
 /// Functor for a const member function with return value and 1 parameter
@@ -4678,7 +4678,7 @@ public:
   virtual ~ArConstRetFunctor1C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
@@ -4786,7 +4786,7 @@ public:
   virtual ~ArConstRetFunctor2C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
@@ -4930,7 +4930,7 @@ public:
   virtual ~ArConstRetFunctor3C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -5122,7 +5122,7 @@ public:
   virtual ~ArConstRetFunctor4C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -5356,7 +5356,7 @@ public:
   virtual ~ArConstRetFunctor5C() {}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR(void) {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**

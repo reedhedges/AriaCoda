@@ -90,7 +90,7 @@ public:
 	  ArRetFunctor1<bool, const char *> *turnOnPowerOutputCB = NULL,
 	  ArRetFunctor1<bool, const char *> *turnOffPowerOutputCB = NULL);
   /// Destructor
-  AREXPORT ~ArLCDConnector(void);
+  AREXPORT ~ArLCDConnector();
   /// Connects all the lcds the robot has that should be auto connected
   AREXPORT bool connectLCDs(bool continueOnFailedConnect = false,
 			      bool addConnectedLCDsToRobot = true,
@@ -108,11 +108,11 @@ public:
   AREXPORT bool addLCD(ArLCDMTX *lcd,
 			 int lcdNumber = 1);
   /// Function to parse the arguments given in the constructor
-  AREXPORT bool parseArgs(void);
+  AREXPORT bool parseArgs();
   /// Function to parse the arguments given in an arbitrary parser
   AREXPORT bool parseArgs(ArArgumentParser *parser);
   /// Log the options the simple connector has
-  AREXPORT void logOptions(void) const;
+  AREXPORT void logOptions() const;
   /// Internal function to get the lcd (only useful between parseArgs and connectLCDs)
   AREXPORT ArLCDMTX *getLCD(int lcdNumber);
 

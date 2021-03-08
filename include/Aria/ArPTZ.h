@@ -94,7 +94,7 @@ public:
   AREXPORT virtual ~ArPTZ();
 
   /// Initializes the camera
-  AREXPORT virtual bool init(void) = 0;
+  AREXPORT virtual bool init() = 0;
 
   /// Return name of this PTZ type 
   AREXPORT virtual const char *getTypeName() = 0;
@@ -105,7 +105,7 @@ public:
      on some cameras that can get out of sync it may need to do more,
      such as call init on it again.
    **/
-  AREXPORT virtual void reset(void) 
+  AREXPORT virtual void reset() 
     { panTilt(0, 0); if (canZoom()) zoom(getMinZoom()); }
 
   /// Pans to the given degrees. 0 is straight ahead, - is to the left, + to the right
@@ -131,7 +131,7 @@ public:
   virtual bool panTiltRel(double degreesPan, double degreesTilt) { if(myInverted) return panTiltRel_i(-degreesPan, -degreesTilt); else return panTiltRel_i(degreesPan,  degreesTilt); }
 
   /// Returns true if camera can zoom and this class can control the zoom amount
-  AREXPORT virtual bool canZoom(void) const = 0;
+  AREXPORT virtual bool canZoom() const = 0;
 
   /// Zooms to the given value
   AREXPORT virtual bool zoom(int zoomValue) { return false; }
@@ -141,49 +141,49 @@ public:
   /** The angle the camera is panned to (or last commanded value sent, if unable to obtain real pan position)
       @sa canGetRealPanTilt()
   */
-  virtual double getPan(void) const  { if(myInverted) return -getPan_i(); else return getPan_i(); }
+  virtual double getPan() const  { if(myInverted) return -getPan_i(); else return getPan_i(); }
 
   /** The angle the camera is tilted to (or last commanded value sent, if unable to obtain real pan position)
       @sa canGetRealPanTilt()
   */
-  virtual double getTilt(void) const  { if(myInverted) return -getTilt_i(); else return getTilt_i(); }
+  virtual double getTilt() const  { if(myInverted) return -getTilt_i(); else return getTilt_i(); }
 
   /** The amount the camera is zoomed to (or last commanded value sent, 
       if unable to obtain real pan position)
     @sa canZoom();
     @sa canGetZoom()
   */
-  AREXPORT virtual int getZoom(void) const { return 0; }
+  AREXPORT virtual int getZoom() const { return 0; }
 
   /// Whether getPan() hand getTilt() return the device's real position, or last commanded position.
-  AREXPORT virtual bool canGetRealPanTilt(void) const { return false; }
+  AREXPORT virtual bool canGetRealPanTilt() const { return false; }
 
   /// Whether getZoom() returns the device's real zoom amount, or last commanded zoom position.
-  AREXPORT virtual bool canGetRealZoom(void) const { return false; }
+  AREXPORT virtual bool canGetRealZoom() const { return false; }
 
 
   /// Gets the highest positive degree the camera can pan to (inverted if camera is inverted)
-  virtual double getMaxPosPan(void) const { if (myInverted) return -myMaxPosPan; else return myMaxPosPan; }
+  virtual double getMaxPosPan() const { if (myInverted) return -myMaxPosPan; else return myMaxPosPan; }
 
 
   /// @copydoc getMaxPosPan()
   double getMaxPan() const { return getMaxPosPan(); }
 
   /// Gets the lowest negative degree the camera can pan to (inverted if camera is inverted)
-  virtual double getMaxNegPan(void) const { if (myInverted) return -myMaxNegPan; else return myMaxNegPan; }
+  virtual double getMaxNegPan() const { if (myInverted) return -myMaxNegPan; else return myMaxNegPan; }
 
   /// @copydoc getMaxNegPan()
   double getMinPan() const { return getMaxNegPan(); }
 
 
   /// Gets the highest positive degree the camera can tilt to (inverted if camera is inverted)
-  virtual double getMaxPosTilt(void) const { if (myInverted) return -myMaxPosTilt; else return myMaxPosTilt; }
+  virtual double getMaxPosTilt() const { if (myInverted) return -myMaxPosTilt; else return myMaxPosTilt; }
 
   /// @copydoc getMaxPosTilt()
   double getMaxTilt() const { return getMaxPosTilt(); }
 
   /// Gets the lowest negative degree the camera can tilt to (inverted if camera is inverted)
-  virtual double getMaxNegTilt(void) const { if (myInverted) return -myMaxNegTilt; else return myMaxNegTilt; }
+  virtual double getMaxNegTilt() const { if (myInverted) return -myMaxNegTilt; else return myMaxNegTilt; }
 
   ///@copydoc getMaxNegTilt() 
   double getMinTilt() const { return getMaxNegTilt(); }
@@ -219,28 +219,28 @@ protected:
   /// Versions of the pan and tilt limit accessors where inversion is not applied, for use by subclasses to check when given pan/tilt commands.
   /// @todo limits checking should be done in ArPTZ pan(), tilt() and panTilt() public interface methods instead of in each implementation
   //@{
-  virtual double getMaxPosPan_i(void) const { return myMaxPosPan; }
+  virtual double getMaxPosPan_i() const { return myMaxPosPan; }
   double getMaxPan_i() const { return getMaxPosPan_i(); }
-  virtual double getMaxPosTilt_i(void) const { return myMaxPosTilt; }
+  virtual double getMaxPosTilt_i() const { return myMaxPosTilt; }
   double getMinPan_i() const { return getMaxNegPan_i(); }
-  virtual double getMaxNegPan_i(void) const { return myMaxNegPan; }
+  virtual double getMaxNegPan_i() const { return myMaxNegPan; }
   double getMaxTilt_i() const { return getMaxPosTilt_i(); }
-  virtual double getMaxNegTilt_i(void) const { return myMaxNegTilt; }
+  virtual double getMaxNegTilt_i() const { return myMaxNegTilt; }
   double getMinTilt_i() const { return getMaxNegTilt_i(); }
   //@}
 
 public:
 
   /// Gets the maximum value for the zoom on this camera
-  virtual int getMaxZoom(void) const { if (myInverted) return -myMaxZoom; else return myMaxZoom; }
+  virtual int getMaxZoom() const { if (myInverted) return -myMaxZoom; else return myMaxZoom; }
   /// Gets the lowest value for the zoom on this camera
-  virtual int getMinZoom(void) const { if (myInverted) return -myMinZoom; else return myMinZoom; }
+  virtual int getMinZoom() const { if (myInverted) return -myMinZoom; else return myMinZoom; }
   /// Whether we can get the FOV (field of view) or not
-  virtual bool canGetFOV(void) { return false; }
+  virtual bool canGetFOV() { return false; }
   /// Gets the field of view at maximum zoom
-  AREXPORT virtual double getFOVAtMaxZoom(void) { return 0; }
+  AREXPORT virtual double getFOVAtMaxZoom() { return 0; }
   /// Gets the field of view at minimum zoom
-  AREXPORT virtual double getFOVAtMinZoom(void) { return 0; }
+  AREXPORT virtual double getFOVAtMinZoom() { return 0; }
 
   /// Set gain on camera, range of 1-100.  Returns false if out of range
   /// or if you can't set the gain on the camera
@@ -248,7 +248,7 @@ public:
   /// Get the gain the camera is set to.  0 if not supported
   AREXPORT virtual double getGain(double gain) const { return 0; }
   /// If the driver can set gain on the camera, or not
-  AREXPORT virtual bool canSetGain(void) const { return false; }
+  AREXPORT virtual bool canSetGain() const { return false; }
 
   /// Set focus on camera, range of 1-100.  Returns false if out of range
   /// or if you can't set the focus on the camera
@@ -256,7 +256,7 @@ public:
   /// Get the focus the camera is set to.  0 if not supported
   AREXPORT virtual double getFocus(double focus) const { return 0; }
   /// If the driver can set the focus on the camera, or not
-  AREXPORT virtual bool canSetFocus(void) const { return false; }
+  AREXPORT virtual bool canSetFocus() const { return false; }
 
   /// Disable/enable autofocus mode if possible. Return false if can't change autofocus mode.
   AREXPORT virtual bool setAutoFocus(bool af = true) { return false; }
@@ -273,11 +273,11 @@ public:
   AREXPORT virtual bool setDeviceConnection(ArDeviceConnection *connection,
 					    bool driveFromRobotLoop = true);
   /// Gets the device connection used by this PTZ camera
-  AREXPORT virtual ArDeviceConnection *getDeviceConnection(void);
+  AREXPORT virtual ArDeviceConnection *getDeviceConnection();
   /// Sets the aux port on the robot to be used to communicate with this device
   AREXPORT virtual bool setAuxPort(int auxPort);
   /// Gets the port the device is set to communicate on
-  AREXPORT virtual int getAuxPort(void) { return myAuxPort; }
+  AREXPORT virtual int getAuxPort() { return myAuxPort; }
   /// Reads a packet from the device connection, MUST NOT BLOCK
   /** 
       This should read in a packet from the myConn connection and
@@ -287,7 +287,7 @@ public:
       since that is on the robot loop.      
       @return packet read in, or NULL if there was no packet read
    **/
-  AREXPORT virtual ArBasePacket *readPacket(void) { return NULL; }
+  AREXPORT virtual ArBasePacket *readPacket() { return NULL; }
   
   /// Sends a given packet to the camera (via robot or serial port, depending)
   AREXPORT virtual bool sendPacket(ArBasePacket *packet);
@@ -316,9 +316,9 @@ public:
   AREXPORT virtual bool robotPacketHandler(ArRobotPacket *packet);
 
   /// Internal, attached to robot, inits the camera when robot connects
-  AREXPORT virtual void connectHandler(void);
+  AREXPORT virtual void connectHandler();
   /// Internal, for attaching to the robots sensor interp to read serial port
-  AREXPORT virtual void sensorInterpHandler(void);
+  AREXPORT virtual void sensorInterpHandler();
 
   /// Return ArRobot object this PTZ is associated with. May be NULL
   ArRobot *getRobot() { return myRobot; }
@@ -368,8 +368,8 @@ protected:
   AREXPORT virtual bool tiltRel_i (double degrees) = 0; 
   AREXPORT virtual bool panTilt_i(double degreesPan, double degreesTilt) = 0;
   AREXPORT virtual bool panTiltRel_i(double degreesPan, double degreesTilt) = 0;
-  AREXPORT virtual double getPan_i(void) const = 0;
-  AREXPORT virtual double getTilt_i(void) const = 0;
+  AREXPORT virtual double getPan_i() const = 0;
+  AREXPORT virtual double getTilt_i() const = 0;
   //@}
 
 };

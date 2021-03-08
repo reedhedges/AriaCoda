@@ -84,7 +84,7 @@ AREXPORT void ArActionKeydrive::setRobot(ArRobot *robot)
   takeKeys();
 }
 
-AREXPORT void ArActionKeydrive::takeKeys(void)
+AREXPORT void ArActionKeydrive::takeKeys()
 {
   ArKeyHandler *keyHandler;
   if ((keyHandler = Aria::getKeyHandler()) == NULL)
@@ -109,7 +109,7 @@ AREXPORT void ArActionKeydrive::takeKeys(void)
 	       "The key handler already has a key for space, keydrive will not work correctly.");
 }
 
-AREXPORT void ArActionKeydrive::giveUpKeys(void)
+AREXPORT void ArActionKeydrive::giveUpKeys()
 {
   ArKeyHandler *keyHandler;
   if ((keyHandler = Aria::getKeyHandler()) == NULL)
@@ -148,45 +148,45 @@ AREXPORT void ArActionKeydrive::setIncrements(double velIncrement,
   myTurnIncrement = turnIncrement;
 }
 
-AREXPORT void ArActionKeydrive::up(void)
+AREXPORT void ArActionKeydrive::up()
 {
   myDeltaVel += myVelIncrement;
 }
 
-AREXPORT void ArActionKeydrive::down(void)
+AREXPORT void ArActionKeydrive::down()
 {
   myDeltaVel -= myVelIncrement;
 }
 
-AREXPORT void ArActionKeydrive::left(void)
+AREXPORT void ArActionKeydrive::left()
 {
   myTurnAmount += myTurnIncrement;
   if (myTurnAmount > myTurnAmountMax)
     myTurnAmount = myTurnAmountMax;
 }
 
-AREXPORT void ArActionKeydrive::right(void)
+AREXPORT void ArActionKeydrive::right()
 {
   myTurnAmount -= myTurnIncrement;
   if (myTurnAmount < -myTurnAmountMax)
     myTurnAmount = -myTurnAmountMax;
 }
 
-AREXPORT void ArActionKeydrive::space(void)
+AREXPORT void ArActionKeydrive::space()
 {
   mySpeedReset = false;
   myDesiredSpeed = 0;
   myTurnAmount = 0;
 }
 
-AREXPORT void ArActionKeydrive::activate(void)
+AREXPORT void ArActionKeydrive::activate()
 {
   if (!myIsActive)
     takeKeys();
   myIsActive = true;
 }
 
-AREXPORT void ArActionKeydrive::deactivate(void)
+AREXPORT void ArActionKeydrive::deactivate()
 {
   if (myIsActive)
     giveUpKeys();

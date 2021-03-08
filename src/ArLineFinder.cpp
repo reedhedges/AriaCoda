@@ -53,7 +53,7 @@ AREXPORT ArLineFinder::~ArLineFinder()
 
 }
 
-AREXPORT std::map<int, ArLineFinderSegment *> *ArLineFinder::getLines(void)
+AREXPORT std::map<int, ArLineFinderSegment *> *ArLineFinder::getLines()
 {
   // fill the laser readings into myPoints
   fillPointsFromLaser();
@@ -69,7 +69,7 @@ AREXPORT std::map<int, ArLineFinderSegment *> *ArLineFinder::getLines(void)
   return myLines;
 }
 
-AREXPORT std::map<int, ArPose> *ArLineFinder::getNonLinePoints(void)
+AREXPORT std::map<int, ArPose> *ArLineFinder::getNonLinePoints()
 {
   std::map<int, ArLineFinderSegment *>::iterator lineIt;
   ArLineFinderSegment *segment;
@@ -99,7 +99,7 @@ AREXPORT std::map<int, ArPose> *ArLineFinder::getNonLinePoints(void)
 }
 
 
-AREXPORT void ArLineFinder::fillPointsFromLaser(void)
+AREXPORT void ArLineFinder::fillPointsFromLaser()
 {
   const std::list<ArSensorReading *> *readings;
   std::list<ArSensorReading *>::const_iterator it;
@@ -173,7 +173,7 @@ AREXPORT void ArLineFinder::fillPointsFromLaser(void)
   myRangeDevice->unlockDevice();
 }
 
-AREXPORT void ArLineFinder::findLines(void)
+AREXPORT void ArLineFinder::findLines()
 {
   int start = 0;
   int pointsLen = myPoints->size();
@@ -282,7 +282,7 @@ AREXPORT void ArLineFinder::findLines(void)
     fclose(lineFile);
 }
 
-AREXPORT bool ArLineFinder::combineLines(void)
+AREXPORT bool ArLineFinder::combineLines()
 {
   int start = 0;
   int len = myLines->size();
@@ -543,7 +543,7 @@ AREXPORT ArLineFinderSegment *ArLineFinder::averageSegments(
   return NULL; 
 }
 
-AREXPORT void ArLineFinder::filterLines(void)
+AREXPORT void ArLineFinder::filterLines()
 {
   int start = 0;
   int len = myLines->size();
@@ -603,7 +603,7 @@ AREXPORT void ArLineFinder::filterLines(void)
    current directory and saves the "lines" file with the final lines
    in the current directory.
 **/
-AREXPORT void ArLineFinder::saveLast(void)
+AREXPORT void ArLineFinder::saveLast()
 {
   int len = myPoints->size();
   int i;
@@ -642,7 +642,7 @@ AREXPORT void ArLineFinder::saveLast(void)
   ArLog::log(ArLog::Normal, "Saved points and lines");
 }
 
-AREXPORT void ArLineFinder::getLinesAndSaveThem(void)
+AREXPORT void ArLineFinder::getLinesAndSaveThem()
 {
   getLines();
   saveLast();

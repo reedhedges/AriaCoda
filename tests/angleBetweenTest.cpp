@@ -28,7 +28,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 /* See also angleFixTest, angleTest, mathTests. */
 
-int main(void)
+int main()
 {
   bool error = false;
 

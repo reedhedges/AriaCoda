@@ -39,13 +39,13 @@ class JoydriveAction : public ArAction
 {
 public:
   // constructor
-  JoydriveAction(void);
+  JoydriveAction();
   // empty destructor
-  virtual ~JoydriveAction(void);
+  virtual ~JoydriveAction();
   //the fire which will actually tell the resolver what to do
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
   // whether the joystick is initalized or not
-  bool joystickInited(void);
+  bool joystickInited();
 protected:
   // action desired
   ArActionDesired myDesired;
@@ -56,7 +56,7 @@ protected:
 /*
   Note the use of constructor chaining with ArAction.
 */  
-JoydriveAction::JoydriveAction(void) :
+JoydriveAction::JoydriveAction() :
   ArAction("Joydrive Action", "This action reads the joystick and sets the translational and rotational velocity based on this.")
 {
   // initialize the joystick
@@ -65,12 +65,12 @@ JoydriveAction::JoydriveAction(void) :
   myJoyHandler.setSpeeds(50, 700);
 }
 
-JoydriveAction::~JoydriveAction(void)
+JoydriveAction::~JoydriveAction()
 {
 }
 
 // whether the joystick is there or not
-bool JoydriveAction::joystickInited(void)
+bool JoydriveAction::joystickInited()
 {
   return myJoyHandler.haveJoystick();
 }

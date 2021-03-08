@@ -173,13 +173,13 @@ Sets the length read back to the header length so the packet can be
 reread using the other methods
 */
 
-AREXPORT void ArBasePacket::resetRead(void)
+AREXPORT void ArBasePacket::resetRead()
 {
   myReadLength = myHeaderLength;
   resetValid();
 }
 
-ArTypes::UByte2 ArBasePacket::getDataLength(void) const { 
+ArTypes::UByte2 ArBasePacket::getDataLength() const { 
  
   // KMC 12/20/13 Do not allow negative values to be returned.  (They are basically 
   // converted to an erroneous positive value by the UByte2.)
@@ -203,7 +203,7 @@ ArTypes::UByte2 ArBasePacket::getDataLength(void) const {
 Sets the packet length back to be the packets header length again
 */
 
-AREXPORT void ArBasePacket::empty(void)
+AREXPORT void ArBasePacket::empty()
 {
   myLength = myHeaderLength;
   resetValid();
@@ -249,7 +249,7 @@ AREXPORT bool ArBasePacket::hasWriteCapacity(int bytes)
  * data into the packet, or to read too much data from the packet.  Calls to
  * empty() and resetRead() will restore the valid state.
 **/
-AREXPORT bool ArBasePacket::isValid(void)
+AREXPORT bool ArBasePacket::isValid()
 {
   return myIsValid;
 
@@ -267,12 +267,12 @@ AREXPORT void ArBasePacket::resetValid()
   myIsValid = true;
 }
 
-AREXPORT const char *ArBasePacket::getBuf(void) const
+AREXPORT const char *ArBasePacket::getBuf() const
 {
   return myBuf;
 }
 
-AREXPORT char *ArBasePacket::getBuf(void) 
+AREXPORT char *ArBasePacket::getBuf() 
 {
   return myBuf;
 }
@@ -542,7 +542,7 @@ AREXPORT void ArBasePacket::dataToBuf(const unsigned char *data, int length)
 }
 
 
-AREXPORT ArTypes::Byte ArBasePacket::bufToByte(void)
+AREXPORT ArTypes::Byte ArBasePacket::bufToByte()
 {
   ArTypes::Byte ret=0;
 
@@ -555,7 +555,7 @@ AREXPORT ArTypes::Byte ArBasePacket::bufToByte(void)
   return(ret);
 }
 
-AREXPORT ArTypes::Byte2 ArBasePacket::bufToByte2(void)
+AREXPORT ArTypes::Byte2 ArBasePacket::bufToByte2()
 {
   ArTypes::Byte2 ret=0;
   unsigned char c1, c2;
@@ -571,7 +571,7 @@ AREXPORT ArTypes::Byte2 ArBasePacket::bufToByte2(void)
   return ret;
 }
 
-AREXPORT ArTypes::Byte4 ArBasePacket::bufToByte4(void)
+AREXPORT ArTypes::Byte4 ArBasePacket::bufToByte4()
 {
   ArTypes::Byte4 ret=0;
   unsigned char c1, c2, c3, c4;
@@ -589,7 +589,7 @@ AREXPORT ArTypes::Byte4 ArBasePacket::bufToByte4(void)
   return ret;
 }
 
-AREXPORT ArTypes::Byte8 ArBasePacket::bufToByte8(void)
+AREXPORT ArTypes::Byte8 ArBasePacket::bufToByte8()
 {
   ArTypes::Byte8 ret=0;
   unsigned char c1, c2, c3, c4, c5, c6, c7, c8;
@@ -611,7 +611,7 @@ AREXPORT ArTypes::Byte8 ArBasePacket::bufToByte8(void)
   return ret;
 }
 
-AREXPORT ArTypes::UByte ArBasePacket::bufToUByte(void)
+AREXPORT ArTypes::UByte ArBasePacket::bufToUByte()
 {
   ArTypes::UByte ret=0;
 
@@ -624,7 +624,7 @@ AREXPORT ArTypes::UByte ArBasePacket::bufToUByte(void)
   return(ret);
 }
 
-AREXPORT ArTypes::UByte2 ArBasePacket::bufToUByte2(void)
+AREXPORT ArTypes::UByte2 ArBasePacket::bufToUByte2()
 {
   ArTypes::UByte2 ret=0;
   unsigned char c1, c2;
@@ -640,7 +640,7 @@ AREXPORT ArTypes::UByte2 ArBasePacket::bufToUByte2(void)
   return ret;
 }
 
-AREXPORT ArTypes::UByte4 ArBasePacket::bufToUByte4(void)
+AREXPORT ArTypes::UByte4 ArBasePacket::bufToUByte4()
 {
   /// MPL 2013_10_23 this was Byte4 not UByte4
   //ArTypes::Byte4 ret=0;
@@ -660,7 +660,7 @@ AREXPORT ArTypes::UByte4 ArBasePacket::bufToUByte4(void)
   return ret;
 }
 
-AREXPORT ArTypes::UByte8 ArBasePacket::bufToUByte8(void)
+AREXPORT ArTypes::UByte8 ArBasePacket::bufToUByte8()
 {
   ArTypes::UByte8 ret=0;
   unsigned char c1, c2, c3, c4, c5, c6, c7, c8;
@@ -828,7 +828,7 @@ AREXPORT void ArBasePacket::duplicatePacket(ArBasePacket *packet)
   memcpy(myBuf, packet->getBuf(), myLength);
 }
 
-AREXPORT void ArBasePacket::log(void)
+AREXPORT void ArBasePacket::log()
 {
   int i;
   ArLog::log(ArLog::Terse, "Packet: (length = %i)", myLength);
@@ -838,7 +838,7 @@ AREXPORT void ArBasePacket::log(void)
   ArLog::log(ArLog::Terse, "\n");
 }
 
-AREXPORT void ArBasePacket::printHex(void)
+AREXPORT void ArBasePacket::printHex()
 {
   int i;
   ArLog::log(ArLog::Terse, "Packet: (length = %i)", myLength);

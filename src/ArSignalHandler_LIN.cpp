@@ -191,7 +191,7 @@ AREXPORT void ArSignalHandler::delHandlerCB(ArFunctor1<int> *func)
 /**
    Removes all of the signal handler callback from the list of callbacks. 
 **/
-AREXPORT void ArSignalHandler::delAllHandlerCBs(void)
+AREXPORT void ArSignalHandler::delAllHandlerCBs()
 {
   ourHandlerList.clear();
 }
@@ -334,7 +334,7 @@ AREXPORT const char *ArSignalHandler::nameSignal(int sig)
   return(ourSigMap[sig].c_str());
 }
 
-AREXPORT void ArSignalHandler::logThread(void)
+AREXPORT void ArSignalHandler::logThread()
 {
   if (ourSignalHandler != NULL)
     ourSignalHandler->logThreadInfo();

@@ -27,7 +27,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "Aria/Aria.h"
 
 
-int main(void)
+int main()
 {
   ArPose p1(100, 100, 0), p2(1000, 1000, 90), p3;
   ArTransform trans;

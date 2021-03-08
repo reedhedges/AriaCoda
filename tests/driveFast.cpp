@@ -48,13 +48,13 @@ public:
   // Constructor
   ConnHandler(ArRobot *robot);
   // Destructor, its just empty
-  ~ConnHandler(void) {}
+  ~ConnHandler() {}
   // to be called if the connection was made
-  void connected(void);
+  void connected();
   // to call if the connection failed
-  void connFail(void);
+  void connFail();
   // to be called if the connection was lost
-  void disconnected(void);
+  void disconnected();
 protected:
   // robot pointer
   ArRobot *myRobot;
@@ -84,7 +84,7 @@ ConnHandler::ConnHandler(ArRobot *robot) :
 }
 
 // just exit if the connection failed
-void ConnHandler::connFail(void)
+void ConnHandler::connFail()
 {
   printf("Failed to connect.\n");
   myRobot->stopRunning();
@@ -93,7 +93,7 @@ void ConnHandler::connFail(void)
 }
 
 // turn on motors, and off sonar, and off amigobot sounds, when connected
-void ConnHandler::connected(void)
+void ConnHandler::connected()
 {
   printf("Connected\n");
   myRobot->comInt(ArCommands::SONAR, 0);
@@ -102,7 +102,7 @@ void ConnHandler::connected(void)
 }
 
 // lost connection, so just exit
-void ConnHandler::disconnected(void)
+void ConnHandler::disconnected()
 {
   printf("Lost connection\n");
   exit(0);

@@ -134,7 +134,7 @@ public:
 
   AREXPORT virtual void byte2ToBuf(int val);
 
-  AREXPORT virtual void finalizePacket(void);
+  AREXPORT virtual void finalizePacket();
 
 protected:
 };
@@ -159,40 +159,40 @@ public:
   /// Destructor
   AREXPORT virtual ~ArDPPTU();
 
-  AREXPORT bool init(void);
+  AREXPORT bool init();
   AREXPORT virtual const char *getTypeName() { return "dpptu"; }
 
-  virtual bool canZoom(void) const { return false; }
+  virtual bool canZoom() const { return false; }
   virtual bool canGetRealPanTilt() const { return myCanGetRealPanTilt; }
 
   /// Sends a delimiter only
-  AREXPORT bool blank(void);
+  AREXPORT bool blank();
 
   /// Perform reset calibration (PTU will move to the limits of pan and tilt axes in turn and return to 0,0)
-  AREXPORT bool resetCalib(void);
+  AREXPORT bool resetCalib();
 
 /// Change stored configuration options
 /// @{
   /// Configure DPPTU to disable future power-on resets
-  AREXPORT bool disableReset(void);
+  AREXPORT bool disableReset();
   /// Configure DPPTU to only reset tilt on future power-up
-  AREXPORT bool resetTilt(void);
+  AREXPORT bool resetTilt();
   /// Configure DPPTU to only reset pan on future power up
-  AREXPORT bool resetPan(void);
+  AREXPORT bool resetPan();
 
   ///  Configure DPPTU to reset both pan and tilt on future power on
-  AREXPORT bool resetAll(void);
+  AREXPORT bool resetAll();
 
   /// Enables monitor mode at power up
-  AREXPORT bool enMon(void);
+  AREXPORT bool enMon();
   /// Disables monitor mode at power up
-  AREXPORT bool disMon(void);
+  AREXPORT bool disMon();
   /// Save current settings as defaults
-  AREXPORT bool saveSet(void);
+  AREXPORT bool saveSet();
   /// Restore stored defaults
-  AREXPORT bool restoreSet(void);
+  AREXPORT bool restoreSet();
   /// Restore factory defaults
-  AREXPORT bool factorySet(void);
+  AREXPORT bool factorySet();
 ///@}
 
 
@@ -225,13 +225,13 @@ protected:
 //@}
 public:
   /// Instructs unit to await completion of the last issued command
-  AREXPORT bool awaitExec(void);
+  AREXPORT bool awaitExec();
   /// Halts all pan-tilt movement
-  AREXPORT bool haltAll(void);
+  AREXPORT bool haltAll();
   /// Halts pan axis movement
-  AREXPORT bool haltPan(void);
+  AREXPORT bool haltPan();
   /// Halts tilt axis movement
-  AREXPORT bool haltTilt(void);
+  AREXPORT bool haltTilt();
 
   /// Sets monitor mode - pan pos1/pos2, tilt pos1/pos2
   AREXPORT bool initMon(double deg1, double deg2, double deg3, double deg4);
@@ -244,22 +244,22 @@ public:
 ///Set execution modes
 ///@{
   /// Sets unit to immediate-execution mode for positional commands. Commands will be executed by PTU as soon as they are received. 
-  AREXPORT bool immedExec(void);
+  AREXPORT bool immedExec();
   /// Sets unit to slaved-execution mode for positional commands. Commands will not be executed by PTU until awaitExec() is used. 
-  AREXPORT bool slaveExec(void);
+  AREXPORT bool slaveExec();
 ///@}
 
 
-  double getMaxPanSlew(void) { return myMaxPanSlew; }
+  double getMaxPanSlew() { return myMaxPanSlew; }
   virtual double getMaxPanSpeed() { return getMaxPanSlew(); }
-  double getMinPanSlew(void) { return myMinPanSlew; }
-  double getMaxTiltSlew(void) { return myMaxTiltSlew; }
+  double getMinPanSlew() { return myMinPanSlew; }
+  double getMaxTiltSlew() { return myMaxTiltSlew; }
   virtual double getMaxTiltSpeed() { return getMaxTiltSlew(); }
-  double getMinTiltSlew(void) { return myMinTiltSlew; }
-  double getMaxPanAccel(void) { return myMaxPanSlew; }
-  double getMinPanAccel(void) { return myMinPanSlew; }
-  double getMaxTiltAccel(void) { return myMaxTiltSlew; }
-  double getMinTiltAccel(void) { return myMinTiltSlew; }
+  double getMinTiltSlew() { return myMinTiltSlew; }
+  double getMaxPanAccel() { return myMaxPanSlew; }
+  double getMinPanAccel() { return myMinPanSlew; }
+  double getMaxTiltAccel() { return myMaxTiltSlew; }
+  double getMinTiltAccel() { return myMinTiltSlew; }
 
 ///Enable/disable moving and holding power modes for pan and tilt
 ///@{
@@ -281,32 +281,32 @@ public:
   AREXPORT bool setHoldPower(Axis axis, PowerMode mode); 
 
   /// @deprecated
-  bool offStatPower(void) {
+  bool offStatPower() {
     return setHoldPower(PAN, OFF) && setHoldPower(TILT, OFF);
   }
 
   /// @deprecated
-  bool regStatPower(void) {
+  bool regStatPower() {
     return setHoldPower(PAN, NORMAL) && setHoldPower(TILT, NORMAL);
   }
 
   /// @deprecated
-  bool lowStatPower(void) {
+  bool lowStatPower() {
     return setHoldPower(PAN, LOW) && setHoldPower(TILT, LOW);
   }
 
   /// @deprecated
-  bool highMotPower(void) {
+  bool highMotPower() {
     return setMovePower(PAN, HIGH) && setMovePower(TILT, HIGH);
   }
 
   /// @deprecated
-  bool regMotPower(void) {
+  bool regMotPower() {
     return setMovePower(PAN, NORMAL) && setMovePower(TILT, NORMAL);
   }
 
   /// @deprecated
-  bool lowMotPower(void) {
+  bool lowMotPower() {
     return setMovePower(PAN, LOW) && setMovePower(TILT, LOW);
   }
 ///@}
@@ -331,9 +331,9 @@ public:
   AREXPORT bool lowerTiltSlew(double deg);
 
   /// Sets motion to indenpendent control mode
-  AREXPORT bool indepMove(void);
+  AREXPORT bool indepMove();
   /// Sets motion to pure velocity control mode
-  AREXPORT bool velMove(void);
+  AREXPORT bool velMove();
 
   /// Sets the rate that the unit pans at
   AREXPORT bool panSlew(double deg);
@@ -358,11 +358,11 @@ protected:
 /// Get current pan/tilt position, if receiving from device, otherwise return
 /// last position request sent to the device. @see canGetRealPanTilt()
 //@{
-  virtual double getPan_i(void) const 
+  virtual double getPan_i() const 
   { 
     return myPan;
   }
-  virtual double getTilt_i(void) const 
+  virtual double getTilt_i() const 
   { 
     return myTilt;
   }
@@ -378,24 +378,24 @@ public:
   
 
   /// Gets the current pan slew
-  double getPanSlew(void) { return myPanSlew; }
+  double getPanSlew() { return myPanSlew; }
   /// Gets the current tilt slew
-  double getTiltSlew(void) { return myTiltSlew; }
+  double getTiltSlew() { return myTiltSlew; }
   /// Gets the base pan slew
-  double getBasePanSlew(void) { return myBasePanSlew; }
+  double getBasePanSlew() { return myBasePanSlew; }
   /// Gets the base tilt slew
-  double getBaseTiltSlew(void) { return myBaseTiltSlew; }
+  double getBaseTiltSlew() { return myBaseTiltSlew; }
   /// Gets the current pan acceleration rate
-  double getPanAccel(void) { return myPanAccel; }
+  double getPanAccel() { return myPanAccel; }
   /// Gets the current tilt acceleration rate
-  double getTiltAccel(void) { return myTiltAccel; }
+  double getTiltAccel() { return myTiltAccel; }
 
   AREXPORT void query(); // called from robot sensor interpretation task, or can be done seperately
 
 protected:
   ArRobot *myRobot;
   ArDPPTUPacket myPacket;
-  void preparePacket(void); ///< adds on extra delim in front to work on H8
+  void preparePacket(); ///< adds on extra delim in front to work on H8
   double myPanSent;  ///< Last pan command sent
   double myTiltSent; ///< Last tilt command sent
   double myPanSlew;

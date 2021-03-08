@@ -94,7 +94,7 @@ ArActionStallRecover::~ArActionStallRecover()
 
 }
 
-AREXPORT void ArActionStallRecover::activate(void)
+AREXPORT void ArActionStallRecover::activate()
 {
   myState = STATE_NOTHING;
   ArAction::activate();
@@ -184,7 +184,7 @@ ArActionDesired *ArActionStallRecover::fire(ArActionDesired currentDesired)
   return &myActionDesired;
 }
 
-void ArActionStallRecover::doit(void)
+void ArActionStallRecover::doit()
 {
   double leftDist, rightDist;
   double dist;

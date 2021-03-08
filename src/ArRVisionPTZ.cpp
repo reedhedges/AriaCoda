@@ -115,12 +115,12 @@ AREXPORT ArRVisionPTZ::ArRVisionPTZ(ArRobot *robot) :
 
   ArPTZ::setLimits(MAX_PAN, MIN_PAN, MAX_TILT, MIN_TILT, MAX_ZOOM, MIN_ZOOM);
     /*
-  AREXPORT virtual double getMaxPosPan(void) const { return MAX_PAN; }
-  AREXPORT virtual double getMaxNegPan(void) const { return MIN_PAN; }
-  AREXPORT virtual double getMaxPosTilt(void) const { return MAX_TILT; }
-  AREXPORT virtual double getMaxNegTilt(void) const { return MIN_TILT; }
-  AREXPORT virtual int getMaxZoom(void) const { return MAX_ZOOM; }
-  AREXPORT virtual int getMinZoom(void) const { return MIN_ZOOM; }
+  AREXPORT virtual double getMaxPosPan() const { return MAX_PAN; }
+  AREXPORT virtual double getMaxNegPan() const { return MIN_PAN; }
+  AREXPORT virtual double getMaxPosTilt() const { return MAX_TILT; }
+  AREXPORT virtual double getMaxNegTilt() const { return MIN_TILT; }
+  AREXPORT virtual int getMaxZoom() const { return MAX_ZOOM; }
+  AREXPORT virtual int getMinZoom() const { return MIN_ZOOM; }
   */
 
 }
@@ -129,7 +129,7 @@ AREXPORT ArRVisionPTZ::~ArRVisionPTZ()
 {
 }
 
-void ArRVisionPTZ::initializePackets(void)
+void ArRVisionPTZ::initializePackets()
 {
   myZoomPacket.empty();
   myZoomPacket.uByteToBuf(0x81);
@@ -161,7 +161,7 @@ void ArRVisionPTZ::initializePackets(void)
 }
 
 
-AREXPORT bool ArRVisionPTZ::init(void)
+AREXPORT bool ArRVisionPTZ::init()
 {
   // send command to power on camera on seekur
   if(myRobot)
@@ -281,7 +281,7 @@ AREXPORT bool ArRVisionPTZ::packetHandler(ArRobotPacket *packet)
 
 #define ARRVISION_MAX_RESPONSE_BYTES 16
 //AREXPORT bool ArRVisionPTZ::packetHandler(ArBasePacket *packet)
-ArBasePacket * ArRVisionPTZ::readPacket(void)
+ArBasePacket * ArRVisionPTZ::readPacket()
 {
   unsigned char data[ARRVISION_MAX_RESPONSE_BYTES];
   unsigned char byte;

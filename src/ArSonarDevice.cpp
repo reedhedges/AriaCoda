@@ -78,7 +78,7 @@ AREXPORT void ArSonarDevice::setRobot(ArRobot *robot)
   ArRangeDevice::setRobot(robot);
 }
 
-AREXPORT void ArSonarDevice::processReadings(void)
+AREXPORT void ArSonarDevice::processReadings()
 {
   int i;
   ArSensorReading *reading;

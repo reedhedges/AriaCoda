@@ -232,7 +232,7 @@ AREXPORT ArRobot::~ArRobot()
    Sets up the packet handlers, sets up the sync list and makes the default
    priority resolver.
 **/
-void ArRobot::init(void)
+void ArRobot::init()
 {
   setUpPacketHandlers();
   setUpSyncList();
@@ -284,7 +284,7 @@ AREXPORT void ArRobot::run(bool stopRunIfNotConnected, bool runNonThreaded)
    otherwise false
 **/
 
-AREXPORT bool ArRobot::isRunning(void) const
+AREXPORT bool ArRobot::isRunning() const
 {
   return (mySyncLoop.getRunning() && 
 	  (myRunningNonThreaded || myPacketReader.getRunning()));
@@ -358,7 +358,7 @@ AREXPORT void ArRobot::stopRunning(bool doDisconnect)
   wakeAllWaitingThreads();
 }
 
-void ArRobot::setUpSyncList(void)
+void ArRobot::setUpSyncList()
 {
   mySyncTaskRoot = new ArSyncTask("SyncTasks");
   mySyncTaskRoot->setWarningTimeCB(&myGetCycleWarningTimeCB);
@@ -373,14 +373,14 @@ void ArRobot::setUpSyncList(void)
 }
 
 
-void ArRobot::setUpPacketHandlers(void)
+void ArRobot::setUpPacketHandlers()
 {
   addPacketHandler(&myMotorPacketCB, ArListPos::FIRST);
   addPacketHandler(&myEncoderPacketCB, ArListPos::LAST);
   addPacketHandler(&myIOPacketCB, ArListPos::LAST);
 }
 
-void ArRobot::reset(void)
+void ArRobot::reset()
 {
   resetTripOdometer();
 
@@ -704,55 +704,55 @@ AREXPORT void ArRobot::setLatDecel(double decel)
 }
 
 
-AREXPORT double ArRobot::getTransVelMax(void) const
+AREXPORT double ArRobot::getTransVelMax() const
 {
   return myTransVelMax;
 }
 
-AREXPORT double ArRobot::getTransNegVelMax(void) const
+AREXPORT double ArRobot::getTransNegVelMax() const
 {
   return myTransNegVelMax;
 }
 
-AREXPORT double ArRobot::getTransAccel(void) const
+AREXPORT double ArRobot::getTransAccel() const
 {
   return myTransAccel;
 }
 
-AREXPORT double ArRobot::getTransDecel(void) const
+AREXPORT double ArRobot::getTransDecel() const
 {
   return myTransDecel;
 }
 
-AREXPORT double ArRobot::getRotVelMax(void) const
+AREXPORT double ArRobot::getRotVelMax() const
 {
   return myRotVelMax;
 }
 
-AREXPORT double ArRobot::getRotAccel(void) const
+AREXPORT double ArRobot::getRotAccel() const
 {
   return myRotAccel;
 }
 
-AREXPORT double ArRobot::getRotDecel(void) const
+AREXPORT double ArRobot::getRotDecel() const
 {
   return myRotDecel;
 }
 
 /** @since 2.6.0 */
-AREXPORT double ArRobot::getLatVelMax(void) const
+AREXPORT double ArRobot::getLatVelMax() const
 {
   return myLatVelMax;
 }
 
 /** @since 2.6.0 */
-AREXPORT double ArRobot::getLatAccel(void) const
+AREXPORT double ArRobot::getLatAccel() const
 {
   return myLatAccel;
 }
 
 /** @since 2.6.0 */
-AREXPORT double ArRobot::getLatDecel(void) const
+AREXPORT double ArRobot::getLatDecel() const
 {
   return myLatDecel;
 }
@@ -781,7 +781,7 @@ AREXPORT void ArRobot::setDeviceConnection(ArDeviceConnection *connection)
    @see ArSerialConnection
    @see ArTcpConnection
 **/
-AREXPORT ArDeviceConnection *ArRobot::getDeviceConnection(void) const
+AREXPORT ArDeviceConnection *ArRobot::getDeviceConnection() const
 {
   return myConn;
 }
@@ -821,7 +821,7 @@ AREXPORT void ArRobot::setConnectionTimeoutTime(int mSecs)
    broken and the disconnect on error events will happen.
 
 **/
-AREXPORT int ArRobot::getConnectionTimeoutTime(void) 
+AREXPORT int ArRobot::getConnectionTimeoutTime() 
 {
   myConnectionTimeoutMutex.lock();
   int ret = myTimeoutTime;
@@ -836,7 +836,7 @@ AREXPORT int ArRobot::getConnectionTimeoutTime(void)
 
    @return the time the last packet was received
 **/
-AREXPORT ArTime ArRobot::getLastPacketTime(void) 
+AREXPORT ArTime ArRobot::getLastPacketTime() 
 {
   myConnectionTimeoutMutex.lock();
   ArTime ret = myLastPacketReceivedTime;
@@ -854,7 +854,7 @@ AREXPORT ArTime ArRobot::getLastPacketTime(void)
 
    @return the time the last SIP was received
 **/
-AREXPORT ArTime ArRobot::getLastOdometryTime(void) 
+AREXPORT ArTime ArRobot::getLastOdometryTime() 
 {
   myConnectionTimeoutMutex.lock();
   ArTime ret = myLastOdometryReceivedTime;
@@ -899,7 +899,7 @@ AREXPORT ArTime ArRobot::getLastOdometryTime(void)
     @see runAsync
 **/
 
-AREXPORT bool ArRobot::asyncConnect(void)
+AREXPORT bool ArRobot::asyncConnect()
 {
   if (!mySyncLoop.getRunning() || isConnected())
     return false;
@@ -1479,7 +1479,7 @@ AREXPORT void ArRobot::setRobotParams(ArRobotParams *params)
 }
 
 
-void ArRobot::processParamFile(void)
+void ArRobot::processParamFile()
 {
 
 
@@ -1765,7 +1765,7 @@ bool ArRobot::madeConnection(bool resetConnectionTime)
  * 0x90. See addPacketHandler() for details on how to write a general packet
  * handler.
  */
-AREXPORT void ArRobot::requestEncoderPackets(void)
+AREXPORT void ArRobot::requestEncoderPackets()
 {
   comInt(ArCommands::ENCODER, 2);
   myRequestedEncoderPackets = true;
@@ -1781,7 +1781,7 @@ AREXPORT void ArRobot::requestEncoderPackets(void)
   used to access the EBX-12 computer's IO interface.  Otherwise, a user-added
   peripheral DAC interface is suggested.  )
 */
-AREXPORT void ArRobot::requestIOPackets(void)
+AREXPORT void ArRobot::requestIOPackets()
 {
   comInt(ArCommands::IOREQUEST, 2);
   myRequestedIOPackets = true;
@@ -1790,30 +1790,30 @@ AREXPORT void ArRobot::requestIOPackets(void)
 /**
   @see requestEncoderPackets()
 */
-AREXPORT void ArRobot::stopEncoderPackets(void)
+AREXPORT void ArRobot::stopEncoderPackets()
 {
   comInt(ArCommands::ENCODER, 0);
   myRequestedEncoderPackets = false;
 }
 
-AREXPORT void ArRobot::stopIOPackets(void)
+AREXPORT void ArRobot::stopIOPackets()
 {
   comInt(ArCommands::IOREQUEST, 0);
   myRequestedIOPackets = false;
 }
 
 
-AREXPORT bool ArRobot::haveRequestedEncoderPackets(void)
+AREXPORT bool ArRobot::haveRequestedEncoderPackets()
 {
   return myRequestedEncoderPackets;
 }
 
-AREXPORT bool ArRobot::haveRequestedIOPackets(void)
+AREXPORT bool ArRobot::haveRequestedIOPackets()
 {
   return myRequestedIOPackets;
 }
 
-void ArRobot::startStabilization(void)
+void ArRobot::startStabilization()
 {
   std::list<ArFunctor *>::iterator it;
   myIsStabilizing = true;
@@ -1826,7 +1826,7 @@ void ArRobot::startStabilization(void)
 
 }
 
-void ArRobot::finishedConnection(void)
+void ArRobot::finishedConnection()
 {
   std::list<ArFunctor *>::iterator it;
 
@@ -1847,7 +1847,7 @@ void ArRobot::finishedConnection(void)
   wakeAllConnWaitingThreads();
 }
 
-void ArRobot::failedConnect(void)
+void ArRobot::failedConnect()
 {
   std::list<ArFunctor *>::iterator it;  
 
@@ -1878,7 +1878,7 @@ void ArRobot::failedConnect(void)
   robot (ie connection hasn't failed)
  **/
 
-AREXPORT bool ArRobot::disconnect(void)
+AREXPORT bool ArRobot::disconnect()
 {
   std::list<ArFunctor *>::iterator it;  
   bool ret;
@@ -1949,7 +1949,7 @@ void ArRobot::dropConnection(const char *technicalReason,
   return;
 }
 
-void ArRobot::cancelConnection(void)
+void ArRobot::cancelConnection()
 {
   //std::list<ArFunctor *>::iterator it;  
 
@@ -1969,7 +1969,7 @@ void ArRobot::cancelConnection(void)
   @see getDirectMotionPrecedenceTime
   @see clearDirectMotion
  **/
-AREXPORT void ArRobot::stop(void)
+AREXPORT void ArRobot::stop()
 {
   comInt(ArCommands::VEL, 0);
   comInt(ArCommands::RVEL, 0);
@@ -2656,7 +2656,7 @@ AREXPORT unsigned char  ArRobot::getIODigOut(int num) const
 /** 
   @return the ArRobotParams instance the robot is using for its parameters
  **/
-AREXPORT const ArRobotParams *ArRobot::getRobotParams(void) const
+AREXPORT const ArRobotParams *ArRobot::getRobotParams() const
 {
   return myParams;
 }
@@ -2664,7 +2664,7 @@ AREXPORT const ArRobotParams *ArRobot::getRobotParams(void) const
 /** 
   @return the ArRobotParams instance the robot is using for its parameters
  **/
-ArRobotParams *ArRobot::getRobotParamsInternal(void)
+ArRobotParams *ArRobot::getRobotParamsInternal()
 {
   return myParams;
 }
@@ -2673,7 +2673,7 @@ ArRobotParams *ArRobot::getRobotParamsInternal(void)
     @return the ArRobotConfigPacketReader taken when this instance got
     connected to the robot
 **/
-AREXPORT const ArRobotConfigPacketReader *ArRobot::getOrigRobotConfig(void) const
+AREXPORT const ArRobotConfigPacketReader *ArRobot::getOrigRobotConfig() const
 {
   return myOrigRobotConfig;
 }
@@ -3078,7 +3078,7 @@ AREXPORT void ArRobot::wakeAllRunExitWaitingThreads()
    @return the root of the sycnhronous task tree
    @see ArSyncTask
 **/
-AREXPORT ArSyncTask *ArRobot::getSyncTaskRoot(void)
+AREXPORT ArSyncTask *ArRobot::getSyncTaskRoot()
 {
   return mySyncTaskRoot;
 }
@@ -3259,7 +3259,7 @@ AREXPORT void ArRobot::remSensorInterpTask(ArFunctor *functor)
 /** 
     @see ArLog
 **/
-AREXPORT void ArRobot::logUserTasks(void) const
+AREXPORT void ArRobot::logUserTasks() const
 {
   ArSyncTask *proc;
   if (mySyncTaskRoot == NULL)
@@ -3275,7 +3275,7 @@ AREXPORT void ArRobot::logUserTasks(void) const
 /**
    @see ArLog
 **/
-AREXPORT void ArRobot::logAllTasks(void) const
+AREXPORT void ArRobot::logAllTasks() const
 {
   if (mySyncTaskRoot != NULL)
     mySyncTaskRoot->log();
@@ -3474,12 +3474,12 @@ AREXPORT ArAction *ArRobot::findAction(const char *actionName)
    @return the actions the robot is using
 **/
 
-AREXPORT ArResolver::ActionMap *ArRobot::getActionMap(void)
+AREXPORT ArResolver::ActionMap *ArRobot::getActionMap()
 {
   return &myActions;
 }
 
-AREXPORT void ArRobot::deactivateActions(void)
+AREXPORT void ArRobot::deactivateActions()
 {
   ArResolver::ActionMap *am;
   ArResolver::ActionMap::iterator amit;
@@ -3526,7 +3526,7 @@ AREXPORT void ArRobot::logActions(bool logDeactivated) const
   }
 }
 
-AREXPORT ArResolver *ArRobot::getResolver(void)
+AREXPORT ArResolver *ArRobot::getResolver()
 {
   return myResolver;
 }
@@ -3553,7 +3553,7 @@ AREXPORT void ArRobot::setResolver(ArResolver *resolver)
    time (setStateReflectionRefreshTime), if you don't wish this to happen
    simply set this to a very large value.
 **/
-void ArRobot::stateReflector(void)
+void ArRobot::stateReflector()
 {
   short transVal;
   short transVal2;
@@ -4616,7 +4616,7 @@ AREXPORT long int ArRobot::getRightEncoder()
  * @internal
    This just locks the robot, so that its locked for all the user tasks
 **/
-void ArRobot::robotLocker(void)
+void ArRobot::robotLocker()
 {
   lock();
 }
@@ -4625,14 +4625,14 @@ void ArRobot::robotLocker(void)
  * @internal
    This just unlocks the robot
 **/
-void ArRobot::robotUnlocker(void)
+void ArRobot::robotUnlocker()
 {
   unlock();
 }
 
 
 
-void ArRobot::packetHandler(void)
+void ArRobot::packetHandler()
 {
   if (myRunningNonThreaded) 
     packetHandlerNonThreaded();
@@ -4650,7 +4650,7 @@ void ArRobot::packetHandler(void)
    @see addPacketHandler
    @see remPacketHandler
 **/
-void ArRobot::packetHandlerNonThreaded(void)
+void ArRobot::packetHandlerNonThreaded()
 {
   ArRobotPacket *packet;
   int timeToWait;
@@ -4772,7 +4772,7 @@ void ArRobot::packetHandlerNonThreaded(void)
 
 }
 
-void ArRobot::packetHandlerThreadedProcessor(void)
+void ArRobot::packetHandlerThreadedProcessor()
 {
   ArRobotPacket *packet;
   int timeToWait;
@@ -4923,7 +4923,7 @@ void ArRobot::packetHandlerThreadedProcessor(void)
 /// This function gets called from the ArRobotPacketReaderThread, and
 /// does the actual reading of packets... so that it their timing
 /// isn't affected by the rest of the sync loop
-AREXPORT void ArRobot::packetHandlerThreadedReader(void)
+AREXPORT void ArRobot::packetHandlerThreadedReader()
 {
   bool isAllocatingPackets = myReceiver.isAllocatingPackets();
   myReceiver.setAllocatingPackets(true);
@@ -4980,7 +4980,7 @@ AREXPORT void ArRobot::packetHandlerThreadedReader(void)
    @see addAction 
    @see remAction
 **/
-AREXPORT void ArRobot::actionHandler(void)
+AREXPORT void ArRobot::actionHandler()
 {
   ArActionDesired *actDesired;
 
@@ -5025,7 +5025,7 @@ AREXPORT void ArRobot::setCycleWarningTime(unsigned int ms)
    @return the number of milliseconds between cycles to warn over, 0
    means warning is off
 **/
-AREXPORT unsigned int ArRobot::getCycleWarningTime(void) const
+AREXPORT unsigned int ArRobot::getCycleWarningTime() const
 {
   return myCycleWarningTime;
 }
@@ -5038,7 +5038,7 @@ AREXPORT unsigned int ArRobot::getCycleWarningTime(void) const
    @return the number of milliseconds between cycles to warn over, 0
    means warning is off
 **/
-AREXPORT unsigned int ArRobot::getCycleWarningTime(void)
+AREXPORT unsigned int ArRobot::getCycleWarningTime()
 {
   return myCycleWarningTime;
 }
@@ -5080,7 +5080,7 @@ AREXPORT void ArRobot::setStabilizingTime(int mSecs)
    has connected to the robot (it won't report it is connected until
    after this time is over).
 **/
-AREXPORT int ArRobot::getStabilizingTime(void) const
+AREXPORT int ArRobot::getStabilizingTime() const
 {
   return myStabilizingTime;
 }
@@ -5092,7 +5092,7 @@ AREXPORT int ArRobot::getStabilizingTime(void) const
    if you set this too small you could overflow your serial connection.
    @return the number of milliseconds between cycles
 **/
-AREXPORT unsigned int ArRobot::getCycleTime(void) const
+AREXPORT unsigned int ArRobot::getCycleTime() const
 {
   return myCycleTime;
 }
@@ -5119,7 +5119,7 @@ AREXPORT void ArRobot::setConnectionCycleMultiplier(unsigned int multiplier)
    small for normal connections but if doing something over a slow
    network then you may want to make it larger
 **/
-AREXPORT unsigned int ArRobot::getConnectionCycleMultiplier(void) const
+AREXPORT unsigned int ArRobot::getConnectionCycleMultiplier() const
 {
   return myConnectionCycleMultiplier;
 }
@@ -5131,7 +5131,7 @@ AREXPORT unsigned int ArRobot::getConnectionCycleMultiplier(void) const
     control in some other monolithic program, so you could work within its 
     framework, rather than trying to get it to work in ARIA.
 **/
-AREXPORT void ArRobot::loopOnce(void)
+AREXPORT void ArRobot::loopOnce()
 {
   if (mySyncTaskRoot != NULL)
     mySyncTaskRoot->run();
@@ -5142,7 +5142,7 @@ AREXPORT void ArRobot::loopOnce(void)
 
 // DigIn IR logic is reverse.  0 means broken, 1 means not broken
 
-AREXPORT bool ArRobot::isLeftTableSensingIRTriggered(void) const
+AREXPORT bool ArRobot::isLeftTableSensingIRTriggered() const
 {
   if (myParams->haveTableSensingIR())
   {
@@ -5154,7 +5154,7 @@ AREXPORT bool ArRobot::isLeftTableSensingIRTriggered(void) const
   return 0;
 }
 
-AREXPORT bool ArRobot::isRightTableSensingIRTriggered(void) const
+AREXPORT bool ArRobot::isRightTableSensingIRTriggered() const
 {
   if (myParams->haveTableSensingIR())
   {
@@ -5166,7 +5166,7 @@ AREXPORT bool ArRobot::isRightTableSensingIRTriggered(void) const
   return 0;
 }
 
-AREXPORT bool ArRobot::isLeftBreakBeamTriggered(void) const
+AREXPORT bool ArRobot::isLeftBreakBeamTriggered() const
 {
   if (myParams->haveTableSensingIR())
   {
@@ -5178,7 +5178,7 @@ AREXPORT bool ArRobot::isLeftBreakBeamTriggered(void) const
   return 0;
 }
 
-AREXPORT bool ArRobot::isRightBreakBeamTriggered(void) const
+AREXPORT bool ArRobot::isRightBreakBeamTriggered() const
 {
   if (myParams->haveTableSensingIR())
   {
@@ -5190,7 +5190,7 @@ AREXPORT bool ArRobot::isRightBreakBeamTriggered(void) const
   return 0;
 }
 
-AREXPORT int ArRobot::getMotorPacCount(void) const
+AREXPORT int ArRobot::getMotorPacCount() const
 {
   if (myTimeLastMotorPacket == time(NULL))
     return myMotorPacCount;
@@ -5199,7 +5199,7 @@ AREXPORT int ArRobot::getMotorPacCount(void) const
   return 0;
 }
 
-AREXPORT int ArRobot::getSonarPacCount(void) const
+AREXPORT int ArRobot::getSonarPacCount() const
 {
   if (myTimeLastSonarPacket == time(NULL))
     return mySonarPacCount;
@@ -6014,7 +6014,7 @@ AREXPORT const ArRangeDevice *ArRobot::findRangeDevice(const char *name,
     appropriate addRangeDevice, or remRangeDevice
     @return the list of range dvices attached to this robot
 **/
-AREXPORT std::list<ArRangeDevice *> *ArRobot::getRangeDeviceList(void)
+AREXPORT std::list<ArRangeDevice *> *ArRobot::getRangeDeviceList()
 {
   return &myRangeDeviceList;
 }
@@ -6452,7 +6452,7 @@ AREXPORT void ArRobot::setEncoderTransform(ArTransform transform)
 /**
    @return the transform from encoder to global coords
 **/
-AREXPORT ArTransform ArRobot::getEncoderTransform(void) const
+AREXPORT ArTransform ArRobot::getEncoderTransform() const
 {
   return myEncoderTransform;
 }
@@ -6473,7 +6473,7 @@ AREXPORT void ArRobot::setDeadReconPose(ArPose pose)
     @return an ArTransform which can be used for transforming a position
     in local coordinates to one in global coordinates
 **/
-AREXPORT ArTransform ArRobot::getToGlobalTransform(void) const
+AREXPORT ArTransform ArRobot::getToGlobalTransform() const
 {
   ArTransform trans;
   ArPose origin(0, 0, 0);
@@ -6487,7 +6487,7 @@ AREXPORT ArTransform ArRobot::getToGlobalTransform(void) const
     @return an ArTransform which can be used for transforming a position
     in global coordinates to one in local coordinates
 **/
-AREXPORT ArTransform ArRobot::getToLocalTransform(void) const
+AREXPORT ArTransform ArRobot::getToLocalTransform() const
 {
   ArTransform trans;
   ArPose origin(0, 0, 0);
@@ -6525,7 +6525,7 @@ AREXPORT void ArRobot::applyTransform(ArTransform trans, bool doCumulative)
   }
 }
 
-AREXPORT const char *ArRobot::getName(void) const
+AREXPORT const char *ArRobot::getName() const
 {
   return myName.c_str();
 }
@@ -6588,7 +6588,7 @@ AREXPORT void ArRobot::setEncoderCorrectionCallback(
    @return the callback, or NULL if there isn't one
 **/
 AREXPORT ArRetFunctor1<double, ArPoseWithTime> * 
-ArRobot::getEncoderCorrectionCallback(void) const
+ArRobot::getEncoderCorrectionCallback() const
 {
   return myEncoderCorrectionCB;
 }
@@ -6620,7 +6620,7 @@ AREXPORT void ArRobot::setDirectMotionPrecedenceTime(int mSec)
    @see setDirectMotionPrecedenceTime
    @see clearDirectMotion
 **/
-AREXPORT unsigned int ArRobot::getDirectMotionPrecedenceTime(void) const
+AREXPORT unsigned int ArRobot::getDirectMotionPrecedenceTime() const
 {
   return myDirectPrecedenceTime;
 }
@@ -6632,7 +6632,7 @@ AREXPORT unsigned int ArRobot::getDirectMotionPrecedenceTime(void) const
    @see setDirectMotionPrecedenceTime
    @see getDirectMotionPrecedenceTime
 **/
-AREXPORT void ArRobot::clearDirectMotion(void)
+AREXPORT void ArRobot::clearDirectMotion()
 {
   myTransType = TRANS_NONE;
   myLastTransType = TRANS_NONE;
@@ -6659,7 +6659,7 @@ AREXPORT void ArRobot::clearDirectMotion(void)
    reflection, but rotational velocity will remain disabled until you
    call setRotVel(), or call clearDirectMotion().
  **/
-AREXPORT void ArRobot::stopStateReflection(void)
+AREXPORT void ArRobot::stopStateReflection()
 {
   myTransType = TRANS_IGNORE;
   myLastTransType = TRANS_IGNORE;
@@ -6673,7 +6673,7 @@ AREXPORT void ArRobot::stopStateReflection(void)
    Returns the state of direct motion commands: whether actions are allowed or not
    @see clearDirectMotion
 **/
-AREXPORT bool ArRobot::isDirectMotion(void) const
+AREXPORT bool ArRobot::isDirectMotion() const
 {
   if (myTransType ==  TRANS_NONE && myLastTransType == TRANS_NONE &&
       myRotType == ROT_NONE && myLastRotType == ROT_NONE && 
@@ -6788,7 +6788,7 @@ AREXPORT void ArRobot::setStateReflectionRefreshTime(int mSec)
    the cyle time, it'll simply happen every cycle.
    @return the state reflection refresh time
 **/
-AREXPORT int ArRobot::getStateReflectionRefreshTime(void) const
+AREXPORT int ArRobot::getStateReflectionRefreshTime() const
 {
   return myStateReflectionRefreshTime;
 }
@@ -6824,12 +6824,12 @@ AREXPORT void ArRobot::attachKeyHandler(ArKeyHandler *keyHandler,
     keyHandler->addKeyHandler(ArKeyHandler::ESCAPE, &myKeyHandlerExitCB);
 }
 
-AREXPORT ArKeyHandler *ArRobot::getKeyHandler(void) const
+AREXPORT ArKeyHandler *ArRobot::getKeyHandler() const
 {
   return myKeyHandler;
 }
 
-void ArRobot::keyHandlerExit(void)
+void ArRobot::keyHandlerExit()
 {
   ArLog::log(ArLog::Terse, "Escape was pressed, program is exiting.");
   // if we're using exit not the keyhandler then call Aria::exit
@@ -6855,7 +6855,7 @@ AREXPORT void ArRobot::setPacketsReceivedTracking(bool packetsReceivedTracking)
   myPacketsReceivedTrackingStarted.setToNow(); 
 }
 
-void ArRobot::ariaExitCallback(void)
+void ArRobot::ariaExitCallback()
 {
   mySyncLoop.stopRunIfNotConnected(false);
   disconnect();
@@ -6875,7 +6875,7 @@ void ArRobot::ariaExitCallback(void)
    (on these robots, you might be able to guess what the charger is doing based on 
    reported battery voltage, but this is not a direct measure.)
  **/
-AREXPORT ArRobot::ChargeState ArRobot::getChargeState(void) const
+AREXPORT ArRobot::ChargeState ArRobot::getChargeState() const
 {
   return myChargeState;
 }
@@ -6889,7 +6889,7 @@ AREXPORT void ArRobot::setChargeState(ArRobot::ChargeState chargeState)
   myChargeState = chargeState;
 }
 
-AREXPORT bool ArRobot::isChargerPowerGood(void) const
+AREXPORT bool ArRobot::isChargerPowerGood() const
 {
   if (myOverriddenIsChargerPowerGood)
     return myIsChargerPowerGood;
@@ -6903,7 +6903,7 @@ AREXPORT void ArRobot::setIsChargerPowerGood(bool isChargerPowerGood)
   myIsChargerPowerGood = isChargerPowerGood;
 }
 
-AREXPORT void ArRobot::resetTripOdometer(void)
+AREXPORT void ArRobot::resetTripOdometer()
 {
   myTripOdometerDistance = 0;
   myTripOdometerDegrees = 0;
@@ -7099,7 +7099,7 @@ AREXPORT ArLaser *ArRobot::findLaser(int laserNumber)
 /** @since 2.7.0 
     @see ArLaserConnector
 */
-AREXPORT const std::map<int, ArLaser *> *ArRobot::getLaserMap(void) const
+AREXPORT const std::map<int, ArLaser *> *ArRobot::getLaserMap() const
 {
   return &myLaserMap;
 }
@@ -7108,7 +7108,7 @@ AREXPORT const std::map<int, ArLaser *> *ArRobot::getLaserMap(void) const
 /** @since 2.7.0 
     @see ArLaserConnector
 */
-AREXPORT std::map<int, ArLaser *> *ArRobot::getLaserMap(void) 
+AREXPORT std::map<int, ArLaser *> *ArRobot::getLaserMap() 
 {
   return &myLaserMap;
 }
@@ -7242,7 +7242,7 @@ AREXPORT ArBatteryMTX *ArRobot::findBattery(int batteryNumber)
 /** @since 2.7.0 
     @see ArBatteryConnector
 */
-AREXPORT const std::map<int, ArBatteryMTX *> *ArRobot::getBatteryMap(void) const
+AREXPORT const std::map<int, ArBatteryMTX *> *ArRobot::getBatteryMap() const
 {
   return &myBatteryMap;
 }
@@ -7251,7 +7251,7 @@ AREXPORT const std::map<int, ArBatteryMTX *> *ArRobot::getBatteryMap(void) const
 /** @since 2.7.0 
     @see ArBatteryConnector
 */
-AREXPORT std::map<int, ArBatteryMTX *> *ArRobot::getBatteryMap(void) 
+AREXPORT std::map<int, ArBatteryMTX *> *ArRobot::getBatteryMap() 
 {
   return &myBatteryMap;
 }
@@ -7385,7 +7385,7 @@ AREXPORT ArLCDMTX *ArRobot::findLCD(int lcdNumber)
 /** @since 2.7.0 
     @see ArLCDConnector
 */
-AREXPORT const std::map<int, ArLCDMTX *> *ArRobot::getLCDMap(void) const
+AREXPORT const std::map<int, ArLCDMTX *> *ArRobot::getLCDMap() const
 {
   return &myLCDMap;
 }
@@ -7394,7 +7394,7 @@ AREXPORT const std::map<int, ArLCDMTX *> *ArRobot::getLCDMap(void) const
 /** @since 2.7.0 
     @see ArLCDConnector
 */
-AREXPORT std::map<int, ArLCDMTX *> *ArRobot::getLCDMap(void) 
+AREXPORT std::map<int, ArLCDMTX *> *ArRobot::getLCDMap() 
 {
   return &myLCDMap;
 }
@@ -7527,7 +7527,7 @@ AREXPORT ArSonarMTX *ArRobot::findSonar(int sonarNumber)
 /** @since 2.7.0 
     @see ArSonarConnector
 */
-AREXPORT const std::map<int, ArSonarMTX *> *ArRobot::getSonarMap(void) const
+AREXPORT const std::map<int, ArSonarMTX *> *ArRobot::getSonarMap() const
 {
   return &mySonarMap;
 }
@@ -7536,7 +7536,7 @@ AREXPORT const std::map<int, ArSonarMTX *> *ArRobot::getSonarMap(void) const
 /** @since 2.7.0 
     @see ArSonarConnector
 */
-AREXPORT std::map<int, ArSonarMTX *> *ArRobot::getSonarMap(void) 
+AREXPORT std::map<int, ArSonarMTX *> *ArRobot::getSonarMap() 
 {
   return &mySonarMap;
 }
@@ -7619,7 +7619,7 @@ AREXPORT int ArRobot::applyEncoderOffset(ArPoseWithTime from, ArTime to,
   return -3;
 }
 
-void ArRobot::internalIgnoreNextPacket(void)
+void ArRobot::internalIgnoreNextPacket()
 {
   myIgnoreNextPacket = true;
   myPacketMutex.lock();

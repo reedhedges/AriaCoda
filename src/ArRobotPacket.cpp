@@ -79,7 +79,7 @@ AREXPORT ArRobotPacket &ArRobotPacket::operator=(const ArRobotPacket &other)
   return *this;
 }
 
-AREXPORT ArTypes::UByte ArRobotPacket::getID(void)
+AREXPORT ArTypes::UByte ArRobotPacket::getID()
 {
   if (myLength >= 4)
     return myBuf[3];
@@ -92,7 +92,7 @@ AREXPORT void ArRobotPacket::setID(ArTypes::UByte id)
   myBuf[3] = id;
 }
 
-AREXPORT void ArRobotPacket::finalizePacket(void)
+AREXPORT void ArRobotPacket::finalizePacket()
 {
   int len = myLength;
   int chkSum;
@@ -114,7 +114,7 @@ AREXPORT void ArRobotPacket::finalizePacket(void)
   //printf("Output %d\n", getID());
 }
 
-AREXPORT ArTypes::Byte2 ArRobotPacket::calcCheckSum(void)
+AREXPORT ArTypes::Byte2 ArRobotPacket::calcCheckSum()
 {
   int i;
   unsigned char n;
@@ -133,7 +133,7 @@ AREXPORT ArTypes::Byte2 ArRobotPacket::calcCheckSum(void)
   return c;
 }
 
-AREXPORT bool ArRobotPacket::verifyCheckSum(void) 
+AREXPORT bool ArRobotPacket::verifyCheckSum() 
 {
   ArTypes::Byte2 chksum;
   unsigned char c1, c2;
@@ -153,7 +153,7 @@ AREXPORT bool ArRobotPacket::verifyCheckSum(void)
   
 }
 
-AREXPORT ArTime ArRobotPacket::getTimeReceived(void)
+AREXPORT ArTime ArRobotPacket::getTimeReceived()
 {
   return myTimeReceived;
 }

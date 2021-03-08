@@ -31,9 +31,9 @@ class Joydrive
 {
 public:
   Joydrive(ArRobot *robot, int test);
-  ~Joydrive(void) {}
+  ~Joydrive() {}
 
-  void drive(void);
+  void drive();
 
 protected:
   ArJoyHandler myJoyHandler;
@@ -61,7 +61,7 @@ Joydrive::Joydrive(ArRobot *robot, int test)
   }
 }
 
-void Joydrive::drive(void)
+void Joydrive::drive()
 {
   int trans, rot;
   ArPose pose;

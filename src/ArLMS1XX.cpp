@@ -52,25 +52,25 @@ AREXPORT ArLMS1XXPacket::~ArLMS1XXPacket()
 
 }
 
-AREXPORT const char *ArLMS1XXPacket::getCommandType(void)
+AREXPORT const char *ArLMS1XXPacket::getCommandType()
 {
 	return myCommandType;
 }
 
-AREXPORT const char *ArLMS1XXPacket::getCommandName(void)
+AREXPORT const char *ArLMS1XXPacket::getCommandName()
 {
 	return myCommandName;
 }
 
 
-AREXPORT void ArLMS1XXPacket::finalizePacket(void)
+AREXPORT void ArLMS1XXPacket::finalizePacket()
 {
 	myBuf[0] = '\002';
 	rawCharToBuf('\003');
 	myBuf[myLength] = '\0';
 }
 
-AREXPORT void ArLMS1XXPacket::resetRead(void)
+AREXPORT void ArLMS1XXPacket::resetRead()
 {
 	myReadLength = 1;
 
@@ -81,7 +81,7 @@ AREXPORT void ArLMS1XXPacket::resetRead(void)
 	bufToStr(myCommandName, sizeof(myCommandName));
 }
 
-AREXPORT ArTime ArLMS1XXPacket::getTimeReceived(void)
+AREXPORT ArTime ArLMS1XXPacket::getTimeReceived()
 {
 	return myTimeReceived;
 }
@@ -102,7 +102,7 @@ AREXPORT void ArLMS1XXPacket::duplicatePacket(ArLMS1XXPacket *packet)
 	memcpy(myBuf, packet->getBuf(), myLength);
 }
 
-AREXPORT void ArLMS1XXPacket::empty(void)
+AREXPORT void ArLMS1XXPacket::empty()
 {
 	myLength = 0;
 	myReadLength = 0;
@@ -186,7 +186,7 @@ AREXPORT void ArLMS1XXPacket::strToBuf(const char *str)
 	myLength += tempLen;
 }
 
-AREXPORT ArTypes::Byte ArLMS1XXPacket::bufToByte(void)
+AREXPORT ArTypes::Byte ArLMS1XXPacket::bufToByte()
 {
 	ArTypes::Byte ret=0;
 
@@ -210,7 +210,7 @@ AREXPORT ArTypes::Byte ArLMS1XXPacket::bufToByte(void)
 	return ret;
 }
 
-AREXPORT ArTypes::Byte2 ArLMS1XXPacket::bufToByte2(void)
+AREXPORT ArTypes::Byte2 ArLMS1XXPacket::bufToByte2()
 {
 	ArTypes::Byte2 ret=0;
 
@@ -235,7 +235,7 @@ AREXPORT ArTypes::Byte2 ArLMS1XXPacket::bufToByte2(void)
 	return ret;
 }
 
-AREXPORT ArTypes::Byte4 ArLMS1XXPacket::bufToByte4(void)
+AREXPORT ArTypes::Byte4 ArLMS1XXPacket::bufToByte4()
 {
 	ArTypes::Byte4 ret=0;
 
@@ -264,7 +264,7 @@ AREXPORT ArTypes::Byte4 ArLMS1XXPacket::bufToByte4(void)
 	return ret;
 }
 
-AREXPORT ArTypes::UByte ArLMS1XXPacket::bufToUByte(void)
+AREXPORT ArTypes::UByte ArLMS1XXPacket::bufToUByte()
 {
 	ArTypes::UByte ret=0;
 	if (!isNextGood(1))
@@ -286,7 +286,7 @@ AREXPORT ArTypes::UByte ArLMS1XXPacket::bufToUByte(void)
 	return ret;
 }
 
-AREXPORT ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2(void)
+AREXPORT ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2()
 {
 	//printf("@ 1\n");
 
@@ -316,7 +316,7 @@ AREXPORT ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2(void)
 	return ret;
 }
 
-AREXPORT ArTypes::UByte4 ArLMS1XXPacket::bufToUByte4(void)
+AREXPORT ArTypes::UByte4 ArLMS1XXPacket::bufToUByte4()
 {
 	ArTypes::Byte4 ret=0;
 
@@ -442,7 +442,7 @@ AREXPORT void ArLMS1XXPacketReceiver::setDeviceConnection(ArDeviceConnection *co
 	myConn = conn;
 }
 
-AREXPORT ArDeviceConnection *ArLMS1XXPacketReceiver::getDeviceConnection(void)
+AREXPORT ArDeviceConnection *ArLMS1XXPacketReceiver::getDeviceConnection()
 {
 	return myConn;
 }
@@ -1154,7 +1154,7 @@ AREXPORT ArLMS1XX::~ArLMS1XX()
 	unlockDevice();
 }
 
-void ArLMS1XX::clear(void)
+void ArLMS1XX::clear()
 {
 	myIsConnected = false;
 	myTryingToConnect = false;
@@ -1213,7 +1213,7 @@ AREXPORT void ArLMS1XX::setRobot(ArRobot *robot)
 
 
 
-AREXPORT bool ArLMS1XX::asyncConnect(void)
+AREXPORT bool ArLMS1XX::asyncConnect()
 {
 	myStartConnect = true;
 	if (!getRunning())
@@ -1221,7 +1221,7 @@ AREXPORT bool ArLMS1XX::asyncConnect(void)
 	return true;
 }
 
-AREXPORT bool ArLMS1XX::disconnect(void)
+AREXPORT bool ArLMS1XX::disconnect()
 {
 	if (!isConnected())
 		return true;
@@ -1232,7 +1232,7 @@ AREXPORT bool ArLMS1XX::disconnect(void)
 	return true;
 }
 
-void ArLMS1XX::failedToConnect(void)
+void ArLMS1XX::failedToConnect()
 {
 	lockDevice();
 	myTryingToConnect = true;
@@ -1240,7 +1240,7 @@ void ArLMS1XX::failedToConnect(void)
 	laserFailedConnect();
 }
 
-void ArLMS1XX::sensorInterp (void)
+void ArLMS1XX::sensorInterp ()
 {
 	ArLMS1XXPacket *packet;
 	ArTime startTime;
@@ -1842,7 +1842,7 @@ AREXPORT ArLMS1XXPacket *ArLMS1XX::sendAndRecv(
 	return NULL;
 }
 
-AREXPORT bool ArLMS1XX::blockingConnect(void)
+AREXPORT bool ArLMS1XX::blockingConnect()
 {
 //	char buf[1024];
   ArSerialConnection *conn;
@@ -1959,7 +1959,7 @@ AREXPORT bool ArLMS1XX::blockingConnect(void)
 // scanfreq is scannnin frequency in hz, resolution is angle increment in
 // degrees. these values will be converted as appropriate.
 
-AREXPORT bool ArLMS1XX::lms5xxConnect(void)
+AREXPORT bool ArLMS1XX::lms5xxConnect()
 {
 
 		ArTime timeDone;
@@ -2521,7 +2521,7 @@ AREXPORT bool ArLMS1XX::lms5xxConnect(void)
 
 }
 
-AREXPORT bool ArLMS1XX::lms1xxConnect(void)
+AREXPORT bool ArLMS1XX::lms1xxConnect()
 {
 
 		ArTime timeDone;
@@ -2776,7 +2776,7 @@ AREXPORT bool ArLMS1XX::lms1xxConnect(void)
 
 }
 
-AREXPORT bool ArLMS1XX::timConnect(void)
+AREXPORT bool ArLMS1XX::timConnect()
 {
 
 		ArTime timeDone;

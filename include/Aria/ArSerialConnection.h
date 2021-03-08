@@ -58,11 +58,11 @@ class ArSerialConnection: public ArDeviceConnection
   /** Gets the port this is using
    *  @sa ArUtil::COM1, ArUtil::COM2, ArUtil::COM3, ArUtil::COM4
    */
-  AREXPORT const char * getPort(void);
+  AREXPORT const char * getPort();
   
-  AREXPORT virtual bool openSimple(void);  
-  AREXPORT virtual int getStatus(void);
-  AREXPORT virtual bool close(void);
+  AREXPORT virtual bool openSimple();  
+  AREXPORT virtual int getStatus();
+  AREXPORT virtual bool close();
   AREXPORT virtual int read(const char *data, unsigned int size, 
 			    unsigned int msWait = 0);
   AREXPORT virtual int write(const char *data, unsigned int size);
@@ -76,27 +76,27 @@ class ArSerialConnection: public ArDeviceConnection
    */
   AREXPORT bool setBaud(int baud);
   /// Gets what the current baud rate is set to
-  AREXPORT int getBaud(void);
+  AREXPORT int getBaud();
 
   /// Sets whether to enable or disable the hardware control lines
   AREXPORT bool setHardwareControl(bool hardwareControl);
   /// Gets whether the hardware control lines are enabled or disabled
-  AREXPORT bool getHardwareControl(void);
+  AREXPORT bool getHardwareControl();
 
   /// Sees how the CTS line is set (true = high)
-  AREXPORT bool getCTS(void);
+  AREXPORT bool getCTS();
 
   /// Sees how the DSR line is set (true = high)
-  AREXPORT bool getDSR(void);
+  AREXPORT bool getDSR();
 
   /// Sees how the DCD line is set (true = high)
-  AREXPORT bool getDCD(void);
+  AREXPORT bool getDCD();
 
   /// Sees how the Ring line is set (true = high)
-  AREXPORT bool getRing(void);
+  AREXPORT bool getRing();
 
   // Internal open, for use by open and openSimple
-  AREXPORT int internalOpen(void);
+  AREXPORT int internalOpen();
 
   enum Open { 
       OPEN_COULD_NOT_OPEN_PORT = 1, ///< Could not open the port
@@ -106,17 +106,17 @@ class ArSerialConnection: public ArDeviceConnection
       OPEN_ALREADY_OPEN ///< Connection was already open
   };
   AREXPORT virtual ArTime getTimeRead(int index);
-  AREXPORT virtual bool isTimeStamping(void);
+  AREXPORT virtual bool isTimeStamping();
 
  protected:
-  void buildStrMap(void);
+  void buildStrMap();
 
 #ifndef _WIN32
   // these both return -1 for errors
   int rateToBaud(int rate);
   int baudToRate(int baud);
   // this just tries
-  void startTimeStamping(void);
+  void startTimeStamping();
   bool myTakingTimeStamps;
 #endif
     

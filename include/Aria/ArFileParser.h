@@ -74,7 +74,7 @@ public:
 
 
   /// Destructor
-  AREXPORT ~ArFileParser(void);
+  AREXPORT ~ArFileParser();
 
   /// Adds a functor to handle a keyword that wants an easily parsable string
   AREXPORT bool addHandler(const char *keyword, 
@@ -122,7 +122,7 @@ public:
 
 
   /// Gets the base directory
-  AREXPORT const char *getBaseDirectory(void) const;
+  AREXPORT const char *getBaseDirectory() const;
   /// Sets the base directory
   AREXPORT void setBaseDirectory(const char *baseDirectory);
 
@@ -137,7 +137,7 @@ public:
   AREXPORT bool parseLine(char *line, char *errorBuffer = NULL, 
 			  size_t errorBufferLen = 0);
   /// Function to reset counters
-  AREXPORT void resetCounters(void);
+  AREXPORT void resetCounters();
   /// Sets the maximum number of arguments in a line we can expect
   AREXPORT void setMaxNumArguments(size_t maxNumArguments = 512)
     { myMaxNumArguments = maxNumArguments; }
@@ -190,7 +190,7 @@ protected:
       else 
 	return false; 
     }
-    const char *getName(void) 
+    const char *getName() 
     { 
       if (myCallbackWithError != NULL)
 	return myCallbackWithError->getName();

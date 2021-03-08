@@ -66,7 +66,7 @@ AREXPORT void ArActionRobotJoydrive::setRobot(ArRobot *robot)
   }
 }
 
-AREXPORT void ArActionRobotJoydrive::connectCallback(void)
+AREXPORT void ArActionRobotJoydrive::connectCallback()
 {
   myRobot->comInt(ArCommands::JOYINFO, 2);
 }

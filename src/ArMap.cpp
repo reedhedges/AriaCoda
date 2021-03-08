@@ -631,7 +631,7 @@ AREXPORT ArMap &ArMap::operator=(const ArMap &other)
 } // end operator=
 
 
-AREXPORT ArMap::~ArMap(void)
+AREXPORT ArMap::~ArMap()
 { 
   delete myLoadingMap;
   //myLoadingMap = NULL;
@@ -856,14 +856,14 @@ AREXPORT bool ArMap::calculateChecksum(unsigned char *md5DigestBuffer,
 }
 
 
-AREXPORT const char *ArMap::getBaseDirectory(void) const
+AREXPORT const char *ArMap::getBaseDirectory() const
 { 
   return myBaseDirectory.c_str();
 
 } // end method getBaseDirectory
 
 
-AREXPORT const char *ArMap::getFileName(void) const 
+AREXPORT const char *ArMap::getFileName() const 
 { 
   return myFileName.c_str();
 
@@ -877,7 +877,7 @@ AREXPORT void ArMap::setIgnoreEmptyFileName(bool ignore)
 
 } // end method setIgnoreEmptyFileName
 
-AREXPORT bool ArMap::getIgnoreEmptyFileName(void)
+AREXPORT bool ArMap::getIgnoreEmptyFileName()
 { 
   return myIgnoreEmptyFileName;
 
@@ -890,7 +890,7 @@ AREXPORT void ArMap::setIgnoreCase(bool ignoreCase)
 
 } // end method setIgnoreCase
 
-AREXPORT bool ArMap::getIgnoreCase(void) 
+AREXPORT bool ArMap::getIgnoreCase() 
 { 
   return myIgnoreCase;
 
@@ -910,7 +910,7 @@ AREXPORT void ArMap::setBaseDirectory(const char *baseDirectory)
 } // end method setBaseDirectory
 
 
-AREXPORT const char *ArMap::getTempDirectory(void) const
+AREXPORT const char *ArMap::getTempDirectory() const
 {
   return myCurrentMap->getTempDirectory();
 }
@@ -978,7 +978,7 @@ AREXPORT void ArMap::setQuiet(bool isQuiet)
 } // end method setQuiet
 	
 
-AREXPORT void ArMap::mapChanged(void)
+AREXPORT void ArMap::mapChanged()
 { 
   myCurrentMap->mapChanged();
 
@@ -1053,7 +1053,7 @@ AREXPORT void ArMap::setMapChangedLogLevel(ArLog::LogLevel level)
 
 } // end method setMapChangedLogLevel
 
-AREXPORT ArLog::LogLevel ArMap::getMapChangedLogLevel(void)
+AREXPORT ArLog::LogLevel ArMap::getMapChangedLogLevel()
 { 
   return myCurrentMap->getMapChangedLogLevel();
 
@@ -1094,7 +1094,7 @@ AREXPORT std::list<ArArgumentBuilder *> *ArMap::getInfo(int infoType)
 
 } // end method getInfo
 
-AREXPORT std::list<ArArgumentBuilder *> *ArMap::getMapInfo(void)
+AREXPORT std::list<ArArgumentBuilder *> *ArMap::getMapInfo()
 { 
   return myCurrentMap->getInfo(ArMapInfo::MAP_INFO_NAME);
 
@@ -1178,7 +1178,7 @@ AREXPORT std::list<ArMapObject *> ArMap::findMapObjectsOfType
   return myCurrentMap->findMapObjectsOfType(type, isIncludeWithHeading);
 }
 
-AREXPORT std::list<ArMapObject *> *ArMap::getMapObjects(void)
+AREXPORT std::list<ArMapObject *> *ArMap::getMapObjects()
 { 
   return myCurrentMap->getMapObjects();
 
@@ -1499,7 +1499,7 @@ AREXPORT bool ArMap::parseLine(char *line)
 } // end method parseLine
 
 
-AREXPORT void ArMap::parsingComplete(void)
+AREXPORT void ArMap::parsingComplete()
 { 
   lock();
 

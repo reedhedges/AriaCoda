@@ -73,7 +73,7 @@ AREXPORT ArRobotConfig::~ArRobotConfig()
 {
 }
 
-AREXPORT bool ArRobotConfig::processFile(void)
+AREXPORT bool ArRobotConfig::processFile()
 {
     if (myTransVelMax != 0)
     myRobot->setTransVelMax(myTransVelMax);
@@ -129,7 +129,7 @@ AREXPORT void ArRobotConfig::addAnalogGyro(ArAnalogGyro *gyro)
     connectCallback();
 }
 
-AREXPORT void ArRobotConfig::connectCallback(void)
+AREXPORT void ArRobotConfig::connectCallback()
 {
   std::string section;
   section = "Robot config";

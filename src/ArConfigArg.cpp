@@ -1041,7 +1041,7 @@ void ArConfigArg::clear(bool initial,
 
 
 
-AREXPORT void ArConfigArg::replaceSpacesInName(void)
+AREXPORT void ArConfigArg::replaceSpacesInName()
 {
   size_t i;
   size_t len = myName.size();
@@ -1083,7 +1083,7 @@ void ArConfigArg::setParent(ArConfigArg *parentArg)
  * @return Type the type of this arg, used to determine which 
  * other attributes are valid
 */
-AREXPORT ArConfigArg::Type ArConfigArg::getType(void) const
+AREXPORT ArConfigArg::Type ArConfigArg::getType() const
 {
   return myType;
 }
@@ -1091,7 +1091,7 @@ AREXPORT ArConfigArg::Type ArConfigArg::getType(void) const
 /**
  * @return char *, the name of this arg or "" if none
 **/
-AREXPORT const char *ArConfigArg::getName(void) const
+AREXPORT const char *ArConfigArg::getName() const
 {
   return myName.c_str();
 }
@@ -1099,7 +1099,7 @@ AREXPORT const char *ArConfigArg::getName(void) const
 /**
  * @return char *, the description of this arg or "" if none
 **/
-AREXPORT const char *ArConfigArg::getDescription(void) const
+AREXPORT const char *ArConfigArg::getDescription() const
 {
   return myDescription.c_str();
 }
@@ -4385,7 +4385,7 @@ AREXPORT void ArConfigArg::log(bool verbose,
 /**
    The priority of this argument when used in ArConfig.
  **/
-AREXPORT ArPriority::Priority ArConfigArg::getConfigPriority(void) const
+AREXPORT ArPriority::Priority ArConfigArg::getConfigPriority() const
 {
   return myConfigPriority;
 }
@@ -4462,7 +4462,7 @@ AREXPORT const char *ArConfigArg::getDisplayHint() const
  *   <ul>
  *   <li>The current ArConfigArg is read-only unless the other parameter equals 
  *       the specified value.  This allows fine-grained dependencies, primarily 
- *       for small “enabled” flags.</li>
+ *       for small ï¿½enabledï¿½ flags.</li>
  *   </ul>
  * </li>
  * 
@@ -4471,7 +4471,7 @@ AREXPORT const char *ArConfigArg::getDisplayHint() const
  *   <ul>
  *   <li>The current ArConfigArg is read-only unless the other parameter equals 
  *       the specified value.  This allows fine-grained dependencies, primarily 
- *       for small “enabled” flags.</li>
+ *       for small ï¿½enabledï¿½ flags.</li>
  *   </ul> 
  * </li>
  * 

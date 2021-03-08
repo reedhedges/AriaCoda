@@ -49,7 +49,7 @@ public:
   AREXPORT void stopRunIfNotConnected(bool stopRun);
   AREXPORT virtual void * runThread(void *arg);
 
-  AREXPORT virtual const char *getThreadActivity(void);
+  AREXPORT virtual const char *getThreadActivity();
 
 
 protected:

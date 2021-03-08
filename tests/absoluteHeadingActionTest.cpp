@@ -31,7 +31,7 @@ class ActionTurnToHeading : public ArAction
 {
 public:
   ActionTurnToHeading(double heading = 0);
-  virtual ~ActionTurnToHeading(void) {}
+  virtual ~ActionTurnToHeading() {}
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
   void setHeading(double heading);
 protected:
@@ -64,9 +64,9 @@ class ConnHandler
 {
 public:
   ConnHandler(ArRobot *robot);
-  ~ConnHandler(void) {}
-  void connFail(void);
-  void connected(void);
+  ~ConnHandler() {}
+  void connFail();
+  void connected();
 protected:
   ArRobot *myRobot;
   ArFunctorC<ConnHandler> *myConnFailCB;
@@ -82,7 +82,7 @@ ConnHandler::ConnHandler(ArRobot *robot)
   myRobot->addFailedConnectCB(myConnFailCB, ArListPos::FIRST);
 }
 
-void ConnHandler::connFail(void)
+void ConnHandler::connFail()
 {
   printf("Failed to connect.\n");
   myRobot->stopRunning();
@@ -90,7 +90,7 @@ void ConnHandler::connFail(void)
   return;
 }
 
-void ConnHandler::connected(void)
+void ConnHandler::connected()
 {
   printf("Connected\n");
   myRobot->comInt(ArCommands::SONAR, 0);

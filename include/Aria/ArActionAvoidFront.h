@@ -59,9 +59,9 @@ public:
   /// Destructor
   AREXPORT virtual ~ArActionAvoidFront();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  virtual const ArActionDesired *getDesired(void) const 
+  virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
 protected:

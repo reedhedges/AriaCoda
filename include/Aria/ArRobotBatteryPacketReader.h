@@ -48,19 +48,19 @@ public:
   /// Destructor
   AREXPORT ~ArRobotBatteryPacketReader();
   /// Request a single packet.. 
-  AREXPORT void requestSinglePacket(void);
+  AREXPORT void requestSinglePacket();
   /// Request a continous stream of packets
-  AREXPORT void requestContinuousPackets(void);
+  AREXPORT void requestContinuousPackets();
   /// Stop the stream of packets
-  AREXPORT void stopPackets(void);
+  AREXPORT void stopPackets();
   /// See if we've requested packets
-  AREXPORT bool haveRequestedPackets(void);
+  AREXPORT bool haveRequestedPackets();
   /// See if we've gotten the data
-  bool hasPacketArrived(void) const { return myPacketArrived; }
+  bool hasPacketArrived() const { return myPacketArrived; }
   /// Gets the number of batteries
-  int getNumBatteries(void) const { return myNumBatteries; }
+  int getNumBatteries() const { return myNumBatteries; }
   /// Gets the number of bytes per battery
-  int getNumBytesPerBattery(void) const { return myNumBytesPerBattery; }
+  int getNumBytesPerBattery() const { return myNumBytesPerBattery; }
   /// Gets the flags1 for a particular battery
   int getFlags1(int battery) { return myFlags1[battery]; }
   /// Gets the flags2 for a particular battery
@@ -77,7 +77,7 @@ protected:
   /// internal, packet handler
   AREXPORT bool packetHandler(ArRobotPacket *packet);
   /// internal, packet handler
-  AREXPORT void connectCallback(void);
+  AREXPORT void connectCallback();
 
   // the robot
   ArRobot *myRobot;

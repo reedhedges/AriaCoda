@@ -31,7 +31,7 @@ class TestAction0 : public ArAction
 public:
   TestAction0(const char *name) : ArAction(name) 
     {}; 
-  virtual ~TestAction0(void) {}
+  virtual ~TestAction0() {}
   ArActionDesired *fire(ArActionDesired currentDesired) { return NULL; }
 };
 
@@ -44,7 +44,7 @@ public:
       setNextArgument(ArArg("first", &myDouble)); 
       myDouble = 1;
     }; 
-  virtual ~TestAction1(void) {}
+  virtual ~TestAction1() {}
   ArActionDesired *fire(ArActionDesired currentDesired) { return NULL; }
   double myDouble;
 };
@@ -63,7 +63,7 @@ public:
       myInt = 3;
       strcpy(myString, "3");
     }; 
-  virtual ~TestAction3(void) {}
+  virtual ~TestAction3() {}
   ArActionDesired *fire(ArActionDesired currentDesired) { return NULL; }
   double myDouble;
   int myInt; 
@@ -73,7 +73,7 @@ public:
 
 
 
-int main(void)
+int main()
 {
   ArArg *arg;
 

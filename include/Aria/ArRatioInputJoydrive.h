@@ -84,19 +84,19 @@ public:
   /// Destructor
   AREXPORT virtual ~ArRatioInputJoydrive();
   /// Whether the joystick is initalized or not
-  AREXPORT bool joystickInited(void);
+  AREXPORT bool joystickInited();
   /// Set if we'll stop if no button is pressed, otherwise just do nothing
   AREXPORT void setStopIfNoButtonPressed(bool stopIfNoButtonPressed);
   /// Get if we'll stop if no button is pressed, otherwise just do nothing
-  AREXPORT bool getStopIfNoButtonPressed(void);
+  AREXPORT bool getStopIfNoButtonPressed();
   /// Sets whether to use OSCalibration the joystick or not
   AREXPORT void setUseOSCal(bool useOSCal);
   /// Gets whether OSCalibration is being used for the joystick or not
-  AREXPORT bool getUseOSCal(void);
+  AREXPORT bool getUseOSCal();
   /// Gets the joyHandler
-  AREXPORT ArJoyHandler *getJoyHandler(void) { return myJoyHandler; }
+  AREXPORT ArJoyHandler *getJoyHandler() { return myJoyHandler; }
 protected:
-  void fireCallback(void);
+  void fireCallback();
   ArRobot *myRobot;
   ArActionRatioInput *myInput;
   // if we're printing extra information for tracing and such

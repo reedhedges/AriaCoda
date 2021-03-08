@@ -87,12 +87,12 @@ AREXPORT void ArActionGroupInput::setHeading(double heading)
   myInput->setHeading(heading);
 }
 
-AREXPORT void ArActionGroupInput::clear(void)
+AREXPORT void ArActionGroupInput::clear()
 {
   myInput->clear();
 }
 
-AREXPORT ArActionInput *ArActionGroupInput::getActionInput(void)
+AREXPORT ArActionInput *ArActionGroupInput::getActionInput()
 {
   return myInput;
 }
@@ -110,7 +110,7 @@ AREXPORT ArActionGroupStop::~ArActionGroupStop()
   deleteActions();
 }
 
-AREXPORT ArActionStop *ArActionGroupStop::getActionStop(void)
+AREXPORT ArActionStop *ArActionGroupStop::getActionStop()
 {
   return myActionStop;
 }
@@ -314,7 +314,7 @@ AREXPORT ArActionGroupRatioDrive::~ArActionGroupRatioDrive()
 }
 
 
-AREXPORT ArActionRatioInput *ArActionGroupRatioDrive::getActionRatioInput(void)
+AREXPORT ArActionRatioInput *ArActionGroupRatioDrive::getActionRatioInput()
 {
   return myInput;
 }
@@ -349,7 +349,7 @@ AREXPORT ArActionGroupRatioDriveUnsafe::~ArActionGroupRatioDriveUnsafe()
 }
 
 
-AREXPORT ArActionRatioInput *ArActionGroupRatioDriveUnsafe::getActionRatioInput(void)
+AREXPORT ArActionRatioInput *ArActionGroupRatioDriveUnsafe::getActionRatioInput()
 {
   return myInput;
 }

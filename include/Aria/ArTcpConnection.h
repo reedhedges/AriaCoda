@@ -47,28 +47,28 @@ class ArTcpConnection: public ArDeviceConnection
   AREXPORT int open(const char * host = NULL, int port = 8101);
 
   AREXPORT void setPort(const char *host = NULL, int port = 8101);
-  AREXPORT virtual bool openSimple(void);  
-  AREXPORT virtual int getStatus(void);
-  AREXPORT virtual bool close(void);
+  AREXPORT virtual bool openSimple();  
+  AREXPORT virtual int getStatus();
+  AREXPORT virtual bool close();
   AREXPORT virtual int read(const char *data, unsigned int size, 
 			    unsigned int msWait = 0);
   AREXPORT virtual int write(const char *data, unsigned int size);
   AREXPORT virtual const char * getOpenMessage(int messageNumber);
   AREXPORT virtual ArTime getTimeRead(int index);
-  AREXPORT virtual bool isTimeStamping(void);
+  AREXPORT virtual bool isTimeStamping();
 
   /// Gets the name of the host connected to
-  AREXPORT std::string getHost(void);
+  AREXPORT std::string getHost();
   /// Gets the number of the port connected to
-  AREXPORT int getPort(void);
+  AREXPORT int getPort();
 
   /// Internal function used by open and openSimple
-  AREXPORT int internalOpen(void);
+  AREXPORT int internalOpen();
 
   /// Sets the tcp connection to use this socket instead of its own
   AREXPORT void setSocket(ArSocket *socket);
   /// Gets the socket this tcp connection is using
-  AREXPORT ArSocket *getSocket(void);
+  AREXPORT ArSocket *getSocket();
   /// Sets the status of the device, ONLY use this if you're playing
   /// with setSocket and know what you're doing
   AREXPORT void setStatus(int status);
@@ -83,7 +83,7 @@ class ArTcpConnection: public ArDeviceConnection
 
 
 protected:
-  void buildStrMap(void);
+  void buildStrMap();
   
   ArStrMap myStrMap;
   bool myOwnSocket;

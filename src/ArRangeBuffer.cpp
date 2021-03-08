@@ -41,7 +41,7 @@ AREXPORT ArRangeBuffer::~ArRangeBuffer()
   ArUtil::deleteSet(myInvalidBuffer.begin(), myInvalidBuffer.end());
 }
 
-AREXPORT size_t ArRangeBuffer::getSize(void) const
+AREXPORT size_t ArRangeBuffer::getSize() const
 {
   return mySize;
 }
@@ -102,7 +102,7 @@ AREXPORT void ArRangeBuffer::setSize(size_t size)
     so nothing messes with the list while you are doing so.
     @return the list of positions this range buffer has
 */
-AREXPORT const std::list<ArPoseWithTime *> *ArRangeBuffer::getBuffer(void) const
+AREXPORT const std::list<ArPoseWithTime *> *ArRangeBuffer::getBuffer() const
 { 
   return &myBuffer; 
 }
@@ -116,7 +116,7 @@ AREXPORT const std::list<ArPoseWithTime *> *ArRangeBuffer::getBuffer(void) const
     so nothing messes with the list while you are doing so.
     @return the list of positions this range buffer has
 */
-AREXPORT std::list<ArPoseWithTime *> *ArRangeBuffer::getBuffer(void)
+AREXPORT std::list<ArPoseWithTime *> *ArRangeBuffer::getBuffer()
 { 
   return &myBuffer; 
 }
@@ -319,13 +319,13 @@ AREXPORT void ArRangeBuffer::applyTransform(ArTransform trans)
   trans.doTransform(&myBuffer);
 }
 
-AREXPORT void ArRangeBuffer::clear(void)
+AREXPORT void ArRangeBuffer::clear()
 {
   beginRedoBuffer();
   endRedoBuffer();
 }
 
-AREXPORT void ArRangeBuffer::reset(void)
+AREXPORT void ArRangeBuffer::reset()
 {
   clear();
 }
@@ -358,7 +358,7 @@ AREXPORT void ArRangeBuffer::clearOlderThanSeconds(int seconds)
    to update in the buffer, call redoReading(double x, double y), then
    when you are done, call endRedoBuffer().
 **/     
-AREXPORT void ArRangeBuffer::beginRedoBuffer(void)
+AREXPORT void ArRangeBuffer::beginRedoBuffer()
 {
   myRedoIt = myBuffer.begin();
   myHitEnd = false;
@@ -390,7 +390,7 @@ AREXPORT void ArRangeBuffer::redoReading(double x, double y)
 /**
    For a description of how to use this, see beginRedoBuffer()
 **/
-AREXPORT void ArRangeBuffer::endRedoBuffer(void)
+AREXPORT void ArRangeBuffer::endRedoBuffer()
 {
   if (!myHitEnd)
   {
@@ -481,7 +481,7 @@ AREXPORT void ArRangeBuffer::addReading(double x, double y)
    @see invalidateReading
    @see endInvalidationSweep
 */
-void ArRangeBuffer::beginInvalidationSweep(void)
+void ArRangeBuffer::beginInvalidationSweep()
 {
   myInvalidSweepList.clear();
 }
@@ -505,7 +505,7 @@ AREXPORT void ArRangeBuffer::invalidateReading(
    @see beginInvalidationSweep
    @see invalidateReading
 */
-void ArRangeBuffer::endInvalidationSweep(void)
+void ArRangeBuffer::endInvalidationSweep()
 {
   while ((myInvalidIt = myInvalidSweepList.begin()) != 
 	 myInvalidSweepList.end())
@@ -526,7 +526,7 @@ void ArRangeBuffer::endInvalidationSweep(void)
    be careful if accessing it from multiple threads.
    @return Pointer to reading vector.
 */
-AREXPORT std::vector<ArPoseWithTime> *ArRangeBuffer::getBufferAsVector(void)
+AREXPORT std::vector<ArPoseWithTime> *ArRangeBuffer::getBufferAsVector()
 {
   std::list<ArPoseWithTime *>::iterator it;
 

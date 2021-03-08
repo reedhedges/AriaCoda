@@ -74,7 +74,7 @@ AREXPORT void ArBumpers::setRobot(ArRobot *robot)
 /**
    This function is called every 100 milliseconds.
 */
-AREXPORT void ArBumpers::processReadings(void)
+AREXPORT void ArBumpers::processReadings()
 {
   int frontBump;
   int rearBump;

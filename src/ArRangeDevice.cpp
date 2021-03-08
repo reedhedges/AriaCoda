@@ -133,7 +133,7 @@ AREXPORT ArRangeDevice::~ArRangeDevice()
 }
 
 
-AREXPORT const char * ArRangeDevice::getName(void) const
+AREXPORT const char * ArRangeDevice::getName() const
 { 
   return myName.c_str(); 
 }
@@ -152,12 +152,12 @@ AREXPORT void ArRangeDevice::setRobot(ArRobot *robot)
     myRobot->addSensorInterpTask(buf, 100, &myFilterCB);
 }
 
-AREXPORT ArRobot *ArRangeDevice::getRobot(void) 
+AREXPORT ArRobot *ArRangeDevice::getRobot() 
 {
   return myRobot; 
 }
 
-AREXPORT void ArRangeDevice::filterCallback(void)
+AREXPORT void ArRangeDevice::filterCallback()
 {
   std::list<ArPoseWithTime *>::iterator it;
   lockDevice();
@@ -233,7 +233,7 @@ AREXPORT void ArRangeDevice::setCurrentBufferSize(size_t size)
   myCurrentBuffer.setSize(size);
 }
 
-AREXPORT size_t ArRangeDevice::getCurrentBufferSize(void) const
+AREXPORT size_t ArRangeDevice::getCurrentBufferSize() const
 {
   return myCurrentBuffer.getSize();
 }
@@ -252,7 +252,7 @@ AREXPORT void ArRangeDevice::setCumulativeBufferSize(size_t size)
 }
 
 
-AREXPORT size_t ArRangeDevice::getCumulativeBufferSize(void) const
+AREXPORT size_t ArRangeDevice::getCumulativeBufferSize() const
 {
   return myCumulativeBuffer.getSize();
 }
@@ -440,7 +440,7 @@ AREXPORT void ArRangeDevice::applyTransform(ArTransform trans,
  *  @swignote The return type will be named ArSensorReadingVector instead
  *    of the std::vector template type.
  */
-AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getRawReadingsAsVector(void)
+AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getRawReadingsAsVector()
 {
   
   std::list<ArSensorReading *>::const_iterator it;
@@ -458,7 +458,7 @@ AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getRawReadingsAsVector(voi
  *  @swignote The return type will be named ArSensorReadingVector instead
  *    of the std::vector template type.
  */
-AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getAdjustedRawReadingsAsVector(void)
+AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getAdjustedRawReadingsAsVector()
 {
   
   std::list<ArSensorReading *>::const_iterator it;

@@ -59,15 +59,15 @@ public:
   /// Destructor
   AREXPORT virtual ~ArActionRobotJoydrive();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                         { return &myDesired; }
 #endif
   AREXPORT virtual void setRobot(ArRobot *robot);
 protected:
   AREXPORT bool handleJoystickPacket(ArRobotPacket *packet);
-  AREXPORT void connectCallback(void);
+  AREXPORT void connectCallback();
   // whether we require the deadman to be pushed to drive
   bool myRequireDeadmanPushed;
 

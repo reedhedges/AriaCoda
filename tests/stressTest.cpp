@@ -32,8 +32,8 @@ int loopTime;
 class FillerThread : public ArASyncTask
 {
 public:
-  FillerThread(void) {}
-  ~FillerThread(void) {}
+  FillerThread() {}
+  ~FillerThread() {}
 
   virtual void * runThread(void *arg);
 protected:
@@ -52,23 +52,23 @@ void *FillerThread::runThread(void *arg)
 class JoydriveAction : public ArAction
 {
 public:
-  JoydriveAction(void);
-  virtual ~JoydriveAction(void) {};
+  JoydriveAction();
+  virtual ~JoydriveAction() {};
   virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  bool joystickInited(void);
+  bool joystickInited();
 protected:
   ArActionDesired myDesired;
   ArJoyHandler myJoyHandler;
 };
 
-JoydriveAction::JoydriveAction(void) :
+JoydriveAction::JoydriveAction() :
   ArAction("Joydrive Action", "This action reads the joystick and sets the translational and rotational velocity based on this.")
 {
   myJoyHandler.init();
   myJoyHandler.setSpeeds(50, 700);
 }
 
-bool JoydriveAction::joystickInited(void)
+bool JoydriveAction::joystickInited()
 {
   return myJoyHandler.haveJoystick();
 }
@@ -100,7 +100,7 @@ ArActionDesired *JoydriveAction::fire(ArActionDesired currentDesired)
   }
 }
 
-int main(void)
+int main()
 {
   ArTcpConnection con;
   ArRobot robot;

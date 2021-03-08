@@ -123,57 +123,57 @@ public:
   AREXPORT virtual ~ArLaser();
 
   /// Connect to the laser and block for the result
-  AREXPORT virtual bool blockingConnect(void) = 0;
+  AREXPORT virtual bool blockingConnect() = 0;
   /// Connect to the laser without blocking
-  AREXPORT virtual bool asyncConnect(void) = 0;
+  AREXPORT virtual bool asyncConnect() = 0;
   /// Disconnect from the laser
-  AREXPORT virtual bool disconnect(void) = 0;
+  AREXPORT virtual bool disconnect() = 0;
   /// See if the laser is connected
-  AREXPORT virtual bool isConnected(void) = 0;  
+  AREXPORT virtual bool isConnected() = 0;  
   /// See if the laser is trying to connect
-  AREXPORT virtual bool isTryingToConnect(void) = 0;  
+  AREXPORT virtual bool isTryingToConnect() = 0;  
   
   /// Sets the numter of seconds without a response until connection assumed lost
   AREXPORT virtual void setConnectionTimeoutSeconds(double seconds);
   /// Gets the number of seconds without a response until connection assumed lost
-  AREXPORT virtual double getConnectionTimeoutSeconds(void);
+  AREXPORT virtual double getConnectionTimeoutSeconds();
 
   /// Gets the time data was last receieved
-  ArTime getLastReadingTime(void) { return myLastReading; }
+  ArTime getLastReadingTime() { return myLastReading; }
   
   /// Gets the number of laser readings received in the last second
-  AREXPORT int getReadingCount(void);
+  AREXPORT int getReadingCount();
 
   /// Sets the device connection
   AREXPORT virtual void setDeviceConnection(ArDeviceConnection *conn);
   /// Gets the device connection
-  AREXPORT virtual ArDeviceConnection *getDeviceConnection(void);
+  AREXPORT virtual ArDeviceConnection *getDeviceConnection();
 
   /// Sets the position of the sensor on the robot
   AREXPORT void setSensorPosition(double x, double y, double th, double z = 0);
   /// Sets the position of the sensor on the robot
   AREXPORT void setSensorPosition(ArPose pose, double z = 0);  
   /// Gets if the sensor pose has been set 
-  bool hasSensorPosition(void) { return myHaveSensorPose; }
+  bool hasSensorPosition() { return myHaveSensorPose; }
   /// Gets the position of the sensor on the robot
-  ArPose getSensorPosition(void) { return mySensorPose; }
+  ArPose getSensorPosition() { return mySensorPose; }
   /// Gets the X position of the sensor on the robot
-  double getSensorPositionX(void) { return mySensorPose.getX(); }
+  double getSensorPositionX() { return mySensorPose.getX(); }
   /// Gets the Y position of the sensor on the robot
-  double getSensorPositionY(void) { return mySensorPose.getY(); }
+  double getSensorPositionY() { return mySensorPose.getY(); }
   /// Gets the Z position of the sensor on the robot (0 is unknown)
-  double getSensorPositionZ(void) { return mySensorZ; }
+  double getSensorPositionZ() { return mySensorZ; }
   /// Gets the heading of the sensor on the robot
-  double getSensorPositionTh(void) { return mySensorPose.getTh(); }
+  double getSensorPositionTh() { return mySensorPose.getTh(); }
 
   /// Gets the number of the laser this is
-  int getLaserNumber(void) { return myLaserNumber; }
+  int getLaserNumber() { return myLaserNumber; }
   
   /// Sets the log level that informational things are logged at
   void setInfoLogLevel(ArLog::LogLevel infoLogLevel) 
     { myInfoLogLevel = infoLogLevel; }
   /// Gets the log level that informational things are logged at
-  ArLog::LogLevel getInfoLogLevel(void) 
+  ArLog::LogLevel getInfoLogLevel() 
     { return myInfoLogLevel; }
 
   /// Cumulative readings that are this close to current beams are discarded
@@ -183,7 +183,7 @@ public:
       myCumulativeCleanDistSquared = dist * dist;
     }
   /// Cumulative readings that are this close to current beams are discarded
-  double getCumulativeCleanDist(void)
+  double getCumulativeCleanDist()
     { 
       return myCumulativeCleanDist; 
     }
@@ -193,7 +193,7 @@ public:
       myCumulativeCleanInterval = milliSeconds;
     }
   /// Cumulative readings are cleaned every this number of milliseconds
-  int getCumulativeCleanInterval(void)
+  int getCumulativeCleanInterval()
     {
       return myCumulativeCleanInterval;
     }
@@ -203,12 +203,12 @@ public:
       myCumulativeCleanOffset = milliSeconds;
     }
   /// Gets the offset for cumulative cleaning
-  int getCumulativeCleanOffset(void)
+  int getCumulativeCleanOffset()
     {
       return myCumulativeCleanOffset;
     }
   /// Resets when the cumulative cleaning happened (so offset can help)
-  void resetLastCumulativeCleanTime(void)
+  void resetLastCumulativeCleanTime()
     {
       myCumulativeLastClean.setToNow();
       myCumulativeLastClean.addMSec(myCumulativeCleanOffset);
@@ -233,22 +233,22 @@ public:
   void addIgnoreReading(double ignoreReading)
     { myIgnoreReadings.insert(ArMath::roundInt(ignoreReading)); }
   /// Clears the degrees we ignore readings at
-  void clearIgnoreReadings(void) 
+  void clearIgnoreReadings() 
     { myIgnoreReadings.clear(); }
   /// Gets the list of readings that we ignore
-  const std::set<int> *getIgnoreReadings(void) const
+  const std::set<int> *getIgnoreReadings() const
     { return &myIgnoreReadings; }
   
   /// Gets if the laser is flipped or not
-  bool getFlipped(void) { return myFlipped; }
+  bool getFlipped() { return myFlipped; }
   /// Sets if the laser is flipped or not
   bool setFlipped(bool flipped) { myFlipped = flipped; myFlippedSet = true; return true; }
 
   /// Gets the default TCP port for the laser
-  int getDefaultTcpPort(void) { return myDefaultTcpPort; }
+  int getDefaultTcpPort() { return myDefaultTcpPort; }
 
   /// Gets the default port type for the laser
-  const char *getDefaultPortType(void) { return myDefaultPortType.c_str(); }
+  const char *getDefaultPortType() { return myDefaultPortType.c_str(); }
 
   /// Indicates whether it is possible to set the specific start and stop angles of sensing (field of view)
   /**
@@ -261,29 +261,29 @@ public:
      setEndDegrees (and see what was set with getEndDegrees).
 
   **/
-  bool canSetDegrees(void) { return myCanSetDegrees; }
+  bool canSetDegrees() { return myCanSetDegrees; }
 
   /// Gets the minimum value for the start angle
   /** @see canSetDegrees **/
-  double getStartDegreesMin(void) { return myStartDegreesMin; }
+  double getStartDegreesMin() { return myStartDegreesMin; }
   /// Gets the maximum value for the start angle
   /** @see canSetDegrees **/
-  double getStartDegreesMax(void) { return myStartDegreesMax; }
+  double getStartDegreesMax() { return myStartDegreesMax; }
   /// Gets the start angle
   /** @see canSetDegrees **/
-  double getStartDegrees(void) { return myStartDegrees; }
+  double getStartDegrees() { return myStartDegrees; }
   /// Sets the start angle, it must be between getStartDegreesMin and getStartDegreesMax
   /** @see canSetDegrees **/
   AREXPORT bool setStartDegrees(double startDegrees);
   /// Gets the minimum value for the end angle
   /** @see canSetDegrees **/
-  double getEndDegreesMin(void) { return myEndDegreesMin; }
+  double getEndDegreesMin() { return myEndDegreesMin; }
   /// Gets the maximum value for the end angle
   /** @see canSetDegrees **/
-  double getEndDegreesMax(void) { return myEndDegreesMax; }
+  double getEndDegreesMax() { return myEndDegreesMax; }
   /// Gets the end angle
   /** @see canSetDegrees **/
-  double getEndDegrees(void) { return myEndDegrees; }
+  double getEndDegrees() { return myEndDegrees; }
   /// Sets the end angle, it must be between getEndDegreesMin and getEndDegreesMax
   /** @see canSetDegrees **/
   AREXPORT bool setEndDegrees(double endDegrees);
@@ -297,25 +297,25 @@ public:
      getDegreesChoice or get the degrees chosen as a double with
      getDegreesChoiceDouble.
   **/
-  bool canChooseDegrees(void) { return myCanChooseDegrees; }
+  bool canChooseDegrees() { return myCanChooseDegrees; }
   /// Gets the list of range choices
   /** @see canChooseDegrees **/
-  std::list<std::string> getDegreesChoices(void) 
+  std::list<std::string> getDegreesChoices() 
     { return myDegreesChoicesList; }
   /// Gets a string with the list of degrees choices seperated by |s 
   /** @see canChooseDegrees **/
-  const char *getDegreesChoicesString(void) 
+  const char *getDegreesChoicesString() 
     { return myDegreesChoicesString.c_str(); }
   /// Sets the range to one of the choices from getDegreesChoices
   /** @see canChooseDegrees **/
   AREXPORT bool chooseDegrees(const char *range);
   /// Gets the range that was chosen
   /** @see canChooseDegrees **/
-  const char *getDegreesChoice(void) 
+  const char *getDegreesChoice() 
     { return myDegreesChoice.c_str(); }
   /// Gets the range that was chosen as a double
   /** @see canChooseDegrees **/
-  double getDegreesChoiceDouble(void) { return myDegreesChoiceDouble; }
+  double getDegreesChoiceDouble() { return myDegreesChoiceDouble; }
 
 #ifndef ARIA_WRAPPER
   /// Gets the map of degrees choices to what they mean 
@@ -324,7 +324,7 @@ public:
       @see canChooseDegrees 
       @internal 
   **/
-  std::map<std::string, double> getDegreesChoicesMap(void) 
+  std::map<std::string, double> getDegreesChoicesMap() 
     { return myDegreesChoices; }
 #endif
 
@@ -332,16 +332,16 @@ public:
      Gets if you can set an increment
      
   **/
-  bool canSetIncrement(void) { return myCanSetIncrement; }
+  bool canSetIncrement() { return myCanSetIncrement; }
   /// Gets the increment minimum
   /** @see canSetIncrement **/
-  double getIncrementMin(void) { return myIncrementMin; }
+  double getIncrementMin() { return myIncrementMin; }
   /// Gets the increment maximum
   /** @see canSetIncrement **/
-  double getIncrementMax(void) { return myIncrementMax; }
+  double getIncrementMax() { return myIncrementMax; }
   /// Gets the increment
   /** @see canSetIncrement **/
-  double getIncrement(void) { return myIncrement; }
+  double getIncrement() { return myIncrement; }
   /// Sets the increment
   /** @see canSetIncrement **/
   AREXPORT bool setIncrement(double increment);
@@ -354,24 +354,24 @@ public:
      getIncrementChoice or the choice as a string with
      getIncrementChoiceDouble.
   **/
-  bool canChooseIncrement(void) { return myCanChooseIncrement; }
+  bool canChooseIncrement() { return myCanChooseIncrement; }
   /// Gets the list of increment choices 
   /** @see canChooseIncrement **/
-  std::list<std::string> getIncrementChoices(void) 
+  std::list<std::string> getIncrementChoices() 
     { return myIncrementChoicesList; }
   /// Gets a string with the list of increment choices seperated by |s 
   /** @see canChooseIncrement **/
-  const char *getIncrementChoicesString(void) 
+  const char *getIncrementChoicesString() 
     { return myIncrementChoicesString.c_str(); }
   /// Sets the increment to one of the choices from getIncrementChoices
   /** @see canChooseIncrement **/
   AREXPORT bool chooseIncrement(const char *increment);
   /// Gets the increment that was chosen
   /** @see canChooseIncrement **/
-  const char *getIncrementChoice(void) { return myIncrementChoice.c_str(); }
+  const char *getIncrementChoice() { return myIncrementChoice.c_str(); }
   /// Gets the increment that was chosen as a double
   /** @see canChooseIncrement **/
-  double getIncrementChoiceDouble(void) { return myIncrementChoiceDouble; }
+  double getIncrementChoiceDouble() { return myIncrementChoiceDouble; }
 #ifndef ARIA_WRAPPER
   /// Gets the map of increment choices to what they mean
   /** 
@@ -379,7 +379,7 @@ public:
       @see canChooseIncrement 
       @internal 
   **/
-  std::map<std::string, double> getIncrementChoicesMap(void) 
+  std::map<std::string, double> getIncrementChoicesMap() 
     { return myIncrementChoices; }
 #endif
   /**
@@ -389,21 +389,21 @@ public:
      getUnitsChoices, and see what the choice was with
      getUnitsChoice.
   **/
-  bool canChooseUnits(void) { return myCanChooseUnits; }
+  bool canChooseUnits() { return myCanChooseUnits; }
   /// Gets the list of units choices 
   /** @see canChooseUnits **/
-  std::list<std::string> getUnitsChoices(void) 
+  std::list<std::string> getUnitsChoices() 
     { return myUnitsChoices; }
   /// Gets a string with the list of units choices seperated by |s 
   /** @see canChooseUnits **/
-  const char *getUnitsChoicesString(void) 
+  const char *getUnitsChoicesString() 
     { return myUnitsChoicesString.c_str(); }
   /// Sets the units to one of the choices from getUnitsChoices
   /** @see canChooseUnits **/
   AREXPORT bool chooseUnits(const char *units);
   /// Gets the units that was chosen
   /** @see canChooseUnits **/
-  const char *getUnitsChoice(void) { return myUnitsChoice.c_str(); }
+  const char *getUnitsChoice() { return myUnitsChoice.c_str(); }
 
   /**
      Gets if you can choose reflectorBits for the laser.
@@ -412,21 +412,21 @@ public:
      getReflectorBitsChoices, and see what the choice was with
      getReflectorBitsChoice.
   **/
-  bool canChooseReflectorBits(void) { return myCanChooseReflectorBits; }
+  bool canChooseReflectorBits() { return myCanChooseReflectorBits; }
   /// Gets the list of reflectorBits choices 
   /** @see canChooseReflectorBits **/
-  std::list<std::string> getReflectorBitsChoices(void) 
+  std::list<std::string> getReflectorBitsChoices() 
     { return myReflectorBitsChoices; }
   /// Gets a string with the list of reflectorBits choices seperated by |s 
   /** @see canChooseReflectorBits **/
-  const char *getReflectorBitsChoicesString(void) 
+  const char *getReflectorBitsChoicesString() 
     { return myReflectorBitsChoicesString.c_str(); }
   /// Sets the reflectorBits to one of the choices from getReflectorBitsChoices
   /** @see canChooseReflectorBits **/
   AREXPORT bool chooseReflectorBits(const char *reflectorBits);
   /// Gets the reflectorBits that was chosen
   /** @see canChooseReflectorBits **/
-  const char *getReflectorBitsChoice(void) { return myReflectorBitsChoice.c_str(); }
+  const char *getReflectorBitsChoice() { return myReflectorBitsChoice.c_str(); }
 
   /**
      Gets if you can set powerControlled for the laser.
@@ -434,13 +434,13 @@ public:
      If so, call setPowerControlled to set if the power is being controlled
      or not, and see what the setting is with getPowerControlled.
   **/
-  bool canSetPowerControlled(void) { return myCanSetPowerControlled; }
+  bool canSetPowerControlled() { return myCanSetPowerControlled; }
   /// Sets if the power is controlled 
   /** @see canChoosePowerControlled **/
   AREXPORT bool setPowerControlled(bool powerControlled);
   /// Gets if the power is controlled
   /** @see canChoosePowerControlled **/
-  bool getPowerControlled(void) { return myPowerControlled; }
+  bool getPowerControlled() { return myPowerControlled; }
 
   /**
      Gets if you can choose startingBaud for the laser.
@@ -449,21 +449,21 @@ public:
      getStartingBaudChoices, and see what the choice was with
      getStartingBaudChoice.
   **/
-  bool canChooseStartingBaud(void) { return myCanChooseStartingBaud; }
+  bool canChooseStartingBaud() { return myCanChooseStartingBaud; }
   /// Gets the list of reflectorBits choices 
   /** @see canChooseStartingBaud **/
-  std::list<std::string> getStartingBaudChoices(void) 
+  std::list<std::string> getStartingBaudChoices() 
     { return myStartingBaudChoices; }
   /// Gets a string with the list of reflectorBits choices seperated by |s 
   /** @see canChooseStartingBaud **/
-  const char *getStartingBaudChoicesString(void) 
+  const char *getStartingBaudChoicesString() 
     { return myStartingBaudChoicesString.c_str(); }
   /// Sets the reflectorBits to one of the choices from getStartingBaudChoices
   /** @see canChooseStartingBaud **/
   AREXPORT bool chooseStartingBaud(const char *reflectorBits);
   /// Gets the reflectorBits that was chosen
   /** @see canChooseStartingBaud **/
-  const char *getStartingBaudChoice(void) { return myStartingBaudChoice.c_str(); }
+  const char *getStartingBaudChoice() { return myStartingBaudChoice.c_str(); }
 
 
   /**
@@ -473,21 +473,21 @@ public:
      getAutoBaudChoices, and see what the choice was with
      getAutoBaudChoice.
   **/
-  bool canChooseAutoBaud(void) { return myCanChooseAutoBaud; }
+  bool canChooseAutoBaud() { return myCanChooseAutoBaud; }
   /// Gets the list of reflectorBits choices 
   /** @see canChooseAutoBaud **/
-  std::list<std::string> getAutoBaudChoices(void) 
+  std::list<std::string> getAutoBaudChoices() 
     { return myAutoBaudChoices; }
   /// Gets a string with the list of reflectorBits choices seperated by |s 
   /** @see canChooseAutoBaud **/
-  const char *getAutoBaudChoicesString(void) 
+  const char *getAutoBaudChoicesString() 
     { return myAutoBaudChoicesString.c_str(); }
   /// Sets the reflectorBits to one of the choices from getAutoBaudChoices
   /** @see canChooseAutoBaud **/
   AREXPORT bool chooseAutoBaud(const char *reflectorBits);
   /// Gets the reflectorBits that was chosen
   /** @see canChooseAutoBaud **/
-  const char *getAutoBaudChoice(void) { return myAutoBaudChoice.c_str(); }
+  const char *getAutoBaudChoice() { return myAutoBaudChoice.c_str(); }
 
 
   /// Adds a connect callback
@@ -534,7 +534,7 @@ public:
     { myDataCBList.remCallback(functor); }
 
   /// Gets the absolute maximum range on the sensor
-  unsigned int getAbsoluteMaxRange(void) { return myAbsoluteMaxRange; }
+  unsigned int getAbsoluteMaxRange() { return myAbsoluteMaxRange; }
 
   /// Copies the reading count stuff from another laser (for the laser filter)
   AREXPORT void copyReadingCount(const ArLaser* laser);
@@ -566,7 +566,7 @@ public:
 
      @internal
   **/
-  AREXPORT virtual bool laserCheckParams(void) { return true; }
+  AREXPORT virtual bool laserCheckParams() { return true; }
 #endif
 
   /// Applies a transform to the buffers
@@ -574,19 +574,19 @@ public:
                                         bool doCumulative = true);
 
   /// Makes it so we'll apply simple naming to all the lasers
-  AREXPORT static void useSimpleNamingForAllLasers(void);
+  AREXPORT static void useSimpleNamingForAllLasers();
 protected:
   
   /// Converts the raw readings into the buffers (needs to be called
   /// by subclasses)
-  AREXPORT void laserProcessReadings(void);
+  AREXPORT void laserProcessReadings();
 
   /// Returns if the laser has lost connection so that the subclass
   /// can do something appropriate
-  AREXPORT bool laserCheckLostConnection(void);
+  AREXPORT bool laserCheckLostConnection();
 
   /// Pulls the unset params from the robot parameter file
-  AREXPORT bool laserPullUnsetParamsFromRobot(void);
+  AREXPORT bool laserPullUnsetParamsFromRobot();
 
   /// Allows setting the degrees the laser uses to anything in a range
   AREXPORT void laserAllowSetDegrees(double defaultStartDegrees, double startDegreesMin, double startDegreesMax, double defaultEndDegrees, double endDegreesMin, double endDegreesMax);
@@ -639,13 +639,13 @@ protected:
   AREXPORT void laserSetAbsoluteMaxRange(unsigned int absoluteMaxRange);
 
   /// Function for a laser to call when it connects
-  AREXPORT virtual void laserConnect(void);
+  AREXPORT virtual void laserConnect();
   /// Function for a laser to call when it fails to connects
-  AREXPORT virtual void laserFailedConnect(void);
+  AREXPORT virtual void laserFailedConnect();
   /// Function for a laser to call when it disconnects normally
-  AREXPORT virtual void laserDisconnectNormally(void);
+  AREXPORT virtual void laserDisconnectNormally();
   /// Function for a laser to call when it loses connection
-  AREXPORT virtual void laserDisconnectOnError(void);
+  AREXPORT virtual void laserDisconnectOnError();
 
   // processes the individual reading, helper for base class
   AREXPORT void internalProcessReading(double x, double y, unsigned int range,
@@ -666,7 +666,7 @@ protected:
 
   // Function called in laserProcessReadings to indicate that a
   // reading was received
-  AREXPORT virtual void internalGotReading(void);
+  AREXPORT virtual void internalGotReading();
 
   int myLaserNumber;
 

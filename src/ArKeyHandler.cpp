@@ -124,7 +124,7 @@ AREXPORT void ArKeyHandler::takeKeys(bool blocking)
   myTookKeys = true;
 }
 
-AREXPORT void ArKeyHandler::restore(void)
+AREXPORT void ArKeyHandler::restore()
 {
   if (!myTookKeys)
     return;
@@ -226,7 +226,7 @@ AREXPORT bool ArKeyHandler::remKeyHandler(ArFunctor *functor)
   return false;
 }
 
-AREXPORT void ArKeyHandler::checkKeys(void)
+AREXPORT void ArKeyHandler::checkKeys()
 {
   int key;
   std::map<int, ArFunctor *>::iterator it;
@@ -301,7 +301,7 @@ AREXPORT int ArKeyHandler::ungetChar(int key)
 }
 */
 
-AREXPORT int ArKeyHandler::getChar(void)
+AREXPORT int ArKeyHandler::getChar()
 {
   if (myStream == NULL)
     return getchar();
@@ -311,7 +311,7 @@ AREXPORT int ArKeyHandler::getChar(void)
 
 #endif
 
-AREXPORT int ArKeyHandler::getKey(void)
+AREXPORT int ArKeyHandler::getKey()
 {
  /*
   * What follows is a somewhat poor implementation of getch(), basically, since
@@ -410,7 +410,7 @@ AREXPORT int ArKeyHandler::getKey(void)
 #if 0
 /* This is a previous implementation of getKey(), just for reference or
  * quick reversion: */
-AREXPORT int ArKeyHandler::getKey(void)
+AREXPORT int ArKeyHandler::getKey()
 {
   char key;
 
@@ -467,7 +467,7 @@ AREXPORT int ArKeyHandler::getKey(void)
 
 #else // if it is win32
 
-AREXPORT int ArKeyHandler::getKey(void)
+AREXPORT int ArKeyHandler::getKey()
 {
   int key;
 

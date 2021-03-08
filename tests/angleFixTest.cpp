@@ -41,7 +41,7 @@ void fixTest(double th, double sth)
   }
 }
 
-int main(void)
+int main()
 {
 
   printf("Some tests of fixAngle\n");

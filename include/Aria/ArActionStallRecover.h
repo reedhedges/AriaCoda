@@ -49,17 +49,17 @@ public:
   /// Destructor
   AREXPORT virtual ~ArActionStallRecover();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
-  AREXPORT virtual ArActionDesired *getDesired(void) 
+  AREXPORT virtual ArActionDesired *getDesired() 
     { return &myActionDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired(void) const 
+  AREXPORT virtual const ArActionDesired *getDesired() const 
                                                    { return &myActionDesired; }
 #endif
   AREXPORT void addToConfig(ArConfig* config, const char* sectionName, ArPriority::Priority priority = ArPriority::NORMAL);
-  AREXPORT virtual void activate(void);
+  AREXPORT virtual void activate();
 protected:
   // these are internal things, don't touch unless you know what you are doing
-  void doit(void); // does whatever should be done
+  void doit(); // does whatever should be done
   void addSequence(int sequence);
   int myDoing; // what we're doing, uses the stuff from the enum What
   int myState; // holds the state

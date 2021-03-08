@@ -30,12 +30,12 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 class UserTaskTest
 {
 public:
-  UserTaskTest(void) {};
-  ~UserTaskTest(void) {};
-  void userTaskOne(void) { printf("One\n"); }
-  void userTaskTwo(void) { printf("Two\n"); }
-  void userTaskThree(void) { printf("Three\n"); }
-  void userTaskFour(void) { printf("Four\n"); }
+  UserTaskTest() {};
+  ~UserTaskTest() {};
+  void userTaskOne() { printf("One\n"); }
+  void userTaskTwo() { printf("Two\n"); }
+  void userTaskThree() { printf("Three\n"); }
+  void userTaskFour() { printf("Four\n"); }
   ArTaskState::State myTaskFourState;
 };
 

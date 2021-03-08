@@ -75,7 +75,7 @@ AREXPORT void ArIRs::setRobot(ArRobot *robot)
 /**
    This function is called every 100 milliseconds.
 */
-AREXPORT void ArIRs::processReadings(void)
+AREXPORT void ArIRs::processReadings()
 {
   ArUtil::BITS bit;
   if(myParams.haveTableSensingIR())

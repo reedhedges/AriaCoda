@@ -44,16 +44,16 @@ public:
   AREXPORT virtual ~ArSZSeriesPacket();
   
   /// Gets the time the packet was received at
-  AREXPORT ArTime getTimeReceived(void);
+  AREXPORT ArTime getTimeReceived();
   /// Sets the time the packet was received at
   AREXPORT void setTimeReceived(ArTime timeReceived);
 
   AREXPORT virtual void duplicatePacket(ArSZSeriesPacket *packet);
-  AREXPORT virtual void empty(void);
+  AREXPORT virtual void empty();
 
   AREXPORT virtual void byteToBuf(ArTypes::Byte val);
 
-  AREXPORT virtual ArTypes::Byte bufToByte(void);
+  AREXPORT virtual ArTypes::Byte bufToByte();
   
   void setDataLength(int x)
   { myDataLength = x; }
@@ -118,7 +118,7 @@ public:
   /// Sets the device this instance receives packets from
   AREXPORT void setDeviceConnection(ArDeviceConnection *conn);
   /// Gets the device this instance receives packets from
-  AREXPORT ArDeviceConnection *getDeviceConnection(void);
+  AREXPORT ArDeviceConnection *getDeviceConnection();
   unsigned short CRC16(unsigned char *, int);
 
   // PS - added to pass info to this class
@@ -160,11 +160,11 @@ public:
 		 const char *name = "SZSeries");
   /// Destructor
   AREXPORT ~ArSZSeries();
-  AREXPORT virtual bool blockingConnect(void);
-  AREXPORT virtual bool asyncConnect(void);
-  AREXPORT virtual bool disconnect(void);
-  virtual bool isConnected(void) { return myIsConnected; }
-  virtual bool isTryingToConnect(void) 
+  AREXPORT virtual bool blockingConnect();
+  AREXPORT virtual bool asyncConnect();
+  AREXPORT virtual bool disconnect();
+  virtual bool isConnected() { return myIsConnected; }
+  virtual bool isTryingToConnect() 
     { 
       if (myStartConnect)
 	return true;
@@ -175,14 +175,14 @@ public:
     }  
 
   /// Logs the information about the sensor
-  AREXPORT void log(void);
+  AREXPORT void log();
 protected:
   AREXPORT virtual void laserSetName(const char *name);
   AREXPORT virtual void * runThread(void *arg);
   AREXPORT virtual void setRobot(ArRobot *robot);
-  void sensorInterp(void);
-  void failedToConnect(void);
-  void clear(void);
+  void sensorInterp();
+  void failedToConnect();
+  void clear();
   bool myIsConnected;
   bool myTryingToConnect;
   bool myStartConnect;

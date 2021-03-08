@@ -59,19 +59,19 @@ public:
   AREXPORT void addToConfig(ArConfig *config, const char *sectionName,
 			    const char *prefix = "");
 
-  AREXPORT virtual bool blockingConnect(void) 
+  AREXPORT virtual bool blockingConnect() 
     { return myLaser->blockingConnect(); }
-  AREXPORT virtual bool asyncConnect(void)
+  AREXPORT virtual bool asyncConnect()
     { return myLaser->asyncConnect(); }
-  AREXPORT virtual bool disconnect(void)
+  AREXPORT virtual bool disconnect()
     { return myLaser->disconnect(); }
-  AREXPORT virtual bool isConnected(void)
+  AREXPORT virtual bool isConnected()
     { return myLaser->isConnected(); }
-  AREXPORT virtual bool isTryingToConnect(void)
+  AREXPORT virtual bool isTryingToConnect()
     { return myLaser->isTryingToConnect(); }
 
   AREXPORT virtual void *runThread(void *arg) { return NULL; } 
-  AREXPORT virtual bool laserCheckParams(void) 
+  AREXPORT virtual bool laserCheckParams() 
     { 
       if (!myLaser->laserCheckParams())
 	return false;
@@ -81,11 +81,11 @@ public:
     }
   
   /// Gets the base laser this is filtering
-  ArLaser *getBaseLaser(void) { return myLaser; }
+  ArLaser *getBaseLaser() { return myLaser; }
 protected:
-  AREXPORT int selfLockDevice(void);
-  AREXPORT int selfTryLockDevice(void);
-  AREXPORT int selfUnlockDevice(void);
+  AREXPORT int selfLockDevice();
+  AREXPORT int selfTryLockDevice();
+  AREXPORT int selfUnlockDevice();
 
   ArLaser *myLaser;
 
@@ -101,7 +101,7 @@ protected:
   bool checkRanges(int thisReading, int otherReading, double factor);
   
   // Callback to do the actual filtering
-  void processReadings(void);
+  void processReadings();
 
   ArFunctorC<ArLaserFilter> myProcessCB;
 };

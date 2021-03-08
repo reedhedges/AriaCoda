@@ -554,7 +554,7 @@ AREXPORT void ArConfig::log(bool isSummary,
 } // end method log
 
 
-AREXPORT void ArConfig::clearSections(void)
+AREXPORT void ArConfig::clearSections()
 {
   IFDEBUG(ArLog::log(ArLog::Verbose, 
                      "%sclearSections() begin",
@@ -578,7 +578,7 @@ AREXPORT void ArConfig::clearSections(void)
 
 }
 
-AREXPORT void ArConfig::clearAll(void)
+AREXPORT void ArConfig::clearAll()
 {
   clearSections();
   ArUtil::deleteSetPairs(myProcessFileCBList.begin(), 
@@ -586,7 +586,7 @@ AREXPORT void ArConfig::clearAll(void)
   myProcessFileCBList.clear();
 }
 
-void ArConfig::addParserHandlers(void)
+void ArConfig::addParserHandlers()
 {
   std::list<ArConfigSection *>::const_iterator it;
   std::list<ArConfigArg> *params;
@@ -659,7 +659,7 @@ void ArConfig::addParserHandlers(void)
   }
 }
 
-void ArConfig::remParserHandlers(void)
+void ArConfig::remParserHandlers()
 {
   myParser.remHandler(&myParserCB);
   myParser.remHandler(&myVersionCB);
@@ -2640,7 +2640,7 @@ AREXPORT void ArConfig::translateSection(ArConfigSection *section)
 } // end method translateSection
 
 
-AREXPORT const char *ArConfig::getBaseDirectory(void) const
+AREXPORT const char *ArConfig::getBaseDirectory() const
 {
   return myBaseDirectory.c_str();
 }
@@ -2655,7 +2655,7 @@ AREXPORT void ArConfig::setBaseDirectory(const char *baseDirectory)
   myParser.setBaseDirectory(baseDirectory);
 }
 
-AREXPORT const char *ArConfig::getFileName(void) const
+AREXPORT const char *ArConfig::getFileName() const
 {
   return myFileName.c_str();
 }
@@ -2939,7 +2939,7 @@ AREXPORT std::list<std::string> ArConfig::getSectionNames() const
 } // end method getSectionNames
 
 
-AREXPORT std::list<ArConfigSection *> *ArConfig::getSections(void)
+AREXPORT std::list<ArConfigSection *> *ArConfig::getSections()
 {
   return &mySections;
 }
@@ -2950,7 +2950,7 @@ AREXPORT void ArConfig::setNoBlanksBetweenParams(bool noBlanksBetweenParams)
   myNoBlanksBetweenParams = noBlanksBetweenParams;
 }
 
-AREXPORT bool ArConfig::getNoBlanksBetweenParams(void)
+AREXPORT bool ArConfig::getNoBlanksBetweenParams()
 {
   return myNoBlanksBetweenParams;
 }
@@ -3154,7 +3154,7 @@ AREXPORT void ArConfig::remSectionNotToParse(const char *section)
 
 
 
-AREXPORT void ArConfig::clearAllValueSet(void)
+AREXPORT void ArConfig::clearAllValueSet()
 {
   std::list<ArConfigSection *> *sections;
   ArConfigSection *section;
@@ -3180,12 +3180,12 @@ AREXPORT void ArConfig::clearAllValueSet(void)
 }
 
 
-AREXPORT void ArConfig::removeAllUnsetValues(void)
+AREXPORT void ArConfig::removeAllUnsetValues()
 {
   removeAllUnsetValues(false);
 }
 
-AREXPORT void ArConfig::removeAllUnsetSections(void)
+AREXPORT void ArConfig::removeAllUnsetSections()
 {
   removeAllUnsetValues(true);
 }
@@ -3259,12 +3259,12 @@ AREXPORT void ArConfig::setPermissions(
 	     ArUtil::convertBool(myPermissionSaveUnknown));
 }
 
-AREXPORT ArConfigArg::RestartLevel ArConfig::getRestartLevelNeeded(void) const
+AREXPORT ArConfigArg::RestartLevel ArConfig::getRestartLevelNeeded() const
 {
   return myRestartLevelNeeded;
 }
 
-AREXPORT void ArConfig::resetRestartLevelNeeded(void) 
+AREXPORT void ArConfig::resetRestartLevelNeeded() 
 {
   myRestartLevelNeeded = ArConfigArg::NO_RESTART;
 }

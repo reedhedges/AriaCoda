@@ -67,7 +67,7 @@ public:
   AREXPORT ArRVisionPTZ(ArRobot *robot);
   AREXPORT virtual ~ArRVisionPTZ();
   
-  AREXPORT virtual bool init(void);
+  AREXPORT virtual bool init();
   AREXPORT virtual const char *getTypeName() { return "rvision"; }
   /// Set serial port
   /// @since 2.7.6
@@ -83,34 +83,34 @@ protected:
   AREXPORT virtual bool panTilt_i(double degreesPan, double degreesTilt);
   AREXPORT virtual bool panTiltRel_i(double degreesPan, double degreesTilt);
 public:
-  AREXPORT virtual bool canZoom(void) const { return true; }
+  AREXPORT virtual bool canZoom() const { return true; }
   AREXPORT virtual bool zoom(int zoomValue);
   AREXPORT virtual bool zoomRel(int zoomValue);
 protected:
-  AREXPORT virtual double getPan_i(void) const { return myPan; }
-  AREXPORT virtual double getTilt_i(void) const { return myTilt; }
+  AREXPORT virtual double getPan_i() const { return myPan; }
+  AREXPORT virtual double getTilt_i() const { return myTilt; }
 public:
-  AREXPORT virtual int getZoom(void) const { return myZoom; }
-  //AREXPORT void getRealPanTilt(void);
-  //AREXPORT void getRealZoomPos(void);
+  AREXPORT virtual int getZoom() const { return myZoom; }
+  //AREXPORT void getRealPanTilt();
+  //AREXPORT void getRealZoomPos();
   /*
-  AREXPORT virtual double getMaxPosPan(void) const { return MAX_PAN; }
-  AREXPORT virtual double getMaxNegPan(void) const { return MIN_PAN; }
-  AREXPORT virtual double getMaxPosTilt(void) const { return MAX_TILT; }
-  AREXPORT virtual double getMaxNegTilt(void) const { return MIN_TILT; }
-  AREXPORT virtual int getMaxZoom(void) const { return MAX_ZOOM; }
-  AREXPORT virtual int getMinZoom(void) const { return MIN_ZOOM; }
+  AREXPORT virtual double getMaxPosPan() const { return MAX_PAN; }
+  AREXPORT virtual double getMaxNegPan() const { return MIN_PAN; }
+  AREXPORT virtual double getMaxPosTilt() const { return MAX_TILT; }
+  AREXPORT virtual double getMaxNegTilt() const { return MIN_TILT; }
+  AREXPORT virtual int getMaxZoom() const { return MAX_ZOOM; }
+  AREXPORT virtual int getMinZoom() const { return MIN_ZOOM; }
   */
 
-  AREXPORT virtual bool canGetRealPanTilt(void) const { return false; }
-  AREXPORT virtual bool canGetRealZoom(void) const { return false; }
-  AREXPORT virtual bool canGetFOV(void) { return true; }
+  AREXPORT virtual bool canGetRealPanTilt() const { return false; }
+  AREXPORT virtual bool canGetRealZoom() const { return false; }
+  AREXPORT virtual bool canGetFOV() { return true; }
   /// Gets the field of view at maximum zoom
-  AREXPORT virtual double getFOVAtMaxZoom(void) { return 4.4; }
+  AREXPORT virtual double getFOVAtMaxZoom() { return 4.4; }
   /// Gets the field of view at minimum zoom
-  AREXPORT virtual double getFOVAtMinZoom(void) { return 48.8; }
+  AREXPORT virtual double getFOVAtMinZoom() { return 48.8; }
 
-  virtual ArBasePacket* readPacket(void);
+  virtual ArBasePacket* readPacket();
   enum {
     MAX_PAN = 180, ///< maximum degrees the unit can pan (clockwise from top)
     MIN_PAN = -180, ///< minimum degrees the unit can pan (counterclockwise from top)
@@ -129,7 +129,7 @@ public:
   static void registerPTZType();
 #endif
 protected:
-  void initializePackets(void);
+  void initializePackets();
   double myPan;
   double myTilt;
   int myZoom;

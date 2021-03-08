@@ -563,22 +563,22 @@ AREXPORT void ArArgumentBuilder::internalAddAsIs(const char *str, int position)
 
 }
 
-AREXPORT size_t ArArgumentBuilder::getArgc(void) const
+AREXPORT size_t ArArgumentBuilder::getArgc() const
 {
   return myArgc;
 }
 
-AREXPORT char** ArArgumentBuilder::getArgv(void) const
+AREXPORT char** ArArgumentBuilder::getArgv() const
 {
   return myArgv;
 }
 
-AREXPORT const char *ArArgumentBuilder::getFullString(void) const
+AREXPORT const char *ArArgumentBuilder::getFullString() const
 {
   return myFullString.c_str();
 }
 
-AREXPORT const char *ArArgumentBuilder::getExtraString(void) const
+AREXPORT const char *ArArgumentBuilder::getExtraString() const
 {
   return myExtraString.c_str();
 }
@@ -603,7 +603,7 @@ AREXPORT const char* ArArgumentBuilder::getArg(size_t whichArg) const
   }
 }
 
-AREXPORT void ArArgumentBuilder::log(void) const
+AREXPORT void ArArgumentBuilder::log() const
 {
   size_t i;
   ArLog::log(ArLog::Terse, "Num arguments: %d", myArgc);

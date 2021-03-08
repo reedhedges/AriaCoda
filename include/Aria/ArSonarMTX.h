@@ -140,27 +140,27 @@ public:
   /// robot as a Sensor Interpretation task.
   AREXPORT virtual void setRobot(ArRobot *robot);
 
-	int getBoardNum(void)
+	int getBoardNum()
 		{ return myBoardNum; }
 
   /// Sets the device this instance receives packets from
   AREXPORT void setDeviceConnection(ArDeviceConnection *conn);
   /// Gets the device this instance receives packets from
-  AREXPORT ArDeviceConnection *getDeviceConnection(void);
+  AREXPORT ArDeviceConnection *getDeviceConnection();
 
   /// Very Internal call that gets the packet sender, shouldn't be used
-  ArRobotPacketSender *getPacketSender(void)
+  ArRobotPacketSender *getPacketSender()
     { return mySender; }
   /// Very Internal call that gets the packet sender, shouldn't be used
-  ArRobotPacketReceiver *getPacketReceiver(void)
+  ArRobotPacketReceiver *getPacketReceiver()
     { return myReceiver; }
 
   AREXPORT virtual bool blockingConnect(bool sendTracking, bool recvTracking);
 	/// Connect used for debug replay
   AREXPORT virtual bool fakeConnect();
-  AREXPORT virtual bool disconnect(void);
-  virtual bool isConnected(void) { return myIsConnected; }
-	virtual bool isTryingToConnect (void)
+  AREXPORT virtual bool disconnect();
+  virtual bool isConnected() { return myIsConnected; }
+	virtual bool isTryingToConnect ()
 	{
 		if (myStartConnect)
 			return true;
@@ -170,7 +170,7 @@ public:
 			return false;
 	}
   /// Logs the information about the sensor
-  AREXPORT void log(void);
+  AREXPORT void log();
 
   /// Lock this device
   virtual int lockDevice() { return(myDeviceMutex.lock());}
@@ -179,18 +179,18 @@ public:
   /// Unlock this device
   virtual int unlockDevice() {return(myDeviceMutex.unlock());}
 
-  AREXPORT virtual const char *getName(void) const;
+  AREXPORT virtual const char *getName() const;
 
-  AREXPORT virtual const char *getNameWithBoard(void) const;
+  AREXPORT virtual const char *getNameWithBoard() const;
 
   void	setInfoLogLevel(ArLog::LogLevel infoLogLevel)
   { myInfoLogLevel = infoLogLevel; }
 
   /// Gets the default port type for the sonar
-  const char *getDefaultPortType(void) { return myDefaultPortType.c_str(); }
+  const char *getDefaultPortType() { return myDefaultPortType.c_str(); }
 
   /// Gets the default port type for the sonar
-  const char *getDefaultTcpPort(void) { return myDefaultTcpPort.c_str(); }
+  const char *getDefaultTcpPort() { return myDefaultTcpPort.c_str(); }
 
   /// Sets the numter of seconds without a response until connection assumed lost
   virtual void setConnectionTimeoutSeconds(double seconds)
@@ -199,19 +199,19 @@ public:
 		 getName(), seconds);
       myLastReading.setToNow(); myTimeoutSeconds = seconds; }
   /// Gets the number of seconds without a response until connection assumed lost
-  AREXPORT virtual double getConnectionTimeoutSeconds(void)
+  AREXPORT virtual double getConnectionTimeoutSeconds()
 	{return myTimeoutSeconds; }
 	/// check for lost connections
-	AREXPORT bool checkLostConnection(void);
+	AREXPORT bool checkLostConnection();
 	/// disconnect 
-	AREXPORT void disconnectOnError(void);
+	AREXPORT void disconnectOnError();
   /// Gets the time data was last receieved
-  ArTime getLastReadingTime(void) { return myLastReading; }
+  ArTime getLastReadingTime() { return myLastReading; }
   /// Gets the number of sonar readings received in the last second
-  AREXPORT int getReadingCount(void);
+  AREXPORT int getReadingCount();
   // Function called in sensorInterp to indicate that a
   // reading was received
-  AREXPORT virtual void internalGotReading(void);
+  AREXPORT virtual void internalGotReading();
 
 protected:
   AREXPORT bool sendAlive();
@@ -257,34 +257,34 @@ public:
     { myDisconnectOnErrorCBList.remCallback(functor); }
 
   /// Number of Transducers from board query
-	int getNumTransducers(void) const
+	int getNumTransducers() const
 		{ return myNumTransducers; }
   /// Number of Configured Transducers
-	int getNumConfiguredTransducers(void) const
+	int getNumConfiguredTransducers() const
 		{ return myNumConfiguredTransducers; }
   /// Board Delay
-	int getBoardDelay(void) const
+	int getBoardDelay() const
 		{ return myBoardDelay; }
   /// 
-	int getBoardGain(void) const
+	int getBoardGain() const
 		{ return myBoardGain; }
   ///
 	/*
-	int getBoardNoiseDelta(void) const
+	int getBoardNoiseDelta() const
     { return myBoardNoiseDelta; }
 	*/
   /// 
-	int getBoardDetectionThreshold(void) const
+	int getBoardDetectionThreshold() const
   { 
     return myBoardDetectionThreshold; 
   }
 
-	int getBoardMaxRange(void) const
+	int getBoardMaxRange() const
   { 
     return myBoardMaxRange; 
   }
 
-	bool getBoardUseForAutonomousDriving(void) const
+	bool getBoardUseForAutonomousDriving() const
 	{ 
     return myBoardUseForAutonomousDriving; 
   }
@@ -435,7 +435,7 @@ public:
 		} 
   }
 
-	int getFirmwareVersion(void) const
+	int getFirmwareVersion() const
 	{ 
     return myFirmwareVersion; 
   }
@@ -495,9 +495,9 @@ protected:
   AREXPORT virtual void sonarSetName(const char *name);
   AREXPORT virtual void * runThread(void *arg);
 	
-  void sensorInterp(void);
-  void failedToConnect(void);
-  void clear(void);
+  void sensorInterp();
+  void failedToConnect();
+  void clear();
   bool myIsConnected;
   bool myTryingToConnect;
   bool myStartConnect;

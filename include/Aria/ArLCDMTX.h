@@ -71,9 +71,9 @@ public:
 
 	// Grabs the new readings from the robot and adds them to the buffers
 	// (Primarily for internal use.)
-	//AREXPORT void processReadings(void);
+	//AREXPORT void processReadings();
 
-	AREXPORT int getBoardNum(void)
+	AREXPORT int getBoardNum()
 	{
 		return myBoardNum;
 	}
@@ -85,14 +85,14 @@ public:
 	/// Sets the device this instance receives packets from
 	AREXPORT void setDeviceConnection(ArDeviceConnection *conn);
 	/// Gets the device this instance receives packets from
-	AREXPORT ArDeviceConnection *getDeviceConnection(void);
+	AREXPORT ArDeviceConnection *getDeviceConnection();
 
 	AREXPORT virtual bool blockingConnect(bool sendTracking, bool recvTracking,
 		int lcdNumber, ArFunctor1<int> *onCallback,
 		ArFunctor1<int> *offCallback);
-	AREXPORT virtual bool disconnect(void);
-	AREXPORT virtual bool isConnected(void) { return myIsConnected; }
-	AREXPORT virtual bool isTryingToConnect(void)
+	AREXPORT virtual bool disconnect();
+	AREXPORT virtual bool isConnected() { return myIsConnected; }
+	AREXPORT virtual bool isTryingToConnect()
 	{
 		if (myStartConnect)
 			return true;
@@ -110,7 +110,7 @@ public:
 	/// Unlock this device
 	AREXPORT virtual int unlockDevice() { return(myDeviceMutex.unlock()); }
 
-	AREXPORT virtual const char *getName(void) const;
+	AREXPORT virtual const char *getName() const;
 
 	AREXPORT void	setInfoLogLevel(ArLog::LogLevel infoLogLevel)
 	{
@@ -118,10 +118,10 @@ public:
 	}
 
 	/// Gets the default port type for the lcd
-	const char *getDefaultPortType(void) { return myDefaultPortType.c_str(); }
+	const char *getDefaultPortType() { return myDefaultPortType.c_str(); }
 
 	/// Gets the default port type for the lcd
-	const char *getDefaultTcpPort(void) { return myDefaultTcpPort.c_str(); }
+	const char *getDefaultTcpPort() { return myDefaultTcpPort.c_str(); }
 
 	AREXPORT bool verifyFwVersion();
 
@@ -135,18 +135,18 @@ public:
 		myTimeoutSeconds = seconds;
 	}
 	/// Gets the number of seconds without a response until connection assumed lost
-	AREXPORT virtual double getConnectionTimeoutSeconds(void)
+	AREXPORT virtual double getConnectionTimeoutSeconds()
 	{
 		return myTimeoutSeconds;
 	}
 	/// check for lost connections
-	AREXPORT bool checkLostConnection(void);
+	AREXPORT bool checkLostConnection();
 	/// disconnect 
-	AREXPORT void disconnectOnError(void);
+	AREXPORT void disconnectOnError();
 	/// Gets the time data was last receieved
-	ArTime getLastReadingTime(void) { return myLastReading; }
+	ArTime getLastReadingTime() { return myLastReading; }
 	/// Gets the number of lcd readings received in the last second
-	AREXPORT int getReadingCount(void);
+	AREXPORT int getReadingCount();
 	// Function called in sensorInterp to indicate that a
 	// reading was received
 
@@ -163,7 +163,7 @@ public:
 		myDisconnectOnErrorCBList.remCallback(functor);
 	}
 
-	const char *getFirmwareVersion(void) const
+	const char *getFirmwareVersion() const
 	{
 		return myFirmwareVersion.c_str();
 	}
@@ -206,7 +206,7 @@ public:
 protected:
 
 	/// Logs the information about the sensor
-	AREXPORT void log(void);
+	AREXPORT void log();
 
 	AREXPORT void writeToLCD();
 
@@ -245,7 +245,7 @@ protected:
 
 	AREXPORT bool hasIpAddressChanged();
 
-	AREXPORT virtual void internalGotReading(void);
+	AREXPORT virtual void internalGotReading();
 
 	ArDeviceConnection *myConn;
 	std::string myName;
@@ -276,9 +276,9 @@ protected:
 		const char *dirToLookIn, const char *prefix, const char *suffix);
 
 
-	void sensorInterp(void);
-	void failedToConnect(void);
-	void clear(void);
+	void sensorInterp();
+	void failedToConnect();
+	void clear();
 	bool myIsConnected;
 	bool myTryingToConnect;
 	bool myStartConnect;

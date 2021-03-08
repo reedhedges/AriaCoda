@@ -120,7 +120,7 @@ public:
   AREXPORT static void sleep(unsigned int ms);
   
   /// Get the time in milliseconds
-  AREXPORT static unsigned int getTime(void);
+  AREXPORT static unsigned int getTime();
 
 #ifndef ARIA_WRAPPER
 
@@ -823,7 +823,7 @@ public:
   
   /** Returns a random number between 0 and RAND_MAX on Windows, 2^31 on Linux
    * (see ArUtil::getRandMax()). On Windows, rand() is used, on Linux, lrand48(). */
-  static long random(void)
+  static long random()
     {
 #ifdef WIN32
       return(rand());
@@ -982,13 +982,13 @@ public:
   /// Sets the heading, using radians
   void setThRad(double th) { myTh = ArMath::fixAngle(ArMath::radToDeg(th)); }
   /// Gets the x position
-  double getX(void) const { return myX; }
+  double getX() const { return myX; }
   /// Gets the y position
-  double getY(void) const { return myY; }
+  double getY() const { return myY; }
   /// Gets the heading
-  double getTh(void) const { return myTh; }
+  double getTh() const { return myTh; }
   /// Gets the heading, in radians
-  double getThRad(void) const { return ArMath::degToRad(myTh); }
+  double getThRad() const { return ArMath::degToRad(myTh); }
   /// Gets the whole position in one function call
   /**
      Gets the whole position at once, by giving it 2 or 3 pointers to 
@@ -1046,7 +1046,7 @@ public:
 				                            position.getX() - getX()));
     }
   /// Logs the coordinates using ArLog
-  virtual void log(void) const
+  virtual void log() const
     { ArLog::log(ArLog::Terse, "%.0f %.0f %.1f", myX, myY, myTh); }
 
   /// Add the other pose's X, Y and theta to this pose's X, Y, and theta (sum in theta will be normalized to (-180,180)), and return the result
@@ -1279,14 +1279,14 @@ public:
     }
   /// Finds the number of millisecs from when this timestamp is set to to now (the inverse of mSecSince())
   /// @ingroup easy
-  long mSecTo(void) const
+  long mSecTo() const
     {
       ArTime now;
       now.setToNow();
       return -mSecSince(now);
     }
   /// Finds the number of millisecs from when this timestamp is set to to now (the inverse of mSecSince())
-  long long mSecToLL(void) const
+  long long mSecToLL() const
     {
       ArTime now;
       now.setToNow();
@@ -1294,36 +1294,36 @@ public:
     }
   /// Finds the number of seconds from when this timestamp is set to to now (the inverse of secSince())
   /// @ingroup easy
-  long secTo(void) const
+  long secTo() const
     {
       return mSecTo()/1000;
     }
   /// Finds the number of seconds from when this timestamp is set to to now (the inverse of secSince())
-  long long secToLL(void) const
+  long long secToLL() const
     {
       return mSecToLL()/1000;
     }
   /// Finds the number of milliseconds from this timestamp to now
-  long mSecSince(void) const
+  long mSecSince() const
     {
       ArTime now;
       now.setToNow();
       return mSecSince(now);
     }
   /// Finds the number of milliseconds from this timestamp to now
-  long long mSecSinceLL(void) const
+  long long mSecSinceLL() const
     {
       ArTime now;
       now.setToNow();
       return mSecSinceLL(now);
     }
   /// Finds the number of seconds from when this timestamp was set to now
-  long secSince(void) const
+  long secSince() const
     {
       return mSecSince()/1000;
     }
   /// Finds the number of seconds from when this timestamp was set to now
-  long long secSinceLL(void) const
+  long long secSinceLL() const
     {
       return mSecSinceLL()/1000;
     }
@@ -1355,7 +1355,7 @@ public:
     }
   /// Resets the time
   /// @ingroup easy
-  AREXPORT void setToNow(void);
+  AREXPORT void setToNow();
   /// Add some milliseconds (can be negative) to this time
   bool addMSec(long ms)
     {
@@ -1408,18 +1408,18 @@ public:
   /// Sets the milliseconds value (occuring after the seconds value)
   void setMSec(unsigned long msec) { myMSec = msec; }
   /// Gets the seconds value (since the arbitrary starting time)
-  unsigned long getSec(void) const { return mySec; }
+  unsigned long getSec() const { return mySec; }
   /// Gets the milliseconds value (occuring after the seconds value)
-  unsigned long getMSec(void) const { return myMSec; }
+  unsigned long getMSec() const { return myMSec; }
 
   /// Sets the seconds value (since the arbitrary starting time)
   void setSecLL(unsigned long long sec) { mySec = sec; }
   /// Sets the milliseconds value (occuring after the seconds value)
   void setMSecLL(unsigned long long msec) { myMSec = msec; }
   /// Gets the seconds value (since the arbitrary starting time)
-  unsigned long long getSecLL(void) const { return mySec; }
+  unsigned long long getSecLL() const { return mySec; }
   /// Gets the milliseconds value (occuring after the seconds value)
-  unsigned long long getMSecLL(void) const { return myMSec; }
+  unsigned long long getMSecLL() const { return myMSec; }
   /// Logs the time
   /// @ingroup easy
   void log(const char *prefix = NULL) const
@@ -1490,8 +1490,8 @@ public:
   ArPoseWithTime(const ArPose &pose) : ArPose(pose) {}
   virtual ~ArPoseWithTime() {}
   void setTime(ArTime newTime) { myTime = newTime; }
-  void setTimeToNow(void) { myTime.setToNow(); }
-  ArTime getTime(void) const { return myTime; }
+  void setTimeToNow() { myTime.setToNow(); }
+  ArTime getTime() const { return myTime; }
 protected:
   ArTime myTime;
 };
@@ -1519,7 +1519,7 @@ public:
   /// Destructor
   virtual ~ArSectors() { delete mySectors; }
   /// Clears all quadrants
-  void clear(void) 
+  void clear() 
     {
       int i;
       for (i = 0; i < myNumSectors; i++)
@@ -1533,7 +1533,7 @@ public:
       mySectors[angleInt / mySectorSize] = true;
     }
   /// Returns true if the all of the quadrants have been gone through
-  bool didAll(void) const
+  bool didAll() const
     {
       int i;
       for (i = 0; i < myNumSectors; i++)
@@ -1576,11 +1576,11 @@ public:
   void newParametersFromEndpoints(double x1, double y1, double x2, double y2)
     { myA = y1 - y2; myB = x2 - x1; myC = (x2*y1) - (y2*x1);}
   /// Gets the A line parameter
-  double getA(void) const { return myA; }
+  double getA() const { return myA; }
   /// Gets the B line parameter
-  double getB(void) const { return myB; }
+  double getB() const { return myB; }
   /// Gets the C line parameter
-  double getC(void) const { return myC; }
+  double getC() const { return myC; }
   /// finds the intersection of this line with another line
   /** 
       @param line the line to check if it intersects with this line
@@ -1712,9 +1712,9 @@ public:
       newEndPoints(pt1.getX(), pt1.getY(), pt2.getX(), pt2.getY());
     }
   /// Get the first endpoint (X1, Y1)
-  ArPose getEndPoint1(void) const { return ArPose(myX1, myY1); }
+  ArPose getEndPoint1() const { return ArPose(myX1, myY1); }
   /// Get the second endpoint of (X2, Y2)
-  ArPose getEndPoint2(void) const { return ArPose(myX2, myY2); }
+  ArPose getEndPoint2() const { return ArPose(myX2, myY2); }
   /// Determine where a line intersects this line segment
   /**
       @param line Line to check for intersection against this line segment.
@@ -1848,19 +1848,19 @@ public:
 
 
   /// Gets the x coordinate of the first endpoint
-  double getX1(void) const { return myX1; }
+  double getX1() const { return myX1; }
   /// Gets the y coordinate of the first endpoint
-  double getY1(void) const { return myY1; } 
+  double getY1() const { return myY1; } 
   /// Gets the x coordinate of the second endpoint
-  double getX2(void) const { return myX2; }
+  double getX2() const { return myX2; }
   /// Gets the y coordinate of the second endpoint
-  double getY2(void) const { return myY2; }
+  double getY2() const { return myY2; }
   /// Gets the A line parameter (see ArLine)
-  double getA(void) const { return myLine.getA(); }
+  double getA() const { return myLine.getA(); }
   /// Gets the B line parameter (see ArLine)
-  double getB(void) const { return myLine.getB(); }
+  double getB() const { return myLine.getB(); }
   /// Gets the C line parameter (see ArLine)
-  double getC(void) const { return myLine.getC(); }
+  double getC() const { return myLine.getC(); }
 
   /// Internal function for seeing if a point on our line is within our segment
   bool linePointIsInSegment(ArPose *pose) const
@@ -1885,7 +1885,7 @@ public:
       } // end else single point segment
     }
 
-  const ArLine *getLine(void) const { return &myLine; }
+  const ArLine *getLine() const { return &myLine; }
 
   /// Equality operator (for sets)
   virtual bool operator==(const ArLineSegment& other) const
@@ -1943,21 +1943,21 @@ public:
   /// Destructor
   AREXPORT ~ArRunningAverage();
   /// Gets the average
-  AREXPORT double getAverage(void) const;
+  AREXPORT double getAverage() const;
   /// Adds a value to the average. An old value is discarded if the number of elements to average has been reached.
   AREXPORT void add(double val);
   /// Clears the average
-  AREXPORT void clear(void);
+  AREXPORT void clear();
   /// Gets the number of elements
-  AREXPORT size_t getNumToAverage(void) const;
+  AREXPORT size_t getNumToAverage() const;
   /// Sets the number of elements
   AREXPORT void setNumToAverage(size_t numToAverage);
   /// Sets if this is using a the root mean square average or just the normal average
   AREXPORT void setUseRootMeanSquare(bool useRootMeanSquare);
   /// Gets if this is using a the root mean square average or just the normal average
-  AREXPORT bool getUseRootMeanSquare(void);
+  AREXPORT bool getUseRootMeanSquare();
   /// Gets the number of values currently averaged so far
-  AREXPORT size_t getCurrentNumAveraged(void);
+  AREXPORT size_t getCurrentNumAveraged();
 protected:
   size_t myNumToAverage;
   double myTotal;
@@ -1976,17 +1976,17 @@ public:
   /// Destructor
   AREXPORT ~ArRootMeanSquareCalculator();
   /// Gets the average
-  AREXPORT double getRootMeanSquare (void) const;
+  AREXPORT double getRootMeanSquare () const;
   /// Adds a number
   AREXPORT void add(int val);
   /// Clears the average
-  AREXPORT void clear(void);
+  AREXPORT void clear();
   /// Sets the name
   AREXPORT void setName(const char *name);
   /// Gets the name
-  AREXPORT const char *getName(void);  
+  AREXPORT const char *getName();  
   /// Gets the num averaged
-  AREXPORT size_t getCurrentNumAveraged(void);
+  AREXPORT size_t getCurrentNumAveraged();
 protected:
   long long myTotal;
   size_t myNum;
@@ -2051,13 +2051,13 @@ public:
   /// Destructor
   AREXPORT ~ArDaemonizer();
   /// Daemonizes if asked too by arguments
-  AREXPORT bool daemonize(void);
+  AREXPORT bool daemonize();
   /// Daemonizes always
-  AREXPORT bool forceDaemonize(void);
+  AREXPORT bool forceDaemonize();
   /// Logs the options
-  AREXPORT void logOptions(void) const;
+  AREXPORT void logOptions() const;
   /// Returns if we're daemonized or not
-  bool isDaemonized(void) { return myIsDaemonized; }
+  bool isDaemonized() { return myIsDaemonized; }
 protected:
   ArArgumentParser myParser;
   bool myIsDaemonized;
@@ -2142,11 +2142,11 @@ public:
   /// Destructor
   virtual ~ArStringInfoHolder() {}
   /// Gets the name of this piece of info
-  const char *getName(void) { return myName.c_str(); }
+  const char *getName() { return myName.c_str(); }
   /// Gets the maximum length of this piece of info
-  ArTypes::UByte2 getMaxLength(void) { return myMaxLength; }
+  ArTypes::UByte2 getMaxLength() { return myMaxLength; }
   /// Gets the function that will fill in this piece of info
-  ArFunctor2<char *, ArTypes::UByte2> *getFunctor(void) { return myFunctor; }
+  ArFunctor2<char *, ArTypes::UByte2> *getFunctor() { return myFunctor; }
 protected:
   std::string myName;
   ArTypes::UByte2 myMaxLength;
@@ -2392,7 +2392,7 @@ public:
     {
     }
   /// Calls the callback list
-  void invoke(void)
+  void invoke()
     {
       myDataMutex.lock();
       
@@ -2713,39 +2713,39 @@ public:
   /// Creates an ArLMS2xx
   static ArLaser *createLMS2xx(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArLMS2xx
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateLMS2xxCB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateLMS2xxCB();
   /// Creates an ArUrg
   static ArLaser *createUrg(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArUrg
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateUrgCB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateUrgCB();
   /// Creates an ArLMS1XX
   static ArLaser *createLMS1XX(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArLMS1XX
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateLMS1XXCB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateLMS1XXCB();
 
   /// Creates an ArUrg using SCIP 2.0
   static ArLaser *createUrg_2_0(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArUrg
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateUrg_2_0CB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateUrg_2_0CB();
   /// Creates an ArS3Series
   static ArLaser *createS3Series(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArS3Series
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateS3SeriesCB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateS3SeriesCB();
   /// Creates an ArLMS5XX
   static ArLaser *createLMS5XX(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArLMS5XX
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateLMS5XXCB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateLMS5XXCB();
   /// Creates an ArTiM3XX
   static ArLaser *createTiM3XX(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArTiM3XX
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM3XXCB(void);
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM551CB(void);
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM561CB(void);
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM571CB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM3XXCB();
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM551CB();
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM561CB();
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateTiM571CB();
   /// Creates an ArSZSeries
   static ArLaser *createSZSeries(int laserNumber, const char *logPrefix);
   /// Gets functor for creating an ArSZSeries
-  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateSZSeriesCB(void);
+  static ArRetFunctor2<ArLaser *, int, const char *> *getCreateSZSeriesCB();
 
 protected:
   static ArGlobalRetFunctor2<ArLaser *, int, const char *> ourLMS2xxCB;
@@ -2765,7 +2765,7 @@ public:
   /// Creates an ArBatteryMTX
   static ArBatteryMTX *createBatteryMTX(int batteryNumber, const char *logPrefix);
   /// Gets functor for creating an ArBatteryMTX
-  static ArRetFunctor2<ArBatteryMTX *, int, const char *> *getCreateBatteryMTXCB(void);
+  static ArRetFunctor2<ArBatteryMTX *, int, const char *> *getCreateBatteryMTXCB();
 
 protected:
   static ArGlobalRetFunctor2<ArBatteryMTX *, int, const char *> ourBatteryMTXCB;
@@ -2778,7 +2778,7 @@ public:
   /// Creates an ArLCDMTX
   static ArLCDMTX *createLCDMTX(int lcdNumber, const char *logPrefix);
   /// Gets functor for creating an ArLCDMTX
-  static ArRetFunctor2<ArLCDMTX *, int, const char *> *getCreateLCDMTXCB(void);
+  static ArRetFunctor2<ArLCDMTX *, int, const char *> *getCreateLCDMTXCB();
 
 protected:
   static ArGlobalRetFunctor2<ArLCDMTX *, int, const char *> ourLCDMTXCB;
@@ -2791,7 +2791,7 @@ public:
   /// Creates an ArSonarMTX
   static ArSonarMTX *createSonarMTX(int sonarNumber, const char *logPrefix);
   /// Gets functor for creating an ArSonarMTX
-  static ArRetFunctor2<ArSonarMTX *, int, const char *> *getCreateSonarMTXCB(void);
+  static ArRetFunctor2<ArSonarMTX *, int, const char *> *getCreateSonarMTXCB();
 
 protected:
   static ArGlobalRetFunctor2<ArSonarMTX *, int, const char *> ourSonarMTXCB;
@@ -2809,26 +2809,26 @@ public:
 	  const char *port, const char *defaultInfo, const char *logPrefix);
   /// Gets functor for creating an ArSerialConnection
   static ArRetFunctor3<ArDeviceConnection *, const char *, const char *, 
-		       const char *> *getCreateSerialCB(void);
+		       const char *> *getCreateSerialCB();
 
   /// Creates an ArTcpConnection
   static ArDeviceConnection *createTcpConnection(
 	  const char *port, const char *defaultInfo, const char *logPrefix);
   /// Gets functor for creating an ArTcpConnection
   static ArRetFunctor3<ArDeviceConnection *, const char *, const char *, 
-		       const char *> *getCreateTcpCB(void);
+		       const char *> *getCreateTcpCB();
 
   /// Creates an ArSerialConnection for RS422
   static ArDeviceConnection *createSerial422Connection(
 	  const char *port, const char *defaultInfo, const char *logPrefix);
   /// Gets functor for creating an ArSerialConnection
   static ArRetFunctor3<ArDeviceConnection *, const char *, const char *,
-		       const char *> *getCreateSerial422CB(void);
+		       const char *> *getCreateSerial422CB();
 
   /// Sets the success log level
   static void setSuccessLogLevel(ArLog::LogLevel successLogLevel);
   /// Sets the success log level
-  static ArLog::LogLevel setSuccessLogLevel(void);
+  static ArLog::LogLevel setSuccessLogLevel();
 protected:
   /// Internal Create ArSerialConnection
   static ArDeviceConnection *internalCreateSerialConnection(
@@ -2867,11 +2867,11 @@ public:
   /// Sets the default mSecs
   void setDefaultMSecs(int defaultMSecs) { myMSecs = defaultMSecs; }
   /// starts the check
-  AREXPORT void start(void);
+  AREXPORT void start();
   /// checks, optionally with a subname (only one subname logged per cycle)
   AREXPORT void check(const char *subName);
   /// Finishes the check
-  AREXPORT void finish(void);
+  AREXPORT void finish();
   /// Gets the last time a check happened (a start counts as a check too)
   ArTime getLastCheckTime() { return myLastCheck; }
 protected:

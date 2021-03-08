@@ -120,7 +120,7 @@ AREXPORT void ArRobotPacketReceiver::setDeviceConnection(
   myDeviceConn = deviceConnection;
 }
 
-AREXPORT ArDeviceConnection *ArRobotPacketReceiver::getDeviceConnection(void)
+AREXPORT ArDeviceConnection *ArRobotPacketReceiver::getDeviceConnection()
 {
   return myDeviceConn;
 }

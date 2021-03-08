@@ -42,7 +42,7 @@ public:
   /// Destructor
   AREXPORT virtual ~ArRangeBuffer();
   /// Gets the size of the buffer
-  AREXPORT size_t getSize(void) const;
+  AREXPORT size_t getSize() const;
   /// Sets the size of the buffer
   AREXPORT void setSize(size_t size);
   /// Gets the pose of the robot when readings were taken
@@ -61,19 +61,19 @@ public:
 				      bool *wasAdded = NULL);
 #ifndef SWIG
   /// Begins a walk through the getBuffer list of readings
-  AREXPORT void beginInvalidationSweep(void);
+  AREXPORT void beginInvalidationSweep();
   /// While doing an invalidation sweep a reading to the list to be invalidated
   AREXPORT void invalidateReading(std::list<ArPoseWithTime*>::iterator readingIt);
   /// Ends the invalidation sweep
-  AREXPORT void endInvalidationSweep(void);
+  AREXPORT void endInvalidationSweep();
 
   /** @brief Gets a pointer to a list of readings
    *  @swigomit
    */
-  AREXPORT const std::list<ArPoseWithTime *> *getBuffer(void) const;
+  AREXPORT const std::list<ArPoseWithTime *> *getBuffer() const;
 #endif
   /// Gets a pointer to a list of readings
-  AREXPORT std::list<ArPoseWithTime *> *getBuffer(void);
+  AREXPORT std::list<ArPoseWithTime *> *getBuffer();
 
   /// Gets the closest reading, on a polar system 
   AREXPORT double getClosestPolar(double startAngle, double endAngle, 
@@ -87,21 +87,21 @@ public:
   /// Applies a transform to the buffer
   AREXPORT void applyTransform(ArTransform trans);
   /// Clears all the readings in the range buffer
-  AREXPORT void clear(void);
+  AREXPORT void clear();
   /// Resets the readings older than this many seconds
   AREXPORT void clearOlderThan(int milliSeconds);
   /// Resets the readings older than this many seconds
   AREXPORT void clearOlderThanSeconds(int seconds);
   /// same as clear, but old name
-  AREXPORT void reset(void);
+  AREXPORT void reset();
   /// This begins a redoing of the buffer
-  AREXPORT void beginRedoBuffer(void);
+  AREXPORT void beginRedoBuffer();
   /// Add a reading to the redoing of the buffer
   AREXPORT void redoReading(double x, double y);   
   /// End redoing the buffer
-  AREXPORT void endRedoBuffer(void);
+  AREXPORT void endRedoBuffer();
   /// Gets the buffer as an array instead of as a std::list
-  AREXPORT std::vector<ArPoseWithTime> *getBufferAsVector(void);
+  AREXPORT std::vector<ArPoseWithTime> *getBufferAsVector();
   /// Gets the closest reading, from an arbitrary buffer
   AREXPORT static double getClosestPolarInList(
 	  double startAngle, double endAngle, ArPose position, 

@@ -87,7 +87,7 @@ AREXPORT ArLCDConnector::ArLCDConnector (
 	myLogOptionsCB.setName ("ArLCDConnector");
 	Aria::addLogOptionsCB (&myLogOptionsCB, 80);
 }
-AREXPORT ArLCDConnector::~ArLCDConnector (void)
+AREXPORT ArLCDConnector::~ArLCDConnector ()
 {
 //  Aria::remParseArgsCB(&myParseArgsCB);
 //  Aria::remLogOptionsCB(&myLogOptionsCB);
@@ -99,7 +99,7 @@ AREXPORT ArLCDConnector::~ArLCDConnector (void)
  *
   @return true if the arguments were parsed successfully false if not
  **/
-AREXPORT bool ArLCDConnector::parseArgs (void)
+AREXPORT bool ArLCDConnector::parseArgs ()
 {
 	return parseArgs (myParser);
 }
@@ -454,7 +454,7 @@ bool ArLCDConnector::internalConfigureLCD (
 	lcd->setDeviceConnection (lcdData->myConn);
 	return true;
 }
-AREXPORT void ArLCDConnector::logOptions (void) const
+AREXPORT void ArLCDConnector::logOptions () const
 {
 	ArLog::log (ArLog::Terse, "Options for ArLCDConnector:");
   ArLog::log(ArLog::Terse, "-lcdLogPacketsReceived");

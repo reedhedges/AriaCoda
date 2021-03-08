@@ -31,11 +31,11 @@ class TestAction : public ArAction
 public:
   TestAction(const char * name, const char * description = "") :
     ArAction(name, description) {}
-  virtual ~TestAction(void) {}
+  virtual ~TestAction() {}
   ArActionDesired *fire(ArActionDesired currentDesired) { return NULL; }
 };
 
-int main(void)
+int main()
 {
   Aria::init();
 

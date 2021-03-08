@@ -30,7 +30,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 // whatever is there... set the constantVelocity param to 
 // -400 instead of 400 to test going backwards.
 
-int main(void)
+int main()
 {
   ArTcpConnection con;
 

@@ -126,7 +126,7 @@ AREXPORT ArDataLogger::ArDataLogger(ArRobot *robot, const char *fileName) :
   myMovementCommands[ArCommands::SETLATV] = Cmd(ArCommands::SETLATV, "SetLV");
 }
 
-AREXPORT ArDataLogger::~ArDataLogger(void)
+AREXPORT ArDataLogger::~ArDataLogger()
 {
   // assumes we are the only command monitor/packet sent callback...
   if(myRobot && myRobot->getPacketSender())
@@ -295,7 +295,7 @@ AREXPORT void ArDataLogger::addToConfig(ArConfig *config)
   myConfig->addProcessFileWithErrorCB(&myProcessFileCB, 100);
 }
 
-void ArDataLogger::connectCallback(void)
+void ArDataLogger::connectCallback()
 {
   ArLog::log(ArLog::Verbose, "ArDataLogger::connectCallback");
   // out with the old memory
@@ -600,7 +600,7 @@ void ArDataLogger::writeHeader()
   fflush(myFile);
 }
 
-void ArDataLogger::userTask(void)
+void ArDataLogger::userTask()
 {
   myMutex.lock();
   // if we don't need to do anything just return
