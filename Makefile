@@ -300,7 +300,7 @@ help:
 	@echo "  dep"
 	@echo "  cleanDep"
 	@echo "  docs"
-	@echo "  cleanAll (also cleans java, python, etc.)"
+	@echo "  cleanAll (also cleans docs, java, python, etc.)"
 	@echo "  examples"
 	@echo "  tests"
 	@echo "  utils"
@@ -422,7 +422,7 @@ depAll: cleanDep
 	make dep;
 	for dir in `find . -maxdepth 1 -name "Ar*" -xtype d`; do cd $$dir; make dep; cd ..; done
 
-cleanAll: clean cleanJava cleanPython
+cleanAll: clean cleanJava cleanPython cleanDocs
 	rm -f lib/lib*.$(sosuffix)*
 	rm -f obj/*.o*
 

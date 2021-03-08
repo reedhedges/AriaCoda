@@ -1,9 +1,12 @@
 AriaCoda
 =========
 
-AriaCoda is a C++03 library used to communicate with Pioneer and
+AriaCoda is a C++ library used to communicate with Pioneer and
 Pioneer-compatible mobile robot controllers, many sensors and other accessory
 devices, and includes various useful tools for mobile robotics applications.
+
+Much of the library is C++03 with some C++11 features as well.  (In the future
+it may be further modernized.)
 
 AriaCoda is based on ARIA (Copyright 2002, 2003, 2004, 2005 ActivMedia Robotics, LLC.
 Copyright 2006, 2007, 2008, 2009 MobileRobots Inc., Copyright 2010-2015 Adept Technology,
