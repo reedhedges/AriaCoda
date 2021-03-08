@@ -1,9 +1,13 @@
 
 TODO
+====
 
+* Add [[deprecated]] attribute to deprecated methods
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and insttructions to users to transition existing
   code due to all changes below.
+* Switch to CMake?
+  * use CMAKE_EXPORT_COMPILE_COMMANDS to export compile_commands.json that analysis tools etc. might use (eg clang-tidy)
 * Use namespace?, remove class prefixes? 
 * Change installation locations to match current OS standards (Linux and
   Windows)
@@ -24,8 +28,8 @@ TODO
   visualizations should look like, maybe configurable in server config file)
 * [IN PRG] Remove various features in ARIA that are needed for ArNetworking/ARAM only.
 * Remove some more classes:
-   * ArActionKeyDrive? ArRatioInputKeydrive? ArKeyHandler? (Move into demo.cpp like ArModes was)
-   * Move rest of classes from ArActionGroups.h/ArActionGroups.cpp into  
+  * ArActionKeyDrive? ArRatioInputKeydrive? ArKeyHandler? (Move into demo.cpp like ArModes was)
+  * Move rest of classes from ArActionGroups.h/ArActionGroups.cpp into  
      inlined classes in examples/ActionGroups.h used by relevant examples.
 * overhaul other documentation.  
 * Add more data logger features.
@@ -34,7 +38,6 @@ TODO
 * Move `matlab/ariac` to `ariac/`. Update matlab and ariac-rust builds.
 * Remove weird stuff in ArSystemStatus
 * Set up Travis or Jenkins to test build on checkin (later also run tests).
-* Switch to CMake?
 * Start adding some real unit testing?
   * use doctest in python examples and tests, or in an examples/tests file?
   * Use unit tests to check against regressions as we do the refactoring in this
@@ -54,8 +57,8 @@ TODO
     * ArTypes::Ubyte8 -> uint64_t
     * move ArListPos from ariaTypedefs.h into ariaUtil.h, remove ariaTypedefs.h.
   * smart pointers
-  * Use standard library for threads rather than our own
-  * Replace ArFunctor usage with lamdas and other standard features 
+  * Use standard `<thread>` library for threads rather than our own
+  * Replace ArFunctor usage with std::function, lamdas and other standard features
   * ArRangeBuffer and other collections should perhaps implement iterator or STL container
     interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view.
   * Find more opportunities to use improved STL algorithms including parallel.

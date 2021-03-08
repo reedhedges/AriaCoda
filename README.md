@@ -71,6 +71,13 @@ repository.
 Several other changes are planned that will not be compatible with prior Aria
 releases, see [TODO.md](TODO.md).
 
+Over time, the library may be more consistently modernized to C++17 or later.
+This may require deprecating, removing or changing some interfaces. The biggest
+changes will likely be to replace Functors, ArTime, and threading and other OS
+portability wrappers with newer C++ standards, and possibly requiring use of smart
+pointers especially when objects or references are passed
+into or out of the ARIA API.  See [TODO.md](TODO.md) for details.
+
 
 Building AriaCoda
 -----------------
