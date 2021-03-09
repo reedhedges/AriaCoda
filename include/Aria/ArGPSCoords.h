@@ -46,44 +46,37 @@ class Ar3DPoint
 
   Ar3DPoint() : myX(0), myY(0), myZ(0) {}
   Ar3DPoint(double x, double y, double z) : myX(x), myY(y), myZ(z) {}
-  /// Destructor.
-  ~Ar3DPoint() {}
+
   /// Add
   Ar3DPoint operator+(Ar3DPoint c)
   {
-    Ar3DPoint sum(myX + c.myX, 
+    return Ar3DPoint(myX + c.myX, 
 		  myY + c.myY,
 		  myZ + c.myZ);
-    
-    return sum;
   }
   /// Diff
   Ar3DPoint operator-(Ar3DPoint c)
   {
-    Ar3DPoint dif(myX - c.myX, 
+    return Ar3DPoint(myX - c.myX, 
 		  myY - c.myY,
 		  myZ - c.myZ);
-    return dif;
   }
-  /// Diff
+  /// Multiply
   Ar3DPoint operator*(double c)
   {
-    Ar3DPoint pro(myX*c, myY*c, myZ*c);
-    return pro;
+    return Ar3DPoint(myX*c, myY*c, myZ*c);
   }
   /// Dot product
   double dot(Ar3DPoint c)
   {
-    double dotP(myX * c.myX + myY * c.myY + myZ * c.myZ);
-    return dotP;
+    return (myX * c.myX + myY * c.myY + myZ * c.myZ);
   }
   /// Cross product
   Ar3DPoint cross(Ar3DPoint c)
   {
-    Ar3DPoint crossP(myY * c.myZ - myZ * c.myY, 
+    return Ar3DPoint(myY * c.myZ - myZ * c.myY, 
 		     myZ * c.myX - myX * c.myZ, 
 		     myX * c.myY - myY * c.myX);
-    return crossP;
   }
   /// Print.
   /** @swignote Use 'printPoint' instead */
@@ -104,43 +97,26 @@ protected:
 
 };
 
-#ifdef WIN32
-// Need to export some variables on Windows because they are used in inline methods (which is good), but they can't be exported if const.
-#define ARGPSCOORDS_CONSTANT 
-#else
-#define ARGPSCOORDS_CONSTANT const
-#endif
 
 
 /**
  * All the constants defined by the World Geodetic System 1984.
  * @ingroup UtilityClasses
  */
-class ArWGS84
+struct ArWGS84
 {
-  public:
-  ArWGS84() {}
-  
-  static double getE()     {return mye;}
-  static double getA()     {return mya;}
-  static double getB()     {return myb;}
-  static double getEP()    {return myep;}
-  static double get1byf()  {return my1byf;}
-  static double getOmega() {return myOmega;}
-  static double getGM()    {return myGM;}
-  
+  static const double A; ///< m
+  static const double B; ///< m
+  static const double E;
+  static const double C; ///< m/s
+  static const double EP;
+  static const double Finv; ///< inverse of flattening factor (1/f)
+  static const double Omega; ///< rad/s
+  static const double GM; ///< m^3/sec^2
+  static const double G; ///< m/s^2 average gravity accel
+  static const double M; ///< kg mass of earth
 
-private:
-  AREXPORT static ARGPSCOORDS_CONSTANT double mya;     // meters
-  AREXPORT static ARGPSCOORDS_CONSTANT double myb;     // meters
-  AREXPORT static ARGPSCOORDS_CONSTANT double myep; 
-  AREXPORT static ARGPSCOORDS_CONSTANT double myc;     // m/sec
-  AREXPORT static ARGPSCOORDS_CONSTANT double mye;
-  AREXPORT static ARGPSCOORDS_CONSTANT double my1byf;
-  AREXPORT static ARGPSCOORDS_CONSTANT double myOmega; // rad/sec
-  AREXPORT static ARGPSCOORDS_CONSTANT double myGM;    // m^3/sec^2
-  AREXPORT static ARGPSCOORDS_CONSTANT double myg;     // m/sec^2. Ave g.
-  AREXPORT static ARGPSCOORDS_CONSTANT double myM;     // kg. Mass of earth.
+
 };
 
 
@@ -151,9 +127,10 @@ private:
 class ArECEFCoords : public Ar3DPoint
 {
   public:
-  ArECEFCoords(double x, double y, double z) : Ar3DPoint(x, y, z) {}
-  AREXPORT ArLLACoords ECEF2LLA();
-  AREXPORT ArENUCoords ECEF2ENU(ArECEFCoords ref);
+  ArECEFCoords(const double x, const double y, const double z) : Ar3DPoint(x, y, z) {}
+  ArECEFCoords() : ArECEFCoords(0,0,0) {}
+  AREXPORT ArLLACoords ECEF2LLA() const;
+  AREXPORT ArENUCoords ECEF2ENU(const ArECEFCoords& ref) const;
 };
 
 /**
@@ -166,7 +143,7 @@ class ArLLACoords : public Ar3DPoint
   ArLLACoords() : Ar3DPoint(0, 0, 0) {}
   ArLLACoords(double x, double y, double z) : Ar3DPoint(x, y, z) {}
   ArLLACoords(ArPose pos, double alt) : Ar3DPoint(pos.getX(), pos.getY(), alt) {}
-  AREXPORT ArECEFCoords LLA2ECEF();
+  AREXPORT ArECEFCoords LLA2ECEF() const;
   double getLatitude() const {return getX();}
   double getLongitude() const {return getY();}
   double getAltitude() const {return getZ();}
@@ -183,7 +160,7 @@ class ArENUCoords : public Ar3DPoint
 {
   public:
   ArENUCoords(double x, double y, double z) : Ar3DPoint(x, y, z) {}
-  AREXPORT ArECEFCoords ENU2ECEF(ArLLACoords ref);
+  AREXPORT ArECEFCoords ENU2ECEF(const ArLLACoords& ref) const;
   double getEast() const {return getX();}
   double getNorth() const {return getY();}
   double getUp() const {return getZ();}
@@ -199,14 +176,16 @@ class ArENUCoords : public Ar3DPoint
  */
 class ArMapGPSCoords : public ArENUCoords
 {
-  public:
-  ArMapGPSCoords(ArLLACoords org) : ArENUCoords(0.0, 0.0, 0.0), myOriginECEF(0), myOriginLLA(0), myOriginSet(false) 
+public:
+  ArMapGPSCoords(const ArLLACoords& org) : ArMapGPSCoords()
   {
     setOrigin(org);
   }
-  ArMapGPSCoords() : ArENUCoords(0, 0, 0), myOriginECEF(0), myOriginLLA(0), myOriginSet(false)
+
+  ArMapGPSCoords() : ArENUCoords(0, 0, 0), myOriginSet(false)
   {
   }
+
   AREXPORT bool convertMap2LLACoords(const double ea, const double no, const double up,
 			    double& lat, double& lon, double& alt) const;
   AREXPORT bool convertLLA2MapCoords(const double lat, const double lon, const double alt,
@@ -215,18 +194,14 @@ class ArMapGPSCoords : public ArENUCoords
 {
     return convertLLA2MapCoords(lla.getLatitude(), lla.getLongitude(), lla.getAltitude(), ea, no, up);
   }
-  void setOrigin(ArLLACoords org) {
-    if(myOriginLLA)
-      delete myOriginLLA;
-    if(myOriginECEF)
-      delete myOriginECEF;
+  void setOrigin(const ArLLACoords& org) {
     myOriginSet = true;
-    myOriginLLA = new ArLLACoords(org);
-    myOriginECEF = new ArECEFCoords(myOriginLLA->LLA2ECEF());
+    myOriginLLA = org;
+    myOriginECEF = myOriginLLA.LLA2ECEF();
   }
      
-  ArECEFCoords* myOriginECEF;
-  ArLLACoords* myOriginLLA;
+  ArECEFCoords myOriginECEF;
+  ArLLACoords myOriginLLA;
   bool myOriginSet;
 };
 

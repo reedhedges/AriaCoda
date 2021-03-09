@@ -33,16 +33,16 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include <math.h>
 
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::mya = 6378137; // meters
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::myb = 6356752.3142; // meters
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::myep = 8.2094437949696e-2; 
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::myc = 299792458; // m/sec
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::mye = 8.1819190842622e-2;
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::my1byf = 298.257223563;
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::myOmega = 7292115e-11; // rad/sec
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::myGM = 3986004.418e8; // m^3/sec^2
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::myg = 9.7976432222; // m/sec^2. Ave g.
-AREXPORT ARGPSCOORDS_CONSTANT double ArWGS84::myM = 5.9733328e24; // kg. Mass of earth.
+const double ArWGS84::A = 6378137; // meters
+const double ArWGS84::B = 6356752.3142; // meters
+const double ArWGS84::E = 8.2094437949696e-2; 
+const double ArWGS84::C = 299792458; // m/sec
+const double ArWGS84::EP = 8.1819190842622e-2;
+const double ArWGS84::Finv = 298.257223563;
+const double ArWGS84::Omega = 7292115e-11; // rad/sec
+const double ArWGS84::GM = 3986004.418e8; // m^3/sec^2
+const double ArWGS84::G = 9.7976432222; // m/sec^2. Ave g.
+const double ArWGS84::M = 5.9733328e24; // kg. Mass of earth.
 
 
 
@@ -61,7 +61,7 @@ AREXPORT void Ar3DPoint::print(const char *head)
  *
  */
 AREXPORT ArLLACoords
-ArECEFCoords::ECEF2LLA()
+ArECEFCoords::ECEF2LLA() const
 {
   // ECEF2LLA - convert earth-centered earth-fixed (ECEF)
   // cartesian coordinates to latitude, longitude,
@@ -76,9 +76,9 @@ ArECEFCoords::ECEF2LLA()
   // x = ECEF X-coordinate (m)
   // y = ECEF Y-coordinate (m)
   // z = ECEF Z-coordinate (m)
-  double x = myX;//(*this)(0);
-  double y = myY;//(*this)(1);
-  double z = myZ;//(*this)(2);
+  const double x = myX;//(*this)(0);
+  const double y = myY;//(*this)(1);
+  const double z = myZ;//(*this)(2);
   //
   // Notes: (1) This function assumes the WGS84 model.
   // (2) Latitude is customary geodetic (not geocentric).
@@ -90,25 +90,27 @@ ArECEFCoords::ECEF2LLA()
   // function [lat,lon,alt] = ecef2lla(x,y,z)
 
   // WGS84 ellipsoid constants:
-  const double a = ArWGS84::getA();
-  const double e = ArWGS84::getE();
-  const double b = ArWGS84::getB();
-  const double ep = ArWGS84::getEP();
+  const double a = ArWGS84::A;
+  const double e = ArWGS84::E;
+  const double b = ArWGS84::B;
+  const double ep = ArWGS84::EP;
   // Calculations.
-  double p = sqrt(x*x + y*y);
-  double th = atan2(a*z, b*p);
+  const double p = sqrt(x*x + y*y);
+  const double th = atan2(a*z, b*p);
   double lon = atan2(y, x);
   double lat = atan2((z + ep*ep*b*pow(sin(th), 3)),
 		     (p - e*e*a*pow(cos(th), 3)));
-  double N = a / sqrt(1 - e*e*pow(sin(lat), 2));
+  const double N = a / sqrt(1 - e*e*pow(sin(lat), 2));
   double alt = p / cos(lat) - N;
 
   // return lon in range [0,2*pi)
   if(lon < -M_PI)
     lon += 2*M_PI;
 
+  // convert to degrees
   lat *= 180.0/M_PI;
   lon *= 180.0/M_PI;
+
   // correct for numerical instability in altitude near exact poles:
   // (after this correction, error is about 2 millimeters, which isabout
   // the same as the numerical precision of the overall function)
@@ -125,29 +127,29 @@ ArECEFCoords::ECEF2LLA()
  *
  */
 AREXPORT ArENUCoords
-ArECEFCoords::ECEF2ENU(ArECEFCoords ref)
+ArECEFCoords::ECEF2ENU(const ArECEFCoords& ref) const
 {
   //    function [e,n,u] = xyz2enuTest(Xr, Yr, Zr, X, Y, Z)
 
-  double Xr = ref.myX;//ref(0);
-  double Yr = ref.myY;//ref(1);
-  double Zr = ref.myZ;//ref(2);
-  double dx = myX - Xr;//(*this)(0) - Xr;
-  double dy = myY - Yr;//(*this)(1) - Yr;
-  double dz = myZ - Zr;//(*this)(2) - Zr;
+  const double Xr = ref.myX;//ref(0);
+  const double Yr = ref.myY;//ref(1);
+  const double Zr = ref.myZ;//ref(2);
+  const double dx = myX - Xr;//(*this)(0) - Xr;
+  const double dy = myY - Yr;//(*this)(1) - Yr;
+  const double dz = myZ - Zr;//(*this)(2) - Zr;
 
   // convert ECEF coordinates to local east, north, up
 
-  double phiP = atan2(Zr, sqrt(Xr*Xr + Yr*Yr));
+  const double phiP = atan2(Zr, sqrt(Xr*Xr + Yr*Yr));
 
-  double lambda = atan2(Yr, Xr);
+  const double lambda = atan2(Yr, Xr);
 
-  double e = -sin(lambda)*(dx) + cos(lambda)*(dy);
+  const double e = -sin(lambda)*(dx) + cos(lambda)*(dy);
 
-  double n = (-sin(phiP)*cos(lambda)*(dx) - 
+  const double n = (-sin(phiP)*cos(lambda)*(dx) - 
 	      sin(phiP)*sin(lambda)*(dy) + cos(phiP)*(dz));
 
-  double u = (cos(phiP)*cos(lambda)*(dx) + 
+  const double u = (cos(phiP)*cos(lambda)*(dx) + 
 	      cos(phiP)*sin(lambda)*(dy) + sin(phiP)*(dz)); 
 
   // Return in mm.
@@ -159,7 +161,7 @@ ArECEFCoords::ECEF2ENU(ArECEFCoords ref)
  *
  */
 AREXPORT ArECEFCoords
-ArLLACoords::LLA2ECEF()
+ArLLACoords::LLA2ECEF() const
 {
   // LLA2ECEF - convert latitude, longitude, and altitude to
   // earth-centered, earth-fixed (ECEF) cartesian
@@ -173,9 +175,9 @@ ArLLACoords::LLA2ECEF()
   // lat = geodetic latitude (radians)
   // lon = longitude (radians)
   // alt = height above WGS84 ellipsoid (m)
-  double lat = myX*M_PI/180.0;//(*this)(0)*M_PI/180.0;
-  double lon = myY*M_PI/180.0;//(*this)(1)*M_PI/180.0;
-  double alt = myZ;//(*this)(2);
+  const double lat = myX*M_PI/180.0;//(*this)(0)*M_PI/180.0;
+  const double lon = myY*M_PI/180.0;//(*this)(1)*M_PI/180.0;
+  const double alt = myZ;//(*this)(2);
   //
   // Notes: This function assumes the WGS84 model.
   // Latitude is customary geodetic (not geocentric).
@@ -191,17 +193,17 @@ ArLLACoords::LLA2ECEF()
   //function [x,y,z]=lla2ecef(lat,lon,alt)
 
   // WGS84 ellipsoid constants:
-  const double a = ArWGS84::getA();
-  const double e = ArWGS84::getE();
+  const double a = ArWGS84::A;
+  const double e = ArWGS84::E;
 
   // intermediate calculation
   // (prime vertical radius of curvature)
-  double N = a/ sqrt(1 - e*e * pow(sin(lat),2));
+  const double N = a/ sqrt(1 - e*e * pow(sin(lat),2));
 
   // results:
-  double x = (N + alt) * cos(lat) * cos(lon);
-  double y = (N + alt) * cos(lat) * sin(lon);
-  double z = ((1 - e*e) * N + alt) * sin(lat);
+  const double x = (N + alt) * cos(lat) * cos(lon);
+  const double y = (N + alt) * cos(lat) * sin(lon);
+  const double z = ((1 - e*e) * N + alt) * sin(lat);
 
   return ArECEFCoords(x, y, z);
 }
@@ -213,7 +215,7 @@ ArLLACoords::LLA2ECEF()
  *
  */
 AREXPORT ArECEFCoords
-ArENUCoords::ENU2ECEF(ArLLACoords ref)
+ArENUCoords::ENU2ECEF(const ArLLACoords& ref) const
 {
 
   // function [X, Y, Z] = enu2xyz(refLat, refLong, refH, e, n, u)
@@ -226,26 +228,26 @@ ArENUCoords::ENU2ECEF(ArLLACoords ref)
 //  double refLat = ref(0)*M_PI/180.0;
 //  double refLon = ref(1)*M_PI/180.0;
 //  double refH = ref(2);
-  double refLon = ref.getY()*M_PI/180.0;
+  const double refLon = ref.getY()*M_PI/180.0;
   
-  ArECEFCoords refECEF = ref.LLA2ECEF();
-  double Xr = refECEF.getX();//refECEF(0);
-  double Yr = refECEF.getY();//refECEF(1);
-  double Zr = refECEF.getZ();//refECEF(2);
+  const ArECEFCoords refECEF = ref.LLA2ECEF();
+  const double Xr = refECEF.getX();//refECEF(0);
+  const double Yr = refECEF.getY();//refECEF(1);
+  const double Zr = refECEF.getZ();//refECEF(2);
 
-  double phiP = atan2(Zr, sqrt(Xr*Xr + Yr*Yr)); // Geocentric latitude
+  const double phiP = atan2(Zr, sqrt(Xr*Xr + Yr*Yr)); // Geocentric latitude
 
-  double e = myX/1000.0;//(*this)(0)/1000.0;
-  double n = myY/1000.0;//(*this)(1)/1000.0;
-  double u = myZ/1000.0;//(*this)(2)/1000.0;
+  const double e = myX/1000.0;//(*this)(0)/1000.0;
+  const double n = myY/1000.0;//(*this)(1)/1000.0;
+  const double u = myZ/1000.0;//(*this)(2)/1000.0;
   
-  double X = (-sin(refLon)*e - cos(refLon)*sin(phiP)*n + 
+  const double X = (-sin(refLon)*e - cos(refLon)*sin(phiP)*n + 
 	      cos(refLon)*cos(phiP)*u + Xr);
 
-  double Y = (cos(refLon)*e - sin(refLon)*sin(phiP)*n + 
+  const double Y = (cos(refLon)*e - sin(refLon)*sin(phiP)*n + 
 	      cos(phiP)*sin(refLon)*u + Yr);
 
-  double Z = cos(phiP)*n + sin(phiP)*u + Zr; 
+  const double Z = cos(phiP)*n + sin(phiP)*u + Zr; 
 
   return ArECEFCoords(X, Y, Z);
 }
@@ -270,9 +272,9 @@ ArMapGPSCoords::convertLLA2MapCoords(const double lat, const double lon, const d
   if(!myOriginSet)
     return false;
 
-  ArLLACoords lla(lat, lon, alt);
-  ArECEFCoords ecef = lla.LLA2ECEF();
-  ArENUCoords enu = ecef.ECEF2ENU(*myOriginECEF);
+  const ArLLACoords lla(lat, lon, alt);
+  const ArECEFCoords ecef = lla.LLA2ECEF();
+  const ArENUCoords enu = ecef.ECEF2ENU(myOriginECEF);
 //  ArLog::log(ArLog::Normal, "GPSLocaLog: convertLLA2MapCoords: ENU %g %g %g",
 //	     enu.getX(), enu.getY(), enu.getZ());
   ea = enu.getX();//enu(0);
@@ -289,22 +291,22 @@ ArMapGPSCoords::convertLLA2MapCoords(const double lat, const double lon, const d
  * @param ea: East coords.
  * @param no: North coords.
  * @param up: Up coords.
- * @param lat: Latitude coords.
- * @param lon: Longitude coords.
- * @param alt: Altitude coords.
+ * @param lat: Is set to Latitude 
+ * @param lon: Is set to Longitude 
+ * @param alt: Is set to Altitude 
  *
  * @return true if conversion is possible else false.
  */
 AREXPORT bool
-ArMapGPSCoords::convertMap2LLACoords(const double ea, const double no, [[maybe_unused]] const double up,
+ArMapGPSCoords::convertMap2LLACoords(const double ea, const double no, const double up,
 				     double& lat, double& lon, double& alt) const
 {						    
   if(!myOriginSet)
     return false;
 
-  ArENUCoords enu(ea, no, alt);
-  ArECEFCoords ecef = enu.ENU2ECEF(*myOriginLLA);
-  ArLLACoords lla = ecef.ECEF2LLA();
+  const ArENUCoords enu(ea, no, up);
+  const ArECEFCoords ecef = enu.ENU2ECEF(myOriginLLA);
+  const ArLLACoords lla = ecef.ECEF2LLA();
 
 //  ArLog::log(ArLog::Normal, "GPSLocaLog: convertMap2LLACoords: ENU %g %g %g",
 //	     enu.getX(), enu.getY(), enu.getZ());  
