@@ -86,7 +86,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include "Aria/ArArgumentBuilder.h"
 #include "Aria/ArFunctor.h"
-#include "Aria/ArHasFileName.h"
+//#include "Aria/ArHasFileName.h"
 #include "Aria/ArMutex.h"
 
 #include <vector>
@@ -883,7 +883,7 @@ public:
  * TODO: 
  *  - Possibly make the calculation of checksums optional?
 **/
-class ArMapInterface : public ArHasFileName,
+class ArMapInterface : //public ArHasFileName,
                        public ArMapInfoInterface,
                        public ArMapObjectsInterface,
                        public ArMapScanInterface,

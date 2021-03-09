@@ -29,7 +29,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include "Aria/ArConfigArg.h"
 #include "Aria/ArFileParser.h"
-#include "Aria/ArHasFileName.h"
+//#include "Aria/ArHasFileName.h"
 #include <set>
 
 class ArArgumentBuilder;
@@ -69,7 +69,7 @@ class ArConfigSection;
 
   @ingroup OptionalClasses
 */
-class ArConfig : public ArHasFileName
+class ArConfig //: public ArHasFileName
 {
 private:
 

@@ -42,26 +42,29 @@ class ArHasFileName
 {
 public:
 
-  /// Constructor
-	AREXPORT ArHasFileName() 
-  {}
+  // Constructor
+//	ArHasFileName() 
+ // {}
 	
-  /// Copy constructor
-  ArHasFileName(ArHasFileName const &) 
-  {}
+ // /// Copy constructor
+  //ArHasFileName(ArHasFileName const &) 
+ // {}
 
 	/// Assignment operator.
-  ArHasFileName &operator=(ArHasFileName const & )
-  {
-    return *this;
-  }
+ // ArHasFileName &operator=(ArHasFileName const & )
+ // {
+ //   return *this;
+ // }
 
   /// Destructor
-	AREXPORT virtual ~ArHasFileName()
-  {}
+	//AREXPORT virtual ~ArHasFileName()
+ // {}
+
+    // XXX should also include other copy/move constructors and  move assignment operator
+
 
   /// Returns the complete file path name of the associated file
-  AREXPORT virtual const char *getFileName() const  = 0;
+  AREXPORT  const char *getFileName() const  { return NULL; }
 
 }; // end class
 
