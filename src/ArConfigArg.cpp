@@ -3487,10 +3487,10 @@ AREXPORT bool ArConfigArg::writeInfo(ArSocket *socket,
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 AREXPORT bool ArConfigArg::parseResource(ArArgumentBuilder *arg, 
-				                                 char *errorBuffer,
-				                                 size_t errorBufferLen,
+				                                 [[maybe_unused]] char *errorBuffer,
+				                                 [[maybe_unused]] size_t errorBufferLen,
                                          const char *logPrefix,
-                                         bool isQuiet)
+                                         [[maybe_unused]] bool isQuiet)
 {
     
   if (arg == NULL) {

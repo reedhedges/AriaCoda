@@ -100,8 +100,9 @@ public:
     CHARGING_FLOAT = 3,
     CHARGING_BALANCE = 4
   };
-  /// Constructor
-  AREXPORT ArRobot(const char * name = NULL, bool ignored = true,
+  /// Constructor.
+  /// @param unused an old flag no longer used
+  AREXPORT ArRobot(const char * name = NULL, [[maybe_unused]] bool unused = true,
 		   bool doSigHandle=true, 
 		   bool normalInit = true, bool addAriaExitCallback = true);
 		   
@@ -1486,8 +1487,8 @@ public:
     
 
   /// Sets the flag that controls if the robot will switch baud rates
-  void setDoNotSwitchBaud(bool doNotSwitchBaud)
-    { myDoNotSwitchBaud = true; } 
+  void setDoNotSwitchBaud(bool doNotSwitchBaud = true)
+    { myDoNotSwitchBaud = doNotSwitchBaud; } 
 
   /// Gets the flag that controls if the robot won't switch baud rates
   bool getDoNotSwitchBaud() { return myDoNotSwitchBaud; }

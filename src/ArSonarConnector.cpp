@@ -663,7 +663,7 @@ AREXPORT bool ArSonarConnector::connectSonar (ArSonarMTX *sonar,
 AREXPORT bool ArSonarConnector::connectSonars (
   bool continueOnFailedConnect, bool addConnectedSonarsToRobot,
   bool addAllSonarsToRobot, bool turnOnSonars,
-  bool powerCycleSonarOnFailedConnect)
+  [[maybe_unused]] bool powerCycleSonarOnFailedConnect)
 {
 	std::map<int, SonarData *>::iterator it;
 	SonarData *sonarData = NULL;
@@ -717,8 +717,11 @@ AREXPORT bool ArSonarConnector::connectSonars (
 		bool connected = false;
 
 		if (sonarData->myConnectReallySet && sonarData->myConnect) {
-      if (!turnOnPower(sonarData))
-        ArLog::log(ArLog::Normal, "ArSonarConnector: Warning: unable to turn on sonar power. Continuing anyway...");
+
+			if(turnOnSonars)
+      	if (!turnOnPower(sonarData))
+        	ArLog::log(ArLog::Normal, "ArSonarConnector: Warning: unable to turn on sonar power. Continuing anyway...");
+			
 			ArLog::log (myInfoLogLevel,
 			            "ArSonarConnector::connectSonars() Connecting %s",
 			            sonarData->mySonar->getName());
@@ -818,9 +821,9 @@ AREXPORT bool ArSonarConnector::turnOnPower(SonarData *sonarData)
 }
 
 AREXPORT bool ArSonarConnector::connectReplaySonars(
-  bool continueOnFailedConnect, bool addConnectedSonarsToRobot,
-  bool addAllSonarsToRobot, bool turnOnSonars,
-  bool powerCycleSonarOnFailedConnect)
+  [[maybe_unused]] bool continueOnFailedConnect, bool addConnectedSonarsToRobot,
+  bool addAllSonarsToRobot, [[maybe_unused]] bool turnOnSonars,
+  [[maybe_unused]] bool powerCycleSonarOnFailedConnect)
 
 {
 	std::map<int, SonarData *>::iterator it;

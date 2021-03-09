@@ -1154,16 +1154,13 @@ AREXPORT bool ArUtil::getStringFromFile(const char *fileName,
    @return true if the string was found, false if it was not found or if there was a problem such as the string not being long enough 
  **/
 
+#ifdef WIN32
 AREXPORT bool ArUtil::getStringFromRegistry(REGKEY root,
 						   const char *key,
 						   const char *value,
 						   char *str,
 						   int len)
 {
-#ifndef WIN32
-  return false;
-#else // WIN32
-
   HKEY hkey;
   int err;
   unsigned long numKeys;
@@ -1258,8 +1255,22 @@ AREXPORT bool ArUtil::getStringFromRegistry(REGKEY root,
     printf("No key %d\n", err);
   */
   return false;
-#endif
+
 }
+
+#else // WIN32
+AREXPORT bool ArUtil::getStringFromRegistry(REGKEY,
+						   const char *,
+						   const char *,
+						   char *,
+						   int )
+{
+  return false;
+}
+
+#endif // WIN32
+
+
   
 #if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK) && !defined(__MACH__)
 bool ArTime::ourMonotonicClock = true;
@@ -2276,7 +2287,7 @@ AREXPORT void ArUtil::setFileCloseOnExec(int fd, bool closeOnExec)
 AREXPORT void ArUtil::setFileCloseOnExec(FILE *file, bool closeOnExec)
 {
   if (file != NULL)
-    setFileCloseOnExec(fileno(file));
+    setFileCloseOnExec(fileno(file), closeOnExec);
 }
 
 AREXPORT FILE *ArUtil::fopen(const char *path, const char *mode, 
@@ -2466,7 +2477,7 @@ AREXPORT ArThreadedCallbackList::~ArThreadedCallbackList()
 
 }
 
-AREXPORT void *ArThreadedCallbackList::runThread(void *arg)
+AREXPORT void *ArThreadedCallbackList::runThread(void *)
 {
   threadStarted();
   
@@ -2710,7 +2721,7 @@ ArDeviceConnection *ArDeviceConnectionCreatorHelper::createSerial422Connection(
 
 
 ArDeviceConnection *ArDeviceConnectionCreatorHelper::internalCreateSerialConnection(
-	const char *port, const char *defaultInfo, const char *logPrefix, bool is422)
+	const char *port, [[maybe_unused]] const char *defaultInfo, const char *logPrefix, bool is422)
 {
   ArSerialConnection *serConn = new ArSerialConnection(is422);
   

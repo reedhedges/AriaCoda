@@ -142,7 +142,7 @@ public:
 	void setRefreshFreq(int freq) { myRefreshFrequency = freq; }
 private:
 	int myRefreshFrequency;
-	virtual void* runThread(void* arg)
+	virtual void* runThread(void*)
 	{
 		threadStarted();
 		while (Aria::getRunning() && getRunning())

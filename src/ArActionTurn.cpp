@@ -55,7 +55,7 @@ AREXPORT ArActionTurn::~ArActionTurn()
 
 }
 
-AREXPORT ArActionDesired *ArActionTurn::fire(ArActionDesired currentDesired)
+AREXPORT ArActionDesired *ArActionTurn::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
   myDesired.reset();
   double turnAmount;

@@ -566,7 +566,7 @@ AREXPORT void ArLog::logBacktrace(LogLevel level)
   
   int i;
   for (i = 0; i < numEntries; i++)
-    ArLog::log(ArLog::Normal, "%s", names[i]);
+    ArLog::log(level, "%s", names[i]);
   
   free(names);
 #endif

@@ -95,7 +95,7 @@ AREXPORT void ArRVisionPacket::byte2ToBufAtPos(ArTypes::Byte2 val,
 }
 
 
-AREXPORT ArRVisionPTZ::ArRVisionPTZ(ArRobot *robot) :
+AREXPORT ArRVisionPTZ::ArRVisionPTZ([[maybe_unused]] ArRobot *robot) :
   ArPTZ(NULL),
   myPacket(255), 
   myZoomPacket(9),
@@ -328,7 +328,7 @@ ArBasePacket * ArRVisionPTZ::readPacket()
 
 ArPTZConnector::GlobalPTZCreateFunc ArRVisionPTZ::ourCreateFunc(&ArRVisionPTZ::create);
 
-ArPTZ* ArRVisionPTZ::create(size_t index, ArPTZParams params, ArArgumentParser *parser, ArRobot *robot)
+ArPTZ* ArRVisionPTZ::create([[maybe_unused]] size_t index, ArPTZParams params, [[maybe_unused]] ArArgumentParser *parser, ArRobot *robot)
 {
   ArRVisionPTZ *ptz = new ArRVisionPTZ(robot);
   if(params.serialPort != "" && params.serialPort != "none")

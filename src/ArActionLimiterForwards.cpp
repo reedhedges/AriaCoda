@@ -89,7 +89,7 @@ AREXPORT void ArActionLimiterForwards::setParameters(double stopDistance,
 }
 
 AREXPORT ArActionDesired *
-ArActionLimiterForwards::fire(ArActionDesired currentDesired)
+ArActionLimiterForwards::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
   double dist;
   double maxVel;

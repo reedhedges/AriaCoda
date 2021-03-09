@@ -70,7 +70,7 @@ public:
   AREXPORT virtual bool isTryingToConnect()
     { return myLaser->isTryingToConnect(); }
 
-  AREXPORT virtual void *runThread(void *arg) { return NULL; } 
+  AREXPORT virtual void *runThread(void *) { return NULL; } 
   AREXPORT virtual bool laserCheckParams() 
     { 
       if (!myLaser->laserCheckParams())

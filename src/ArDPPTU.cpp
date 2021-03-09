@@ -905,7 +905,7 @@ void ArDPPTU::query()
 
 ArPTZConnector::GlobalPTZCreateFunc ArDPPTU::ourCreateFunc(&ArDPPTU::create);
 
-ArPTZ* ArDPPTU::create(size_t index, ArPTZParams params, ArArgumentParser *parser, ArRobot *robot)
+ArPTZ* ArDPPTU::create([[maybe_unused]] size_t index, [[maybe_unused]] ArPTZParams params, [[maybe_unused]] ArArgumentParser *parser, ArRobot *robot)
 {
   return new ArDPPTU(robot);
 }

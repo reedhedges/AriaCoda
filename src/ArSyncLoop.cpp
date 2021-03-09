@@ -55,7 +55,7 @@ AREXPORT void ArSyncLoop::stopRunIfNotConnected(bool stopRun)
   myStopRunIfNotConnected = stopRun;
 }
 
-AREXPORT void * ArSyncLoop::runThread(void *arg)
+AREXPORT void * ArSyncLoop::runThread(void *)
 {
   threadStarted();
 

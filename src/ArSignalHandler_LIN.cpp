@@ -249,7 +249,7 @@ ArSignalHandler::~ArSignalHandler()
 {
 }
 
-AREXPORT void * ArSignalHandler::runThread(void *arg)
+AREXPORT void * ArSignalHandler::runThread(void *)
 {
   setThreadName("ArSignalHandler");
   threadStarted();

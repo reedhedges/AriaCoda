@@ -449,8 +449,8 @@ AREXPORT ArDeviceConnection *ArLMS1XXPacketReceiver::getDeviceConnection()
 
 
 ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
-						      bool scandataShortcut,
-						      bool ignoreRemainders)
+						      [[maybe_unused]] bool scandataShortcut,
+						      [[maybe_unused]] bool ignoreRemainders)
 {
 	ArLMS1XXPacket *packet;
 	unsigned char c;
@@ -2934,7 +2934,7 @@ AREXPORT bool ArLMS1XX::timConnect()
 
 }
 
-AREXPORT void * ArLMS1XX::runThread(void *arg)
+AREXPORT void * ArLMS1XX::runThread(void *)
 {
   //char buf[1024];
   ArLMS1XXPacket *packet;

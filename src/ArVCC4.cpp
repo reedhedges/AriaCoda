@@ -2341,7 +2341,7 @@ bool ArVCC4::sendFocus()
 
 ArPTZConnector::GlobalPTZCreateFunc ArVCC4::ourCreateFunc(&ArVCC4::create);
 
-ArPTZ* ArVCC4::create(size_t index, ArPTZParams params, ArArgumentParser *parser, ArRobot *robot)
+ArPTZ* ArVCC4::create([[maybe_unused]] size_t index, ArPTZParams params, [[maybe_unused]] ArArgumentParser *parser, ArRobot *robot)
 {
   CameraType vccType = CAMERA_VCC4;
   if(params.type == "vcc50i")

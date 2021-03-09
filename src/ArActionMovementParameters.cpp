@@ -186,7 +186,7 @@ AREXPORT void ArActionMovementParameters::addToConfig(ArConfig *config,
 }
 
 AREXPORT ArActionDesired *ArActionMovementParameters::fire(
-	ArActionDesired currentDesired)
+	[[maybe_unused]] ArActionDesired currentDesired)
 {
   myDesired.reset();
 

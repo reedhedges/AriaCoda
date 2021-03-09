@@ -47,7 +47,7 @@ AREXPORT ArActionConstantVelocity::~ArActionConstantVelocity()
 }
 
 AREXPORT ArActionDesired *ArActionConstantVelocity::fire(
-	ArActionDesired currentDesired)
+	[[maybe_unused]] ArActionDesired currentDesired)
 {
   myDesired.reset();
 

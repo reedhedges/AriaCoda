@@ -668,8 +668,9 @@ AREXPORT bool ArLCDConnector::connectLCD (ArLCDMTX *lcd,
 }
 AREXPORT bool ArLCDConnector::connectLCDs (
   bool continueOnFailedConnect, bool addConnectedLCDsToRobot,
-  bool addAllLCDsToRobot, bool turnOnLCDs,
-  bool powerCycleLCDOnFailedConnect)
+  bool addAllLCDsToRobot,
+	bool turnOnLCDs,
+	[[maybe_unused]] bool powerCycleLCDOnFailedConnect)
 {
 	std::map<int, LCDData *>::iterator it;
 	LCDData *lcdData = NULL;
@@ -712,7 +713,7 @@ AREXPORT bool ArLCDConnector::connectLCDs (
 
 		lcdData->myConn->close();
 
-		turnOnPower(lcdData);
+		if(turnOnLCDs) turnOnPower(lcdData);
 
 		if (lcdData->myConnectReallySet && lcdData->myConnect) {
 			ArLog::log (myInfoLogLevel,

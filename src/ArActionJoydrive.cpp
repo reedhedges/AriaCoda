@@ -143,7 +143,7 @@ AREXPORT void ArActionJoydrive::setThrottleParams(double lowSpeed, double highSp
   myHighThrottle = highSpeed;
 }
 
-AREXPORT ArActionDesired *ArActionJoydrive::fire(ArActionDesired currentDesired)
+AREXPORT ArActionDesired *ArActionJoydrive::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
   double rot, trans, throttle;
 

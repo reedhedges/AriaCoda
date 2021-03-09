@@ -57,7 +57,7 @@ AREXPORT ArActionAvoidSide::~ArActionAvoidSide()
 }
 
 AREXPORT ArActionDesired *ArActionAvoidSide::fire(
-	ArActionDesired currentDesired)
+	[[maybe_unused]] ArActionDesired currentDesired)
 {
   double leftDist, rightDist;
 

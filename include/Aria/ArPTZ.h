@@ -134,9 +134,9 @@ public:
   AREXPORT virtual bool canZoom() const = 0;
 
   /// Zooms to the given value
-  AREXPORT virtual bool zoom(int zoomValue) { return false; }
+  AREXPORT virtual bool zoom([[maybe_unused]] int zoomValue) { return false; }
   /// Zooms relative to the current value, by the given value
-  AREXPORT virtual bool zoomRel(int zoomValue) { return false; }
+  AREXPORT virtual bool zoomRel([[maybe_unused]] int zoomValue) { return false; }
 
   /** The angle the camera is panned to (or last commanded value sent, if unable to obtain real pan position)
       @sa canGetRealPanTilt()
@@ -200,12 +200,12 @@ public:
   bool canSetSpeed() { return canPanTiltSlew(); }
   
   /// Set pan slew rate (speed) (degrees/sec) if device supports it (see canPanTiltSlew())
-  virtual bool panSlew(double s) { return false; }
+  virtual bool panSlew([[maybe_unused]] double s) { return false; }
   /// @copydoc panSlew()
   bool setPanSpeed(double s) { return panSlew(s); }
   
   /// Set tilt slew rate (speed) (degrees/sec) if device supports it (see canPanTiltSlew())
-  virtual bool tiltSlew(double s) { return false; }
+  virtual bool tiltSlew([[maybe_unused]] double s) { return false; }
   /// @copydoc tiltSlew()
   bool setTiltSpeed(double s) { return tiltSlew(s); }
 
@@ -244,22 +244,22 @@ public:
 
   /// Set gain on camera, range of 1-100.  Returns false if out of range
   /// or if you can't set the gain on the camera
-  AREXPORT virtual bool setGain(double gain) const { return false; }
+  AREXPORT virtual bool setGain([[maybe_unused]] double gain) const { return false; }
   /// Get the gain the camera is set to.  0 if not supported
-  AREXPORT virtual double getGain(double gain) const { return 0; }
+  AREXPORT virtual double getGain([[maybe_unused]] double gain) const { return 0; }
   /// If the driver can set gain on the camera, or not
   AREXPORT virtual bool canSetGain() const { return false; }
 
   /// Set focus on camera, range of 1-100.  Returns false if out of range
   /// or if you can't set the focus on the camera
-  AREXPORT virtual bool setFocus(double focus) const { return false; }
+  AREXPORT virtual bool setFocus([[maybe_unused]] double focus) const { return false; }
   /// Get the focus the camera is set to.  0 if not supported
-  AREXPORT virtual double getFocus(double focus) const { return 0; }
+  AREXPORT virtual double getFocus([[maybe_unused]] double focus) const { return 0; }
   /// If the driver can set the focus on the camera, or not
   AREXPORT virtual bool canSetFocus() const { return false; }
 
   /// Disable/enable autofocus mode if possible. Return false if can't change autofocus mode.
-  AREXPORT virtual bool setAutoFocus(bool af = true) { return false; }
+  AREXPORT virtual bool setAutoFocus([[maybe_unused]] bool af = true) { return false; }
 
   /// Set whether the camera is inverted (upside down). If true, pan and tilt axes will be reversed.
   void setInverted(bool inv) { myInverted = inv; }
@@ -302,7 +302,7 @@ public:
      @return true if this packet was handled (ie this knows what it
      is), false otherwise
   **/
-  AREXPORT virtual bool packetHandler(ArBasePacket *packet) { return false; }
+  AREXPORT virtual bool packetHandler([[maybe_unused]] ArBasePacket *packet) { return false; }
 
   /// Handles a packet that was read by the robot
   /**

@@ -55,7 +55,7 @@ AREXPORT void ArRobotPacketReaderThread::stopRunIfNotConnected(bool stopRun)
   myStopRunIfNotConnected = stopRun;
 }
 
-AREXPORT void * ArRobotPacketReaderThread::runThread(void *arg)
+AREXPORT void * ArRobotPacketReaderThread::runThread(void *)
 {
   threadStarted();
 

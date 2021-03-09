@@ -76,7 +76,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 **/
 
-AREXPORT ArRobot::ArRobot(const char *name, bool obsolete, 
+AREXPORT ArRobot::ArRobot(const char *name, [[maybe_unused]] bool unused, 
 			  bool doSigHandle, bool normalInit,
 			  bool addAriaExitCallback) :
   myMotorPacketCB(this, &ArRobot::processMotorPacket),
@@ -106,7 +106,7 @@ AREXPORT ArRobot::ArRobot(const char *name, bool obsolete,
   myGlobalPose.setPose(0, 0, 0);
   mySetEncoderTransformCBList.setName("SetEncoderTransformCBList");
 
-  myParams = new ArRobotGeneric("");
+  myParams = new ArRobotGeneric();
   processParamFile();
 
   /// MPL 20130509 making this default to true, so that things that
@@ -1454,7 +1454,7 @@ AREXPORT bool ArRobot::loadParamFile(const char *file)
   if (myParams != NULL)
     delete myParams;
 
-  myParams = new ArRobotGeneric("");
+  myParams = new ArRobotGeneric();
   if (!myParams->parseFile(file, false, true))
   {
     ArLog::log(ArLog::Normal, "ArRobot::loadParamFile: Could not find file '%s' to load.", file);
@@ -1670,7 +1670,7 @@ bool ArRobot::madeConnection(bool resetConnectionTime)
   else
   {
     hadDefault = false;
-    myParams = new ArRobotGeneric(myRobotName.c_str());
+    myParams = new ArRobotGeneric(); //myRobotName.c_qstr());
   }
 
   // load up the param file for the subtype

@@ -472,7 +472,7 @@ AREXPORT ArSoundsQueue::Item ArSoundsQueue::createDefaultFileItem(const char* fi
 
 
 
-AREXPORT void *ArSoundsQueue::runThread(void *arg)
+AREXPORT void *ArSoundsQueue::runThread(void *)
 {
   threadStarted();
   invokeCallbacks(myInitCallbacks);

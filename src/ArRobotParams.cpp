@@ -967,7 +967,7 @@ AREXPORT void ArRobotParams::internalSetSonar(int num, int x, int y, int th,
 
 AREXPORT void ArRobotParams::internalSetSonarUseFlag(int num, bool flag)
 {
-  mySonarMap[num][SONAR_USE_FOR_AUTONOMOUS_DRIVING] = false;
+  mySonarMap[num][SONAR_USE_FOR_AUTONOMOUS_DRIVING] = flag;
 }
 
 #if 0

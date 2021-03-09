@@ -347,7 +347,7 @@ AREXPORT bool ArSimulatedLaser::laserCheckParams()
   return true;
 }
 
-AREXPORT void *ArSimulatedLaser::runThread(void *arg)
+AREXPORT void *ArSimulatedLaser::runThread(void *)
 {
 
   while (getRunning())

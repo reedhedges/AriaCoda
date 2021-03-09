@@ -133,6 +133,7 @@ public:
   static void setLogLevel(ArLog::LogLevel level) { ourLogLevel = level; }
 
   /// Create and start the thread
+  /// @param lowerPriority on Windows this sets the thread priority to THREAD_PRIORITY_IDLE.  Does nothing on Linux.
   AREXPORT virtual int create(ArFunctor *func, bool joinable=true,
 			      bool lowerPriority=true);
   /// Stop the thread

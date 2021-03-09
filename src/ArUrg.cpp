@@ -703,7 +703,7 @@ void ArUrg::sensorInterp()
   unlockDevice();
 }
 
-AREXPORT void * ArUrg::runThread(void *arg)
+AREXPORT void * ArUrg::runThread(void *)
 {
   while (getRunning())
   {

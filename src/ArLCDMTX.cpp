@@ -469,7 +469,7 @@ AREXPORT const char * ArLCDMTX::getName() const
 	return myName.c_str();
 }
 
-AREXPORT void * ArLCDMTX::runThread(void *arg)
+AREXPORT void * ArLCDMTX::runThread(void *)
 {
 
 

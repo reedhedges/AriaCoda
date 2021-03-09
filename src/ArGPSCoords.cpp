@@ -296,7 +296,7 @@ ArMapGPSCoords::convertLLA2MapCoords(const double lat, const double lon, const d
  * @return true if conversion is possible else false.
  */
 AREXPORT bool
-ArMapGPSCoords::convertMap2LLACoords(const double ea, const double no, const double up,
+ArMapGPSCoords::convertMap2LLACoords(const double ea, const double no, [[maybe_unused]] const double up,
 				     double& lat, double& lon, double& alt) const
 {						    
   if(!myOriginSet)

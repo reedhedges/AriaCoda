@@ -89,7 +89,7 @@ AREXPORT bool ArActionRobotJoydrive::handleJoystickPacket(
   return true;
 }
 
-AREXPORT ArActionDesired *ArActionRobotJoydrive::fire(ArActionDesired currentDesired)
+AREXPORT ArActionDesired *ArActionRobotJoydrive::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
   bool printing = false;
   myDesired.reset();

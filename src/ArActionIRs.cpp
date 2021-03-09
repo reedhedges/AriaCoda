@@ -82,7 +82,7 @@ AREXPORT void ArActionIRs::setRobot(ArRobot *robot)
     cycleCounters.push_back(1);
 }
 
-AREXPORT ArActionDesired *ArActionIRs::fire(ArActionDesired currentDesired)
+AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
   myDesired.reset();
 

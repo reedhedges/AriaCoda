@@ -926,7 +926,7 @@ AREXPORT const char * ArSonarMTX::getNameWithBoard () const
 	return myNameWithBoard;
 }
 
-AREXPORT void * ArSonarMTX::runThread (void *arg)
+AREXPORT void * ArSonarMTX::runThread (void *)
 {
 	//char buf[1024];
 

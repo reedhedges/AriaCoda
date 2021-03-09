@@ -91,12 +91,13 @@ public:
 	  ArRetFunctor1<bool, const char *> *turnOffPowerOutputCB = NULL);
   /// Destructor
   AREXPORT ~ArLCDConnector();
-  /// Connects all the lcds the robot has that should be auto connected
+  /// Connects all the lcds the robot has that should be auto connected.
+  /// @param powerCycleLCDOnFailedConnect NOTE power cycle on failure is not yet implemented
   AREXPORT bool connectLCDs(bool continueOnFailedConnect = false,
 			      bool addConnectedLCDsToRobot = true,
 			      bool addAllLCDsToRobot = false,
-			      bool turnOnLCDs = true,
-			      bool powerCycleLCDOnFailedConnect = true);
+            bool turnOnLCDs = true,
+            bool powerCycleLCDOnFailedConnect = true);
   /// Sets up a lcd to be connected
   AREXPORT bool setupLCD(ArLCDMTX *lcd, 
 			   int lcdNumber = 1);

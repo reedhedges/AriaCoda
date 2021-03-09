@@ -79,7 +79,7 @@ AREXPORT void ArActionDriveDistance::setDistance(
 
 
 AREXPORT ArActionDesired *ArActionDriveDistance::fire(
-	ArActionDesired currentDesired)
+	[[maybe_unused]] ArActionDesired currentDesired)
 {
   double distToGo;
   double vel;

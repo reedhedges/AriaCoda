@@ -1023,7 +1023,7 @@ AREXPORT bool ArSZSeries::blockingConnect() {
 
 }
 
-AREXPORT void * ArSZSeries::runThread(void *arg) {
+AREXPORT void * ArSZSeries::runThread(void *) {
 	//char buf[1024];
 	ArSZSeriesPacket *packet;
 

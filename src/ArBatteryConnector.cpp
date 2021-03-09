@@ -643,8 +643,8 @@ AREXPORT bool ArBatteryConnector::connectBattery (ArBatteryMTX *battery,
 
 AREXPORT bool ArBatteryConnector::connectBatteries (
   bool continueOnFailedConnect, bool addConnectedBatteriesToRobot,
-  bool addAllBatteriesToRobot, bool turnOnBatteries,
-  bool powerCycleBatteryOnFailedConnect)
+  bool addAllBatteriesToRobot, [[maybe_unused]] bool turnOnBatteries,
+  [[maybe_unused]] bool powerCycleBatteryOnFailedConnect)
 {
 	std::map<int, BatteryData *>::iterator it;
 	BatteryData *batteryData = NULL;

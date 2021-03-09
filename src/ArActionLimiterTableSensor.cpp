@@ -42,7 +42,7 @@ AREXPORT ArActionLimiterTableSensor::~ArActionLimiterTableSensor()
 }
 
 AREXPORT ArActionDesired *ArActionLimiterTableSensor::fire(
-	ArActionDesired currentDesired)
+	[[maybe_unused]] ArActionDesired currentDesired)
 {
   myDesired.reset();
 

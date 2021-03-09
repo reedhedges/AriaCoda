@@ -71,7 +71,7 @@ ArRecurrentTask::~ArRecurrentTask()
 //   the next request
 
 AREXPORT void *
-ArRecurrentTask::runThread(void *ptr) 
+ArRecurrentTask::runThread(void *) 
 {
   threadStarted();
 #ifndef _WIN32

@@ -652,7 +652,7 @@ AREXPORT const char * ArBatteryMTX::getName () const
 	return myName.c_str();
 }
 
-AREXPORT void * ArBatteryMTX::runThread (void *arg)
+AREXPORT void * ArBatteryMTX::runThread (void *)
 {
 	//ArBatteryMTXPacket *packet;
 	ArRobotPacket *packet;

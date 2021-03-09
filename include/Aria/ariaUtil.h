@@ -2707,6 +2707,9 @@ protected:
 
 #ifndef ARIA_WRAPPER
 /// @internal
+// XXX TODO move to another file
+// XXX TODO remove "logPrefix" arguments, they are not used in the creation
+// functions at all (just in Aria::laserCreate() itself)
 class ArLaserCreatorHelper
 {
 public:

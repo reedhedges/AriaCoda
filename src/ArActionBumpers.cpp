@@ -117,7 +117,7 @@ AREXPORT double ArActionBumpers::findDegreesToTurn(int bumpValue, int whichBumpe
   return totalTurn;
 }
 
-AREXPORT ArActionDesired *ArActionBumpers::fire(ArActionDesired currentDesired)
+AREXPORT ArActionDesired *ArActionBumpers::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
   int frontBump;
   int rearBump;

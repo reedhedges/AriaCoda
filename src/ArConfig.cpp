@@ -1272,8 +1272,8 @@ AREXPORT bool ArConfig::parseListBegin(ArArgumentBuilder *arg,
 
 
 AREXPORT bool ArConfig::parseListEnd(ArArgumentBuilder *arg,
-				                             char *errorBuffer,
-				                             size_t errorBufferLen)
+				                             [[maybe_unused]] char *errorBuffer,
+				                             [[maybe_unused]] size_t errorBufferLen)
 {
   if ((arg == NULL) || (arg->getArgc() < 1)) {
     ArLog::log(ArLog::Normal,
@@ -2092,10 +2092,10 @@ AREXPORT bool ArConfig::parseText(const std::list<std::string> &configLines,
 
 /// Parse a config resource file, for translation.
 AREXPORT bool ArConfig::parseResourceFile(const char *fileName, 
-                                  bool continueOnError,
+                                  [[maybe_unused]] bool continueOnError,
                                   char *errorBuffer,
                                   size_t errorBufferLen,
-                                  std::list<std::string> *sectionsToParse)
+                                  [[maybe_unused]] std::list<std::string> *sectionsToParse)
 {
   bool ret = true;
 

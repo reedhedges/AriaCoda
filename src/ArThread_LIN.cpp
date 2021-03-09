@@ -181,7 +181,7 @@ void ArThread::cancelAll()
   ourThreadsMutex.unlock();
 }
 
-int ArThread::create(ArFunctor *func, bool joinable, bool lowerPriority)
+int ArThread::create(ArFunctor *func, bool joinable, [[maybe_unused]] bool lowerPriority)
 {
   int ret;
   pthread_attr_t attr;

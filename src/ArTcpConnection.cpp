@@ -267,7 +267,7 @@ AREXPORT bool ArTcpConnection::isTimeStamping()
   return false;
 }
 
-AREXPORT ArTime ArTcpConnection::getTimeRead(int index)
+AREXPORT ArTime ArTcpConnection::getTimeRead([[maybe_unused]] int index)
 {
   ArTime now;
   now.setToNow();

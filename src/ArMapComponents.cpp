@@ -378,62 +378,62 @@ AREXPORT void ArMapScan::clear()
 
 } // end method clear
 
-AREXPORT const char *ArMapScan::getDisplayString(const char *scanType)
+AREXPORT const char *ArMapScan::getDisplayString([[maybe_unused]] const char *scanType)
 {
   return myDisplayString.c_str();
 }
 
-AREXPORT std::vector<ArPose> *ArMapScan::getPoints(const char *scanType)
+AREXPORT std::vector<ArPose> *ArMapScan::getPoints([[maybe_unused]] const char *scanType)
 {
   return &myPoints;
 }
 
-AREXPORT std::vector<ArLineSegment> *ArMapScan::getLines(const char *scanType)
+AREXPORT std::vector<ArLineSegment> *ArMapScan::getLines([[maybe_unused]] const char *scanType)
 {
   return &myLines;
 }
 
-AREXPORT ArPose ArMapScan::getMinPose(const char *scanType)
+AREXPORT ArPose ArMapScan::getMinPose([[maybe_unused]] const char *scanType)
 {
   return myMin;
 }
 
-AREXPORT ArPose ArMapScan::getMaxPose(const char *scanType)
+AREXPORT ArPose ArMapScan::getMaxPose([[maybe_unused]] const char *scanType)
 {
   return myMax;
 }
 
-AREXPORT int ArMapScan::getNumPoints(const char *scanType)
+AREXPORT int ArMapScan::getNumPoints([[maybe_unused]] const char *scanType)
 {
   return myNumPoints;
 }
 
-AREXPORT ArPose ArMapScan::getLineMinPose(const char *scanType)
+AREXPORT ArPose ArMapScan::getLineMinPose([[maybe_unused]] const char *scanType)
 {
   return myLineMin;
 }
 
-AREXPORT ArPose ArMapScan::getLineMaxPose(const char *scanType)
+AREXPORT ArPose ArMapScan::getLineMaxPose([[maybe_unused]] const char *scanType)
 {
   return myLineMax;
 }
 
-AREXPORT int ArMapScan::getNumLines(const char *scanType)
+AREXPORT int ArMapScan::getNumLines([[maybe_unused]] const char *scanType)
 { 
   return myNumLines;
 }
 
-AREXPORT int ArMapScan::getResolution(const char *scanType)
+AREXPORT int ArMapScan::getResolution([[maybe_unused]] const char *scanType)
 {
   return myResolution;
 }
 
-AREXPORT bool ArMapScan::isSortedPoints(const char *scanType) const
+AREXPORT bool ArMapScan::isSortedPoints([[maybe_unused]] const char *scanType) const
 {
   return myIsSortedPoints;
 }
 
-AREXPORT bool ArMapScan::isSortedLines(const char *scanType) const
+AREXPORT bool ArMapScan::isSortedLines([[maybe_unused]] const char *scanType) const
 {
   return myIsSortedLines;
 }
@@ -839,7 +839,7 @@ AREXPORT void ArMapScan::setResolution(int resolution,
 
 AREXPORT void ArMapScan::writePointsToFunctor
 		                         (ArFunctor2<int, std::vector<ArPose> *> *functor,
-                              const char *scanType,
+                              [[maybe_unused]] const char *scanType,
                               ArFunctor1<const char *> *keywordFunctor)
 {
  
@@ -855,7 +855,7 @@ AREXPORT void ArMapScan::writePointsToFunctor
 
 AREXPORT void ArMapScan::writeLinesToFunctor
 	                           (ArFunctor2<int, std::vector<ArLineSegment> *> *functor,
-                              const char *scanType,
+                              [[maybe_unused]] const char *scanType,
                               ArFunctor1<const char *> *keywordFunctor)
 {
   if (keywordFunctor != NULL) {
@@ -870,7 +870,7 @@ AREXPORT void ArMapScan::writeLinesToFunctor
 AREXPORT void ArMapScan::writeScanToFunctor
                              (ArFunctor1<const char *> *functor, 
 			                        const char *endOfLineChars,
-                              const char *scanType)
+                              [[maybe_unused]] const char *scanType)
 {
   if (!myDisplayString.empty()) {
 
@@ -926,7 +926,7 @@ AREXPORT void ArMapScan::writeScanToFunctor
 AREXPORT void ArMapScan::writePointsToFunctor
                                 (ArFunctor1<const char *> *functor, 
 			                           const char *endOfLineChars,
-                                 const char *scanType)
+                                 [[maybe_unused]] const char *scanType)
 {
   ArUtil::functorPrintf(functor, "%s%s", 
                         getPointsKeyword(),
@@ -989,7 +989,7 @@ AREXPORT void ArMapScan::writeLinesToFunctor
                                 (ArFunctor1<const char *> *functor, 
                                  const std::vector<ArLineSegment> &lines,
                                  const char *endOfLineChars,
-                                 const char *scanType)
+                                 [[maybe_unused]] const char *scanType)
 {
   if (lines.empty()) {
     return;

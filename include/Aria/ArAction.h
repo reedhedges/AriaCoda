@@ -77,10 +77,11 @@ public:
   AREXPORT virtual void deactivate();
   /// Fires the action, returning what the action wants to do
   /** 
-      @param currentDesired this is the tentative result, based
+      @param currentDesired this is the  current tentative result, based
       on the resolver's processing of previous, higher-priority actions.
       This is only for the purpose of giving information to the 
-      action, changing it has no effect.
+      action, changing it has no effect. You do not need to use this parameter 
+      in your fire() implementation if not needed.
       @return pointer to what this action wants to do, NULL if it wants to do 
       nothing. Common practice is to keep an ArActionDesired
       object in your action subclass, and return a pointer to
@@ -90,7 +91,7 @@ public:
       Clear your stored ArActionDesired
       before modifying it with ArActionDesired::reset().
   */
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) = 0;
+  AREXPORT virtual ArActionDesired *fire([[maybe_unused]] ArActionDesired currentDesired) = 0;
   /// Sets the robot this action is driving
   AREXPORT virtual void setRobot(ArRobot *robot);
   /// Find the number of arguments this action takes

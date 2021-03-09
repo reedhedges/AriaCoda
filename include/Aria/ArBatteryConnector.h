@@ -89,6 +89,7 @@ public:
   /// Destructor
   AREXPORT ~ArBatteryConnector();
   /// Connects all the batteries the robot has that should be auto connected
+  /// @note @a turnOnBatteries and @a powerCycleBatteryOnFailedConnect are not applicable to ArBatteryConnector and are ignored.
   AREXPORT bool connectBatteries(bool continueOnFailedConnect = false,
 			      bool addConnectedBatteriesToRobot = true,
 			      bool addAllBatteriesToRobot = false,

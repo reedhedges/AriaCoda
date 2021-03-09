@@ -33,13 +33,13 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 // Generic robot class
 
-AREXPORT ArRobotGeneric::ArRobotGeneric(const char *dir)
+AREXPORT ArRobotGeneric::ArRobotGeneric()
 {
 }
 
 // AmigoBot robot class
 
-AREXPORT ArRobotAmigo::ArRobotAmigo(const char *dir)
+AREXPORT ArRobotAmigo::ArRobotAmigo()
 {
   sprintf(mySubClass, "amigo");
   myRobotRadius = 180;
@@ -69,7 +69,7 @@ AREXPORT ArRobotAmigo::ArRobotAmigo(const char *dir)
 
 // AmigoBot robot class
 
-AREXPORT ArRobotAmigoSh::ArRobotAmigoSh(const char *dir)
+AREXPORT ArRobotAmigoSh::ArRobotAmigoSh()
 {
   sprintf(mySubClass, "amigo-sh");
   myRobotRadius = 180;
@@ -97,8 +97,8 @@ AREXPORT ArRobotAmigoSh::ArRobotAmigoSh(const char *dir)
   internalSetSonar(7, -146, 58, 145);
 }
 
-AREXPORT ArRobotAmigoShTim5xxWibox::ArRobotAmigoShTim5xxWibox(const char* dir)
-  : ArRobotAmigoSh(dir)
+AREXPORT ArRobotAmigoShTim5xxWibox::ArRobotAmigoShTim5xxWibox()
+  : ArRobotAmigoSh()
 {
   sprintf(mySubClass, "amigo-sh-tim3xx");
   if (getLaserData(1) != NULL)
@@ -115,7 +115,7 @@ AREXPORT ArRobotAmigoShTim5xxWibox::ArRobotAmigoShTim5xxWibox(const char* dir)
 
 // P2AT robot class
 
-AREXPORT ArRobotP2AT::ArRobotP2AT(const char *dir)
+AREXPORT ArRobotP2AT::ArRobotP2AT()
 {
   sprintf(mySubClass, "p2at");
   myRobotRadius = 500;
@@ -172,7 +172,7 @@ AREXPORT ArRobotP2AT::ArRobotP2AT(const char *dir)
 
 // P2AT8 robot class
 
-AREXPORT ArRobotP2AT8::ArRobotP2AT8(const char *dir)
+AREXPORT ArRobotP2AT8::ArRobotP2AT8()
 {
   sprintf(mySubClass, "p2at8");
   myRobotRadius = 500;
@@ -232,7 +232,7 @@ AREXPORT ArRobotP2AT8::ArRobotP2AT8(const char *dir)
 
 // P2IT robot class
 
-AREXPORT ArRobotP2IT::ArRobotP2IT(const char *dir)
+AREXPORT ArRobotP2IT::ArRobotP2IT()
 {
   sprintf(mySubClass, "p2it");
   myRobotRadius = 500;
@@ -292,7 +292,7 @@ AREXPORT ArRobotP2IT::ArRobotP2IT(const char *dir)
 
 // P2DX robot class
 
-AREXPORT ArRobotP2DX::ArRobotP2DX(const char *dir)
+AREXPORT ArRobotP2DX::ArRobotP2DX()
 {
   sprintf(mySubClass, "p2dx");
   myRobotRadius = 250;
@@ -351,7 +351,7 @@ AREXPORT ArRobotP2DX::ArRobotP2DX(const char *dir)
 
 // P2DXe robot class
 
-AREXPORT ArRobotP2DXe::ArRobotP2DXe(const char *dir)
+AREXPORT ArRobotP2DXe::ArRobotP2DXe()
 {
   sprintf(mySubClass, "p2de");
   myRobotRadius = 250;
@@ -410,7 +410,7 @@ AREXPORT ArRobotP2DXe::ArRobotP2DXe(const char *dir)
 
 // P2DF robot class
 
-AREXPORT ArRobotP2DF::ArRobotP2DF(const char *dir)
+AREXPORT ArRobotP2DF::ArRobotP2DF()
 {
   sprintf(mySubClass, "p2df");
   myRobotRadius = 250;
@@ -469,7 +469,7 @@ AREXPORT ArRobotP2DF::ArRobotP2DF(const char *dir)
 
 // P2D8 robot class
 
-AREXPORT ArRobotP2D8::ArRobotP2D8(const char *dir)
+AREXPORT ArRobotP2D8::ArRobotP2D8()
 {
   sprintf(mySubClass, "p2d8");
   myRobotRadius = 250;
@@ -530,7 +530,7 @@ AREXPORT ArRobotP2D8::ArRobotP2D8(const char *dir)
 
 // P2CE robot class
 
-AREXPORT ArRobotP2CE::ArRobotP2CE(const char *dir)
+AREXPORT ArRobotP2CE::ArRobotP2CE()
 {
   sprintf(mySubClass, "p2ce");
   myRobotRadius = 250;
@@ -581,7 +581,7 @@ AREXPORT ArRobotP2CE::ArRobotP2CE(const char *dir)
 
 // P2PP robot class
 
-AREXPORT ArRobotP2PP::ArRobotP2PP(const char *dir)
+AREXPORT ArRobotP2PP::ArRobotP2PP()
 {
   sprintf(mySubClass, "p2pp");
   myRobotRadius = 300;
@@ -652,7 +652,7 @@ AREXPORT ArRobotP2PP::ArRobotP2PP(const char *dir)
 
 // P2PB robot class
 
-AREXPORT ArRobotP2PB::ArRobotP2PB(const char *dir)
+AREXPORT ArRobotP2PB::ArRobotP2PB()
 {
   sprintf(mySubClass, "p2pb");
   myRobotRadius = 300;
@@ -720,7 +720,7 @@ AREXPORT ArRobotP2PB::ArRobotP2PB(const char *dir)
 
 // PerfPB robot class
 
-AREXPORT ArRobotPerfPB::ArRobotPerfPB(const char *dir)
+AREXPORT ArRobotPerfPB::ArRobotPerfPB()
 {
   sprintf(mySubClass, "perfpb");
   myRobotRadius = 340;
@@ -808,7 +808,7 @@ AREXPORT ArRobotPerfPB::ArRobotPerfPB(const char *dir)
 
 
 
-AREXPORT ArRobotPion1M::ArRobotPion1M(const char *dir)
+AREXPORT ArRobotPion1M::ArRobotPion1M()
 {
   sprintf(mySubClass, "pion1m");
   myRobotRadius = 220;
@@ -842,7 +842,7 @@ AREXPORT ArRobotPion1M::ArRobotPion1M(const char *dir)
   mySettableAccsDecs = false;
 }
 
-AREXPORT ArRobotPsos1M::ArRobotPsos1M(const char *dir)
+AREXPORT ArRobotPsos1M::ArRobotPsos1M()
 {
   sprintf(mySubClass, "psos1m");
   myRobotRadius = 220;
@@ -876,7 +876,7 @@ AREXPORT ArRobotPsos1M::ArRobotPsos1M(const char *dir)
   mySettableAccsDecs = false;
 }
 
-AREXPORT ArRobotPsos43M::ArRobotPsos43M(const char *dir)
+AREXPORT ArRobotPsos43M::ArRobotPsos43M()
 {
   sprintf(mySubClass, "psos43m");
   myRobotRadius = 220;
@@ -913,7 +913,7 @@ AREXPORT ArRobotPsos43M::ArRobotPsos43M(const char *dir)
 
 // PionAT robot class
 
-AREXPORT ArRobotPionAT::ArRobotPionAT(const char *dir)
+AREXPORT ArRobotPionAT::ArRobotPionAT()
 {
   sprintf(mySubClass, "pionat");
   myRobotRadius = 330;
@@ -948,7 +948,7 @@ AREXPORT ArRobotPionAT::ArRobotPionAT(const char *dir)
 }
 
 
-AREXPORT ArRobotPion1X::ArRobotPion1X(const char *dir)
+AREXPORT ArRobotPion1X::ArRobotPion1X()
 {
   sprintf(mySubClass, "pion1x");
   myRobotRadius = 220;
@@ -982,7 +982,7 @@ AREXPORT ArRobotPion1X::ArRobotPion1X(const char *dir)
   mySettableAccsDecs = false;
 }
 
-AREXPORT ArRobotPsos1X::ArRobotPsos1X(const char *dir)
+AREXPORT ArRobotPsos1X::ArRobotPsos1X()
 {
   sprintf(mySubClass, "psos1x");
   myRobotRadius = 220;
@@ -1017,7 +1017,7 @@ AREXPORT ArRobotPsos1X::ArRobotPsos1X(const char *dir)
 }
 
 
-AREXPORT ArRobotMapper::ArRobotMapper(const char *dir)
+AREXPORT ArRobotMapper::ArRobotMapper()
 {
   sprintf(mySubClass, "mappr");
   myRobotRadius = 180;
@@ -1056,7 +1056,7 @@ AREXPORT ArRobotMapper::ArRobotMapper(const char *dir)
 
 // PowerBot robot class
 
-AREXPORT ArRobotPowerBot::ArRobotPowerBot(const char *dir)
+AREXPORT ArRobotPowerBot::ArRobotPowerBot()
 {
 
   sprintf(mySubClass, "powerbot");
@@ -1138,7 +1138,7 @@ AREXPORT ArRobotPowerBot::ArRobotPowerBot(const char *dir)
   myVideoParams[0].setConnect(true);
 }
 
-AREXPORT ArRobotP2D8Plus::ArRobotP2D8Plus(const char *dir)
+AREXPORT ArRobotP2D8Plus::ArRobotP2D8Plus()
 {
   sprintf(mySubClass, "p2d8+");
   myRobotRadius = 250;
@@ -1196,7 +1196,7 @@ AREXPORT ArRobotP2D8Plus::ArRobotP2D8Plus(const char *dir)
 }
 
 
-AREXPORT ArRobotP2AT8Plus::ArRobotP2AT8Plus(const char *dir)
+AREXPORT ArRobotP2AT8Plus::ArRobotP2AT8Plus()
 {
   sprintf(mySubClass, "p2at8+");
   myRobotRadius = 500;
@@ -1253,7 +1253,7 @@ AREXPORT ArRobotP2AT8Plus::ArRobotP2AT8Plus(const char *dir)
   myVideoParams[0].setConnect(true);
 }
 
-AREXPORT ArRobotP3AT::ArRobotP3AT(const char *dir)
+AREXPORT ArRobotP3AT::ArRobotP3AT()
 {
   sprintf(mySubClass, "p3at");
   myRobotRadius = 500;
@@ -1316,7 +1316,7 @@ AREXPORT ArRobotP3AT::ArRobotP3AT(const char *dir)
 }
 
 
-AREXPORT ArRobotP3DX::ArRobotP3DX(const char *dir)
+AREXPORT ArRobotP3DX::ArRobotP3DX()
 {
   sprintf(mySubClass, "p3dx");
   myRobotRadius = 250;
@@ -1376,7 +1376,7 @@ AREXPORT ArRobotP3DX::ArRobotP3DX(const char *dir)
 
 
 
-AREXPORT ArRobotPerfPBPlus::ArRobotPerfPBPlus(const char *dir)
+AREXPORT ArRobotPerfPBPlus::ArRobotPerfPBPlus()
 {
   sprintf(mySubClass, "perfpb+");
   myRobotRadius = 340;
@@ -1466,7 +1466,7 @@ AREXPORT ArRobotPerfPBPlus::ArRobotPerfPBPlus(const char *dir)
 }
 
 
-AREXPORT ArRobotP3DXSH::ArRobotP3DXSH(const char *dir)
+AREXPORT ArRobotP3DXSH::ArRobotP3DXSH()
 {
   sprintf(mySubClass, "p3dx-sh");
   myRobotRadius = 250;
@@ -1525,7 +1525,7 @@ AREXPORT ArRobotP3DXSH::ArRobotP3DXSH(const char *dir)
 }
 
 
-AREXPORT ArRobotP3ATSH::ArRobotP3ATSH(const char *dir)
+AREXPORT ArRobotP3ATSH::ArRobotP3ATSH()
 {
   sprintf(mySubClass, "p3at-sh");
   myRobotRadius = 500;
@@ -1584,7 +1584,7 @@ AREXPORT ArRobotP3ATSH::ArRobotP3ATSH(const char *dir)
 }
 
 
-AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH(const char *dir)
+AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH()
 {
   sprintf(mySubClass, "p3atiw-sh");
   myRobotRadius = 500;
@@ -1644,7 +1644,7 @@ AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH(const char *dir)
 }
 
 
-AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH(const char *dir)
+AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH()
 {
   sprintf(mySubClass, "patrolbot-sh");
   myRobotRadius = 250;
@@ -1727,7 +1727,7 @@ AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH(const char *dir)
 }
 
 
-AREXPORT ArRobotPeopleBotSH::ArRobotPeopleBotSH(const char *dir)
+AREXPORT ArRobotPeopleBotSH::ArRobotPeopleBotSH()
 {
   sprintf(mySubClass, "peoplebot-sh");
   myRobotRadius = 340;
@@ -1813,7 +1813,7 @@ AREXPORT ArRobotPeopleBotSH::ArRobotPeopleBotSH(const char *dir)
 }
 
 
-AREXPORT ArRobotPowerBotSH::ArRobotPowerBotSH(const char *dir)
+AREXPORT ArRobotPowerBotSH::ArRobotPowerBotSH()
 {
 
   sprintf(mySubClass, "powerbot-sh");
@@ -1895,7 +1895,7 @@ AREXPORT ArRobotPowerBotSH::ArRobotPowerBotSH(const char *dir)
 }
 
 
-AREXPORT ArRobotPowerBotSHuARCS::ArRobotPowerBotSHuARCS(const char *dir)
+AREXPORT ArRobotPowerBotSHuARCS::ArRobotPowerBotSHuARCS()
 {
 
   sprintf(mySubClass, "powerbot-sh-uarcs");
@@ -1949,7 +1949,7 @@ AREXPORT ArRobotPowerBotSHuARCS::ArRobotPowerBotSHuARCS(const char *dir)
   sprintf(myGPSPort, "COM3"); // swap laser and hypothetical GPS
 }
 
-AREXPORT ArRobotWheelchairSH::ArRobotWheelchairSH(const char *dir)
+AREXPORT ArRobotWheelchairSH::ArRobotWheelchairSH()
 {
   sprintf(mySubClass, "wheelchair-sh");
   myRobotRadius = 550;
@@ -1992,7 +1992,7 @@ AREXPORT ArRobotWheelchairSH::ArRobotWheelchairSH(const char *dir)
   sprintf(myGPSPort, "COM3"); // swap laser and hypothetical GPS
 }
 
-AREXPORT ArRobotSeekur::ArRobotSeekur(const char *dir)
+AREXPORT ArRobotSeekur::ArRobotSeekur()
 {
   sprintf(mySubClass, "seekur");
   myRobotRadius = 833;
@@ -2059,7 +2059,7 @@ AREXPORT ArRobotSeekur::ArRobotSeekur(const char *dir)
   myVideoParams[0].setConnect(true); 
 }
 
-AREXPORT ArRobotMT400::ArRobotMT400(const char *dir)
+AREXPORT ArRobotMT400::ArRobotMT400()
 {
   sprintf(mySubClass, "mt400");
   myRobotRadius = 250;
@@ -2139,7 +2139,7 @@ AREXPORT ArRobotMT400::ArRobotMT400(const char *dir)
   myVideoParams[0].setAddress("192.168.0.90");
 }
 
-AREXPORT ArRobotResearchPB::ArRobotResearchPB(const char *dir)
+AREXPORT ArRobotResearchPB::ArRobotResearchPB()
 {
   sprintf(mySubClass, "researchPB");
   myRobotRadius = 250;
@@ -2219,7 +2219,7 @@ AREXPORT ArRobotResearchPB::ArRobotResearchPB(const char *dir)
   myVideoParams[0].setAddress("192.168.0.90");
 }
 
-AREXPORT ArRobotSeekurJr::ArRobotSeekurJr(const char *dir)
+AREXPORT ArRobotSeekurJr::ArRobotSeekurJr()
 {
   sprintf(mySubClass, "seekurjr");
   myRobotRadius = 600;
@@ -2293,8 +2293,8 @@ AREXPORT ArRobotSeekurJr::ArRobotSeekurJr(const char *dir)
   myVideoParams[0].setConnect(true); 
 }
 
-AREXPORT ArRobotP3DXSH_lms1xx::ArRobotP3DXSH_lms1xx(const char *dir) :
-  ArRobotP3DXSH(dir)
+AREXPORT ArRobotP3DXSH_lms1xx::ArRobotP3DXSH_lms1xx() :
+  ArRobotP3DXSH()
 {
   sprintf(mySubClass, "p3dx-sh-lms1xx");
   if(LaserData* ld = getLaserData(1))
@@ -2306,8 +2306,8 @@ AREXPORT ArRobotP3DXSH_lms1xx::ArRobotP3DXSH_lms1xx(const char *dir) :
   }
 }
 
-AREXPORT ArRobotP3ATSH_lms1xx::ArRobotP3ATSH_lms1xx(const char *dir) :
-  ArRobotP3ATSH(dir)
+AREXPORT ArRobotP3ATSH_lms1xx::ArRobotP3ATSH_lms1xx() :
+  ArRobotP3ATSH()
 {
   sprintf(mySubClass, "p3at-sh-lms1xx");
   if(LaserData* ld = getLaserData(1))
@@ -2319,8 +2319,8 @@ AREXPORT ArRobotP3ATSH_lms1xx::ArRobotP3ATSH_lms1xx(const char *dir) :
   }
 }
 
-AREXPORT ArRobotPeopleBotSH_lms1xx::ArRobotPeopleBotSH_lms1xx(const char *dir) :
-  ArRobotPeopleBotSH(dir)
+AREXPORT ArRobotPeopleBotSH_lms1xx::ArRobotPeopleBotSH_lms1xx() :
+  ArRobotPeopleBotSH()
 {
   sprintf(mySubClass, "peoplebot-sh-lms1xx");
   if(LaserData* ld = getLaserData(1))
@@ -2332,8 +2332,8 @@ AREXPORT ArRobotPeopleBotSH_lms1xx::ArRobotPeopleBotSH_lms1xx(const char *dir) :
   }
 }
 
-AREXPORT ArRobotP3DXSH_lms500::ArRobotP3DXSH_lms500(const char *dir) :
-  ArRobotP3DXSH(dir)
+AREXPORT ArRobotP3DXSH_lms500::ArRobotP3DXSH_lms500() :
+  ArRobotP3DXSH()
 {
   sprintf(mySubClass, "p3dx-sh-lms500");
   if(LaserData* ld = getLaserData(1))
@@ -2346,8 +2346,8 @@ AREXPORT ArRobotP3DXSH_lms500::ArRobotP3DXSH_lms500(const char *dir) :
   }
 }
 
-AREXPORT ArRobotP3ATSH_lms500::ArRobotP3ATSH_lms500(const char *dir) :
-  ArRobotP3ATSH(dir)
+AREXPORT ArRobotP3ATSH_lms500::ArRobotP3ATSH_lms500() :
+  ArRobotP3ATSH()
 {
   sprintf(mySubClass, "p3at-sh-lms500");
   if(LaserData* ld = getLaserData(1))
@@ -2359,8 +2359,8 @@ AREXPORT ArRobotP3ATSH_lms500::ArRobotP3ATSH_lms500(const char *dir) :
   }
 }
 
-AREXPORT ArRobotPeopleBotSH_lms500::ArRobotPeopleBotSH_lms500(const char *dir) :
-  ArRobotPeopleBotSH(dir)
+AREXPORT ArRobotPeopleBotSH_lms500::ArRobotPeopleBotSH_lms500() :
+  ArRobotPeopleBotSH()
 {
   sprintf(mySubClass, "peoplebot-sh-lms500");
   if(LaserData* ld = getLaserData(1))
@@ -2372,8 +2372,8 @@ AREXPORT ArRobotPeopleBotSH_lms500::ArRobotPeopleBotSH_lms500(const char *dir) :
   }
 }
 
-AREXPORT ArRobotPowerBotSH_lms500::ArRobotPowerBotSH_lms500(const char *dir) :
-  ArRobotPowerBotSH(dir)
+AREXPORT ArRobotPowerBotSH_lms500::ArRobotPowerBotSH_lms500() :
+  ArRobotPowerBotSH()
 {
   sprintf(mySubClass, "powerbot-sh-lms500");
   if(LaserData* ld = getLaserData(1))
@@ -2385,8 +2385,8 @@ AREXPORT ArRobotPowerBotSH_lms500::ArRobotPowerBotSH_lms500(const char *dir) :
   }
 }
 
-AREXPORT ArRobotResearchPB_lms500::ArRobotResearchPB_lms500(const char *dir) :
-  ArRobotResearchPB(dir)
+AREXPORT ArRobotResearchPB_lms500::ArRobotResearchPB_lms500() :
+  ArRobotResearchPB()
 {
   sprintf(mySubClass, "researchPB-lms500");
   if(LaserData* ld = getLaserData(1))
@@ -2398,7 +2398,7 @@ AREXPORT ArRobotResearchPB_lms500::ArRobotResearchPB_lms500(const char *dir) :
   }
 }
 
-AREXPORT ArRobotPioneerLX::ArRobotPioneerLX(const char *dir)
+AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
 {
   sprintf(myClass, "MTX");
   sprintf(mySubClass, "pioneer-lx");
@@ -2536,8 +2536,8 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX(const char *dir)
 }
 
 
-AREXPORT ArRobotPioneerLX_LD::ArRobotPioneerLX_LD(const char *dir) :
-  ArRobotPioneerLX(dir)
+AREXPORT ArRobotPioneerLX_LD::ArRobotPioneerLX_LD() :
+  ArRobotPioneerLX()
 {
   sprintf(mySubClass, "pioneer-lx-ld");
   if(LaserData *l = getLaserData(2))

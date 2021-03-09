@@ -1301,7 +1301,7 @@ AREXPORT bool ArS3Series::blockingConnect() {
 
 }
 
-AREXPORT void * ArS3Series::runThread(void *arg) {
+AREXPORT void * ArS3Series::runThread(void *) {
 	//char buf[1024];
 	ArS3SeriesPacket *packet;
 

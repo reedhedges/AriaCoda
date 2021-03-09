@@ -53,7 +53,7 @@ public:
   /// Enables this action (separate from activating it)
   AREXPORT void enable() { myEnabled = true; }
   /// Enables this action in a way that'll work from the sector callbacks
-  AREXPORT void enableOnceFromSector(ArMapObject *mapObject) 
+  AREXPORT void enableOnceFromSector([[maybe_unused]] ArMapObject *mapObject) 
     { myEnableOnce = true; }
   /// Disables this action (separate from deactivating it)
   AREXPORT void disable() { myEnabled = false; }

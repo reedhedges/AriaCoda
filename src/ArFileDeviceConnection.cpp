@@ -116,7 +116,7 @@ AREXPORT bool ArFileDeviceConnection::close()
   return true;
 }
 
-AREXPORT int ArFileDeviceConnection::read(const char *data, unsigned int size, unsigned int msWait)
+AREXPORT int ArFileDeviceConnection::read(const char *data, unsigned int size, [[maybe_unused]] unsigned int msWait)
 {
   unsigned int s = myForceReadBufferSize > 0 ? ArUtil::findMinU(size, myForceReadBufferSize) : size;
 #ifdef WIN32
@@ -146,7 +146,7 @@ AREXPORT bool ArFileDeviceConnection::isTimeStamping()
   return false;
 }
 
-AREXPORT ArTime ArFileDeviceConnection::getTimeRead(int index)
+AREXPORT ArTime ArFileDeviceConnection::getTimeRead([[maybe_unused]] int index)
 {
   ArTime now;
   now.setToNow();

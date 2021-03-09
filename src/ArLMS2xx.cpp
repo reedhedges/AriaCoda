@@ -1649,7 +1649,7 @@ AREXPORT void ArLMS2xx::sensorInterpCallback()
 }
 
 /** @internal */
-AREXPORT void *ArLMS2xx::runThread(void *arg)
+AREXPORT void *ArLMS2xx::runThread(void *)
 {
   while (getRunningWithLock())
   {
