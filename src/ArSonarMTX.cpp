@@ -874,8 +874,8 @@ AREXPORT bool ArSonarMTX::fakeConnect ()
 		return false;
 	}
 
-	ArSerialConnection *serConn = NULL;
-	serConn = dynamic_cast<ArSerialConnection *> (myConn);
+	//ArSerialConnection *serConn = NULL;
+	//serConn = dynamic_cast<ArSerialConnection *> (myConn);
 
 	if (myConn->getStatus() != ArDeviceConnection::STATUS_OPEN
 	    && !myConn->openSimple()) {
@@ -1600,9 +1600,9 @@ AREXPORT bool ArSonarMTX::validateNumThresholdRanges()
 	}
 
 	assert(numBuf);
-	unsigned char numThres = numBuf[4];
 
 	IFDEBUG (
+		unsigned char numThres = numBuf[4];
 	  ArLog::log (ArLog::Normal,
 	              "%s::validateNumThresholdRanges() Sonar has num of threshold ranges of %d", getNameWithBoard(), numThres));
 

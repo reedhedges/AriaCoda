@@ -7,7 +7,19 @@ CFILEEXT:=cpp
 # BARECXXFLAGS is used when compiling python and java wrapper code
 # CXXFLAGS is used when compiling everything else (libraries, static libraries,
 # examples), and adds -fno-exceptions
-BARECXXFLAGS=-g -Wall -D_REENTRANT  #-pg -fprofile-arcs
+# You can set CXXWARNFLAGS to select specific warnings, if unset a default set
+# of warnings will be used.
+# You can set EXTRA_CXXFLAGS to just add more flags. For example ,add -pg
+# -fprofile-arcs to generate profiling information or add optimization flags
+# here during "release" builds.
+# Set CXXSTD to select C++ version. 
+ifndef CXXWARNFLAGS
+CXXWARNFLAGS=-Wall -Wextra
+endif
+ifndef CXXSTD
+CXXSTD=c++11
+endif
+BARECXXFLAGS=-std=$(CXXSTD) -g $(CXXWARNFLAGS) -D_REENTRANT  
 CXXFLAGS+=$(BARECXXFLAGS) -fno-exceptions $(EXTRA_CXXFLAGS)
 CXXINC:=-Iinclude # used in all targets
 CXXLINK=-Llib -lAria $(ARIA_CXXLINK) # used for examples, tests etc.
@@ -313,6 +325,10 @@ help:
 	@echo "  allLibs (try to build all auxilliary libraries that you have installed by running make in each directory starting with \"Ar\")"
 	@echo "  cleanAllLibs, depAllLibs (do make clean or make dep in the \"Ar*\" auxilliary libraries)"
 	@echo "  install (if this is a source tar.gz package)"
+	@echo 
+	@echo "Set EXTRA_CXXFLAGS to add any additional C++ compilation flags you want (e.g. optimization or profiling flags)."
+	@echo "Set CXXWARNFLAGS to override default set of warning flags.  ($(CXXWARNFLAGS))"
+	@echo "Set CXXSTD to select C++ standard (i.e. value passed to -std).  Default is $(CXXSTD)"
 
 info:
 	@echo ARIA=$(ARIA)

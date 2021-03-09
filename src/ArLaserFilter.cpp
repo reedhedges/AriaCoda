@@ -308,7 +308,6 @@ void ArLaserFilter::processReadings()
     return;
   }
   
-  char buf[1024];
   int i;
   int j;
   //ArSensorReading *lastAddedReading = NULL;
@@ -376,7 +375,11 @@ void ArLaserFilter::processReadings()
     }
     */
 
-    buf[0] = '\0';
+#ifdef DEBUGRANGEFILTER
+  char buf[1024];
+  buf[0] = '\0';
+#endif
+
     bool goodAll = true;
     bool goodAny = false;
     bool goodMinRange = true;
@@ -416,6 +419,7 @@ void ArLaserFilter::processReadings()
 	
     }
 #ifdef DEBUGRANGEFILTER
+    buf[0] = '\0';
     sprintf(buf, "%s %6d*", buf, reading->getRange());
 #endif 
     for (j = i + 1; 

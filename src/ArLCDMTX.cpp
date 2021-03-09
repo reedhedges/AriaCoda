@@ -205,7 +205,7 @@ void ArLCDMTX::sensorInterp()
 		packet = myPackets.front();
 		myPackets.pop_front();
 		myPacketsMutex.unlock();
-		unsigned char *buf = (unsigned char *)packet->getBuf();
+		//for debugging raw trace see below //unsigned char *buf = (unsigned char *)packet->getBuf();
 
 		if (packet->getID() != KEEP_ALIVE) {
 			ArLog::log(ArLog::Normal,
@@ -1805,8 +1805,8 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 
 	unsigned char helloResp[4];
 	bool gotResponse = false;
-	int hmiVersion = 0;
-	int hmiRevision = 0;
+	//int hmiVersion = 0;
+	//int hmiRevision = 0;
 
 	while (timeDone.mSecTo() > 0) {
 
@@ -1829,8 +1829,8 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 					getName());
 
 				gotResponse = true;
-				hmiVersion = helloResp[1];
-				hmiRevision = helloResp[2];
+				//hmiVersion = helloResp[1];
+				//hmiRevision = helloResp[2];
 
 				break;
 

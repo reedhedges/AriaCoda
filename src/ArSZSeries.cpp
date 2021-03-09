@@ -936,7 +936,7 @@ AREXPORT bool ArSZSeries::blockingConnect() {
 	sendPacket.uByteToBuf(43);
 	sendPacket.uByteToBuf(218);
 
-	unsigned short crc = myReceiver.CRC16((unsigned char *)sendPacket.getBuf(), 2);
+//	unsigned short crc = myReceiver.CRC16((unsigned char *)sendPacket.getBuf(), 2);
 
 
 

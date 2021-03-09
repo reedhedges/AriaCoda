@@ -931,9 +931,9 @@ void ArUrg_2_0::sensorInterp()
 
   myDataMutex.unlock();
 
-  int previous = getCumulativeBuffer()->size();
+  //int previous = getCumulativeBuffer()->size();
   laserProcessReadings();
-  int now = getCumulativeBuffer()->size();
+  //int now = getCumulativeBuffer()->size();
 
   unlockDevice();
 }

@@ -475,8 +475,6 @@ AREXPORT int ArSocket::comparePartialReadString(const char *partialString)
 
 void ArSocket::doStringEcho()
 {
-  size_t to;
-
   if (!myStringAutoEcho && !myStringEcho)
     return;
 
@@ -496,7 +494,7 @@ void ArSocket::doStringEcho()
     return;
 
   myStringHaveEchoed = true;
-  to = strchr(myStringBuf, '\0') - myStringBuf;
+  //size_t to = strchr(myStringBuf, '\0') - myStringBuf;
   write(&myStringBuf[myStringPosLast], myStringPos - myStringPosLast);
   myStringPosLast = myStringPos;
 }

@@ -344,11 +344,9 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
   ret += line;  
 
   char buf[128];
-  int i, j;
   unsigned int value = getPowerBits();
-  int bit;
   buf[0] = '\0';
-  for (j = 0, bit = 1; j < 16; ++j, bit *= 2)
+  for (int j = 0, bit = 1; j < 16; ++j, bit *= 2)
   {
     if (j == 8)
       sprintf(buf, "%s ", buf);

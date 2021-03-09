@@ -1006,6 +1006,7 @@ void ArS3Series::sensorInterp() {
 		// The C2K will need to check that the SICK reported state matches the safety HW state. 
 		// 
 		
+		/*
 		if (packet->getMonitoringDataAvailable()) {
 
 			// I'm not sure if theses are swapped ie lsb first, but i think they are
@@ -1016,6 +1017,7 @@ void ArS3Series::sensorInterp() {
 
 			//myRobot->processActiveMonitoringCase(activeMonitoringCase);
 		}
+		*/
 
 		double incrX = 0;
 		double incrY = 0;

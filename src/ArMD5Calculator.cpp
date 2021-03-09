@@ -143,7 +143,7 @@ AREXPORT bool ArMD5Calculator::calculateChecksum(const char *fileName,
 
   // TODO: Make this static and protect w/ mutex?
   char line[10000];
-  bool ret = true;
+  //bool ret = true;
 
   while (fgets(line, sizeof(line), file) != NULL)
   {

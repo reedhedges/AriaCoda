@@ -1443,8 +1443,8 @@ AREXPORT bool ArMapScan::unite(ArMapScan *other,
 
   if (isIncludeDataPointsAndLines) {
    
-    bool isPointsChanged = false;
-    bool isLinesChanged = false;
+    //bool isPointsChanged = false;
+    //bool isLinesChanged = false;
 
     if (other->getPoints() != NULL) {
       myPoints.reserve(myNumPoints);
@@ -1452,7 +1452,7 @@ AREXPORT bool ArMapScan::unite(ArMapScan *other,
            iter != other->getPoints()->end();
            iter++) {
         myPoints.push_back(*iter);
-        isPointsChanged = true;
+        //isPointsChanged = true;
       } // end for each other point
     } // end if other scan has points
 
@@ -1466,7 +1466,7 @@ AREXPORT bool ArMapScan::unite(ArMapScan *other,
            iter != other->getLines()->end();
            iter++) {
         myLines.push_back(*iter);
-        isLinesChanged = true;
+        //isLinesChanged = true;
       } // end for each other line  
     } // end if other scan has lines 
     
@@ -4776,7 +4776,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
   // In addition, on Windows, specify that this is UTF-8 format for i18n.
   if ((file = ArUtil::fopen(writeFileName.c_str(), "wb, ccs=UTF-8")) == NULL)
   {
-    bool isFileSuccess = false;
+    //bool isFileSuccess = false;
 
     ArLog::log(ArLog::Terse, 
                "ArMap: Cannot open file '%s' for writing",
@@ -4879,7 +4879,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
     ArLog::log(ArLog::Normal, 
                "ArMapSimple::writeFile() setting time of %s",
                realFileName.c_str());	
-    bool isTimeChanged = ArUtil::changeFileTimestamp(realFileName.c_str(), 
+    /*bool isTimeChanged =*/ ArUtil::changeFileTimestamp(realFileName.c_str(), 
                                                      fileTimestamp);
 
   }

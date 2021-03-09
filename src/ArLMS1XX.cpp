@@ -1438,9 +1438,9 @@ void ArLMS1XX::sensorInterp ()
 			ArLog::log (myLogLevel, "%s::sensorInterp() NumChans16Bit %d", getName(), myNumChans16Bit);
 
 		char eachChanMeasured[1024];
-		int eachScalingFactor;
-		int eachScalingOffset;
-		double eachStartingAngle;
+		[[maybe_unused]] int eachScalingFactor;
+		[[maybe_unused]] int eachScalingOffset;
+		[[maybe_unused]] double eachStartingAngle;
 		double eachAngularStepWidth;
 		int eachNumberData;
 		std::list<ArSensorReading *>::iterator it;

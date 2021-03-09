@@ -707,7 +707,7 @@ AREXPORT ArBasePacket *ArDPPTU::readPacket()
     end
   } state;
   state = start;
-  bool errormsg = false;
+  //bool errormsg = false;
   bool gotpan = false;
   bool gottilt = false;
 
@@ -736,12 +736,12 @@ AREXPORT ArBasePacket *ArDPPTU::readPacket()
         if(c == '*')
         {
           state = space;
-          errormsg = false;
+          //errormsg = false;
         }
         else if(c == '!')
         {
           state = space;
-          errormsg = true;
+          //errormsg = true;
         }
         else // error, restart
         {

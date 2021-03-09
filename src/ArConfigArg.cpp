@@ -2419,7 +2419,8 @@ AREXPORT bool ArConfigArg::parseArgument(
       // something later please set up something to set the changed
       // bool poitner like the other entries in here.
       
-       int childCount = arg->getArgInt(0, &ok);
+       [[maybe_unused]] int childCount = 
+          arg->getArgInt(0, &ok);
        if (ok) {
       
        }
@@ -2484,7 +2485,7 @@ AREXPORT bool ArConfigArg::parseArgument(
             ArLog::log(ArLog::Normal, "%sParameter %s (cppstring) changed from '%s' to '%s'",
                        logPrefix, getName(), 
                        origString.c_str(), getCppString().c_str());
-        *changed = true;
+            *changed = true;
       }
       if (ok) {
         IFDEBUG(ArLog::log(ArLog::Verbose, 
@@ -2585,7 +2586,7 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
   if (getType() == ArConfigArg::FUNCTOR)
   {
     // put the comments in the file first
-    int nextChar = snprintf(lineBuf, lineBufSize, "; ");
+    /*int nextChar =*/ snprintf(lineBuf, lineBufSize, "; ");
 
     if (!ArUtil::isStrEmpty(getDescription())) {
       writeMultiLineComment(getDescription(),
@@ -3779,7 +3780,7 @@ AREXPORT  bool ArConfigArg::parseResourceArgText(const char *argText,
    }
  }
  if (k < len) {
-   bool isStripped = ArUtil::stripQuotes(bufOut, &otherBuf[k], bufLen); 
+   /*bool isStripped =*/ ArUtil::stripQuotes(bufOut, &otherBuf[k], bufLen); 
  }
  else {
    bufOut[0] = '\0';
@@ -3849,7 +3850,7 @@ AREXPORT bool ArConfigArg::writeResource(FILE *file,
     for (size_t i = 0; i < getArgCount(); i++) {
       const ArConfigArg *childArg = getArg(i);
       if (childArg != NULL) {
-        bool isChildSuccess = childArg->writeResource(file,
+        /*bool isChildSuccess =*/ childArg->writeResource(file,
                                                       lineBuf,
                                                       lineBufSize,
                                                       separatorChar,

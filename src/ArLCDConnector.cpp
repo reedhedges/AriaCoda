@@ -266,7 +266,7 @@ AREXPORT bool ArLCDConnector::parseLCDArgs (ArArgumentParser *parser,
 		            lcdData->myNumber);
 		return false;
 	}
-	ArLCDMTX *lcd = lcdData->myLCD;
+	//ArLCDMTX *lcd = lcdData->myLCD;
 	if (lcdData->myNumber == 1)
 		buf[0] = '\0';
 	else

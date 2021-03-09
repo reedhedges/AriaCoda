@@ -270,7 +270,6 @@ AREXPORT bool ArRobotPacketSender::comStrN(unsigned char command,
 
   if(size > 199) return false;   // 200 - 1 byte for length
 
-  bool ret = true;
 
   mySendingMutex.lock();
 
@@ -287,14 +286,14 @@ AREXPORT bool ArRobotPacketSender::comStrN(unsigned char command,
   if(myTracking)
 	  myPacket.log();
 
-  ret = (myDeviceConn->write(myPacket.getBuf(), myPacket.getLength()) >= 0);
+  bool ret = (myDeviceConn->write(myPacket.getBuf(), myPacket.getLength()) >= 0);
 
   if (myPacketSentCallback != NULL)
     myPacketSentCallback->invoke(&myPacket);
 
   mySendingMutex.unlock();
 
-  return false;
+  return ret;
   
 }
 

@@ -242,7 +242,7 @@ AREXPORT bool ArBatteryConnector::parseBatteryArgs (ArArgumentParser *parser,
 		            batteryData->myNumber);
 		return false;
 	}
-	ArBatteryMTX *battery = batteryData->myBattery;
+	//ArBatteryMTX *battery = batteryData->myBattery;
 	if (batteryData->myNumber == 1)
 		buf[0] = '\0';
 	else

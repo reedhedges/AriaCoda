@@ -1430,7 +1430,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
            pIter++) {
     
         ArConfigArg *param = &(*pIter);
-        ArConfigArg *parseParam = NULL;
+        //ArConfigArg *parseParam = NULL;
     
         if (myParsingListNames.empty()) {
           if (ArUtil::strcasecmp(param->getName(),arg->getExtraString()) != 0) {
@@ -2135,7 +2135,7 @@ AREXPORT bool ArConfig::parseResourceFile(const char *fileName,
   }
 
 
-  bool isSuccess = true;
+  //bool isSuccess = true;
 
   char *localErrorBuffer = NULL;
   size_t localErrorBufferLen = 0;
@@ -2450,7 +2450,7 @@ AREXPORT void ArConfig::writeSection(ArConfigSection *section,
   char line[1024];
   //// holds the fprintf
   //char startLine[128];
-  bool commented = false;
+  //bool commented = false;
   unsigned int startCommentColumn = 25;
 
  
@@ -2486,7 +2486,7 @@ AREXPORT void ArConfig::writeSection(ArConfigSection *section,
        paramIt != params->end(); 
        paramIt++)
   {
-    commented = false;
+    //commented = false;
     
     ArConfigArg *param = &(*paramIt);
     
@@ -3493,7 +3493,7 @@ AREXPORT ArConfigArg *ArConfigSection::findParam
   std::list<std::string>::const_iterator iter = paramNamePath.begin();
   iter++; // skipping the front one from above
   
-  for (iter; iter != paramNamePath.end(); iter++) {
+  for (; iter != paramNamePath.end(); iter++) {
 
     // If curParam is not a LIST type, then findArg will return NULL.
     curParam = curParam->findArg((*iter).c_str());
