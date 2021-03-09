@@ -28,3 +28,6 @@ docs/*.js
 docs/*.css
 docs/*.png
 docs/search
+checks.json
+.vscode
+docs/Aria.tag
