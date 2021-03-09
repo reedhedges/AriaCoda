@@ -46,6 +46,7 @@ else
     ARIA_CXXSTATICLINK+=-lpthread -ldl -lrt -lstdc++
     sosuffix:=dylib
   else
+    $(info Building on Linux)
     ARIA_CXXLINK+=-lrt
     ARIA_CXXSTATICLINK+=-Xlinker -Bdynamic -lpthread -ldl -lrt -Xlinker -Bstatic -lstdc++ -Xlinker -Bdynamic
     sosuffix:=so
