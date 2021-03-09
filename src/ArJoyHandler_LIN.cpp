@@ -93,7 +93,7 @@ void ArJoyHandler::getData()
 
 void ArJoyHandler::getOldData()
 {
-#ifdef linux
+#ifdef __linux__
   int x, y;
   if (myOldJoyDesc == NULL || !myInitialized || 
       fread(&myJoyData, 1, JS_RETURN, myOldJoyDesc) != JS_RETURN) 
@@ -126,13 +126,13 @@ void ArJoyHandler::getOldData()
     myButtons[3] = myJoyData.buttons & 4;
     myButtons[4] = myJoyData.buttons & 8;
   }
-#endif // ifdef linux
+#endif // ifdef __linux__
 }
 
 /// Handles the reading of the data into the bins
 void ArJoyHandler::getNewData()
 {
-#ifdef linux
+#ifdef __linux__
   if (myLastOpenTry.mSecSince() > 125)
   {
     int tempDesc;
@@ -185,6 +185,6 @@ void ArJoyHandler::getNewData()
   {
     //ArLog::log(ArLog::Terse, "ArJoyHandler::getUnfiltered: Trouble reading data.");
   }
-#endif // ifdef linux 
+#endif // ifdef __linux__ 
 }
 

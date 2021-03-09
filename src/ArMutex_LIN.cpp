@@ -59,7 +59,7 @@ ArMutex::ArMutex(bool recursive) :
 
   pthread_mutexattr_init(&attr);
 
-#ifdef linux
+#ifdef __linux__
   int mutextype = PTHREAD_MUTEX_RECURSIVE_NP;
 #else
   int mutextype = PTHREAD_MUTEX_RECURSIVE;

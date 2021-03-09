@@ -93,7 +93,7 @@ AREXPORT bool ArSoundPlayer::playSoundPCM16(char* data, int numSamples)
 #include <unistd.h>
 #include <errno.h>
 
-#ifdef linux
+#ifdef __linux__
 #include <sys/soundcard.h>
 //#include <linux/soundcard.h>
 #endif
@@ -263,7 +263,7 @@ void ArSoundPlayer::stopPlaying()
 
 bool ArSoundPlayer::playSoundPCM16(char* data, int numSamples)
 {
-#ifdef linux
+#ifdef __linux__
   //ArLog::log(ArLog::Normal, "ArSoundPlayer::playSoundPCM16[linux]: opening sound device.");
   int fd = ArUtil::open("/dev/dsp", O_WRONLY); // | O_NONBLOCK);
   if(fd < 0)

@@ -298,7 +298,7 @@ AREXPORT void ArSignalHandler::initSigMap()
   ourSigMap[SIGILL]="SIGILL";
   ourSigMap[SIGTRAP]="SIGTRAP";
   ourSigMap[SIGABRT]="SIGABRT";
-#ifdef linux
+#ifdef __linux__
   ourSigMap[SIGIOT]="SIGIOT";
 #endif
   ourSigMap[SIGBUS]="SIGBUS";
@@ -324,7 +324,7 @@ AREXPORT void ArSignalHandler::initSigMap()
   ourSigMap[SIGPROF]="SIGPROF";
   ourSigMap[SIGWINCH]="SIGWINCH";
   ourSigMap[SIGIO]="SIGIO";
-#ifdef linux
+#ifdef __linux__
   ourSigMap[SIGPWR]="SIGPWR";
 #endif
 }

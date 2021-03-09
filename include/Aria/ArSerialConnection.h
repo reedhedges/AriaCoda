@@ -128,7 +128,7 @@ class ArSerialConnection: public ArDeviceConnection
 
 #ifndef _WIN32
   int myPort;
-#endif // ifdef linux
+#endif // ifdef __linux__
 
   bool myIs422;
 

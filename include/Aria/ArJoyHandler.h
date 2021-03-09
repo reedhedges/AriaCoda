@@ -39,7 +39,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #endif
-#ifdef linux
+#ifdef __linux__
 #include <linux/joystick.h>  // for JS_DATA_TYPE
 #endif
 
@@ -152,7 +152,7 @@ class ArJoyHandler
   ArTime myLastOpenTry;
   void getOldData();
   void getNewData();
-  #ifdef linux 
+  #ifdef __linux__ 
   struct JS_DATA_TYPE myJoyData; // structure for the buttons and x,y coords
   #else
   int myJoyData;

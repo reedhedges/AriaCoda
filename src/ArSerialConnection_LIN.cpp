@@ -35,7 +35,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <fcntl.h>
 #include <errno.h>
 
-#ifdef linux
+#ifdef __linux__
 #include <linux/serial.h>
 #endif
 
@@ -393,7 +393,7 @@ int ArSerialConnection::rateToBaud(int rate)
   case 57600: return B57600;
   case 115200: return B115200;
   case 230400: return B230400;
-#ifdef linux
+#ifdef __linux__
   case 460800: return B460800;
 #endif
   default: 
@@ -416,7 +416,7 @@ int ArSerialConnection::baudToRate(int baud)
   case B57600: return 57600;
   case B115200: return 115200;
   case B230400: return 230400;
-#ifdef linux
+#ifdef __linux__
   case B460800: return 460800;
 #endif
   default: 
