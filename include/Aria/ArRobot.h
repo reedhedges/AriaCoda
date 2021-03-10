@@ -255,6 +255,8 @@ public:
   /// Returns the subtype of the robot we are currently connected to
   const char * getRobotSubType() const 
     { return myRobotSubType.c_str(); }
+  /// Returns robot serial number, as provided by the config packet. Returns NULL if no config packet was received or there is no serial number.
+  const char * getRobotSerialNumber();
 
   /// Gets the robot's absolute maximum translational velocity
   double getAbsoluteMaxTransVel() const 

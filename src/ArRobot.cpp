@@ -7626,3 +7626,8 @@ void ArRobot::internalIgnoreNextPacket()
   myPacketList.clear();
   myPacketMutex.unlock();
 }
+
+const char *ArRobot::getRobotSerialNumber() {
+  if(!myOrigRobotConfig) return NULL;
+  return myOrigRobotConfig->getSerialNumber();
+}

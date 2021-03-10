@@ -516,7 +516,10 @@ AREXPORT bool ArRobotConnector::getRemoteIsSim() const
   else if (myRemoteIsNotSim)
     return false;
   else if (myRobot != NULL && 
-	   strcasecmp(myRobot->getRobotName(), "MobileSim") == 0)
+      ( strcasecmp(myRobot->getRobotName(), "MobileSim") == 0 ||
+        strcasecmp(myRobot->getRobotSerialNumber(), "SIM") == 0
+      )
+    )
     return true;
   else
     return false;
