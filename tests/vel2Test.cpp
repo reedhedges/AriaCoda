@@ -75,7 +75,7 @@ int main(int argc, char **argv)
 
 
 
-  printf("vel2Test: Telling the robot to go 300 mm on left wheel and 100 mm on right wheel for 5 seconds\n");
+  printf("vel2Test: Telling the robot to go 300 mm/s on left wheel and 100 mm/s on right wheel for 5 seconds\n");
   robot.lock();
   robot.setVel2(300, 100);
   robot.unlock();
