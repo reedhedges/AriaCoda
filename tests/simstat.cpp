@@ -116,20 +116,21 @@ bool handleSimMapChangedPacket(ArRobotPacket* pkt)
 int main(int argc, char **argv)
 {
   Aria::init();
-  ArLog::init(ArLog::StdErr, ArLog::Normal);
+  //ArLog::init(ArLog::StdErr, ArLog::Normal);
   ArArgumentParser parser(&argc, argv);
-  ArSimpleConnector connector(&parser);
 
   ArRobot robot;
 
-  if (!connector.parseArgs())
+  ArRobotConnector connector(&parser, &robot);
+
+  if (!Aria::parseArgs())
   {
-    connector.logOptions();
+    Aria::logOptions();
     return 1;
   }
 
 
-  if (!connector.connectRobot(&robot))
+  if (!connector.connectRobot())
   {
     printf("Could not connect to simulated robot... exiting\n");
     return 2;

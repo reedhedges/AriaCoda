@@ -328,9 +328,11 @@ int main(int argc, char **argv)
   bool sleep_after_newmap = false;
 
   Aria::init();
-  ArLog::init(ArLog::StdErr, ArLog::Normal);
+//  ArLog::init(ArLog::StdErr, ArLog::Normal);
   ArArgumentParser parser(&argc, argv);
-  ArSimpleConnector connector(&parser);
+  ArRobot robot;
+  ArRobotConnector connector(&parser, &robot);
+  ArLaserConnector laserConnector(&parser, &robot, &connector);
 
   if(parser.checkArgument("--help") || parser.checkArgument("-help"))
     usageerror();
@@ -429,29 +431,24 @@ int main(int argc, char **argv)
       
 
 
-  ArRobot robot;
   robot.setLogMovementSent(true);
 
-  ArSick laser;
-  robot.addRangeDevice(&laser);
 
-  if (!connector.parseArgs())
+  if (!Aria::parseArgs())
   {
-    connector.logOptions();
+    Aria::logOptions();
     return 1;
   }
 
 
   if(testmask & test_die_during_sync)
   {
-    connector.setupRobot(&robot);
     robot.asyncConnect();
     ArUtil::sleep(20);
     abort();
   }
   else if(testmask & test_slow_sync)
   {
-    connector.setupRobot(&robot);
     ArDeviceConnection *devCon = robot.getDeviceConnection();
     assert(devCon->openSimple());
     for(int syncSeq = 0; syncSeq < 3; ++syncSeq)
@@ -480,7 +477,7 @@ int main(int argc, char **argv)
   }
   else if(testmask & test_hang_during_sync)
   {
-    connector.setupRobot(&robot);
+    // TODO probably fix
     robot.asyncConnect();
     ArUtil::sleep(20);
     puts("Hanging (by locking ArRobot indefinitely and then doing nothing forever)...");
@@ -490,7 +487,7 @@ int main(int argc, char **argv)
   }
   else
   {
-    if (!connector.connectRobot(&robot))
+    if (!connector.connectRobot())
     {
       printf("Could not connect to simulated robot... exiting\n");
       return 2;
@@ -499,11 +496,8 @@ int main(int argc, char **argv)
   printf("Connected to robot.\n");
   robot.runAsync(true);
 
-  printf("running laser.\n");
-  connector.setupLaser(&laser);
-  laser.runAsync();
   printf("connecting to laser.\n");
-  if(!laser.blockingConnect())
+  if(!laserConnector.connectLasers())
   {
     printf("Could not connect to simulated laser. That's OK, maybe it doesn't have one.\n");
   }
