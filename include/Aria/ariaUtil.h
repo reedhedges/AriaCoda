@@ -45,6 +45,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <string.h>
 #include <float.h>
 #include <vector>
+#include <limits>
 
 #if defined(_WIN32) && !defined(MINGW)
 #include <sys/timeb.h>
@@ -635,8 +636,6 @@ private:
 class ArMath
 {
 private:
-  /* see ArMath::epsilon() */
-  static const double ourEpsilon; 
 
   // see getRandMax())
   static const long ourRandMax;
@@ -644,8 +643,10 @@ private:
 public:
    
   /** @return a very small number which can be used for comparisons of floating 
-   * point values, etc. */
-  AREXPORT static double epsilon();
+   * point values, etc. 
+   * @deprecated use std::numeric_limits<double>::epsilon() instead
+   */
+  constexpr static double epsilon() { return std::numeric_limits<double>::epsilon(); }
 
 
   /// This adds two angles together and fixes the result to [-180, 180] 
@@ -700,7 +701,7 @@ public:
      @see radToDeg
      @ingroup easy
   */     
-  static double degToRad(double deg) { return deg * M_PI / 180.0; }
+  constexpr static double degToRad(double deg) { return deg * M_PI / 180.0; }
 
   /// Converts an angle in radians to an angle in degrees
   /**
@@ -709,7 +710,7 @@ public:
      @see degToRad
      @ingroup easy
   */
-  static double radToDeg(double rad) { return rad * 180.0 / M_PI; }
+  constexpr static double radToDeg(double rad) { return rad * 180.0 / M_PI; }
 
   /// Finds the cos, from angles in degrees
   /**
@@ -718,7 +719,7 @@ public:
      @see sin
      @ingroup easy
   */
-  static double cos(double angle) { return ::cos(ArMath::degToRad(angle)); }
+  constexpr static double cos(double angle) { return ::cos(ArMath::degToRad(angle)); }
 
   /// Finds the sin, from angles in degrees
   /**
@@ -727,7 +728,7 @@ public:
      @see cos
      @ingroup easy
   */
-  static double sin(double angle) { return ::sin(ArMath::degToRad(angle)); }
+  constexpr static double sin(double angle) { return ::sin(ArMath::degToRad(angle)); }
 
   /// Finds the tan, from angles in degrees
   /**
@@ -735,7 +736,7 @@ public:
      @return the tan of the angle
      @ingroup easy
   */
-  static double tan(double angle) { return ::tan(ArMath::degToRad(angle)); }
+  constexpr static double tan(double angle) { return ::tan(ArMath::degToRad(angle)); }
 
   /// Finds the arctan of the given y/x pair
   /**
@@ -744,7 +745,7 @@ public:
      @return the angle y and x form
      @ingroup easy
   */
-  static double atan2(double y, double x) 
+  constexpr static double atan2(double y, double x) 
     { return ArMath::radToDeg(::atan2(y, x)); }
 
   /// Finds if one angle is between two other angles
@@ -766,12 +767,9 @@ public:
      @param val the number to find the absolute value of
      @return the absolute value of the number
   */
-  static double fabs(double val) 
+  constexpr static double fabs(double val) 
     {
-      if (val < 0.0)
-	return -val;
-      else
-	return val;
+      return (val < 0.0) ? -val : val;
     }
 
   /// Finds the closest integer to double given
@@ -850,7 +848,7 @@ public:
      @return the distance between (x1, y1) and (x2, y2)
    * @ingroup easy
   **/
-  static double distanceBetween(double x1, double y1, double x2, double y2)
+  constexpr static double distanceBetween(double x1, double y1, double x2, double y2)
     { return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));  }
 
   /// Finds the squared distance between two coordinates
@@ -862,11 +860,11 @@ public:
      @param y2 the second coords y position
      @return the distance between (x1, y1) and (x2, y2)
   **/
-  static double squaredDistanceBetween(double x1, double y1, double x2, double y2)
+  constexpr static double squaredDistanceBetween(double x1, double y1, double x2, double y2)
     { return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);  }
 
   /** Base-2 logarithm */
-  static double log2(double x)
+  constexpr static double log2(double x)
   {
     return log10(x) / 0.3010303;  // 0.301... is log10(2.0).
   }
@@ -904,7 +902,7 @@ public:
 #endif
   }
 
-  static bool compareFloats(double f1, double f2, double epsilon)
+  constexpr static bool compareFloats(double f1, double f2, double epsilon)
   {
     return (fabs(f2-f1) <= epsilon);
   }

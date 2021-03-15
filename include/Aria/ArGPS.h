@@ -507,19 +507,24 @@ protected:
     bool readUShortFromStringVec(const std::vector<std::string>* vec, size_t i, unsigned short* target, unsigned short (*convf)(unsigned short) = NULL) const;
 
     /* Utility to convert DDDMM.MMMM to decimal degrees */
-    static double gpsDegminToDegrees(double degmin);
+    static double gpsDegminToDegrees(double degmin) 
+    {
+      double degrees = 0.0;
+      const double minutes = modf(degmin / (double)100.0, &degrees) * (double)100.0;
+      return degrees + (minutes / (double)60.0);
+    }
 
     /* Utility to convert US nautical knots to meters/sec */
-    static double knotsToMPS(double knots);
+    constexpr static double knotsToMPS(double knots) { return(knots * (double)0.514444444); }
  
     /** Convert meters per second to miles per hour */
-    static double mpsToMph(const double mps) { return mps * 2.23693629; }
+    constexpr static double mpsToMph(const double mps) { return mps * 2.23693629; }
 
     /* Utility to convert meters to US feet */
-    static double metersToFeet(double m) { return m * 3.2808399; }
+    constexpr static double metersToFeet(double m) { return m * 3.2808399; }
 
     /* Utility to convert US feet  to meters */
-    static double feetToMeters(double f) { return f / 3.2808399; }
+    constexpr static double feetToMeters(double f) { return f / 3.2808399; }
     
 
 

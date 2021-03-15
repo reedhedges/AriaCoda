@@ -600,18 +600,7 @@ AREXPORT void ArGPS::printData(bool labels) const
 }
 
 
-double ArGPS::gpsDegminToDegrees(double degmin) 
-{
-  double degrees;
-  double minutes = modf(degmin / (double)100.0, &degrees) * (double)100.0;
-  return degrees + (minutes / (double)60.0);
-}
 
-
-double ArGPS::knotsToMPS(double knots) 
-{
-  return(knots * (double)0.514444444);
-}
 
 
 bool ArGPS::readFloatFromString(const std::string& str, double* target, double (*convf)(double)) const

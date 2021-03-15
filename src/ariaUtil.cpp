@@ -118,8 +118,7 @@ AREXPORT const char *ArUtil::COM16 = "/dev/ttyS15";
 AREXPORT const char *ArUtil::TRUESTRING = "true";
 AREXPORT const char *ArUtil::FALSESTRING = "false";
 
-// const double eps = std::numeric_limits<double>::epsilon();  
-const double ArMath::ourEpsilon = 0.00000001; 
+
 
 #ifdef WIN32
 // max returned by rand()
@@ -2444,7 +2443,7 @@ AREXPORT long ArMath::randomInRange(long m, long n)
     // drand48?), or keep trying numbers until we get one in range.
 }
 
-AREXPORT double ArMath::epsilon() { return ourEpsilon; }
+
 AREXPORT long ArMath::getRandMax() { return ourRandMax; }
 
 
