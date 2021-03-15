@@ -4231,34 +4231,35 @@ AREXPORT void ArConfigArg::log(bool verbose,
     ArLog::log(ArLog::Terse, 
 	       "\tType: %10s.  This argument was not created properly.", 
 	       "invalid");
+    break;
 
   case ArConfigArg::INT:
 
     switch (myData.myIntData.myIntType) {
-    case INT_NOT:
-      intType = "Not";
-      intPointer = NULL;
-      break;
-    case INT_INT:
-      intType = "Int";
-      intPointer = myData.myIntData.myIntPointer;
-      break;
-    case INT_SHORT:
-      intType = "Short";
-      intPointer = myData.myIntData.myIntShortPointer;
-      break;
-    case INT_UNSIGNED_SHORT:
-      intType = "Unsigned Short";
-      intPointer = myData.myIntData.myIntUnsignedShortPointer;
-      break;
-    case INT_UNSIGNED_CHAR:
-      intType = "Unsigned Short";
-      intPointer = myData.myIntData.myIntUnsignedCharPointer;
-      break;
-    default:
-      intType = "Unknown";
-      intPointer = NULL;
-      break;
+      case INT_NOT:
+        intType = "Not";
+        intPointer = NULL;
+        break;
+      case INT_INT:
+        intType = "Int";
+        intPointer = myData.myIntData.myIntPointer;
+        break;
+      case INT_SHORT:
+        intType = "Short";
+        intPointer = myData.myIntData.myIntShortPointer;
+        break;
+      case INT_UNSIGNED_SHORT:
+        intType = "Unsigned Short";
+        intPointer = myData.myIntData.myIntUnsignedShortPointer;
+        break;
+      case INT_UNSIGNED_CHAR:
+        intType = "Unsigned Short";
+        intPointer = myData.myIntData.myIntUnsignedCharPointer;
+        break;
+      default:
+        intType = "Unknown";
+        intPointer = NULL;
+        break;
     }
 
 
@@ -4352,6 +4353,7 @@ AREXPORT void ArConfigArg::log(bool verbose,
     ArLog::log(ArLog::Terse, "%sType: %20s Description: %s", 
                indent,
 	             "description_holder", getDescription());
+    break;
 
   default:
     ArLog::log(ArLog::Terse, 
