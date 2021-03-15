@@ -5,7 +5,8 @@ AriaCoda is a C++ library used to communicate with Pioneer and
 Pioneer-compatible mobile robot controllers, many sensors and other accessory
 devices, and includes various useful tools for mobile robotics applications.
 
-Much of the library is C++03 with some C++11 features as well.  (In the future
+Much of the library is mostly C++03 and C with C++11 and C++14 features
+sometimes used as well.  (In the future
 it may be further modernized.)
 
 AriaCoda is based on ARIA (Copyright 2002, 2003, 2004, 2005 ActivMedia Robotics, LLC.
@@ -58,25 +59,28 @@ by Omron/Adept MobileRobots:
 
 * All header files have been moved into an `Aria` subdirectory. All header file `#include` directives must be updated. For example, use `#include "Aria/ArRobot.h"` instead of `#include "ArRobot.h"`.
 * ArNetworking is no longer included or installed with Aria
-* Some classes have been removed (if obsolete, or only neccesary for use with ArNetworking or used in non-open source products).  Including the following:
+* Some classes have been removed (if obsolete, or only neccesary for use with ArNetworking or used in non-open source products).  Code for these classes has been moved into the `attic` subdirectory of the git repository.  Removed classes include the following:
   * ArSimpleConnector (use ArRobotConnector, ArLaserConnector, and other connector classes instead.)
   * ACTS related classes
   * ArAMPTU, ArP2Arm, ArIrrfDevice, ArTCM2, ArSonyPTZ and ArVersalogicIO have been removed.
   * ArMode and subclasses, and all keyboard handling code, generally only used by examples/demo.cpp, has just been moved into examples/demo.cpp.
   * ArNetServer
   * Support classes for ArNetworking (ArDrawingData etc.)
-Code for these classes has been moved into the `attic` subdirectory of the git
-repository.
+  * Others
+* Many small fixes and changes to improve optimization and conformance/correctness with newer C++ standards
 
 Several other changes are planned that will not be compatible with prior Aria
 releases, see [TODO.md](TODO.md).
 
-Over time, the library may be more consistently modernized to C++17 or later.
-This may require deprecating, removing or changing some interfaces. The biggest
-changes will likely be to replace Functors, ArTime, and threading and other OS
-portability wrappers with newer C++ standards, and possibly requiring use of smart
-pointers especially when objects or references are passed
-into or out of the ARIA API.  See [TODO.md](TODO.md) for details.
+Over time, the library may be more consistently modernized to C++17 or later
+(unless significant rewriting of generally working and stable code would be
+required).  This may require further deprecating, removing or changing some 
+interfaces. The biggest changes will likely be to replace Functors, ArTime, and 
+threading and other OS portability wrappers with newer C++ standards, and possibly 
+requiring use of smart pointers especially when objects or references are passed
+into or out of the ARIA API, as well as more consistent use of e.g. `std::string`
+rather than `char *`, use of standard types rather than types defined by ARIA,
+etc.  See [TODO.md](TODO.md) for details.
 
 
 Building AriaCoda

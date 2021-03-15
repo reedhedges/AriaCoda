@@ -11,16 +11,21 @@ TODO
 * Use namespace?, remove class prefixes? 
 * Change installation locations to match current OS standards (Linux and
   Windows)
-* Change robot parameter file loading to check user home directory 
+* Change robot parameter file loading to also check user home directory 
 * Remove `ArStringInfoGroup` (merge with data logger, let classes
   supply data accessors for data logger or other higher level uses 
   such as UI, middleware, etc.)
+* Split robot config value storage (public ArRobotConfig) from
+  ArRobotConfigPacketReader (becomes internally used only). (Note there was an 
+  old "ArRobotConfig" class but nothing actually ever used it.) 
 * Remove barriers to having simpler wrapper libraries (swig and non-swig)
 * Separate into multiple libraries? (with optional full aria build also for
   compatibilty)?  -- aria-core, aria-devices, aria-actionlib? 
 * Continue to reduce number of classes needed for typical applications.
   Reduce boilerplate needed on new programs. simpleConnect example should be <10
-  lines of code.
+  lines of code.  ArRobot should be able to do default connection behavior
+  with one call, same with laser.  ArRobot.connect()? Aria::connectRobot(robot)?
+  Aria::init() should take argc and argv to create an ArArgumentParser.
 * Reduce header dependencies. Fewer files should include Aria.h, ideally none -- 
   Aria.h should only be for users who need a single file that includes
   everything for convenience.
@@ -42,6 +47,33 @@ TODO
   * use doctest in python examples and tests, or in an examples/tests file?
   * Use unit tests to check against regressions as we do the refactoring in this
     list.
+  * Use catch2, doctest, googletests?
+  * Use ApprovalTestsCPP)?
+    * Add text serialization for some or all objects so we can do operations on
+      them and verify important data contents?  (Or should text used for
+      approval testing be the return values of various calls?)
+      (Does not need to be inside object, can be a separate operator<<
+      specialized for it that only lives in the test code, but maybe it's a useful
+      tool for live debugging to have in the library so it could be a method in
+      the object or operator<< in a separate file.)
+    * Can be used just for smaller unit tests of individual functions etc
+      especially with multiple parameter combinations.
+  * Send simulator commands to put the robot in certain states where we can
+    check robot and sensor data received.
+    * Use ApprovalTests CPP to compare laser and sonar data captures with known correct
+      laser data set for that state/situation?
+    * Needs standard maps (e.g. a box) in the simulator, a way to turn off
+      odometry error remotely, etc.
+    * Can we do some tests without the simulator? (May need to check that e.g.
+      pose estimate or calculated velocity is within a tolerance vs. commanded
+      velocity or expected true pose)
+    * This is as much a test of the simulator as ARIA! 
+  * Or resurrect ArFileConnector and read recorded Pioneer protocol sessions and
+      check state at end or at certain points in the session.  (E.g. a special 
+      "MARK" packet triggers a callback, or we verify at every robot loop).
+      Should add easy way to record session to file, including from demo. 
+  * Check ArConfig input/output
+  * Check potentially tricky API calls for breaking changes/regressions
 * Replace some of the fixed size numeric typedefs with C/C++ standard types
   (e.g. `UByte` to `uint8_t`, etc.
 * Use more modern portable C++/stdlib features (including tests that new standard library usage is equivalent to older usage)
@@ -64,8 +96,9 @@ TODO
   * Find more opportunities to use improved STL algorithms including parallel.
   * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics
   * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
-  * Replace use of atof, atoi etc. (and ArUtil wrappers) with std::stod etc. 
-  * Use modern smart pointers
+  * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
+    std::stod, std::strtod, std::from_chars, etc.  Replace use of sprintf with std::to_chars or sstream with format manipulators (or std::format but that's c++20)
+  * Use `std::string` and `string_view` more frequently rather than `char*`.
 * Mark some very frequently used inline methods noexcept? (because library might (or might not) have been compiled with -fno-exceptions but user applications probably won't be)
 * Javascript (NodeJS) wrapper via SWIG (HELP WANTED)
 * Automated Rust wrapper via ritual or SWIG or other tool (HELP WANTED)
@@ -76,12 +109,13 @@ TODO
 * Keep removing AREXPORT from inline and private members.
 * Add modern packaging to python wrapper (HELP WANTED)
 * Add better rust packanging to rust wrapper (HELP WANTED)
-* Fix all the sprintf errors in demo.cpp (it's trying to use sprintf to include
+* Fix all the sprintf errors in demo.cpp and ARIA (e.g. it's trying to use sprintf to include
   a copy of the previous string value in a new value, or append new formatted
   values to the previous string value, which is a potential bug
   and newer compilers warn about it. Instead a new string should be formatted
-  then appended with strcpy or similar. Or use std::string/IO streams to build
-  the string.) 
+  then appended with strcpy or similar.) Or use std::string/IO streams, or
+  std::format (C++20 feature, not yet implemented in gcc, clang or msvc as of
+  2/21) to build the string. 
  
 
 Maybe TODO eventually
