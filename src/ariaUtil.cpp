@@ -37,6 +37,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include <stdlib.h>
 #include <math.h>
 #include <ctype.h>
+#include <assert.h>
 
 #ifdef WIN32
 #include <winsock2.h>
@@ -277,7 +278,7 @@ AREXPORT long ArUtil::sizeFile(std::string fileName)
 
   if (stat(fileName.c_str(), &buf) < 0)
   {
-    ArLog::logErrorFromOS(ArLog::Normal, "ArUtil::sizeFile: stat failed");
+    ArLog::logErrorFromOS(ArLog::Normal, "ArUtil::sizeFile: stat failed for \"%s\"", fileName.c_str());
     return(-1);
   }
 
@@ -295,10 +296,10 @@ AREXPORT long ArUtil::sizeFile(std::string fileName)
 AREXPORT long ArUtil::sizeFile(const char * fileName)
 {
   struct stat buf;
-
+  assert(fileName);
   if (stat(fileName, &buf) < 0)
   {
-    ArLog::logErrorFromOS(ArLog::Normal, "ArUtil::sizeFile: stat failed");
+    ArLog::logErrorFromOS(ArLog::Normal, "ArUtil::sizeFile: stat failed for \"%s\"", fileName);
     return(-1);
   }
 
@@ -317,7 +318,7 @@ AREXPORT long ArUtil::sizeFile(const char * fileName)
 AREXPORT bool ArUtil::findFile(const char *fileName)
 {
   FILE *fp;
-
+  assert(fileName);
   if ((fp=ArUtil::fopen(fileName, "r")))
   {
     fclose(fp);
