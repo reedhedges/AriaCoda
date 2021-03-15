@@ -76,7 +76,7 @@ public:
 #endif
   /// Log a message containing just a plain string
   AREXPORT static void logPlain(LogLevel level, const char *str);
-  /// Initialize the logging utility with options
+  /// (Re)-Initialize the logging utility with new options
   AREXPORT static bool init(LogType type, LogLevel level,
 			    const char *fileName="",
 			    bool logTime = false, bool alsoPrint = false, 

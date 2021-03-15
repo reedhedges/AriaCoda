@@ -35,9 +35,9 @@ AREXPORT ArLMS2xxPacket::ArLMS2xxPacket(unsigned char sendingAddress) :
   mySendingAddress = sendingAddress;
 }
 
-AREXPORT ArLMS2xxPacket::~ArLMS2xxPacket()
+/* AREXPORT ArLMS2xxPacket::~ArLMS2xxPacket()
 {
-}
+} */
 
 /** 
    This sets the address for use in sending packets, the address

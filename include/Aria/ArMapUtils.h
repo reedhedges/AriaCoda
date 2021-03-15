@@ -414,7 +414,7 @@ public:
   {}
 
   /// Destructor
-  ~ArMapFileLineGroup() {}
+  //~ArMapFileLineGroup() {}
 
   /// Returns a pointer to the parent map file line.
   ArMapFileLine *getParentLine() {
@@ -466,7 +466,7 @@ struct ArMapFileLineGroupCompare : public std::binary_function<const ArMapFileLi
                      group2.myParentLine.getLineText()) < 0);
     return b;
   }
-  virtual ~ArMapFileLineGroupCompare() {}
+  //virtual ~ArMapFileLineGroupCompare() {}
 }; // end struct ArMapFileLineGroupCompare
 
 
@@ -485,7 +485,7 @@ struct ArMapFileLineGroupLineNumCompare :
               group2.myParentLine.getLineNum());
     return b;
   }
-  virtual ~ArMapFileLineGroupLineNumCompare() {}
+  //virtual ~ArMapFileLineGroupLineNumCompare() {}
 }; // end struct ArMapFileLineGroupLineNumCompare
 
 
@@ -534,25 +534,25 @@ public:
 
   // ---------------------------------------------------------------------------
 
-  /// Constructor 
-  ArMapFileLineSet() {}
+  // Constructor 
+  //ArMapFileLineSet() {}
 
-  /// Copy constructor
-  ArMapFileLineSet(const ArMapFileLineSet &other) :
-    std::vector<ArMapFileLineGroup>(other)
-  {}
+  // Copy constructor
+  //ArMapFileLineSet(const ArMapFileLineSet &other) :
+  //  std::vector<ArMapFileLineGroup>(other)
+  //{}
 
   /// Assignment operator
-  ArMapFileLineSet &operator=(const ArMapFileLineSet &other) 
-  {
-    if (this != &other) {
-      std::vector<ArMapFileLineGroup>::operator =(other);
-    }
-    return *this;
-  }
+  //ArMapFileLineSet &operator=(const ArMapFileLineSet &other) 
+  //{
+  //  if (this != &other) {
+  //    std::vector<ArMapFileLineGroup>::operator =(other);
+  //  }
+  //  return *this;
+  //}
 
-  /// Destructor
-  virtual ~ArMapFileLineSet() {}
+  // Destructor
+  //virtual ~ArMapFileLineSet() {}
 
   /// Searches the set for the given parent line.
   AREXPORT iterator find(const ArMapFileLine &groupParent);

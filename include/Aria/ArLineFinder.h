@@ -44,8 +44,6 @@ class ArLineFinder
 public:
   /// Constructor
   AREXPORT ArLineFinder(ArRangeDevice *dev);
-  /// Destructor
-  AREXPORT virtual ~ArLineFinder();
 
 #ifndef SWIG
   /// Finds the lines and returns a pointer to ArLineFinder's map of them 
@@ -143,7 +141,7 @@ public:
   ArLineFinderSegment(double x1, double y1, double x2, double y2, 
 		      int numPoints = 0, int startPoint = 0, int endPoint = 0)
     { newEndPoints(x1, y1, x2, y2, numPoints, startPoint, endPoint); }
-  virtual ~ArLineFinderSegment() {}
+ 
   void newEndPoints(double x1, double y1, double x2, double y2, 
 		    int numPoints = 0, int startPoint = 0, int endPoint = 0)
     {

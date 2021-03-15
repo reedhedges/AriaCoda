@@ -126,9 +126,9 @@ public:
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   /// Default constructor
-  AREXPORT ArMapScanInterface() {}
+  AREXPORT ArMapScanInterface() = default;
   /// Destructor
-  AREXPORT virtual ~ArMapScanInterface() {}
+  AREXPORT virtual ~ArMapScanInterface() = default;
 
   AREXPORT virtual const char *getDisplayString
                                   (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
@@ -439,15 +439,14 @@ class ArMapObjectsInterface
 
 public :
  
-   /// Constructor 
-   AREXPORT ArMapObjectsInterface() {}
- 
-   /// Destructor
-   AREXPORT virtual ~ArMapObjectsInterface() {}
- 
- 
-   /// Returns the first map object of given name and type, or NULL if none is found
-   /**
+   /// Constructor
+  AREXPORT ArMapObjectsInterface() = default;
+
+  /// Destructor
+  AREXPORT virtual ~ArMapObjectsInterface() = default;
+
+  /// Returns the first map object of given name and type, or NULL if none is found
+  /**
     * A pointer to the actual map object is returned.  It is not safe to 
     * store this pointer because it will be deleted when the map is changed.
     * If the caller needs the map object, then it should create its own copy.
@@ -462,12 +461,12 @@ public :
     * if false, then only objects of the exact type are searched
     * @return ArMapObject * the matching map object, or NULL if none found
    **/
-   AREXPORT virtual ArMapObject *findFirstMapObject(const char *name, 
-                                                    const char *type,
-                                                    bool isIncludeWithHeading = false) = 0;
- 
-   /// Returns the  map object of given name and type, or NULL if none is found
-   /**
+  AREXPORT virtual ArMapObject *findFirstMapObject(const char *name,
+                                                   const char *type,
+                                                   bool isIncludeWithHeading = false) = 0;
+
+  /// Returns the  map object of given name and type, or NULL if none is found
+  /**
     * A pointer to the actual map object is returned.  It is not safe to 
     * store this pointer because it will be deleted when the map is changed.
     * If the caller needs the map object, then it should create its own copy.
@@ -481,13 +480,12 @@ public :
     * if false, then only objects of the exact type are searched
     * @return ArMapObject * the matching map object, or NULL if none found
    **/
-   AREXPORT virtual ArMapObject *findMapObject(const char *name, 
- 				                                       const char *type = NULL,
-                                               bool isIncludeWithHeading = false) = 0;
- 
+  AREXPORT virtual ArMapObject *findMapObject(const char *name,
+                                              const char *type = NULL,
+                                              bool isIncludeWithHeading = false) = 0;
 
-   /// Returns a list of all map objects of the specified type.
-   /**
+  /// Returns a list of all map objects of the specified type.
+  /**
     * A list of pointers to the actual map objects is returned.  It is not 
     * safe to store these pointers because they will be deleted when the map 
     * is changed.  If the caller needs the map objects at a later time, then 
@@ -502,12 +500,11 @@ public :
     * @return a list of pointers to all of the ArMapObject's  that match the given
     * type
    **/
-   AREXPORT virtual std::list<ArMapObject *> findMapObjectsOfType
-                                                 (const char *type, 
-                                                  bool isIncludeWithHeading = false) = 0;
+  AREXPORT virtual std::list<ArMapObject *> findMapObjectsOfType(const char *type,
+                                                                 bool isIncludeWithHeading = false) = 0;
 
-   /// Returns a pointer to the internal list of map objects.
-   /**
+  /// Returns a pointer to the internal list of map objects.
+  /**
     * Ideally, callers of this method should not use the pointer to modify
     * the map objects directly.  It is preferable to modify a copy and then
     * call setMapObjects.
@@ -518,10 +515,10 @@ public :
     * This method is not thread-safe.   
     * @return a list of pointers to all of the ArMapObject's in the map
    **/
-   AREXPORT virtual std::list<ArMapObject *> *getMapObjects() = 0;
- 
-   /// Sets the map objects (copies those passed in)
-   /**
+  AREXPORT virtual std::list<ArMapObject *> *getMapObjects() = 0;
+
+  /// Sets the map objects (copies those passed in)
+  /**
     * This method sets its internal list to contain a copy of all of the given 
     * map objects.  Any map objects which were originally in the list but are
     * no longer referenced are deleted.  The list of map objects will be sorted
@@ -538,18 +535,15 @@ public :
     * if NULL, then changes are not tracked
     * @see ArMapChangeDetails
    **/
-   AREXPORT virtual void setMapObjects
-                            (const std::list<ArMapObject *> *mapObjects,
-                             bool isSortedObjects = false,
-                             ArMapChangeDetails *changeDetails = NULL) = 0; 
- 
+  AREXPORT virtual void setMapObjects(const std::list<ArMapObject *> *mapObjects,
+                                      bool isSortedObjects = false,
+                                      ArMapChangeDetails *changeDetails = NULL) = 0;
 
-   // TODO Seems like it would be awfully nice to have an addMapObject and a
-   // removeMapObject method
+  // TODO Seems like it would be awfully nice to have an addMapObject and a
+  // removeMapObject method
 
-
-   /// Writes the list of map objects to a text-based functor.
-   /**
+  /// Writes the list of map objects to a text-based functor.
+  /**
     * This method writes a Cairn text line for each of the ArMapObject's.  
     * This method is not thread-safe.
     *
@@ -557,8 +551,8 @@ public :
     * @param endOfLineChars the const char * string that indicates the end of
     * each text line
    **/
-   AREXPORT virtual void writeObjectListToFunctor(ArFunctor1<const char *> *functor, 
- 			                                            const char *endOfLineChars) = 0;
+  AREXPORT virtual void writeObjectListToFunctor(ArFunctor1<const char *> *functor,
+                                                 const char *endOfLineChars) = 0;
  
  }; // end class ArMapObjectsInterface
 
@@ -592,10 +586,10 @@ public :
 
 
   /// Constructor
-  AREXPORT ArMapInfoInterface() {}
+  AREXPORT ArMapInfoInterface() = default;
 
   /// Destructor
-  AREXPORT virtual ~ArMapInfoInterface() {}
+  AREXPORT virtual ~ArMapInfoInterface() = default;
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Getters
@@ -913,12 +907,11 @@ public:
                                                  bool isIgnoreCase);
 
 
-  /// Constructor 
-  AREXPORT ArMapInterface() {}
+  /// Constructor
+  AREXPORT ArMapInterface() = default;
 
   /// Destructor
-  AREXPORT virtual ~ArMapInterface() {}
-
+  AREXPORT virtual ~ArMapInterface() = default;
 
   /// Clears the map, removing all info, objects and data points and lines.
   AREXPORT virtual void clear() = 0;

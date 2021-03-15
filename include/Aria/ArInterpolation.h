@@ -69,8 +69,7 @@ class ArInterpolation
 public:
   /// Constructor
   AREXPORT ArInterpolation(size_t numberOfReadings = 100);
-  /// Destructor
-  AREXPORT virtual ~ArInterpolation();
+ 
   /// Adds a new reading
   AREXPORT bool addReading(ArTime timeOfReading, ArPose position);
   /// Finds a position

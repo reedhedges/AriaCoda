@@ -999,7 +999,7 @@ protected:
 	mySection[0] = '\0';
 	myLaserPowerOutput[0] = '\0';
       }
-    virtual ~LaserData() {}
+    //virtual ~LaserData() {}
   
     char myLaserType[256];
     char myLaserPortType[256];
@@ -1058,7 +1058,7 @@ protected:
 	myBatteryMTXBoardBaud = 0;
 	myBatteryMTXBoardAutoConn = false;
       }
-    virtual ~BatteryMTXBoardData() {}
+    //virtual ~BatteryMTXBoardData() {}
   
     char myBatteryMTXBoardType[256];
     char myBatteryMTXBoardPortType[256];
@@ -1101,7 +1101,7 @@ protected:
 	myLCDMTXBoardConnFailOption = false;
 	myLCDMTXBoardPowerOutput[0] = '\0';
       }
-    virtual ~LCDMTXBoardData() {}
+    //virtual ~LCDMTXBoardData() {}
   
     char myLCDMTXBoardType[256];
     char myLCDMTXBoardPortType[256];
@@ -1154,7 +1154,7 @@ protected:
 			mySonarUseForAutonomousDriving = false;
 			mySonarMTXBoardPowerOutput[0] = '\0';
       }
-    virtual ~SonarMTXBoardData() {}
+    //virtual ~SonarMTXBoardData() {}
   
     char mySonarMTXBoardType[256];
     char mySonarMTXBoardPortType[256];

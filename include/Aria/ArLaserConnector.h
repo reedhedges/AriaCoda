@@ -158,7 +158,7 @@ protected:
 	myMaxRange = INT_MAX; myMaxRangeReallySet = false; 
 	myAdditionalIgnoreReadings = NULL;
       }
-    virtual ~LaserData() {}
+    //virtual ~LaserData() {}
     /// The number of this laser
     int myNumber;
     /// The actual pointer to this laser

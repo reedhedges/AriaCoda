@@ -118,7 +118,7 @@ class ArGPS {
 public:
     AREXPORT ArGPS();
 
-    virtual ~ArGPS() { }
+    virtual ~ArGPS() = default;
 
     /** @brief Set device connection to use */
     void setDeviceConnection(ArDeviceConnection* deviceConn) { myDevice = deviceConn; }

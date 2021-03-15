@@ -134,7 +134,7 @@ class SonarData
 			myBaud = NULL;
 			myAutoConn = NULL;
 		}
-		virtual ~SonarData() {}
+		//virtual ~SonarData() {}
 		/// The number of this sonar
 		int myNumber;
 		/// The actual pointer to this sonar

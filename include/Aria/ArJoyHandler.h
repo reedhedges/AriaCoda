@@ -80,8 +80,7 @@ class ArJoyHandler
  public:
   /// Constructor
   AREXPORT ArJoyHandler(bool useOSCal = true, bool useOldJoystick = false);
-  /// Destructor
-  AREXPORT ~ArJoyHandler();
+
   /// Intializes the joystick, returns true if successful
   AREXPORT bool init();
   /// Returns if the joystick was successfully initialized or not

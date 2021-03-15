@@ -199,7 +199,7 @@ public:
     myOriginLLA = org;
     myOriginECEF = myOriginLLA.LLA2ECEF();
   }
-     
+private:
   ArECEFCoords myOriginECEF;
   ArLLACoords myOriginLLA;
   bool myOriginSet;

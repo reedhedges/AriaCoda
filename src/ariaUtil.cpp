@@ -1343,11 +1343,6 @@ AREXPORT ArRunningAverage::ArRunningAverage(size_t numToAverage)
   myUseRootMeanSquare = false;
 }
 
-AREXPORT ArRunningAverage::~ArRunningAverage()
-{
-
-}
-
 AREXPORT double ArRunningAverage::getAverage() const
 {
   if (myNum == 0)
@@ -1439,10 +1434,7 @@ AREXPORT ArRootMeanSquareCalculator::ArRootMeanSquareCalculator()
   myName = "ArRootMeanSquareCalculator";
 }
 
-AREXPORT ArRootMeanSquareCalculator::~ArRootMeanSquareCalculator()
-{
 
-}
 
 AREXPORT double ArRootMeanSquareCalculator::getRootMeanSquare () const
 {
@@ -1501,10 +1493,6 @@ AREXPORT ArDaemonizer::ArDaemonizer(int *argc, char **argv,
   Aria::addLogOptionsCB(&myLogOptionsCB);
 }
 
-AREXPORT ArDaemonizer::~ArDaemonizer()
-{
-
-}
 
 AREXPORT bool ArDaemonizer::daemonize()
 {
@@ -2472,10 +2460,6 @@ AREXPORT ArThreadedCallbackList::ArThreadedCallbackList(
 }
 
 
-AREXPORT ArThreadedCallbackList::~ArThreadedCallbackList()
-{
-
-}
 
 AREXPORT void *ArThreadedCallbackList::runThread(void *)
 {
@@ -3125,10 +3109,6 @@ AREXPORT ArTimeChecker::ArTimeChecker(const char *name, int defaultMSecs)
   myLogEverything = false;
 }
 
-AREXPORT ArTimeChecker::~ArTimeChecker()
-{
-
-}
 
 AREXPORT void ArTimeChecker::start()
 {

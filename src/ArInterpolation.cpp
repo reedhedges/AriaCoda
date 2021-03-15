@@ -37,10 +37,7 @@ AREXPORT ArInterpolation::ArInterpolation(size_t numberOfReadings)
   setLogPrediction();
 }
 
-AREXPORT ArInterpolation::~ArInterpolation()
-{
 
-}
 
 AREXPORT bool ArInterpolation::addReading(ArTime timeOfReading, 
 					  ArPose position)

@@ -949,12 +949,11 @@ public:
     myTh(ArMath::fixAngle(th))
   {}
     
-  /// Copy Constructor
-  ArPose(const ArPose &pose) : 
-    myX(pose.myX), myY(pose.myY), myTh(pose.myTh) {}
+  // Copy Constructor
+  // not neccesary. 
+  //ArPose(const ArPose &pose) : 
+  //  myX(pose.myX), myY(pose.myY), myTh(pose.myTh) {}
 
-  /// Destructor
-  virtual ~ArPose() {}
   /// Sets the position to the given values
   /** 
       Sets the position with the given three values, but the theta does not
@@ -1218,6 +1217,7 @@ public:
   /// @ingroup easy
   ArTime() { setToNow(); }
 
+/* these are not needed. defaults should work for ArTime which has only data members.
   /// Copy constructor
   //
   ArTime(const ArTime &other) :
@@ -1237,8 +1237,9 @@ public:
 
   //
   /// Destructor
-  ~ArTime() {}
-  
+  ~ArTime() = default;
+*/
+
   /// Gets the number of milliseconds since the given timestamp to this one
   /// @ingroup easy
   long mSecSince(ArTime since) const 
@@ -1484,11 +1485,14 @@ class ArPoseWithTime : public ArPose
 {
 public:
   ArPoseWithTime(double x = 0, double y = 0, double th = 0,
-	 ArTime thisTime = ArTime()) : ArPose(x, y, th)
-    { myTime = thisTime; }
-  /// Copy Constructor
-  ArPoseWithTime(const ArPose &pose) : ArPose(pose) {}
-  virtual ~ArPoseWithTime() {}
+	 ArTime thisTime = ArTime()) : ArPose(x, y, th), myTime(thisTime)
+  {}
+
+
+  /// Constructor from ArPose. The time component (ArTime) is default constructed.
+  ArPoseWithTime(const ArPose &pose) : ArPose(pose)
+  {}
+
   void setTime(ArTime newTime) { myTime = newTime; }
   void setTimeToNow() { myTime.setToNow(); }
   ArTime getTime() const { return myTime; }
@@ -1518,6 +1522,9 @@ public:
     }
   /// Destructor
   virtual ~ArSectors() { delete mySectors; }
+  
+  // XXX TODO should also define copy and move constructors and assignment operators.
+
   /// Clears all quadrants
   void clear() 
     {
@@ -1567,8 +1574,7 @@ public:
   /// Constructor with endpoints
   ArLine(double x1, double y1, double x2, double y2) 
   { newParametersFromEndpoints(x1, y1, x2, y2); }
-  /// Destructor
-  virtual ~ArLine() {}
+
   /// Sets the line parameters (make it not a segment)
   void newParameters(double a, double b, double c) 
     { myA = a; myB = b; myC = c; }
@@ -1618,7 +1624,7 @@ public:
      if the pose intersects the segment it will return the distance to
      the intersection
   **/
-  virtual double getPerpDist(const ArPose &pose) const
+   double getPerpDist(const ArPose &pose) const
     {
       ArPose perpPose;
       ArLine perpLine;
@@ -1635,7 +1641,7 @@ public:
      if the pose intersects the segment it will return the distance to
      the intersection
   **/
-  virtual double getPerpSquaredDist(const ArPose &pose) const
+   double getPerpSquaredDist(const ArPose &pose) const
     {
       ArPose perpPose;
       ArLine perpLine;
@@ -1660,7 +1666,7 @@ public:
     }
 
   /// Equality operator
-  virtual bool operator==(const ArLine &other) const
+   bool operator==(const ArLine &other) const
   {
 
     return ((fabs(myA - other.myA) <= ArMath::epsilon()) &&
@@ -1668,7 +1674,7 @@ public:
             (fabs(myC - other.myC) <= ArMath::epsilon()));
   }
   /// Inequality operator
-  virtual bool operator!=(const ArLine &other) const
+  bool operator!=(const ArLine &other) const
   {
     return ((fabs(myA - other.myA) > ArMath::epsilon()) ||
             (fabs(myB - other.myB) > ArMath::epsilon()) ||
@@ -1699,7 +1705,8 @@ public:
   /// Constructor with endpoints as ArPose objects. Only X and Y components of the poses will be used.
   ArLineSegment(ArPose pose1, ArPose pose2)
     { 	newEndPoints(pose1.getX(), pose1.getY(), pose2.getX(), pose2.getY()); }
-  virtual ~ArLineSegment() {}
+
+
   /// Set new end points for this line segment
   void newEndPoints(double x1, double y1, double x2, double y2)
     {
@@ -1784,7 +1791,7 @@ public:
      if the pose intersects the segment it will return the distance to
      the intersection
   **/
-  virtual double getPerpDist(const ArPose &pose) const
+   double getPerpDist(const ArPose &pose) const
     {
       ArPose perpPose;
       ArLine perpLine;
@@ -1801,7 +1808,7 @@ public:
      if the pose intersects the segment it will return the distance to
      the intersection
   **/
-  virtual double getPerpSquaredDist(const ArPose &pose) const
+   double getPerpSquaredDist(const ArPose &pose) const
     {
       ArPose perpPose;
       ArLine perpLine;
@@ -1888,7 +1895,7 @@ public:
   const ArLine *getLine() const { return &myLine; }
 
   /// Equality operator (for sets)
-  virtual bool operator==(const ArLineSegment& other) const
+   bool operator==(const ArLineSegment& other) const
   {
 
     return ((fabs(myX1 - other.myX1) < ArMath::epsilon()) &&
@@ -1897,7 +1904,7 @@ public:
             (fabs(myY2 - other.myY2) < ArMath::epsilon()));
   }
 
-  virtual bool operator!=(const ArLineSegment& other) const
+   bool operator!=(const ArLineSegment& other) const
   {
     return ((fabs(myX1 - other.myX1) > ArMath::epsilon()) ||
             (fabs(myY1 - other.myY1) > ArMath::epsilon()) ||
@@ -1907,7 +1914,7 @@ public:
   }
 
   /// Less than operator (for sets)
-  virtual bool operator<(const ArLineSegment& other) const
+   bool operator<(const ArLineSegment& other) const
   {
 
     if (fabs(myX1 - other.myX1) > ArMath::epsilon()) {
@@ -1940,8 +1947,6 @@ class ArRunningAverage
 public:
   /// Constructor, give it the number of elements to store to compute the average
   AREXPORT ArRunningAverage(size_t numToAverage);
-  /// Destructor
-  AREXPORT ~ArRunningAverage();
   /// Gets the average
   AREXPORT double getAverage() const;
   /// Adds a value to the average. An old value is discarded if the number of elements to average has been reached.
@@ -1973,8 +1978,6 @@ class ArRootMeanSquareCalculator
 public:
   /// Constructor
   AREXPORT ArRootMeanSquareCalculator();
-  /// Destructor
-  AREXPORT ~ArRootMeanSquareCalculator();
   /// Gets the average
   AREXPORT double getRootMeanSquare () const;
   /// Adds a number
@@ -2048,8 +2051,6 @@ class ArDaemonizer
 public:
   /// Constructor that sets up for daemonizing if arg checking
   AREXPORT ArDaemonizer(int *argc, char **argv, bool closeStdErrAndStdOut);
-  /// Destructor
-  AREXPORT ~ArDaemonizer();
   /// Daemonizes if asked too by arguments
   AREXPORT bool daemonize();
   /// Daemonizes always
@@ -2139,8 +2140,6 @@ public:
   ArStringInfoHolder(const char *name, ArTypes::UByte2 maxLength, 
 		     ArFunctor2<char *, ArTypes::UByte2> *functor)
     { myName = name; myMaxLength = maxLength; myFunctor = functor; }
-  /// Destructor
-  virtual ~ArStringInfoHolder() {}
   /// Gets the name of this piece of info
   const char *getName() { return myName.c_str(); }
   /// Gets the maximum length of this piece of info
@@ -2262,10 +2261,7 @@ public:
       myDataMutex.setLogName(mutexName.c_str());
       myLogging = true;
     }
-  /// Destructor
-  virtual ~ArGenericCallbackList()
-    {
-    }
+
   /// Adds a callback
   void addCallback(GenericFunctor functor, int position = 50)
     {
@@ -2387,10 +2383,7 @@ public:
     ArGenericCallbackList<ArFunctor *>(name, logLevel, singleShot)
     {
     }
-  /// Destructor
-  virtual ~ArCallbackList()
-    {
-    }
+
   /// Calls the callback list
   void invoke()
     {
@@ -2448,10 +2441,7 @@ public:
     ArGenericCallbackList<ArFunctor1<P1> *>(name, logLevel, singleShot)
     {
     }
-  /// Destructor
-  virtual ~ArCallbackList1()
-    {
-    }
+
   /// Calls the callback list
   void invoke(P1 p1)
     {
@@ -2628,9 +2618,7 @@ public:
     ArGenericCallbackList<ArFunctor4<P1, P2, P3, P4> *>(name, logLevel, singleShot)
     {
     }
-  virtual ~ArCallbackList4()
-    {
-    }
+
   void invoke(P1 p1, P2 p2, P3 p3, P4 p4)
     {
       // references to members of parent class for clarity below
@@ -2687,8 +2675,6 @@ public:
   /// Constructor
   AREXPORT ArThreadedCallbackList(int mSecsBetweenCallbacks, 
 				    const char *name);
-  /// Destructor
-  AREXPORT ~ArThreadedCallbackList();
 
   /// Adds a functor that will be called 
   AREXPORT void addCallback(ArFunctor *functor, int position = 50)
@@ -2863,8 +2849,6 @@ class ArTimeChecker
 public:
   /// Constructor
   AREXPORT ArTimeChecker(const char *name = "Unknown", int defaultMSecs = 100);
-  /// Destructor
-  AREXPORT virtual ~ArTimeChecker();
   /// Sets the name
   void setName(const char *name) { myName = name; }
   /// Sets the default mSecs

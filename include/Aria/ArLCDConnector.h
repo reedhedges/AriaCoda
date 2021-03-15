@@ -143,7 +143,7 @@ class LCDData
 			myAutoConn = NULL;
 			myConnFailOption = NULL;
 		}
-		virtual ~LCDData() {}
+
 		/// The number of this lcd
 		int myNumber;
 		/// The actual pointer to this lcd

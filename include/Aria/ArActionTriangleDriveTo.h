@@ -190,7 +190,7 @@ public:
     Data() 
     { myFinalSet = false; myApproachSet = false; myLinesAndVertexSet = false; 
     myVertexSeenThisCycle = false; myVertexSeen = false; }
-    ~Data() {}
+    ~Data() = default;
     void setLinesAndVertex(std::map<int, ArLineFinderSegment *> *lines, 
 			   ArPose vertex)
     {

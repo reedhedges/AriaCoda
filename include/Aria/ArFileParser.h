@@ -163,7 +163,7 @@ protected:
       myCallbackWithError = NULL;
       myCallback = functor;
     }
-    ~HandlerCBType() {}
+    //~HandlerCBType() {}
     bool call(ArArgumentBuilder *arg, char *errorBuffer, 
 	      size_t errorBufferLen) 
     { 

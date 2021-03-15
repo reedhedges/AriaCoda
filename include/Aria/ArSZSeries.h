@@ -40,8 +40,6 @@ class ArSZSeriesPacket : public ArBasePacket
 public:
   /// Constructor
   AREXPORT ArSZSeriesPacket();
-  /// Destructor
-  AREXPORT virtual ~ArSZSeriesPacket();
   
   /// Gets the time the packet was received at
   AREXPORT ArTime getTimeReceived();

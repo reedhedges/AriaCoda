@@ -48,10 +48,7 @@ AREXPORT ArLineFinder::ArLineFinder(ArRangeDevice *rangeDevice)
   setMaxDistBetweenPoints();
 }
 
-AREXPORT ArLineFinder::~ArLineFinder()
-{
 
-}
 
 AREXPORT std::map<int, ArLineFinderSegment *> *ArLineFinder::getLines()
 {

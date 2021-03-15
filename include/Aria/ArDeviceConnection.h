@@ -52,6 +52,7 @@ class ArDeviceConnection
   AREXPORT ArDeviceConnection();
   /// destructor also forces a close on the connection
   AREXPORT virtual ~ArDeviceConnection();
+    // XXX should also include other copy/move constructors and  copy/move assignment operators
   /// Reads data from connection
   /**
      Reads data from connection

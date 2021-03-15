@@ -135,7 +135,7 @@ class BatteryData
 			myBaud = NULL;
 			myAutoConn = NULL;
 		}
-		virtual ~BatteryData() {}
+		//virtual ~BatteryData() {}
 		/// The number of this battery
 		int myNumber;
 		/// The actual pointer to this battery

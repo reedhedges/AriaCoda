@@ -59,7 +59,7 @@ public:
       setTransform(pose1, pose2);
     }
   /// Destructor
-  virtual ~ArTransform() {}
+  //virtual ~ArTransform() {}
 
   /// Take the source pose and run the transform on it to put it into abs 
   /// coordinates

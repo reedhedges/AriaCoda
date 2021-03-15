@@ -47,10 +47,7 @@ ArBasePacket(10000, 1, NULL, 1)
 	myCommandName[0] = '\0';
 }
 
-AREXPORT ArLMS1XXPacket::~ArLMS1XXPacket()
-{
 
-}
 
 AREXPORT const char *ArLMS1XXPacket::getCommandType()
 {
@@ -432,10 +429,7 @@ AREXPORT ArLMS1XXPacketReceiver::ArLMS1XXPacketReceiver()
 	myState = STARTING;
 }
 
-AREXPORT ArLMS1XXPacketReceiver::~ArLMS1XXPacketReceiver()
-{
 
-}
 
 AREXPORT void ArLMS1XXPacketReceiver::setDeviceConnection(ArDeviceConnection *conn)
 {

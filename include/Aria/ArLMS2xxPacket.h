@@ -50,9 +50,9 @@ class ArLMS2xxPacket: public ArBasePacket
 public:
   /// Constructor
   AREXPORT ArLMS2xxPacket(unsigned char sendingAddress = 0);
-  /// Destructor
+  /* /// Destructor
   AREXPORT virtual ~ArLMS2xxPacket();
-
+ */
   /// Sets the address to send this packet to (only use for sending)
   AREXPORT void setSendingAddress(unsigned char address);
 

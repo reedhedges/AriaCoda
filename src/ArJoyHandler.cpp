@@ -46,9 +46,7 @@ AREXPORT ArJoyHandler::ArJoyHandler(bool useOSCal, bool useOld)
   myFirstData = true;
 }
 
-AREXPORT ArJoyHandler::~ArJoyHandler()
-{
-}
+
 
 
 /**

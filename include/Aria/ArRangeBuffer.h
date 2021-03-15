@@ -41,6 +41,7 @@ public:
   AREXPORT ArRangeBuffer(int size);
   /// Destructor
   AREXPORT virtual ~ArRangeBuffer();
+  // XXX TODO should include copy/move constructors and copy/move assigment operators.
   /// Gets the size of the buffer
   AREXPORT size_t getSize() const;
   /// Sets the size of the buffer

@@ -44,8 +44,6 @@ class ArLMS1XXPacket : public ArBasePacket
 public:
   /// Constructor
   ArLMS1XXPacket();
-  /// Destructor
-  virtual ~ArLMS1XXPacket();
 
   /// Gets the command type 
   const char *getCommandType();
@@ -101,8 +99,7 @@ class ArLMS1XXPacketReceiver
 public:
   /// Constructor with assignment of a device connection
   ArLMS1XXPacketReceiver();
-  /// Destructor
-  virtual ~ArLMS1XXPacketReceiver();
+
   
   /// Receives a packet from the robot if there is one available
   ArLMS1XXPacket *receivePacket(unsigned int msWait = 0,

@@ -40,6 +40,8 @@ class ArRobot;
   calls with the action list in order
   to produce a combined ArActionDesired object from them, according to
   the subclass's particular algorithm or policy.
+
+  @todo is this missing assignment, and copy/move ctors?
 */
 class ArResolver
 {
@@ -49,7 +51,7 @@ public:
   ArResolver(const char *name, const char * description = "")
     { myName = name; myDescription = description; }
   /// Desturctor
-  virtual ~ArResolver() {};
+  virtual ~ArResolver() = default;
   /// Figure out a single ArActionDesired from a list of ArAction s
   virtual ArActionDesired *resolve(ActionMap *actions, ArRobot *robot,
 				   bool logActions = false) = 0;

@@ -39,7 +39,7 @@ public:
   AREXPORT static const double MAX_STRENGTH;
   
   ArActionDesiredChannel() { reset(); myOverrideDoesLessThan = true; }
-  ~ArActionDesiredChannel() {}
+  //~ArActionDesiredChannel() {}
   void setOverrideDoesLessThan(bool overrideDoesLessThan) 
     { myOverrideDoesLessThan = overrideDoesLessThan; }
   void setDesired(double desired, double desiredStrength, 
@@ -222,6 +222,7 @@ protected:
 
    @sa @ref actions
 
+   @todo This class probably does not need to have virtual members?
 */
 class ArActionDesired
 {
@@ -238,14 +239,14 @@ public:
       myMaxNegVelDes.setOverrideDoesLessThan(false); 
     }
   /// Destructor
-  virtual ~ArActionDesired() {}
-  
-  /// Sets the velocity (mm/sec) and strength
-  /**
+    virtual ~ArActionDesired() = default;
+
+    /// Sets the velocity (mm/sec) and strength
+    /**
      @param vel desired vel (mm/sec)
      @param strength strength given to this, defaults to MAX_STRENGTH (1.0)
   */
-  virtual void setVel(double vel, double strength = MAX_STRENGTH)
+    virtual void setVel(double vel, double strength = MAX_STRENGTH)
     { myVelDes.setDesired(vel, strength); }
   /// Sets the delta heading (deg) and strength
   /**

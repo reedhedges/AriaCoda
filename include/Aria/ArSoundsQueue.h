@@ -90,6 +90,8 @@ public:
     ItemType type;
     std::string params;
     int priority;
+
+    // TODO these should probably not be pointers
     std::list<InterruptItemFunctor*> interruptCallbacks;
     std::list<PlayItemFunctor*> playCallbacks;
     std::list<ArFunctor*> doneCallbacks;
@@ -99,7 +101,9 @@ public:
     AREXPORT Item(std::string _data, ItemType _type, std::string _params = "", int priority = 0);
     AREXPORT Item(std::string _data, ItemType _type, std::string _params, int priority, std::list<PlayItemFunctor*> callbacks); 
 
+/* don't need to define our own copy constructor default should work 
 	  AREXPORT Item(const ArSoundsQueue::Item& toCopy);
+*/
 
     /** Note: does not compare priority! */
     bool operator==(const Item& other) const

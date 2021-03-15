@@ -48,7 +48,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 /** 
     @since 2.8.0
 */
-class ArBatteryMTX : public ArASyncTask
+class ArBatteryMTX : public virtual ArASyncTask
 {
 public:
   /// Constructor
@@ -57,8 +57,11 @@ public:
 				const char * name = "MTXBattery", 
 				ArDeviceConnection *conn = NULL,
 				ArRobot *robot = NULL);
-  /// Destructor
-  AREXPORT virtual ~ArBatteryMTX();
+   /// Destructor
+  AREXPORT virtual ~ArBatteryMTX(); 
+
+	// XXX TODO should set copy/move constructors and copy/move assignments = delete;
+
   // Grabs the new readings from the robot and adds them to the buffers
   // (Primarily for internal use.)
   //AREXPORT void processReadings();
@@ -68,7 +71,7 @@ public:
 
   /// Sets the robot pointer, also attaches its process function to the
   /// robot as a Sensor Interpretation task.
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  AREXPORT void setRobot(ArRobot *robot);
 
   /// Very Internal call that gets the packet sender, shouldn't be used
   ArRobotPacketSender *getPacketSender()
@@ -87,10 +90,10 @@ public:
 	ArRobotPacket getCellPacket()
 	{ return myCellPacket; }
 
-  AREXPORT virtual bool blockingConnect(bool sendTracking, bool recvTracking);
-  AREXPORT virtual bool disconnect();
-  virtual bool isConnected() { return myIsConnected; }
-  virtual bool isTryingToConnect() 
+  AREXPORT bool blockingConnect(bool sendTracking, bool recvTracking);
+  AREXPORT bool disconnect();
+  bool isConnected() { return myIsConnected; }
+  bool isTryingToConnect() 
     { 
     if (myStartConnect)
 			return true;
@@ -101,11 +104,11 @@ public:
     }  
 
   /// Lock this device
-  virtual int lockDevice() { return(myDeviceMutex.lock());}
+  int lockDevice() { return(myDeviceMutex.lock());}
   /// Try to lock this device
-  virtual int tryLockDevice() {return(myDeviceMutex.tryLock());}
+  int tryLockDevice() {return(myDeviceMutex.tryLock());}
   /// Unlock this device
-  virtual int unlockDevice() {return(myDeviceMutex.unlock());}
+  int unlockDevice() {return(myDeviceMutex.unlock());}
 
   AREXPORT void logBatteryInfo(ArLog::LogLevel level = ArLog::Normal);
   AREXPORT void logCellInfo(ArLog::LogLevel level = ArLog::Normal);
@@ -262,7 +265,7 @@ public:
   /// See if we've requested packets
   AREXPORT bool haveRequestedCellInfoPackets();
 
-  AREXPORT virtual const char *getName() const;
+  AREXPORT const char *getName() const;
 
   void	setInfoLogLevel(ArLog::LogLevel infoLogLevel)
   { myInfoLogLevel = infoLogLevel; }
@@ -274,13 +277,13 @@ public:
   const char *getDefaultTcpPort() { return myDefaultTcpPort.c_str(); }
 
   /// Sets the numter of seconds without a response until connection assumed lost
-  virtual void setConnectionTimeoutSeconds(double seconds)
+  void setConnectionTimeoutSeconds(double seconds)
 	{ ArLog::log(ArLog::Normal, 
 		     "%s::setConnectionTimeoutSeconds: Setting timeout to %g secs", 
 		     getName(), seconds);
 	  myTimeoutSeconds = seconds; }
   /// Gets the number of seconds without a response until connection assumed lost
-  virtual double getConnectionTimeoutSeconds()
+  double getConnectionTimeoutSeconds()
 	{return myTimeoutSeconds; }
 	/// check for lost connections
 	AREXPORT bool checkLostConnection();
@@ -292,7 +295,7 @@ public:
   AREXPORT int getReadingCount();
   // Function called in sensorInterp to indicate that a
   // reading was received
-  AREXPORT virtual void internalGotReading();
+  AREXPORT void internalGotReading();
 
   /// Adds a callback for when disconnection happens because of an error
   void addDisconnectOnErrorCB(ArFunctor *functor, 
@@ -382,13 +385,13 @@ protected:
 	ArRobot *myRobot;
   ArFunctorC<ArBatteryMTX> myProcessCB;
 
-  AREXPORT virtual void batterySetName(const char *name);
-  AREXPORT virtual void * runThread(void *arg);
+  void batterySetName(const char *name);
+  virtual void * runThread(void *arg);
 		
 
-	AREXPORT bool getSystemInfo();
-	AREXPORT bool getCellInfo();
-	AREXPORT bool getBasicInfo();
+	bool getSystemInfo();
+	bool getCellInfo();
+	bool getBasicInfo();
 
   void interpBasicInfo();
   void interpErrors();

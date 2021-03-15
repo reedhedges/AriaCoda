@@ -36,11 +36,13 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 /** @cond INCLUDE_INTERNAL_ROBOT_PARAM_CLASSES */
 
+// note these are just type names
+
 class ArRobotGeneric : public ArRobotParams
 {
 public:
   AREXPORT ArRobotGeneric();
-  AREXPORT virtual ~ArRobotGeneric() {}
+  AREXPORT virtual ~ArRobotGeneric() = default;
 };
 
 class ArRobotAmigo : public ArRobotParams
@@ -48,7 +50,7 @@ class ArRobotAmigo : public ArRobotParams
 public:
 
   AREXPORT ArRobotAmigo();
-  AREXPORT virtual ~ArRobotAmigo() {}
+  AREXPORT virtual ~ArRobotAmigo() = default;
 };
 
 class ArRobotAmigoSh : public ArRobotParams
@@ -56,7 +58,7 @@ class ArRobotAmigoSh : public ArRobotParams
 public:
 
   AREXPORT ArRobotAmigoSh();
-  AREXPORT virtual ~ArRobotAmigoSh() {}
+  AREXPORT virtual ~ArRobotAmigoSh() = default;
 };
 
 
@@ -64,91 +66,91 @@ class ArRobotAmigoShTim5xxWibox : public ArRobotAmigoSh
 {
 public:
   AREXPORT ArRobotAmigoShTim5xxWibox();
-  AREXPORT virtual ~ArRobotAmigoShTim5xxWibox() {}
+  AREXPORT virtual ~ArRobotAmigoShTim5xxWibox() = default;
 };
 
 class ArRobotP2AT : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2AT();
-  AREXPORT virtual ~ArRobotP2AT() {}
+  AREXPORT virtual ~ArRobotP2AT() = default;
 };
 
 class ArRobotP2AT8 : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2AT8();
-  AREXPORT virtual ~ArRobotP2AT8() {}
+  AREXPORT virtual ~ArRobotP2AT8() = default;
 };
 
 class ArRobotP2AT8Plus : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2AT8Plus();
-  AREXPORT virtual ~ArRobotP2AT8Plus() {}
+  AREXPORT virtual ~ArRobotP2AT8Plus() = default;
 };
 
 class ArRobotP2IT : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2IT();
-  AREXPORT virtual ~ArRobotP2IT() {}
+  AREXPORT virtual ~ArRobotP2IT() = default;
 };
 
 class ArRobotP2DX : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2DX();
-  AREXPORT virtual ~ArRobotP2DX() {}
+  AREXPORT virtual ~ArRobotP2DX() = default;
 };
 
 class ArRobotP2DXe : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2DXe();
-  AREXPORT virtual ~ArRobotP2DXe() {}
+  AREXPORT virtual ~ArRobotP2DXe() = default;
 };
 
 class ArRobotP2DF : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2DF();
-  AREXPORT virtual ~ArRobotP2DF() {}
+  AREXPORT virtual ~ArRobotP2DF() = default;
 };
 
 class ArRobotP2D8 : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2D8();
-  AREXPORT virtual ~ArRobotP2D8() {}
+  AREXPORT virtual ~ArRobotP2D8() = default;
 };
 
 class ArRobotP2D8Plus : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2D8Plus();
-  AREXPORT virtual ~ArRobotP2D8Plus() {}
+  AREXPORT virtual ~ArRobotP2D8Plus() = default;
 };
 
 class ArRobotP2CE : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2CE();
-  AREXPORT virtual ~ArRobotP2CE() {}
+  AREXPORT virtual ~ArRobotP2CE() = default;
 };
 
 class ArRobotP2PP : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2PP();
-  AREXPORT virtual ~ArRobotP2PP() {}
+  AREXPORT virtual ~ArRobotP2PP() = default;
 };
 
 class ArRobotP2PB : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP2PB();
-  AREXPORT virtual ~ArRobotP2PB() {}
+  AREXPORT virtual ~ArRobotP2PB() = default;
 };
 
 
@@ -156,7 +158,7 @@ class ArRobotP3AT : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP3AT();
-  AREXPORT virtual ~ArRobotP3AT() {}
+  AREXPORT virtual ~ArRobotP3AT() = default;
 };
 
 
@@ -164,140 +166,140 @@ class ArRobotP3DX : public ArRobotParams
 {
 public:
   AREXPORT ArRobotP3DX();
-  AREXPORT virtual ~ArRobotP3DX() {}
+  AREXPORT virtual ~ArRobotP3DX() = default;
 };
 
 class ArRobotPerfPB : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPerfPB();
-  AREXPORT virtual ~ArRobotPerfPB() {}
+  AREXPORT virtual ~ArRobotPerfPB() = default;
 };
 
 class ArRobotPerfPBPlus : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPerfPBPlus();
-  AREXPORT virtual ~ArRobotPerfPBPlus() {}
+  AREXPORT virtual ~ArRobotPerfPBPlus() = default;
 };
 
 class ArRobotPion1M : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPion1M();
-  AREXPORT virtual ~ArRobotPion1M() {}
+  AREXPORT virtual ~ArRobotPion1M() = default;
 };
 
 class ArRobotPion1X : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPion1X();
-  AREXPORT virtual ~ArRobotPion1X() {}
+  AREXPORT virtual ~ArRobotPion1X() = default;
 };
 
 class ArRobotPsos1M : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPsos1M();
-  AREXPORT virtual ~ArRobotPsos1M() {}
+  AREXPORT virtual ~ArRobotPsos1M() = default;
 };
 
 class ArRobotPsos43M : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPsos43M();
-  AREXPORT virtual ~ArRobotPsos43M() {}
+  AREXPORT virtual ~ArRobotPsos43M() = default;
 };
 
 class ArRobotPsos1X : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPsos1X();
-  AREXPORT virtual ~ArRobotPsos1X() {}
+  AREXPORT virtual ~ArRobotPsos1X() = default;
 };
 
 class ArRobotPionAT : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPionAT();
-  AREXPORT virtual ~ArRobotPionAT() {}
+  AREXPORT virtual ~ArRobotPionAT() = default;
 };
 
 class ArRobotMapper : public ArRobotParams
 {
 public:
   AREXPORT ArRobotMapper();
-  AREXPORT virtual ~ArRobotMapper() {}
+  AREXPORT virtual ~ArRobotMapper() = default;
 };
 
 class ArRobotPowerBot : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPowerBot();
-  AREXPORT virtual ~ArRobotPowerBot() {}
+  AREXPORT virtual ~ArRobotPowerBot() = default;
 };
 
 class ArRobotP3DXSH : public ArRobotParams
 {
  public:
   AREXPORT ArRobotP3DXSH();
-  AREXPORT virtual ~ArRobotP3DXSH() {}
+  AREXPORT virtual ~ArRobotP3DXSH() = default;
 };
 
 class ArRobotP3ATSH : public ArRobotParams
 {
  public:
   AREXPORT ArRobotP3ATSH();
-  AREXPORT virtual ~ArRobotP3ATSH() {}
+  AREXPORT virtual ~ArRobotP3ATSH() = default;
 };
 
 class ArRobotP3ATIWSH : public ArRobotParams
 {
  public:
   AREXPORT ArRobotP3ATIWSH();
-  AREXPORT virtual ~ArRobotP3ATIWSH() {}
+  AREXPORT virtual ~ArRobotP3ATIWSH() = default;
 };
 
 class ArRobotPatrolBotSH : public ArRobotParams
 {
  public:
   AREXPORT ArRobotPatrolBotSH();
-  AREXPORT virtual ~ArRobotPatrolBotSH() {}
+  AREXPORT virtual ~ArRobotPatrolBotSH() = default;
 };
 
 class ArRobotPeopleBotSH : public ArRobotParams
 {
  public:
   AREXPORT ArRobotPeopleBotSH();
-  AREXPORT virtual ~ArRobotPeopleBotSH() {}
+  AREXPORT virtual ~ArRobotPeopleBotSH() = default;
 };
 
 class ArRobotPowerBotSH : public ArRobotParams
 {
  public:
   AREXPORT ArRobotPowerBotSH();
-  AREXPORT virtual ~ArRobotPowerBotSH() {}
+  AREXPORT virtual ~ArRobotPowerBotSH() = default;
 };
 
 class ArRobotWheelchairSH : public ArRobotParams
 {
  public:
   AREXPORT ArRobotWheelchairSH();
-  AREXPORT virtual ~ArRobotWheelchairSH() {}
+  AREXPORT virtual ~ArRobotWheelchairSH() = default;
 };
 
 class ArRobotPowerBotSHuARCS : public ArRobotParams
 {
  public:
   AREXPORT ArRobotPowerBotSHuARCS();
-  AREXPORT virtual ~ArRobotPowerBotSHuARCS() {}
+  AREXPORT virtual ~ArRobotPowerBotSHuARCS() = default;
 };
 
 class ArRobotSeekur : public ArRobotParams
 {
  public:
   AREXPORT ArRobotSeekur();
-  AREXPORT virtual ~ArRobotSeekur() {}
+  AREXPORT virtual ~ArRobotSeekur() = default;
 };
 
 /// @since Aria 2.7.2
@@ -305,7 +307,7 @@ class ArRobotMT400 : public ArRobotParams
 {
  public:
   AREXPORT ArRobotMT400();
-  AREXPORT virtual ~ArRobotMT400() {}
+  AREXPORT virtual ~ArRobotMT400() = default;
 };
 
 /// @since Aria 2.7.2
@@ -313,7 +315,7 @@ class ArRobotResearchPB : public ArRobotParams
 {
  public:
   AREXPORT ArRobotResearchPB();
-  AREXPORT virtual ~ArRobotResearchPB() {}
+  AREXPORT virtual ~ArRobotResearchPB() = default;
 };
 
 /// @since Aria 2.7.2
@@ -321,7 +323,7 @@ class ArRobotSeekurJr : public ArRobotParams
 {
  public:
   AREXPORT ArRobotSeekurJr();
-  AREXPORT virtual ~ArRobotSeekurJr() {}
+  AREXPORT virtual ~ArRobotSeekurJr() = default;
 };
 
 /// @since Aria 2.7.4
@@ -385,7 +387,7 @@ class ArRobotPioneerLX : public ArRobotParams
 {
 public:
   AREXPORT ArRobotPioneerLX();
-  AREXPORT virtual ~ArRobotPioneerLX() {}
+  AREXPORT virtual ~ArRobotPioneerLX() = default;
 };
 
 /// @since Aria 2.9.2
