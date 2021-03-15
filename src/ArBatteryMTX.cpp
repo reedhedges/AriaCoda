@@ -183,7 +183,7 @@ void ArBatteryMTX::clear ()
 	myStartConnect = false;
 }
 
-AREXPORT void ArBatteryMTX::batterySetName (const char *name)
+void ArBatteryMTX::batterySetName (const char *name)
 {
 	myName = name;
 	myDeviceMutex.setLogNameVar ("%s::myDeviceMutex", getName());
@@ -652,7 +652,7 @@ AREXPORT const char * ArBatteryMTX::getName () const
 	return myName.c_str();
 }
 
-AREXPORT void * ArBatteryMTX::runThread (void *)
+void * ArBatteryMTX::runThread (void *)
 {
 	//ArBatteryMTXPacket *packet;
 	ArRobotPacket *packet;
@@ -1011,7 +1011,7 @@ AREXPORT bool ArBatteryMTX::sendEmergencyPowerOff()
 	return true;
 }
 
-AREXPORT bool ArBatteryMTX::getSystemInfo()
+bool ArBatteryMTX::getSystemInfo()
 {
 	//ArBatteryMTXPacket *packet;
 	ArRobotPacket *packet;
@@ -1061,7 +1061,7 @@ AREXPORT bool ArBatteryMTX::getSystemInfo()
 	return true;
 }
 
-AREXPORT bool ArBatteryMTX::getBasicInfo()
+bool ArBatteryMTX::getBasicInfo()
 {
 	//ArBatteryMTXPacket *packet;
 	ArRobotPacket *packet;
@@ -1122,7 +1122,7 @@ IFDEBUG(
 	return true;
 }
 
-AREXPORT bool ArBatteryMTX::getCellInfo()
+bool ArBatteryMTX::getCellInfo()
 {
 	unsigned char *buf;
 	//ArBatteryMTXPacket *packet;
