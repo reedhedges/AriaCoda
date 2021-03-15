@@ -47,7 +47,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 "file with \".map\" extension is used, or stdout if stdin is the input file.\n"
 
 #include <string.h>
-#include "ArMap.h"
+#include "Aria/ArMap.h"
 
 extern "C" {
 #include <pam.h>
