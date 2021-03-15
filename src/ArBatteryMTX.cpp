@@ -311,9 +311,9 @@ void ArBatteryMTX::sensorInterp ()
 				myLastReading.setToNow();
 				internalGotReading();
 
-				ArTime time = packet->getTimeReceived();
 
 #if 0 // for raw trace
+				ArTime time = packet->getTimeReceived();
 
 				char obuf[256];
 				obuf[0] = '\0';

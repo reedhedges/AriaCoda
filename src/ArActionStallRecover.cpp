@@ -173,6 +173,7 @@ ArActionDesired *ArActionStallRecover::fire(ArActionDesired currentDesired)
     ArLog::log(ArLog::Normal, doingString.c_str());
     myActionDesired.setVel(0);
     myActionDesired.setDeltaHeading(0);
+    [[fallthrough]];
   case STATE_GOING:
     myLastFired = time(NULL);
     doit();
