@@ -105,6 +105,7 @@ void ArSoundsQueue::Item::done()
 
 /** STL list comparator function object base class
  * @internal
+ * @todo replace usage of these with lambdas or local functions.
  */
 class ItemComparator {
 protected:
@@ -113,7 +114,7 @@ public:
   ItemComparator(string data = "", ArSoundsQueue::ItemType type = ArSoundsQueue::OTHER, string params = "", int priority = 0) : 
     myItem(data, type, params, priority)
   {}
-  virtual ~ItemComparator() {}
+  virtual ~ItemComparator() = default;
   virtual bool operator()(const ArSoundsQueue::Item& other)
   {
     return (other == myItem && other.priority == myItem.priority);

@@ -100,10 +100,7 @@ public:
     AREXPORT Item();
     AREXPORT Item(std::string _data, ItemType _type, std::string _params = "", int priority = 0);
     AREXPORT Item(std::string _data, ItemType _type, std::string _params, int priority, std::list<PlayItemFunctor*> callbacks); 
-
-/* don't need to define our own copy constructor default should work 
 	  AREXPORT Item(const ArSoundsQueue::Item& toCopy);
-*/
 
     /** Note: does not compare priority! */
     bool operator==(const Item& other) const
