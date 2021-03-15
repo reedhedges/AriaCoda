@@ -43,8 +43,8 @@ AREXPORT bool ArNovatelGPS::initDevice()
 {
   if (!ArGPS::initDevice()) return false;
 
-  char cmd[32];
-  memset(cmd, 0, 32);
+  char cmd[40];
+  memset(cmd, 0, 40);
 
   myDevice->write("\r\n", 2); // prod the connection and end any previous commands it was waiting for, errors OK 
 
@@ -61,7 +61,7 @@ AREXPORT bool ArNovatelGPS::initDevice()
     float interval = 1;
     if( (*i).first == "RMC") interval = 0.25;  //special case, make this come faster
     ArLog::log(ArLog::Verbose, "ArNovatelGPS: Requesting GP%s at %g sec interval", (*i).first.c_str(), interval);
-    snprintf(cmd, 32, "log thisport GP%s ontime %g\r\n", (*i).first.c_str(), interval);
+    snprintf(cmd, 40, "log thisport GP%s ontime %g\r\n", (*i).first.c_str(), interval);
         // XXX TODO don't just insert "GP" prefix here, store the expected
         // prefix, or, the expected prefixes for different GPS receiver types,
         // in the message/handler list?

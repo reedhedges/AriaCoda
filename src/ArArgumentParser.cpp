@@ -871,12 +871,13 @@ AREXPORT bool ArArgumentParser::checkHelpAndWarnUnparsed(
   if (getArgc() <= 1 + numArgsOkay)
     return true;
 
-  size_t i;
-  char buf[2048];
-  sprintf(buf, "Unhandled arguments to program:");
-  for (i = 1 + (int)numArgsOkay; i < getArgc(); i++)
-    sprintf(buf, "%s %s", buf, getArg(i));
-  ArLog::log(ArLog::Normal, buf);
+  std::string msg{"Unhandled arguments to program:"};
+  for (size_t i = 1 + (int)numArgsOkay; i < getArgc(); i++)
+  {
+    msg += " ";
+    msg += getArg(i);
+  }
+  ArLog::log(ArLog::Normal, msg.c_str());
   ArLog::log(ArLog::Normal, 
 	   "Program will continue but to see the help listing type '%s -help'",
 	     getArg(0));

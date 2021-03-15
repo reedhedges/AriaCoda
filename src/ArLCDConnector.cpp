@@ -337,12 +337,12 @@ bool ArLCDConnector::internalConfigureLCD (
 	}
 	// the rest handles all the connection stuff
 	const ArRobotParams *params;
-	char portBuf[1024];
 	if (lcdData->myLCD == NULL) {
 		ArLog::log (ArLog::Terse, "ArLCDConnector::internalConfigureLCD() There is no lcd, cannot connect");
 		return false;
 	}
-	sprintf (portBuf, "%d", lcdData->myLCD->getDefaultTcpPort());
+	const char *portName = lcdData->myLCD->getDefaultTcpPort();
+
 	if (myRobotConnector == NULL) {
 		ArLog::log (ArLog::Terse, "ArLCDConnector::internalConfigureLCD() No ArRobotConnector is passed in so simulators and remote hosts will not work correctly");
 	}
@@ -369,7 +369,7 @@ bool ArLCDConnector::internalConfigureLCD (
 		            lcdData->myNumber, lcd->getName());
 		
 		if ( (lcdData->myConn = Aria::deviceConnectionCreate (
-		                              lcdData->myPortType, lcdData->myPort, portBuf,
+		                              lcdData->myPortType, lcdData->myPort, portName,
 		                              "ArLCDConnector:")) == NULL) {
 			return false;
 		}
@@ -384,7 +384,7 @@ bool ArLCDConnector::internalConfigureLCD (
 				ArLog::log (ArLog::Normal, "ArLCDConnector::internalConfigureLCD() There is a port given, but no port type given so using the robot parameters port type");
 				if ( (lcdData->myConn = Aria::deviceConnectionCreate (
 				                              params->getLCDMTXBoardPortType (lcdData->myNumber),
-				                              lcdData->myPort, portBuf,
+				                              lcdData->myPort, portName,
 				                              "ArLCDConnector: ")) == NULL) {
 					return false;
 				}
@@ -393,7 +393,7 @@ bool ArLCDConnector::internalConfigureLCD (
 				ArLog::log (ArLog::Normal, "ArLCDConnector::internalConfigureLCD() There is a port given for lcd %d (%s), but no port type given and no robot parameters port type so using the lcd's default port type", lcdData->myNumber, lcd->getName());
 				if ( (lcdData->myConn = Aria::deviceConnectionCreate (
 				                              lcd->getDefaultPortType(),
-				                              lcdData->myPort, portBuf,
+				                              lcdData->myPort, portName,
 				                              "ArLCDConnector: ")) == NULL) {
 					return false;
 				}
@@ -402,7 +402,7 @@ bool ArLCDConnector::internalConfigureLCD (
 				            lcdData->myNumber, lcd->getName());
 				if ( (lcdData->myConn = Aria::deviceConnectionCreate (
 				                              "serial",
-				                              lcdData->myPort, portBuf,
+				                              lcdData->myPort, portName,
 				                              "ArLCDConnector: ")) == NULL) {
 					return false;
 				}
@@ -413,7 +413,7 @@ bool ArLCDConnector::internalConfigureLCD (
 			ArLog::log (ArLog::Normal, "ArLCDConnector::internalConfigureLCD() There is a lcd port given ('%s') for lcd %d (%s), but no lcd port type given and there are no robot params to find the information in, so assuming serial",
 			            lcdData->myPort, lcdData->myNumber, lcd->getName());
 			if ( (lcdData->myConn = Aria::deviceConnectionCreate (
-			                              lcdData->myPortType, lcdData->myPort, portBuf,
+			                              lcdData->myPortType, lcdData->myPort, portName,
 			                              "ArLCDConnector: ")) == NULL) {
 				return false;
 			}
@@ -447,7 +447,7 @@ bool ArLCDConnector::internalConfigureLCD (
 
 	if ( (lcdData->myConn = Aria::deviceConnectionCreate (
 	                              params->getLCDMTXBoardPortType (lcdData->myNumber),
-	                              params->getLCDMTXBoardPort (lcdData->myNumber), portBuf,
+	                              params->getLCDMTXBoardPort (lcdData->myNumber), portName,
 	                              "ArLCDConnector: ")) == NULL) {
 		return false;
 	}

@@ -48,11 +48,7 @@ const double ArWGS84::M = 5.9733328e24; // kg. Mass of earth.
 
 AREXPORT void Ar3DPoint::print(const char *head)
 {
-    char buffer[2064];
-    if(head != NULL)
-      sprintf(buffer, "%s ", head);
-    sprintf(buffer, "%s %f %f %f\n", buffer, myX, myY, myZ);
-    ArLog::log(ArLog::Normal, buffer);
+    ArLog::log(ArLog::Normal, "%s%f, %f, %f", head?head:"", myX, myY, myZ);
 }
 
 /*!

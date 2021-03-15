@@ -341,19 +341,29 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
   sprintf(line, 
 	  "LowStateOfCharge %d ShutdownStateOfCharge %d\n", 
 	  getStateOfChargeLow(), getStateOfChargeShutdown());
-  ret += line;  
+  ret += line;
 
-  char buf[128];
+  size_t buflen = 128;
+  char buf[buflen];
   unsigned int value = getPowerBits();
   buf[0] = '\0';
   for (int j = 0, bit = 1; j < 16; ++j, bit *= 2)
   {
     if (j == 8)
-      sprintf(buf, "%s ", buf);
+    {
+      //sprintf(buf, "%s ", buf);
+      strncat(buf, " ", buflen--);
+    }
     if (value & bit)
-      sprintf(buf, "%s%d", buf, 1);
+    {
+      //sprintf(buf, "%s%d", buf, 1);
+      strncat(buf, "1", buflen--);
+    }
     else
-      sprintf(buf, "%s%d", buf, 0);
+    {
+      //sprintf(buf, "%s%d", buf, 0);
+      strncat(buf, "0", buflen--);
+    }
   }
 
   sprintf(line, "HighTempShutdown %d PowerBits %s\n",

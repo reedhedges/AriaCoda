@@ -2485,7 +2485,7 @@ AREXPORT bool ArConfigArg::parseArgument(
             ArLog::log(ArLog::Normal, "%sParameter %s (cppstring) changed from '%s' to '%s'",
                        logPrefix, getName(), 
                        origString.c_str(), getCppString().c_str());
-            *changed = true;
+        *changed = true;
       }
       if (ok) {
         IFDEBUG(ArLog::log(ArLog::Verbose, 
@@ -2771,7 +2771,8 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
   // if our line is already longer then where we want to go put in
   // an extra space
   if (strlen(lineBuf) >= startCommentColumn) {
-    sprintf(lineBuf, "%s ;", lineBuf);
+    //sprintf(lineBuf, "%s ;", lineBuf);
+    strcat(lineBuf, " ;");
   }
   // if its not then just put the start in
   // KMC 1/22/13 Added the test for isStrEmpty.  For unknown reasons, if
@@ -2784,6 +2785,8 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
   else {
     sprintf(lineBuf, startLine, "");
   } 
+
+
 
 
   // KMC I think that this might be an issue.  If the comment
@@ -3371,8 +3374,9 @@ AREXPORT bool ArConfigArg::writeInfo(ArSocket *socket,
 
   if (getConfigPriority() < ArPriority::FACTORY) {
 
-    snprintf(level, sizeof(level),
-             priorityName);
+    //snprintf(level, sizeof(level),
+     //        priorityName);
+    strncpy(level, priorityName, sizeof(level) - 1);
   }
   else { // convert to all caps
 
@@ -4013,17 +4017,25 @@ AREXPORT bool ArConfigArg::writeName(char *lineBuf,
 
   snprintf(lineBuf, lineBufSize,
            "%*s", (indentLevel * ourIndentSpaceCount), "");
+  lineBufSize -= strlen(lineBuf);
 
   if ((getType() != ArConfigArg::STRING_HOLDER) &&
       ( (strchr(getName(), ' ') != NULL || 
           strchr(getName(), '\t') != NULL) )) {
 
-    snprintf(lineBuf, lineBufSize,
-             "%s\"%s\"", lineBuf, getName());
+    //snprintf(lineBuf, lineBufSize,
+    //         "%s\"%s\"", lineBuf, getName());
+    strncat(lineBuf, "\"", lineBufSize-1);
+    lineBufSize -= 1;
+    strncat(lineBuf, getName(), lineBufSize-1);
+    lineBufSize -= strlen(getName());
+    strncat(lineBuf, "\"", lineBufSize-1);
+    lineBufSize -= 1;
   }
   else {
-    snprintf(lineBuf, lineBufSize,
-             "%s%s", lineBuf, getName());
+    //snprintf(lineBuf, lineBufSize,
+     //        "%s%s", lineBuf, getName());
+    strncat(lineBuf, getName(), lineBufSize-1);
   }
   return true;
 
@@ -4082,13 +4094,21 @@ AREXPORT bool ArConfigArg::writeMultiLineComment(const char *comment,
     {
       fprintf(file, "%s\n", lineBuf);
 
-      sprintf(lineBuf, startComment, "");
-      sprintf(lineBuf, "%s %s", lineBuf, descr.getArg(i));
+      strncpy(lineBuf, startComment, lineBufSize-1);
+      lineBufSize -= strlen(startComment);
+      strncat(lineBuf, " ", lineBufSize-1);
+      lineBufSize -= 1;
+      strncat(lineBuf, descr.getArg(i), lineBufSize - 1);
+      
+      //sprintf(lineBuf, "%s %s", lineBuf, descr.getArg(i));
     }
     // if its not the end of the line toss this word in
     else { 
     
-      sprintf(lineBuf, "%s %s", lineBuf, descr.getArg(i));
+      //sprintf(lineBuf, "%s %s", lineBuf, descr.getArg(i));
+      strncat(lineBuf, " ", lineBufSize-1);
+      lineBufSize -= 1;
+      strncat(lineBuf, descr.getArg(i), lineBufSize - 1);
     }
   }
   // put the last line into the file
@@ -4130,7 +4150,11 @@ AREXPORT bool ArConfigArg::writeBounds(char *line,
    // the desired results with sprintf, but substitutes an empty string
    // for the formatting input with snprintf.  This, in turn, causes
    // the output config data to be garbage. (On Windows, there is no 
-   // problem.)  
+   // problem.)
+
+   char tmp[lineLen];
+   strncpy(tmp, line, lineLen-1);
+   size_t avail = lineLen - strlen(tmp);
 
    switch (getType()) {
     
@@ -4139,23 +4163,23 @@ AREXPORT bool ArConfigArg::writeBounds(char *line,
       if (hasMinBound()) {
         
         if (hasMaxBound()) {
-          sprintf(line, 
+          snprintf(line, avail,
                   "%s range [%d, %d], ", 
-                  line, 
+                  tmp, 
                   getMinInt(), getMaxInt());
         }
         else { // no max, just write min
-          sprintf(line, 
+          snprintf(line, avail,
                   // KMC 7/11/12 Corrected misspelling, will this be a problem?
                   "%s minimum %d, ", 
-                  line, 
+                  tmp, 
                   getMinInt());
         } // end else no max, just write min
       }
       else if (hasMaxBound()) {
-        sprintf(line, 
+        snprintf(line, avail,
                 "%s maximum %d, ", 
-                line, 
+                tmp, 
                 getMaxInt());
       }
     }
@@ -4166,23 +4190,23 @@ AREXPORT bool ArConfigArg::writeBounds(char *line,
       if (hasMinBound()) {
         
         if (hasMaxBound()) {
-          sprintf(line, 
+          snprintf(line, avail,
                   "%s range [%g, %g], ", 
-                  line, 
+                  tmp, 
                   getMinDouble(), getMaxDouble());
         }
         else {
-          sprintf(line, 
+          snprintf(line, avail,
                   "%s minimum %g, ", 
-                  line, 
+                  tmp, 
                   getMinDouble());
         }
       }
       else if (hasMaxBound()) {
         // KMC 7/11/12 Made case consistent, problem?
-        sprintf(line,
+        snprintf(line, avail,
                 "%s maximum %g, ", 
-                line, 
+                tmp, 
                 getMaxDouble());
       }
     }

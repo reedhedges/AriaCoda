@@ -1655,9 +1655,8 @@ AREXPORT bool ArMap::readFileAndChangeConfig(const char *fileName)
 
 AREXPORT void ArMap::changeConfigMapName(const char *fileName)
 {
-  myConfigMapName[0] = '\0';
   if (fileName != NULL) {
-    snprintf(myConfigMapName, MAX_MAP_NAME_LENGTH, fileName);
+    strncpy(myConfigMapName, fileName, MAX_MAP_NAME_LENGTH-1);
   }
 
 } // end method changeConfigMapName

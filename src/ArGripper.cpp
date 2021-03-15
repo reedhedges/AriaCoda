@@ -452,10 +452,10 @@ AREXPORT void ArGripper::logState() const
   else if (state == 3)
     sprintf(breakBeamBuf, "both");
   
-  sprintf(buf, "Lift: %15s  Grip: %15s  BreakBeam: %10s", liftBuf, paddleBuf,
-	  breakBeamBuf);
   if (myType == GRIPPAC)
-    sprintf(buf, "%s TimeSince: %ld", buf, getMSecSinceLastPacket());
+    sprintf(buf, "Lift: %15s  Grip: %15s  BreakBeam: %10s TimeSince: %ld", liftBuf, paddleBuf, breakBeamBuf, getMSecSinceLastPacket());
+  else
+    sprintf(buf, "Lift: %15s  Grip: %15s  BreakBeam: %10s", liftBuf, paddleBuf, breakBeamBuf);
   ArLog::log(ArLog::Terse, buf);
   
 }

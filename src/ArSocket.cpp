@@ -531,7 +531,7 @@ void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost,
   }
   if (separator.getArgc() == 1)
   {
-    snprintf(useHost, useHostSize, separator.getArg(0));
+    strncpy(useHost, separator.getArg(0), useHostSize - 1);
     *port = rawPort;
     return;
   }
@@ -539,7 +539,7 @@ void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost,
   {
     if (separator.isArgInt(1))
     {
-      snprintf(useHost, useHostSize, separator.getArg(0));
+      strncpy(useHost, separator.getArg(0), useHostSize - 1);
       *port = separator.getArgInt(1);
       return;
     }

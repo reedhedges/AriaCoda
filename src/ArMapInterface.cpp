@@ -116,9 +116,8 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
   {
     int totalLen = strlen(baseDirectory) + strlen(fileName) + 10;
     char *nameBuf = new char[totalLen];
-    nameBuf[0] = '\0';
-
-    snprintf(nameBuf, totalLen, baseDirectory);
+    
+    strncpy(nameBuf, baseDirectory, totalLen - 2);
     ArUtil::appendSlash(nameBuf, totalLen);
     
     realFileName = nameBuf;

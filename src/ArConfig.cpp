@@ -2024,9 +2024,9 @@ AREXPORT bool ArConfig::parseText(const std::list<std::string> &configLines,
     if (curLine.empty()) {
       continue;
     }
-    snprintf(lineBuf, lineBufLen,
-             curLine.c_str());
-
+    //snprintf(lineBuf, lineBufLen,
+    //         curLine.c_str());
+    strncpy(lineBuf, curLine.c_str(), lineBufLen-1);
     if (!myParser.parseLine(lineBuf, errorBuffer, errorBufferLen))
     {
       ret = false;
