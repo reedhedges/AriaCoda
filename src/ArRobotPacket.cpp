@@ -43,12 +43,17 @@ AREXPORT ArRobotPacket::ArRobotPacket(unsigned char sync1,
   mySync2 = sync2;
 }
 
-AREXPORT ArRobotPacket::~ArRobotPacket()
+
+AREXPORT ArRobotPacket::ArRobotPacket(const ArRobotPacket& other) : ArRobotPacket(other.mySync1, other.mySync2)
 {
+  *this = other; // see operator= below
+  // XXX TODO make sure this is ok
 }
 
 AREXPORT ArRobotPacket &ArRobotPacket::operator=(const ArRobotPacket &other)
 {
+  // TODO much of this should perhaps be in ArBasePacket? 
+
   if (this != &other) {
 
     myHeaderLength = other.myHeaderLength;

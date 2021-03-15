@@ -50,7 +50,7 @@ public:
   AREXPORT ArRobotPacket(unsigned char sync1 = 0xfa, 
 			 unsigned char sync2 = 0xfb);
   /// Destructor
-  AREXPORT virtual ~ArRobotPacket();
+  AREXPORT virtual ~ArRobotPacket() = default;
 
   AREXPORT ArRobotPacket(const ArRobotPacket &other);
 
