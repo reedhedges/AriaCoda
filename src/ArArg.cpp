@@ -396,6 +396,7 @@ AREXPORT void ArArg::log() const
     ArLog::log(ArLog::Terse, 
 	       "\tType: %10s.  This argument was not created properly.", 
 	       "invalid");
+    break;
   case ArArg::INT:
     ArLog::log(ArLog::Terse, "\tType: %10s name: %12s value: %d", "int", 
 	       getName(), getInt());
@@ -447,7 +448,7 @@ AREXPORT void ArArg::log() const
   case ArArg::DESCRIPTION_HOLDER:
     ArLog::log(ArLog::Terse, "\tType: %20s Description: %s", 
 	       "description_holder", getDescription());
-
+    break;
   default:
     ArLog::log(ArLog::Terse, 
 	       "\tType: %10s.  This type doesn't have a case in ArArg::print.",

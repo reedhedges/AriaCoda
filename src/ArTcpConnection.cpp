@@ -140,6 +140,7 @@ AREXPORT int ArTcpConnection::internalOpen()
     return OPEN_CON_REFUSED;
   case ArSocket::NoErr:
     ArLog::log(ArLog::Terse, "ArTcpConnection::open: No error!\n");
+    return -1;
   default:
     return -1;
   }
