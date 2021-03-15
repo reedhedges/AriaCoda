@@ -44,9 +44,6 @@ ArBasePacket(10000, 1, NULL, 1) {
 
 }
 
-AREXPORT ArSZSeriesPacket::~ArSZSeriesPacket() {
-
-}
 
 AREXPORT ArTime ArSZSeriesPacket::getTimeReceived() {
 	return myTimeReceived;
