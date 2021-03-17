@@ -75,13 +75,13 @@ public:
 
 
 #ifdef FOR_ARIA
-#include "ArArgumentParser.h"
-#include "ArRobotConnector.h"
-#include "ArGPSConnector.h"
+#include "Aria/ArArgumentParser.h"
+#include "Aria/ArRobotConnector.h"
+#include "Aria/ArGPSConnector.h"
 //#include "ArTCM2.h"
-#include "ArSonarConnector.h"
-#include "ArPTZConnector.h"
-#include "ArLMS2xx.h"
+#include "Aria/ArSonarConnector.h"
+#include "Aria/ArPTZConnector.h"
+#include "Aria/ArLMS2xx.h"
 
 class ArRobotConnectorWrapper : 
   public ArRobotConnector,  public virtual Wrapper
