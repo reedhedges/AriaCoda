@@ -1,20 +1,21 @@
 language: c++
-dist: 
-  - focal
-  - bionic
-  - xenial
-os:
-  - linux
-  - osx
-virt: lxd
-#sudo: require
-#addons:
-#  apt:
-#    packages:
-#      - doxygen
-#      - swig
-compiler:
-  - g++
+jobs:
+  include:
+    - name: Linux (Ubuntu Bionic)
+      os: linux
+      dist: bionic
+      # virt: lxd
+    - name: Linux (Ubuntu Xenial)
+      os: linux
+      dist: xenial
+      # virt: lxd
+    - name: MacOSX
+      os: osx
+#    - name: Linux (Ubuntu Bionic on arm64)
+#      os: linux
+#      virt: lxd
+#      arch: arm64
+#      dist: bionic
 git:
   depth: 1
 script:
