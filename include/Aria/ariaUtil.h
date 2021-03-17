@@ -719,7 +719,7 @@ public:
      @see sin
      @ingroup easy
   */
-  constexpr static double cos(double angle) { return ::cos(ArMath::degToRad(angle)); }
+  static double cos(double angle) { return ::cos(ArMath::degToRad(angle)); }
 
   /// Finds the sin, from angles in degrees
   /**
@@ -728,7 +728,7 @@ public:
      @see cos
      @ingroup easy
   */
-  constexpr static double sin(double angle) { return ::sin(ArMath::degToRad(angle)); }
+  static double sin(double angle) { return ::sin(ArMath::degToRad(angle)); }
 
   /// Finds the tan, from angles in degrees
   /**
@@ -736,7 +736,7 @@ public:
      @return the tan of the angle
      @ingroup easy
   */
-  constexpr static double tan(double angle) { return ::tan(ArMath::degToRad(angle)); }
+  static double tan(double angle) { return ::tan(ArMath::degToRad(angle)); }
 
   /// Finds the arctan of the given y/x pair
   /**
@@ -745,7 +745,7 @@ public:
      @return the angle y and x form
      @ingroup easy
   */
-  constexpr static double atan2(double y, double x) 
+  static double atan2(double y, double x) 
     { return ArMath::radToDeg(::atan2(y, x)); }
 
   /// Finds if one angle is between two other angles
@@ -848,7 +848,7 @@ public:
      @return the distance between (x1, y1) and (x2, y2)
    * @ingroup easy
   **/
-  constexpr static double distanceBetween(double x1, double y1, double x2, double y2)
+  static double distanceBetween(double x1, double y1, double x2, double y2)
     { return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));  }
 
   /// Finds the squared distance between two coordinates
@@ -864,7 +864,7 @@ public:
     { return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);  }
 
   /** Base-2 logarithm */
-  constexpr static double log2(double x)
+  static double log2(double x)
   {
     return log10(x) / 0.3010303;  // 0.301... is log10(2.0).
   }
@@ -951,6 +951,9 @@ public:
   // not neccesary. 
   //ArPose(const ArPose &pose) : 
   //  myX(pose.myX), myY(pose.myY), myTh(pose.myTh) {}
+
+    // Note:virtual destructor omited. Any subclasses of ArPose should also not have one (it would not be invoked if an instance stored as upcasted ArPose is destroyed).
+
 
   /// Sets the position to the given values
   /** 
@@ -1490,6 +1493,8 @@ public:
   /// Constructor from ArPose. The time component (ArTime) is default constructed.
   ArPoseWithTime(const ArPose &pose) : ArPose(pose)
   {}
+
+  // Note:virtual destructor omited. ArPose has default nonvirtual destructor as well. Any subclasses of ArPoseWithTime should also not have one (it would not be invoked if an instance stored as upcasted ArPose is destroyed).
 
   void setTime(ArTime newTime) { myTime = newTime; }
   void setTimeToNow() { myTime.setToNow(); }
@@ -2915,7 +2920,7 @@ public:
   virtual void invoke() {
     // can't do anything
   }
-  virtual void invoke(char *buf) {
+  virtual void invoke(char *) {
     // can't do anything
   }
 };
@@ -2944,7 +2949,7 @@ public:
   virtual void invoke() {
     // can't do anything
   }
-  virtual void invoke(char *buf) {
+  virtual void invoke(char *) {
     // can't do anything
   }
 };
@@ -2973,7 +2978,7 @@ public:
   virtual void invoke() {
     // can't do anything
   }
-  virtual void invoke(char *buf) {
+  virtual void invoke(char *) {
     // can't do anything
   }
 };
