@@ -602,20 +602,20 @@ endif
 
 obj/%.o : src/%.cpp 
 	@mkdir -p obj
-	$(CXX) -c $(CXXFLAGS) $(CXXINC) $< -o $@
+	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
 
 obj/%.o : src/%.c 
 	@mjdir -p obj
-	$(CXX) -c $(CXXFLAGS) $(CXXINC) $< -o $@
+	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
 
 obj/ArPacketUtil.o: src/ArPacketUtil.cpp
-	$(CXX) $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS) $(CXXINC) -c $< -o $@
+	$(CXX) -c $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
 
 include/Aria/%.i: include/Aria/%.h 
-	$(CXX) -E $(CXXFLAGS) $(CXXINC) $< -o $@
+	$(CXX) -E $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
 
 src/%.i: src/%.cpp 
-	$(CXX) -E $(CXXFLAGS) $(CXXINC) $< -o $@
+	$(CXX) -E $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
 
 # Don't build .o files if their library is up to date with respect to source files:
 .INTERMEDIATE: $(OFILES)

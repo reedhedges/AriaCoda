@@ -204,19 +204,23 @@ is a pointer to object to be deleted using the 'delete' operator.
 
   /// Returns the minimum of the two values
   /// @ingroup easy
+  PUBLICDEPRECATED("Use std::min")
   static unsigned int findMinU(unsigned int first, unsigned int second) 
     { if (first < second) return first; else return second; }
   /// Returns the maximum of the two values
   /// @ingroup easy
+  PUBLICDEPRECATED("Use std::max")
   static unsigned int findMaxU(unsigned int first, unsigned int second) 
     { if (first > second) return first; else return second; }
 
   /// Returns the minimum of the two values
   /// @ingroup easy
+  PUBLICDEPRECATED("Use std::min")
   static double findMin(double first, double second) 
     { if (first < second) return first; else return second; }
   /// Returns the maximum of the two values
   /// @ingroup easy
+  PUBLICDEPRECATED("Use std::max")
   static double findMax(double first, double second) 
     { if (first > second) return first; else return second; }
 
@@ -364,10 +368,12 @@ is a pointer to object to be deleted using the 'delete' operator.
                                    bool isIgnoreCase = false);
 
   /// Returns the floating point number from the string representation of that number in @a nptr, or HUGE_VAL for "inf" or -HUGE_VAL for "-inf".
+  /// @sa std::stod(), std::stof()
   /// @swigomit
   AREXPORT static double atof(const char *nptr);
 
   /// @swigomit
+  /// @sa std::stoi()
   AREXPORT static int atoi(const char *str, bool *ok = NULL, 
 			   bool forceHex = false);
 
@@ -644,7 +650,7 @@ public:
    
   /** @return a very small number which can be used for comparisons of floating 
    * point values, etc. 
-   * @deprecated use std::numeric_limits<double>::epsilon() instead
+   * Or use std::numeric_limits<double>::epsilon() instead
    */
   constexpr static double epsilon() { return std::numeric_limits<double>::epsilon(); }
 
@@ -738,11 +744,11 @@ public:
   */
   static double tan(double angle) { return ::tan(ArMath::degToRad(angle)); }
 
-  /// Finds the arctan of the given y/x pair
+  /// Computer arctangent of x and y, in degrees
   /**
      @param y the y distance
      @param x the x distance
-     @return the angle y and x form
+     @return the angle y and x form, in degrees
      @ingroup easy
   */
   static double atan2(double y, double x) 
@@ -869,7 +875,9 @@ public:
     return log10(x) / 0.3010303;  // 0.301... is log10(2.0).
   }
 
+#ifndef ARIA_OMIT_DEPRECATED_MATH_FUNCS
   /// Platform-independent call to determine whether the given double is not-a-number.
+  [[deprecated("Use std::isnan()")]]
   static bool isNan(double d) {
 #ifdef WIN32
     return _isnan(d);
@@ -878,6 +886,7 @@ public:
 #endif
   }
 
+  [[deprecated("Use std::isnan()")]]
   static bool isNan(float f) {
 #ifdef WIN32
 	  return _isnan(f);
@@ -886,6 +895,7 @@ public:
 #endif
   }
 
+  [[deprecated("Use std::isfinite()")]]
   static bool isFinite(float f) {
 #ifdef WIN32
 	  return _finite(f);
@@ -894,6 +904,7 @@ public:
 #endif
   }
 
+  [[deprecated("Use std::isfinite()")]]
   static bool isFinite(double d) {
 #ifdef WIN32
 	  return _finite(d);
@@ -901,6 +912,7 @@ public:
 	  return isfinite(d);
 #endif
   }
+#endif
 
   constexpr static bool compareFloats(double f1, double f2, double epsilon)
   {

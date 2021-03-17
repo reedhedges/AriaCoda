@@ -1,3 +1,4 @@
+version: ~> 1.0
 language: c++
 jobs:
   include:
@@ -9,6 +10,7 @@ jobs:
       os: linux
       dist: xenial
       # virt: lxd
+      env: EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS
     - name: MacOSX
       os: osx
 #    - name: Linux (Ubuntu Bionic on arm64)

@@ -46,11 +46,21 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #define AREXPORT
 #endif
 
+
 #include <winsock2.h>
 #include <windows.h>
 
 #endif //_WIN32
 
+
+
+#ifdef ARIABUILD
+// Building ARIA itself
+#define PUBLICDEPRECATED(m)
+#else
+// Not building ARIA itself, external use of ARIA
+#define PUBLICDEPRECATED(m) [[deprecated(m)]]
+#endif
 
 #ifndef _WIN32
 
