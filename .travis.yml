@@ -1,11 +1,11 @@
 language: c++
 dist: focal
 sudo: require
-addons:
-  apt:
-    packages:
-      - doxygen
-      - swig
+#addons:
+#  apt:
+#    packages:
+#      - doxygen
+#      - swig
 compiler:
   - g++
 git:
