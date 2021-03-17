@@ -1,17 +1,19 @@
 AriaCoda
 =========
 
+[![Build Status](https://travis-ci.com/reedhedges/AriaCoda.svg?branch=master)](https://travis-ci.com/reedhedges/AriaCoda)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
+
 AriaCoda is a C++ library used to communicate with Pioneer and
 Pioneer-compatible mobile robot controllers, many sensors and other accessory
 devices, and includes various useful tools for mobile robotics applications.
 
 Much of the library is mostly C++03 and C with C++11 and C++14 features
-sometimes used as well.  (In the future
-it may be further modernized.)
+sometimes used as well.  (In the future it may be further modernized.)
 
-AriaCoda is based on ARIA (Copyright 2002, 2003, 2004, 2005 ActivMedia Robotics, LLC.
-Copyright 2006, 2007, 2008, 2009 MobileRobots Inc., Copyright 2010-2015 Adept Technology,
-Copyright 2016-2018 Omron Adept Technologies, Inc.)
+AriaCoda is based on the prior open-source ARIA library (Copyright 2002, 2003, 2004, 2005 
+ActivMedia Robotics, LLC.  Copyright 2006, 2007, 2008, 2009 MobileRobots Inc., 
+Copyright 2010-2015 Adept Technology, Copyright 2016-2018 Omron Adept Technologies, Inc.)
 
 AriaCoda is distributed under the terms of the GNU General Public License
 (GPL) version 2.
@@ -22,12 +24,14 @@ See [LICENSE.txt](LICENSE.txt) for full license information about AriaCoda.
 Requirements
 ------------
 
-AriaCoda is intended to be used on any standard Linux or Windows 7 or 10 
-system with standard system libraries and common developer tools only.  
+AriaCoda is intended to be used on any standard Linux, MacOSX, Windows 7, 
+or Windows 10 system with standard system libraries and common developer tools only.  
+There are no required library dependencies other than the C++ standard library.
 
 On Linux, the GNU C++ compiler (g++/gcc), GNU Make, and standard shell
 tools are required.  On Ubuntu or Debian Linux, run 
-`sudo apt install make g++` to install. 
+`sudo apt install make g++` to install.   (Clang may also work but is not
+tested.)   The C++ compiler must support at least C++14.
 
 On Windows, Visual C++ 2019 is required to use the provides project and
 solution files.  The free "Community" edition can be downloaded
@@ -83,11 +87,33 @@ rather than `char *`, use of standard types rather than types defined by ARIA,
 etc.  See [TODO.md](TODO.md) for details.
 
 
+Support and Contributing
+------------------------
+
+AriaCoda is not supported by Omron Corporation or any other commercial organization.
+There are many ways to help continued improvement and maintainence of AriaCoda:
+
+* Report bugs or request improvements.  Did you encounter documentation that
+is incorrect or difficult to understand?  Would you like to see example code
+for a particular feature?  Is there a bug or problem with AriaCoda? 
+[Report the issue here.](https://github.com/reedhedges/AriaCoda/issues)
+* Contribute code.  See [TODO.md](TODO.md) for ideas.  Changes
+can be discussed on [GitHub Issues](https://github.com/reedhedges/AriaCoda/issues). 
+* Financial sponsorship of the primary developer through
+[GitHub Sponsorship](https://github.com/sponsors/reedhedges) or through
+other means. This will let me spend more time working on AriaCoda. 
+Contact me to discuss further.
+
 Building AriaCoda
 -----------------
 
 On Linux, enter the AriaCoda source directory in a terminal,
-and run `make`.   
+and run `make`.    
+
+Use `make -j4` to build targets in parallel with a maximum of 4 jobs.
+(Use `make -j2` for 2 jobs, etc.)
+
+Run `make help` for information on more make rules and parameters.
 
 On Windows, open `AriaCoda.sln` with Visual C++ 2019 and build the
 solution.  
@@ -100,19 +126,21 @@ you update your Visual C++ version.
 Installation
 ------------
 
+Not yet implemented.
+
 TODO
 
 
-Reference Documentation
------------------------
+Documentation
+-------------
 
-API Reference Documentation, including some annotated examples and 
-an in-depth introduction/overview, can be generated using the Doxygen
+Documentation, including some annotated examples and 
+an in-depth introduction and overview to AriaCoda, can be generated using the Doxygen
 tool.
 
 To install Doxygen on Ubuntu or Debian Linux, run `sudo apt install doxygen`.
 
-To generate the AriaCoda documentation on Linux, run `make doc`.
+Then, to generate the documentation, run `make doc`.
 
 To install Doxygen on Windows, go to <http://www.doxygen.nl/download.html>, and 
 use the download link under "A binary distribution for Windows...".
