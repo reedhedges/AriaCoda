@@ -1234,13 +1234,19 @@ AREXPORT void ArRobotParams::internalSetIR(int num, int type, int cycles, int x,
   myIRMap[num][IR_Y] = y;
 }
 
+
 AREXPORT bool ArRobotParams::save()
 {
+
+  setBaseDirectory((paramDirectoryName()+"/").c_str());
+  return writeFile(paramFileName().c_str(), false ,NULL, false);
+/*
   char buf[10000];
   sprintf(buf, "%sparams/", Aria::getDirectory());
   setBaseDirectory(buf);
   sprintf(buf, "%s.p", getSubClassName());
   return writeFile(buf, false, NULL, false);
+*/
 }
 
 

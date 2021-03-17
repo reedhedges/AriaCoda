@@ -28,6 +28,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #define ARROBOTPARAMS_H
 
 #include "Aria/ariaTypedefs.h"
+#include "Aria/ariaInternal.h"
 #include "Aria/ArConfig.h"
 #include <vector>
 
@@ -863,8 +864,21 @@ public:
   int getLatAccel() const { return myTransAccel; }
   /// Gets the lat decel from param file (0 uses microcontroller param)
   int getLatDecel() const { return myTransDecel; }
+
+  std::string paramDirectoryName()
+  {
+    return std::string(Aria::getDirectory()) + "params";
+  }
+
+  std::string paramFileName()
+  {
+    return std::string(getSubClassName()) + ".p";
+  }
+
   /// Saves it to the subtype.p in Aria::getDirectory/params
+  /// @internal
   AREXPORT bool save();
+
 
   /// The X (forward-back) location of the GPS (antenna) on the robot
   int getGPSX() const { return myGPSX; }

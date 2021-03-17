@@ -32,7 +32,16 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 void makePref(ArRobotParams *param)
 {
-  param->save();
+  if(param->paramDirectoryName() == "/usr/local/Aria/params" || param->paramDirectoryName() == "/usr/lib/Aria/params" || param->paramDirectoryName() == "/usr/share/Aria/params")
+  {
+    printf("makeParams: Error: trying to save parameter file to system directory \"%s\", is this really correct? Set ARIA environment variable to use local development directory.", param->paramDirectoryName().c_str());
+    Aria::exit(-2);
+  }
+  if(!param->save())
+  {
+    printf("makeParams: Error saving parameters for %s to %s!\n", param->getSubClassName(), param->paramFileName().c_str());
+    Aria::exit(-1);
+  }
 }
 
 int main()

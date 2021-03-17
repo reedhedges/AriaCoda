@@ -696,13 +696,20 @@ protected:
   // Giving ArConfig access to the write method
   friend class ArConfig;
 
-  /// Writes the given comment to the specified file, spanning multiple lines as necessary.
-  AREXPORT static bool writeMultiLineComment(const char *comment,
-                                    FILE *file,
-                                    char *lineBuf,
-                                    int lineBufSize,
-                                    const char *startComment);
-
+  /** Writes the given comment to the @a file, prefixed with 
+   *  @a startComment prefix, spanning multiple lines as 
+   *  necessary, breaking the comment text by at word breaks (space-separated) 
+   *  when a line would be more than @a linewrap characters.  Any subsequent comment 
+   *  lines are indented by @a indent spaces and prefixed by @a startComment.  
+   *  Write the parameter and value first to @a file, then use this to write the comment;
+   *  specify how many characters have already been written on the first line with @a alreadyWritten 
+   */
+  AREXPORT static bool writeMultiLineComment(const std::string &comment,
+                                             FILE *file,
+                                             const std::string &startComment,
+                                             size_t linewrap = 80,
+                                             size_t alreadyWritten = 0,
+                                             size_t indent = 0);
 
 private:
 

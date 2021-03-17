@@ -1641,6 +1641,8 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      "%sArConfigArg::parseUnknown() cannot find section %s",
                      myLogPrefix.c_str(),
                      mySection.c_str());
+          if(errorBufferLen > strlen("Cannot find section"))
+            strcpy(errorBuffer, "Cannot find section");
           return false;
         }  
         ArConfigArg *parentParam = section->findParam(myParsingListNames, true);
@@ -1650,6 +1652,8 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      myLogPrefix.c_str(),
                      myParsingListNames.front().c_str(),
                      arg->getArg(0));
+          if(errorBufferLen > strlen("Error parsing parameter"))
+            strcpy(errorBuffer, "Error parsing paramemter");
           return false;
         }
         parentParam->addArg(ArConfigArg(arg->getArg(0), ""));
@@ -1687,6 +1691,8 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      "%sArConfigArg::parseUnknown() cannot find section %s",
                      myLogPrefix.c_str(),
                      mySection.c_str());
+          if(errorBufferLen > strlen("Cannot find section"))
+            strcpy(errorBuffer, "Cannot find section");
           return false;
         }  
         ArConfigArg *parentParam = section->findParam(myParsingListNames, true);
@@ -1696,6 +1702,8 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      myLogPrefix.c_str(),
                      myParsingListNames.front().c_str(),
                      arg->getArg(0));
+          if(errorBufferLen > strlen("Error parsing parameter"))
+            strcpy(errorBuffer, "Error parsing paramemter");
           return false;
         }
        
@@ -2148,7 +2156,11 @@ AREXPORT bool ArConfig::parseResourceFile(const char *fileName,
 
   // KMC TODO Parse and use the version info someday.
   // Parse resource version. 
-  fgets(line, sizeof(line), file);
+  if(fgets(line, sizeof(line), file) == NULL)
+  {
+    ArLog::log(ArLog::Terse, "%sArConfig::parseResourceFile() Error reading file '%s': File truncated before version header", myLogPrefix.c_str(), fileName);
+    return false;
+  }
 
   // KMC TODO This needs to be improved... made more generic... possibly test
   // that this is really header information.
@@ -2156,7 +2168,7 @@ AREXPORT bool ArConfig::parseResourceFile(const char *fileName,
   // Skipping two lines for the header.  The third one is blank.
   for (int h = 0; h < 2; h++) {
     if (fgets(line, sizeof(line), file) == NULL) {
-      ArLog::log(ArLog::Terse, "%sArConfig::parseResourceFile() Header missing in '%s'", 
+      ArLog::log(ArLog::Terse, "%sArConfig::parseResourceFile() Header missing in '%s'. Error reading file or file truncated before header lines.", 
                  myLogPrefix.c_str(),
                  fileName);
       return false;
@@ -2462,15 +2474,18 @@ AREXPORT void ArConfig::writeSection(ArConfigSection *section,
     fprintf(file, "Section %s\n", section->getName());
   }
 
-  sprintf(line, "; ");
+  //sprintf(line, "; ");
 
   if (!ArUtil::isStrEmpty(section->getComment())) 
   {
-     ArConfigArg::writeMultiLineComment(section->getComment(),
-                                        file,
-                                        line,
-                                        sizeof(line),
-                                        "; ");
+    ArConfigArg::writeMultiLineComment(section->getComment(), file, "; ");
+    /*
+    ArConfigArg::writeMultiLineComment(section->getComment(),
+                                       file,
+                                       line,
+                                       sizeof(line),
+                                       "; ");
+    */
   }
   
   fprintf(file, ";SectionFlags for %s: %s\n", 
