@@ -309,8 +309,11 @@ AREXPORT void ArThread::threadStarted()
   myStarted = true;
   myPID = getpid();
 #ifdef __linux__
+#ifdef LINUX_GETTID_USE_SYSCALL
+  myTID = (pid_t) syscall(SYS_gettid); // gettid() used to be missing
+#else
   myTID = gettid();
- // myTID = (pid_t) syscall(SYS_gettid); // gettid() used to be missing
+#endif
 #else
   myTID = -1;
 #endif
