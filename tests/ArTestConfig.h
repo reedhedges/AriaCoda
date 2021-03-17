@@ -7,8 +7,8 @@ struct ArConfigPrimitiveData;
 struct ArConfigDisplayHintData;
 
 
-#include <ArConfig.h>
-#include <ArConfigArg.h>
+#include <Aria/ArConfig.h>
+#include <Aria/ArConfigArg.h>
 
 class ArTestConfig
 {
