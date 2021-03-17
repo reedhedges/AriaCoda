@@ -308,13 +308,13 @@ AREXPORT void ArThread::threadStarted()
 {
   myStarted = true;
   myPID = getpid();
-  // MPL 12/3/2012 gettid isn't implemented, but there's a hack with syscall
-  //myTID = gettid();
-#ifdef MINGW
-  myTID = -1;
+#ifdef __linux__
+  myTID = gettid();
+ // myTID = (pid_t) syscall(SYS_gettid); // gettid() used to be missing
 #else
-  myTID = (pid_t) syscall(SYS_gettid);
+  myTID = -1;
 #endif
+
   if (myName.size() == 0)
     ArLog::log(ourLogLevel, "Anonymous thread (%d) is running with pid %d tid %d",
 	       myThread, myPID, myTID);

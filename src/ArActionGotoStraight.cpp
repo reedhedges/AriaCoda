@@ -121,10 +121,10 @@ AREXPORT void ArActionGotoStraight::setEncoderGoalRel(double dist,
 
 AREXPORT ArActionDesired *ArActionGotoStraight::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
-  double angle;
-  double dist;
-  double distToGo;
-  double vel;
+  double angle = 0.0;
+  double dist = 0.0;
+  double distToGo = 0.0;
+  double vel = 0.0;
 
   // if we're there we don't do anything
   if (myState == STATE_ACHIEVED_GOAL || myState == STATE_NO_GOAL)
@@ -157,7 +157,7 @@ AREXPORT ArActionDesired *ArActionGotoStraight::fire([[maybe_unused]] ArActionDe
 
   if (((myJustDist && distToGo <= 0) || 
        (!myJustDist && dist < myCloseDist))
-      && ArMath::fabs(myRobot->getVel() < 5))
+      && ArMath::fabs(myRobot->getVel()) < 5)
   {
     if(myJustDist)
       ArLog::log(ArLog::Normal, "%s: Achieved distance to goal (dist=%.2f, robotVel=%.2f)", getName(), distToGo, myRobot->getVel());

@@ -447,7 +447,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 						      [[maybe_unused]] bool ignoreRemainders)
 {
 	ArLMS1XXPacket *packet;
-	unsigned char c;
+	unsigned char c = 0;
 	long timeToRunFor;
 	ArTime timeDone;
 	ArTime lastDataRead;
@@ -729,11 +729,11 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 
 
 ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
-						      bool scandataShortcut,
-						      bool ignoreRemainders)
+						      [[maybe_unused]] bool scandataShortcut,
+						      [[maybe_unused]] bool ignoreRemainders)
 {
 	ArLMS1XXPacket *packet;
-	unsigned char c;
+	unsigned char c = 0;
 	long timeToRunFor;
 	ArTime timeDone;
 	ArTime lastDataRead;
@@ -1436,7 +1436,7 @@ void ArLMS1XX::sensorInterp ()
 		[[maybe_unused]] int eachScalingOffset;
 		[[maybe_unused]] double eachStartingAngle;
 		double eachAngularStepWidth;
-		int eachNumberData;
+		int eachNumberData = 0;
 		std::list<ArSensorReading *>::iterator it;
 		double atDeg; // angle of reading transformed according to sensorPoseTh parameter
     double atDegLocal = 0; // angle of reading local to laser
@@ -3025,8 +3025,8 @@ bool ArLMS1XX::validateCheckSum(ArLMS1XXPacket *packet)
   unsigned short checksum = 0;
   char str[1024];
   char *pch;
-  unsigned char val;
-  unsigned char val1;
+  unsigned char val = 0;
+  unsigned char val1 = 0;
 
   const int maxcopylen = ArUtil::findMin(1024, packet->getLength());
 	strncpy(str, packet->getBuf(), maxcopylen);

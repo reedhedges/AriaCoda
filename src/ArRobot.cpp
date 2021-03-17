@@ -3572,7 +3572,7 @@ void ArRobot::stateReflector()
   double rotDecel;
   bool rotStopped = false;
   bool rotHeading = false;
-  double encTh;
+  double encTh = 0;
   double rawTh;
 
   short latVal;
@@ -5895,8 +5895,8 @@ AREXPORT int ArRobot::getClosestSonarNumber(double startAngle, double endAngle) 
 {
   int i;
   ArSensorReading *sonar;
-  int closestReading;
-  int closestSonar;
+  int closestReading = 999999;
+  int closestSonar = -1;
   bool noReadings = true;
 
   for (i = 0; i < getNumSonar(); i++) 

@@ -987,7 +987,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 
 	FILE *file;
 	char line[10000];
-	unsigned char c;
+	unsigned char c = 0;
 
 	std:: string hmiDirFile = baseDir + hmiFile;
 	if ( (file = ArUtil::fopen (hmiDirFile.c_str(), "r")) == NULL) {

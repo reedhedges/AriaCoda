@@ -284,7 +284,7 @@ AREXPORT bool ArRVisionPTZ::packetHandler(ArRobotPacket *packet)
 ArBasePacket * ArRVisionPTZ::readPacket()
 {
   unsigned char data[ARRVISION_MAX_RESPONSE_BYTES];
-  unsigned char byte;
+  unsigned char byte = 0;
   int num;
   memset(data, 0, ARRVISION_MAX_RESPONSE_BYTES);
   for (num=0; num <= ARRVISION_MAX_RESPONSE_BYTES+1; num++) {

@@ -298,6 +298,8 @@ bool ArSoundPlayer::playSoundPCM16(char* data, int numSamples)
   return true;
 #else
   ArLog::log(ArLog::Terse, "ArSoundPlayer: Internal Error: playSoundPCM16 not implemented for non-Linux unixlike systems");
+  if(data) char foo = data[0];
+  int n = numSamples;
   return false;
 #endif
 }

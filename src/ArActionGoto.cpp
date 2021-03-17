@@ -103,7 +103,7 @@ AREXPORT ArActionDesired *ArActionGoto::fire(ArActionDesired currentDesired)
     return NULL;
 
   dist = myRobot->getPose().findDistanceTo(myGoal);
-  if (dist < myCloseDist && ArMath::fabs(myRobot->getVel() < 5))
+  if (dist < myCloseDist && ArMath::fabs(myRobot->getVel()) < 5)
   {
     if (myPrinting)
       printf("Achieved goal\n");
@@ -155,7 +155,7 @@ AREXPORT ArActionDesired *ArActionGoto::fire(ArActionDesired currentDesired)
       myDesired.setDeltaHeading(myTurnAmount * myCurTurnDir * -1);
     }
   }
-  if (dist < myCloseDist && ArMath::fabs(myRobot->getVel() < 5))
+  if (dist < myCloseDist && ArMath::fabs(myRobot->getVel()) < 5)
   {
     if (myPrinting)
       printf("#achieved\n");

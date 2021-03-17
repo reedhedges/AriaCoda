@@ -50,8 +50,8 @@ AREXPORT ArActionDesired *ArPriorityResolver::resolve(
   bool first = true;
   int lastPriority;
   bool printedFirst = true;
-  int printedLast;
-  
+  int printedLast = -1;
+
   if (actions == NULL)
     return NULL;
 

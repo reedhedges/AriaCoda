@@ -100,7 +100,7 @@ ArS3SeriesPacket *ArS3SeriesPacketReceiver::receivePacket(unsigned int msWait,
 		bool startMode) {
 
 	ArS3SeriesPacket *packet;
-	unsigned char c;
+	unsigned char c = 0;
 	long timeToRunFor;
 	ArTime timeDone;
 	ArTime lastDataRead;

@@ -1542,6 +1542,9 @@ AREXPORT void ArLMS2xx::runOnce(bool lockRobot)
       if (myInterpolation && (ret = myRobot->getEncoderPoseInterpPosition(
 	      packet->getTimeReceived(), &encoderPose)) < 0)
 	encoderPose = myRobot->getEncoderTransform().doInvTransform(pose);
+
+      counter = myRobot->getCounter();
+
       if (lockRobot && myInterpolation)
 	myRobot->unlock();
       lockDevice();

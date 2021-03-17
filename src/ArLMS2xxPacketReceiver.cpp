@@ -93,7 +93,7 @@ AREXPORT ArLMS2xxPacket *ArLMS2xxPacketReceiver::receivePacket(
 	unsigned int msWait)
 {
   ArLMS2xxPacket *packet;
-  unsigned char c;
+  unsigned char c = 0;
   char buf[2048];
   long count = 0;
   // state can be one of the STATE_ enums in the class

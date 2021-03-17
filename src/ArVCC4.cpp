@@ -1462,7 +1462,7 @@ bool ArVCC4::timeout(int mSec)
 ArBasePacket* ArVCC4::readPacket()
 {
   unsigned char data[MAX_RESPONSE_BYTES];
-  unsigned char byte;
+  unsigned char byte = 0;
   int num;
   
   myPacketBufLen = 0;

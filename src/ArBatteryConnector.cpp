@@ -318,8 +318,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 		ArLog::log (ArLog::Terse, "ArBatteryConnector::internalConfigureBattery() There is no battery, cannot connect");
 		return false;
 	}
-	char portBuf[8];
-	strncpy(portBuf, batteryData->myBattery->getDefaultTcpPort(), 7); portBuf[8] = 0;
+	std::string portName = batteryData->myBattery->getDefaultTcpPort();
 	if (myRobotConnector == NULL) {
 		ArLog::log (ArLog::Terse, "ArBatteryConnector::internalConfigureBattery() No ArRobotConnector is passed in so simulators and remote hosts will not work correctly");
 	}
@@ -346,7 +345,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 		            batteryData->myNumber, battery->getName());
 		
 		if ( (batteryData->myConn = Aria::deviceConnectionCreate (
-		                              batteryData->myPortType, batteryData->myPort, portBuf,
+		                              batteryData->myPortType, batteryData->myPort, portName.c_str(),
 		                              "ArBatteryConnector:")) == NULL) {
 			return false;
 		}
@@ -361,7 +360,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 				ArLog::log (ArLog::Normal, "ArBatteryConnector::internalConfigureBattery() There is a port given, but no port type given so using the robot parameters port type");
 				if ( (batteryData->myConn = Aria::deviceConnectionCreate (
 				                              params->getBatteryMTXBoardPortType (batteryData->myNumber),
-				                              batteryData->myPort, portBuf,
+				                              batteryData->myPort, portName.c_str(),
 				                              "ArBatteryConnector: ")) == NULL) {
 					return false;
 				}
@@ -370,7 +369,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 				ArLog::log (ArLog::Normal, "ArBatteryConnector::internalConfigureBattery() There is a port given for battery %d (%s), but no port type given and no robot parameters port type so using the battery's default port type", batteryData->myNumber, battery->getName());
 				if ( (batteryData->myConn = Aria::deviceConnectionCreate (
 				                              battery->getDefaultPortType(),
-				                              batteryData->myPort, portBuf,
+				                              batteryData->myPort, portName.c_str(),
 				                              "ArBatteryConnector: ")) == NULL) {
 					return false;
 				}
@@ -379,7 +378,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 				            batteryData->myNumber, battery->getName());
 				if ( (batteryData->myConn = Aria::deviceConnectionCreate (
 				                              "serial",
-				                              batteryData->myPort, portBuf,
+				                              batteryData->myPort, portName.c_str(),
 				                              "ArBatteryConnector: ")) == NULL) {
 					return false;
 				}
@@ -390,7 +389,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 			ArLog::log (ArLog::Normal, "ArBatteryConnector::internalConfigureBattery() There is a battery port given ('%s') for battery %d (%s), but no battery port type given and there are no robot params to find the information in, so assuming serial",
 			            batteryData->myPort, batteryData->myNumber, battery->getName());
 			if ( (batteryData->myConn = Aria::deviceConnectionCreate (
-			                              batteryData->myPortType, batteryData->myPort, portBuf,
+			                              batteryData->myPortType, batteryData->myPort, portName.c_str(),
 			                              "ArBatteryConnector: ")) == NULL) {
 				return false;
 			}
@@ -423,7 +422,7 @@ bool ArBatteryConnector::internalConfigureBattery (
 
 	if ( (batteryData->myConn = Aria::deviceConnectionCreate (
 	                              params->getBatteryMTXBoardPortType (batteryData->myNumber),
-	                              params->getBatteryMTXBoardPort (batteryData->myNumber), portBuf,
+	                              params->getBatteryMTXBoardPort (batteryData->myNumber), portName.c_str(),
 	                              "ArBatteryConnector: ")) == NULL) {
 		return false;
 	}

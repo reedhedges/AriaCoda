@@ -136,7 +136,7 @@ AREXPORT ArDeviceConnection *ArRobotPacketReceiver::getDeviceConnection()
 AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait)
 {
   ArRobotPacket *packet;
-  unsigned char c;
+  unsigned char c = 0;
   char buf[256];
   int count = 0;
   // state can be one of the STATE_ enums in the class

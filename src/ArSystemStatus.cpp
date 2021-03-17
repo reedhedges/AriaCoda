@@ -102,29 +102,43 @@ void ArSystemStatus::refreshCPU()
 	//fscanf(uptimefp, "%lf %lf", &uptime, &idle_uptime);
 	//ourUptime = (unsigned long)uptime;
 	unsigned long uptime;
-	fscanf(uptimefp, "%ld", &uptime);
+	int n = fscanf(uptimefp, "%ld", &uptime);
+	if(n != 1)
+	{
+		ArLog::log(ArLog::Terse, "ArSystemStatus: Error: Error reading uptime value from /proc/uptime. Expected 1 integer value, got %d", n);
+		uptime = 0;
+	}
+
 	ourUptime = uptime;
 	fclose(uptimefp);
 
 	if (ourFirstUptime == 0)
 		ourFirstUptime = ourUptime;
 
-	unsigned long user, nice, sys, idle, total;
+	unsigned long user, nice, sys, idle;
 	char tag[32];
-	fscanf(statfp, "%s %lu %lu %lu %lu", tag, &user, &nice, &sys, &idle);
-	fclose(statfp);
-	total = user + nice + sys; // total non-idle cpu time in 100ths of a sec
-	if (ourLastCPUTime == 0 || interval == 0)
+	n = fscanf(statfp, "%s %lu %lu %lu %lu", tag, &user, &nice, &sys, &idle);
+	if(n != 5)
 	{
-		// no time has past since last refresh
-		ourLastCPUTime = total;
-		ourShouldRefreshCPU = false;
-		return;
+		ArLog::log(ArLog::Terse, "ArSystemStatus: Error reading CPU stats from /proc/stat. Expected 5 values, got %d.", n);
+		fclose(statfp);
 	}
-	ourCPU = (double)(total - ourLastCPUTime) / ((double)interval / 10.0); // convert 'interval' to 1/100 sec units
-	ourLastCPUTime = total;
-	ourLastCPURefreshTime.setToNow();
-	ourShouldRefreshCPU = false;
+	else
+	{
+		fclose(statfp);
+		unsigned long total = user + nice + sys; // total non-idle cpu time in 100ths of a sec
+		if (ourLastCPUTime == 0 || interval == 0)
+		{
+			// no time has past since last refresh
+			ourLastCPUTime = total;
+			ourShouldRefreshCPU = false;
+			return;
+		}
+		ourCPU = (double)(total - ourLastCPUTime) / ((double)interval / 10.0); // convert 'interval' to 1/100 sec units
+		ourLastCPUTime = total;
+		ourLastCPURefreshTime.setToNow();
+		ourShouldRefreshCPU = false;
+  }
 #endif // WIN32
 }
 

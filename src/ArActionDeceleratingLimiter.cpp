@@ -32,6 +32,7 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "Aria/ariaInternal.h"
 #include "Aria/ArRobotConfigPacketReader.h"
 #include "Aria/ArRangeDevice.h"
+#include <cassert>
 
 /**
    @param name name of the action
@@ -194,11 +195,11 @@ AREXPORT void ArActionDeceleratingLimiter::addToConfig(ArConfig *config,
 AREXPORT ArActionDesired *
 ArActionDeceleratingLimiter::fire(ArActionDesired currentDesired)
 {
-  double dist;
+  double dist = 0.0;
   const ArRangeDevice *distRangeDevice = NULL;
-  double distInner;
+  double distInner = 0.0;
   const ArRangeDevice *distInnerRangeDevice = NULL;
-  double absVel;
+  double absVel = 0.0;
   bool printing = false;
 
   //ArLog::LogLevel verboseLogLevel = ArLog::Verbose;
@@ -226,8 +227,8 @@ ArActionDeceleratingLimiter::fire(ArActionDesired currentDesired)
   else
     absVel = ArMath::fabs(myRobot->getLatVel());
 
-  double sideClearance;
-  double padding;
+  double sideClearance = 0.0;
+  double padding = 0.0;
   
   // see if we're going slow
   if (absVel <= mySlowSpeed)
@@ -297,6 +298,8 @@ ArActionDeceleratingLimiter::fire(ArActionDesired currentDesired)
 	    0,
 	    &obstaclePose,
 	    &distRangeDevice, myUseLocationDependentDevices);
+  else
+    assert(false);
 
   if (myType == FORWARDS)
     distInner = myRobot->checkRangeDevicesCurrentBox(
@@ -332,6 +335,8 @@ ArActionDeceleratingLimiter::fire(ArActionDesired currentDesired)
 	    0,
 	    &obstacleInnerPose,
 	    &distInnerRangeDevice, myUseLocationDependentDevices);
+  else 
+    assert(false);
 
   // subtract off our clearance and padding to see how far we have to stop
   if (myType != LATERAL_LEFT && myType != LATERAL_RIGHT)

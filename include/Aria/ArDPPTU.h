@@ -132,9 +132,9 @@ public:
   /// Destructor
   AREXPORT virtual ~ArDPPTUPacket();
 
-  AREXPORT virtual void byte2ToBuf(int val);
+  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val) override;
 
-  AREXPORT virtual void finalizePacket();
+  AREXPORT virtual void finalizePacket() override;
 
 protected:
 };

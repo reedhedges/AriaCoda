@@ -188,7 +188,7 @@ ArActionDesired *ArActionStallRecover::fire(ArActionDesired currentDesired)
 void ArActionStallRecover::doit()
 {
   double leftDist, rightDist;
-  double dist;
+  double dist = 0.0;
   int turnDirection;
   bool transFired, rotFired;
 

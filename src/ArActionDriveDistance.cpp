@@ -105,7 +105,7 @@ AREXPORT ArActionDesired *ArActionDriveDistance::fire(
   else
     distToGo = -myDistance - myDistTravelled;
 
-  if (distToGo <= 0 && ArMath::fabs(myRobot->getVel() < 5))
+  if (distToGo <= 0 && ArMath::fabs(myRobot->getVel()) < 5)
   {
     if (myPrinting)
     {

@@ -60,7 +60,7 @@ AREXPORT ArDPPTUPacket::~ArDPPTUPacket()
 
 }
 
-AREXPORT void ArDPPTUPacket::byte2ToBuf(int val)
+AREXPORT void ArDPPTUPacket::byte2ToBuf(ArTypes::Byte2 val)
 {
   //ArLog::log(ArLog::Normal, "Putting %d in an DPPTU packet...", val);
   int i;
@@ -71,8 +71,8 @@ AREXPORT void ArDPPTUPacket::byte2ToBuf(int val)
     return;
   }
 
-  if(val > 9999999 || val < -999999) 
-	  ArLog::log(ArLog::Terse, "ArDPPTUPacket::byte2ToBuf: Warning: truncating value %d to 7 digits!", val);
+  //if(val > 9999999 || val < -999999) 
+	//  ArLog::log(ArLog::Terse, "ArDPPTUPacket::byte2ToBuf: Warning: truncating value %d to 7 digits!", val);
 
   snprintf(buf, 8, "%d", val);
 
@@ -718,7 +718,7 @@ AREXPORT ArBasePacket *ArDPPTU::readPacket()
   int i;
   for(i = 0;  i < maxbytes; ++i)
   {
-    char c;
+    char c = '\0';
     if(myConn->read(&c, 1, 1) <= 0)
       break; // no data, abort read until next robot cycle
 

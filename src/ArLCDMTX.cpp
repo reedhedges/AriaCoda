@@ -1855,7 +1855,7 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 
 	FILE *file;
 	char line[10000];
-	unsigned char c;
+	unsigned char c = 0;
 
 	if ((file = ArUtil::fopen(myNewFwFile.c_str(), "r")) == NULL) {
 		ArLog::log(ArLog::Normal,

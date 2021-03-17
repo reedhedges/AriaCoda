@@ -144,7 +144,7 @@ AREXPORT template<> void ArPacketUtil::addField<ArPos2D>(ArBasePacket& pkt, cons
  * @todo also specialize for int32_t, uint32_t, int16_t, uint16_t, etc.
  */
 
-AREXPORT template<typename T> void ArPacketUtil::addField(ArBasePacket& p, const T& value)
+AREXPORT template<typename T> void ArPacketUtil::addField(ArBasePacket&, const T&)
 {
   // this is the base template type, called for T not specialized above.
   // cause an error with abort so programmer
@@ -362,7 +362,7 @@ AREXPORT template<typename LT> void ArPacketUtil::getNextField(ArBasePacket& p, 
  *
  * @todo specialize for int32_t, uint32_t, int16_t, uint16_t, etc.
  */
-AREXPORT template<typename T> T ArPacketUtil::getNextField(ArBasePacket& p)
+AREXPORT template<typename T> T ArPacketUtil::getNextField(ArBasePacket&)
 {
   // this is the base template type, called for T not specialized above.
   // cause an error with abort so programmer

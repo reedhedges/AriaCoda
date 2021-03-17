@@ -35,7 +35,7 @@ class Ar3DPoint;
 class ArLLACoords;
 class ArECEFCoords;
 class ArENUCoords;
-class ArWGS84;
+struct ArWGS84;
 
 /** Base class for points in 3 dimensional cartesian space. 
   @ingroup UtilityClasses
@@ -230,7 +230,7 @@ public:
   virtual void invoke() {
     // can't do anything
   }
-  virtual void invoke(char *buf) {
+  virtual void invoke(char *) {
     // can't do anything
   }
 };

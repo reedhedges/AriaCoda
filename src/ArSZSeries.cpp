@@ -148,7 +148,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		bool startMode) {
 
 	ArSZSeriesPacket *packet;
-	unsigned char c;
+	unsigned char c = 0;
 	long timeToRunFor;
 	ArTime timeDone;
 	ArTime lastDataRead;
