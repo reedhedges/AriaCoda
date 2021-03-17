@@ -7,7 +7,7 @@ os:
   - linux
   - osx
 virt: lxd
-sudo: require
+#sudo: require
 #addons:
 #  apt:
 #    packages:
