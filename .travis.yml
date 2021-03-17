@@ -11,8 +11,4 @@ compiler:
 git:
   depth: 1
 script:
-  - make -j4
-#  - make doc
-#  - make python
-#  - make java
-#  - make csharp
+  - make -j4 CXXDEBUGFLAGS= CXXOPTFLAGS=-O0

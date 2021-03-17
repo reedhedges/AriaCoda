@@ -13,14 +13,13 @@ CFILEEXT:=cpp
 # -fprofile-arcs to generate profiling information or add optimization flags
 # here during "release" builds, or to add more warnings in addition to the
 # defaults.
-# Set CXXSTD to select C++ version. 
-ifndef CXXWARNFLAGS
-CXXWARNFLAGS=-Wall -Wextra
-endif
-ifndef CXXSTD
-CXXSTD=c++11
-endif
-BARECXXFLAGS=-std=$(CXXSTD) -g $(CXXWARNFLAGS) -D_REENTRANT  
+# Set CXXSTD to select C++ version.
+# Set CXXDEBBUGFLAGS and CXXOPTFLAGS to set debug and optimization flags
+CXXWARNFLAGS ?= -Wall -Wextra
+CXXSTD ?= c++14
+CXXDEBUGFLAGS ?= -g
+CXXOPTFLAGS ?= -O2
+BARECXXFLAGS=-std=$(CXXSTD) $(CXXDEBUGFLAGS) $(CXXOPTFLAGS) $(CXXWARNFLAGS) -D_REENTRANT  
 CXXFLAGS+=$(BARECXXFLAGS) -fno-exceptions $(EXTRA_CXXFLAGS)
 CXXINC:=-Iinclude # used in all targets
 CXXLINK=-Llib -lAria $(ARIA_CXXLINK) # used for examples, tests etc.
@@ -326,13 +325,20 @@ help:
 	@echo 
 	@echo "Set EXTRA_CXXFLAGS to add any additional C++ compilation flags you want (e.g. optimization or profiling flags)."
 	@echo "Set CXXWARNFLAGS to override default set of warning flags.  ($(CXXWARNFLAGS)). (Use EXTRA_CXXFLAGS to add more warnings in addition to the defaults.)"
+	@echo "Set CXXOPTFLAGS to override default optimization flags (-O2)."
+	@echo "Set CXXDEBUGFLAGS to override default debug flags (-g)."
 	@echo "Set CXXSTD to select C++ standard (i.e. value passed to -std).  Default is $(CXXSTD)"
 
 info:
 	@echo ARIA=$(ARIA)
 	@echo CXX=$(CXX)
+	@echo CXXSTD=$(CXXSTD)
+	@echo CXXDEBUGFLAGS=$(CXXDEBUGFLAGS)
+	@echo CXXOPTFLAGS=$(CXXOPTFLAGS)
+	@echo CXXWARNFLAGS=$(CXXWARNFLAGS)
 	@echo CXXFLAGS=$(CXXFLAGS)
 	@echo BARECXXFLAGS=$(BARECXXFLAGS)
+	@echo EXTRA_CXXFLAGS=$(EXTRA_CXXFLAGS)
 	@echo CXXINC=$(CXXINC)
 	@echo ARIA_CXXLINK=$(ARIA_CXXLINK)
 	@echo CXXLINK=$(CXXLINK)
