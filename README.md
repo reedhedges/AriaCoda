@@ -24,14 +24,16 @@ See [LICENSE.txt](LICENSE.txt) for full license information about AriaCoda.
 Requirements
 ------------
 
-AriaCoda is intended to be used on any standard Linux, MacOSX, Windows 7, 
-or Windows 10 system with standard system libraries and common developer tools only.  
+AriaCoda is intended to be used on any recent standard Linux, MacOSX, Windows 7, 
+or Windows 10 system with standard system libraries, common developer tools, and
+a recent C++ compiler only.  
 There are no required library dependencies other than the C++ standard library.
 
 On Linux, the GNU C++ compiler (g++/gcc), GNU Make, and standard shell
 tools are required.  On Ubuntu or Debian Linux, run 
 `sudo apt install make g++` to install.   (Clang may also work but is not
-tested.)   The C++ compiler must support at least C++14.
+tested.)   The C++ compiler must support at least C++14.  Ubuntu Bionic 
+or later is recommended. (See below for older systems.)
 
 On Windows, Visual C++ 2019 is required to use the provides project and
 solution files.  The free "Community" edition can be downloaded
@@ -122,6 +124,10 @@ Note: As new versions of Visual C++ are released in the future,
 the Visual C++ project and solution files may be updated, requiring that 
 you update your Visual C++ version.
 
+Note: To allow building on older Linux/GCC versions (e.g. Ubuntu Xenial), some compilation flags can
+be added to `EXTRA_CXXFLAGS` when building:
+
+    make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS -DLINUX_GETTID_USE_SYSCALL
 
 Installation
 ------------
