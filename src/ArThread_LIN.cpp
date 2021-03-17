@@ -312,11 +312,10 @@ AREXPORT void ArThread::threadStarted()
   myStarted = true;
   myPID = getpid();
 #ifdef __linux__
-#ifdef LINUX_GETTID_USE_SYSCALL
+  // gettid() Not available until glibc 2.4 (Ubuntu Focal and later?)
+  // so we have to wait to use it.
   myTID = (pid_t) syscall(SYS_gettid); // gettid() used to be missing
-#else
-  myTID = gettid();
-#endif
+  //myTID = gettid();
 #else
   myTID = -1;
 #endif

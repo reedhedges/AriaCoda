@@ -127,7 +127,7 @@ you update your Visual C++ version.
 Note: To allow building on older Linux/GCC versions (e.g. Ubuntu Xenial), some compilation flags can
 be added to `EXTRA_CXXFLAGS` when building:
 
-    make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS -DLINUX_GETTID_USE_SYSCALL
+    make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS 
 
 Installation
 ------------
