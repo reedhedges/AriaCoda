@@ -27,8 +27,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 
 #include "ArTestConfig.h"
 
-#include <ArConfig.h>
-#include <ArConfigArg.h>
+#include <Aria/ArConfig.h>
+#include <Aria/ArConfigArg.h>
 
 struct ArConfigPrimitiveData {
 
