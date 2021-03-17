@@ -8,12 +8,11 @@ addons:
       - swig
 compiler:
   - g++
-  - clang
 git:
   depth: 1
 script:
-  - make
-  - make doc
+  - make -j4
+#  - make doc
 #  - make python
 #  - make java
 #  - make csharp
