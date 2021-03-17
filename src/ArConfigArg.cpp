@@ -32,6 +32,8 @@ Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
 #include "Aria/ArFileParser.h"
 #include "Aria/ArSocket.h"
 
+#include <cassert>
+
 //#define ARDEBUG_CONFIGARG
 
 #if (defined(ARDEBUG_CONFIGARG))
@@ -2586,14 +2588,17 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
   if (getType() == ArConfigArg::FUNCTOR)
   {
     // put the comments in the file first
-    /*int nextChar =*/ snprintf(lineBuf, lineBufSize, "; ");
+    /*int nextChar =*/ //snprintf(lineBuf, lineBufSize, "; ");
 
     if (!ArUtil::isStrEmpty(getDescription())) {
+      writeMultiLineComment(getDescription(), file, "; ", 80, 0, 25);
+      /*
       writeMultiLineComment(getDescription(),
                             file,
                             lineBuf, 
                             lineBufSize,
                             startLine);
+      */
     } // end if description
 
     std::list<ArArgumentBuilder *>::const_iterator argIt;
@@ -2748,6 +2753,7 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
     return true;
   }
 
+/*
   // configure our start of line part
   if  (getType() == ArConfigArg::DESCRIPTION_HOLDER) {
     sprintf(startLine, "; %%s");
@@ -2786,8 +2792,8 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
     sprintf(lineBuf, startLine, "");
   } 
 
-
-
+*/
+  fprintf(file, "%s", lineBuf);
 
   // KMC I think that this might be an issue.  If the comment
   // should appear right after the bounds.  Otherwise, 
@@ -2797,11 +2803,14 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
   // if we have a description to put in, put it in with word wrap
   if (!ArUtil::isStrEmpty(getDescription()))
   {
+    writeMultiLineComment(getDescription(), file, "; ", 80, strlen(lineBuf), 25);
+    /*
     writeMultiLineComment(getDescription(),
                           file,
                           lineBuf, 
                           lineBufSize,
                           startLine);
+    */
   }
   // else no description, just end the line
   else {
@@ -4042,81 +4051,70 @@ AREXPORT bool ArConfigArg::writeName(char *lineBuf,
 } // end method writeName
 
 
+
+
+
 /**
- * @param comment the char * string to be written to the file, must be 
- * non-NULL
- * @param file the FILE * to be written, must be non-NULL
- * @param lineBuf a char array to be used as a temporary write buffer,
- * must be non-NULL
- * @param lineBufSize the int number of chars in lineBuf, must be positive
- * @param startComment the char * text that should prefix the comment
- * on the first line
+ * @param comment the complete comment string to be written to the file
+ * @param file the FILE * to be written, must be non-NULL.
+ * @param startComment the string that should prefix comments(the comment special character). Should be a short string (e.g. 1-3 characters) so as to leave the rest of the line for comments. Must be less than @a linewrap characters. 
+ * @param linelen How many characters have already been written to the first line before calling this function. This is used to calculate when to wrap the first comment line.
+ * @param linewrap Maximum size of line (characters)
+ * @param indent How far to indent new comment lines written as continuation of previous comment line(s)
  * @return bool true if the comment was successfully written; false if an 
  * error occurred
 **/
-AREXPORT bool ArConfigArg::writeMultiLineComment(const char *comment,
+AREXPORT bool ArConfigArg::writeMultiLineComment(const std::string& comment,
                                                  FILE *file,
-                                                 char *lineBuf,
-                                                 int lineBufSize,
-                                                 const char *startComment)
+                                                 const std::string& startComment, size_t linewrap, size_t alreadyWritten,  size_t indent)
 {
-  if ((comment == NULL) || 
-      (file == NULL) ||
-      (lineBuf == NULL) ||
-      (lineBufSize <= 0) ||
-      (startComment == NULL)) { 
-    ArLog::log(ArLog::Normal,
-               "ArConfigArg::writeMultiLineComment() invalid input");
-    return false;
-  }
-  // KMC 7/11/12 It seems like this could be made more efficient.
-  // And should also check for bounds on the lineBuf.
-  //
+  assert(file != NULL);
+  assert(startComment.size() < linewrap);
+
   ArArgumentBuilder descr;
   descr.setQuiet(true); // KMC TODO Add flag myIsQuiet);
-  descr.addPlain(comment);
+  descr.addPlain(comment.c_str());
+
+  std::string line;
+
+  // indent start of comment to indent level
+  if(alreadyWritten >= indent)
+    line = " ";
+  else if(indent < linewrap)
+    line.assign(indent - alreadyWritten, ' ');
+
+  line += startComment;
 
   for (unsigned int i = 0; i < descr.getArgc(); i++)
   {
-     // KMC 8/3/12 IMPORTANT NOTE:  While it would be extremely nice 
-     // to prevent buffer overruns by using snprintf instead of sprintf,
-     // it is currently ill-advised.  On Linux, the two methods behave
-     // differently when the line buffer is used as both the target buffer
-     // and as formatting input (as in all the prints below). It yields 
-     // the desired results with sprintf, but substitutes an empty string
-     // for the formatting input with snprintf.  This, in turn, causes
-     // the output config data to be garbage. (On Windows, there is no 
-     // problem.)  
-  
-    // see if we're over, if we are write this line out and start
-    // the next one
-    if (strlen(lineBuf) + strlen(descr.getArg(i)) > 78)
+    // see if we're over linewrap, if so then write this line out and start
+    // the next line with the next word. Otherwise, continue appending words.
+    // TODO if this is the first line written we be writing an "empty" comment?
+    std::string nextword = descr.getArg(i);
+    if(alreadyWritten + line.length() + nextword.length() + 1 > linewrap)
     {
-      fprintf(file, "%s\n", lineBuf);
+      alreadyWritten = 0;
+      int r = fprintf(file, "%s\n", line.c_str());
+      if(r == -1)
+        return false;
 
-      strncpy(lineBuf, startComment, lineBufSize-1);
-      lineBufSize -= strlen(startComment);
-      strncat(lineBuf, " ", lineBufSize-1);
-      lineBufSize -= 1;
-      strncat(lineBuf, descr.getArg(i), lineBufSize - 1);
-      
-      //sprintf(lineBuf, "%s %s", lineBuf, descr.getArg(i));
+      line.assign(indent, ' '); // indent next comment to align with previous
+      line.append(startComment);
+      line += nextword;
     }
-    // if its not the end of the line toss this word in
-    else { 
-    
-      //sprintf(lineBuf, "%s %s", lineBuf, descr.getArg(i));
-      strncat(lineBuf, " ", lineBufSize-1);
-      lineBufSize -= 1;
-      strncat(lineBuf, descr.getArg(i), lineBufSize - 1);
+    else 
+    {
+      if(i != 0) line += " ";
+      line += nextword;
     }
   }
   // put the last line into the file
-  fprintf(file, "%s\n", lineBuf);
+  int r = fprintf(file, "%s\n", line.c_str());
+  if(r == -1)
+    return false;
 
   return true;
-
-} // end method writeMultiLineComment
+} 
 
 
 
