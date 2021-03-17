@@ -1,0 +1,19 @@
+language: c++
+dist: focal
+sudo: require
+addons:
+  apt:
+    packages:
+      - doxygen
+      - swig
+compiler:
+  - g++
+  - clang
+git:
+  depth: 1
+script:
+  - make
+  - make doc
+#  - make python
+#  - make java
+#  - make csharp
