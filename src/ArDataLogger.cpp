@@ -33,6 +33,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <map>
 #include <string>
 #include <algorithm>
+#include <cassert>
 
 /**
    @param robot the robot to log information from
@@ -923,10 +924,10 @@ AREXPORT void ArDataLogger::saveCopyAs(const char *name_s)
   else
   {
     filename = getOpenLogFileName();
-    char timesuffix[21];
+    char timesuffix[24];
     struct tm t;
     ArUtil::localtime(&t);
-    snprintf(timesuffix, 21, "-%4d-%02d-%02d-%02d-%02d:%02d", 
+    int r = snprintf(timesuffix, 23, "-%4d-%02d-%02d-%02d-%02d:%02d", 
       1900 + t.tm_year,
       t.tm_mon + 1,
       t.tm_mday,
@@ -934,6 +935,7 @@ AREXPORT void ArDataLogger::saveCopyAs(const char *name_s)
       t.tm_min,
       t.tm_sec
     );
+    assert(r < 23);
     size_t dotpos = filename.rfind(".");
     if(dotpos == filename.npos)
       filename.append(timesuffix);
@@ -948,7 +950,8 @@ AREXPORT void ArDataLogger::saveCopyAs(const char *name_s)
 #else
   const char *copycommand = "cp";
 #endif
-  snprintf(cmd, 512, "%s \"%s\" \"%s\"", copycommand, getOpenLogFileName(), filename.c_str());
+  int r = snprintf(cmd, 511, "%s \"%s\" \"%s\"", copycommand, getOpenLogFileName(), filename.c_str());
+  assert(r < 511);
   if(system(cmd) != 0)
     ArLog::log(ArLog::Terse, "ArDataLogger: Warning: Error copying log file \"%s\" to \"%s\" on system", getOpenLogFileName(), filename.c_str());
   myMutex.unlock();

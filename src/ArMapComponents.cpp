@@ -4312,7 +4312,14 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
   }
 
   // Read the first line of the file. This will be the keyword.
-  fgets(line, sizeof(line), file);
+  if(fgets(line, sizeof(line), file) == NULL)
+  {
+    if(errorBuffer)
+      snprintf(errorBuffer, errorBufferLen - 1, "Map invalid: %s: truncated before first line (required keyword section)", fileName);
+    myIsReadInProgress = false;
+    unlock();
+    return false;
+  }
   line[sizeof(line) - 1] = '\0';
   std::string firstLine = line;
 
@@ -4370,19 +4377,29 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
     fsetpos (file, &startPosition);
     // Read the first line of the file. This will be the keyword.
     fgets(line, sizeof(line), file);
-    line[sizeof(line) - 1] = '\0';
+    if(fgets(line, sizeof(line), file) == NULL)
+    {
+      if(errorBuffer)
+        snprintf(errorBuffer, errorBufferLen - 1, "Map invalid: %s: truncated before first line containing required keyword section", fileName);
+      isSuccess = false;
+    }
+    else
+    {
+
+      line[sizeof(line) - 1] = '\0';
 
 
-    // Restore the file position
-    fsetpos(file, &position);
+      // Restore the file position
+      fsetpos(file, &position);
 
 
-    std::string firstLine = line;
+      std::string firstLine = line;
 
-    // Strip the newline characters from the end of the first line.
-    size_t endPos = firstLine.find_last_not_of("\n\r");
-    if (endPos != std::string::npos) {
-      firstLine.erase(endPos + 1);
+      // Strip the newline characters from the end of the first line.
+      size_t endPos = firstLine.find_last_not_of("\n\r");
+      if (endPos != std::string::npos) {
+        firstLine.erase(endPos + 1);
+      }
     }
 
     // Determine whether the first line begins with the 2D-Map tag. If so,
