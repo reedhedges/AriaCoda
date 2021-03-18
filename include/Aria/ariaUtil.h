@@ -582,7 +582,8 @@ is a pointer to object to be deleted using the 'delete' operator.
 #endif // not ARIA_WRAPPER
 
   /** Return true if the value of @a f is not NaN and is not infinite (+/- INF) */
-  AREXPORT static bool floatIsNormal(double f);
+  [[deprecated("use std::isnormal()")]]
+  static bool floatIsNormal(double f) { return std::isnormal(f); }
 
   /** Convert seconds to milliseconds */
   static double secToMSec(const double sec) { return sec * 1000.0; }

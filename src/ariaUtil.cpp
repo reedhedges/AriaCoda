@@ -2392,6 +2392,7 @@ AREXPORT FILE *ArUtil::popen(const char *command, const char *type,
 }
 
 
+/*
 AREXPORT bool ArUtil::floatIsNormal(double f)
 {
 #ifdef WIN32
@@ -2400,6 +2401,7 @@ AREXPORT bool ArUtil::floatIsNormal(double f)
 	  return isnormal(f);
 #endif
 }
+*/
 
 AREXPORT int ArUtil::atoi(const char *str, bool *ok, bool forceHex) 
 {
