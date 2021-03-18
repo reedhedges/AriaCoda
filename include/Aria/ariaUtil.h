@@ -35,6 +35,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 // #define _XOPEN_SOURCE 500
 #include <list>
 #include <map>
+#include <cmath>
 #include <math.h>
 #include <stdarg.h>
 #include <stdlib.h>
