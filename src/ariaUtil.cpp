@@ -1108,20 +1108,27 @@ AREXPORT bool ArUtil::getStringFromFile(const char *fileName,
 					char *str, size_t strLen)
 {
   FILE *strFile;
-  unsigned int i;
-  
+
+  assert(strLen > 0);
+  assert(fileName != NULL);
+  assert(str != NULL);
+
   str[0] = '\0';
   
   if ((strFile = ArUtil::fopen(fileName, "r")) != NULL)
   {
-    fgets(str, strLen, strFile);
-    for (i = 0; i < strLen; i++)
+    if(fgets(str, strLen, strFile) == NULL)
+    {
+      str[0] = '\0';
+      return false;
+    }
+    for (unsigned int i = 0; i < strLen; i++)
     {
       if (str[i] == '\r' || str[i] == '\n' || str[i] == '\0')
       {
-	str[i] = '\0';
-	fclose(strFile);
-	break;
+        str[i] = '\0';
+        fclose(strFile);
+        break;
       }
     }
   }
@@ -2006,17 +2013,17 @@ AREXPORT bool ArUtil::getFileName(const char *fileName,
   }
 
   char *str;
-  size_t fileNameLen = strlen(fileName);
-  str = new char[fileNameLen + 1];
+  size_t fileNameLen = strlen(fileName) + 1;
+  str = new char[fileNameLen];
   //printf("0 %s\n", fileName);
   // just play in the result buffer
-  strncpy(str, fileName, fileNameLen);
+  strncpy(str, fileName, fileNameLen-1);
   // make sure its nulled
   str[fileNameLen] = '\0';
   //printf("1 %s\n", str);
 
   char *toPos;
-  ArUtil::fixSlashes(str, fileNameLen + 1);
+  ArUtil::fixSlashes(str, fileNameLen);
   //printf("2 %s\n", str);
   // see where the last directory is
   toPos = strrchr(str, separator);
@@ -2474,8 +2481,8 @@ AREXPORT void *ArThreadedCallbackList::runThread(void *)
 }
 
 
-
-
+// Device creation helpers.  Note: the logPrefix argument is for the creation/factory function to use if it logs anything, it is not 
+// passed to or set in the new device object. Since none of the factory helper functions ever uses it, it could probably be removed.
 
 ArGlobalRetFunctor2<ArLaser *, int, const char *> 
 ArLaserCreatorHelper::ourLMS2xxCB(&ArLaserCreatorHelper::createLMS2xx);
@@ -2501,7 +2508,7 @@ ArLaserCreatorHelper::ourTiM3XXCB(&ArLaserCreatorHelper::createTiM3XX);
 ArGlobalRetFunctor2<ArLaser *, int, const char *>
 ArLaserCreatorHelper::ourSZSeriesCB(&ArLaserCreatorHelper::createSZSeries);
 
-ArLaser *createAnyLMS1xx(int laserNumber, const char *logPrefix, const char *name, ArLMS1XX::LaserModel model)
+ArLaser *createAnyLMS1xx(int laserNumber, [[maybe_unused]] const char *logPrefix, const char *name, ArLMS1XX::LaserModel model)
 {
 	return new ArLMS1XX(laserNumber, name, model);
 }
@@ -2542,7 +2549,7 @@ ArSonarMTXCreatorHelper::ourSonarMTXCB(&ArSonarMTXCreatorHelper::createSonarMTX)
 
 
 ArLaser *ArLaserCreatorHelper::createLMS2xx(int laserNumber, 
-					    const char *logPrefix)
+					    [[maybe_unused]] const char *logPrefix)
 {
   return new ArLMS2xx(laserNumber);
 }
@@ -2552,7 +2559,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS2
   return &ourLMS2xxCB;
 }
 
-ArLaser *ArLaserCreatorHelper::createUrg(int laserNumber, const char *logPrefix)
+ArLaser *ArLaserCreatorHelper::createUrg(int laserNumber, [[maybe_unused]] const char *logPrefix)
 {
   return new ArUrg(laserNumber);
 }
@@ -2563,7 +2570,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrgC
   return &ourUrgCB;
 }
 
-ArLaser *ArLaserCreatorHelper::createLMS1XX(int laserNumber, const char *logPrefix)
+ArLaser *ArLaserCreatorHelper::createLMS1XX(int laserNumber, [[maybe_unused]] const char *logPrefix)
 {
 	return new ArLMS1XX(laserNumber, "lms1xx", ArLMS1XX::LMS1XX);
 }
@@ -2574,7 +2581,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS1
 }
 
 ArLaser *ArLaserCreatorHelper::createS3Series(int laserNumber, 
-					    const char *logPrefix)
+					    [[maybe_unused]] const char *logPrefix)
 {
   return new ArS3Series(laserNumber);
 }
@@ -2586,7 +2593,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateS3Se
 
 
 ArLaser *ArLaserCreatorHelper::createUrg_2_0(int laserNumber, 
-					     const char *logPrefix)
+					     [[maybe_unused]] const char *logPrefix)
 {
   return new ArUrg_2_0(laserNumber);
 }
@@ -2598,7 +2605,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrg_
 }
 
 ArLaser *ArLaserCreatorHelper::createLMS5XX(int laserNumber,
-		const char *logPrefix)
+		[[maybe_unused]] const char *logPrefix)
 {
 
 	// PS 8/22/11 - added "lms5xx" and flag specifying laser is an lms5xx
@@ -2611,7 +2618,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS5
 }
 
 ArLaser *ArLaserCreatorHelper::createTiM3XX(int laserNumber,
-		const char *logPrefix)
+		[[maybe_unused]] const char *logPrefix)
 {
 
 	// PS 8/22/11 - added "lms5xx" and flag specifying laser is an lms5xx
@@ -2625,7 +2632,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateTiM3
 
 
 ArLaser *ArLaserCreatorHelper::createSZSeries(int laserNumber,
-					    const char *logPrefix)
+					    [[maybe_unused]] const char *logPrefix)
 {
   return new ArSZSeries(laserNumber);
 }
@@ -2636,7 +2643,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateSZSe
 }
 
 ArBatteryMTX *ArBatteryMTXCreatorHelper::createBatteryMTX(int batteryNumber,
-					    const char *logPrefix)
+					   [[maybe_unused]]  const char *logPrefix)
 {
   return new ArBatteryMTX(batteryNumber);
 }
@@ -2647,7 +2654,7 @@ ArRetFunctor2<ArBatteryMTX *, int, const char *> *ArBatteryMTXCreatorHelper::get
 }
 
 ArLCDMTX *ArLCDMTXCreatorHelper::createLCDMTX(int lcdNumber,
-					    const char *logPrefix)
+					    [[maybe_unused]] const char *logPrefix)
 {
   return new ArLCDMTX(lcdNumber);
 }
@@ -2658,7 +2665,7 @@ ArRetFunctor2<ArLCDMTX *, int, const char *> *ArLCDMTXCreatorHelper::getCreateLC
 }
 
 ArSonarMTX *ArSonarMTXCreatorHelper::createSonarMTX(int sonarNumber,
-					    const char *logPrefix)
+					    [[maybe_unused]] const char *logPrefix)
 {
   return new ArSonarMTX(sonarNumber);
 }
