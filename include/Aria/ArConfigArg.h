@@ -545,6 +545,7 @@ public:
                               bool *changed = NULL);
 
   /// Writes this arg to the given file, in a format suitable for reading by parseArgument.
+  /// TODO rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT bool writeArguments(FILE *file,
                                char *lineBuf,
                                int lineBufSize,
@@ -554,14 +555,19 @@ public:
                                int indentLevel = 0) const;
 
   /// Writes the name of this arg to the given buffer, indenting as specified.
+  /// TODO rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
+
   AREXPORT bool writeName(char *lineBuf,
                           int lineBufSize,
                           int indentLevel) const;
 
-  /// Writes the min/max values of this arg to the given buffer, as applicable.
-  AREXPORT bool writeBounds(char *line,
-                            size_t lineLen,
-                            const char *logPrefix = "") const;
+/*   [[deprecated("use getBoundsDescr()")]]
+   AREXPORT bool writeBounds(char *line, size_t linelen, const char *logprefix) const;
+ */
+
+  /// Return a description of the the min/max values of this arg if applicable, otherwise empty string. Can be used as a comment in a config/parameter file.
+  AREXPORT std::string getBoundsDescr() const;
+
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Sockets
@@ -660,6 +666,7 @@ public:
                                             size_t bufLen);
 
   /// Writes this arg to the given file, in a format suitable for reading by parseResource.
+  /// TODO maybe rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT bool writeResource(FILE *file,
                          char *lineBuf,
                          int lineBufSize,
@@ -669,6 +676,7 @@ public:
  
 
   /// Writes column labels and edit info to the given resource file, returns number of lines written
+  /// TODO maybe rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT static int writeResourceHeader(FILE *file,
                                           char *lineBuf,
                                           int lineBufSize,
@@ -677,6 +685,7 @@ public:
                                           const char *logPrefix = "");
   
   /// Writes the section description to the resource file.
+  /// TODO maybe rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT static int writeResourceSectionHeader(FILE *file,
                                                  char *lineBuf,
                                                  int lineBufSize,

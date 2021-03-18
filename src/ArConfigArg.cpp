@@ -2102,7 +2102,7 @@ AREXPORT std::list<std::string> ArConfigArg::splitParentPathName(const char *par
                              separator);
   builder.add(parentPathName);
 
-  for (int c = 0; c < builder.getArgc(); c++) {
+  for (size_t c = 0; c < builder.getArgc(); c++) {
     IFDEBUG(ArLog::log(ArLog::Normal,
                        "ArConfigArg::splitParentPathName() %s - adding %s to list",
                        parentPathName, builder.getArg(c)));
@@ -2201,7 +2201,7 @@ AREXPORT bool ArConfigArg::parseArgument(
 {
   if ((arg == NULL) || 
       (logPrefix == NULL) ||  
-      ( (errorBuffer != NULL) && (errorBufferLen < 0) )) {
+      ( (errorBuffer != NULL)  )) {
     ArLog::log(ArLog::Normal,
       "ArConfigArg::parseArgument() invalid input");
     return false;
@@ -2794,13 +2794,18 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
 
   // KMC I think that this might be an issue.  If the comment
   // should appear right after the bounds.  Otherwise, 
-  writeBounds(lineBuf, lineBufSize, logPrefix);
+  //writeBounds(lineBuf, lineBufSize, logPrefix);
+
+  std::string comment = getBoundsDescr();
+  if(!comment.empty())
+    comment += ", ";
+  comment += getDescription();
 
   
   // if we have a description to put in, put it in with word wrap
-  if (!ArUtil::isStrEmpty(getDescription()))
+  if (!comment.empty())
   {
-    writeMultiLineComment(getDescription(), file, "; ", 80, strlen(lineBuf), 25);
+    writeMultiLineComment(comment, file, "; ", 80, strlen(lineBuf), strlen(lineBuf) > 0 ? 25 : 0);
     /*
     writeMultiLineComment(getDescription(),
                           file,
@@ -3324,7 +3329,7 @@ AREXPORT bool ArConfigArg::writeValue(ArSocket *socket,
     snprintf(introBuf, introBufLength, 
              "%s    ", intro);
 
-    for (int c = 0; c < getArgCount(); c++) {
+    for (size_t c = 0; c < getArgCount(); c++) {
       const ArConfigArg *child = getArg(c);
       if (child == NULL) {
         continue;
@@ -3458,7 +3463,7 @@ AREXPORT bool ArConfigArg::writeInfo(ArSocket *socket,
     snprintf(introBuf, introBufLength, 
              "%s    ", intro);
 
-    for (int c = 0; c < getArgCount(); c++) {
+    for (size_t c = 0; c < getArgCount(); c++) {
       const ArConfigArg *child = getArg(c);
       if (child == NULL) {
         continue;
@@ -4075,7 +4080,7 @@ AREXPORT bool ArConfigArg::writeMultiLineComment(const std::string& comment,
   std::string line;
 
   // indent start of comment to indent level
-  if(alreadyWritten >= indent)
+  if(alreadyWritten >= indent && alreadyWritten != 0)
     line = " ";
   else if(indent < linewrap)
     line.assign(indent - alreadyWritten, ' ');
@@ -4115,7 +4120,7 @@ AREXPORT bool ArConfigArg::writeMultiLineComment(const std::string& comment,
 
 
 
-/**
+/*  
  * @param line a char array to be used as a temporary write buffer,
  * must be non-NULL
  * @param lineLen the int number of chars in line, must be positive
@@ -4123,7 +4128,8 @@ AREXPORT bool ArConfigArg::writeMultiLineComment(const std::string& comment,
  * non-NULL
  * @return bool true if the values were successfully written; false if an 
  * error occurred
-**/
+** /
+[[deprecated]]
 AREXPORT bool ArConfigArg::writeBounds(char *line,
                                        size_t lineLen,
                                        const char *logPrefix) const
@@ -4216,7 +4222,64 @@ AREXPORT bool ArConfigArg::writeBounds(char *line,
 
    return true;
 
-} // end method writeBounds
+} // end method writeBounds */
+
+
+
+AREXPORT std::string ArConfigArg::getBoundsDescr() const
+{
+  const size_t tmpsize = 40;
+  char tmp[tmpsize]; // TODO someday use std::format
+  switch (getType())
+  {
+    case INT:
+    {
+      if (hasMinBound())
+      {
+        if (hasMaxBound())
+        {
+          snprintf(tmp, tmpsize-1, "range [%d, %d]", getMinInt(), getMaxInt());
+          return tmp;
+        }
+        else
+        { // no max, just write min
+          snprintf(tmp, tmpsize-1, "minimum %d", getMinInt());
+          return tmp;
+        }
+      }
+      else if (hasMaxBound())
+      {  // no min, just write max
+        snprintf(tmp, tmpsize-1, "maximum %d", getMaxInt());
+        return tmp;
+      }
+      return "";
+    }
+    case DOUBLE:
+    {
+      if (hasMinBound()) { 
+        if (hasMaxBound()) {
+          snprintf(tmp, tmpsize-1, "range [%g, %g]", getMinDouble(), getMaxDouble());
+          return tmp;
+        }
+        else {
+          snprintf(tmp, tmpsize-1, "minimum %g",  getMinDouble());
+          return tmp;
+        }
+      }
+      else if (hasMaxBound()) {
+        snprintf(tmp, tmpsize-1, "maximum %g", getMaxDouble());
+        return tmp;
+       }
+       return "";
+    }
+    default:
+      // No other types currently have bounds
+      return "";
+   }
+
+   return "";
+}
+
 
 
 AREXPORT void ArConfigArg::log(bool verbose, 
