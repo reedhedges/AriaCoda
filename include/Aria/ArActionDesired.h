@@ -26,6 +26,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ariaUtil.h"
+#include <cmath>
 
 /// Class used by ArActionDesired for each channel, internal
 class ArActionDesiredChannel
@@ -72,10 +73,10 @@ public:
 	    desiredChannel->getStrength() >= MIN_STRENGTH)
 	{
 	  if (myOverrideDoesLessThan)
-	    myDesired = ArUtil::findMin(myDesired, 
+	    myDesired = std::min(myDesired, 
 					desiredChannel->getDesired());
 	  else if (!myOverrideDoesLessThan)
-	    myDesired = ArUtil::findMax(myDesired, 
+	    myDesired = std::max(myDesired, 
 					desiredChannel->getDesired());
 	}
 	// if only it has strength use it
@@ -108,10 +109,10 @@ public:
 	    desiredChannel->getStrength() >= MIN_STRENGTH)
 	{
 	  if (myOverrideDoesLessThan)
-	    myDesired = ArUtil::findMin(myDesired, 
+	    myDesired = std::min(myDesired, 
 					desiredChannel->getDesired());
 	  else if (!myOverrideDoesLessThan)
-	    myDesired = ArUtil::findMax(myDesired, 
+	    myDesired = std::max(myDesired, 
 					desiredChannel->getDesired());
 	}
 	// if only it has strength use it
