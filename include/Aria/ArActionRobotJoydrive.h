@@ -19,10 +19,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
      along with this program; if not, write to the Free Software
      Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-If you wish to redistribute ARIA under different terms, contact 
-Adept MobileRobots for information about a commercial version of ARIA at 
-robots@mobilerobots.com or 
-Adept MobileRobots, 10 Columbia Drive, Amherst, NH 03031; +1-603-881-7960
+
 */
 #ifndef ARACTIONROBOTJOYDRIVE_H
 #define ARACTIONROBOTJOYDRIVE_H
