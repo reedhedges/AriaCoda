@@ -972,11 +972,11 @@ public:
       @param y the position to set the y position to
       @param th the position to set the th position to, default of 0
   */
-  virtual void setPose(double x, double y, double th = 0) 
+  /* virtual */ void setPose(double x, double y, double th = 0) 
     { setX(x); setY(y); setTh(th); }
   /// Sets the position equal to the given position
   /** @param position the position value this instance should be set to */
-  virtual void setPose(ArPose position)
+  /* virtual */ void setPose(ArPose position)
     {
       setX(position.getX());
       setY(position.getY());
@@ -1023,7 +1023,7 @@ public:
      @param position the position to find the distance to
      @return the distance to the position from this instance
   */
-  virtual double findDistanceTo(ArPose position) const
+  /* virtual */ double findDistanceTo(ArPose position) const
     {
       return ArMath::distanceBetween(getX(), getY(), 
 				     position.getX(), 
@@ -1038,7 +1038,7 @@ public:
      @param position the position to find the distance to
      @return the distance to the position from this instance 
   **/
-  virtual double squaredFindDistanceTo(ArPose position) const
+  /* virtual */ double squaredFindDistanceTo(ArPose position) const
     {
       return ArMath::squaredDistanceBetween(getX(), getY(), 
 					    position.getX(), 
@@ -1049,17 +1049,17 @@ public:
       @param position the position to find the angle to
       @return the angle to the given position from this instance, in degrees
   */
-  virtual double findAngleTo(ArPose position) const
+  /* virtual */ double findAngleTo(ArPose position) const
     {
       return ArMath::radToDeg(atan2(position.getY() - getY(),
 				                            position.getX() - getX()));
     }
   /// Logs the coordinates using ArLog
-  virtual void log() const
+  /* virtual */ void log() const
     { ArLog::log(ArLog::Terse, "%.0f %.0f %.1f", myX, myY, myTh); }
 
   /// Add the other pose's X, Y and theta to this pose's X, Y, and theta (sum in theta will be normalized to (-180,180)), and return the result
-  virtual ArPose operator+(const ArPose& other) const
+  /* virtual */ ArPose operator+(const ArPose& other) const
   {
     return ArPose( myX + other.getX(), 
                    myY + other.getY(), 
@@ -1068,7 +1068,7 @@ public:
 
   /// Substract the other pose's X, Y, and theta from this pose's X, Y, and theta (difference in theta will be normalized to (-180,180)), and return the result
 
-  virtual ArPose operator-(const ArPose& other) const
+  /* virtual */ ArPose operator-(const ArPose& other) const
   {
     return ArPose( myX - other.getX(), 
                    myY - other.getY(), 
@@ -1098,14 +1098,14 @@ public:
   }
 
   /// Equality operator (for sets)
-  virtual bool operator==(const ArPose& other) const
+  /* virtual */ bool operator==(const ArPose& other) const
   {
     return ((fabs(myX - other.myX) < ArMath::epsilon()) &&
             (fabs(myY - other.myY) < ArMath::epsilon()) &&
             (fabs(myTh - other.myTh) < ArMath::epsilon()));
   }
 
-  virtual bool operator!=(const ArPose& other) const
+  /* virtual */ bool operator!=(const ArPose& other) const
   {
     return ((fabs(myX - other.myX) > ArMath::epsilon()) ||
             (fabs(myY - other.myY) > ArMath::epsilon()) ||
@@ -1113,7 +1113,7 @@ public:
   }
 
   /// Less than operator (for sets)
-  virtual bool operator<(const ArPose& other) const
+  /* virtual */ bool operator<(const ArPose& other) const
   {
 
     if (fabs(myX - other.myX) > ArMath::epsilon()) {
