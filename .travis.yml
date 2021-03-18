@@ -10,7 +10,7 @@ jobs:
       os: linux
       dist: xenial
       # virt: lxd
-      env: EXTRA_CXXFLAGS="-DARIA_OMIT_DEPRECATED_MATH_FUNCS -DLINUX_GETTID_USE_SYSCALL"
+      env: EXTRA_CXXFLAGS="-DARIA_OMIT_DEPRECATED_MATH_FUNCS"
     - name: MacOSX
       os: osx
 #    - name: Linux (Ubuntu Bionic on arm64)
