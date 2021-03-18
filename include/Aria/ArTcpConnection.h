@@ -40,6 +40,7 @@ class ArTcpConnection: public ArDeviceConnection
   /// Destructor also closes connection
   AREXPORT virtual ~ArTcpConnection();
 
+    // XXX add or delete copy/move constructors/operators
 
   /// Opens a connection to the given host and port
   AREXPORT int open(const char * host = NULL, int port = 8101);

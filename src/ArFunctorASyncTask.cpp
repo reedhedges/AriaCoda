@@ -31,12 +31,7 @@ AREXPORT ArFunctorASyncTask::ArFunctorASyncTask(ArRetFunctor1<void *, void *> *f
   myFunc = functor;
 }
 
-AREXPORT ArFunctorASyncTask::~ArFunctorASyncTask()
-{
-
-}
-
-AREXPORT void *ArFunctorASyncTask::runThread(void *arg)
+AREXPORT void *ArFunctorASyncTask::runThread(void* arg)
 {
   threadStarted();
   void *ret = myFunc->invokeR(arg);

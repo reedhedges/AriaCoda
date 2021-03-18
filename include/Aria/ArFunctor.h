@@ -111,23 +111,28 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
   @see @ref functorExample.cpp
 
+  @todo Missing move constructors/assignments and copy constructors. These would be a pain to add to all variations of ArFunctor. ArFunctor will eventually be deprecated and replaced with more generic and standards based function objects.
+
   @ingroup ImportantClasses
 **/
 class ArFunctor
 {
 public:
 
-  /// Destructor
-  virtual ~ArFunctor() {}
+  
+   ArFunctor() = default;
 
-  /// Invokes the functor
-  virtual void invoke() = 0;
+   /// Destructor
+   virtual ~ArFunctor() = default;
+  
+   /// Invokes the functor
+   virtual void invoke() = 0;
 
-  /// Gets the name of the functor
-  virtual const char *getName() { return myName.c_str();  }
+   /// Gets the name of the functor
+   virtual const char *getName() { return myName.c_str(); }
 
-  /// Sets the name of the functor
-  virtual void setName(const char *name) { myName = name; }
+   /// Sets the name of the functor
+   virtual void setName(const char *name) { myName = name; }
 
 #ifndef SWIG
   /// Sets the name of the functor with formatting
@@ -163,7 +168,7 @@ class ArFunctor1 : public ArFunctor
 public:
 
   /// Destructor
-  virtual ~ArFunctor1() {}
+  virtual ~ArFunctor1()  = default;
 
   /// Invokes the functor
   virtual void invoke() = 0;
@@ -190,7 +195,7 @@ class ArFunctor2 : public ArFunctor1<P1>
 public:
 
   /// Destructor
-  virtual ~ArFunctor2() {}
+  virtual ~ArFunctor2()  = default;
 
   /// Invokes the functor
   virtual void invoke() = 0;
@@ -224,7 +229,7 @@ class ArFunctor3 : public ArFunctor2<P1, P2>
 public:
 
   /// Destructor
-  virtual ~ArFunctor3() {}
+  virtual ~ArFunctor3()  = default;
 
   /// Invokes the functor
   virtual void invoke() = 0;
@@ -268,7 +273,7 @@ class ArFunctor4 : public ArFunctor3<P1, P2, P3>
 public:
 
   /// Destructor
-  virtual ~ArFunctor4() {}
+  virtual ~ArFunctor4()  = default;
 
   /// Invokes the functor
   virtual void invoke() = 0;
@@ -321,7 +326,7 @@ class ArFunctor5 : public ArFunctor4<P1, P2, P3, P4>
 public:
 
   /// Destructor
-  virtual ~ArFunctor5() {}
+  virtual ~ArFunctor5()  = default;
 
   /// Invokes the functor
   virtual void invoke() = 0;
@@ -390,13 +395,13 @@ class ArRetFunctor : public ArFunctor
 public:
 
   /// Destructor
-  virtual ~ArRetFunctor() {}
+  virtual ~ArRetFunctor()  = default;
 
   /// Invokes the functor
   virtual void invoke() {invokeR();}
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() = 0;
+  [[nodiscard]] virtual Ret invokeR() = 0;
 };
 
 /// Base class for functors with a return value with 1 parameter
@@ -415,16 +420,16 @@ class ArRetFunctor1 : public ArRetFunctor<Ret>
 public:
 
   /// Destructor
-  virtual ~ArRetFunctor1() {}
+  virtual ~ArRetFunctor1()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() = 0;
+  [[nodiscard]] virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1) = 0;
 };
 
 /// Base class for functors with a return value with 2 parameters
@@ -443,23 +448,23 @@ class ArRetFunctor2 : public ArRetFunctor1<Ret, P1>
 public:
 
   /// Destructor
-  virtual ~ArRetFunctor2() {}
+  virtual ~ArRetFunctor2()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() = 0;
+  [[nodiscard]] virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1) = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) = 0;
 };
 
 /// Base class for functors with a return value with 3 parameters
@@ -478,23 +483,23 @@ class ArRetFunctor3 : public ArRetFunctor2<Ret, P1, P2>
 public:
 
   /// Destructor
-  virtual ~ArRetFunctor3() {}
+  virtual ~ArRetFunctor3()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() = 0;
+  [[nodiscard]] virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1) = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) = 0;
 
   /// Invokes the functor with return value
   /**
@@ -502,7 +507,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
 };
 
 
@@ -522,23 +527,23 @@ class ArRetFunctor4 : public ArRetFunctor3<Ret, P1, P2, P3>
 public:
 
   /// Destructor
-  virtual ~ArRetFunctor4() {}
+  virtual ~ArRetFunctor4()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() = 0;
+  [[nodiscard]] virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1) = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) = 0;
 
   /// Invokes the functor with return value
   /**
@@ -546,7 +551,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
 
   /// Invokes the functor with return value
   /**
@@ -555,7 +560,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
 };
 
 /// Base class for functors with a return value with 5 parameters
@@ -574,23 +579,23 @@ class ArRetFunctor5 : public ArRetFunctor4<Ret, P1, P2, P3, P4>
 public:
 
   /// Destructor
-  virtual ~ArRetFunctor5() {}
+  virtual ~ArRetFunctor5()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() = 0;
+  [[nodiscard]] virtual Ret invokeR() = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1) = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) = 0;
 
   /// Invokes the functor with return value
   /**
@@ -598,7 +603,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
 
   /// Invokes the functor with return value
   /**
@@ -607,7 +612,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
 
   /// Invokes the functor with return value
   /**
@@ -617,7 +622,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) = 0;
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) = 0;
 };
 
 
@@ -656,14 +661,14 @@ class ArGlobalFunctor : public ArFunctor
 public:
 
   /// Constructor
-  ArGlobalFunctor() {}
+  //ArGlobalFunctor() = default;
   /// Constructor - supply function pointer
   /**
      @param func global function pointer
   */
   ArGlobalFunctor(void (*func)()) : myFunc(func) {}
   /// Destructor
-  virtual ~ArGlobalFunctor() {}
+  virtual ~ArGlobalFunctor()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(*myFunc)();}
@@ -687,7 +692,7 @@ class ArGlobalFunctor1 : public ArFunctor1<P1>
 public:
 
   /// Constructor
-  ArGlobalFunctor1() {}
+  //ArGlobalFunctor1() = default;
   /// Constructor - supply function pointer
   /**
      @param func global function pointer
@@ -703,7 +708,7 @@ public:
     myFunc(func), myP1(p1) {}
 
   /// Destructor
-  virtual ~ArGlobalFunctor1() {}
+  virtual ~ArGlobalFunctor1()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(*myFunc)(myP1);}
@@ -735,7 +740,7 @@ public:
   ArGlobalFunctor1Const() {}
   ArGlobalFunctor1Const(void (*func)(P1)) :
     myFunc(func) {}
-  virtual ~ArGlobalFunctor1Const() {}
+  virtual ~ArGlobalFunctor1Const()  = default;
   virtual void invoke(P1 p1) {(*myFunc)(p1);}
 protected:
   void (*myFunc)(P1);
@@ -757,7 +762,7 @@ class ArGlobalFunctor2 : public ArFunctor2<P1, P2>
 public:
 
   /// Constructor
-  ArGlobalFunctor2() {}
+  //ArGlobalFunctor2() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -784,7 +789,7 @@ public:
     myFunc(func), myP1(p1), myP2(p2) {}
 
   /// Destructor
-  virtual ~ArGlobalFunctor2() {}
+  virtual ~ArGlobalFunctor2()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(*myFunc)(myP1, myP2);}
@@ -836,7 +841,7 @@ class ArGlobalFunctor3 : public ArFunctor3<P1, P2, P3>
 public:
 
   /// Constructor
-  ArGlobalFunctor3() {}
+  //ArGlobalFunctor3() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -873,7 +878,7 @@ public:
     myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Destructor
-  virtual ~ArGlobalFunctor3() {}
+  virtual ~ArGlobalFunctor3()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(*myFunc)(myP1, myP2, myP3);}
@@ -942,41 +947,37 @@ class ArGlobalFunctor4 : public ArFunctor4<P1, P2, P3, P4>
 public:
 
   /// Constructor
-  ArGlobalFunctor4() {}
+   ArGlobalFunctor4() = default;
 
-  /// Constructor - supply function pointer
-  /**
+   /// Constructor - supply function pointer
+   /**
      @param func global function pointer
   */
-  ArGlobalFunctor4(void (*func)(P1, P2, P3, P4)) :
-    myFunc(func), myP1(), myP2(), myP3(), myP4() {}
+   ArGlobalFunctor4(void (*func)(P1, P2, P3, P4)) : myFunc(func), myP1(), myP2(), myP3(), myP4() {}
 
-  /// Constructor - supply function pointer, default parameters
-  /**
+   /// Constructor - supply function pointer, default parameters
+   /**
      @param func global function pointer
      @param p1 default first parameter
   */
-  ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1) :
-    myFunc(func), myP1(p1), myP2(), myP3(), myP4() {}
+   ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1) : myFunc(func), myP1(p1), myP2(), myP3(), myP4() {}
 
-  /// Constructor - supply function pointer, default parameters
-  /**
+   /// Constructor - supply function pointer, default parameters
+   /**
      @param func global function pointer
      @param p1 default first parameter
      @param p2 default second parameter
   */
-  ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2) :
-    myFunc(func), myP1(p1), myP2(p2), myP3(), myP4() {}
+   ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2) : myFunc(func), myP1(p1), myP2(p2), myP3(), myP4() {}
 
-  /// Constructor - supply function pointer, default parameters
-  /**
+   /// Constructor - supply function pointer, default parameters
+   /**
      @param func global function pointer
      @param p1 default first parameter
      @param p2 default second parameter
      @param p3 default third parameter
   */
-  ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3) :
-    myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4() {}
+   ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3) : myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4() {}
 
    /// Constructor - supply function pointer, default parameters
   /**
@@ -990,7 +991,7 @@ public:
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
   /// Destructor
-  virtual ~ArGlobalFunctor4() {}
+  virtual ~ArGlobalFunctor4()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(*myFunc)(myP1, myP2, myP3, myP4);}
@@ -1074,7 +1075,7 @@ class ArGlobalFunctor5 : public ArFunctor5<P1, P2, P3, P4, P5>
 public:
 
   /// Constructor
-  ArGlobalFunctor5() {}
+  ArGlobalFunctor5() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -1134,7 +1135,7 @@ public:
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
   /// Destructor
-  virtual ~ArGlobalFunctor5() {}
+  virtual ~ArGlobalFunctor5()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
@@ -1256,7 +1257,7 @@ class ArGlobalRetFunctor : public ArRetFunctor<Ret>
 public:
 
   /// Constructor
-  ArGlobalRetFunctor() {}
+  ArGlobalRetFunctor() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -1265,10 +1266,10 @@ public:
   ArGlobalRetFunctor(Ret (*func)()) : myFunc(func) {}
 
   /// Destructor
-  virtual ~ArGlobalRetFunctor() {}
+  virtual ~ArGlobalRetFunctor()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (*myFunc)();}
+  [[nodiscard]] virtual Ret invokeR() {return (*myFunc)();}
 
 protected:
 
@@ -1291,7 +1292,7 @@ class ArGlobalRetFunctor1 : public ArRetFunctor1<Ret, P1>
 public:
 
   /// Constructor
-  ArGlobalRetFunctor1() {}
+  ArGlobalRetFunctor1() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -1309,16 +1310,16 @@ public:
     myFunc(func), myP1(p1) {}
 
   /// Destructor
-  virtual ~ArGlobalRetFunctor1() {}
+  virtual ~ArGlobalRetFunctor1()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (*myFunc)(myP1);}
+  [[nodiscard]] virtual Ret invokeR() {return (*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (*myFunc)(p1);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (*myFunc)(p1);}
 
   /// Set the default parameter
   /**
@@ -1347,7 +1348,7 @@ class ArGlobalRetFunctor2 : public ArRetFunctor2<Ret, P1, P2>
 public:
 
   /// Constructor
-  ArGlobalRetFunctor2() {}
+  ArGlobalRetFunctor2() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -1374,23 +1375,23 @@ public:
     myFunc(func), myP1(p1), myP2(p2) {}
 
   /// Destructor
-  virtual ~ArGlobalRetFunctor2() {}
+  virtual ~ArGlobalRetFunctor2()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (*myFunc)(myP1, myP2);}
+  [[nodiscard]] virtual Ret invokeR() {return (*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2);}
 
   /// Set the default parameter
   /**
@@ -1426,7 +1427,7 @@ class ArGlobalRetFunctor3 : public ArRetFunctor3<Ret, P1, P2, P3>
 public:
 
   /// Constructor
-  ArGlobalRetFunctor3() {}
+  ArGlobalRetFunctor3() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -1463,23 +1464,23 @@ public:
     myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Destructor
-  virtual ~ArGlobalRetFunctor3() {}
+  virtual ~ArGlobalRetFunctor3()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3);}
+  [[nodiscard]] virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -1487,7 +1488,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3);}
 
   /// Set the default parameter
   /**
@@ -1534,7 +1535,7 @@ class ArGlobalRetFunctor4 : public ArRetFunctor4<Ret, P1, P2, P3, P4>
 public:
 
   /// Constructor
-  ArGlobalRetFunctor4() {}
+  ArGlobalRetFunctor4() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -1582,23 +1583,23 @@ public:
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
   /// Destructor
-  virtual ~ArGlobalRetFunctor4() {}
+  virtual ~ArGlobalRetFunctor4()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -1606,7 +1607,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3, myP4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -1615,7 +1616,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) {return (*myFunc)(p1, p2, p3, p4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) {return (*myFunc)(p1, p2, p3, p4);}
 
   /// Set the default parameter
   /**
@@ -1667,7 +1668,7 @@ class ArGlobalRetFunctor5 : public ArRetFunctor5<Ret, P1, P2, P3, P4, P5>
 public:
 
   /// Constructor
-  ArGlobalRetFunctor5() {}
+  ArGlobalRetFunctor5() = default;
 
   /// Constructor - supply function pointer
   /**
@@ -1726,23 +1727,23 @@ public:
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
   /// Destructor
-  virtual ~ArGlobalRetFunctor5() {}
+  virtual ~ArGlobalRetFunctor5()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -1750,7 +1751,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -1759,7 +1760,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) {return (*myFunc)(p1, p2, p3, p4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) {return (*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -1769,7 +1770,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {return (*myFunc)(p1, p2, p3, p4, p5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {return (*myFunc)(p1, p2, p3, p4, p5);}
 
   /// Set the default parameter
   /**
@@ -1863,7 +1864,18 @@ public:
   ArFunctorC(T *obj, void (T::*func)()) : myObj(obj), myFunc(func) {}
 
   /// Destructor
-  virtual ~ArFunctorC() {}
+  virtual ~ArFunctorC()  = default;
+
+  /// Copy
+  ArFunctorC(const ArFunctorC<T> &rhs) = default;
+
+  /// Assignment
+  ArFunctorC& operator=(const ArFunctorC<T> &rhs) = default;
+  ArFunctorC &operator=(ArFunctorC<T> &&other) = default;
+
+  /// Move
+  ArFunctorC(ArFunctorC<T> &&other) = default;
+
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)();}
@@ -1939,7 +1951,7 @@ public:
     myObj(obj), myFunc(func), myP1(p1) {}
 
   /// Destructor
-  virtual ~ArFunctor1C() {}
+  virtual ~ArFunctor1C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1);}
@@ -1996,7 +2008,7 @@ public:
     myObj(&obj), myFunc(func) {}
   ArFunctor1CConst(T *obj, void (T::*func)(P1)) :
     myObj(obj), myFunc(func) {}
-  virtual ~ArFunctor1CConst() {}
+  virtual ~ArFunctor1CConst()  = default;
   virtual void invoke(P1 p1) {(myObj->*myFunc)(p1);}
   virtual void setThis(T *obj) {myObj=obj;}
   virtual void setThis(T &obj) {myObj=&obj;}
@@ -2080,7 +2092,7 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2) {}
 
   /// Destructor
-  virtual ~ArFunctor2C() {}
+  virtual ~ArFunctor2C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2);}
@@ -2224,7 +2236,7 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Destructor
-  virtual ~ArFunctor3C() {}
+  virtual ~ArFunctor3C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3);}
@@ -2410,7 +2422,7 @@ public:
 
 	
   /// Destructor
-  virtual ~ArFunctor4C() {}
+  virtual ~ArFunctor4C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
@@ -2638,7 +2650,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
 
 	
   /// Destructor
-  virtual ~ArFunctor5C() {}
+  virtual ~ArFunctor5C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
@@ -2790,10 +2802,10 @@ public:
   ArRetFunctorC(T *obj, Ret (T::*func)()) : myObj(obj), myFunc(func) {}
 
   /// Destructor - supply function pointer
-  virtual ~ArRetFunctorC() {}
+  virtual ~ArRetFunctorC()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)();}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -2866,16 +2878,16 @@ public:
     myObj(obj), myFunc(func), myP1(p1) {}
 
   /// Destructor
-  virtual ~ArRetFunctor1C() {}
+  virtual ~ArRetFunctor1C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1);}
 
   /// Set the 'this' pointer
   /**
@@ -2975,23 +2987,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2) {}
 
   /// Destructor
-  virtual ~ArRetFunctor2C() {}
+  virtual ~ArRetFunctor2C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2);}
 
   /// Set the 'this' pointer
   /**
@@ -3120,23 +3132,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Destructor
-  virtual ~ArRetFunctor3C() {}
+  virtual ~ArRetFunctor3C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -3144,7 +3156,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
     {return (myObj->*myFunc)(p1, p2, p3);}
 
   /// Set the 'this' pointer
@@ -3315,23 +3327,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
   /// Destructor
-  virtual ~ArRetFunctor4C() {}
+  virtual ~ArRetFunctor4C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -3339,7 +3351,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
     {return (myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor with return value
@@ -3349,7 +3361,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
     {return (myObj->*myFunc)(p1, p2, p3, p4);}
 
 
@@ -3550,23 +3562,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
   /// Destructor
-  virtual ~ArRetFunctor5C() {}
+  virtual ~ArRetFunctor5C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -3574,7 +3586,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
     {return (myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor with return value
@@ -3584,7 +3596,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
     {return (myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the functor with return value
@@ -3595,7 +3607,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) 
     {return (myObj->*myFunc)(p1, p2, p3, p4, p5);}
 
 
@@ -3705,7 +3717,7 @@ public:
   ArConstFunctorC(T *obj, void (T::*func)() const) : myObj(obj), myFunc(func) {}
 
   /// Destructor
-  virtual ~ArConstFunctorC() {}
+  virtual ~ArConstFunctorC()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)();}
@@ -3781,7 +3793,7 @@ public:
     myObj(obj), myFunc(func), myP1(p1) {}
 
   /// Destructor
-  virtual ~ArConstFunctor1C() {}
+  virtual ~ArConstFunctor1C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1);}
@@ -3890,7 +3902,7 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2) {}
 
   /// Destructor
-  virtual ~ArConstFunctor2C() {}
+  virtual ~ArConstFunctor2C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2);}
@@ -4034,7 +4046,7 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Destructor
-  virtual ~ArConstFunctor3C() {}
+  virtual ~ArConstFunctor3C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3);}
@@ -4218,7 +4230,7 @@ public:
 
 	
   /// Destructor
-  virtual ~ArConstFunctor4C() {}
+  virtual ~ArConstFunctor4C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
@@ -4447,7 +4459,7 @@ public:
 
 	
   /// Destructor
-  virtual ~ArConstFunctor5C() {}
+  virtual ~ArConstFunctor5C()  = default;
 
   /// Invokes the functor
   virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
@@ -4579,8 +4591,8 @@ class ArConstRetFunctorC : public ArRetFunctor<Ret>
 {
 public:
 
-  /// Constructor
-  ArConstRetFunctorC() {}
+  // Constructor
+  //ArConstRetFunctorC() {}
 
   /// Constructor - supply function pointer
   /**
@@ -4597,10 +4609,10 @@ public:
   ArConstRetFunctorC(T *obj, Ret (T::*func)() const) : myObj(obj), myFunc(func) {}
 
   /// Destructor - supply function pointer
-  virtual ~ArConstRetFunctorC() {}
+  virtual ~ArConstRetFunctorC()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)();}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -4672,16 +4684,16 @@ public:
     myObj(obj), myFunc(func), myP1(p1) {}
 
   /// Destructor
-  virtual ~ArConstRetFunctor1C() {}
+  virtual ~ArConstRetFunctor1C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1);}
 
   /// Set the 'this' pointer
   /**
@@ -4780,23 +4792,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2) {}
 
   /// Destructor
-  virtual ~ArConstRetFunctor2C() {}
+  virtual ~ArConstRetFunctor2C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2);}
 
   /// Set the 'this' pointer
   /**
@@ -4924,23 +4936,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Destructor
-  virtual ~ArConstRetFunctor3C() {}
+  virtual ~ArConstRetFunctor3C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -4948,7 +4960,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
     {return (myObj->*myFunc)(p1, p2, p3);}
 
   /// Set the 'this' pointer
@@ -5116,23 +5128,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
   /// Destructor
-  virtual ~ArConstRetFunctor4C() {}
+  virtual ~ArConstRetFunctor4C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -5140,7 +5152,7 @@ public:
      @param p2 second parameter
      @param p3 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
     {return (myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor with return value
@@ -5150,7 +5162,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
     {return (myObj->*myFunc)(p1, p2, p3, p4);}
 
 
@@ -5350,23 +5362,23 @@ public:
     myObj(obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
   /// Destructor
-  virtual ~ArConstRetFunctor5C() {}
+  virtual ~ArConstRetFunctor5C()  = default;
 
   /// Invokes the functor with return value
-  virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -5374,7 +5386,7 @@ public:
      @param p2 second parameter
      @param p3 second parameter
   */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
     {return (myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor with return value
@@ -5384,7 +5396,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
     {return (myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
 
@@ -5396,7 +5408,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) 
+  [[nodiscard]] virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) 
     {return (myObj->*myFunc)(p1, p2, p3, p4, p5);}
 
 

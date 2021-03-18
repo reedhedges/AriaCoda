@@ -35,7 +35,7 @@ public:
   /// Constructor
   AREXPORT ArFunctorASyncTask(ArRetFunctor1<void *, void *> *functor);
   /// Destructor
-  AREXPORT virtual ~ArFunctorASyncTask();
+  AREXPORT virtual ~ArFunctorASyncTask() = default;
   /// Our reimplementation of runThread
   AREXPORT virtual void *runThread(void *arg);
 protected:
