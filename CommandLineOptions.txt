@@ -3,10 +3,10 @@ ARIA
 
 Summary of command line options
 
-Some classes in ARIA and ArNetworking check a program's run time options to
+Some classes in ARIA check a program's run time options to
 specify parameters and options. These options are used to configure run time
-accessory device parameters (ports, speeds, etc.) used by ARIA; host names,
-port numbers, etc. used by ArNetworking; and various other run time options.
+accessory device parameters (ports, speeds, etc.) used by ARIA,
+and various other run time options.
 Options may be given as program arguments on the command line, or globally
 saved as defaults in the file /etc/Aria.args if on Linux, or in the ARIAARGS
 environment variable.  Arguments given on the command line may override some
@@ -410,6 +410,7 @@ Common PTU and Camera PTZ options:
 	-ptzType <type>	Select PTZ/PTU type. Required.  Available types are:
 		dpptu
 		rvision
+		sony
 		vcc
 		vcc4
 		vcc50i
@@ -485,3 +486,4 @@ Valid lcd types are: mtx
 See docs for details.
 
 
+Aria: Received signal 'SIGSEGV'. Exiting.

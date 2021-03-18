@@ -33,17 +33,12 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  * each file and then calling the logOptions() or similar methods on objects
  * of the classes with options.
  *
- * 
- * When compiling this program, you must define either FOR_ARIA or
- * FOR_ARNETWORKING (or both) with -D, since this program can be used either 
- * for ARIA or ArNetworking.
- * 
  * The files generated are:
  *   docs/options/<class name>
  *   docs/options/all_options.dox
  *   CommandLineOptions.txt
  * 
- * If FOR_ARIA is defined, then the classes whose options are included are:
+ * The classes whose options are included are:
  *   ArRobotConnector
  *   ArLaserConnector with each laser type
  *   ArPTZConnector
@@ -51,10 +46,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *   ArSonarConnector
  *   [ArDaemonizer?]
  * 
- * If FOR_ARNETWORKING is defined, then these classes are also included:
- *   ArClientSimpleConnector
- *   ArServerSimpleOpener
- *   ArClientSwitchManager
  */
 
 
@@ -71,7 +62,6 @@ public:
 };
 
 
-#ifdef FOR_ARIA
 #include "Aria/ArArgumentParser.h"
 #include "Aria/ArRobotConnector.h"
 #include "Aria/ArGPSConnector.h"
@@ -282,53 +272,13 @@ public:
   }
 };
 
-#endif
 
-#ifdef FOR_ARNETWORKING
-#include "ArNetworking.h"
-
-class ArClientSimpleConnectorWrapper : public ArClientSimpleConnector, public virtual Wrapper
-{
-public:
-  ArClientSimpleConnectorWrapper(ArArgumentParser *argParser) : ArClientSimpleConnector(argParser)
-  {
-  }
-  virtual void logOptions()
-  {
-    ArClientSimpleConnector::logOptions();
-  }
-};
-
-class ArServerSimpleOpenerWrapper : public ArServerSimpleOpener, public virtual Wrapper
-{
-public:
-  ArServerSimpleOpenerWrapper(ArArgumentParser *argParser) : ArServerSimpleOpener(argParser)
-  {
-  }
-  virtual void logOptions()
-  {
-    ArServerSimpleOpener::logOptions();
-  }
-};
-
-class ArClientSwitchManagerWrapper : public ArClientSwitchManager, public virtual Wrapper
-{
-public:
-  ArClientSwitchManagerWrapper(ArServerBase *server, ArArgumentParser *argParser) : ArClientSwitchManager(server, argParser)
-  {
-  }
-  virtual void logOptions()
-  {
-    ArClientSwitchManager::logOptions();
-  }
-};
-#endif
 
 const char *EXPLANATION = 
-"Some classes in ARIA and ArNetworking check a program's run time options to\n"
+"Some classes in ARIA check a program's run time options to\n"
 "specify parameters and options. These options are used to configure run time\n"
-"accessory device parameters (ports, speeds, etc.) used by ARIA; host names,\n"
-"port numbers, etc. used by ArNetworking; and various other run time options.\n"
+"accessory device parameters (ports, speeds, etc.) used by ARIA,\n"
+"and various other run time options.\n"
 "Options may be given as program arguments on the command line, or globally\n"
 "saved as defaults in the file /etc/Aria.args if on Linux, or in the ARIAARGS\n"
 "environment variable.  Arguments given on the command line may override some\n"
@@ -363,7 +313,6 @@ int main(int argc, char **argv)
 
   WrapList wrappers;
 
-#ifdef FOR_ARIA
   wrappers.push_back(WrapPair("ArRobotConnector", new ArRobotConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArLaserConnector", new ArLaserConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArPTZConnector", new ArPTZConnectorWrapper(&argParser)));
@@ -372,14 +321,6 @@ int main(int argc, char **argv)
   wrappers.push_back(WrapPair("ArSonarConnector", new ArSonarConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArBatteryConnector", new ArBatteryConnectorWrapper(&argParser)));
   wrappers.push_back(WrapPair("ArLCDConnector", new ArLCDConnectorWrapper(&argParser)));
-#endif
-
-#ifdef FOR_ARNETWORKING
-  ArServerBase server;
-  wrappers.push_back(WrapPair("ArClientSimpleConnector", new ArClientSimpleConnectorWrapper(&argParser)));
-  wrappers.push_back(WrapPair("ArServerSimpleOpener", new ArServerSimpleOpenerWrapper(&argParser)));
-  wrappers.push_back(WrapPair("ArClientSwitchManager", new ArClientSwitchManagerWrapper(&server, &argParser)));
-#endif
 
   /* Write docs/options/all_options.dox */
   // TODO process text to replace HTML characters with entities or formatting
@@ -412,11 +353,7 @@ int main(int argc, char **argv)
 
   /* Write CommandLineOptions.txt */
   redirectStdout("CommandLineOptions.txt");
-#ifdef FOR_ARIA
   puts("\nARIA\n");
-#elif defined(FOR_ARNETWORKING)
-  puts("\nArNetworking\n");
-#endif
   printf("Summary of command line options\n\n%s", EXPLANATION);
 
   for(WrapList::const_iterator i = wrappers.begin(); i != wrappers.end(); ++i)
