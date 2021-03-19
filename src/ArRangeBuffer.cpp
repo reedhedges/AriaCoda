@@ -77,45 +77,17 @@ AREXPORT void ArRangeBuffer::setSize(size_t size)
   {
     if ((myRevIterator = myInvalidBuffer.rbegin()) != myInvalidBuffer.rend())
     {
-      myReading = (*myRevIterator);
+      ArPoseWithTime *reading = (*myRevIterator);
       myInvalidBuffer.pop_back();
-      delete myReading;
+      delete reading;
     }
     else if ((myRevIterator = myBuffer.rbegin()) != myBuffer.rend())
     {
-      myReading = (*myRevIterator);
+      ArPoseWithTime *reading = (*myRevIterator);
       myBuffer.pop_back();
-      delete myReading;
+      delete reading;
     }
   }
-}
-
-/** 
-    This function returns a pointer to a list that has all of the readings
-    in it.  This list is mostly for reference, ie for finding some 
-    particular value or for using the readings to draw them.  Don't do 
-    any modification at all to the list unless you really know what you're 
-    doing... and if you do you'd better lock the rangeDevice this came from
-    so nothing messes with the list while you are doing so.
-    @return the list of positions this range buffer has
-*/
-AREXPORT const std::list<ArPoseWithTime *> *ArRangeBuffer::getBuffer() const
-{ 
-  return &myBuffer; 
-}
-
-/** 
-    This function returns a pointer to a list that has all of the readings
-    in it.  This list is mostly for reference, ie for finding some 
-    particular value or for using the readings to draw them.  Don't do 
-    any modification at all to the list unless you really know what you're 
-    doing... and if you do you'd better lock the rangeDevice this came from
-    so nothing messes with the list while you are doing so.
-    @return the list of positions this range buffer has
-*/
-AREXPORT std::list<ArPoseWithTime *> *ArRangeBuffer::getBuffer()
-{ 
-  return &myBuffer; 
 }
 
 
@@ -448,22 +420,30 @@ AREXPORT void ArRangeBuffer::addReading(double x, double y)
   {
     if ((myIterator = myInvalidBuffer.begin()) != myInvalidBuffer.end())
     {
-      myReading = (*myIterator);
-      myReading->setPose(x, y);
-      myReading->setTimeToNow();
-      myBuffer.push_front(myReading);
+      ArPoseWithTime *reading = (*myIterator);
+      reading->setPose(x, y);
+      reading->setTimeToNow();
+      myBuffer.push_front(reading);
       myInvalidBuffer.pop_front();
     }
     else
       myBuffer.push_front(new ArPoseWithTime(x, y));
+      // XXX TODO is it neccesary to allocate new ArPoseWithTime objects? 
+      // I think this was done to make copying the buffer list less expensive (but we
+      // could prevent copying the buffer and provide shared_ptrs or similar)
+      // or to reduce copying as buffer is manipulated. But ArPoseWithTime is
+      // three doubles, and two long longs, and myBuffer is a list so
+      // removal/insertion shouldn't be that big a deal? 
+      // I think the items in myInvalidBuffer point at myBuffer elements but this
+      // should also be OK. 
   }
   else if ((myRevIterator = myBuffer.rbegin()) != myBuffer.rend())
   {
-    myReading = (*myRevIterator);
-    myReading->setPose(x, y);
-    myReading->setTimeToNow();
+    ArPoseWithTime* reading = (*myRevIterator);
+    reading->setPose(x, y);
+    reading->setTimeToNow();
     myBuffer.pop_back();
-    myBuffer.push_front(myReading);
+    myBuffer.push_front(reading);
   }
 }
 
@@ -473,7 +453,7 @@ AREXPORT void ArRangeBuffer::addReading(double x, double y)
    sweeping with beginInvalidationSweep, then walk through the list of 
    readings, and pass the iterator to a reading you want to invalidate to 
    invalidateReading, then after you are all through walking the list call 
-   endInvalidationSweep.  Look at the description of getBuffer for additional
+   endInvalidationSweep.  Look at the description of getBuffer() for additional
    warnings.
    @see invalidateReading
    @see endInvalidationSweep
@@ -495,6 +475,11 @@ AREXPORT void ArRangeBuffer::invalidateReading(
 {
   myInvalidSweepList.push_front(readingIt);
 }
+AREXPORT void ArRangeBuffer::invalidateReading(
+	std::list<ArPoseWithTime*>::const_iterator readingIt)
+{
+  myInvalidSweepList.push_front(readingIt);
+}
 
 /**
    See the description of beginInvalidationSweep, it describes how to use
@@ -508,8 +493,8 @@ void ArRangeBuffer::endInvalidationSweep()
 	 myInvalidSweepList.end())
   {
     //printf("nuked one before %d %d\n", myBuffer.size(), myInvalidBuffer.size());
-    myReading = (*(*myInvalidIt));
-    myInvalidBuffer.push_front(myReading);
+    ArPoseWithTime *reading = (*(*myInvalidIt));
+    myInvalidBuffer.push_front(reading);
     myBuffer.erase((*myInvalidIt));
     myInvalidSweepList.pop_front();
     //printf("after %d %d\n", myBuffer.size(), myInvalidBuffer.size());
@@ -523,7 +508,7 @@ void ArRangeBuffer::endInvalidationSweep()
    be careful if accessing it from multiple threads.
    @return Pointer to reading vector.
 */
-AREXPORT std::vector<ArPoseWithTime> *ArRangeBuffer::getBufferAsVector()
+AREXPORT std::vector<ArPoseWithTime> *ArRangeBuffer::getBufferAsVectorPtr()
 {
   std::list<ArPoseWithTime *>::iterator it;
 

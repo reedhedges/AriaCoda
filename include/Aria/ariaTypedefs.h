@@ -25,6 +25,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARTYPEDEFS_H
 
 
+#define ARIACODA 3
+#define ARIA_3 3
+
 #include <time.h>
 #include <string>
 #include <map>

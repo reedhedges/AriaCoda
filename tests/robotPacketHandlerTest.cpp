@@ -42,12 +42,12 @@ int main(int argc, char **argv)
   argParser.loadDefaultArguments();
   ArRobot robot;
 
-  ArRobotConnector robotConnector(&parser, &robot);
+  ArRobotConnector robotConnector(&argParser, &robot);
 
   if(!robotConnector.connectRobot())
   {
     ArLog::log(ArLog::Normal, "robotPacketHandlerTest: Could not connect to robot.");
-    if(parser.checkHelpAndWarnUnparsed())
+    if(argParser.checkHelpAndWarnUnparsed())
     {
       Aria::logOptions();
       Aria::exit(2);
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     Aria::exit(1);
   }
 
-  if(!Aria::parseArgs() || !parser.checkHelpAndWarnUnparesd())
+  if(!Aria::parseArgs() || !argParser.checkHelpAndWarnUnparsed())
   {
     Aria::logOptions();
     Aria::exit(2);

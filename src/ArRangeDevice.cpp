@@ -156,7 +156,7 @@ AREXPORT ArRobot *ArRangeDevice::getRobot()
 
 AREXPORT void ArRangeDevice::filterCallback()
 {
-  std::list<ArPoseWithTime *>::iterator it;
+  //std::list<ArPoseWithTime *>::iterator it;
   lockDevice();
 
   myMaxInsertDistCumulativePose = myRobot->getPose();
@@ -167,12 +167,10 @@ AREXPORT void ArRangeDevice::filterCallback()
   {
     // just walk through and make sure nothings too far away
     myCurrentBuffer.beginInvalidationSweep();
-    for (it = getCurrentBuffer()->begin(); 
-	 it != getCurrentBuffer()->end(); 
-	 ++it)
+    for (auto it = getCurrentReadings().begin();  it != getCurrentReadings().end(); ++it)
     {
       if ((*it)->getTime().secSince() >= myMaxSecondsToKeepCurrent)
-	myCurrentBuffer.invalidateReading(it);
+	      myCurrentBuffer.invalidateReading(it);
     }
     myCurrentBuffer.endInvalidationSweep();
   }
@@ -200,8 +198,8 @@ AREXPORT void ArRangeDevice::filterCallback()
 
   // just walk through and make sure nothings too far away
   myCumulativeBuffer.beginInvalidationSweep();
-  for (it = getCumulativeBuffer()->begin(); 
-       it != getCumulativeBuffer()->end(); 
+  for (auto it = getCumulativeReadings().begin(); 
+       it != getCumulativeReadings().end(); 
        ++it)
   {
     // if its closer to a reading than the filter near dist, just return

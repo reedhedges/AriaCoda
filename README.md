@@ -61,7 +61,7 @@ Major Changes from previous Aria releases
 -----------------------------------------
 
 Several major changes have been made for AriaCoda since the last release of Aria
-by Omron/Adept MobileRobots:
+2.9 by Omron/Adept MobileRobots:
 
 * All header files have been moved into an `Aria` subdirectory. All header file `#include` directives must be updated. For example, use `#include "Aria/ArRobot.h"` instead of `#include "ArRobot.h"`.
 * ArNetworking is no longer included or installed with Aria
@@ -72,11 +72,28 @@ by Omron/Adept MobileRobots:
   * ArMode and subclasses, and all keyboard handling code, generally only used by examples/demo.cpp, has just been moved into examples/demo.cpp.
   * ArNetServer
   * Support classes for ArNetworking (ArDrawingData etc.)
-  * Others
+  * some other classes have been removed as well.
+* The list of sensor readings in ArRangeBuffer has been changed from a list of
+  pointers to ArPoseWithTime objects (`std::list<ArPoseWithTime*>`) to simply a list of ArPoseWithTime
+  objects (`std::list<ArPoseWithTime>`). ArRangeDevice:getCurrentBuffer() and
+  ArRangeDevice::getCumulativeBuffer() have been replaced by getCurrentReadings()
+  and getCumulativeReading() which return a const reference to the list intead of a pointer.   
+  This sould make it a bit easier to work with range device data but will require changing 
+  any code that accesses it through these interfaces.   (The old methods
+  returning pointers have been retained as "Ptr" versions, but will be removed in
+  the future.)
+* Many unneccesary uses of "virtual" method declaration (including
+  destructors) have been removed. If you derive from any ARIA class and intend
+  to override a method, the use of the "override" specifier is encouranged;
+  the C++ compiler should then warn if the base class method is not virtual.
 * Many small fixes and changes to improve optimization and conformance/correctness with newer C++ standards
 
 Several other changes are planned that will not be compatible with prior Aria
 releases, see [TODO.md](TODO.md).
+
+AriaCoda defines the preprocessor symbols `ARIACODA` and `ARIA_3` which may be
+used to perform conditional compilation in an application depending on whether
+ARIA 2.x or AriaCoda are being used.
 
 Over time, the library may be more consistently modernized to C++17 or later
 (unless significant rewriting of generally working and stable code would be

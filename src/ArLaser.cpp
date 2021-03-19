@@ -317,7 +317,7 @@ void ArLaser::internalProcessReading(double x, double y,
     clean = false;
 
 
-  std::list<ArPoseWithTime *>::iterator cit;
+  //std::list<ArPoseWithTime *>::iterator cit;
   bool addReading = true;
 
   //double squaredDist;
@@ -352,19 +352,19 @@ void ArLaser::internalProcessReading(double x, double y,
   if (clean)
     myCumulativeBuffer.beginInvalidationSweep();
   // run through all the readings
-  for (cit = getCumulativeBuffer()->begin(); 
-       cit != getCumulativeBuffer()->end(); 
+  for (auto cit = getCumulativeReadings().begin(); 
+       cit != getCumulativeReadings().end(); 
        ++cit)
   {
     // if its closer to a reading than the filter near dist, just return
     if (addReading && ( myMinDistBetweenCumulativeSquared < .0000001 ||
-	(ArMath::squaredDistanceBetween(x, y, (*cit)->getX(), (*cit)->getY()) <
-	 myMinDistBetweenCumulativeSquared) ) )
+      (ArMath::squaredDistanceBetween(x, y, (*cit)->getX(), (*cit)->getY()) <
+      myMinDistBetweenCumulativeSquared) ) )
     {
       // if we're not cleaning it and its too close just return,
       // otherwise keep going (to clear out invalid readings)
       if (!clean)
-	return;
+	      return;
       addReading = false;
     }
     // see if this reading invalidates some other readings by coming too close
@@ -376,13 +376,13 @@ void ArLaser::internalProcessReading(double x, double y,
       // this line segment, and then see if its too close if it does,
       // but if the intersection is very near the endpoint then leave it
       if (line.getPerpPoint((*cit), &intersection) &&
-	  (intersection.squaredFindDistanceTo(*(*cit)) < 
-	   myCumulativeCleanDistSquared) &&
-	  (intersection.squaredFindDistanceTo(reading) > 
-	   50 * 50))
+        (intersection.squaredFindDistanceTo(*(*cit)) < 
+        myCumulativeCleanDistSquared) &&
+        (intersection.squaredFindDistanceTo(reading) > 
+        50 * 50))
       {
-	//printf("Found one too close to the line\n");
-	myCumulativeBuffer.invalidateReading(cit);
+        //printf("Found one too close to the line\n");
+        myCumulativeBuffer.invalidateReading(cit);
       }
     }
   }

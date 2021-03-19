@@ -35,7 +35,7 @@ class ArRangeBuffer
 {
 public:
   /// Constructor
-  AREXPORT ArRangeBuffer(int size);
+  AREXPORT ArRangeBuffer(int maxsize);
   /// Destructor
   AREXPORT virtual ~ArRangeBuffer();
   // XXX TODO should include copy/move constructors and copy/move assigment operators.
@@ -58,20 +58,48 @@ public:
 				      double closeDistSquared, 
 				      bool *wasAdded = NULL);
 #ifndef SWIG
-  /// Begins a walk through the getBuffer list of readings
+  /// Begins a walk through the list of readings
   AREXPORT void beginInvalidationSweep();
   /// While doing an invalidation sweep a reading to the list to be invalidated
   AREXPORT void invalidateReading(std::list<ArPoseWithTime*>::iterator readingIt);
+  AREXPORT void invalidateReading(std::list<ArPoseWithTime*>::const_iterator readingIt);
+
   /// Ends the invalidation sweep
   AREXPORT void endInvalidationSweep();
 
   /** @brief Gets a pointer to a list of readings
    *  @swigomit
+   * @deprecated
    */
-  AREXPORT const std::list<ArPoseWithTime *> *getBuffer() const;
+  const std::list<ArPoseWithTime *>* getBufferPtr() const
+  {
+    return &myBuffer;
+  }
 #endif
-  /// Gets a pointer to a list of readings
-  AREXPORT std::list<ArPoseWithTime *> *getBuffer();
+
+  /** Gets a pointer to a list of readings
+    This function returns a pointer to a list that has all of the readings
+    in it.  This list is mostly for reference, ie for finding some 
+    particular value or for using the readings to draw them.  Don't do 
+    any modification at all to the list unless you really know what you're 
+    doing... and if you do you'd better lock the rangeDevice this came from
+    so nothing messes with the list while you are doing so.
+    @return the list of positions this range buffer has
+    @deprecated
+  */
+  std::list<ArPoseWithTime *> *getBufferPtr() 
+  {
+    return &myBuffer;
+  }
+
+  /** Return reference to current list of readings.  You can use
+  * ArRangeDevice::lockDevice() and ArRangeDevice::unlockDevice() for mutual
+  * exclusion of this data if accessing asynchronously from range device thread.
+  * This method replaces the previous getBuffer() method which returned a
+  * pointer to the list.  Use getBufferPtr() if you still need to receive a
+  * pointer, but that method is deprecated and will be removed in the future.
+  */
+  const std::list<ArPoseWithTime*>& getBuffer() const { return myBuffer; }
 
   /// Gets the closest reading, on a polar system 
   AREXPORT double getClosestPolar(double startAngle, double endAngle, 
@@ -98,8 +126,11 @@ public:
   AREXPORT void redoReading(double x, double y);   
   /// End redoing the buffer
   AREXPORT void endRedoBuffer();
-  /// Gets the buffer as an array instead of as a std::list
-  AREXPORT std::vector<ArPoseWithTime> *getBufferAsVector();
+  /// Copy the current buffer into a new std::vector (stored in this object), return pointer
+  AREXPORT std::vector<ArPoseWithTime> *getBufferAsVectorPtr();
+  /// Copy the current buffer into a new std::vector (stored in this object), return reference.
+  AREXPORT const std::vector<ArPoseWithTime>& getBufferAsVector();
+  
   /// Gets the closest reading, from an arbitrary buffer
   AREXPORT static double getClosestPolarInList(
 	  double startAngle, double endAngle, ArPose position, 
@@ -111,14 +142,14 @@ public:
 	  unsigned int maxRange, ArPose *readingPos, 
 	  ArPose targetPose, const std::list<ArPoseWithTime *> *buffer);
 protected:
-  std::vector<ArPoseWithTime> myVector;
+  std::vector<ArPoseWithTime> myVector; // copy of myBuffer, recreated whenever getBufferAsVector() is called. 
   ArPose myBufferPose;		// where the robot was when readings were acquired
   ArPose myEncoderBufferPose;		// where the robot was when readings were acquired
 
   std::list<ArPoseWithTime *> myBuffer;
   std::list<ArPoseWithTime *> myInvalidBuffer;
-  std::list<std::list<ArPoseWithTime *>::iterator > myInvalidSweepList;
-  std::list<std::list<ArPoseWithTime *>::iterator >::iterator myInvalidIt;
+  std::list<std::list<ArPoseWithTime *>::const_iterator > myInvalidSweepList;
+  std::list<std::list<ArPoseWithTime *>::const_iterator >::iterator myInvalidIt;
   std::list<ArPoseWithTime *>::iterator myRedoIt;
   int myNumRedone;
   bool myHitEnd;
@@ -127,7 +158,7 @@ protected:
   std::list<ArPoseWithTime *>::reverse_iterator myRevIterator;
   std::list<ArPoseWithTime *>::iterator myIterator;
   
-  ArPoseWithTime * myReading;
+//  ArPoseWithTime * myReading;
 };
 
 #endif // ARRANGEBUFFER_H

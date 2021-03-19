@@ -106,7 +106,7 @@ AREXPORT void ArSonarDevice::processReadings()
   double dx, dy, rx, ry;
     
   myCumulativeBuffer.beginInvalidationSweep();
-  readingList = myCumulativeBuffer.getBuffer();
+  readingList = myCumulativeBuffer.getBufferPtr();
   rx = myRobot->getX();
   ry = myRobot->getY();
   // walk through the list and see if this makes any old readings bad
@@ -152,7 +152,7 @@ AREXPORT void ArSonarDevice::addReading(double x, double y)
 
       myCumulativeBuffer.beginInvalidationSweep();
 
-      readingList = myCumulativeBuffer.getBuffer();
+      readingList = myCumulativeBuffer.getBufferPtr();
       // walk through the list and see if this makes any old readings bad
       if (readingList != NULL)
 	{

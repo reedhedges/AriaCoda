@@ -3041,7 +3041,7 @@ AREXPORT void ArModeLaser::userTask()
     else
       printf("\rNo close reading.         ");
 
-    readings = myLaser->getCurrentBuffer();
+    readings = myLaser->getCurrentBufferPtr();
     for (it = readings->begin(), found = false; it != readings->end(); it++)
     {
       dist = myRobot->findDistanceTo(*(*it));

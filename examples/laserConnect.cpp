@@ -103,14 +103,14 @@ int main(int argc, char **argv)
 		laser->lockDevice();
 
 		// The current readings are a set of obstacle readings (with X,Y positions as well as other attributes) that are the most recent set from teh laser.
-		std::list<ArPoseWithTime*> *currentReadings = laser->getCurrentBuffer(); // see ArRangeDevice interface doc
+		const std::list<ArPoseWithTime*>& currentReadings = laser->getCurrentReadings(); // see ArRangeDevice interface doc
 
 		// There is a utility to find the closest reading wthin a range of degrees around the laser, here we use this laser's full field of view (start to end)
 		// If there are no valid closest readings within the given range, dist will be greater than laser->getMaxRange().
 		double angle = 0;
 		double dist = laser->currentReadingPolar(laser->getStartDegrees(), laser->getEndDegrees(), &angle);
 
-		ArLog::log(ArLog::Normal, "Laser #%d (%s): %s. Have %d 'current' readings. Closest reading is at %3.0f degrees and is %2.4f meters away.", laserIndex, laser->getName(), (laser->isConnected() ? "connected" : "NOT CONNECTED"), currentReadings->size(), angle, dist/1000.0);
+		ArLog::log(ArLog::Normal, "Laser #%d (%s): %s. Have %d 'current' readings. Closest reading is at %3.0f degrees and is %2.4f meters away.", laserIndex, laser->getName(), (laser->isConnected() ? "connected" : "NOT CONNECTED"), currentReadings.size(), angle, dist/1000.0);
                 laser->unlockDevice();
 	    }
 	if(numLasers == 0)
