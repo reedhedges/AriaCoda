@@ -364,11 +364,8 @@ protected:
 #ifndef SWIG
 /// Comparator for two pointers to map objects
 /** @swigomit */
-struct ArMapObjectCompare : 
-  public std::binary_function<const ArMapObject *,
-                              const ArMapObject *,
-                              bool> 
- {
+struct ArMapObjectCompare 
+{
    /// Returns true if obj1 is less than obj2; NULL pointers are greater than non-NULL
    bool operator()(const ArMapObject *obj1,
                    const ArMapObject *obj2)
