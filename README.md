@@ -3,6 +3,10 @@ AriaCoda
 
 [![Build Status](https://travis-ci.com/reedhedges/AriaCoda.svg?branch=master)](https://travis-ci.com/reedhedges/AriaCoda)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
+[![Platform: Linux](https://img.shields.io/badge/Platform-Linux-green.svg)](https://img.shields.io/badge/Platform-Linux-green.svg)
+[![Platform: Windows%20%28MSVC 2019%29](https://img.shields.io/badge/Platform-Windows%20%28MSVC 2019%29-green.svg)](https://img.shields.io/badge/Platform-Windows%20%28MSVC 2019%29-green.svg)
+[![Platform: Windows%20%28MinGW%29%20%28MSVC 2019%29](https://img.shields.io/badge/Platform-Windows%20%28MinGW%29%20%28MSVC 2019%29-green.svg)](https://img.shields.io/badge/Platform-Windows%20%28MinGW%29%20%28MSVC 2019%29-green.svg)
+[![Platform: MacOSX](https://img.shields.io/badge/Platform-MacOSX-green.svg)](https://img.shields.io/badge/Platform-MacOSX-green.svg)
 
 AriaCoda is a C++ library used to communicate with Pioneer and
 Pioneer-compatible mobile robot controllers, many sensors and other accessory

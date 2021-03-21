@@ -4,15 +4,19 @@ jobs:
   include:
     - name: Linux (Ubuntu Bionic)
       os: linux
+      env: TRAVISBUILD=LinuxBionic
       dist: bionic
       # virt: lxd
     - name: Linux (Ubuntu Xenial)
       os: linux
       dist: xenial
       # virt: lxd
-      env: EXTRA_CXXFLAGS="-DARIA_OMIT_DEPRECATED_MATH_FUNCS"
+      env: 
+        - EXTRA_CXXFLAGS="-DARIA_OMIT_DEPRECATED_MATH_FUNCS" 
+        - TRAVISBUILD=LinuxXenial
     - name: MacOSX
       os: osx
+      env: TRAVISBUILD=MacOSX
 #    - name: Linux (Ubuntu Bionic on arm64)
 #      os: linux
 #      virt: lxd
@@ -22,6 +26,7 @@ jobs:
       os: windows
       env:
         - MSBUILD_PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin"
+        - TRAVISBUILD=WindowsMSVC
       install:
         - choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
       script:
