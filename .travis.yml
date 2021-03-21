@@ -27,9 +27,9 @@ jobs:
       script:
         - echo $0
         - echo $PWD
-        - echo %cd%
+        - cd visualc
         - export PATH=$MSBUILD_PATH:$PATH
-        - MSBuild.exe visualc\AriaCoda.sln -verbosity:detailed -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
+        - MSBuild.exe AriaCoda.sln -verbosity:detailed -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
 git:
   depth: 1
 script:
