@@ -25,8 +25,11 @@ jobs:
       install:
         - choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
       script:
+        - echo $0
+        - echo $PWD
+        - echo %cd%
         - export PATH=$MSBUILD_PATH:$PATH
-        - MSBuild.exe visualc\AriaCoda.sln -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
+        - MSBuild.exe visualc\AriaCoda.sln -verbosity:detailed -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
 git:
   depth: 1
 script:
