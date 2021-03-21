@@ -22,7 +22,7 @@ jobs:
 #      virt: lxd
 #      arch: arm64
 #      dist: bionic
-    - name: Windows
+    - name: Windows (Windows Server 2019 with Visual C++)
       os: windows
       env:
         - MSBUILD_PATH="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\MSBuild\Current\Bin"
@@ -30,8 +30,10 @@ jobs:
       install:
         - choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
       script:
+        - ver
         - echo $0
         - echo $PWD
+        - echo $VisualStudioVersion
         - cd visualc
         - export PATH=$MSBUILD_PATH:$PATH
         - MSBuild.exe AriaCoda.sln -verbosity:detailed -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
