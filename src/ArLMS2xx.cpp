@@ -1205,7 +1205,7 @@ AREXPORT bool ArLMS2xx::laserCheckParams()
  
 AREXPORT bool ArLMS2xx::blockingConnect()
 {
-  int ret;
+  int ret = 0;
 
   if (!finishParams())
     return false;

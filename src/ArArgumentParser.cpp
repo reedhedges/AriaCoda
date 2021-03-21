@@ -454,7 +454,7 @@ AREXPORT bool ArArgumentParser::checkParameterArgumentFloat(
   else if (param[0] != '\0')
   {
     char *endPtr;
-    float floatVal = strtod(param, &endPtr);
+    float floatVal = strtof(param, &endPtr);
     if(endPtr == param)
     {
       ArLog::log(ArLog::Normal, "Argument given with %s was not a valid number", argument);
@@ -760,7 +760,7 @@ AREXPORT void ArArgumentParser::loadDefaultArguments(int position)
       compressed.addPlain(argumentsPtr);
       compressed.compressQuoted(true);
       myBuilder->addStringsAsIs(compressed.getArgc(), compressed.getArgv(), 
-                              position);
+                               position);
       ArLog::log(ArLog::Normal, 
 		 "Added arguments from environmental variable '%s'", str);
     }

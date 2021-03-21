@@ -57,7 +57,7 @@ class ArFileDeviceConnection: public ArDeviceConnection
   void setForceReadBufferSize(unsigned int s) { myForceReadBufferSize = s; }
 
   /// If >0 then add additional, artificial delay in read() by sleeping this many miliseconds per byte read in read().
-  void setReadByteDelay(float d) { myReadByteDelay = d; }
+  void setReadByteDelay(unsigned int d) { myReadByteDelay = d; }
 
 protected:
   std::string myInFileName;
@@ -66,7 +66,7 @@ protected:
   int myOutFD;
   int myStatus;
   unsigned int myForceReadBufferSize;
-  float myReadByteDelay;
+  unsigned int myReadByteDelay;
 };
 
 #endif

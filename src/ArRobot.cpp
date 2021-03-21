@@ -4562,16 +4562,19 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
 
     sprintf(buf, "Losing connection because microcontroller reset with reset data");
 
+#ifndef _WIN32
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-overflow"
+#endif
     while (bufrem > 6 && packet->getDataLength() - packet->getDataReadLength() > 0)
     {
       strncpy(tmp, buf, sizeof(tmp));
       sprintf(buf, "%s 0x%x", tmp, packet->bufToUByte());
       bufrem -= 6;
     }
+#ifndef _WIN32
 #pragma GCC diagnostic pop
-
+#endif
 
     dropConnection(buf, "because microcontroller reset");
     unlock();

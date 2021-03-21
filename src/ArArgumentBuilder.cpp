@@ -273,28 +273,22 @@ bool ArArgumentBuilder::isEndArg(const char *buf,
  **/
 AREXPORT void ArArgumentBuilder::internalAdd(const char *str, int position)
 {
-  char buf[10000];
-  int i = 0;
-  int j = 0;
-  size_t k = 0;
-  int len = 0;
-  bool addAtEnd = true;
   //size_t startingArgc = getArgc();
 
-  bool isArgInProgress = false;
-  int curArgStartIndex = -1;
 
-
+  bool addAtEnd = true;
   if (position < 0 || (size_t)position > myArgc)
     addAtEnd = true;
   else
     addAtEnd = false;
 
+  char buf[10000];
   strncpy(buf, str, sizeof(buf));
-  len = strlen(buf);
+  size_t len = strlen(buf);
 
   // can do whatever you want with the buf now
   // first we advance to non-space
+  int i = 0;
   for (i = 0; i < len; ++i)
   {
     if (!isSpace(buf[i])) {
@@ -319,7 +313,8 @@ AREXPORT void ArArgumentBuilder::internalAdd(const char *str, int position)
   // we keep track of if we're looking for white space or non-white...
   // if we're looking for white space when we find it we have finished
   // one argument, so we toss that into argv, reset pointers and moveon
-  for (curArgStartIndex = i; ; ++i)
+  bool isArgInProgress = false;
+  for (size_t curArgStartIndex = i; ; ++i)
   {
 
     // Remove the slash of escaped spaces.  This is primarily done to handle command 
@@ -330,7 +325,7 @@ AREXPORT void ArArgumentBuilder::internalAdd(const char *str, int position)
         (buf[i] == '\\') && (i + 1 < len) && (buf[i + 1] == ' ') &&
         ((i == 0) || (buf[i - 1] != '\\')))
     {
-      for (j = i; j < len && j != '\0'; j++)
+      for (size_t j = i; j < len && j != '\0'; j++)
       {
         buf[j] = buf[j + 1];
       }
@@ -387,7 +382,7 @@ AREXPORT void ArArgumentBuilder::internalAdd(const char *str, int position)
         else // insert arg at specified position
         {
           // first move things down
-          for (k = myArgc + 1; k > (size_t)position; k--)
+          for (size_t k = myArgc + 1; k > (size_t)position; k--)
           {
             myArgv[k] = myArgv[k - 1];
           }
@@ -750,7 +745,7 @@ AREXPORT bool ArArgumentBuilder::isArgLongLongInt(size_t whichArg) const
     return false;
 }
 
-AREXPORT int ArArgumentBuilder::getArgLongLongInt(size_t whichArg,
+AREXPORT long long ArArgumentBuilder::getArgLongLongInt(size_t whichArg,
 						  bool *ok) const
 {
   bool isSuccess = false;
@@ -898,7 +893,7 @@ AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
       // start quote we toss things into this arg
       while ((i + 1 < myArgc) && !isEndQuoteFound) {
           
-        int nextArgLen = strlen(myArgv[i+1]);
+        size_t nextArgLen = strlen(myArgv[i+1]);
 
         // Check whether the next arg contains the ending quote...
         if ((nextArgLen > 0) &&

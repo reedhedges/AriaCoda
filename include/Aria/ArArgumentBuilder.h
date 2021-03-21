@@ -140,7 +140,7 @@ public:
    * @return int the retrieved argument value; valid only if ok or isArgInt 
    * is true
   **/
-  AREXPORT int getArgLongLongInt(size_t whichArg,
+  AREXPORT long long getArgLongLongInt(size_t whichArg,
 				 bool *ok = NULL) const;
 
   /// Sees if an argument is a double

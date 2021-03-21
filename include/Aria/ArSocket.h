@@ -246,7 +246,7 @@ public:
   AREXPORT void setFakeWrites(bool fakeWrites) {myFakeWrites=fakeWrites;}
 
   /// Get the file descriptor
-  AREXPORT int getFD() const {return(myFD);}
+  AREXPORT int getFD() const {return((int)myFD);}
 
   /// Get the protocol type
   AREXPORT Type getType() const {return(myType);}

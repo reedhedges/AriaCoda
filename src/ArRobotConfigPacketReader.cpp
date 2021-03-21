@@ -340,8 +340,9 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
 	  getStateOfChargeLow(), getStateOfChargeShutdown());
   ret += line;
 
-  size_t buflen = 128;
-  char buf[buflen];
+  const size_t bufsize = 128;
+  char buf[bufsize];
+  size_t buflen = bufsize;
   unsigned int value = getPowerBits();
   buf[0] = '\0';
   for (int j = 0, bit = 1; j < 16; ++j, bit *= 2)

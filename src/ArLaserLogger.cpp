@@ -387,7 +387,7 @@ void ArLaserLogger::internalPrintLaserPoseAndConf(ArLaser *laser, int laserNumbe
 	  laser->getSensorPositionX(),
 	  laser->getSensorPositionY(),
 	  laser->getSensorPositionTh());
-  fprintf(myFile, "sick%dconf: %.2f %.2f %ld\n", 
+  fprintf(myFile, "sick%dconf: %.2f %.2f %lu\n", 
 	  laserNumber,
 	  firstAngle, 
 	  lastAngle,
@@ -402,7 +402,7 @@ void ArLaserLogger::internalPrintLaserPoseAndConf(ArLaser *laser, int laserNumbe
 	  laser->getSensorPositionY(),
 	  laser->getSensorPositionZ(),
 	  laser->getSensorPositionTh());
-  fprintf(myFile, "scan%dconf: %.2f %.2f %ld\n", 
+  fprintf(myFile, "scan%dconf: %.2f %.2f %lu\n", 
 	  laserNumber,
 	  firstAngle, 
 	  lastAngle,

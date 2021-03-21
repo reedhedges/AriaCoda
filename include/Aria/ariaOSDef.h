@@ -31,6 +31,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 //// Windows - Massage the windows compiler into working
 ////
 
+/*
 // Turn off warning of usage of 'this' in
 // constructor chaining
 #pragma warning(disable:4355)
@@ -48,13 +49,19 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 // Turn off warning about forcing value to bool 'true' or 'false'.
 #pragma warning(disable:4800)
 
-// Turn off warning about using some standard C libraries that have been deprecated
-// by MSVC. (e.g. they want you to use snprintf_s instead of snprintf, etc.)
-#pragma warning(disable:4996)
+
 
 // Warning about "new behavior" in VC2008 that array elements are not automatically initialized 
 // (which is normal C++ behavior anyway and ARIA doesn't assume it)
 #pragma warning(disable:4351)
+*/
+
+// Turn off warning about using some standard C libraries that have been deprecated
+// by MSVC. (e.g. they want you to use snprintf_s instead of snprintf, etc.)
+#pragma warning(disable:4996)
+
+// Turn off warning about assignment within conditional expression (e.g. "int x; if(x = func() == -1) {...}")
+#pragma warning(disable:4706)
 
 
 #include "Aria/ariaTypedefs.h"

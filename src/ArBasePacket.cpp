@@ -180,7 +180,7 @@ ArTypes::UByte2 ArBasePacket::getDataLength() const {
  
   // KMC 12/20/13 Do not allow negative values to be returned.  (They are basically 
   // converted to an erroneous positive value by the UByte2.)
-  int len = myLength - myHeaderLength - myFooterLength; 
+  ArTypes::UByte2 len = myLength - myHeaderLength - myFooterLength; 
   if (len >= 0) {
     return len;
   }
@@ -430,26 +430,29 @@ AREXPORT void ArBasePacket::uByte8ToBuf(ArTypes::UByte8 val)
 }
 
 /**
-@param str string to copy into buffer
+  Copy null-terminated string into buffer.  If there is not capacity for the string, do not add it.
 */
 AREXPORT void ArBasePacket::strToBuf(const char *str)
 {
   if (str == NULL) {
     str = "";
   }
-  ArTypes::UByte2 tempLen = strlen(str) + 1;
+
+  const size_t tempLen = strlen(str) + 1;
 
   if (!hasWriteCapacity(tempLen)) {
-    return;
+    return; // todo return or throw error
   }
 
   memcpy(myBuf+myLength, str, tempLen);
-  myLength += tempLen;
+  myLength += (ArTypes::UByte2) tempLen;
 }
 
 /**
- * This method performs no bounds checking on the given length and
- * the contents of the string.  For string operations, strNToBufPadded()
+ * Copy the given number of bytes from char* into buffer. 
+ * This method performs no bounds/termination checking on the string length or on the capacity of the packet buffer. 
+ * The string in the packet buffer will not be not null terminated unless null byte was included in given length, 
+ * nor is given length stored in the buffer.  For string operations, strNToBufPadded() or strToBuf()
  * is preferred.  For raw data operations, dataToBuf() is preferred.
 @param str character array to copy into the packet buffer
 @param length how many characters to copy from str into the packet buffer
@@ -458,14 +461,15 @@ AREXPORT void ArBasePacket::strNToBuf(const char *str, int length)
 {
   // Do not perform bounds checking because it breaks existing code.
 
-  //byte4ToBuf(length);
+  //byte4ToBuf(length); // do this in a different method for length-prefixed strings?
   memcpy(myBuf+myLength, str, length);
-  myLength+=length;
+  myLength+=(ArTypes::UByte2)length;
 
 }
 
 
 /**
+* Copy string into packet buffer, padding to the given length if neccesary with null characters (i.e. copy the string into a fixed length field in the packet).
 If string ends before length it pads the string with NUL ('\\0') characters.
 @param str character array to copy into buffer
 @param length how many bytes to copy from the str into packet
@@ -475,7 +479,7 @@ AREXPORT void ArBasePacket::strToBufPadded(const char *str, int length)
   if (str == NULL) {
     str = "";
   }
-  ArTypes::UByte2 tempLen = strlen(str);
+  size_t tempLen = strlen(str);
 
   if (!hasWriteCapacity(length)) {
     return;
@@ -483,14 +487,14 @@ AREXPORT void ArBasePacket::strToBufPadded(const char *str, int length)
 
   if (tempLen >= length) {
     memcpy(myBuf + myLength, str, length);
-    myLength += length;
+    myLength += (ArTypes::UByte2)length;
   }
   else // string is smaller than given length
   {
     memcpy(myBuf + myLength, str, tempLen);
-    myLength += tempLen;
+    myLength += (ArTypes::UByte2) tempLen;
     memset(myBuf + myLength, 0, length - tempLen);
-    myLength += length - tempLen;
+    myLength += (ArTypes::UByte2)(length - (int)tempLen);
   }
 }
 
@@ -512,7 +516,7 @@ AREXPORT void ArBasePacket::dataToBuf(const char *data, int length)
   }
 
   memcpy(myBuf+myLength, data, length);
-  myLength+=length;
+  myLength+=(ArTypes::UByte2)length;
 
 }
 
@@ -534,7 +538,7 @@ AREXPORT void ArBasePacket::dataToBuf(const unsigned char *data, int length)
   }
 
   memcpy(myBuf+myLength, data, length);
-  myLength+=length;
+  myLength+=(ArTypes::UByte2)length;
 
 }
 
@@ -777,7 +781,7 @@ AREXPORT void ArBasePacket::bufToData(char *data, int length)
   if (isNextGood(length))
   {
     memcpy(data, myBuf+myReadLength, length);
-    myReadLength += length;
+    myReadLength += (ArTypes::UByte2) length;
   }
 }
 
@@ -800,7 +804,7 @@ AREXPORT void ArBasePacket::bufToData(unsigned char *data, int length)
   if (isNextGood(length))
   {
     memcpy(data, myBuf+myReadLength, length);
-    myReadLength += length;
+    myReadLength += (ArTypes::UByte2) length;
   }
 }
 

@@ -364,8 +364,8 @@ protected:
 #ifndef SWIG
 /// Comparator for two pointers to map objects
 /** @swigomit */
-struct ArMapObjectCompare : 
-  public std::binary_function<const ArMapObject *,
+struct ArMapObjectCompare 
+  : public std::binary_function<const ArMapObject *,
                               const ArMapObject *,
                               bool> 
  {

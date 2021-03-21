@@ -1496,7 +1496,7 @@ AREXPORT bool ArConfigArg::setString(const char *str, char *errorBuffer,
   {
     ArLog::log(ArLog::Normal, "ArConfigArg of %s: setString called with argument %d long, when max length is %d.", getName(), len, myData.myStringData.myMaxStrLen);
     if (errorBuffer != NULL)
-      snprintf(errorBuffer, errorBufferLen, "%s string is %lu long when max length is %lu.", getName(), len, myData.myStringData.myMaxStrLen);
+      snprintf(errorBuffer, errorBufferLen, "%s string is %lu long when max length is %lu.", getName(), (unsigned long)len, (unsigned long) myData.myStringData.myMaxStrLen);
     return false;
   }
   if (!doNotSet)

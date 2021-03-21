@@ -222,6 +222,7 @@ protected:
 
   /// Returns true if there is enough room in the packet to add the specified number of bytes
   AREXPORT bool hasWriteCapacity(int bytes);
+  bool hasWriteCapacity(size_t bytes) { return hasWriteCapacity((int)bytes); }
 
   // internal data
   ArTypes::UByte2 myHeaderLength;

@@ -41,7 +41,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 AREXPORT ArFileDeviceConnection::ArFileDeviceConnection() :
   myInFD(-1), myOutFD(-1), myStatus(STATUS_NEVER_OPENED),
-  myForceReadBufferSize(0), myReadByteDelay(0.0)
+  myForceReadBufferSize(0), myReadByteDelay(0)
 {
 }
 

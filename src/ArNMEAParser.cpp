@@ -253,10 +253,10 @@ AREXPORT int ArNMEAParser::parse(const char *buf, int n)
 
           // reconstruct message to log:
           std::string nmeaText = "";
-          for(MessageVector::const_iterator i = currentMessage.begin(); i != currentMessage.end(); ++i)
+          for(MessageVector::const_iterator it = currentMessage.begin(); it != currentMessage.end(); ++it)
           {
-            if(i != currentMessage.begin()) nmeaText += ",";
-            nmeaText += *i;
+            if(it != currentMessage.begin()) nmeaText += ",";
+            nmeaText += *it;
           }
           ArLog::log(ArLog::Normal, "%s: Message provided checksum \"%s\" = 0x%x (%d). Calculated checksum is 0x%x (%d).  NMEA message contents were: \"%s\"", myName, checksumBuf, checksumRec, checksumRec, currentChecksum, currentChecksum, nmeaText.c_str());
 
