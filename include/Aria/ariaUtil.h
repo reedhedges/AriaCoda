@@ -1171,6 +1171,12 @@ public:
     return inside;
   }
 
+  std::ostream& operator<<(std::ostream& os)
+  {
+    os << "{x=" << getX() << ", y=" << getY() << ", th=" << getTh() << "}";
+    return os;
+  }
+
 protected:
 
   double myX;
@@ -1186,6 +1192,11 @@ class ArPos2D : public ArPose
 {
 public:
   ArPos2D(double x, double y) : ArPose(x, y, 0) {}
+  std::ostream& operator<<(std::ostream& os)
+  {
+    os << "{x=" << getX() << ", y=" << getY() << "}";
+    return os;
+  }
 private:
   // make some methods from ArPose private so they can't be used
   double getTh() const { return 0.0; }
@@ -1479,6 +1490,16 @@ public:
     return isAfter(other);
   }
 
+  std::ostream& operator<<(std::ostream& os) const
+  {
+    // todo move to toString() and call it here
+    os << getSec() << "s:" << getMSec() << "ms (" << mSecSince() << "ms ago.)";
+    return os;
+  }
+
+  AREXPORT std::string toString() const;
+
+
 protected:
   unsigned long long mySec;
   unsigned long long myMSec;
@@ -1517,6 +1538,13 @@ public:
   /// ArPose::operator<() is used, which compares the position components.
   /// Note that equality (== and !=) still compare position component.
   bool operator<(const ArPoseWithTime& rhs) { return myTime < rhs.myTime; }
+
+  std::ostream& operator<<(std::ostream& os) const
+  {
+    os << "{x=" << getX() << ", y=" << getY() << ", th=" << getTh() << ", time=" << getTime().toString() << "}";
+    return os;
+  }
+
 protected:
   ArTime myTime;
 };
@@ -1973,6 +2001,12 @@ public:
     return false;
   }
 
+  std::ostream& operator<<(std::ostream& os) const
+  {
+    os << "(" << getX1() << ", " << getY1() << ") -> (" << getX2() << ", " << getY2() << ")";
+    return os;
+  } 
+
 protected:
   double myX1, myY1, myX2, myY2;
   ArLine myLine;
@@ -1987,7 +2021,7 @@ class ArRunningAverage
 public:
   /// Constructor, give it the number of elements to store to compute the average
   AREXPORT ArRunningAverage(size_t numToAverage);
-  /// Gets the average
+  /// Calculate and return the average of all values added with add() so far.
   AREXPORT double getAverage() const;
   /// Adds a value to the average. An old value is discarded if the number of elements to average has been reached.
   AREXPORT void add(double val);
@@ -2003,6 +2037,14 @@ public:
   bool getUseRootMeanSquare() const { return myUseRootMeanSquare; }
   /// Gets the number of values currently averaged so far
   size_t getCurrentNumAveraged() const { return myNum; }
+
+  /// output current average (caculates average using getAverage()) and how many values were used to calculate that average.
+  std::ostream& operator<<(std::ostream& os) const
+  {
+    os << getAverage() << " (n=" << getCurrentNumAveraged() << ")";
+    return os;
+  }
+
 protected:
   size_t myNumToAverage;
   double myTotal;
@@ -3019,47 +3061,6 @@ public:
     // can't do anything
   }
 };
-
-std::ostream& operator<<(std::ostream& os, const ArPose& p)
-{
-  os << "{x=" << p.getX() << ", y=" << p.getY() << ", th=" << p.getTh() << "}";
-  return os;
-}
-
-std::ostream& operator<<(std::ostream& os, const ArPos2D& p)
-{
-  os << "{x=" << p.getX() << ", y=" << p.getY() << "}";
-  return os;
-}
-
-std::ostream& operator<<(std::ostream& os, const ArTime& t)
-{
-  os << t.getSec() << "s:" << t.getMSec() << "ms (" << t.mSecSince() << "ms ago.)";
-  return os;
-}
-
-std::ostream& operator<<(std::ostream& os, const ArPoseWithTime& p)
-{
-  os << "{x=" << p.getX() << ", y=" << p.getY() << ", th=" << p.getTh() << ", time=" <<  p.getTime() << "}";
-  return os;
-}
-
-
-std::ostream& operator<<(std::ostream& os, const ArLineSegment& l)
-{
-  os << "(" << l.getX1() << ", " << l.getY1() << ") -> (" << l.getX2() << ", " << l.getY2() << ")";
-  return os;
-} 
-
-std::ostream& operator<<(std::ostream& os, const ArRunningAverage& a)
-{
-  os << a.getAverage() << " (n=" << a.getCurrentNumAveraged() << ")";
-  return os;
-}
-
-
-
-
 
 #endif // ARIAUTIL_H
 
