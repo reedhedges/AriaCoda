@@ -282,18 +282,14 @@ AREXPORT void ArActionTriangleDriveTo::findTriangle(bool initial,
       ArPose intersection;
 
 
-      ArLine *line1Line = new ArLine(*(*myLines)[start]->getLine());
-      ArLine *line2Line = new ArLine(*(*myLines)[start+1]->getLine());
-      if (!line1Line->intersects(line2Line, &intersection))
-      {
-	ArLog::log(ArLog::Terse, "ArActionTriangeDriveTo: couldn't find intersection of lines (shouldn't happen)");
-	return;
+      ArLine line1Line(*(*myLines)[start]->getLine());
+      ArLine line2Line(*(*myLines)[start+1]->getLine());
+      bool linesIntersect = line1Line.intersects(line2Line, &intersection);
+      if(!linesIntersect) {
+        ArLog::log(ArLog::Terse, "ArActionTriangeDriveTo: couldn't find intersection of lines (shouldn't happen)");
+        return;
       }
-      delete line1Line;
-      delete line2Line;
 
-
-      
       /*
 	printf("corner at polar %5.0f %5.0f pose (%.0f %.0f) angleDelta %.0f %.0f\n", 
 	myFinder->getLinesTakenPose().findAngleTo(intersection),
