@@ -44,6 +44,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <float.h>
 #include <vector>
 #include <limits>
+#include <ostream>
+#include <cassert>
 
 #if defined(_WIN32) && !defined(MINGW)
 #include <sys/timeb.h>
@@ -978,7 +980,7 @@ public:
     { setX(x); setY(y); setTh(th); }
   /// Sets the position equal to the given position
   /** @param position the position value this instance should be set to */
-  /* virtual */ void setPose(ArPose position)
+  /* virtual */ void setPose(const ArPose& position)
     {
       setX(position.getX());
       setY(position.getY());
@@ -1025,7 +1027,7 @@ public:
      @param position the position to find the distance to
      @return the distance to the position from this instance
   */
-  /* virtual */ double findDistanceTo(ArPose position) const
+  /* virtual */ double findDistanceTo(const ArPose& position) const
     {
       return ArMath::distanceBetween(getX(), getY(), 
 				     position.getX(), 
@@ -1040,7 +1042,7 @@ public:
      @param position the position to find the distance to
      @return the distance to the position from this instance 
   **/
-  /* virtual */ double squaredFindDistanceTo(ArPose position) const
+  /* virtual */ double squaredFindDistanceTo(const ArPose& position) const
     {
       return ArMath::squaredDistanceBetween(getX(), getY(), 
 					    position.getX(), 
@@ -1051,7 +1053,7 @@ public:
       @param position the position to find the angle to
       @return the angle to the given position from this instance, in degrees
   */
-  /* virtual */ double findAngleTo(ArPose position) const
+  /* virtual */ double findAngleTo(const ArPose& position) const
     {
       return ArMath::radToDeg(atan2(position.getY() - getY(),
 				                            position.getX() - getX()));
@@ -1115,7 +1117,7 @@ public:
   }
 
   /// Less than operator (for sets)
-  /* virtual */ bool operator<(const ArPose& other) const
+  virtual  bool operator<(const ArPose& other) const
   {
 
     if (fabs(myX - other.myX) > ArMath::epsilon()) {
@@ -1140,7 +1142,7 @@ public:
      @param pose2 the second coords
      @return the distance between the poses
   **/
-  static double distanceBetween(ArPose pose1, ArPose pose2)
+  static double distanceBetween(const ArPose& pose1, const ArPose& pose2)
     { return ArMath::distanceBetween(pose1.getX(), pose1.getY(),
 				     pose2.getX(), pose2.getY()); }
 
@@ -1254,7 +1256,7 @@ public:
 
   /// Gets the number of milliseconds since the given timestamp to this one
   /// @ingroup easy
-  long mSecSince(ArTime since) const 
+  long mSecSince(const ArTime& since) const 
     {
       long long ret = mSecSinceLL(since);
       if (ret > INT_MAX)
@@ -1271,7 +1273,7 @@ public:
       */
     }
   /// Gets the number of milliseconds since the given timestamp to this one
-  long long mSecSinceLL(ArTime since) const 
+  long long mSecSinceLL(const ArTime& since) const 
     {
       long long timeSince, timeThis;
 
@@ -1281,12 +1283,12 @@ public:
     }
   /// Gets the number of seconds since the given timestamp to this one
   /// @ingroup easy
-  long secSince(ArTime since) const
+  long secSince(const ArTime& since) const
     {
       return mSecSince(since)/1000;
     }
   /// Gets the number of seconds since the given timestamp to this one
-  long long secSinceLL(ArTime since) const
+  long long secSinceLL(const ArTime& since) const
     {
       return mSecSinceLL(since)/1000;
     }
@@ -1342,7 +1344,7 @@ public:
     }
   /// returns whether the given time is before this one or not
   /// @ingroup easy
-  bool isBefore(ArTime testTime) const
+  bool isBefore(const ArTime& testTime) const
     {
       if (mSecSince(testTime) < 0)
 	return true;
@@ -1350,7 +1352,7 @@ public:
 	return false;
     }
   /// returns whether the given time is equal to this time or not
-  bool isAt(ArTime testTime) const
+  bool isAt(const ArTime& testTime) const
     {
       if (mSecSince(testTime) == 0)
 	return true;
@@ -1359,7 +1361,7 @@ public:
     }
   /// returns whether the given time is after this one or not
   /// @ingroup easy
-  bool isAfter(ArTime testTime) const
+  bool isAfter(const ArTime& testTime) const
     {
       if (mSecSince(testTime) > 0)
 	return true;
@@ -1387,7 +1389,7 @@ public:
       {
         timeThis += ms;
         mySec = timeThis / 1000;
-	myMSec = timeThis % 1000;
+	      myMSec = timeThis % 1000;
       }
       return true;
     } // end method addMSec
@@ -1488,7 +1490,6 @@ protected:
 
 
 
-
 /// A subclass of ArPose that also stores a timestamp (ArTime) 
 /**
   @ingroup UtilityClasses
@@ -1505,11 +1506,17 @@ public:
   ArPoseWithTime(const ArPose &pose) : ArPose(pose)
   {}
 
-  // Note:virtual destructor omited. ArPose has default nonvirtual destructor as well. Any subclasses of ArPoseWithTime should also not have one (it would not be invoked if an instance stored as upcasted ArPose is destroyed).
-
-  void setTime(ArTime newTime) { myTime = newTime; }
+  void setTime(const ArTime& newTime) { myTime = newTime; }
   void setTimeToNow() { myTime.setToNow(); }
   ArTime getTime() const { return myTime; }
+
+  /// Add operator< to compare timestamps rather than positions.
+  /// This allows you to order ArPoseWithTime objects by timestamp.
+  /// Note that this will only be used when this ArPoseWithTime object is
+  /// compared to another ArPoseWithTime. If either is an ArPose then
+  /// ArPose::operator<() is used, which compares the position components.
+  /// Note that equality (== and !=) still compare position component.
+  bool operator<(const ArPoseWithTime& rhs) { return myTime < rhs.myTime; }
 protected:
   ArTime myTime;
 };
@@ -1601,17 +1608,22 @@ public:
   double getB() const { return myB; }
   /// Gets the C line parameter
   double getC() const { return myC; }
-  /// finds the intersection of this line with another line
+
+  /// @deprecated
+  [[deprecated]] bool intersects(const ArLine *line, ArPose *pose) const {
+    return intersects(*line, pose);
+  }
+    /// finds the intersection of this line with another line
   /** 
       @param line the line to check if it intersects with this line
       @param pose if the lines intersect, the pose is set to the location
       @return true if they intersect, false if they do not 
   **/
-  bool intersects(const ArLine *line, ArPose *pose) const
+  bool intersects(const ArLine& line, ArPose *pose = NULL) const
     {
       double x, y;
       double n;
-      n = (line->getB() * getA()) - (line->getA() * getB());
+      n = (line.getB() * getA()) - (line.getA() * getB());
       n*=-1;
       // if this is 0 the lines are parallel
       if (fabs(n) < .0000000000001)
@@ -1619,17 +1631,28 @@ public:
 	return false;
       }
       // they weren't parallel so see where the intersection is
-      x = ((line->getC() * getB()) - (line->getB() * getC())) / n;
-      y = ((getC() * line->getA()) - (getA() * line->getC())) / n;
-      pose->setPose(x, y);
+      x = ((line.getC() * getB()) - (line.getA() * getC())) / n;
+      y = ((getC() * line.getA()) - (getA() * line.getC())) / n;
+      if(pose) pose->setPose(x, y);
       return true;
     }
-  /// Makes the given line perpendicular to this one through the given pose
-  void makeLinePerp(const ArPose *pose, ArLine *line) const
+  /// @deprecated
+  [[deprecated]] void makeLinePerp(const ArPose* pose, ArLine *line) const { 
+    makeLinePerp(*pose, line);
+  }
+  /// Changes the parameters of the given line to be perpendicular to this one through the given pose
+  void makeLinePerp(const ArPose& pose, ArLine *line) const
     {
+      assert(line);
       line->newParameters(-getB(), getA(),
-			  (getA() * pose->getY()) - (getB() * pose->getX()));
+			  (getA() * pose.getY()) - (getB() * pose.getX()));
     }
+  /// Return new line perpendicular to this line through the given pose
+  ArLine perpendicularLine(const ArPose& pose) const
+  {
+    return ArLine(-getB(), getA(), (getA() * pose.getY()) - (getB() * pose.getX()));
+  }
+
    /// Calculate the distance from the given point to (its projection on) this line segment
   /**
      @param pose the the pose to find the perp point of
@@ -1641,10 +1664,8 @@ public:
    double getPerpDist(const ArPose &pose) const
     {
       ArPose perpPose;
-      ArLine perpLine;
-      makeLinePerp(&pose, &perpLine);
-      if (!intersects(&perpLine, &perpPose))
-	return -1;
+      if (!intersects(perpendicularLine(pose), &perpPose))
+	      return -1;
       return (perpPose.findDistanceTo(pose));
     }
    /// Calculate the squared distance from the given point to (its projection on) this line segment
@@ -1658,10 +1679,8 @@ public:
    double getPerpSquaredDist(const ArPose &pose) const
     {
       ArPose perpPose;
-      ArLine perpLine;
-      makeLinePerp(&pose, &perpLine);
-      if (!intersects(&perpLine, &perpPose))
-	return -1;
+      if (!intersects(perpendicularLine(pose), &perpPose))
+	      return -1;
       return (perpPose.squaredFindDistanceTo(pose));
     }
   /// Determine the intersection point between this line segment, and a perpendicular line passing through the given pose (i.e. projects the given pose onto this line segment.)
@@ -1670,13 +1689,10 @@ public:
      @param pose The X and Y components of this pose object indicate the point to project onto this line segment.
      @param perpPoint The X and Y components of this pose object are set to indicate the intersection point
      @return true if an intersection was found and perpPoint was modified, false otherwise.
-     @swigomit
   **/
   bool getPerpPoint(const ArPose &pose, ArPose *perpPoint) const
     {
-      ArLine perpLine;
-      makeLinePerp(&pose, &perpLine);
-      return intersects(&perpLine, perpPoint);
+      return intersects(perpendicularLine(pose), perpPoint);
     }
 
   /// Equality operator
@@ -1717,7 +1733,7 @@ public:
     { 	newEndPoints(x1, y1, x2, y2); }
 #endif // SWIG
   /// Constructor with endpoints as ArPose objects. Only X and Y components of the poses will be used.
-  ArLineSegment(ArPose pose1, ArPose pose2)
+  ArLineSegment(const ArPose& pose1, const ArPose& pose2)
     { 	newEndPoints(pose1.getX(), pose1.getY(), pose2.getX(), pose2.getY()); }
 
 
@@ -1736,67 +1752,83 @@ public:
   ArPose getEndPoint1() const { return ArPose(myX1, myY1); }
   /// Get the second endpoint of (X2, Y2)
   ArPose getEndPoint2() const { return ArPose(myX2, myY2); }
+
+  /// @deprecated
+  [[deprecated]] bool intersects(const ArLine *line, ArPose *pose) const
+  {
+    return intersects(*line, pose);
+  }
+
   /// Determine where a line intersects this line segment
   /**
       @param line Line to check for intersection against this line segment.
       @param pose if the lines intersect, the X and Y components of this pose are set to the point of intersection.
       @return true if they intersect, false if they do not 
    **/
-  bool intersects(const ArLine *line, ArPose *pose) const
+  bool intersects(const ArLine& line, ArPose *pose = NULL) const
+  {
+    ArPose intersection;
+    // see if it intersects, then make sure its in the coords of this line
+    if (myLine.intersects(line, &intersection) &&
+      linePointIsInSegment(intersection))
     {
-      ArPose intersection;
-      // see if it intersects, then make sure its in the coords of this line
-      if (myLine.intersects(line, &intersection) &&
-	  linePointIsInSegment(&intersection))
-      {
-	pose->setPose(intersection);
-	return true;
-      }
-      else
-	return false;
+      if(pose) pose->setPose(intersection);
+      return true;
     }
+    else
+      return false;
+  }
+
+#ifndef SWIG
+  /// @deprecated
+  /// @swigomit
+  [[deprecated]] bool intersects(ArLineSegment *line, ArPose *pose) const
+  {
+    return intersects(*line, pose);
+  }
+#endif
 
   /** @copydoc intersects(const ArLine *line, ArPose *pose) const */
-  bool intersects(ArLineSegment *line, ArPose *pose) const
+  bool intersects(const ArLineSegment& line, ArPose *pose = NULL) const
+  {
+    ArPose intersection;
+    // see if it intersects, then make sure its in the coords of this line
+    if (myLine.intersects(*(line.getLine()), &intersection) &&
+      linePointIsInSegment(intersection) &&
+      line.linePointIsInSegment(intersection))
     {
-      ArPose intersection;
-      // see if it intersects, then make sure its in the coords of this line
-      if (myLine.intersects(line->getLine(), &intersection) &&
-	  linePointIsInSegment(&intersection) &&
-	  line->linePointIsInSegment(&intersection))
-      {
-	pose->setPose(intersection);
-	return true;
-      }
-      else
-	return false;
+      if(pose) pose->setPose(intersection);
+      return true;
     }
-#ifndef SWIG
+    else
+      return false;
+  }
+
   /** Determine the intersection point between this line segment, and a perpendicular line passing through the given pose (i.e. projects the given pose onto this line segment.)
      If there is no intersection, false is returned.
      @param pose The X and Y components of this pose object indicate the point to project onto this line segment.
      @param perpPoint The X and Y components of this pose object are set to indicate the intersection point
      @return true if an intersection was found and perpPoint was modified, false otherwise.
-     @swigomit
   **/
   bool getPerpPoint(const ArPose &pose, ArPose *perpPoint) const
+  {
+    //ArLine perpLine;
+    //myLine.makeLinePerp(&pose, &perpLine);
+    //ArLine perpLine = myLine.perpendicularLine(pose);
+    return intersects(myLine.perpendicularLine(pose), perpPoint);
+  }
+
+#ifndef SWIG
+  /** 
+   *  @deprecated
+   * @swigomit
+  */
+  [[deprecated]] bool getPerpPoint(const ArPose *pose, ArPose *perpPoint) const
     {
-      ArLine perpLine;
-      myLine.makeLinePerp(&pose, &perpLine);
-      return intersects(&perpLine, perpPoint);
+      return intersects(myLine.perpendicularLine(*pose), perpPoint);
     }
 #endif
-  /** @copydoc getPerpPoint(const ArPose&, ArPose*) const
-   *  (This version simply allows you to pass the first pose as a pointer, in
-   *  time-critical situations where a full copy of the object would impact
-   *  performance.)
-  */
-  bool getPerpPoint(const ArPose *pose, ArPose *perpPoint) const
-    {
-      ArLine perpLine;
-      myLine.makeLinePerp(pose, &perpLine);
-      return intersects(&perpLine, perpPoint);
-    }
+
    /// Calculate the distance from the given point to (its projection on) this line segment
   /**
      @param pose the the pose to find the perp point of
@@ -1808,10 +1840,8 @@ public:
    double getPerpDist(const ArPose &pose) const
     {
       ArPose perpPose;
-      ArLine perpLine;
-      myLine.makeLinePerp(&pose, &perpLine);
-      if (!intersects(&perpLine, &perpPose))
-	return -1;
+      if (!intersects(myLine.perpendicularLine(pose), &perpPose))
+	      return -1;
       return (perpPose.findDistanceTo(pose));
     }
    /// Calculate the squared distance from the given point to (its projection on) this line segment
@@ -1825,9 +1855,7 @@ public:
    double getPerpSquaredDist(const ArPose &pose) const
     {
       ArPose perpPose;
-      ArLine perpLine;
-      myLine.makeLinePerp(&pose, &perpLine);
-      if (!intersects(&perpLine, &perpPose))
+      if (!intersects(myLine.perpendicularLine(pose), &perpPose))
 	      return -1;
       return (perpPose.squaredFindDistanceTo(pose));
     }
@@ -1843,9 +1871,7 @@ public:
   double getDistToLine(const ArPose &pose) const
     {
       ArPose perpPose;
-      ArLine perpLine;
-      myLine.makeLinePerp(&pose, &perpLine);
-      if (!intersects(&perpLine, &perpPose))
+      if (!intersects(myLine.perpendicularLine(pose), &perpPose))
       {
 	      return ArUtil::findMin(
 		                    ArMath::roundInt(getEndPoint1().findDistanceTo(pose)),
@@ -1884,7 +1910,7 @@ public:
   double getC() const { return myLine.getC(); }
 
   /// Internal function for seeing if a point on our line is within our segment
-  bool linePointIsInSegment(ArPose *pose) const
+  bool linePointIsInSegment(const ArPose& pose) const
     {
       bool isVertical = (ArMath::fabs(myX1 - myX2) < ArMath::epsilon());
       bool isHorizontal = (ArMath::fabs(myY1 - myY2) < ArMath::epsilon());
@@ -1892,16 +1918,16 @@ public:
       if (!isVertical || !isHorizontal) {
 
         return (((isVertical) || 
-	               (pose->getX() >= myX1 && pose->getX() <= myX2) || 
-	               (pose->getX() <= myX1 && pose->getX() >= myX2)) &&
+	               (pose.getX() >= myX1 && pose.getX() <= myX2) || 
+	               (pose.getX() <= myX1 && pose.getX() >= myX2)) &&
 	              ((isHorizontal) || 
-	               (pose->getY() >= myY1 && pose->getY() <= myY2) || 
-	               (pose->getY() <= myY1 && pose->getY() >= myY2)));
+	               (pose.getY() >= myY1 && pose.getY() <= myY2) || 
+	               (pose.getY() <= myY1 && pose.getY() >= myY2)));
       }
       else { // single point segment
 
-        return ((ArMath::fabs(myX1 - pose->getX()) < ArMath::epsilon()) &&
-                (ArMath::fabs(myY1 - pose->getY()) < ArMath::epsilon()));
+        return ((ArMath::fabs(myX1 - pose.getX()) < ArMath::epsilon()) &&
+                (ArMath::fabs(myY1 - pose.getY()) < ArMath::epsilon()));
 
       } // end else single point segment
     }
@@ -1968,15 +1994,15 @@ public:
   /// Clears the average
   AREXPORT void clear();
   /// Gets the number of elements
-  AREXPORT size_t getNumToAverage() const;
+  size_t getNumToAverage() const { return myNumToAverage; }
   /// Sets the number of elements
   AREXPORT void setNumToAverage(size_t numToAverage);
   /// Sets if this is using a the root mean square average or just the normal average
   AREXPORT void setUseRootMeanSquare(bool useRootMeanSquare);
   /// Gets if this is using a the root mean square average or just the normal average
-  AREXPORT bool getUseRootMeanSquare();
+  bool getUseRootMeanSquare() const { return myUseRootMeanSquare; }
   /// Gets the number of values currently averaged so far
-  AREXPORT size_t getCurrentNumAveraged();
+  size_t getCurrentNumAveraged() const { return myNum; }
 protected:
   size_t myNumToAverage;
   double myTotal;
@@ -2001,9 +2027,9 @@ public:
   /// Sets the name
   AREXPORT void setName(const char *name);
   /// Gets the name
-  AREXPORT const char *getName();  
+  const char *getName() const { return myName.c_str(); }
   /// Gets the num averaged
-  AREXPORT size_t getCurrentNumAveraged();
+  size_t getCurrentNumAveraged() const { return myNum;}
 protected:
   long long myTotal;
   size_t myNum;
@@ -2993,7 +3019,47 @@ public:
     // can't do anything
   }
 };
-  
+
+std::ostream& operator<<(std::ostream& os, const ArPose& p)
+{
+  os << "{x=" << p.getX() << ", y=" << p.getY() << ", th=" << p.getTh() << "}";
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const ArPos2D& p)
+{
+  os << "{x=" << p.getX() << ", y=" << p.getY() << "}";
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const ArTime& t)
+{
+  os << t.getSec() << "s:" << t.getMSec() << "ms (" << t.mSecSince() << "ms ago.)";
+  return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const ArPoseWithTime& p)
+{
+  os << "{x=" << p.getX() << ", y=" << p.getY() << ", th=" << p.getTh() << ", time=" <<  p.getTime() << "}";
+  return os;
+}
+
+
+std::ostream& operator<<(std::ostream& os, const ArLineSegment& l)
+{
+  os << "(" << l.getX1() << ", " << l.getY1() << ") -> (" << l.getX2() << ", " << l.getY2() << ")";
+  return os;
+} 
+
+std::ostream& operator<<(std::ostream& os, const ArRunningAverage& a)
+{
+  os << a.getAverage() << " (n=" << a.getCurrentNumAveraged() << ")";
+  return os;
+}
+
+
+
+
 
 #endif // ARIAUTIL_H
 
