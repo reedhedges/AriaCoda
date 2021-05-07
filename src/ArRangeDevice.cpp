@@ -627,3 +627,34 @@ AREXPORT void ArRangeDevice::adjustRawReadings(bool interlaced)
 
 
 
+
+
+AREXPORT void ArRangeDevice::logConfig(ArLog::LogLevel level, const char *prefix)
+{
+  ArLog::log(level, "%s%s MaxRange=%u MaxSecondsToKeepCurrent=%d MinDistBetweenCurrent=%g MaxSecondsToKeepCumulative=%d MaxDistToKeepCumulative=%g MinDistBetweenCumulative=%g MaxInsertDistCumulative=%g IsLocationDependent=%d FilterCallback=%s HaveRawReadings=%d",
+             prefix, myName.c_str(), myMaxRange, myMaxSecondsToKeepCurrent, myMinDistBetweenCurrent,
+             myMaxSecondsToKeepCumulative, myMaxDistToKeepCumulative, myMinDistBetweenCumulative, myMaxInsertDistCumulative,
+             myIsLocationDependent,  myFilterCB.getName(), (myRawReadings!=NULL)
+  );
+}
+
+AREXPORT void ArRangeDevice::logData(ArLog::LogLevel level, const char *prefix)
+{
+  myCurrentBuffer.logData(level, prefix, myName.c_str(), "Current");
+  myCumulativeBuffer.logData(level, prefix, myName.c_str(), "Cumulative");
+
+  if(myRawReadings)
+  {
+    myRobot->lock();
+    ArPose p = myRobot->getPose();
+    myRobot->unlock();
+    ArLog::beginWrite(level);
+    ArLog::write(level, "%s%s Raw: %u CurrentRobotPose: (%.0f, %.0f) Ranges: ", 
+      prefix, myName.c_str(), myRawReadings->size(), p.getX(), p.getY());
+    for(auto i = myRawReadings->begin(); i != myRawReadings->end(); ++i)
+      ArLog::write(level, "%d ", (*i)->getRange());
+    ArLog::endWrite();
+  }
+}
+
+

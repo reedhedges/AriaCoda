@@ -141,6 +141,9 @@ public:
 	  double x1, double y1, double x2, double y2, ArPose position, 
 	  unsigned int maxRange, ArPose *readingPos, 
 	  ArPose targetPose, const std::list<ArPoseWithTime *> *buffer);
+
+  AREXPORT void logData(ArLog::LogLevel level, const char *linePrefix, const char *sensorName, const char *bufferName);
+
 protected:
   std::vector<ArPoseWithTime> myVector; // copy of myBuffer, recreated whenever getBufferAsVector() is called. 
   ArPose myBufferPose;		// where the robot was when readings were acquired
