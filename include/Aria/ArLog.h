@@ -154,6 +154,22 @@ public:
 
   AREXPORT static unsigned long getAvailableDiskSpaceMB();
 
+  /// set whether to also include timestamp in log messages. (default is false)
+  static void setLogTime(bool logTime = true)
+  {
+    ourMutex.lock();
+    ourLoggingTime = logTime;
+    ourMutex.unlock();
+  }
+
+  /// Set whether to write log messages to stdout in addition to logging to file
+  static void setAlsoPrint(bool alsoPrint = true) 
+  {
+    ourMutex.lock();
+    ourAlsoPrint = alsoPrint;
+    ourMutex.unlock();
+  }
+
 protected:
   static bool processFile();
   static void invokeFunctor(const char *message);
