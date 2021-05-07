@@ -628,6 +628,26 @@ AREXPORT void ArRangeDevice::adjustRawReadings(bool interlaced)
 
 
 
+AREXPORT std::list<ArPoseWithTime *> *ArRangeDevice::getCurrentBufferPtr()
+  { return myCurrentBuffer.getBufferPtrsPtr(); }
+
+AREXPORT const std::list<ArPoseWithTime *> *ArRangeDevice::getCurrentBufferPtrsPtr() const
+  { return myCurrentBuffer.getBufferPtrsPtr(); }
+
+AREXPORT const std::list<ArPoseWithTime *> *ArRangeDevice::getCumulativeBufferPtrsPtr() const
+  { return myCumulativeBuffer.getBufferPtrsPtr(); }
+
+AREXPORT std::vector<ArPoseWithTime> * ArRangeDevice::getCurrentBufferAsVectorPtr() 
+  { return myCurrentBuffer.getBufferAsVectorPtr(); }
+
+AREXPORT std::list<ArPoseWithTime *> * ArRangeDevice::getCumulativeBufferPtrsPtr() 
+  { return myCumulativeBuffer.getBufferPtrsPtr(); }
+
+AREXPORT std::vector<ArPoseWithTime> * ArRangeDevice::getCumulativeBufferAsVectorPtr() 
+  { return myCumulativeBuffer.getBufferAsVectorPtr(); }
+
+
+
 
 AREXPORT void ArRangeDevice::logConfig(ArLog::LogLevel level, const char *prefix)
 {

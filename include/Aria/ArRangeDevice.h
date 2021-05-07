@@ -157,18 +157,20 @@ public:
   PUBLICDEPRECATED("Use 'const ArRangeBuffer& getCurrentRangeBuffer()' instead.")
   virtual ArRangeBuffer *getCurrentRangeBufferPtr()
     { return &myCurrentBuffer; }
+
   /// Gets the cumulative range buffer
   /// @deprecated
   PUBLICDEPRECATED("Use 'const ArRAngeBuffer& getCumulativeRangeBuffer()' instead.")
   virtual ArRangeBuffer *getCumulativeRangeBufferPtr() 
     { return &myCumulativeBuffer; }
+
   /// Gets the current buffer of readings
   /// @deprecated
   PUBLICDEPRECATED("Use getCurrentReadings() instead.")
-  virtual std::list<ArPoseWithTime *> *getCurrentBufferPtr()
-    { return myCurrentBuffer.getBufferPtr(); }
+  AREXPORT virtual std::list<ArPoseWithTime *> *getCurrentBufferPtr();
 
 #ifndef SWIG
+
   /** @brief Gets the current range buffer
    *  @swigomit See getCurrentBufferAsVector()
       @deprecated
@@ -176,6 +178,7 @@ public:
   PUBLICDEPRECATED("Use 'const ArRangeBuffer& getCurrentRangeBuffer()' instead.")
   virtual const ArRangeBuffer *getCurrentRangeBufferPtr() const
     { return &myCurrentBuffer; }
+  
   /** @brief Gets the cumulative range buffer
    *  @swigomit See getCumulativeBufferAsVector()
       @deprecated
@@ -183,20 +186,21 @@ public:
   PUBLICDEPRECATED("Use 'const ArRangeBuffer& getCumulativeRangeBuffer()' instead.")
   virtual const ArRangeBuffer *getCumulativeRangeBufferPtr() const
     { return &myCumulativeBuffer; }
+  
   /** @brief Gets the current buffer of readings
    *  @swigomit See getCurrentBufferAsVector()
       @deprecated
    */
   PUBLICDEPRECATED("Use getCurrentReadings() instead.")
-  virtual const std::list<ArPoseWithTime *> *getCurrentBufferPtr() const
-    { return myCurrentBuffer.getBufferPtr(); }
+  AREXPORT virtual const std::list<ArPoseWithTime *> *getCurrentBufferPtrsPtr() const;
+
   /** @brief Gets the current buffer of readings
    *  @swigomit See getCumulativeBufferAsVector()
       @deprecated
    */
   PUBLICDEPRECATED("Use getCumulativeReadings() instead.")
-  virtual const std::list<ArPoseWithTime *> *getCumulativeBufferPtr() const
-    { return myCumulativeBuffer.getBufferPtr(); }
+  AREXPORT virtual const std::list<ArPoseWithTime *> *getCumulativeBufferPtrsPtr() const;
+
 #endif // SWIG
 
   /** @brief Gets the current buffer of readings as a vector
@@ -204,19 +208,21 @@ public:
    *   ArPoseWithTimeVector instead of the std::vector template.
    * @deprecated
    */
-  PUBLICDEPRECATED("")
-  virtual std::vector<ArPoseWithTime> *getCurrentBufferAsVector() 
-    { return myCurrentBuffer.getBufferAsVectorPtr(); }
+  PUBLICDEPRECATED("Use getCumulativeReadings() instead.")
+  AREXPORT virtual std::vector<ArPoseWithTime> *getCurrentBufferAsVectorPtr();
+
   /// Gets the current buffer of readings
-  virtual std::list<ArPoseWithTime *> *getCumulativeBufferPtr() 
-    { return myCumulativeBuffer.getBufferPtr(); }
+  /// @deprecated
+  PUBLICDEPRECATED("Use getCumulativeReadings() instead.")
+  AREXPORT virtual std::list<ArPoseWithTime *> *getCumulativeBufferPtrsPtr();
+
   /** @brief Gets the cumulative buffer of readings as a vector
    *  @swignote The return type will be named ArPoseWithTimeVector
    *    instead of the std::vector template.
    * @deprecated
    */
-  virtual std::vector<ArPoseWithTime> *getCumulativeBufferAsVector() 
-    { return myCumulativeBuffer.getBufferAsVectorPtr(); }
+  PUBLICDEPRECATED("Use getCumulativeReadings() or getCumulativeRangeBuffer() instead.")
+  AREXPORT virtual std::vector<ArPoseWithTime> *getCumulativeBufferAsVectorPtr();
 
   /// Gets the raw unfiltered readings from the device
   /** The raw readings are the full set of unfiltered readings from the device.
@@ -237,7 +243,9 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
     { return myRawReadings; }
 
   ///  Gets the raw unfiltered readings from the device into a vector 
-  AREXPORT virtual std::vector<ArSensorReading> *getRawReadingsAsVector();
+  /// @deprecated
+  PUBLICDEPRECATED("")
+  AREXPORT virtual std::vector<ArSensorReading> *getRawReadingsAsVectorPtr();
 
   /// Gets the raw unfiltered readings from the device (but pose takens are corrected)
   /** The raw readings are the full set of unfiltered readings from
