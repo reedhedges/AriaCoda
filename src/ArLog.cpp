@@ -501,6 +501,73 @@ AREXPORT void ArLog::close()
   }
 }
 
+AREXPORT void ArLog::beginWrite(LogLevel level)
+{
+  ourMutex.lock();
+  if(level > ourLevel)
+  {
+    return;
+  }
+  if(ourLoggingTime)
+  {
+    time_t now = time(NULL);
+    char *timeStr = ctime(&now);
+    timeStr[strlen(timeStr)-1] = ' '; // replace newline with space
+    int r = 0;
+    if(ourFP)
+      r = fputs(timeStr, ourFP);
+    else if(ourType != None)
+      r = fputs(timeStr, stdout);
+    if(r > 0)
+      ourCharsLogged += r;
+    if(ourAlsoPrint)
+      fputs(timeStr, stdout);
+  }
+}
+
+
+AREXPORT void ArLog::write(LogLevel level, const char *str, ...)
+{
+  if(level > ourLevel)
+    return;
+  va_list args;
+  va_start(args, str);
+  int r = 0;
+  if(ourFP)
+    r = vfprintf(ourFP, str, args);
+  else if(ourType != None)
+    vprintf(str, args);
+  if(ourAlsoPrint)
+    vprintf(str, args);
+  va_end(args);
+  if(r > 0)
+    ourCharsLogged += r;
+}
+
+
+AREXPORT void ArLog::endWrite()
+{
+  if(ourFP)
+  {
+    int r = fputc('\n', ourFP);
+    if(r > 0)
+      ourCharsLogged += r;
+    fflush(ourFP);
+    checkFileSize();
+  }
+  else if(ourType != None)
+    putchar('\n');
+
+  if(ourAlsoPrint)
+    putchar('\n');
+
+  // XXX bug: we are not invoking user supplied functor with a string of line written!
+
+  ourMutex.unlock();
+}
+
+
+
 AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
 {
   if (level > ourLevel)
