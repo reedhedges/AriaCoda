@@ -399,10 +399,14 @@ public:
 
   /// Invokes the functor, discards any return value
   virtual void invoke() {
+#ifdef WIN32
 #pragma warning(push)
 #pragma warning(disable:4834) // disable MSVC warning about invokeR() having [[nodiscard]]
     invokeR();
 #pragma warning(pop)
+#else
+    invokeR();
+#endif
   }
 
   /// Invokes the functor with return value
