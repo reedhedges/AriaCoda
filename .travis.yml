@@ -30,7 +30,7 @@ jobs:
       install:
         - choco install visualstudio2019buildtools --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64"
       script:
-        - ver
+#        - ver
         - echo $0
         - echo $PWD
         - echo $VisualStudioVersion
