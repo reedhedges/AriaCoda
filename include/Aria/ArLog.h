@@ -100,6 +100,18 @@ public:
   /** @internal
    * @swigomit */
   AREXPORT static void logNoLock(LogLevel level, const char *str, ...);
+  // Do not use this unless you know what you are doing...
+  /** @internal
+   * @swigomit */
+  AREXPORT static void beginWrite(LogLevel level);
+  // Do not use this unless you know what you are doing...
+  /** @internal
+   * @swigomit */
+  AREXPORT static void write(LogLevel level, const char *str, ...);
+  // Do not use this unless you know what you are doing...
+  /** @internal
+   * @swigomit */
+  AREXPORT static void endWrite();
 #endif 
   /// Log function call backtrace for debugging 
   /// @linuxonly

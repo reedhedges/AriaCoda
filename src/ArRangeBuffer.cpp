@@ -539,3 +539,13 @@ AREXPORT std::vector<ArPoseWithTime> *ArRangeBuffer::getBufferAsVector()
 }
 
 
+
+AREXPORT void ArRangeBuffer::logData(ArLog::LogLevel level, const char *linePrefix, const char *sensorName, const char *bufferName)
+{
+  ArLog::beginWrite(level);
+  ArLog::write(level, "%s%s %s: %u Readings: ",
+    linePrefix, sensorName, bufferName, myBuffer.size() );
+  for(auto i = myBuffer.begin(); i != myBuffer.end(); ++i)
+    ArLog::write(level, "(%d, %d) ", (*i)->getX(), (*i)->getY());
+  ArLog::endWrite();
+}

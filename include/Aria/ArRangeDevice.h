@@ -395,6 +395,11 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
   AREXPORT void filterCallback();
 #endif
 
+  AREXPORT void logConfig(ArLog::LogLevel level = ArLog::Normal, const char *prefix = "");
+
+  AREXPORT void logData(ArLog::LogLevel level = ArLog::Normal, const char *prefix = "");
+
+
 protected:
   /**
     This call should be called by the range device every robot cycle
