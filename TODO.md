@@ -2,6 +2,7 @@
 TODO
 ====
 
+* Edit (review and improve) README
 * Add [[deprecated]] attribute to deprecated methods
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and insttructions to users to transition existing
@@ -162,7 +163,9 @@ TODO
   * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics
   * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
   * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
-    std::stod, std::strtod, std::from_chars, etc.  Replace use of sprintf with std::to_chars or sstream with format manipulators (or std::format but that's c++20)
+    std::stod, std::strtod, std::from_chars, etc.  Replace use of sprintf with
+    std::to_chars or sstream with format manipulators, or std::format (coming in
+    C++20, but there is also https://github.com/fmtlib/fmt in the mean time)
   * Use `std::string` and `string_view` more frequently rather than `char*`.
   * Use std::array instead of C arrays (or known-size vectors, but these seem to
     not occur or be very rare in ARIA)

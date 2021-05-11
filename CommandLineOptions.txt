@@ -410,7 +410,6 @@ Common PTU and Camera PTZ options:
 	-ptzType <type>	Select PTZ/PTU type. Required.  Available types are:
 		dpptu
 		rvision
-		sony
 		vcc
 		vcc4
 		vcc50i
@@ -486,4 +485,3 @@ Valid lcd types are: mtx
 See docs for details.
 
 
-Aria: Received signal 'SIGSEGV'. Exiting.

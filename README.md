@@ -21,14 +21,14 @@ AriaCoda is distributed under the terms of the GNU General Public License
 See [LICENSE.txt](LICENSE.txt) for full license information about AriaCoda.
 
 
-
 Requirements
 ------------
 
 AriaCoda is intended to be used on any recent standard Linux, MacOSX, Windows 7, 
-or Windows 10 system with standard system libraries, common developer tools, and
-a recent C++ compiler only.  
-There are no required library dependencies other than the C++ standard library.
+or Windows 10 system. The only requirements are standard operating system libraries
+(POSIX, as well as the Windows C Runtime and Platform SDK if on Windows and some 
+standard Linux libraries if on Linux), common developer tools, and a C++ compiler that 
+supports C++14.  There are no additional library dependencies.
 
 On Linux, the GNU C++ compiler (g++/gcc), GNU Make, and standard shell
 tools are required.  On Ubuntu or Debian Linux, run 
@@ -36,19 +36,19 @@ tools are required.  On Ubuntu or Debian Linux, run
 tested.)   The C++ compiler must support at least C++14.  Ubuntu Bionic 
 or later is recommended. (See below for older systems.)
 
-On Windows, Visual C++ 2019 is required to use the provides project and
+On Windows, Visual C++ 2019 is required to use the provided project and
 solution files.  The free "Community" edition can be downloaded
-from <http://visualstudio.microsoft.com/downloads>.  (Only the C++ compiler
-and Windows SDK are required, no additional Visual Studio components
-are needed.)   It may be possible to use older versions of Visual C++ 
-if neccesary, but you will need to create new project files for AriaCoda
-using that version of Visual C++.  (Generally, Visual C++ project files
-are specific to versions of Visual C++, though Visual Studio can often 
-upgrade older project files.)
+from <http://visualstudio.microsoft.com/downloads>.  The core C++ development
+and Windows SDK components are required, no additional Visual Studio components
+are needed.   See more build instructions below.
 
-Note: As new versions of Visual C++ are released in the future, 
-the Visual C++ project and solution files may be updated, requiring that 
-you update your Visual C++ version.
+It is also possible to build AriaCoda with MinGW on Windows.
+
+On Mac OSX, XCode and command-line development tools are required.  
+(Run XCode, open "Preferences" from the application menu, select "Downloads",
+select "Command Line Tools", and click "Install".)   Run `make` from a
+Terminal shell.
+
 
 In addition, some optional feaures have additional requirements. 
 * Doxygen, for API reference documentation generation. See  <http://www.doxygen.org>
@@ -127,7 +127,7 @@ Contact me to discuss further.
 Building AriaCoda
 -----------------
 
-On Linux, enter the AriaCoda source directory in a terminal,
+On Linux or Mac OSX, enter the AriaCoda source directory in a terminal,
 and run `make`.    
 
 Use `make -j4` to build targets in parallel with a maximum of 4 jobs.
@@ -135,17 +135,47 @@ Use `make -j4` to build targets in parallel with a maximum of 4 jobs.
 
 Run `make help` for information on more make rules and parameters.
 
-On Windows, open `AriaCoda.sln` with Visual C++ 2019 and build the
-solution.  
+On Windows, open `AriaCoda.sln` with Visual Studio 2019 and build the
+solution.   This will build AriaCoda as a static library (`lib/ARIA.lib`
+in Release mode or `lib/AriaDebug.lib` in Debug mode.)
 
 Note: As new versions of Visual C++ are released in the future, 
 the Visual C++ project and solution files may be updated, requiring that 
 you update your Visual C++ version.
 
-Note: To allow building on older Linux/GCC versions (e.g. Ubuntu Xenial), some compilation flags can
-be added to `EXTRA_CXXFLAGS` when building:
+If there is an error in Visual Studio about build tools not installed when loading 
+the AriaCoda project, open "Tools" -> "Get Tools and Features...", choose "Individual
+components", and install the latest version of "MSVC C++ x64/x86 build tools", 
+"C++ core features", and the latest version of the Windows SDK (Or install the 
+complete C++ development environment option).   
+
+It may be possible to use older versions of Visual C++ if neccesary, but you will 
+need to create new project files for AriaCoda using that version of Visual C++.  
+(Generally, Visual C++ project files are specific to versions of Visual C++, though 
+Visual Studio can often upgrade older project files.)
+
+On Mac OSX, XCode and command-line development tools are required.  
+(Run XCode, open "Preferences" from the application menu, select "Downloads",
+select "Command Line Tools", and click "Install".)   Run `make` from a
+Terminal shell to build the Aria dynamic library.
+
+Note: To build on certain older Linux versions (glibc versions) (e.g. Ubuntu Xenial), 
+add the `-DARIA_OMIT_DEPRECATED_MATH_FUNCS` compilation flag to `EXTRA_CXXFLAGS` when building:
 
     make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS 
+
+Note: After building AriaCoda, you can build and run example and test programs
+without installing on the system by adding the library directory to your dynamic library path:
+
+Linux:
+
+    export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/AriaCoda/lib
+
+Mac OSX:
+
+    export DYLIB_LIBRARY_PATH=$DYLIB_LIBRARY_PATH:~/AriaCoda/lib
+
+Replace `~/AriaCoda` with the correct path to your AriaCoda source directory.
 
 Installation
 ------------
@@ -188,4 +218,9 @@ Simulator
 ---------
 
 AriaCoda may be used with the [AMRISim](http://github.com/reedhedges/AMRISim) simulator, or MobileSim.
+No special cofiguration changes or version needs to be used to use AMRISim,
+AriaCoda will automatically detect AMRISim if it is running on the same
+computer, or you can connect remotely to AMRISim using the `-remoteHost` option,
+or network broadcast service discovery (currently implemented in the Python
+wrapper only.) 
 
