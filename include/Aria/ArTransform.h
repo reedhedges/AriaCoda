@@ -34,11 +34,8 @@ class ArTransform
 {
 public:
   /// Constructor
-  ArTransform() 
+  ArTransform() : myX(0), myY(0), myTh(0)
     { 
-      myX = 0;
-      myY = 0; 
-      myTh = 0;
       myCos = ArMath::cos(myTh);
       mySin = ArMath::sin(myTh);
     }
@@ -64,28 +61,69 @@ public:
       @param source the parameter to transform
       @return the source transformed into absolute coordinates
   */
-  ArPose doTransform(ArPose source)
-    {
-      ArPose ret;
-      ret.setX(myX + myCos * source.getX() + mySin * source.getY());
-      ret.setY(myY + myCos * source.getY() - mySin * source.getX());
-      ret.setTh(ArMath::addAngle(source.getTh(),myTh));      
-      return ret;
-    }
+  ArPose doTransform(const ArPose& source) const
+  {
+    return ArPose(
+      (myX + myCos * source.getX() + mySin * source.getY()),
+      (myY + myCos * source.getY() - mySin * source.getX()),
+      (ArMath::addAngle(source.getTh(),myTh)) 
+    );
+  }
+
+  ArPose operator()(const ArPose& source) const
+  {
+    return doTransform(source);
+  }
+
+  ArPose operator()(ArPose& source) const
+  {
+    return doTransform(source);
+  }
+
+
   /// Take the source pose and run the transform on it to put it into abs 
   /// coordinates
   /** 
       @param source the parameter to transform
       @return the source transformed into absolute coordinates
   */
-  ArPoseWithTime doTransform(ArPoseWithTime source)
+  ArPoseWithTime doTransform(const ArPoseWithTime& source) const
+  {
+    return ArPoseWithTime(
+      (myX + myCos * source.getX() + mySin * source.getY()),
+      (myY + myCos * source.getY() - mySin * source.getX()),
+      (ArMath::addAngle(source.getTh(),myTh)), 
+      source.getTime()
+    );
+  }
+
+  ArPoseWithTime operator()(const ArPoseWithTime& source) const
+  {
+    return doTransform(source);
+  }
+
+  
+  ArPoseWithTime operator()(ArPoseWithTime& source) const
+  {
+    return doTransform(source);
+  }
+
+  /// Take the source pose and run the inverse transform on it, taking it from
+  /// abs coords to local
+  /** 
+      The source and result can be the same
+      @param source the parameter to transform
+      @return the source transformed from absolute into local coords
+  */
+  ArPose doInvTransform(const ArPose& source) const
     {
-      ArPoseWithTime ret;
-      ret.setX(myX + myCos * source.getX() + mySin * source.getY());
-      ret.setY(myY + myCos * source.getY() - mySin * source.getX());
-      ret.setTh(ArMath::addAngle(source.getTh(),myTh));      
-      ret.setTime(source.getTime());
-      return ret;
+      const double tx = source.getX() - myX;
+      const double ty = source.getY() - myY;
+      return ArPose(
+        (myCos * tx - mySin * ty),
+        (myCos * ty + mySin * tx),
+        ArMath::subAngle(source.getTh(),myTh)
+      );        
     }
 
   /// Take the source pose and run the inverse transform on it, taking it from
@@ -95,51 +133,35 @@ public:
       @param source the parameter to transform
       @return the source transformed from absolute into local coords
   */
-  ArPose doInvTransform(ArPose source)
+  ArPoseWithTime doInvTransform(const ArPoseWithTime& source) const
     {
-      ArPose ret;
-      double tx = source.getX() - myX;
-      double ty = source.getY() - myY;
-      ret.setX(myCos * tx - mySin * ty);
-      ret.setY(myCos * ty + mySin * tx);
-      ret.setTh(ArMath::subAngle(source.getTh(),myTh));      
-      return ret;
-    }
-
-  /// Take the source pose and run the inverse transform on it, taking it from
-  /// abs coords to local
-  /** 
-      The source and result can be the same
-      @param source the parameter to transform
-      @return the source transformed from absolute into local coords
-  */
-  ArPoseWithTime doInvTransform(ArPoseWithTime source)
-    {
-      ArPoseWithTime ret;
-      double tx = source.getX() - myX;
-      double ty = source.getY() - myY;
-      ret.setX(myCos * tx - mySin * ty);
-      ret.setY(myCos * ty + mySin * tx);
-      ret.setTh(ArMath::subAngle(source.getTh(),myTh));      
-      ret.setTime(source.getTime());
-      return ret;
+      const double tx = source.getX() - myX;
+      const double ty = source.getY() - myY;
+      return ArPoseWithTime(
+        (myCos * tx - mySin * ty),
+        (myCos * ty + mySin * tx),
+        ArMath::subAngle(source.getTh(),myTh),     
+        source.getTime()
+      );
     }
 
 
   /// Take a std::list of sensor readings and do the transform on it
+  /// @deprecated use std::transform(poseList, t)
   AREXPORT void doTransform(std::list<ArPose *> *poseList);
+  /// @deprecated use std::transform(poseList, t)
   /// Take a std::list of sensor readings and do the transform on it
   AREXPORT void doTransform(std::list<ArPoseWithTime *> *poseList);
   /// Sets the transform so points in this coord system transform to abs world coords
-  AREXPORT void setTransform(ArPose pose);
+  AREXPORT void setTransform(const ArPose& pose);
   /// Sets the transform so that pose1 will be transformed to pose2
-  AREXPORT void setTransform(ArPose pose1, ArPose pose2);
+  AREXPORT void setTransform(const ArPose& pose1, const ArPose& pose2);
   /// Gets the transform x value (mm)
-  double getX() { return myX; }
+  double getX() const { return myX; } 
   /// Gets the transform y value (mm)
-  double getY() { return myY; }
+  double getY() const { return myY; }
   /// Gets the transform angle value (degrees)
-  double getTh() { return myTh; }
+  double getTh()const  { return myTh; }
   /// Internal function for setting the transform from low level data not poses
   AREXPORT void setTransformLowLevel(double x, double y, double th);
 protected:
@@ -149,6 +171,7 @@ protected:
   double myCos;
   double mySin;
 };
+
 
 
 #endif // ARTRANSFORM_H
