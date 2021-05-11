@@ -2013,8 +2013,8 @@ AREXPORT bool ArUtil::getFileName(const char *fileName,
   }
 
   char *str;
-  size_t fileNameLen = strlen(fileName) + 1;
-  str = new char[fileNameLen];
+  size_t fileNameLen = strlen(fileName);
+  str = new char[fileNameLen+1];
   //printf("0 %s\n", fileName);
   // just play in the result buffer
   strncpy(str, fileName, fileNameLen-1);
