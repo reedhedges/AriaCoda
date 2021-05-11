@@ -369,4 +369,5 @@ int main(int argc, char **argv)
   fputs("genCommandLineOptionDocs: Wrote CommandLineOptions.txt\n", stderr);
 
   Aria::exit(0);
+  return 0;
 }
