@@ -143,13 +143,13 @@ public:
   /// Gets the list of sensor reading positions from the "current" buffer
   /// @since AriaCoda 3.0
   /// @note you can check for the ARIACODA preprocessor symbol to determine whether to use this or getCurrentBufferPtr() to get pointer instead of reference.
-  const std::list<ArPoseWithTime *>& getCurrentReadings()  const
+  const std::list<ArPoseWithTime>& getCurrentReadings()  const
     { return myCurrentBuffer.getBuffer(); }
 
  /// Gets the list of sensor reading positions from the "cumulative" buffer
   /// @since AriaCoda 3.0
   /// @note you can check for the ARIACODA preprocessor symbol to determine whether to use this or getCurrentBufferPtr() to get pointer instead of reference.
-  const std::list<ArPoseWithTime *>& getCumulativeReadings()  const
+  const std::list<ArPoseWithTime>& getCumulativeReadings()  const
     { return myCumulativeBuffer.getBuffer(); }
 
   /// Gets the current range buffer
@@ -258,6 +258,8 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
       robot odometry offset (just the pose taken, and encoder psoe
       taken).
 
+      TODO change to remove pointers
+
       @note Only lasers provides this data currently.  Sonar, bumpers,
       etc. do not provide raw readings.
   **/
@@ -265,7 +267,9 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
     { return myAdjustedRawReadings; }
 
   ///  Gets the raw adjusted readings from the device into a vector 
-  AREXPORT virtual std::vector<ArSensorReading> *getAdjustedRawReadingsAsVector();
+  /// @deprecated
+  PUBLICDEPRECATED("")
+  AREXPORT virtual std::vector<ArSensorReading> *getAdjustedRawReadingsAsVectorPtr();
 
 
   /// Sets the maximum seconds to keep current readings around
@@ -443,6 +447,13 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
   virtual int tryLockDevice() {return(myDeviceMutex.tryLock());}
   /// Unlock this device
   virtual int unlockDevice() {return(myDeviceMutex.unlock());}
+
+  /// Lock this device. Same as lockDevice().
+  virtual int lock() { return(myDeviceMutex.lock());}
+  /// Try to lock this device. Same as tryLockDevice().
+  virtual int tryLock() {return(myDeviceMutex.tryLock());}
+  /// Unlock this device. Same as unlockDevice().
+  virtual int unlock() {return(myDeviceMutex.unlock());}
 
 #ifndef ARIA_WRAPPER
   /// Internal function to filter the readings based on age and distance

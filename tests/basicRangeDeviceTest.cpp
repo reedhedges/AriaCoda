@@ -27,7 +27,7 @@ Current readings are configured to remain for 1 second, current readings for 2 s
 every time data is logged every second)
 
   Data log is written to basicRangeBufferTest.dat and may be plotted with gnu plot.
-  
+
   The logs of readings may be compared to basicRangeBufferTestKnownGood.dat as an
 approval/regression test.
 */
@@ -207,6 +207,10 @@ int main(int argc, char **argv)
   Test test(&robot, &testRangeDevice);
 
   robot.runAsync();
+
+  // XXX TODO invalidate specific readings and check sizes.  add logInternals() to ArRangeBuffer to log
+  // size etc. of reserved invalidated readings. as well as others. log these to data file in addition to ArLog 
+  // to compare against old for approval/regression test.  (does ArLog need an option to write log messages to data file as a comment?)
 
   ArUtil::sleep(1000);
   test.logData("all readings on");

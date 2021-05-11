@@ -163,19 +163,19 @@ AREXPORT void ArRangeDevice::filterCallback()
   
   // first filter the current readings based on time
   if (myMaxSecondsToKeepCurrent > 0 && 
-      myCurrentBuffer.getSize() > 0)
+      myCurrentBuffer.getCapacity() > 0)
   {
     // just walk through and make sure nothings too far away
     myCurrentBuffer.beginInvalidationSweep();
     for (auto it = getCurrentReadings().begin();  it != getCurrentReadings().end(); ++it)
     {
-      if ((*it)->getTime().secSince() >= myMaxSecondsToKeepCurrent)
+      if (it->getTime().secSince() >= myMaxSecondsToKeepCurrent)
 	      myCurrentBuffer.invalidateReading(it);
     }
     myCurrentBuffer.endInvalidationSweep();
   }
   
-  if (myCumulativeBuffer.getSize() == 0)
+  if (myCumulativeBuffer.getCapacity() == 0)
   {
     unlockDevice();
     return;
@@ -204,11 +204,11 @@ AREXPORT void ArRangeDevice::filterCallback()
   {
     // if its closer to a reading than the filter near dist, just return
     if (doingDist && 
-	(myRobot->getPose().squaredFindDistanceTo(*(*it)) > 
+	(myRobot->getPose().squaredFindDistanceTo(*it) > 
 	 myMaxDistToKeepCumulativeSquared))
       myCumulativeBuffer.invalidateReading(it);
     else if (doingAge && 
-	     (*it)->getTime().secSince() >= myMaxSecondsToKeepCumulative)
+	     it->getTime().secSince() >= myMaxSecondsToKeepCumulative)
       myCumulativeBuffer.invalidateReading(it);
   }
   myCumulativeBuffer.endInvalidationSweep();
@@ -225,12 +225,12 @@ AREXPORT void ArRangeDevice::filterCallback()
 */
 AREXPORT void ArRangeDevice::setCurrentBufferSize(size_t size)
 {
-  myCurrentBuffer.setSize(size);
+  myCurrentBuffer.setCapacity(size);
 }
 
 AREXPORT size_t ArRangeDevice::getCurrentBufferSize() const
 {
-  return myCurrentBuffer.getSize();
+  return myCurrentBuffer.getCapacity();
 }
 
 /**
@@ -243,15 +243,36 @@ AREXPORT size_t ArRangeDevice::getCurrentBufferSize() const
 */
 AREXPORT void ArRangeDevice::setCumulativeBufferSize(size_t size)
 {
-  myCumulativeBuffer.setSize(size);
+  myCumulativeBuffer.setCapacity(size);
 }
 
 
 AREXPORT size_t ArRangeDevice::getCumulativeBufferSize() const
 {
-  return myCumulativeBuffer.getSize();
+  return myCumulativeBuffer.getCapacity();
 }
 
+/** 
+  @param x global X location of sensor reading
+  @param y global Y location of sensor reading
+  @param wasAdded  If not null, the boolean value pointed to is set to true if
+    the reading was added to the Current buffer, false if not (due to conditions.)
+
+  A sensor reading at (x, y) is added to the Current buffer, conditional on the
+  MinDistBetweenCurrent parameter (if an existing reading is this close to the
+  new reading, then the new reading is not added, and @a wasAdded is set to
+  false.)  The reading is also added to
+  the Cumulative buffer, similarly conditional on MinDistBetweenCumulative, but 
+  also conditional on MaxInsertDistCumulativeSquared (If the reading is more
+  than this distance from the robot, it will not be added.)
+  The condition parameters are set in the constructor.  If a parameter is 0,
+  then the condition is not used.
+
+  This provides a default filtering behavior.  Subclasses may check additional 
+  conditions to determine whether to add data or not, according to the specific
+  properties and characteristics of that type of range sensor, and desired
+  behavior.
+*/
 AREXPORT void ArRangeDevice::addReading(double x, double y, bool *wasAdded)
 {
   myCurrentBuffer.addReadingConditional(x, y, 
@@ -259,7 +280,7 @@ AREXPORT void ArRangeDevice::addReading(double x, double y, bool *wasAdded)
 					wasAdded);
 
   // make sure we have a cumulative buffer 
-  if (myCumulativeBuffer.getSize() == 0)
+  if (myCumulativeBuffer.getCapacity() == 0)
     return;
   
   // see if we're doing a max distance
@@ -435,7 +456,7 @@ AREXPORT void ArRangeDevice::applyTransform(ArTransform trans,
  *  @swignote The return type will be named ArSensorReadingVector instead
  *    of the std::vector template type.
  */
-AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getRawReadingsAsVector()
+AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getRawReadingsAsVectorPtr()
 {
   
   std::list<ArSensorReading *>::const_iterator it;
@@ -453,7 +474,7 @@ AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getRawReadingsAsVector()
  *  @swignote The return type will be named ArSensorReadingVector instead
  *    of the std::vector template type.
  */
-AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getAdjustedRawReadingsAsVector()
+AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getAdjustedRawReadingsAsVectorPtr()
 {
   
   std::list<ArSensorReading *>::const_iterator it;
@@ -672,7 +693,7 @@ AREXPORT void ArRangeDevice::logData(ArLog::LogLevel level, const char *prefix)
     ArLog::write(level, "%s%s Raw: %u CurrentRobotPose: (%.0f, %.0f) Ranges: ", 
       prefix, myName.c_str(), myRawReadings->size(), p.getX(), p.getY());
     for(auto i = myRawReadings->begin(); i != myRawReadings->end(); ++i)
-      ArLog::write(level, "%d ", (*i)->getRange());
+      ArLog::write(level, "%u ", (*i)->getRange());
     ArLog::endWrite();
   }
 }

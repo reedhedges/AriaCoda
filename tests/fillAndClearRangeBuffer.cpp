@@ -16,7 +16,7 @@
 // with a range buffer size of 1000, storing 200,000 random points 
 // (x in range (0,30000), y in range (0,30000)) omitting near distance of 10,000mm (so it shuold have to search the whole list every time), and clearing out 
 // the buffer every 5000 points added.
-// I timed this with the new method about 900 ms.
+// I timed this with the new method about 1 second.
 
 int main()
 {
@@ -42,6 +42,7 @@ int main()
           break;
         ++i;
       }
+      rangebuffer.endInvalidationSweep();
     }
   }
   //rangebuffer.logData(ArLog::Verbose, "", "none", "test");

@@ -26,42 +26,20 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArRangeBuffer.h"
 #include "Aria/ArLog.h"
 
-/** @param size The size of the buffer, in number of readings */
-AREXPORT ArRangeBuffer::ArRangeBuffer(int size)
-{
-  mySize = size;
-}
+#include <algorithm>
 
-AREXPORT ArRangeBuffer::~ArRangeBuffer()
-{
-  ArUtil::deleteSet(myBuffer.begin(), myBuffer.end());
-  ArUtil::deleteSet(myInvalidBuffer.begin(), myInvalidBuffer.end());
-}
 
-AREXPORT size_t ArRangeBuffer::getSize() const
-{
-  return mySize;
-}
 
-AREXPORT ArPose ArRangeBuffer::getPoseTaken() const
-{
-  return myBufferPose;
-}
-
-AREXPORT void ArRangeBuffer::setPoseTaken(ArPose p)
-{
-  myBufferPose = p;
-}
-
-AREXPORT ArPose ArRangeBuffer::getEncoderPoseTaken() const
-{
-  return myEncoderBufferPose;
-}
-
-AREXPORT void ArRangeBuffer::setEncoderPoseTaken(ArPose p)
-{
-  myEncoderBufferPose = p;
-}
+/** @class ArRangeBuffer
+ * 
+ *  @impnote The data in ArRangeBuffer is currently stored as a std::list of ArPoseWithTime objects.  When new readings are added
+ *  to the buffer, an ArPoseWithTime object is added to the beginning of the list, or if buffer is at capacity, the last (oldest) reading
+ *  is moved (spliced) to the front and re-used, or else if a previously created ArPoseWithTime is available 
+ *  (e.g. was previously removed by being invalidated by the ArRangeDevice or internal condition), it will be re-used and spliced to the beginning 
+ *  of the list.   An alternative implementation would be to use a std::vector or std::array (since the max capacity is generally set at compile time),
+ *  used as a circular buffer with our own begin/end iterators maintained.  This would enable users to more efficiently make a copy of the buffer
+ *  for asynchronous processing.  For this reason, getBegin() and getEnd() are the preferred means of acessing buffer data. (You also generally need to lock/unlock the ArRangeDevice object while accessing the buffer)
+ */
 
 /**
    If the new size is smaller than the current buffer it chops off the 
@@ -69,25 +47,11 @@ AREXPORT void ArRangeBuffer::setEncoderPoseTaken(ArPose p)
    is larger then it just leaves room for the buffer to grow
    @param size number of readings to set the buffer to
 */
-AREXPORT void ArRangeBuffer::setSize(size_t size) 
+AREXPORT void ArRangeBuffer::setCapacity(size_t size) 
 {
-  mySize = size;
-  // if its smaller then chop the lists down to size
-  while (myInvalidBuffer.size() + myBuffer.size() > mySize)
-  {
-    if ((myRevIterator = myInvalidBuffer.rbegin()) != myInvalidBuffer.rend())
-    {
-      ArPoseWithTime *reading = (*myRevIterator);
-      myInvalidBuffer.pop_back();
-      delete reading;
-    }
-    else if ((myRevIterator = myBuffer.rbegin()) != myBuffer.rend())
-    {
-      ArPoseWithTime *reading = (*myRevIterator);
-      myBuffer.pop_back();
-      delete reading;
-    }
-  }
+  myCapacity = size;
+  if(myCapacity < myBuffer.size())
+    myBuffer.resize(myCapacity);
 }
 
 
@@ -113,48 +77,33 @@ AREXPORT void ArRangeBuffer::setSize(size_t size)
 */
 AREXPORT double ArRangeBuffer::getClosestPolar(double startAngle, 
 					       double endAngle, 
-					       ArPose startPos, 
+					       const ArPose& startPos, 
 					       unsigned int maxRange,
 					       double *angle) const
 {
-  return getClosestPolarInList(startAngle, endAngle, 
-			       startPos, maxRange, angle, &myBuffer);
-}
-
-AREXPORT double ArRangeBuffer::getClosestPolarInList(
-	double startAngle, double endAngle, ArPose startPos, 
-	unsigned int maxRange, double *angle, 
-	const std::list<ArPoseWithTime *> *buffer)
-{
-  double closest;
+  double closest = 0;
   bool foundOne = false;
-  std::list<ArPoseWithTime *>::const_iterator it;
-  ArPoseWithTime *reading;
-  double th;
-  double closeTh;
-  double dist;
-  double angle1, angle2;
+  double closeTh = 0;
+  double dist = 0;
 
   startAngle = ArMath::fixAngle(startAngle);
   endAngle = ArMath::fixAngle(endAngle);
 
-  for (it = buffer->begin(); it != buffer->end(); ++it)
+  for (auto it = myBuffer.begin(); it != myBuffer.end(); ++it)
   {
-    reading = (*it);
-
-    angle1=startPos.findAngleTo(*reading);
-    angle2=startPos.getTh();
-    th = ArMath::subAngle(angle1, angle2);
+    const double angle1=startPos.findAngleTo(*it);
+    const double angle2=startPos.getTh();
+    const double th = ArMath::subAngle(angle1, angle2);
     if (ArMath::angleBetween(th, startAngle, endAngle))
     {
-      if (!foundOne || (dist = reading->findDistanceTo(startPos)) < closest)
+      if (!foundOne || (dist = it->findDistanceTo(startPos)) < closest)
       {
-	closeTh = th;	
-	if (!foundOne)
-	  closest = reading->findDistanceTo(startPos);
-	else
-	  closest = dist;
-	foundOne = true;
+        closeTh = th;	
+        if (!foundOne)
+          closest = it->findDistanceTo(startPos);
+        else
+          closest = dist;
+        foundOne = true;
       }
     }
   }
@@ -168,39 +117,11 @@ AREXPORT double ArRangeBuffer::getClosestPolarInList(
     return closest;  
 }
 
-/**
-   Gets the closest reading in a region defined by two points (opposeite points
-   of a rectangle).
-   @param x1 the x coordinate of one of the rectangle points
-   @param y1 the y coordinate of one of the rectangle points
-   @param x2 the x coordinate of the other rectangle point
-   @param y2 the y coordinate of the other rectangle point
-   @param startPos the position to find the closest reading to (usually
-   the robots position)
-   @param maxRange the maximum range to return (and what to return if nothing
-   found)
-   @param readingPos a pointer to a position in which to store the location of
-   the closest position
-   @param targetPose the origin of the local coords for the definition of the 
-   coordinates, e.g. ArRobot::getPosition() to center the box on the robot
-   @return if the return is >= 0 and <= maxRange then this is the distance
-   to the closest reading, if it is >= maxRange, then there was no reading 
-   in the given section
-*/
-AREXPORT double ArRangeBuffer::getClosestBox(double x1, double y1, double x2,
-					     double y2, ArPose startPos,
-					     unsigned int maxRange, 
-					     ArPose *readingPos,
-					     ArPose targetPose) const
-{
-  return getClosestBoxInList(x1, y1, x2, y2, startPos, maxRange, readingPos, 
-			     targetPose, &myBuffer);
-}
+
 
 /**
    Get closest reading in a region defined by two points (opposeite points
-   of a rectangle) from a given list readings (rather than the readings
-   stored in an ArRangeBuffer)
+   of a rectangle)
 
    @param x1 the x coordinate of one of the rectangle points
    @param y1 the y coordinate of one of the rectangle points
@@ -220,52 +141,50 @@ AREXPORT double ArRangeBuffer::getClosestBox(double x1, double y1, double x2,
    to the closest reading, if it is >= maxRange, then there was no reading 
    in the given section
 */
-AREXPORT double ArRangeBuffer::getClosestBoxInList(
-	double x1, double y1, double x2, double y2, ArPose startPos,
-	unsigned int maxRange, ArPose *readingPos, ArPose targetPose,
-	const std::list<ArPoseWithTime *> *buffer)
+AREXPORT double ArRangeBuffer::getClosestBox(
+	double x1, double y1, double x2, double y2, const ArPose& startPos,
+	unsigned int maxRange, ArPose *readingPos, ArPose targetPose) const
 
 {
   double closest = maxRange;
   double dist;
   ArPose closestPos;
-  std::list<ArPoseWithTime *>::const_iterator it;
-  ArTransform trans;
-  ArPoseWithTime pose;
-  ArPose zeroPos;
-  
-  double temp;
+  //ArPoseWithTime pose;
+  ArPose zeroPos(0, 0, 0);;
+  ArTransform trans(startPos, zeroPos);
 
-  zeroPos.setPose(0, 0, 0);
-  trans.setTransform(startPos, zeroPos);
+  // double temp;
+
 
   if (x1 >= x2)
   {
-    temp = x1, 
+    std::swap(x1, x2);
+/*     temp = x1, 
     x1 = x2;
-    x2 = temp;
+    x2 = temp; */
   }
   if (y1 >= y2)
   {
-    temp = y1, 
+    std::swap(y1, y2);
+/*     temp = y1, 
     y1 = y2;
-    y2 = temp;
+    y2 = temp; */
   }
   
-  for (it = buffer->begin(); it != buffer->end(); ++it)
+  for (auto it = myBuffer.begin(); it != myBuffer.end(); ++it)
   {
-    pose = trans.doTransform(*(*it));
+    const ArPoseWithTime pose = trans.doTransform(*it);
 
     // see if its in the box
     if (pose.getX() >= x1 && pose.getX() <= x2 &&
-	pose.getY() >= y1 && pose.getY() <= y2)
+	      pose.getY() >= y1 && pose.getY() <= y2)
     {
       dist = pose.findDistanceTo(targetPose);
       //pose.log();
       if (dist < closest)
       {
-	closest = dist;
-	closestPos = pose;
+        closest = dist;
+        closestPos = pose;
       }
     }
   }
@@ -279,13 +198,13 @@ AREXPORT double ArRangeBuffer::getClosestBoxInList(
 }
 
 /** 
-    Applies a transform to the buffers.. this is mostly useful for translating
+    Applies a transform to the all items in buffer.. this is mostly useful for translating
     to/from local/global coords, but may have other uses
     @param trans the transform to apply to the data
-*/    
-AREXPORT void ArRangeBuffer::applyTransform(ArTransform trans)
+*/
+AREXPORT void ArRangeBuffer::applyTransform(const ArTransform &trans)
 {
-  trans.doTransform(&myBuffer);
+  std::for_each(myBuffer.begin(), myBuffer.end(), [&](ArPoseWithTime &p) { p = trans.doTransform(p); } );
 }
 
 AREXPORT void ArRangeBuffer::clear()
@@ -301,12 +220,13 @@ AREXPORT void ArRangeBuffer::reset()
 
 AREXPORT void ArRangeBuffer::clearOlderThan(int milliSeconds)
 {
-  std::list<ArPoseWithTime *>::iterator it;
+  
+  // TODO if new readings are always added to the front of the buffer, then this could probably just splice all readings after the first reading found into the reserve list.
 
   beginInvalidationSweep();
-  for (it = myBuffer.begin(); it != myBuffer.end(); ++it)
+  for (auto it = myBuffer.begin(); it != myBuffer.end(); ++it)
   {
-    if ((*it)->getTime().mSecSince() > milliSeconds)
+    if (it->getTime().mSecSince() > milliSeconds)
       invalidateReading(it);
   }
   endInvalidationSweep();
@@ -343,11 +263,11 @@ AREXPORT void ArRangeBuffer::redoReading(double x, double y)
 {
   if (myRedoIt != myBuffer.end() && !myHitEnd)
   {
-    (*myRedoIt)->setPose(x, y);
+    myRedoIt->setPose(x, y);
+    // TODO sholud we update timestamp?
     myRedoIt++;
   }
-  // if we don't, add more (its just moving from buffers here, 
-  //but let the class for this do the work
+  // We re-used as many items in myBuffer as we could, we have reached the end of myBuffer. Just append them now.
   else
   {
     addReading(x,y);
@@ -363,7 +283,8 @@ AREXPORT void ArRangeBuffer::endRedoBuffer()
 {
   if (!myHitEnd)
   {
-    // now we get rid of the extra readings on the end
+    // There were still some readings left in the old myBuffer, remove the rest.
+    // todo just remove the items
     beginInvalidationSweep();
     while (myRedoIt != myBuffer.end())
     {
@@ -378,83 +299,72 @@ AREXPORT void ArRangeBuffer::endRedoBuffer()
    @param x the x position of the reading
    @param y the y position of the reading
 
-   @param closeDistSquared if the new reading is within
-   closeDistSquared distanceSquared of an old point the old point is
-   just updated for time
-
+   @param closeDistSquared if squared distance between any reading already in the buffer, and the new point to add, is less than @a closeDistSquared then the old point is re-used and its timestamp is updated. If no nearby reading is found, add it.
    @param wasAdded pointed to set to true if the reading was added, or false if not
+
+   This prevents multiple readings very close to each other in the buffer.
 */
 AREXPORT void ArRangeBuffer::addReadingConditional(
-	double x, double y, double closeDistSquared, bool *wasAdded)
+	const ArPoseWithTime& p, double closeDistSquared, bool *wasAdded)
 {
+  // find an existing reading to replace with this one.
+  // TODO could be optimized if a spatially sorted list is used.
   if (closeDistSquared >= 0)
   {  
-    std::list<ArPoseWithTime *>::iterator it;
-    ArPoseWithTime *pose;
-    for (it = myBuffer.begin(); it != myBuffer.end(); ++it)
+    for (auto it = myBuffer.begin(); it != myBuffer.end(); ++it)
     {
-      pose = (*it);
-      if (ArMath::squaredDistanceBetween(pose->getX(), pose->getY(),
-					 x, y) < closeDistSquared)
+      if (it->squaredFindDistanceTo(p) < closeDistSquared)
       {
-	pose->setTimeToNow();
-	if (wasAdded != NULL)
-	  *wasAdded = false;
-	return;
+        it->setTimeToNow();
+        // XXX TODO move item to front of list, to keep it sorted with newest at the front?
+        if (wasAdded != NULL)
+          *wasAdded = false;
+        return;
       }
     }
   }
 
   if (wasAdded != NULL)
     *wasAdded = true;
-  addReading(x, y);    
+  addReading(p);    
 }
 
 /**
    @param x the x position of the reading
    @param y the y position of the reading
 */
-AREXPORT void ArRangeBuffer::addReading(double x, double y) 
+AREXPORT void ArRangeBuffer::addReading(const ArPoseWithTime& p) 
 {
-  if (myBuffer.size() < mySize)
+
+  // If the buffer is full, reuse the last item, which is the oldest added, and splice it to the beginning.
+  if(myBuffer.size() == myCapacity)
   {
-    if ((myIterator = myInvalidBuffer.begin()) != myInvalidBuffer.end())
+    myBuffer.splice(myBuffer.cbegin(), myBuffer, --myBuffer.end());
+    *(myBuffer.begin()) = p; // todo could we std::move from p to buffer?
+  }
+  else
+  {
+    // if there are any items in myReserved, splice them into myBuffer.
+    if(!myReserved.empty())
     {
-      ArPoseWithTime *reading = (*myIterator);
-      reading->setPose(x, y);
-      reading->setTimeToNow();
-      myBuffer.push_front(reading);
-      myInvalidBuffer.pop_front();
+      myBuffer.splice(myBuffer.cbegin(), myReserved, myReserved.cbegin());
+      *(myBuffer.begin()) = p;
     }
     else
-      myBuffer.push_front(new ArPoseWithTime(x, y));
-      // XXX TODO is it neccesary to allocate new ArPoseWithTime objects? 
-      // I think this was done to make copying the buffer list less expensive (but we
-      // could prevent copying the buffer and provide shared_ptrs or similar)
-      // or to reduce copying as buffer is manipulated. But ArPoseWithTime is
-      // three doubles, and two long longs, and myBuffer is a list so
-      // removal/insertion shouldn't be that big a deal? 
-      // I think the items in myInvalidBuffer point at myBuffer elements but this
-      // should also be OK. 
+      myBuffer.emplace_front(p);
   }
-  else if ((myRevIterator = myBuffer.rbegin()) != myBuffer.rend())
-  {
-    ArPoseWithTime* reading = (*myRevIterator);
-    reading->setPose(x, y);
-    reading->setTimeToNow();
+
+  /* another Naive solution
+  myBuffer.emplace_front(ArPoseWithTime(x, y));
+  while(myBuffer.size() >= myCapacity)
     myBuffer.pop_back();
-    myBuffer.push_front(reading);
-  }
+  */
 }
 
 /**
-   This is a set of funkiness used to invalid readings in the buffer.
-   It is fairly complicated.  But what you need to do, is set up the invalid
-   sweeping with beginInvalidationSweep, then walk through the list of 
-   readings, and pass the iterator to a reading you want to invalidate to 
-   invalidateReading, then after you are all through walking the list call 
-   endInvalidationSweep.  Look at the description of getBuffer() for additional
-   warnings.
+   Begin building a list of readings to remove from the buffer when endInvalidationSweep() is called.  This allows you to remove multiple readings 
+   from the list while iterating over it (using a const_iterator), since removing an item from a list invalidates an iterator.  (Alternatively, you may be able to use
+   standard container algorithms from e.g. <algorithm> to remove items directly without iterating.)
    @see invalidateReading
    @see endInvalidationSweep
 */
@@ -464,41 +374,38 @@ void ArRangeBuffer::beginInvalidationSweep()
 }
 
 /**
-   See the description of beginInvalidationSweep, it describes how to use
-   this function.
-   @param readingIt the ITERATOR to the reading you want to get rid of
+   See the description of beginInvalidationSweep(). 
+   @param readingIt the iterator to the reading you want to get rid of
    @see beginInvaladationSweep
    @see endInvalidationSweep
 */
 AREXPORT void ArRangeBuffer::invalidateReading(
-	std::list<ArPoseWithTime*>::iterator readingIt)
+	std::list<ArPoseWithTime>::const_iterator readingIt)
 {
-  myInvalidSweepList.push_front(readingIt);
-}
-AREXPORT void ArRangeBuffer::invalidateReading(
-	std::list<ArPoseWithTime*>::const_iterator readingIt)
-{
-  myInvalidSweepList.push_front(readingIt);
+  myInvalidSweepList.push_back(readingIt);
 }
 
+/* REXPORT void ArRangeBuffer::invalidateReading(
+	std::list<ArPoseWithTime>::iterator readingIt)
+{
+  myInvalidSweepList.push_front(readingIt);
+} */
+
+
 /**
-   See the description of beginInvalidationSweep, it describes how to use
-   this function.
+   See the description of beginInvalidationSweep()
    @see beginInvalidationSweep
    @see invalidateReading
 */
 void ArRangeBuffer::endInvalidationSweep()
 {
-  while ((myInvalidIt = myInvalidSweepList.begin()) != 
-	 myInvalidSweepList.end())
+
+  for(auto i = myInvalidSweepList.cbegin(); i != myInvalidSweepList.cend(); ++i)
   {
-    //printf("nuked one before %d %d\n", myBuffer.size(), myInvalidBuffer.size());
-    ArPoseWithTime *reading = (*(*myInvalidIt));
-    myInvalidBuffer.push_front(reading);
-    myBuffer.erase((*myInvalidIt));
-    myInvalidSweepList.pop_front();
-    //printf("after %d %d\n", myBuffer.size(), myInvalidBuffer.size());
+    // naive implementation, just remove myBuffer.remove(*i);
+    myReserved.splice(myReserved.cend(), myBuffer, *i); // reserve item for future reuse. (*i) is an iterator into myBuffer.
   }
+  myInvalidSweepList.clear();
 }
 
 /**
@@ -510,20 +417,24 @@ void ArRangeBuffer::endInvalidationSweep()
 */
 AREXPORT std::vector<ArPoseWithTime> *ArRangeBuffer::getBufferAsVectorPtr()
 {
-  std::list<ArPoseWithTime *>::iterator it;
-
   myVector.reserve(myBuffer.size());
   myVector.clear();
-  // start filling the array with the buffer until we run out of
-  // readings or its full
-  for (it = myBuffer.begin(); it != myBuffer.end(); it++)
+  for (auto it = myBuffer.cbegin(); it != myBuffer.cend(); it++)
   {
-    myVector.insert(myVector.begin(), *(*it));
+    myVector.insert(myVector.begin(), (*it));
   }
   return &myVector;
 }
 
 
+AREXPORT std::list<ArPoseWithTime*> *ArRangeBuffer::getBufferPtrsPtr() const
+{
+  static std::list<ArPoseWithTime *> ptrlist(myBuffer.size());
+  ptrlist.clear();
+   for (auto i = myBuffer.begin(); i != myBuffer.end(); ++i)
+    ptrlist.push_back(const_cast<ArPoseWithTime*>(&(*i)));
+  return &ptrlist;
+}
 
 AREXPORT void ArRangeBuffer::logData(ArLog::LogLevel level, const char *linePrefix, const char *sensorName, const char *bufferName)
 {
@@ -534,6 +445,11 @@ AREXPORT void ArRangeBuffer::logData(ArLog::LogLevel level, const char *linePref
     myRobotEncoderPose.getX(), myRobotEncoderPose.getY()
   );
   for(auto i = myBuffer.begin(); i != myBuffer.end(); ++i)
-    ArLog::write(level, "(%d, %d) ", i->getX(), i->getY());
+    ArLog::write(level, "(%.0f,%.0f) ", i->getX(), i->getY());
   ArLog::endWrite();
+}
+
+AREXPORT void ArRangeBuffer::logInternal(ArLog::LogLevel level, const char *name)
+{
+  ArLog::log(level, "ArRangeBuffer %s: Buffer.size=%d Reserved.size=%d Capacity=%d, Buffer.max_size=%d Reserved.max_size=%d", name, myBuffer.size(), myReserved.size(), myCapacity, myBuffer.max_size(), myReserved.max_size());
 }
