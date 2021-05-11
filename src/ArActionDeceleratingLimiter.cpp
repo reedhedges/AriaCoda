@@ -103,7 +103,7 @@ AREXPORT void ArActionDeceleratingLimiter::addToConfig(ArConfig *config,
   std::string strPrefix;
   std::string name;
   if (prefix == NULL || prefix[0] == '\0')
-    strPrefix = "";
+    strPrefix.clear();
   else
     strPrefix = prefix;
 

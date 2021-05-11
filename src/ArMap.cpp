@@ -1591,7 +1591,7 @@ bool ArMap::processFile(char *errorBuffer, size_t errorBufferLen)
     ArLog::log(ArLog::Normal, "Using an empty map since empty map file name");
     lock();
 
-    myFileName = "";
+    myFileName.clear();
     myCurrentMap->clear();
 
     // The clear method will cause mapChanged to be called.

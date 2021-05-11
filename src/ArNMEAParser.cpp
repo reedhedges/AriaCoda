@@ -78,7 +78,7 @@ AREXPORT void ArNMEAParser::removeHandler(const char *message)
 void ArNMEAParser::nextField()
 {
   currentMessage.push_back(currentField);
-  currentField = "";
+  currentField.clear();
   if (currentMessage.size() > MaxNumFields)
     endMessage();
 }
@@ -87,7 +87,7 @@ void ArNMEAParser::endMessage()
 {
   inMessage = false;
   inChecksum = false;
-  currentField = "";
+  currentField.clear();
   gotCR = false;
   currentMessage.clear();
 }
@@ -104,7 +104,7 @@ void ArNMEAParser::beginMessage()
   currentMessage.clear();
   inChecksum = false;
   inMessage = true;
-  currentField = "";
+  currentField.clear();
   gotCR = false;
   currentChecksum = 0;
   memset(checksumBuf, 0, sizeof(checksumBuf));
@@ -252,7 +252,7 @@ AREXPORT int ArNMEAParser::parse(const char *buf, int n)
           ArLog::log(ArLog::Normal, "%s: Warning: Skipping message with incorrect checksum.", myName);
 
           // reconstruct message to log:
-          std::string nmeaText = "";
+          std::string nmeaText;
           for(MessageVector::const_iterator i = currentMessage.begin(); i != currentMessage.end(); ++i)
           {
             if(i != currentMessage.begin()) nmeaText += ",";

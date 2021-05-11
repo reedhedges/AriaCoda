@@ -768,12 +768,14 @@ AREXPORT bool  ArConfig::addSection(const char *categoryName,
 /**
    Set the comment string associated with a section. If the section doesn't 
    exist then it is created.
+
    @deprecated use addSection instead
+
     @warning The section name must not contain any characters with
     special meaning when saved and loaded from a config file, such as '#', ';',
     tab, or newline.  The comment must not contain tab or newline, but '#' and
     ';' are OK within a comment.
-**/
+*/
 AREXPORT void ArConfig::setSectionComment(const char *sectionName, 
 					  const char *comment)
 {
