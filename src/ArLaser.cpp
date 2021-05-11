@@ -309,7 +309,7 @@ void ArLaser::internalProcessReading(double x, double y,
 				     unsigned int range, bool clean,
 				     bool onlyClean)
 {
-  if (myCumulativeBuffer.getSize() == 0)
+  if (myCumulativeBuffer.getCapacity() == 0)
     return;
 
   // make sure we really want to clean
@@ -358,7 +358,7 @@ void ArLaser::internalProcessReading(double x, double y,
   {
     // if its closer to a reading than the filter near dist, just return
     if (addReading && ( myMinDistBetweenCumulativeSquared < .0000001 ||
-      (ArMath::squaredDistanceBetween(x, y, (*cit)->getX(), (*cit)->getY()) <
+      (ArMath::squaredDistanceBetween(x, y, (*cit).getX(), (*cit).getY()) <
       myMinDistBetweenCumulativeSquared) ) )
     {
       // if we're not cleaning it and its too close just return,
@@ -376,7 +376,7 @@ void ArLaser::internalProcessReading(double x, double y,
       // this line segment, and then see if its too close if it does,
       // but if the intersection is very near the endpoint then leave it
       if (line.getPerpPoint((*cit), &intersection) &&
-        (intersection.squaredFindDistanceTo(*(*cit)) < 
+        (intersection.squaredFindDistanceTo(*cit) < 
         myCumulativeCleanDistSquared) &&
         (intersection.squaredFindDistanceTo(reading) > 
         50 * 50))
