@@ -1261,7 +1261,7 @@ public:
 	return INT_MAX;
       if (ret < -INT_MAX)
 	return -INT_MAX;
-      return ret;
+      return (long) ret;
       /*  The old way that had problems with wrapping
       long long timeSince, timeThis;
 
@@ -1421,9 +1421,11 @@ public:
   /// Sets the milliseconds value (occuring after the seconds value)
   void setMSec(unsigned long msec) { myMSec = msec; }
   /// Gets the seconds value (since the arbitrary starting time)
-  unsigned long getSec() const { return mySec; }
+  /// @sa getSecLL() for full size value (unsigned long long) without potential truncation
+  unsigned long getSec() const { return (unsigned long) mySec; }
   /// Gets the milliseconds value (occuring after the seconds value)
-  unsigned long getMSec() const { return myMSec; }
+  /// @sa getSecLL() for full size value (unsigned long long) without potential truncation
+  unsigned long getMSec() const { return (unsigned long) myMSec; }
 
   /// Sets the seconds value (since the arbitrary starting time)
   void setSecLL(unsigned long long sec) { mySec = sec; }
@@ -1436,11 +1438,13 @@ public:
   /// Logs the time
   /// @ingroup easy
   void log(const char *prefix = NULL) const
-    { ArLog::log(ArLog::Terse, 
-                 "%sTime: %lld.%lld", 
+  { 
+    ArLog::log(ArLog::Terse, 
+                 "%sTime: %llu.%llu", 
                  ((prefix != NULL) ? prefix : ""),
                  mySec, 
-		 myMSec); }
+		         myMSec); 
+  }
   /// Gets if we're using a monotonic (ever increasing) clock
   static bool usingMonotonicClock()
     {

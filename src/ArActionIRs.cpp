@@ -87,8 +87,6 @@ AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired cur
   int counter = 0;
   double turnRange = 135;
 
-  ArUtil::BITS bit;
-
   if(myFiring)
     {  
       if (myStartBack.mSecSince() < myBackOffTime)
@@ -115,127 +113,129 @@ AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired cur
     }
 
 
-  if(myParams.haveTableSensingIR())
+  if (myParams.haveTableSensingIR())
+  {
+    for (int i = 0; i < myParams.getNumIR(); ++i)
     {
-      for (int i = 0; i < myParams.getNumIR(); ++i)
-	{
-	  switch(i)
-	    {
-	    case 0:
-	      bit = ArUtil::BIT0;
-	      break;
-	    case 1:
-	      bit = ArUtil::BIT1;
-	      break;
-	    case 2:
-	      bit = ArUtil::BIT2;
-	      break;
-	    case 3:
-	      bit = ArUtil::BIT3;
-	      break;
-	    case 4:
-	      bit = ArUtil::BIT4;
-	      break;
-	    case 5:
-	      bit = ArUtil::BIT5;
-	      break;
-	    case 6:
-	      bit = ArUtil::BIT6;
-	      break;
-	    case 7:
-	      bit = ArUtil::BIT7;
-	      break;
-	    }
-	  if(myParams.haveNewTableSensingIR() && myRobot->getIODigInSize() > 3)
-	    {
-	      if((myParams.getIRType(i) && !(myRobot->getIODigIn(3) & bit)) ||
-		 (!myParams.getIRType(i) && (myRobot->getIODigIn(3) & bit)))
-	      {
-		if(cycleCounters[i] < myParams.getIRCycles(i))
-		  {
-		    cycleCounters[i] = cycleCounters[i] + 1;	      
-		  }
-		else
-		  {
-		    cycleCounters[i] = 1;
-		   
-		    ArPose pose;
-		    pose.setX(myParams.getIRX(i));
-		    pose.setY(myParams.getIRY(i));
-		    if(pose.getX() > 0)
-		      {
-			ArPose center(0,0,0);
-			angle += center.findAngleTo(pose);
-			counter++;
-		      }
-		  }
-	      }
-	      else
-		{
-		  cycleCounters[i] = 1;
-		}
-	    }
-	  else
-	    {
-	      if(!(myRobot->getDigIn() & bit))
-	      {
-		if(cycleCounters[i] < myParams.getIRCycles(i))
-		  {
-		    cycleCounters[i] = cycleCounters[i] + 1;	      
-		  }
-		else
-		  {
-		    cycleCounters[i] = 1;
-		    
-		    ArPose pose;
-		    pose.setX(myParams.getIRX(i));
-		    pose.setY(myParams.getIRY(i));
-		    if(pose.getX() > 0)
-		      {
-			ArPose center(0,0,0);
-			angle += center.findAngleTo(pose);
-			counter++;
-		      }
-		  }
-	      }
-	      else
-		{
-		  cycleCounters[i] = 1;
-		}
-	      
-	    }
-	}
- 
-      if(counter > 0 && myRobot->getVel() > 50)
-	{
-	  angle = angle / (double) counter;
-	  if(angle > (turnRange / 2))
-	    angle = turnRange / 2;
-	  else if(angle < -(turnRange / 2))
-	    angle = -(turnRange / 2);
-	  
-	  if(angle < 0) angle = ((turnRange / 2) + angle) * -1;
-	  else angle = ((turnRange / 2) - angle);
-	
-	  myHeading = ArMath::addAngle(myRobot->getTh(), angle);
-	  mySpeed = -myBackOffSpeed;
-	  myStartBack.setToNow();
-	  ArLog::log(ArLog::Normal, "ArActionIRS: estopping");
-	  myRobot->comInt(ArCommands::ESTOP, 0);
-	  myFiring = true;
-	  
-	  myDesired.setVel(mySpeed);
-	  myDesired.setHeading(myHeading);
-  
-	}
-      else if(counter > 0 && (myRobot->getVel() > -50 && myRobot->getVel() < 50))
-	{
-	  stoppedSince.setToNow();
-	}
-      else return NULL;
+      unsigned char bit = 0;
+
+      switch (i)
+      {
+      case 0:
+        bit = ArUtil::BIT0;
+        break;
+      case 1:
+        bit = ArUtil::BIT1;
+        break;
+      case 2:
+        bit = ArUtil::BIT2;
+        break;
+      case 3:
+        bit = ArUtil::BIT3;
+        break;
+      case 4:
+        bit = ArUtil::BIT4;
+        break;
+      case 5:
+        bit = ArUtil::BIT5;
+        break;
+      case 6:
+        bit = ArUtil::BIT6;
+        break;
+      case 7:
+        bit = ArUtil::BIT7;
+        break;
+      }
+      if (myParams.haveNewTableSensingIR() && myRobot->getIODigInSize() > 3)
+      {
+        if ((myParams.getIRType(i) && !(myRobot->getIODigIn(3) & bit)) ||
+          (!myParams.getIRType(i) && (myRobot->getIODigIn(3) & bit)))
+        {
+          if (cycleCounters[i] < myParams.getIRCycles(i))
+          {
+            cycleCounters[i] = cycleCounters[i] + 1;
+          }
+          else
+          {
+            cycleCounters[i] = 1;
+
+            ArPose pose;
+            pose.setX(myParams.getIRX(i));
+            pose.setY(myParams.getIRY(i));
+            if (pose.getX() > 0)
+            {
+              ArPose center(0, 0, 0);
+              angle += center.findAngleTo(pose);
+              counter++;
+            }
+          }
+        }
+        else
+        {
+          cycleCounters[i] = 1;
+        }
+      }
+      else
+      {
+        if (!(myRobot->getDigIn() & bit))
+        {
+          if (cycleCounters[i] < myParams.getIRCycles(i))
+          {
+            cycleCounters[i] = cycleCounters[i] + 1;
+          }
+          else
+          {
+            cycleCounters[i] = 1;
+
+            ArPose pose;
+            pose.setX(myParams.getIRX(i));
+            pose.setY(myParams.getIRY(i));
+            if (pose.getX() > 0)
+            {
+              ArPose center(0, 0, 0);
+              angle += center.findAngleTo(pose);
+              counter++;
+            }
+          }
+        }
+        else
+        {
+          cycleCounters[i] = 1;
+        }
+
+      }
     }
+
+    if (counter > 0 && myRobot->getVel() > 50)
+    {
+      angle = angle / (double)counter;
+      if (angle > (turnRange / 2))
+        angle = turnRange / 2;
+      else if (angle < -(turnRange / 2))
+        angle = -(turnRange / 2);
+
+      if (angle < 0) angle = ((turnRange / 2) + angle) * -1;
+      else angle = ((turnRange / 2) - angle);
+
+      myHeading = ArMath::addAngle(myRobot->getTh(), angle);
+      mySpeed = -myBackOffSpeed;
+      myStartBack.setToNow();
+      ArLog::log(ArLog::Normal, "ArActionIRS: estopping");
+      myRobot->comInt(ArCommands::ESTOP, 0);
+      myFiring = true;
+
+      myDesired.setVel(mySpeed);
+      myDesired.setHeading(myHeading);
+
+    }
+    else if (counter > 0 && (myRobot->getVel() > -50 && myRobot->getVel() < 50))
+    {
+      stoppedSince.setToNow();
+    }
+    else return NULL;
+  }
   else return NULL;
-  
+
 
   return &myDesired;
 }  

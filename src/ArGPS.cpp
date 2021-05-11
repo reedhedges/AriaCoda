@@ -640,8 +640,10 @@ bool ArGPS::readTimeFromString(const std::string& s, ArTime* time) const
   time_t timeMSec = 0;
   if(dotpos != std::string::npos)
     timeMSec = atoi(s.substr(dotpos+1).c_str()) * 100;
-  time->setSec(timeSec);
-  time->setMSec(timeMSec);
+  if (timeSec < 0) timeSec = 0;
+  if (timeMSec < 0) timeMSec = 0;
+  time->setSecLL((unsigned long long) timeSec);
+  time->setMSecLL((unsigned long long) timeMSec);
   return true;
 }
 
@@ -698,7 +700,9 @@ void ArGPS::handleGPGST(ArNMEAParser::Message msg)
   printf("ArGPS: XXX GPGST inputsRMS=%s, ellipseMajor=%s, ellipseMinor=%s, ellipseOrient=%s\n", 
       (*message)[2].c_str(), (*message)[3].c_str(), (*message)[4].c_str(), (*message)[5].c_str());
 #endif
-  double major, minor, orient;
+  double major = 0.0;
+  double minor = 0.0; 
+  double orient = 0.0;
   myData.haveErrorEllipse = (
     readFloatFromStringVec(message, 3, &major)
     &&
@@ -713,7 +717,7 @@ void ArGPS::handleGPGST(ArNMEAParser::Message msg)
   printf("ArGPS: XXX GPGST latErr=%s, lonErr=%s\n",
       (*message)[6].c_str(), (*message)[7].c_str());
 #endif
-  double lat, lon;
+  double lat = 0.0, lon = 0.0;
   myData.haveLatLonError = (
     readFloatFromStringVec(message, 6, &lat)
     &&

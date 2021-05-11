@@ -175,7 +175,7 @@ AREXPORT bool ArGripper::gripPressure(int mSecIntervals)
     return false;
   
   if (myRobot->comInt(ArCommands::GRIPPER, ArGripperCommands::GRIP_PRESSURE) &&
-      myRobot->comInt(ArCommands::GRIPPERVAL, mSecIntervals))
+      myRobot->comInt(ArCommands::GRIPPERVAL, (short)mSecIntervals))
     return true;
   else
     return false;
@@ -190,7 +190,7 @@ AREXPORT bool ArGripper::liftCarry(int mSecIntervals)
     return false;
   
   if (myRobot->comInt(ArCommands::GRIPPER, ArGripperCommands::LIFT_CARRY) &&
-      myRobot->comInt(ArCommands::GRIPPERVAL, mSecIntervals))
+      myRobot->comInt(ArCommands::GRIPPERVAL, (short)mSecIntervals))
     return true;
   else
     return false;

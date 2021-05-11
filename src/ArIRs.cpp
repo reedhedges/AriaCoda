@@ -74,7 +74,7 @@ AREXPORT void ArIRs::setRobot(ArRobot *robot)
 */
 AREXPORT void ArIRs::processReadings()
 {
-  ArUtil::BITS bit;
+  unsigned char bit = 0;
   if(myParams.haveTableSensingIR())
     {
       for (int i = 0; i < myParams.getNumIR(); ++i)

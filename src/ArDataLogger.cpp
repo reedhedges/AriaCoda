@@ -868,7 +868,7 @@ AREXPORT void ArDataLogger::writeComment(const char *str)
     return;
   }
   ArLog::log(ArLog::Normal, "ArDataLogger: User comment: %s", str);
-  fprintf(myFile, "; %ld %s\n", time(NULL), str);
+  fprintf(myFile, "; %ld %s\n", (long) time(NULL), str);
   fflush(myFile);
   myMutex.unlock();
 }

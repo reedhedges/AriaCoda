@@ -27,6 +27,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ariaUtil.h"
 #include <cmath>
+#include <algorithm>
 
 /// Class used by ArActionDesired for each channel, internal
 class ArActionDesiredChannel

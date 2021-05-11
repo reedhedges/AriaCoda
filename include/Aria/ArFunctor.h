@@ -397,8 +397,13 @@ public:
   /// Destructor
   virtual ~ArRetFunctor()  = default;
 
-  /// Invokes the functor
-  virtual void invoke() {invokeR();}
+  /// Invokes the functor, discards any return value
+  virtual void invoke() {
+#pragma warning(push)
+#pragma warning(disable:4834) // disable MSVC warning about invokeR() having [[nodiscard]]
+    invokeR();
+#pragma warning(pop)
+  }
 
   /// Invokes the functor with return value
   [[nodiscard]] virtual Ret invokeR() = 0;
@@ -1854,7 +1859,7 @@ public:
      @param obj object to call function on
      @param func member function pointer
   */
-  ArFunctorC(T &obj, void (T::*func)()) : myObj(&obj), myFunc(func) {}
+  ArFunctorC(T &obj, void (T::*func)()) : myFunc(func), myObj(&obj) {}
 
   /// Constructor - supply function pointer
   /**
@@ -1894,8 +1899,8 @@ public:
 
 protected:
 
-  T *myObj;
   void (T::*myFunc)();
+  T* myObj;
 };
 
 
@@ -1922,7 +1927,7 @@ public:
      @param func member function pointer
   */
   ArFunctor1C(T &obj, void (T::*func)(P1)) :
-    myObj(&obj), myFunc(func), myP1() {}
+    myFunc(func), myObj(&obj), myP1() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -1931,7 +1936,7 @@ public:
      @param p1 default first parameter
   */
   ArFunctor1C(T &obj, void (T::*func)(P1), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1) {}
+    myFunc(func), myObj(&obj), myP1(p1) {}
 
   /// Constructor - supply function pointer
   /**
@@ -1982,8 +1987,8 @@ public:
 
 protected:
 
-  T *myObj;
   void (T::*myFunc)(P1);
+  T* myObj;
   P1 myP1;
 };
 
@@ -2015,8 +2020,8 @@ public:
 private:
   virtual void invoke() {} // can't do anything without an argument
 protected:
+  void (T::* myFunc)(P1);
   T *myObj;
-  void (T::*myFunc)(P1);
 };
 
 
@@ -2043,7 +2048,7 @@ public:
      @param func member function pointer
   */
   ArFunctor2C(T &obj, void (T::*func)(P1, P2)) :
-    myObj(&obj), myFunc(func), myP1(), myP2() {}
+    myFunc(func), myObj(&obj), myP1(), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2052,7 +2057,7 @@ public:
      @param p1 default first parameter
   */
   ArFunctor2C(T &obj, void (T::*func)(P1, P2), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2062,7 +2067,7 @@ public:
      @param p2 default second parameter
   */
   ArFunctor2C(T &obj, void (T::*func)(P1, P2), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2) {}
 
   /// Constructor - supply function pointer
   /**
@@ -2135,9 +2140,8 @@ public:
   virtual void setP2(P2 p2) {myP2=p2;}
 
 protected:
-
+  void (T::* myFunc)(P1, P2);
   T *myObj;
-  void (T::*myFunc)(P1, P2);
   P1 myP1;
   P2 myP2;
 };
@@ -2165,7 +2169,7 @@ public:
      @param func member function pointer
   */
   ArFunctor3C(T &obj, void (T::*func)(P1, P2, P3)) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2174,7 +2178,7 @@ public:
      @param p1 default first parameter
   */
   ArFunctor3C(T &obj, void (T::*func)(P1, P2, P3), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2184,7 +2188,7 @@ public:
      @param p2 default second parameter
   */
   ArFunctor3C(T &obj, void (T::*func)(P1, P2, P3), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2195,7 +2199,7 @@ public:
      @param p3 default third parameter
   */
   ArFunctor3C(T &obj, void (T::*func)(P1, P2, P3), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Constructor - supply function pointer
   /**
@@ -2294,8 +2298,8 @@ public:
 
 protected:
 
+  void (T::* myFunc)(P1, P2, P3);
   T *myObj;
-  void (T::*myFunc)(P1, P2, P3);
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -2326,7 +2330,7 @@ public:
      @param func member function pointer
   */
   ArFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4)) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2335,7 +2339,7 @@ public:
      @param p1 default first parameter
   */
   ArFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2345,7 +2349,7 @@ public:
      @param p2 default second parameter
   */
   ArFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2356,7 +2360,7 @@ public:
      @param p3 default third parameter
   */
   ArFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2368,7 +2372,7 @@ public:
       @param p4 default fourth parameter
  */
   ArFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
   /// Constructor - supply function pointer
   /**
@@ -2496,8 +2500,8 @@ public:
 
 protected:
 
+  void (T::* myFunc)(P1, P2, P3, P4);
   T *myObj;
-  void (T::*myFunc)(P1, P2, P3, P4);
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -2528,7 +2532,7 @@ public:
      @param func member function pointer
   */
   ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5)) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2537,7 +2541,7 @@ public:
      @param p1 default first parameter
   */
   ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2547,7 +2551,7 @@ public:
      @param p2 default second parameter
   */
   ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2558,7 +2562,7 @@ public:
      @param p3 default third parameter
   */
   ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2570,7 +2574,7 @@ public:
      @param p4 default fourth parameter
  */
   ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
   
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2583,7 +2587,7 @@ public:
      @param p5 default fifth parameter
  */
 ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) :
-  myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
+  myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
   /// Constructor - supply function pointer
   /**
@@ -2741,8 +2745,8 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
 
 protected:
 
+  void (T::* myFunc)(P1, P2, P3, P4, P5);
   T *myObj;
-  void (T::*myFunc)(P1, P2, P3, P4, P5);
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -2821,8 +2825,8 @@ public:
 
 protected:
 
-  T *myObj;
   Ret (T::*myFunc)();
+  T* myObj;
 };
 
 /// Functor for a member function with return value and 1 parameter
@@ -2849,7 +2853,7 @@ public:
      @param func member function pointer
   */
   ArRetFunctor1C(T &obj, Ret (T::*func)(P1)) :
-    myObj(&obj), myFunc(func), myP1() {}
+    myFunc(func), myObj(&obj), myP1() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2858,7 +2862,7 @@ public:
      @param p1 default first parameter
   */
   ArRetFunctor1C(T &obj, Ret (T::*func)(P1), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1) {}
+    myFunc(func), myObj(&obj), myP1(p1) {}
 
   /// Constructor - supply function pointer
   /**
@@ -2908,9 +2912,8 @@ public:
   virtual void setP1(P1 p1) {myP1=p1;}
 
 protected:
-
+  Ret(T::* myFunc)(P1);
   T *myObj;
-  Ret (T::*myFunc)(P1);
   P1 myP1;
 };
 
@@ -2938,7 +2941,7 @@ public:
      @param func member function pointer
   */
   ArRetFunctor2C(T &obj, Ret (T::*func)(P1, P2)) :
-    myObj(&obj), myFunc(func), myP1(), myP2() {}
+    myFunc(func), myObj(&obj), myP1(), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2947,7 +2950,7 @@ public:
      @param p1 default first parameter
   */
   ArRetFunctor2C(T &obj, Ret (T::*func)(P1, P2), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -2957,7 +2960,7 @@ public:
      @param p2 default second parameter
   */
   ArRetFunctor2C(T &obj, Ret (T::*func)(P1, P2), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2) {}
 
   /// Constructor - supply function pointer
   /**
@@ -3031,8 +3034,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1, P2);
   T *myObj;
-  Ret (T::*myFunc)(P1, P2);
   P1 myP1;
   P2 myP2;
 };
@@ -3061,7 +3064,7 @@ public:
      @param func member function pointer
   */
   ArRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3)) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3070,7 +3073,7 @@ public:
      @param p1 default first parameter
   */
   ArRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3080,7 +3083,7 @@ public:
      @param p2 default second parameter
   */
   ArRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3091,7 +3094,7 @@ public:
      @param p3 default third parameter
   */
   ArRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Constructor - supply function pointer
   /**
@@ -3193,8 +3196,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1, P2, P3);
   T *myObj;
-  Ret (T::*myFunc)(P1, P2, P3);
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -3230,7 +3233,7 @@ public:
      @param func member function pointer
   */
   ArRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4)) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3239,7 +3242,7 @@ public:
      @param p1 default first parameter
   */
   ArRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3249,7 +3252,7 @@ public:
      @param p2 default second parameter
   */
   ArRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3260,7 +3263,7 @@ public:
      @param p3 default third parameter
   */
   ArRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3272,7 +3275,7 @@ public:
      @param p4 default fourth parameter
   */
   ArRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
 
 
@@ -3402,9 +3405,8 @@ public:
   virtual void setP4(P4 p4) {myP4=p4;}
 
 protected:
-
+  Ret(T::* myFunc)(P1, P2, P3, P4);
   T *myObj;
-  Ret (T::*myFunc)(P1, P2, P3, P4);
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -3437,7 +3439,7 @@ public:
      @param func member function pointer
   */
   ArRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5)) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3446,7 +3448,7 @@ public:
      @param p1 default first parameter
   */
   ArRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3456,7 +3458,7 @@ public:
      @param p2 default second parameter
   */
   ArRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3467,7 +3469,7 @@ public:
      @param p3 default third parameter
   */
   ArRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3479,7 +3481,7 @@ public:
      @param p4 default fourth parameter
   */
   ArRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
 
 
   /// Constructor - supply function pointer, default parameters
@@ -3493,7 +3495,7 @@ public:
      @param p5 default fifth parameter
   */
   ArRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
 
 
@@ -3655,8 +3657,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1, P2, P3, P4, P5);
   T *myObj;
-  Ret (T::*myFunc)(P1, P2, P3, P4, P5);
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -3736,8 +3738,9 @@ public:
 
 protected:
 
-  T *myObj;
   void (T::*myFunc)() const;
+  T* myObj;
+
 };
 
 
@@ -3764,7 +3767,7 @@ public:
      @param func const member function pointer
   */
   ArConstFunctor1C(T &obj, void (T::*func)(P1) const) :
-    myObj(&obj), myFunc(func), myP1() {}
+    myFunc(func), myObj(&obj), myP1() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3773,7 +3776,7 @@ public:
      @param p1 default first parameter
   */
   ArConstFunctor1C(T &obj, void (T::*func)(P1) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1) {}
+    myFunc(func), myObj(&obj), myP1(p1) {}
 
   /// Constructor - supply function pointer
   /**
@@ -3823,9 +3826,8 @@ public:
   virtual void setP1(P1 p1) {myP1=p1;}
 
 protected:
-
+  void (T::* myFunc)(P1) const;
   T *myObj;
-  void (T::*myFunc)(P1) const;
   P1 myP1;
 };
 
@@ -3853,7 +3855,7 @@ public:
      @param func const member function pointer
   */
   ArConstFunctor2C(T &obj, void (T::*func)(P1, P2) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2() {}
+    myFunc(func), myObj(&obj), myP1(), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3862,7 +3864,7 @@ public:
      @param p1 default first parameter
   */
   ArConstFunctor2C(T &obj, void (T::*func)(P1, P2) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3872,7 +3874,7 @@ public:
      @param p2 default second parameter
   */
   ArConstFunctor2C(T &obj, void (T::*func)(P1, P2) const, P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2) {}
 
   /// Constructor - supply function pointer
   /**
@@ -3945,9 +3947,8 @@ public:
   virtual void setP2(P2 p2) {myP2=p2;}
 
 protected:
-
+  void (T::* myFunc)(P1, P2) const;
   T *myObj;
-  void (T::*myFunc)(P1, P2) const;
   P1 myP1;
   P2 myP2;
 };
@@ -3975,7 +3976,7 @@ public:
      @param func const member function pointer
   */
   ArConstFunctor3C(T &obj, void (T::*func)(P1, P2, P3) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3984,7 +3985,7 @@ public:
      @param p1 default first parameter
   */
   ArConstFunctor3C(T &obj, void (T::*func)(P1, P2, P3) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -3994,7 +3995,7 @@ public:
      @param p2 default second parameter
   */
   ArConstFunctor3C(T &obj, void (T::*func)(P1, P2, P3) const, P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4005,7 +4006,7 @@ public:
      @param p3 default third parameter
   */
   ArConstFunctor3C(T &obj, void (T::*func)(P1, P2, P3) const, P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Constructor - supply function pointer
   /**
@@ -4104,8 +4105,8 @@ public:
 
 protected:
 
+  void (T::* myFunc)(P1, P2, P3) const;
   T *myObj;
-  void (T::*myFunc)(P1, P2, P3) const;
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -4134,7 +4135,7 @@ public:
      @param func const member function pointer
   */
   ArConstFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4143,7 +4144,7 @@ public:
      @param p1 default first parameter
   */
   ArConstFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4153,7 +4154,7 @@ public:
      @param p2 default second parameter
   */
   ArConstFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4164,7 +4165,7 @@ public:
      @param p3 default third parameter
   */
   ArConstFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4176,7 +4177,7 @@ public:
       @param p4 default fourth parameter
  */
   ArConstFunctor4C(T &obj, void (T::*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
   /// Constructor - supply function pointer
   /**
@@ -4304,8 +4305,8 @@ public:
 
 protected:
 
+  void (T::* myFunc)(P1, P2, P3, P4) const;
   T *myObj;
-  void (T::*myFunc)(P1, P2, P3, P4) const;
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -4335,7 +4336,7 @@ public:
      @param func const member function pointer
   */
   ArConstFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4344,7 +4345,7 @@ public:
      @param p1 default first parameter
   */
   ArConstFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4354,7 +4355,7 @@ public:
      @param p2 default second parameter
   */
   ArConstFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4365,7 +4366,7 @@ public:
      @param p3 default third parameter
   */
   ArConstFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4377,7 +4378,7 @@ public:
       @param p4 default fourth parameter
  */
   ArConstFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
 
 
   /// Constructor - supply function pointer, default parameters
@@ -4391,7 +4392,7 @@ public:
      @param p5 default fifth parameter
  */
   ArConstFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
   /// Constructor - supply function pointer
   /**
@@ -4549,8 +4550,8 @@ public:
 
 protected:
 
+  void (T::* myFunc)(P1, P2, P3, P4, P5) const;
   T *myObj;
-  void (T::*myFunc)(P1, P2, P3, P4, P5) const;
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -4628,8 +4629,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)() const;
   T *myObj;
-  Ret (T::*myFunc)() const;
 };
 
 /// Functor for a const member function with return value and 1 parameter
@@ -4655,7 +4656,7 @@ public:
      @param func const member function pointer
   */
   ArConstRetFunctor1C(T &obj, Ret (T::*func)(P1) const) :
-    myObj(&obj), myFunc(func), myP1() {}
+    myFunc(func), myObj(&obj), myP1() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4664,7 +4665,7 @@ public:
      @param p1 default first parameter
   */
   ArConstRetFunctor1C(T &obj, Ret (T::*func)(P1) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1) {}
+    myFunc(func), myObj(&obj), myP1(p1) {}
 
   /// Constructor - supply function pointer
   /**
@@ -4715,8 +4716,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1) const;
   T *myObj;
-  Ret (T::*myFunc)(P1) const;
   P1 myP1;
 };
 
@@ -4743,7 +4744,7 @@ public:
      @param func const member function pointer
   */
   ArConstRetFunctor2C(T &obj, Ret (T::*func)(P1, P2) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2() {}
+    myFunc(func), myObj(&obj), myP1(), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4752,7 +4753,7 @@ public:
      @param p1 default first parameter
   */
   ArConstRetFunctor2C(T &obj, Ret (T::*func)(P1, P2) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4762,7 +4763,7 @@ public:
      @param p2 default second parameter
   */
   ArConstRetFunctor2C(T &obj, Ret (T::*func)(P1, P2) const, P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2) {}
 
   /// Constructor - supply function pointer
   /**
@@ -4836,8 +4837,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1, P2) const;
   T *myObj;
-  Ret (T::*myFunc)(P1, P2) const;
   P1 myP1;
   P2 myP2;
 };
@@ -4865,7 +4866,7 @@ public:
      @param func const member function pointer
   */
   ArConstRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4874,7 +4875,7 @@ public:
      @param p1 default first parameter
   */
   ArConstRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4884,7 +4885,7 @@ public:
      @param p2 default second parameter
   */
   ArConstRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3) const, P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -4895,7 +4896,7 @@ public:
      @param p3 default third parameter
   */
   ArConstRetFunctor3C(T &obj, Ret (T::*func)(P1, P2, P3) const, P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3) {}
 
   /// Constructor - supply function pointer
   /**
@@ -4995,8 +4996,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1, P2, P3) const;
   T *myObj;
-  Ret (T::*myFunc)(P1, P2, P3) const;
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -5031,7 +5032,7 @@ public:
      @param func const member function pointer
   */
   ArConstRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5040,7 +5041,7 @@ public:
      @param p1 default first parameter
   */
   ArConstRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5050,7 +5051,7 @@ public:
      @param p2 default second parameter
   */
   ArConstRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4) const, P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5061,7 +5062,7 @@ public:
      @param p3 default third parameter
   */
   ArConstRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4) const, P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5073,7 +5074,7 @@ public:
      @param p4 default fourth parameter
   */
   ArConstRetFunctor4C(T &obj, Ret (T::*func)(P1, P2, P3, P4) const, P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
 
 
 
@@ -5204,8 +5205,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1, P2, P3, P4) const;
   T *myObj;
-  Ret (T::*myFunc)(P1, P2, P3, P4) const;
   P1 myP1;
   P2 myP2;
   P3 myP3;
@@ -5238,7 +5239,7 @@ public:
      @param func const member function pointer
   */
   ArConstRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5) const) :
-    myObj(&obj), myFunc(func), myP1(), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5247,7 +5248,7 @@ public:
      @param p1 default first parameter
   */
   ArConstRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5) const, P1 p1) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5257,7 +5258,7 @@ public:
      @param p2 default second parameter
   */
   ArConstRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5) const, P1 p1, P2 p2) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5268,7 +5269,7 @@ public:
      @param p3 default third parameter
   */
   ArConstRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5) const, P1 p1, P2 p2, P3 p3) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5280,7 +5281,7 @@ public:
      @param p4 default fourth parameter
   */
   ArConstRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5) const, P1 p1, P2 p2, P3 p3, P4 p4) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
 
   /// Constructor - supply function pointer, default parameters
   /**
@@ -5293,7 +5294,7 @@ public:
      @param p5 default fifth parameter
   */
   ArConstRetFunctor5C(T &obj, Ret (T::*func)(P1, P2, P3, P4, P5) const, P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) :
-    myObj(&obj), myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
+    myFunc(func), myObj(&obj), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
 
 
 
@@ -5456,8 +5457,8 @@ public:
 
 protected:
 
+  Ret(T::* myFunc)(P1, P2, P3, P4, P5) const;
   T *myObj;
-  Ret (T::*myFunc)(P1, P2, P3, P4, P5) const;
   P1 myP1;
   P2 myP2;
   P3 myP3;

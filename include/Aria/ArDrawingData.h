@@ -40,9 +40,9 @@ public:
   /// Constructs a color from the given RGB value
   ArColor(ArTypes::Byte4 rgbValue)
   {
-    myRed   = (rgbValue & 0xFF0000) >> 16;
-    myGreen = (rgbValue & 0x00FF00) >> 8;
-    myBlue  = (rgbValue & 0x0000FF);
+    myRed   = (unsigned char) ((rgbValue & 0xFF0000) >> 16);
+    myGreen = (unsigned char) ((rgbValue & 0x00FF00) >> 8);
+    myBlue  = (unsigned char) (rgbValue & 0x0000FF);
   }
 
   /// Destructor

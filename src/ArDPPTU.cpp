@@ -107,8 +107,8 @@ AREXPORT ArDPPTU::ArDPPTU(ArRobot *robot, DeviceType deviceType, int deviceIndex
 
   switch(myDeviceType) {
     case PANTILT_PTUD47:
-	  myPanConvert = 0.0514;
-      myTiltConvert = 0.0129;
+	  myPanConvert = 0.0514f;
+    myTiltConvert = 0.0129f;
 	  ArPTZ::setLimits(158, -158, 30, -46);
 	  /*
       myMaxPan = 158;
@@ -130,8 +130,8 @@ AREXPORT ArDPPTU::ArDPPTU(ArRobot *robot, DeviceType deviceType, int deviceIndex
     case PANTILT_PTUD46:
     case PANTILT_DEFAULT:  
 	  // if DEFAULT, then in init() we will query the PTU to get the real conversion factors and limits (but start out assuming same as D46)
-	  myPanConvert = 0.0514;
-      myTiltConvert = 0.0514;
+	  myPanConvert = 0.0514f;
+    myTiltConvert = 0.0514f;
 	  ArPTZ::setLimits(158, -158, 30, -46);
 	  /*
       myMaxPan = 158;
@@ -304,10 +304,10 @@ AREXPORT bool ArDPPTU::pan_i(double pdeg)
     preparePacket();
     myPacket.byteToBuf('P');
     myPacket.byteToBuf('P');
-    myPacket.byte2ToBuf(ArMath::roundInt(pdeg/myPanConvert));
+    myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(pdeg/myPanConvert));
 
     myPanSent = pdeg;
-    if(!myCanGetRealPanTilt) myPan = myPanSent;
+    if(!myCanGetRealPanTilt) myPan = (float) myPanSent;
     if (!sendPacket(&myPacket)) return false;
   }
 return true;
@@ -329,10 +329,10 @@ AREXPORT bool ArDPPTU::tilt_i(double tdeg)
     preparePacket();
     myPacket.byteToBuf('T');
     myPacket.byteToBuf('P');
-    myPacket.byte2ToBuf(ArMath::roundInt(tdeg/myTiltConvert));
+    myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(tdeg/myTiltConvert));
 
     myTiltSent = tdeg;
-    if(!myCanGetRealPanTilt) myTilt = myTiltSent;
+    if(!myCanGetRealPanTilt) myTilt = (float) myTiltSent;
     if (!sendPacket(&myPacket)) return false;
   }
 
@@ -351,7 +351,7 @@ AREXPORT bool ArDPPTU::panSlew(double deg)
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf(ArDPPTUCommands::SPEED);
 
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -368,7 +368,7 @@ AREXPORT bool ArDPPTU::tiltSlew(double deg)
   myPacket.byteToBuf('T');// ArDPPTUCommands::TILT);
   myPacket.byteToBuf('S');// ArDPPTUCommands::SPEED);
 
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -519,7 +519,7 @@ AREXPORT bool ArDPPTU::panAccel(double deg)
     preparePacket();
     myPacket.byteToBuf(ArDPPTUCommands::PAN);
     myPacket.byteToBuf(ArDPPTUCommands::ACCEL);
-    myPacket.byte2ToBuf(ArMath::roundInt(deg/myPanConvert));
+    myPacket.byte2ToBuf((ArTypes::Byte2)ArMath::roundInt(deg/myPanConvert));
 
     return sendPacket(&myPacket);
   }
@@ -538,7 +538,7 @@ AREXPORT bool ArDPPTU::tiltAccel(double deg)
     preparePacket();
     myPacket.byteToBuf(ArDPPTUCommands::TILT);
     myPacket.byteToBuf(ArDPPTUCommands::ACCEL);
-    myPacket.byte2ToBuf(ArMath::roundInt(deg/myTiltConvert));
+    myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
 
     return sendPacket(&myPacket);
   }
@@ -553,7 +553,7 @@ AREXPORT bool ArDPPTU::basePanSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf(ArDPPTUCommands::BASE);
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -565,7 +565,7 @@ AREXPORT bool ArDPPTU::baseTiltSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::TILT);
   myPacket.byteToBuf(ArDPPTUCommands::BASE);
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -575,7 +575,7 @@ AREXPORT bool ArDPPTU::upperPanSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf(ArDPPTUCommands::UPPER);
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -585,7 +585,7 @@ AREXPORT bool ArDPPTU::lowerPanSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf('L'); //ArDPPTUCommands::LIMIT);
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -595,7 +595,7 @@ AREXPORT bool ArDPPTU::upperTiltSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::TILT);
   myPacket.byteToBuf(ArDPPTUCommands::UPPER);
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -605,7 +605,7 @@ AREXPORT bool ArDPPTU::lowerTiltSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::TILT);
   myPacket.byteToBuf('L'); //ArDPPTUCommands::LIMIT);
-  myPacket.byte2ToBuf(ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -653,13 +653,13 @@ AREXPORT bool ArDPPTU::initMon(double deg1, double deg2,
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::MONITOR);
 
-  myPacket.byte2ToBuf(ArMath::roundInt(deg1/myPanConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg1/myPanConvert));
   myPacket.byteToBuf(',');
-  myPacket.byte2ToBuf(ArMath::roundInt(deg2/myPanConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg2/myPanConvert));
   myPacket.byteToBuf(',');
-  myPacket.byte2ToBuf(ArMath::roundInt(deg3/myTiltConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg3/myTiltConvert));
   myPacket.byteToBuf(',');
-  myPacket.byte2ToBuf(ArMath::roundInt(deg4/myTiltConvert));
+  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg4/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -667,18 +667,18 @@ AREXPORT bool ArDPPTU::initMon(double deg1, double deg2,
 AREXPORT bool ArDPPTU::setHoldPower(Axis axis, PowerMode mode)
 {
   preparePacket();
-  myPacket.byteToBuf(axis);
+  myPacket.byteToBuf((ArTypes::Byte)axis);
   myPacket.byteToBuf('H');
-  myPacket.byteToBuf(mode);
+  myPacket.byteToBuf((ArTypes::Byte)mode);
   return sendPacket(&myPacket);
 }
 
 AREXPORT bool ArDPPTU::setMovePower(Axis axis, PowerMode mode)
 {
   preparePacket();
-  myPacket.byteToBuf(axis);
+  myPacket.byteToBuf((ArTypes::Byte) axis);
   myPacket.byteToBuf('M');
-  myPacket.byteToBuf(mode);
+  myPacket.byteToBuf((ArTypes::Byte) mode);
   return sendPacket(&myPacket);
 }
 
@@ -803,7 +803,7 @@ AREXPORT ArBasePacket *ArDPPTU::readPacket()
       {
         char *s = databuf + panPosResponseLen;
         DEBUG_POS(printf("\npan position: %s\n", s));
-        myPan = myPanRecd = atof(s) * myPanConvert;
+        myPan = myPanRecd = (float)atof(s) * myPanConvert;
         myCanGetRealPanTilt = true;
         gotpan = true;
       }
@@ -811,7 +811,7 @@ AREXPORT ArBasePacket *ArDPPTU::readPacket()
       {
         char *s = databuf + tiltPosResponseLen;
         DEBUG_POS(printf("\ntilt position: %s\n", s));
-        myTilt = myTiltRecd = atof(s) * myTiltConvert;
+        myTilt = myTiltRecd = (float)atof(s) * myTiltConvert;
         myCanGetRealPanTilt = true;
         gottilt = true;
       }
@@ -821,10 +821,10 @@ AREXPORT ArBasePacket *ArDPPTU::readPacket()
       {
          //printf("it's a resolution response. (already got pan? %d; already got tilt?  %d)", myGotPanRes, myGotTiltRes);
         *s = '\0';
-        const float res = atof(databuf);
+        const float res = (float)atof(databuf);
         if(!myGotPanRes)
         {
-          myPanConvert = res / (60.0*60.0);  // convert from arcsecond to degr
+          myPanConvert = res / (60.0f*60.0f);  // convert from arcsecond to degr
           ArLog::log(ArLog::Normal, "ArDPPTU: Received pan resolution response from PTU: %f deg / %f arcsec. Now requesting tilt resolution...", myPanConvert, res);
 
           // Now ask for tilt resolution (there is no way to distinguish the
@@ -837,7 +837,7 @@ AREXPORT ArBasePacket *ArDPPTU::readPacket()
         }
         else if(!myGotTiltRes)
         {
-          myTiltConvert = res / (60.0*60.0);
+          myTiltConvert = res / (60.0f*60.0f);
           ArLog::log(ArLog::Normal, "ArDPPTU: Received tilt resolution response from PTU: %f deg / %f arcsec", myTiltConvert, res);
           myGotTiltRes = true;
         }

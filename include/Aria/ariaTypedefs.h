@@ -43,7 +43,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define AREXPORT
 #endif
 
-
+#define NOMINMAX // Windows defines min and max functions which for some reason end up preventing std::min or std::max from working.  
 #include <winsock2.h>
 #include <windows.h>
 

@@ -459,7 +459,7 @@ AREXPORT bool ArMapId::fromPacket(ArBasePacket *packetIn,
   unsigned char *checksum = NULL;
   if (checksumLength > 0) {
     checksum = new unsigned char[checksumLength];
-    packetIn->bufToData(checksum, checksumLength);
+    packetIn->bufToData(checksum, (int) checksumLength);
   }
 
   size_t fileSize = packetIn->bufToUByte4();

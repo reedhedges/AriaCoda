@@ -52,12 +52,12 @@ AREXPORT template<> void ArPacketUtil::addField<std::string>(ArBasePacket& p, co
 
 AREXPORT template<> void ArPacketUtil::addField<float>(ArBasePacket& p, const float& value)
 {
-  p.byte4ToBuf(value * 10e4);
+  p.byte4ToBuf((ArTypes::Byte4)(value * 10e4));
 }
 
 AREXPORT template<> void ArPacketUtil::addField<double>(ArBasePacket& p, const double& value)
 {
-  p.byte4ToBuf(value * 10e4);
+  p.byte4ToBuf((ArTypes::Byte4)(value * 10e4));
 }
 
 AREXPORT template<> void ArPacketUtil::addField<bool>(ArBasePacket& p, const bool& value)
@@ -195,7 +195,7 @@ AREXPORT template<> void ArPacketUtil::getNextField<std::string>(ArBasePacket& p
 AREXPORT template<> float ArPacketUtil::getNextField<float>(ArBasePacket& p)
 {
   if(!p.bufferContainsBytes(sizeof(ArTypes::Byte4))) throw std::out_of_range(PACKET_OUT_OF_RANGE_ERR);
-  return (float)p.bufToByte4() / 10e4;
+  return (float)p.bufToByte4() / 10e4f;
 }
 
 AREXPORT template<> double ArPacketUtil::getNextField<double>(ArBasePacket& p)
