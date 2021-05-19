@@ -268,7 +268,7 @@ AREXPORT long ArUtil::sizeFile(const char * fileName)
 
 #else // !WIN32
 
-AREXPORT long ArUtil::sizeFile(std::string fileName)
+AREXPORT long ArUtil::sizeFile(const std::string& fileName)
 {
   struct stat buf;
 

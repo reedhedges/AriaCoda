@@ -38,9 +38,17 @@ class ArConfig;
 /**
    ArLog is a utility class to log all messages from Aria to a choosen
    destintation. Messages can be logged to stdout, stderr, a file, and
-   turned off completely. Logging by default is set to stdout. The level
+   turned off completely. Logging by default is set to stderr (@see
+   ArLog::DefaultLogType). The level
    of logging can be changed as well. Allowed levels are Terse, Normal,
    and Verbose. By default the level is set to Normal.
+   Log settings are initialized to defaults during initialization
+   Aria::init() calls ArLog::init() with some defaults, but a program
+   can re-initialize logging settings by calling ArLog::init(). 
+   However some environment variables always override log settings:
+   set `ARLOG_LEVEL` to `Normal`, `Terse`, or `Verbose` to set 
+   what level of log messages are displayed.  Set `ARLOG_TIME` to 
+   include timestamps in all log messages.  
 
    @ingroup ImportantClasses
    @ingroup easy
@@ -53,7 +61,6 @@ public:
     StdOut, ///< Use stdout for logging
     StdErr, ///< Use stderr for logging
     File, ///< Use a file for logging
-    Colbert, ///< @deprecated
     None ///< Disable logging
   } LogType;
   typedef enum {
@@ -62,18 +69,32 @@ public:
     Verbose ///< Use verbose logging
   } LogLevel;
 
+  static const LogType DefaultLogType = StdErr;
+
 #ifndef SWIG
-  /** @brief Log a message, with formatting and variable number of arguments
+  /** @brief Log a message, with formatting and variable number of arguments.
+   *  @param level If this is lower than the currently configured logging level
+   *  in ArLog, then this message is not displayed.  E.g. if the level is
+   *  configured as Normal, but this call to log() uses ArLog::Verbose, the
+   *  message is not displayed. 
+   *  @param formatstr String with special format characters.  vprintf() is
+   *  currently used, see `man 3 printf` or
+   *  <https://en.cppreference.com/w/c/io/fprintf> for details on the format
+   *  string.
+   *  @param ... All following variable arguments are used according to the
+   *  format string.
    *  @swignote In Java and Python, this function only takes one 
    *    string argument. Use Java or Python's native facities
    *    for constructing a formatted string, e.g. the % and + string
    *    operators in Python, and the methods of the Java String class.
    */
-  AREXPORT static void log(LogLevel level, const char *str, ...);
+  AREXPORT static void log(LogLevel level, const char *formatstr, ...);
 #endif
-  /// Log a message containing just a plain string
+  /// Log a message containing just a plain string with no formatting and
+  // /arguments.
   AREXPORT static void logPlain(LogLevel level, const char *str);
   /// (Re)-Initialize the logging utility with new options
+  /// Normally this is called by Aria::init() to set defaults.
   AREXPORT static bool init(LogType type, LogLevel level,
 			    const char *fileName="",
 			    bool logTime = false, bool alsoPrint = false, 
@@ -154,7 +175,25 @@ public:
 
   AREXPORT static unsigned long getAvailableDiskSpaceMB();
 
-protected:
+
+  /// set whether to also include timestamp in log messages. (default is false)
+  static void setLogTime(bool logTime = true)
+  {
+    ourMutex.lock();
+    ourLoggingTime = logTime;
+    ourMutex.unlock();
+  }
+
+  /// Set whether to write log messages to stdout in addition to logging to file
+  static void setAlsoPrint(bool alsoPrint = true) 
+  {
+    ourMutex.lock();
+    ourAlsoPrint = alsoPrint;
+    ourMutex.unlock();
+  }
+
+private:
+
   static bool processFile();
   static void invokeFunctor(const char *message);
   static void checkFileSize();
@@ -178,6 +217,12 @@ protected:
   
   static ArFunctor1<const char *> *ourFunctor;
 
+  /// used internally to check file size. Does not emit any log messages so may
+  /// be called by ArLog::log() without unwanted recursion.
+  static long sizeFile(const std::string& filename);
+
+  static std::string logTypeName(ArLog::LogType type);
+  static std::string logLevelName(ArLog::LogLevel level);
 };
 
 

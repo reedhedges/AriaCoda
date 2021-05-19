@@ -47,7 +47,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #endif // ifdef _ATL_VER
 
 ArMutex ArLog::ourMutex;
-ArLog::LogType ArLog::ourType=StdOut;
+ArLog::LogType ArLog::ourType=ArLog::DefaultLogType;
 ArLog::LogLevel ArLog::ourLevel=ArLog::Normal;
 FILE * ArLog::ourFP=0;
 int ArLog::ourCharsLogged = 0;
@@ -55,7 +55,7 @@ std::string ArLog::ourFileName;
 bool ArLog::ourLoggingTime = false;
 bool ArLog::ourAlsoPrint = false;
 
-ArLog::LogType ArLog::ourConfigLogType = ArLog::StdOut;
+ArLog::LogType ArLog::ourConfigLogType = ArLog::DefaultLogType;
 ArLog::LogLevel ArLog::ourConfigLogLevel = ArLog::Normal;
 char ArLog::ourConfigFileName[1024] = "log.txt";
 bool ArLog::ourConfigLogTime = false;
@@ -119,7 +119,7 @@ AREXPORT void ArLog::log(LogLevel level, const char *str, ...)
     if ((written = fprintf(ourFP, "%s\n", buf)) > 0)
       ourCharsLogged += written;
     fflush(ourFP);
-    checkFileSize();
+    if(ourType == File) checkFileSize();
   }
   else if (ourType != None)
   {
@@ -235,7 +235,7 @@ AREXPORT void ArLog::logErrorFromOS(LogLevel level, const char *str, ...)
     if ((written = fprintf(ourFP, "%s\n", bufWithError)) > 0)
       ourCharsLogged += written;
     fflush(ourFP);
-    checkFileSize();
+    if(ourType == File) checkFileSize();
   }
   else if (ourType != None)
   {
@@ -351,7 +351,7 @@ AREXPORT void ArLog::logErrorFromOSNoLock(LogLevel level, const char *str, ...)
     if ((written = fprintf(ourFP, "%s\n", bufWithError)) > 0)
       ourCharsLogged += written;
     fflush(ourFP);
-    checkFileSize();
+    if(ourType == File) checkFileSize();
   }
   else if (ourType != None)
   {
@@ -373,11 +373,12 @@ AREXPORT void ArLog::logErrorFromOSNoLock(LogLevel level, const char *str, ...)
 }
 
 /**
-   Initialize the logging utility by supplying the type of logging and the
-   level of logging. If the type is File, the fileName needs to be supplied.
-   @param type type of Logging
-   @param level level of logging
-   @param fileName the name of the file for File type of logging
+
+   Change logging settings from defaults, and check for external configuration
+   such as environment variable.
+   @param type Destination type of log messages. 
+   @param level level of logging.
+   @param fileName the name of the file for File type of logging. Must be provided if @a type is File.
    @param logTime if this is true then the time a message is given will be logged
    @param alsoPrint if this is true then in addition to whatever other logging (to a file for instance) the results will also be printed
    @param printThisCall if this is true the new settings will be printed otherwise they won't
@@ -427,7 +428,7 @@ AREXPORT bool ArLog::init(LogType type, LogLevel level, const char *fileName,
   ourType=type;
   ourLevel=level;
 
-  // environment variable overrides level
+  // environment variables to override log level 
   {
     char* lev = getenv("ARLOG_LEVEL");
     if(lev)
@@ -444,41 +445,28 @@ AREXPORT bool ArLog::init(LogType type, LogLevel level, const char *fileName,
           ourLevel = Verbose;
           break;
        }
+       ArLog::log(ArLog::Normal, "ArLog: Set log level to %s from ARLOG_LEVEL environment variable.", logLevelName(ourLevel).c_str());
     }
   }
 
   ourLoggingTime = logTime;
   ourAlsoPrint = alsoPrint;
 
+  if(getenv("ARLOG_TIME") != NULL)
+  {
+    ourLoggingTime = true;
+    ArLog::log(ArLog::Normal, "ArLog: Enabled log timestamps from ARLOG_TIME environment variable.");
+  }
+
   if (printThisCall)
   {
-    printf("ArLog::init: ");
-    
-    if (ourType == StdOut)
-      printf(" StdOut\t");
-    else if (ourType == StdErr)
-      printf(" StdErr\t");
-    else if (ourType == File)
-      printf(" File(%s)\t", ourFileName.c_str());
-    else if (ourType == None)
-      printf(" None\t");
-    else
-      printf(" BadType\t");
-    
-    if (ourLevel == Terse)
-      printf(" Terse\t");
-    else if (ourLevel == Normal)
-      printf(" Normal\t");
-    else if (ourLevel == Verbose)
-      printf(" Verbose\t");
-    else
-      printf(" BadLevel\t");
-    
+    printf("ArLog::init: %s\t %s\t", logTypeName(ourType).c_str(), logLevelName(ourLevel).c_str());
+
     if (ourLoggingTime)
       printf(" Logging Time\t");
     else
       printf(" Not logging time\t");
-    
+
     if (ourAlsoPrint)
       printf(" Also printing\n");
     else
@@ -487,6 +475,36 @@ AREXPORT bool ArLog::init(LogType type, LogLevel level, const char *fileName,
   ourMutex.unlock();
   return(true);
 }
+
+
+std::string ArLog::logTypeName(ArLog::LogType type)
+{
+  switch(type)
+  {
+    case StdOut:
+      return "StdOut";
+    case StdErr:
+      return "StdErr";
+    case File:
+      return std::string("File(") + ourFileName + ")";
+    case None:
+      return "None";
+  }
+}
+
+std::string ArLog::logLevelName(ArLog::LogLevel level)
+{
+  switch(level)
+  {
+    case Terse:
+      return "Terse";
+    case Normal:
+      return "Normal";
+    case Verbose:
+      return "Verbose";
+  }
+}
+
 
 AREXPORT void ArLog::close()
 {
@@ -550,7 +568,7 @@ AREXPORT void ArLog::endWrite()
     if(r > 0)
       ourCharsLogged += r;
     fflush(ourFP);
-    checkFileSize();
+    if(ourType == File) checkFileSize();
   }
   else if(ourType != None)
     putchar('\n');
@@ -601,7 +619,7 @@ AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
     if ((written = fprintf(ourFP, "%s\n", buf)) > 0)
       ourCharsLogged += written;
     fflush(ourFP);
-    checkFileSize();
+    if(ourType == File) checkFileSize();
   }
   else if (ourType != None)
     printf("%s\n", buf);
@@ -731,12 +749,24 @@ void ArLog::invokeFunctor(const char *message)
 
 void ArLog::checkFileSize()
 {
-  long size;
-  size = ArUtil::sizeFile(ourFileName);
+  if(ourType != File) return;
+  long size = sizeFile(ourFileName);
   if (size > 0 && size > ourCharsLogged)
   {
     ourCharsLogged = size;
   }
+}
+
+long ArLog::sizeFile(const std::string& filename)
+{
+  struct stat buf;
+  if(stat(filename.c_str(), &buf) < 0)
+  {
+    return -1;
+  }
+  if(!S_ISREG(buf.st_mode))
+    return -1;
+  return buf.st_size;
 }
 
 void ArLog::internalForceLockup()

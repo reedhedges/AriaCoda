@@ -226,7 +226,7 @@ is a pointer to object to be deleted using the 'delete' operator.
   AREXPORT static long sizeFile(const char *fileName);
 
   /// OS-independent way of finding the size of a file.
-  AREXPORT static long sizeFile(std::string fileName);
+  AREXPORT static long sizeFile(const std::string& fileName);
 
   /// OS-independent way of checking to see if a file exists and is readable.
   AREXPORT static bool findFile(const char *fileName);

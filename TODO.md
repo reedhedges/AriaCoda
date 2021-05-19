@@ -116,6 +116,8 @@ TODO
   then appended with strcpy or similar.) Or use std::string/IO streams, or
   std::format (C++20 feature, not yet implemented in gcc, clang or msvc as of
   2/21) to build the string. 
+* Change ArLog to use c++ io instead of c io.  Use `clog` as output stream
+  instead of stderr and fflush.  
  
 
 Maybe TODO eventually
@@ -131,7 +133,7 @@ Maybe TODO eventually
 * Incorporate some ArNetworking replacement.  Generic mechanism for ARIA classes
   to expose methods (actions/callbacks) to UI or middleware layers.  (With multiple
   implementations possible in other libraries or code units, e.g. user custom, ROS, HTTP REST, etc.)
-* Develop logging (ArLog) further.
+* Develop logging (ArLog) further. Or replace with spdlog and {fmt}. 
 * enums in config items
 
 

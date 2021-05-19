@@ -1,5 +1,5 @@
 AriaCoda
-=========
+========
 
 [![Build Status](https://travis-ci.com/reedhedges/AriaCoda.svg?branch=master)](https://travis-ci.com/reedhedges/AriaCoda)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
@@ -76,8 +76,25 @@ by Omron/Adept MobileRobots:
   * ArMode and subclasses, and all keyboard handling code, generally only used by examples/demo.cpp, has just been moved into examples/demo.cpp.
   * ArNetServer
   * Support classes for ArNetworking (ArDrawingData etc.)
-  * Others
+  * some other classes have been removed as well.
 * Many small fixes and changes to improve optimization and conformance/correctness with newer C++ standards
+* The list of sensor readings in ArRangeBuffer has been changed from a list of
+  pointers to ArPoseWithTime objects (`std::list<ArPoseWithTime*>`) to simply a list of ArPoseWithTime
+  objects (`std::list<ArPoseWithTime>`). ArRangeDevice:getCurrentBuffer() and
+  ArRangeDevice::getCumulativeBuffer() have been replaced by getCurrentReadings()
+  and getCumulativeReading() which return a const reference to the list intead of a pointer.   
+  This sould make it a bit easier to work with range device data but will require changing 
+  any code that accesses it through these interfaces.   (The old methods
+  returning pointers have been retained as "Ptr" versions, but will be removed in
+  the future.)
+* ArLog default output type is now stderr instead of stdout. 
+* Many unneccesary uses of "virtual" method declaration (including
+  destructors) have been removed. If you derive from any ARIA class and intend
+  to override a method, the use of the "override" specifier is encouranged;
+  the C++ compiler should then warn if the base class method is not virtual.
+* Many small fixes and changes to improve optimization and
+  conformance/correctness. This may have introduced bugs or changes in behavior,
+  please report any problems on github issues.
 
 Several other changes are planned that will not be compatible with prior Aria
 releases, see [TODO.md](TODO.md).
