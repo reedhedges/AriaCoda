@@ -180,6 +180,8 @@ AREXPORT void Aria::init(SigHandleMethod method, bool initSockets,
     }
   }
 
+  ArLog::init(ArLog::DefaultLogType, ArLog::Normal, NULL, false, false, false);
+
   if (initSockets)
     ArSocket::init();
 

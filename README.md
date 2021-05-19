@@ -83,11 +83,14 @@ Several major changes have been made for AriaCoda since the last release of Aria
   any code that accesses it through these interfaces.   (The old methods
   returning pointers have been retained as "Ptr" versions, but will be removed in
   the future.)
+* ArLog default output type is now stderr instead of stdout. 
 * Many unneccesary uses of "virtual" method declaration (including
   destructors) have been removed. If you derive from any ARIA class and intend
   to override a method, the use of the "override" specifier is encouranged;
   the C++ compiler should then warn if the base class method is not virtual.
-* Many small fixes and changes to improve optimization and conformance/correctness with newer C++ standards
+* Many small fixes and changes to improve optimization and
+  conformance/correctness. This may have introduced bugs or changes in behavior,
+  please report any problems on github issues.
 
 Several other changes are planned that will not be compatible with prior Aria
 releases, see [TODO.md](TODO.md).
