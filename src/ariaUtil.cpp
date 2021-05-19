@@ -236,7 +236,7 @@ AREXPORT void ArUtil::splitString(std::string inString,
    @return size in bytes. -1 on error.
    @param fileName name of the file to size
 */
-AREXPORT long ArUtil::sizeFile(std::string fileName)
+AREXPORT long ArUtil::sizeFile(const std::string& fileName)
 {
   struct stat buf;
 

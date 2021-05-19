@@ -760,12 +760,17 @@ void ArLog::checkFileSize()
 long ArLog::sizeFile(const std::string& filename)
 {
   struct stat buf;
-  if(stat(filename.c_str(), &buf) < 0)
+  if(ArUtil::filestat(filename, &buf) < 0)
   {
     return -1;
   }
+#ifdef WIN32
+  if(!(buf.st_mode | _S_IFREG))
+    return -1;
+#else
   if(!S_ISREG(buf.st_mode))
     return -1;
+#endif
   return buf.st_size;
 }
 
