@@ -436,7 +436,7 @@ AREXPORT std::list<ArPoseWithTime*> *ArRangeBuffer::getBufferPtrsPtr() const
   return &ptrlist;
 }
 
-AREXPORT void ArRangeBuffer::logData(ArLog::LogLevel level, const char *linePrefix, const char *sensorName, const char *bufferName)
+AREXPORT void ArRangeBuffer::logData(ArLog::LogLevel level, const char *linePrefix, const char *sensorName, const char *bufferName) const
 {
   ArLog::beginWrite(level);
   ArLog::write(level, "%s%s %s: %u RobotPose: (%.0f, %.0f) RobotEncoderPose: (%.0f, %.0f) Readings: ", 
@@ -449,7 +449,13 @@ AREXPORT void ArRangeBuffer::logData(ArLog::LogLevel level, const char *linePref
   ArLog::endWrite();
 }
 
-AREXPORT void ArRangeBuffer::logInternal(ArLog::LogLevel level, const char *name)
+AREXPORT void ArRangeBuffer::logInternal(ArLog::LogLevel level, const char *name) const
 {
-  ArLog::log(level, "ArRangeBuffer %s: Buffer.size=%d Reserved.size=%d Capacity=%d, Buffer.max_size=%d Reserved.max_size=%d", name, myBuffer.size(), myReserved.size(), myCapacity, myBuffer.max_size(), myReserved.max_size());
+    ArLog::log(level, "ArRangeBuffer %s: Buffer.size=%d Reserved.size=%d Capacity=%d, Buffer.max_size=%d Reserved.max_size=%d", name, myBuffer.size(), myReserved.size(), myCapacity, myBuffer.max_size(), myReserved.max_size());
+}
+
+AREXPORT void ArRangeBuffer::logInternal(FILE *fp, const char *prefix, const char *name) const
+{
+  assert(fp);
+  fprintf(fp, "%sArRangeBuffer %s: Buffer.size=%d Reserved.size=%d, Capacity=%d, Buffer.max_size=%d Reserved.max_size=%d", prefix, name, myBuffer.size(), myReserved.size(), myCapacity, myBuffer.max_size(), myReserved.max_size());
 }

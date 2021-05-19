@@ -214,10 +214,12 @@ public:
   */
 
   /// Write a log message using ArLog containing all data in the buffer. (For debugging.)
-  AREXPORT void logData(ArLog::LogLevel level, const char *linePrefix, const char *sensorName, const char *bufferName);
+  AREXPORT void logData(ArLog::LogLevel level = ArLog::Normal, const char *linePrefix = "", const char *sensorName = "", const char *bufferName = "") const;
 
-  /// Write a log message using ArLog containing internal information such as sizes of internal lists. For testing and debugging.
-  AREXPORT void logInternal(ArLog::LogLevel level = ArLog::Normal, const char  *name = "");
+  /// Write a message containing internal information such as sizes of internal lists. For testing and debugging.
+  /// write to fp if not null, otherwise use ArLog.
+  AREXPORT void logInternal(ArLog::LogLevel level = ArLog::Normal, const char *name = "") const;
+  AREXPORT void logInternal(FILE *fp, const char *linePrefix = "", const char *name = "") const;
 
 protected:
   ArPose myRobotPose;		// where the robot was when readings were acquired
