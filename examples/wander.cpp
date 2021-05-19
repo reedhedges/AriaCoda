@@ -88,7 +88,7 @@ int main(int argc, char **argv)
     ArLog::log(ArLog::Normal, "Warning: unable to connect to requested lasers, will wander using robot sonar only.");
   }
 
-
+  
   // turn on the motors, turn off amigobot sounds
   robot.enableMotors();
   robot.comInt(ArCommands::SOUNDTOG, 0);
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
   robot.addAction(&avoidFrontNear, 50);
   robot.addAction(&avoidFrontFar, 49);
   robot.addAction(&constantVelocity, 25);
-  
+
   // wait for robot task loop to end before exiting the program
   robot.waitForRunExit();
   

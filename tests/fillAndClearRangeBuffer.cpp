@@ -12,17 +12,24 @@
 // simple list pointer changes to add/reuse/reserve (via splice())  it stored a
 // list of pointers to allocated ArPoseWithTime objects, which were
 // allocated/deallocated to add/delete and pointers were copied to reuse and
-// reserve items.  I timed this test with the old method to be about 4 seconds, 
-// with a range buffer size of 1000, storing 200,000 random points 
-// (x in range (0,30000), y in range (0,30000)) omitting near distance of 10,000mm (so it shuold have to search the whole list every time), and clearing out 
-// the buffer every 5000 points added.
-// I timed this with the new method about 1 second.
+// reserve items.  I timed this test with the old method to be about 4 seconds. 
+// Test uses a range buffer size of 1000, storing 500,000 random points 
+// (x in range (0,30000), y in range (0,30000)) omitting near distance of 10,000mm 
+// (so it should have to search the whole list every time), and clearing out 
+// the buffer every 5000 points added.  Every 10,000 iterations, we clear any items older than 1 ms.
+// I timed this with the old method to be 2.6 seconds each test, with the new
+// method from range_buffer_container_changes branch to be slightly faster at
+// about 2.3 seconds each test.
 
-int main()
+#include <limits>
+
+unsigned int test()
 {
   ArRangeBuffer rangebuffer(1000);
-  ArTime t;
-  for (unsigned int i = 0; i < 200'000; ++i)
+  ArTime totalTime;
+  ArTime clearTime;
+  static_assert(500'000 <= std::numeric_limits<unsigned long>::max(), "");
+  for (unsigned long i = 0; i < 500'000; ++i)
   {
     rangebuffer.addReadingConditional( ArMath::randomInRange(0, 30000), ArMath::randomInRange(0, 30000), 100*100 );
     //printf("%6u  %10lu     \r", i, rangebuffer.getBuffer().size());
@@ -44,7 +51,26 @@ int main()
       }
       rangebuffer.endInvalidationSweep();
     }
+
+    if(i % 10'000 == 0)
+    {
+      rangebuffer.clearOlderThan(1);
+    }
   }
   //rangebuffer.logData(ArLog::Verbose, "", "none", "test");
-  printf("\nTime=%ld ms\n", t.mSecSince());
+  printf("Time=%ld ms\n", totalTime.mSecSince());
+  return totalTime.mSecSince();
+}
+
+int main()
+{
+  unsigned int sum = 0;
+  const int n = 10;
+  for (int i = 0; i < n; ++i)
+  {
+    sum += test();
+    ArUtil::sleep(500);
+  }
+  printf("\nAverage=%u ms\n", sum / n);
+  return 0;
 }

@@ -138,14 +138,18 @@ public:
   {
     ArLog::info("basicRangeDeviceTest: %s", comment);
     {
-      fprintf(fp, "\n\n# %s_Current_%lu %s\n", testRangeDevice->getName(), currentLogCounter++, comment);
       const ArRangeBuffer &b = testRangeDevice->getCurrentRangeBuffer();
+      fprintf(fp, "\n\n# %s_Current_%lu %s ", testRangeDevice->getName(), currentLogCounter++, comment); // no newline
+      b.logInternal(fp);
       for (auto i = b.getBegin(); i != b.getEnd(); ++i)
         fprintf(fp, "%.0f\t%.0f\n", i->getX(), i->getY());
     }
+
     {
-      fprintf(fp, "\n\n# %s_Cumulative_%lu %s\n", testRangeDevice->getName(), cumulativeLogCounter++, comment);
       const ArRangeBuffer &b = testRangeDevice->getCumulativeRangeBuffer();
+      fprintf(fp, "\n\n# %s_Cumulative_%lu %s ", testRangeDevice->getName(), cumulativeLogCounter++, comment); // no newline
+      b.logInternal(fp);
+
       for (auto i = b.getBegin(); i != b.getEnd(); ++i)
         fprintf(fp, "%.0f\t%.0f\n", i->getX(), i->getY());
     }
@@ -197,7 +201,7 @@ int main(int argc, char **argv)
     Aria::exit(1);
   }
 
-  ArLog::setLogTime(true);
+  //ArLog::setLogTime(true);
 
 
   ArLog::log(ArLog::Normal, "basicRangeDeviceTest: Connected to robot.");

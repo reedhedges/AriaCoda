@@ -123,10 +123,11 @@ int main(int argc, char **argv)
       if(!laser)
         continue;
       ++numLasers;
+
       laser->lockDevice();
 
       // The current readings are a set of obstacle readings (with X,Y positions as well as other attributes) that are the most recent set from teh laser.
-      const std::list<ArPoseWithTime*>& currentReadings = laser->getCurrentReadings(); // see ArRangeDevice interface doc
+      const std::list<ArPoseWithTime>& currentReadings = laser->getCurrentReadings(); // see ArRangeDevice interface doc
 
       // The raw readings are just range or other data supplied by the sensor. It may also include some device-specific extra values associated with each reading as well. (e.g. Reflectance for LMS200)
       // Most laser devices provide raw readings, but some may not, so this pointer may be NULL or the list may be empty.
@@ -143,7 +144,8 @@ int main(int argc, char **argv)
         currentReadings.size(), 
         (rawReadings!= NULL)?rawReadings->size():0,
         angle, dist/1000.0);
-                  laser->unlockDevice();
+
+      laser->unlockDevice();
     }
     if(numLasers == 0)
       ArLog::log(ArLog::Normal, "lasersExample: No lasers.");
