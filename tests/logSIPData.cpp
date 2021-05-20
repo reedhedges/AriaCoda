@@ -213,7 +213,7 @@ int main(int argc, char **argv)
     }
 
     // print pose of last bump sensor reading
-    const std::list<ArPoseWithTime*>* bumpsensed = bumpers.getCurrentBuffer();
+    const std::list<ArPoseWithTime*>* bumpsensed = bumpers.getCurrentBufferPtr();
     if(bumpsensed)
     {
       //printf("%d readings. ", bumpsensed->size());

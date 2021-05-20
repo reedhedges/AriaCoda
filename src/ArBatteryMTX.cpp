@@ -425,9 +425,9 @@ void ArBatteryMTX::interpBasicInfo()
 
 void ArBatteryMTX::interpErrors()
 {
-  // reset the current error conditions 
-  myErrorString = "";
-  myErrorCount = 0;
+  // reset the current error conditions
+	myErrorString.clear();
+	myErrorCount = 0;
 
   // if this is our first error flag check and we have no errors then
   // just note we have no errors and clear that it's our first check

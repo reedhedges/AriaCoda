@@ -74,6 +74,9 @@ class ArRobot;
     @ingroup ImportantClasses
 **/
 
+// TODO most of these methods do not need to be virtual. 
+// TODO add copy constructors/ops
+
 class ArRangeDevice
 {
 public:
@@ -124,59 +127,109 @@ public:
   AREXPORT virtual double cumulativeReadingBox(double x1, double y1, double x2,
 					       double y2, 
 					       ArPose *readingPos = NULL) const;
-#ifndef SWIG
-  /** @brief Gets the current range buffer
-   *  @swigomit See getCurrentBufferAsVector()
-   */
-  virtual const ArRangeBuffer *getCurrentRangeBuffer() const
-    { return &myCurrentBuffer; }
-  /** @brief Gets the cumulative range buffer
-   *  @swigomit See getCumulativeBufferAsVector()
-   */
-  virtual const ArRangeBuffer *getCumulativeRangeBuffer() const
-    { return &myCumulativeBuffer; }
-  /** @brief Gets the current buffer of readings
-   *  @swigomit See getCurrentBufferAsVector()
-   */
-  virtual const std::list<ArPoseWithTime *> *getCurrentBuffer() const
-    { return myCurrentBuffer.getBuffer(); }
-  /** @brief Gets the current buffer of readings
-   *  @swigomit See getCumulativeBufferAsVector()
-   */
-  virtual const std::list<ArPoseWithTime *> *getCumulativeBuffer() const
-    { return myCumulativeBuffer.getBuffer(); }
-#endif // SWIG
 
   /// Gets the current range buffer
-  virtual ArRangeBuffer *getCurrentRangeBuffer()
-    { return &myCurrentBuffer; }
-  /// Gets the cumulative range buffer
-  virtual ArRangeBuffer *getCumulativeRangeBuffer() 
-    { return &myCumulativeBuffer; }
-  /// Gets the current buffer of readings
-  virtual std::list<ArPoseWithTime *> *getCurrentBuffer() 
+  /// @since AriaCoda 3.0
+  /// @note you can check for the ARIACODA preprocessor symbol to determine whether to use this or getCurrentBufferPtr() to get pointer instead of reference.
+  const ArRangeBuffer& getCurrentRangeBuffer() const
+    { return myCurrentBuffer; }
+
+  /// Gets the "cumulative" range buffer
+  /// @since AriaCoda 3.0
+  /// @note you can check for the ARIACODA preprocessor symbol to determine whether to use this or getCurrentBufferPtr() to get pointer instead of reference.
+  const ArRangeBuffer& getCumulativeRangeBuffer() const
+    { return myCumulativeBuffer; }
+
+  /// Gets the list of sensor reading positions from the "current" buffer
+  /// @since AriaCoda 3.0
+  /// @note you can check for the ARIACODA preprocessor symbol to determine whether to use this or getCurrentBufferPtr() to get pointer instead of reference.
+  const std::list<ArPoseWithTime>& getCurrentReadings()  const
     { return myCurrentBuffer.getBuffer(); }
+
+ /// Gets the list of sensor reading positions from the "cumulative" buffer
+  /// @since AriaCoda 3.0
+  /// @note you can check for the ARIACODA preprocessor symbol to determine whether to use this or getCurrentBufferPtr() to get pointer instead of reference.
+  const std::list<ArPoseWithTime>& getCumulativeReadings()  const
+    { return myCumulativeBuffer.getBuffer(); }
+
+  /// Gets the current range buffer
+  /// @deprecated
+  PUBLICDEPRECATED("Use 'const ArRangeBuffer& getCurrentRangeBuffer()' instead.")
+  virtual ArRangeBuffer *getCurrentRangeBufferPtr()
+    { return &myCurrentBuffer; }
+
+  /// Gets the cumulative range buffer
+  /// @deprecated
+  PUBLICDEPRECATED("Use 'const ArRAngeBuffer& getCumulativeRangeBuffer()' instead.")
+  virtual ArRangeBuffer *getCumulativeRangeBufferPtr() 
+    { return &myCumulativeBuffer; }
+
+  /// Gets the current buffer of readings
+  /// @deprecated
+  PUBLICDEPRECATED("Use getCurrentReadings() instead.")
+  AREXPORT virtual std::list<ArPoseWithTime *> *getCurrentBufferPtr();
+
+#ifndef SWIG
+
+  /** @brief Gets the current range buffer
+   *  @swigomit See getCurrentBufferAsVector()
+      @deprecated
+   */
+  PUBLICDEPRECATED("Use 'const ArRangeBuffer& getCurrentRangeBuffer()' instead.")
+  virtual const ArRangeBuffer *getCurrentRangeBufferPtr() const
+    { return &myCurrentBuffer; }
+  
+  /** @brief Gets the cumulative range buffer
+   *  @swigomit See getCumulativeBufferAsVector()
+      @deprecated
+   */
+  PUBLICDEPRECATED("Use 'const ArRangeBuffer& getCumulativeRangeBuffer()' instead.")
+  virtual const ArRangeBuffer *getCumulativeRangeBufferPtr() const
+    { return &myCumulativeBuffer; }
+  
+  /** @brief Gets the current buffer of readings
+   *  @swigomit See getCurrentBufferAsVector()
+      @deprecated
+   */
+  PUBLICDEPRECATED("Use getCurrentReadings() instead.")
+  AREXPORT virtual const std::list<ArPoseWithTime *> *getCurrentBufferPtrsPtr() const;
+
+  /** @brief Gets the current buffer of readings
+   *  @swigomit See getCumulativeBufferAsVector()
+      @deprecated
+   */
+  PUBLICDEPRECATED("Use getCumulativeReadings() instead.")
+  AREXPORT virtual const std::list<ArPoseWithTime *> *getCumulativeBufferPtrsPtr() const;
+
+#endif // SWIG
+
   /** @brief Gets the current buffer of readings as a vector
    *  @swignote The return type will be named 
    *   ArPoseWithTimeVector instead of the std::vector template.
+   * @deprecated
    */
-  virtual std::vector<ArPoseWithTime> *getCurrentBufferAsVector() 
-    { return myCurrentBuffer.getBufferAsVector(); }
+  PUBLICDEPRECATED("Use getCumulativeReadings() instead.")
+  AREXPORT virtual std::vector<ArPoseWithTime> *getCurrentBufferAsVectorPtr();
+
   /// Gets the current buffer of readings
-  virtual std::list<ArPoseWithTime *> *getCumulativeBuffer() 
-    { return myCumulativeBuffer.getBuffer(); }
+  /// @deprecated
+  PUBLICDEPRECATED("Use getCumulativeReadings() instead.")
+  AREXPORT virtual std::list<ArPoseWithTime *> *getCumulativeBufferPtrsPtr();
+
   /** @brief Gets the cumulative buffer of readings as a vector
    *  @swignote The return type will be named ArPoseWithTimeVector
    *    instead of the std::vector template.
+   * @deprecated
    */
-  virtual std::vector<ArPoseWithTime> *getCumulativeBufferAsVector() 
-    { return myCumulativeBuffer.getBufferAsVector(); }
+  PUBLICDEPRECATED("Use getCumulativeReadings() or getCumulativeRangeBuffer() instead.")
+  AREXPORT virtual std::vector<ArPoseWithTime> *getCumulativeBufferAsVectorPtr();
 
   /// Gets the raw unfiltered readings from the device
   /** The raw readings are the full set of unfiltered readings from the device.
       They are the latest readings. You should not manipulate the list you get from
       this function, the only manipulation of this list should be done by
-      the range device itself.  (Its only pointers for speed.)
+      the range device itself. 
+      Returns NULL if raw readings are not available.
 
       @note Only laser subclasses provide this data currently.  Sonar, bumpers,
       etc. do not provide raw readings.
@@ -190,7 +243,9 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
     { return myRawReadings; }
 
   ///  Gets the raw unfiltered readings from the device into a vector 
-  AREXPORT virtual std::vector<ArSensorReading> *getRawReadingsAsVector();
+  /// @deprecated
+  PUBLICDEPRECATED("")
+  AREXPORT virtual std::vector<ArSensorReading> *getRawReadingsAsVectorPtr();
 
   /// Gets the raw unfiltered readings from the device (but pose takens are corrected)
   /** The raw readings are the full set of unfiltered readings from
@@ -203,6 +258,8 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
       robot odometry offset (just the pose taken, and encoder psoe
       taken).
 
+      TODO change to remove pointers
+
       @note Only lasers provides this data currently.  Sonar, bumpers,
       etc. do not provide raw readings.
   **/
@@ -210,7 +267,9 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
     { return myAdjustedRawReadings; }
 
   ///  Gets the raw adjusted readings from the device into a vector 
-  AREXPORT virtual std::vector<ArSensorReading> *getAdjustedRawReadingsAsVector();
+  /// @deprecated
+  PUBLICDEPRECATED("")
+  AREXPORT virtual std::vector<ArSensorReading> *getAdjustedRawReadingsAsVectorPtr();
 
 
   /// Sets the maximum seconds to keep current readings around
@@ -383,11 +442,18 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
   
 
   /// Lock this device
-  AREXPORT virtual int lockDevice() { return(myDeviceMutex.lock());}
+  virtual int lockDevice() { return(myDeviceMutex.lock());}
   /// Try to lock this device
-  AREXPORT virtual int tryLockDevice() {return(myDeviceMutex.tryLock());}
+  virtual int tryLockDevice() {return(myDeviceMutex.tryLock());}
   /// Unlock this device
-  AREXPORT virtual int unlockDevice() {return(myDeviceMutex.unlock());}
+  virtual int unlockDevice() {return(myDeviceMutex.unlock());}
+
+  /// Lock this device. Same as lockDevice().
+  virtual int lock() { return(myDeviceMutex.lock());}
+  /// Try to lock this device. Same as tryLockDevice().
+  virtual int tryLock() {return(myDeviceMutex.tryLock());}
+  /// Unlock this device. Same as unlockDevice().
+  virtual int unlock() {return(myDeviceMutex.unlock());}
 
 #ifndef ARIA_WRAPPER
   /// Internal function to filter the readings based on age and distance
@@ -395,10 +461,11 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
   AREXPORT void filterCallback();
 #endif
 
-  AREXPORT void logConfig(ArLog::LogLevel level = ArLog::Normal, const char *prefix = "");
+  /// Write log message containing current configuration and metadata
+  AREXPORT void logConfig(ArLog::LogLevel level = ArLog::Normal, const char *prefix="");
 
+  /// write log messages containing all current, cumulative and summary data
   AREXPORT void logData(ArLog::LogLevel level = ArLog::Normal, const char *prefix = "");
-
 
 protected:
   /**

@@ -17,7 +17,9 @@
 // (x in range (0,30000), y in range (0,30000)) omitting near distance of 10,000mm 
 // (so it should have to search the whole list every time), and clearing out 
 // the buffer every 5000 points added.  Every 10,000 iterations, we clear any items older than 1 ms.
-// I timed this with the old method to be 2.6 seconds each test.
+// I timed this with the old method to be 2.6 seconds each test, with the new
+// method from range_buffer_container_changes branch to be slightly faster at
+// about 2.3 seconds each test.
 
 #include <limits>
 
@@ -40,10 +42,10 @@ unsigned int test()
       //fflush(stdout);
 
       rangebuffer.beginInvalidationSweep();
-      for (auto i = rangebuffer.getBuffer()->begin(); i != rangebuffer.getBuffer()->end(); )
+      for (auto i = rangebuffer.getBegin(); i != rangebuffer.getEnd(); )
       {
         rangebuffer.invalidateReading(i);
-        if( (++i) == rangebuffer.getBuffer()->end())
+        if( (++i) == rangebuffer.getEnd())
           break;
         ++i;
       }
@@ -67,6 +69,7 @@ int main()
   for (int i = 0; i < n; ++i)
   {
     sum += test();
+    ArUtil::sleep(500);
   }
   printf("\nAverage=%u ms\n", sum / n);
   return 0;

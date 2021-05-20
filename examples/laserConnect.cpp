@@ -87,7 +87,7 @@ int main(int argc, char **argv)
   // Print out some data from each connected laser.
   while(robot.isConnected())
   {
-	int numLasers = 0;
+    int numLasers = 0;
 
  	  // Get a pointer to ArRobot's list of connected lasers. We will lock the robot while using it to prevent changes by tasks in the robot's background task thread or any other threads. Each laser has an index. You can also store the laser's index or name (laser->getName()) and use that to get a reference (pointer) to the laser object using ArRobot::findLaser().
 	  robot.lock();
@@ -95,33 +95,34 @@ int main(int argc, char **argv)
 
 	  for(std::map<int, ArLaser*>::const_iterator i = lasers->begin(); i != lasers->end(); ++i)
 	  {
-		int laserIndex = (*i).first;
-		ArLaser* laser = (*i).second;
-		if(!laser)
-			continue;
-		++numLasers;
-		laser->lockDevice();
+      int laserIndex = (*i).first;
+      ArLaser* laser = (*i).second;
+      if(!laser)
+        continue;
+      ++numLasers;
 
-		// The current readings are a set of obstacle readings (with X,Y positions as well as other attributes) that are the most recent set from teh laser.
-		std::list<ArPoseWithTime*> *currentReadings = laser->getCurrentBuffer(); // see ArRangeDevice interface doc
+      laser->lockDevice();
 
-		// There is a utility to find the closest reading wthin a range of degrees around the laser, here we use this laser's full field of view (start to end)
-		// If there are no valid closest readings within the given range, dist will be greater than laser->getMaxRange().
-		double angle = 0;
-		double dist = laser->currentReadingPolar(laser->getStartDegrees(), laser->getEndDegrees(), &angle);
+      // The current readings are a set of obstacle readings (with X,Y positions as well as other attributes) that are the most recent set from teh laser.
+      const std::list<ArPoseWithTime>& currentReadings = laser->getCurrentReadings(); // see ArRangeDevice interface doc
 
-		ArLog::log(ArLog::Normal, "Laser #%d (%s): %s. Have %d 'current' readings. Closest reading is at %3.0f degrees and is %2.4f meters away.", laserIndex, laser->getName(), (laser->isConnected() ? "connected" : "NOT CONNECTED"), currentReadings->size(), angle, dist/1000.0);
-                laser->unlockDevice();
-	    }
-	if(numLasers == 0)
-		ArLog::log(ArLog::Normal, "No lasers.");
-	else
-		ArLog::log(ArLog::Normal, "");
+      // There is a utility to find the closest reading wthin a range of degrees around the laser, here we use this laser's full field of view (start to end)
+      // If there are no valid closest readings within the given range, dist will be greater than laser->getMaxRange().
+      double angle = 0;
+      double dist = laser->currentReadingPolar(laser->getStartDegrees(), laser->getEndDegrees(), &angle);
 
-        // Unlock robot and sleep for 5 seconds before next loop.
-	robot.unlock();
+      ArLog::log(ArLog::Normal, "Laser #%d (%s): %s. Have %d 'current' readings. Closest reading is at %3.0f degrees and is %2.4f meters away.", laserIndex, laser->getName(), (laser->isConnected() ? "connected" : "NOT CONNECTED"), currentReadings.size(), angle, dist/1000.0);
+        laser->unlockDevice();
+    }
+    if(numLasers == 0)
+      ArLog::log(ArLog::Normal, "No lasers.");
+    else
+      ArLog::log(ArLog::Normal, "");
+
+    // Unlock robot and sleep for 5 seconds before next loop.
+    robot.unlock();
   	ArUtil::sleep(5000);
-   }
+  }
 
   ArLog::log(ArLog::Normal, "lasersExample: exiting.");
   Aria::exit(0);

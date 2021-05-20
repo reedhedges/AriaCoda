@@ -24,7 +24,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArExport.h"
 #include "Aria/ariaTypedefs.h"
 
-#define _GNU_SOURCE
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE // needed to get gettid() function
+#endif
 
 #include <errno.h>
 #include <list>

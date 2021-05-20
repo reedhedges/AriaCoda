@@ -373,15 +373,15 @@ AREXPORT void ArLog::logErrorFromOSNoLock(LogLevel level, const char *str, ...)
 }
 
 /**
-
    Change logging settings from defaults, and check for external configuration
    such as environment variable.
    @param type Destination type of log messages. 
    @param level level of logging.
    @param fileName the name of the file for File type of logging. Must be provided if @a type is File.
    @param logTime if this is true then the time a message is given will be logged
-   @param alsoPrint if this is true then in addition to whatever other logging (to a file for instance) the results will also be printed
+   @param alsoPrint if this is true then in addition to whatever other logging (to a file for instance) the results will also be printed to stdout
    @param printThisCall if this is true the new settings will be printed otherwise they won't
+   @bug Crashes, most programs don't need this but should fix.
 */
 AREXPORT bool ArLog::init(LogType type, LogLevel level, const char *fileName,
 			  bool logTime, bool alsoPrint, bool printThisCall)
@@ -508,6 +508,8 @@ std::string ArLog::logLevelName(ArLog::LogLevel level)
 
 AREXPORT void ArLog::close()
 {
+  // if logging to File and have a valid FP, close it.
+  // don't try closing stderr or stdout when ourType is not File.
   if (ourFP && (ourType == File))
   {
     fclose(ourFP);
@@ -783,9 +785,9 @@ void ArLog::internalForceLockup()
 AREXPORT void ArLog::log_v(LogLevel level, const char *prefix, const char *str, va_list ptr)
 {
   char buf[1024];
-  strncpy(buf, prefix, sizeof(buf));
+  strncpy(buf, prefix, sizeof(buf)-1);
   const size_t prefixSize = strlen(prefix);
-  vsnprintf(buf+prefixSize, sizeof(buf)-prefixSize, str, ptr);
+  vsnprintf(buf+prefixSize, sizeof(buf)-prefixSize-1, str, ptr);
   buf[sizeof(buf) - 1] = '\0';
   logNoLock(level, buf);
 }

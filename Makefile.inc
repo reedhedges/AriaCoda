@@ -10,7 +10,7 @@ endif
 CFILEEXT:=cpp
 # BARECXXFLAGS is used when compiling python and java wrapper code
 # CXXFLAGS is used when compiling everything else (libraries, static libraries,
-# examples), and adds -fno-exceptions
+# examples), and adds -fno-exceptions.
 # You can set CXXWARNFLAGS to select specific warnings, if unset a default set
 # of warnings will be used.
 # You can set EXTRA_CXXFLAGS to just add more flags. For example ,add -pg

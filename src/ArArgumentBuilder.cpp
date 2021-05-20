@@ -928,8 +928,8 @@ AREXPORT void ArArgumentBuilder::setQuiet(bool isQuiet)
 
 AREXPORT void ArArgumentBuilder::rebuildFullString()
 {
-	myFullString = "";
-	for (size_t k = 0; k < myArgc; k++)
+  myFullString.clear();
+  for (size_t k = 0; k < myArgc; k++)
 	{
 	  myFullString += myArgv[k];
     // Don't tack an extra space on at the end.

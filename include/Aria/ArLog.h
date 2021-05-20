@@ -193,7 +193,6 @@ public:
   }
 
 private:
-
   static bool processFile();
   static void invokeFunctor(const char *message);
   static void checkFileSize();

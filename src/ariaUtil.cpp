@@ -35,6 +35,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <math.h>
 #include <ctype.h>
 #include <assert.h>
+#include <sstream>
 
 #ifdef WIN32
 #include <winsock2.h>
@@ -1339,6 +1340,14 @@ AREXPORT void ArTime::setToNow()
       
 }
 
+AREXPORT std::string ArTime::toString() const
+{
+  // todo replace with fmt::format() or std::format()
+  std::stringstream s;
+  this->operator<<(s);
+  return std::string(s.str());
+}
+
 AREXPORT ArRunningAverage::ArRunningAverage(size_t numToAverage)
 {
   myNumToAverage = numToAverage;
@@ -1385,11 +1394,6 @@ AREXPORT void ArRunningAverage::clear()
   myTotal = 0;
 }
 
-AREXPORT size_t ArRunningAverage::getNumToAverage() const
-{
-  return myNumToAverage;
-}
-
 AREXPORT void ArRunningAverage::setNumToAverage(size_t numToAverage)
 {
   myNumToAverage = numToAverage;
@@ -1402,11 +1406,6 @@ AREXPORT void ArRunningAverage::setNumToAverage(size_t numToAverage)
     myNum--;
     myVals.pop_back();
   }
-}
-
-AREXPORT size_t ArRunningAverage::getCurrentNumAveraged()
-{
-  return myNum;
 }
 
 AREXPORT void ArRunningAverage::setUseRootMeanSquare(bool useRootMeanSquare)
@@ -1425,11 +1424,6 @@ AREXPORT void ArRunningAverage::setUseRootMeanSquare(bool useRootMeanSquare)
   }
 
   myUseRootMeanSquare = useRootMeanSquare;
-}
-
-AREXPORT bool ArRunningAverage::getUseRootMeanSquare()
-{
-  return myUseRootMeanSquare;
 }
 
 AREXPORT ArRootMeanSquareCalculator::ArRootMeanSquareCalculator()
@@ -1467,22 +1461,12 @@ AREXPORT void ArRootMeanSquareCalculator::clear()
   myNum = 0;
 }
 
-AREXPORT size_t ArRootMeanSquareCalculator::getCurrentNumAveraged()
-{
-  return myNum;
-}
-
 AREXPORT void ArRootMeanSquareCalculator::setName(const char *name)
 {
   if (name != NULL)
     myName = name;
   else
     myName = "ArRootMeanSquareCalculator";
-}
-
-AREXPORT const char *ArRootMeanSquareCalculator::getName()
-{
-  return myName.c_str();
 }
 
 #ifndef WIN32

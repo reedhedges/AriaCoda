@@ -413,8 +413,8 @@ AREXPORT ArLineFinderSegment *ArLineFinder::averageSegments(
   ArLine perpLine1;
 
   // make sure that the lines are close to each other
-  line1Line.makeLinePerp(&endPose2, &perpLine1);
-  if (!line1Line.intersects(&perpLine1, &intersection1) ||
+  line1Line.makeLinePerp(endPose2, &perpLine1);
+  if (!line1Line.intersects(perpLine1, &intersection1) ||
       intersection1.findDistanceTo(endPose2) > myCombiningLinesCloseEnough)
   {
     //printf("e1 %d %.0f\n", line1Line.intersects(&perpLine1, &intersection1), intersection1.findDistanceTo(endPose2));
@@ -431,8 +431,8 @@ AREXPORT ArLineFinderSegment *ArLineFinder::averageSegments(
 
 
   // make sure that the lines are close to each other
-  line2Line.makeLinePerp(&endPose1, &perpLine2);
-  if (!line2Line.intersects(&perpLine2, &intersection2) ||
+  line2Line.makeLinePerp(endPose1, &perpLine2);
+  if (!line2Line.intersects(perpLine2, &intersection2) ||
       intersection2.findDistanceTo(endPose1) > myCombiningLinesCloseEnough)
   {
     //printf("e2 %d %.0f\n", line2Line.intersects(&perpLine2, &intersection2), 	   intersection2.findDistanceTo(endPose1));

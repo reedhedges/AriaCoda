@@ -39,7 +39,7 @@ void sonarPrinter()
   if (sd != NULL)
   {
     sd->lockDevice();
-    readings = sd->getCurrentBuffer();
+    readings = sd->getCurrentBufferPtr();
     if (readings != NULL)
     {
       for (it = readings->begin(); it != readings->end(); ++it)

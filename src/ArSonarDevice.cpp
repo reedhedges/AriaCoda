@@ -101,24 +101,23 @@ AREXPORT void ArSonarDevice::processReadings()
   }
 
   // delete too-far readings
-  std::list<ArPoseWithTime *> *readingList;
-  std::list<ArPoseWithTime *>::iterator it;
+  std::list<ArPoseWithTime> *readingList;
   double dx, dy, rx, ry;
     
   myCumulativeBuffer.beginInvalidationSweep();
-  readingList = myCumulativeBuffer.getBuffer();
+  readingList = myCumulativeBuffer.getBufferPtr();
   rx = myRobot->getX();
   ry = myRobot->getY();
   // walk through the list and see if this makes any old readings bad
   if (readingList != NULL)
     {
-      for (it = readingList->begin(); it != readingList->end(); ++it)
-	{
-	  dx = (*it)->getX() - rx;
-	  dy = (*it)->getY() - ry;
-	  if ((dx*dx + dy*dy) > (myFilterFarDist * myFilterFarDist)) 
-	    myCumulativeBuffer.invalidateReading(it);
-	}
+      for (auto it = readingList->begin(); it != readingList->end(); ++it)
+      {
+        dx = it->getX() - rx;
+        dy = it->getY() - ry;
+        if ((dx*dx + dy*dy) > (myFilterFarDist * myFilterFarDist)) 
+          myCumulativeBuffer.invalidateReading(it);
+      }
     }
   myCumulativeBuffer.endInvalidationSweep();
   // leave this unlock here or the world WILL end
@@ -146,28 +145,27 @@ AREXPORT void ArSonarDevice::addReading(double x, double y)
     myCurrentBuffer.addReading(x,y);
   
   if (dist2 < myMaxDistToKeepCumulative * myMaxDistToKeepCumulative)
+  {
+    std::list<ArPoseWithTime> *readingList;
+
+    myCumulativeBuffer.beginInvalidationSweep();
+
+    readingList = myCumulativeBuffer.getBufferPtr();
+    // walk through the list and see if this makes any old readings bad
+    if (readingList != NULL)
     {
-      std::list<ArPoseWithTime *> *readingList;
-      std::list<ArPoseWithTime *>::iterator it;
-
-      myCumulativeBuffer.beginInvalidationSweep();
-
-      readingList = myCumulativeBuffer.getBuffer();
-      // walk through the list and see if this makes any old readings bad
-      if (readingList != NULL)
-	{
-	  for (it = readingList->begin(); it != readingList->end(); ++it)
-	    {
-	      dx = (*it)->getX() - x;
-	      dy = (*it)->getY() - y;
-	      if ((dx*dx + dy*dy) < (myFilterNearDist * myFilterNearDist)) 
-		myCumulativeBuffer.invalidateReading(it);
-	    }
-	}
-      myCumulativeBuffer.endInvalidationSweep();
-
-      myCumulativeBuffer.addReading(x,y);
+      for (auto it = readingList->begin(); it != readingList->end(); ++it)
+      {
+        dx = it->getX() - x;
+        dy = it->getY() - y;
+        if ((dx*dx + dy*dy) < (myFilterNearDist * myFilterNearDist)) 
+          myCumulativeBuffer.invalidateReading(it);
+      }
     }
+    myCumulativeBuffer.endInvalidationSweep();
+
+    myCumulativeBuffer.addReading(x,y);
+  }
 }
 
 

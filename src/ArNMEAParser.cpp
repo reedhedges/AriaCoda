@@ -78,7 +78,7 @@ AREXPORT void ArNMEAParser::removeHandler(const char *message)
 void ArNMEAParser::nextField()
 {
   currentMessage.push_back(currentField);
-  currentField = "";
+  currentField.clear();
   if (currentMessage.size() > MaxNumFields)
     endMessage();
 }
@@ -87,7 +87,7 @@ void ArNMEAParser::endMessage()
 {
   inMessage = false;
   inChecksum = false;
-  currentField = "";
+  currentField.clear();
   gotCR = false;
   currentMessage.clear();
 }
@@ -104,7 +104,7 @@ void ArNMEAParser::beginMessage()
   currentMessage.clear();
   inChecksum = false;
   inMessage = true;
-  currentField = "";
+  currentField.clear();
   gotCR = false;
   currentChecksum = 0;
   memset(checksumBuf, 0, sizeof(checksumBuf));

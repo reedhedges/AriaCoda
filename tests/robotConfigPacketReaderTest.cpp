@@ -22,6 +22,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 */
 #include "Aria/Aria.h"
+
+#include "Aria/ArRobotConfigPacketReader.h"
 #include <time.h>
 
 int main(int argc, char **argv) 

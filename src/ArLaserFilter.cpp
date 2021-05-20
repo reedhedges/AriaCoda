@@ -259,9 +259,9 @@ void ArLaserFilter::processReadings()
 
   // set where the pose was taken
   myCurrentBuffer.setPoseTaken(
-	  myLaser->getCurrentRangeBuffer()->getPoseTaken());
+	  myLaser->getCurrentRangeBuffer().getPoseTaken());
   myCurrentBuffer.setEncoderPoseTaken(
-	  myLaser->getCurrentRangeBuffer()->getEncoderPoseTaken());
+	  myLaser->getCurrentRangeBuffer().getEncoderPoseTaken());
 
 
   std::list<ArSensorReading *>::iterator it;

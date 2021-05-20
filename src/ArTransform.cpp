@@ -25,6 +25,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaOSDef.h"
 #include "Aria/ArTransform.h"
 
+
 AREXPORT void ArTransform::doTransform(std::list<ArPose *> *poseList)
 {
   std::list<ArPose *>::iterator it;
@@ -54,7 +55,7 @@ AREXPORT void ArTransform::doTransform(std::list<ArPoseWithTime *> *poseList)
 /**
    @param pose the coord system from which we transform to abs world coords
 */
-AREXPORT void ArTransform::setTransform(ArPose pose) 
+AREXPORT void ArTransform::setTransform(const ArPose& pose) 
 { 
   myTh = pose.getTh();
   myCos = ArMath::cos(-myTh);
@@ -67,7 +68,7 @@ AREXPORT void ArTransform::setTransform(ArPose pose)
    @param pose1 transform this into pose2
    @param pose2 transform pose1 into this
 */
-AREXPORT void ArTransform::setTransform(ArPose pose1, ArPose pose2)
+AREXPORT void ArTransform::setTransform(const ArPose& pose1, const ArPose& pose2)
 {
   myTh = ArMath::subAngle(pose2.getTh(), pose1.getTh());
   myCos = ArMath::cos(-myTh);

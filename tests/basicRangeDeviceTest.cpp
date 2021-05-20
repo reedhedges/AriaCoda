@@ -9,27 +9,27 @@
   The patterns of readings are:
     1. A line of ten readings in front of 0,0 at Y=10meters, spanning from X=-10m to X=+10m.
     2. The left 5 of those readings are duplicated (normally should be omitted from range buffer.)
-    3. A line of ten readings in front of 0,0 at Y=5meters, spanning from X=0 to X=+10m.  These oclude the right 5 readings of the first line.
+    3. A line of ten readings in front of 0,0 at Y=5meters, spanning from X=0 to X=+10m.  These occlude the right 5 readings of the first line.
     4. Two readings very close to 0,0.  If the robot is at 0,0 these would be "inside" the robot and should normally be omitted from range buffer.
     5. A reading directly in front of the robot, at X=0 and Y=(half the robot length plus 5 mm)
     6. Five readings 25 meters away. If the max range is 20 meters, these should not appear.
 
- This test starts the test range device, logs the readings, turns some off, and
-logs them again after a short wait which is long enough that the old readings
-should have been removed from the buffer.  It cycles through some permutations of the above, waiting several seconds in
-between (so old readings should have been cleared from the buffers), and logs
-the readings.    Invalidation of sets of readings can be manually triggered:
-Any reading more than 5 meters away (should remove first line at 10m), all readings,
-or the line of readings at 5 meters, or the line of readings at 10 meters.
+  This test starts the test range device, logs the readings, turns some off, and
+  logs them again after a short wait which is long enough that the old readings
+  should have been removed from the buffer.  It cycles through some permutations of the above, waiting several seconds in
+  between (so old readings should have been cleared from the buffers), and logs
+  the readings.    Invalidation of sets of readings can be manually triggered:
+  Any reading more than 5 meters away (should remove first line at 10m), all readings,
+  or the line of readings at 5 meters, or the line of readings at 10 meters.
 
-Note the TestRangeDevice provides a new set of readings every robot cycle (100ms), but results are only logged every 1 second.  
-Current readings are configured to remain for 1 second, current readings for 2 seconds (so cumulative readings should lag behind current readings
-every time data is logged every second)
+  Note the TestRangeDevice provides a new set of readings every robot cycle (100ms), but results are only logged every 1 second.  
+  Current readings are configured to remain for 1 second, current readings for 2 seconds (so cumulative readings should lag behind current readings
+  every time data is logged every second)
 
   Data log is written to basicRangeBufferTest.dat and may be plotted with gnu plot.
-  
+
   The logs of readings may be compared to basicRangeBufferTestKnownGood.dat as an
-approval/regression test.
+  approval/regression test.
 */
 
 #include "Aria/ArRangeDevice.h"
@@ -138,18 +138,20 @@ public:
   {
     ArLog::info("basicRangeDeviceTest: %s", comment);
     {
-      fprintf(fp, "\n\n# %s_Current_%lu %s\n", testRangeDevice->getName(), currentLogCounter++, comment);
-      ArRangeBuffer *b = testRangeDevice->getCurrentRangeBuffer();
-      std::list<ArPoseWithTime *> *list = b->getBuffer();
-      for (auto i = list->begin(); i != list->end(); ++i)
-        fprintf(fp, "%.0f\t%.0f\n", (*i)->getX(), (*i)->getY());
+      const ArRangeBuffer &b = testRangeDevice->getCurrentRangeBuffer();
+      fprintf(fp, "\n\n# %s_Current_%lu %s ", testRangeDevice->getName(), currentLogCounter++, comment); // no newline
+      b.logInternal(fp);
+      for (auto i = b.getBegin(); i != b.getEnd(); ++i)
+        fprintf(fp, "%.0f\t%.0f\n", i->getX(), i->getY());
     }
+
     {
-      fprintf(fp, "\n\n# %s_Cumulative_%lu %s\n", testRangeDevice->getName(), cumulativeLogCounter++, comment);
-      ArRangeBuffer *b = testRangeDevice->getCumulativeRangeBuffer();
-      std::list<ArPoseWithTime *> *list = b->getBuffer();
-      for (auto i = list->begin(); i != list->end(); ++i)
-        fprintf(fp, "%.0f\t%.0f\n", (*i)->getX(), (*i)->getY());
+      const ArRangeBuffer &b = testRangeDevice->getCumulativeRangeBuffer();
+      fprintf(fp, "\n\n# %s_Cumulative_%lu %s ", testRangeDevice->getName(), cumulativeLogCounter++, comment); // no newline
+      b.logInternal(fp);
+
+      for (auto i = b.getBegin(); i != b.getEnd(); ++i)
+        fprintf(fp, "%.0f\t%.0f\n", i->getX(), i->getY());
     }
   }
 
@@ -199,6 +201,8 @@ int main(int argc, char **argv)
     Aria::exit(1);
   }
 
+  //ArLog::setLogTime(true);
+
 
   ArLog::log(ArLog::Normal, "basicRangeDeviceTest: Connected to robot.");
 
@@ -207,6 +211,10 @@ int main(int argc, char **argv)
   Test test(&robot, &testRangeDevice);
 
   robot.runAsync();
+
+  // XXX TODO invalidate specific readings and check sizes.  add logInternals() to ArRangeBuffer to log
+  // size etc. of reserved invalidated readings. as well as others. log these to data file in addition to ArLog 
+  // to compare against old for approval/regression test.  (does ArLog need an option to write log messages to data file as a comment?)
 
   ArUtil::sleep(1000);
   test.logData("all readings on");
