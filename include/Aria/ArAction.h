@@ -62,9 +62,9 @@ group. For example, the modes in demo.cpp and ArNetworking activate/deactivate a
 class ArAction
 {
 public:
-  /// Constructor
+
   AREXPORT ArAction(const char * name, const char * description = "");
-  /// Desructor
+
   AREXPORT virtual ~ArAction();
   /// Returns whether the action is active or not
   AREXPORT virtual bool isActive() const;

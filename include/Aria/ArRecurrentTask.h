@@ -35,7 +35,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 /**
    The ArRecurrentTask is a task that runs in its own thread.  Recurrent
    tasks are asynchronous tasks that complete in a finite amount of time,
-   and need to be reinvoked recurrently.  A typical example is Saphira's
+   and need to be reinvoked recurrently.  A typical example is a 
    localization task: it runs for a few hundred milliseconds, localizes the
    robot, and returns.  Then the cycle starts over.
    The user simply needs to derive their own class

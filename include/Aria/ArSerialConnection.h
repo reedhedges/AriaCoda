@@ -68,7 +68,7 @@ class ArSerialConnection: public ArDeviceConnection
    /**
       Sets the BAUD rate to use when connection is opened, or change the baud rate if already opened
       @param baud the baud rate to set the connection to
-      @return true if rate was sucessfully set, false otherwise (unsupported rate, system error changing rate on port, etc.)
+      @return true if rate was successfully set, false otherwise (unsupported rate, system error changing rate on port, etc.)
       @sa getBaud()
    */
   AREXPORT bool setBaud(int baud);

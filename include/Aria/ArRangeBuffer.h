@@ -32,13 +32,13 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 /** Stores a point cloud of timestamped positions in global space representing sensor readings or responses, into which recently received sensor readings are added by ArRangeDevice objects, and old or otherwise no-longer-useful readings are removed.
  *  Each ArRangeDevice implementation keeps a "current" ArRangeBuffer of relatively recent readings, and a "cumulative" buffer representing a longer history of readings. 
- *  Each ArRangeDevice may have different conditions for when sensor readings are omitted or removed for each of these buffers, depending on the actual sensing charactaristics of its sensor.
+ *  Each ArRangeDevice may have different conditions for when sensor readings are omitted or removed for each of these buffers, depending on the actual sensing characteristics of its sensor.
  *  (For example, a laser rangefinder may remove readings which are behind or shadowed by a more recently received reading).
  *  As ArRangeDevice objects store sets of readings in ArRangeBuffer, robot position information is also updated (see getPoseTaken() and getEncoderPoseTaken()).  
  *  Some additional utility methods are provided such as finding the closest reading, transforming the reading positions, these are generally used internally or by equivalent API in ArRangeDevice.
  *  New readings are added to the front of the list, and if the list is at capacity, the last reading at the back is discarded. When addReadingConditional() is used, the updated reading is also moved to the front.
  *  Therefore the list is in reverse chronological order.  However, most ArRangeDevice implementations also periodically invalidate old readings, especially for their "current" buffer, which will prevent particularly old readings from remaining.
- *  This class stores the readings as a std::list of ArPoseWithTime objects.  ArRangeDevice provides accessors for the current and cumulative ArRanhgeBuffer objects, as well as convenience accesors for the underlying std::list<ArPoseWithTime> containers.
+ *  This class stores the readings as a std::list of ArPoseWithTime objects.  ArRangeDevice provides accessors for the current and cumulative ArRangeBuffer objects, as well as convenience accesors for the underlying std::list<ArPoseWithTime> containers.
  *  Prior to AriaCoda 3.x, these were stored as a std::list<ArPoseWithTime*> (pointers to allocated objects), and only provided access to a pointer to this std::list, and also included a mechanism to manage this list to reduce re-allocations of ArPoseWithTime objects. 
  *  In AriaCoda 3.x this has been modified to more directly use std::list<ArPoseWithTime>. This avoids allocation, reallocation, and custom management of the list, though sometimes ArPoseWithTime objects are internally copied.
  */
@@ -50,7 +50,7 @@ public:
 
   /// Destructor
   //AREXPORT virtual ~ArRangeBuffer();
-  // XXX TODO should include copy/move constructors and copy/move assigment operators.
+  // XXX TODO should include copy/move constructors and copy/move assignment operators.
 
   /// Gets the maximum size (capacity) of the buffer
   size_t getCapacity() const { return myCapacity; }
@@ -107,7 +107,7 @@ public:
 				      bool *wasAdded = NULL);
 
 #ifndef SWIG
-  /// For ArRangeDevice implementations: Begins a walk through the list of readings. ArRangeDevice implemenations. call this before invalidating one or more readings with invalidateReading(). Do not add any readings or adjust the capacity (size), until after the end of the invalidation sweep.
+  /// For ArRangeDevice implementations: Begins a walk through the list of readings. ArRangeDevice implementations. call this before invalidating one or more readings with invalidateReading(). Do not add any readings or adjust the capacity (size), until after the end of the invalidation sweep.
   /// @internal
   AREXPORT void beginInvalidationSweep();
 

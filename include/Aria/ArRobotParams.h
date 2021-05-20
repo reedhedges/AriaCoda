@@ -696,7 +696,7 @@ public:
 	return 0;
     }
 
-  /// get number of units (ie transducers) configued 
+  /// get number of units (ie transducers) configured 
   int getNumSonarUnits() const 
     { 
       return myNumSonarUnits;

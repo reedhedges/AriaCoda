@@ -39,7 +39,7 @@ class ArFunctor;
 
 /// Cross-platform mutex wrapper class 
 /**
-   This class wraps the operating system's mutex functions. It allows mutualy
+   This class wraps the operating system's mutex functions. It allows mutually
    exclusive access to a critical section. This is extremely useful for
    multiple threads which want to use the same variable. On Linux, ArMutex simply
    uses the POSIX pthread interface in an object oriented manner. It also
@@ -205,7 +205,7 @@ protected:
   AREXPORT static unsigned int ourLockWarningMS;
   AREXPORT static unsigned int ourUnlockWarningMS;
   ArTime *myLockStarted;
-  // Intialize lock timing state. Call in ArMutex constructor.
+  // Initialize lock timing state. Call in ArMutex constructor.
   void initLockTiming();
   // Destroy lock timing state. Call in destructor.
   void uninitLockTiming();

@@ -43,11 +43,11 @@ class ArRobot;
 class ArResolver
 {
 public:
-  /// Constructor
+
   typedef std::multimap<int, ArAction *> ActionMap;
   ArResolver(const char *name, const char * description = "")
     { myName = name; myDescription = description; }
-  /// Desturctor
+
   virtual ~ArResolver() = default;
   /// Figure out a single ArActionDesired from a list of ArAction s
   virtual ArActionDesired *resolve(ActionMap *actions, ArRobot *robot,

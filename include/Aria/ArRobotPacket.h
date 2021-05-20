@@ -33,7 +33,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 /// Represents the packets sent to the robot as well as those received from it
 /**
    This class reimplements some of the buf operations since the robot is 
-   opposeite endian from intel.  Also has the getID for convenience.  
+   opposite endian from intel.  Also has the getID for convenience.  
    
    You can just look at the documentation for the ArBasePacket except for
    the 4 new functions here, verifyCheckSum, getID, print, and calcCheckSum.

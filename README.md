@@ -27,7 +27,6 @@ See [LICENSE.txt](LICENSE.txt) for full license information about AriaCoda.
 Requirements
 ------------
 
-
 AriaCoda is intended to be used on any recent standard Linux, MacOSX, Windows 7,
 or Windows 10 system. The only requirements are standard operating system libraries
 (POSIX, as well as the Windows C Runtime and Platform SDK if on Windows and some
@@ -106,7 +105,7 @@ ARIA 2.x or AriaCoda are being used.
 Over time, the library may be more consistently modernized to C++17 or later
 (unless significant rewriting of generally working and stable code would be
 required).  This may require further deprecating, removing or changing some
-interfaces. The biggest changes will likely be to replace Functors, ArTime, and
+interfaces. The biggest changes will likely be to replace ArFunctor, ArTime, and
 threading and other OS portability wrappers with newer C++ standards, and possibly
 requiring use of smart pointers especially when objects or references are passed
 into or out of the ARIA API, as well as more consistent use of e.g. `std::string`
@@ -165,7 +164,7 @@ On Mac OSX, XCode and command-line development tools are required.
 select "Command Line Tools", and click "Install".)   Run `make` from a
 Terminal shell to build the Aria dynamic library.
 
-Note: To build on certain older Linux versions (glibc versions) (e.g. Ubuntu Xenial), 
+Note: To build on certain older Linux versions (glibc versions) (e.g. Ubuntu Xenial),
 add the `-DARIA_OMIT_DEPRECATED_MATH_FUNCS` compilation flag to `EXTRA_CXXFLAGS` when building:
 
     make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS 
@@ -243,7 +242,7 @@ Simulator
 AriaCoda may be used with the [AMRISim](http://github.com/reedhedges/AMRISim) simulator, or MobileSim.
 
 Simply run the simulator first (enable emulated Pioneer interface if necessary), then run
-any program using AriaCoda on the same host. No special cofiguration changes or version needs to
+any program using AriaCoda on the same host. No special configuration changes or version needs to
 be used to use AMRISim, AriaCoda will automatically detect AMRISim if it is running on the same
 computer, or you can connect remotely to AMRISim using the `-remoteHost` option,
 or network broadcast service discovery (currently implemented in the Python

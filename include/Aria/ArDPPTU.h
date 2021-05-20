@@ -75,7 +75,7 @@ may want to enable higher power modes if the PTU slips when carrying heavy
 payloads using setMovePower() and setHoldPower().
 
 The DPPTU can be connected to a computer serial port (typically COM4) or through
-a Pioneer microcontroller auxilliary serial port.
+a Pioneer microcontroller auxiliary serial port.
 If the DPPTU is connected to the microcontroller, make sure that the baud rate of the microcontroller-DPPTU connection is at least as fast, if not faster than the connection of the computer to the microcontroller.  If it's slower then the commands sent to the DPPTU may get backed up in the AUX port buffer and cause the DPPTU to behave erratically.  So, if the computer-microcontroller connection is autobauding up to 38400bps, then make sure that the microcontroller aux port is set to 38400bps, as well, and consult the DPPTU manual for directions on changing its baud rate.
 
 @sa the DPPTU manuals and documentation available at <a
@@ -269,7 +269,7 @@ public:
 
   /// Configure power mode for an axis when in motion.
   /// init() sets initial moving power mode to Low, call this method to choose a different mode.
-  /// The recomended modes are either Low or Normal.
+  /// The recommended modes are either Low or Normal.
   AREXPORT bool setMovePower(Axis axis, PowerMode mode);
 
   /// Configure power mode for an axis when stationary.
@@ -327,7 +327,7 @@ public:
   /// Sets the lower pan slew
   AREXPORT bool lowerTiltSlew(double deg);
 
-  /// Sets motion to indenpendent control mode
+  /// Sets motion to independent control mode
   AREXPORT bool indepMove();
   /// Sets motion to pure velocity control mode
   AREXPORT bool velMove();

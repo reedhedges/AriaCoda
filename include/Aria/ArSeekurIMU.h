@@ -33,7 +33,7 @@ class ArRobotPacket;
 
 /// Access extra data provided by optional Seekur IMU
 /**
-   Seekur and Seekur Jr. robots have either a single-axis "gyro" (accelerometor)
+   Seekur and Seekur Jr. robots have either a single-axis "gyro" (accelerometer)
    or 6-axis IMU connected to the robot controller. The IMU is optional 
    and provides acceleration on 3 linear axes and rotation data on pitch, yaw
    and roll.  The standard Gyro provides yaw rotation data.

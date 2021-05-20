@@ -62,7 +62,7 @@ class ArLCDMTX;
     It is also used
     to provide access to objects for controlling attached accessories, 
     ArRangeDevice objects, ArAction objects, and others.  For details
-    on usage, and how the task cycle and obot state synchronization works,
+    on usage, and how the task cycle and robot state synchronization works,
     see the @ref robot "ArRobot section" and the
     @ref ClientCommands "Commands and Actions section" of the ARIA overview.
 
@@ -330,7 +330,7 @@ public:
    *  may also incorporate additional data sources such as 
    *  an onboard gyro.  The term "odometric pose" also 
    *  distinguishes this position by the fact that its
-   *  coordinate system may be arbitrary, and seperate
+   *  coordinate system may be arbitrary, and separate
    *  from any external coordinate system.
    *
    *  @sa getEncoderPose()
@@ -420,7 +420,7 @@ public:
      @sa getBatteryVoltageNow()
    **/
   double getBatteryVoltage() const {return myBatteryAverager.getAverage();}
-  /// Gets the instaneous battery voltage
+  /// Gets the instantaneous battery voltage
   /**
      This is a value normalized to 12 volts, if you want what the
      actual voltage of the robot is use getRealBatteryVoltage().
@@ -446,7 +446,7 @@ public:
    **/
   double getRealBatteryVoltage() const 
     { return myRealBatteryAverager.getAverage(); }
-  /// Gets the instaneous battery voltage
+  /// Gets the instantaneous battery voltage
   /**
      This is whatever the actual voltage of the robot is, if you want
      a value normalized to a common 12 volts for all robot types use getBatteryVoltage().  If the
@@ -639,7 +639,7 @@ public:
      that request. 
    
      This is so that if the robot is trying to move, but is prevented
-     (mainly by an action) there'll still be some indication that the
+     (mainly by an action) there will still be some indication that the
      robot is trying to move (e.g. we can prevent the sonar from automatically being
      turned off). Note that this flag
      doesn't have anything to do with if the robot is really moving or
@@ -1131,15 +1131,15 @@ public:
   /// Wake up all threads waiting for the run loop to exit
   AREXPORT void wakeAllRunExitWaitingThreads();
 
-  /// Adds a user task to the list of synchronous taskes
+  /// Adds a user task to the list of synchronous tasks
   AREXPORT bool addUserTask(const char *name, int position, 
 			       ArFunctor *functor,
 			       ArTaskState::State *state = NULL);
 
 
-  /// Removes a user task from the list of synchronous taskes by name
+  /// Removes a user task from the list of synchronous tasks by name
   AREXPORT void remUserTask(const char *name);
-  /// Removes a user task from the list of synchronous taskes by functor
+  /// Removes a user task from the list of synchronous tasks by functor
   AREXPORT void remUserTask(ArFunctor *functor);
 
   /// Finds a user task by name
@@ -1303,7 +1303,7 @@ public:
   /// Gets the parameters the robot is using
   AREXPORT const ArRobotParams *getRobotParams() const;
 
-  /// Sets if a config packet is requried or not... 
+  /// Sets if a config packet is required or not... 
   /** By default it is not required, since some ancient robots have no
       config packets... some of the modern software may die hideously
       if there is no config packet, so you should set this to true if
@@ -1374,7 +1374,7 @@ public:
   /// Sets the robot to use a passed in set of params (passes ownership)
   AREXPORT void setRobotParams(ArRobotParams *params);
 
-  /// Attachs a key handler
+  /// Attach a key handler
   AREXPORT void attachKeyHandler(ArKeyHandler *keyHandler,
 				 bool exitOnEscape = true,
 				 bool useExitNotShutdown = true);
@@ -1400,7 +1400,7 @@ public:
   /// How long we should stabilize for in ms (0 disables stabilizing)
   AREXPORT void setStabilizingTime(int mSecs);
 
-  /// How long we stabilize for in ms (0 means no stabilizng)
+  /// How long we stabilize for in ms (0 means no stabilizing)
   AREXPORT int getStabilizingTime() const;
 
 
@@ -1410,7 +1410,7 @@ public:
   /// Removes stabilizing callback
   AREXPORT void remStabilizingCB(ArFunctor *functor);
   
-  /// This gets the root of the syncronous task tree, only serious 
+  /// This gets the root of the synchronous task tree, only serious 
   /// developers should use it
   AREXPORT ArSyncTask *getSyncTaskRoot();
 

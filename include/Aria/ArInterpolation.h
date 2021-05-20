@@ -32,7 +32,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     be queried to interpolate (or optionally extrapolate) a pose for any arbitrary
     timestamp.  
 
-    Will work best when positions are stored frequenly and regularly.
+    Will work best when positions are stored frequently and regularly.
 
     ArRobot maintains an ArInterpolation object which can be accessed by
     ArRobot::getPoseInterpPosition(), ArRobot::getPoseInterpNumReadings(),

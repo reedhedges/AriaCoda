@@ -66,7 +66,7 @@ public:
   /// Adds a callback to call when Aria is initialized using init()
   AREXPORT static void addInitCallBack(ArFunctor *cb, ArListPos::Pos position);
 
-  /// Adds a callback to call when Aria is uninititialized using uninit()
+  /// Adds a callback to call when Aria is uninitialized using uninit()
   AREXPORT static void addUninitCallBack(ArFunctor *cb,
 					 ArListPos::Pos position);
 

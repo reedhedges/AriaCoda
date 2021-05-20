@@ -35,7 +35,7 @@ class ArDeviceConnection;
  * ArRangeDevice for more data access methods.
 
    This class is a subclass of ArRangeDeviceThreaded meant for any
-   planar scanning lasers, like the SICK lasers, Hokoyo URG series
+   planar scanning lasers, like the SICK lasers, Hokuyo URG series
    lasers, etc.  Unlike other base classes this contains the superset
    of everything that may need to be configured on any of the sensors,
    even though some subclasses may only provide some of those parameters
@@ -95,7 +95,7 @@ other similar functions are used by ArLaserConnector to test if a parameter
    it will work like any of the built in laser types (see the
    documentation for that function for what the creator needs to do,
    and an example is ArLaserCreatorHelper in the ariaUtil.h/cpp
-   files).  Similiarly if you need a new connection type (ie not
+   files).  Similarly if you need a new connection type (ie not
    serial or tcp) you implement them and then use
    Aria::deviceConnectionAddCreator call to add new types so they too
    will then be treated the same as the built in Aria ones
@@ -135,7 +135,7 @@ public:
   /// Gets the number of seconds without a response until connection assumed lost
   AREXPORT virtual double getConnectionTimeoutSeconds();
 
-  /// Gets the time data was last receieved
+  /// Gets the time data was last received
   ArTime getLastReadingTime() { return myLastReading; }
   
   /// Gets the number of laser readings received in the last second
@@ -655,9 +655,9 @@ protected:
   AREXPORT bool internalCheckChoice(const char *check, const char *choice,
 		   std::map<std::string, double> *choices,
 		   const char *choicesStr, double *choiceDouble);
-  // internal helper function for building a string for a list of chocies
+  // internal helper function for building a string for a list of choices
   void internalBuildChoicesString(std::list<std::string> *choices, std::string *str);
-  // internal helper function for building a string for a list of chocies
+  // internal helper function for building a string for a list of choices
   void internalBuildChoices(std::map<std::string, double> *choices, 
 		    std::string *str, std::list<std::string> *choicesList);
 

@@ -45,9 +45,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  * a sound. Ideally, we should be able to truly block until the sound has finished playback.
  * Alas, it is not an ideal world. Another potential pitfall due to the use of
  * an external program invocation: the program you call must not attempt to
- * issue any output.  'play' from the 'sox' toolset automatically supresses
+ * issue any output.  'play' from the 'sox' toolset automatically suppresses
  * normal output if it isn't called from an interactive terminal, but it may
- * still issue some error messages, which will cause it to hang indefinately.
+ * still issue some error messages, which will cause it to hang indefinitely.
  *
  * The volume (level) of audio output from a robot is determined by two things:
  * the computer sound device mixer, and also the amplifier which drives the

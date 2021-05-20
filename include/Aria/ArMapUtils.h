@@ -73,7 +73,7 @@ class ArBasePacket;
 // ArMapId
 // ============================================================================
 
-/// Enapsulates the data used to uniquely identify an Aria map
+/// Encapsulates the data used to uniquely identify an Aria map
 /**
  * ArMapId is a small helper class that contains all of the information 
  * needed to uniquely identify an Aria map.  In addition to the standard
@@ -349,7 +349,7 @@ protected:
 /// Determines whether the first ArMapFileLine is less than the second
 /**
  * Line1 is less than Line2 if its line number is less than that of Line2.
- * If the two line nubmers are equal, then Line1 is less than Line2 if its
+ * If the two line numbers are equal, then Line1 is less than Line2 if its
  * text is less.
  * @internal
  * @swigomit
@@ -953,7 +953,7 @@ class ArMapChangedHelper
  
    /// Disabled copy constructor
    AREXPORT ArMapChangedHelper(const ArMapChangedHelper &other);
-   ///  Disabled assignment operaotr
+   ///  Disabled assignment operator
    AREXPORT ArMapChangedHelper &operator=(const ArMapChangedHelper &other);
  
  protected:
@@ -963,10 +963,10 @@ class ArMapChangedHelper
    ArCallbackList myMapChangedCBList;
    ArCallbackList myPreMapChangedCBList;
    //Callback list used by path planning so that it ignores map changes
-   //that it doesnt care about
+   //that it doesn't care about
    ArCallbackList myMapChangedPathPlanningCBList;
    //Callback list used by localization so that it ignores map changes
-   //that it doesnt care about
+   //that it doesn't care about
    ArCallbackList myMapChangedLocalizationCBList;
  }; // end class ArMapChangedHelper
  

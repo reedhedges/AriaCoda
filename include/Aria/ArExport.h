@@ -38,7 +38,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define AREXPORT
 #endif // ARIA_STATIC
 #endif // SWIG
-#endif // ARIA_WRAPER
+#endif // ARIA_WRAPPER
 
 #else // WIN32
 

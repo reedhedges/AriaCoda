@@ -62,7 +62,7 @@ class ArSocket;
 
 
     @swignote Swig cannot determine the correct constructor to use
-     based on most target langugages types, so you must use subclasses
+     based on most target languages types, so you must use subclasses
      defined for various types. Or, use the constructor that accepts 
      functors for dealing with arguments.  Also, Swig cannot use pointers
      to change variables, so you must create ArConfigArg objects, passing
@@ -893,7 +893,7 @@ private:
   bool myIgnoreBounds : 1;
   /// Whether this arg has been translated by a resource file
   bool myIsTranslated : 1;
-  /// Supressses change notification (for central server config params that should cause a restart on a robot, but not on the central server)
+  /// Suppresses change notification (for central server config params that should cause a restart on a robot, but not on the central server)
   bool mySuppressChanges : 1;
   /// Whether this arg should be written to the configuration file
   bool myIsSerializable : 1;

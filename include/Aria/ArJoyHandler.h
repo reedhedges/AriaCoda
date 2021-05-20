@@ -78,7 +78,7 @@ class ArJoyHandler
   /// Constructor
   AREXPORT ArJoyHandler(bool useOSCal = true, bool useOldJoystick = false);
 
-  /// Intializes the joystick, returns true if successful
+  /// Initializes the joystick, returns true if successful
   AREXPORT bool init();
   /// Returns if the joystick was successfully initialized or not
   bool haveJoystick() { return myInitialized; }
@@ -110,7 +110,7 @@ class ArJoyHandler
   AREXPORT void startCal();
   /// Ends the calibration process
   AREXPORT void endCal();
-  /// Gets the unfilitered reading, mostly for internal use, maybe
+  /// Gets the unfiltered reading, mostly for internal use, maybe
   /// useful for Calibration
   AREXPORT void getUnfiltered(int *x, int *y, int *z = NULL);
   /// Gets the stats for the joystick, useful after calibrating to save values

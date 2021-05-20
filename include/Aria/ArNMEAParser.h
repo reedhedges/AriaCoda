@@ -37,7 +37,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *
  *  Parses NMEA input data and calls callbacks for certain messages with message
  *  parts.   NMEA is a standard output data protocol used by GPS devices and
- *  others (e.g. compass, altimiter, etc.)   This class is used internally by ArNMEAParser and
+ *  others (e.g. compass, altimeter, etc.)   This class is used internally by ArNMEAParser and
  *  subclasses, and by ArTCMCompassDirect.
  */
 class ArNMEAParser {
@@ -55,7 +55,7 @@ public:
     enum {
       ParseFinished = 1,  ///< There was no data to parse
       ParseError = 2,     ///< There was an error
-      ParseData = 4,      ///< Input was recieved and stored, but no complete messages were parsed
+      ParseData = 4,      ///< Input was received and stored, but no complete messages were parsed
       ParseUpdated = 8    ///< At least one complete message was parsed
     } ParseFlags;
 
@@ -71,7 +71,7 @@ public:
       /** The parts of the message, including initial message ID (but excluding
        * checksum) */
       ArNMEAParser::MessageVector* message;
-      /** Timestamp when the beginning of this message was recieved and parsing
+      /** Timestamp when the beginning of this message was received and parsing
        * began. */
       ArTime timeParseStarted;
       /// Message ID (first word minus talker prefix)
@@ -86,7 +86,7 @@ public:
 
 
     /** Set a handler for an NMEA message. Mostly for internal use or to be used
-     * by related classes, but you could use for ususual or custom messages
+     * by related classes, but you could use for unusual or custom messages
      * emitted by a device that you wish to be handled outside of the ArNMEAParser
      * class. 
      * @param messageID ID of NMEA sentence/message, without two-letter "talker" prefix.
@@ -101,7 +101,7 @@ public:
      * (probably a few hundred bytes limit).
      * @return a result code from ParseFlags
      * @note You should only use one stream of data with ArNMEAParser, and in a
-     * continuous fashion, since it will store partially recieved messages for
+     * continuous fashion, since it will store partially received messages for
      * the next call to one of the parse() methods.
      */
     AREXPORT int parse(ArDeviceConnection *dev);
@@ -139,7 +139,7 @@ private:
     const char *myName;
 
     /*  NMEA scanner state.
-     *  There are possabilities for opmitization here, such 
+     *  There are possabilities for optimization here, such 
      *  as just storing the read data in a buffer and handling
      *  each field as it is found in the buffer, or building
      *  a list of char* for each field pointing into the buffer

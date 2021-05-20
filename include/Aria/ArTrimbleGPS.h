@@ -42,7 +42,7 @@ class ArTrimbleAuxDeviceConnection;
  *  This subclass extends ArGPS to send initialization commands specific
  *  to Trimble GPS devices, and to handle the PTNLAG001 message which
  *  is specific to the Trimble GPS (this message contains data received 
- *  from an auxilliary device connected to the GPS; ArTrimbleGPS
+ *  from an auxiliary device connected to the GPS; ArTrimbleGPS
  *  simply parses its contents as a new NMEA message; i.e. data received
  *  by the Trimble is assumed to be NMEA messages that it forwards
  *  via the PTNLAG001 message.)

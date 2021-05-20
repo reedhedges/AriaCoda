@@ -60,7 +60,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    position.  addNewLeaf() adds a new leaf node to the instance it is called on,
    with the given name and position, and also with the ArFunctor given, this 
    functor will be called when the leaf is run.  Either add creates the new 
-   instance and puts it in the list of branches/nodes in the approriate spot.
+   instance and puts it in the list of branches/nodes in the appropiate spot.
 
    The tree takes care of all of its own memory management and list management,
    the "add" functions put into the list and creates the memory, conversely

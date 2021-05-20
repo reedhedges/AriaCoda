@@ -56,7 +56,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     A buffer may be statically allocated externally and supplied to the
     constructor
     (also give a buffer size to determine the maximum amount of data that can be
-    placed in that bufer),
+    placed in that buffer),
     or automatically and dynamically allocated by ArBasePacket as needed
     (the default behavior).
 
@@ -140,7 +140,7 @@ public:
   /// Copies length bytes from data into packet buffer
   AREXPORT virtual void dataToBuf(const unsigned char *data, int length);
 
-  // Utility functions to read differet data types from a bufer. Each read
+  // Utility functions to read different data types from a buffer. Each read
   // will increment the myReadLength.
   /// Gets a ArTypes::Byte from the buffer
   AREXPORT virtual ArTypes::Byte bufToByte();

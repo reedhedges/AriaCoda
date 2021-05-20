@@ -46,7 +46,7 @@ public:
   AREXPORT ~ArRobotBatteryPacketReader();
   /// Request a single packet.. 
   AREXPORT void requestSinglePacket();
-  /// Request a continous stream of packets
+  /// Request a continuous stream of packets
   AREXPORT void requestContinuousPackets();
   /// Stop the stream of packets
   AREXPORT void stopPackets();

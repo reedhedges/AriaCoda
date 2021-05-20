@@ -52,7 +52,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    list of tasks to check for new keyboard input in each cycle, and which
    will also add a handler to end the robot's task cycle when Escape is pressed
    (you can override this by replacing it with your own handler).
-   If you have mulitple ArRobot objects, only create one key handler and attach
+   If you have multiple ArRobot objects, only create one key handler and attach
    it to one robot.
 
    Alternatively, you can call checkKeys() periodically to check for new key input.

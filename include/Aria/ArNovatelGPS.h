@@ -36,7 +36,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *  
  *  This subclass overrides initDevice() to send initialization commands specific
  *  to NovAtel GPS devices.
- *  On connect, it initiazes SBAS (satellite-based augmentation) to
+ *  On connect, it initializes SBAS (satellite-based augmentation) to
  *  "auto", which uses WAAS, EGNOS, or MSAS if available,
  *  and then requests NMEA messages to be interpreted by ArGPS.
  *

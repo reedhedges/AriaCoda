@@ -266,7 +266,7 @@ public:
 
   /// Sets the device connection to be used by this PTZ camera, if set
   /// this camera will send commands via this connection, otherwise
-  /// its via robot aux. serial port (see setAuxPortt())
+  /// its via robot aux. serial port (see setAuxPort())
   AREXPORT virtual bool setDeviceConnection(ArDeviceConnection *connection,
 					    bool driveFromRobotLoop = true);
   /// Gets the device connection used by this PTZ camera
@@ -307,7 +307,7 @@ public:
      just check the ID of the robot packet and then return what
      packetHandler thinks of the packet.
      @param packet the packet to handle
-     @return true if the packet was handled (ie this konws what it is),
+     @return true if the packet was handled (ie this knows what it is),
      false otherwise
   **/
   AREXPORT virtual bool robotPacketHandler(ArRobotPacket *packet);

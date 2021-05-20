@@ -49,7 +49,7 @@ class ArRobot;
  *  access to a PTZ objects, use getPTZ(int i) and getNumPTZs(), or getPTZs().
  *  ArPTZ provides an interface to functions that most PTZ implementations
  *  (ArPTZ subclasses) implement. Some PTZ implementations have additional
- *  features. Use those subclasse directly to use these additional features
+ *  features. Use those subclasses directly to use these additional features
  *  (use dynamic_cast to cast an ArPTZ pointer to a subclass pointer, if
  *  possible.)
  *  
@@ -72,7 +72,7 @@ class ArRobot;
 class ArPTZConnector {
 public:
   /* @arg robot In some cases the robot connection is used to communicate with
-   * devices via auxilliary serial connections, so this robot interface is used.
+   * devices via auxiliary serial connections, so this robot interface is used.
    * May be NULL. */
   AREXPORT ArPTZConnector(ArArgumentParser* argParser, ArRobot *robot = NULL);
   AREXPORT ~ArPTZConnector();
@@ -127,7 +127,7 @@ public:
   /** Change limit on number of PTZ devices. 
  * You must call this
  * before creating an ArPTZConnector, parsing command line arguments, connecting
- * to a robot or loading a parameter file, or using ArPTZconnecor to connect to
+ * to a robot or loading a parameter file, or using ArPTZConnector to connect to
  * PTZ devices. 
   */
   void setMaxNumPTZs(size_t n)

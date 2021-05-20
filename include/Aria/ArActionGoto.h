@@ -61,7 +61,7 @@ public:
   AREXPORT virtual ~ArActionGoto();
 
   /** Sees if the goal has been achieved. The goal is achieved when
-   *  the robot's repordet position is within a certain distance
+   *  the robot's reported position is within a certain distance
    *  (given in the constructor or in setCloseDist) from the goal pose. */
   AREXPORT bool haveAchievedGoal();
 
@@ -93,7 +93,7 @@ public:
    */
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
 
-  /** Used by the action resolvel; return current desired action. */
+  /** Used by the action resolver; return current desired action. */
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

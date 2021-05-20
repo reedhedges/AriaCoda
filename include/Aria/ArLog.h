@@ -84,7 +84,7 @@ public:
    *  @param ... All following variable arguments are used according to the
    *  format string.
    *  @swignote In Java and Python, this function only takes one 
-   *    string argument. Use Java or Python's native facities
+   *    string argument. Use Java or Python's native facilities
    *    for constructing a formatted string, e.g. the % and + string
    *    operators in Python, and the methods of the Java String class.
    */

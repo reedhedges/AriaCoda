@@ -37,14 +37,14 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  * search for an ArRangeDevice on the ArRobot with a name "laser" and create its
  * own ArLineFinder object using that range device.
 
-   The parameters describing the shape of the triangle target may be set with setTriangleParams(). The default values are for a trianrgle target consisting of two lines of at least 254 mm. meeting
+   The parameters describing the shape of the triangle target may be set with setTriangleParams(). The default values are for a triangle target consisting of two lines of at least 254 mm. meeting
    at a 135 degree angle. This is the shape of the triangular
    target on docking stations. Targets also may easily be constructed out of any material well-sensed by the SICK Laser, such as wood, cardboard, or metal.
 
    If setTwoStageApproach() is called with true
    (default) it will first drive to a half meter away from the desired
    spot (distFromVertex from the point of the vertex along the
-   bisection of the angle between segments) and then after it reachs
+   bisection of the angle between segments) and then after it reaches
    that point it will turn in towards the vertex and drive to the
    final spot.  If setTwoStageApproach() is called with false it'll just drive to
    the final spot.  It will stop at closeDist away unless a large turn
@@ -228,7 +228,7 @@ public:
    *  @internal
    */
   bool getSaveData() { return mySaveData; }
-  /** Interal use only, gets the data we've saved
+  /** Internal use only, gets the data we've saved
    *  @internal
    */
   Data *getData();

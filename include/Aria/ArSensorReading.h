@@ -42,7 +42,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     data or not.   (Used to disable sensors data in robot and application
     configuration.)
 
-    Typical use is to create an ArSensorReading object representing an indidiual
+    Typical use is to create an ArSensorReading object representing an individual
     sensor that can sense distance (range) in one direction, or a set of
     ArSensorReadings corresponding to the set of range data returned by a sensor
     that provides multiple range measurements (e.g. most scanning laser
@@ -60,7 +60,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     Update data in an ArSensorReading object by calling newData().  The range
     value provided will be projected to a local cartesian cooridate based on the
     ArSensorReadings sensor position on the robot as supplied in the constructor or call to
-    resetSensorPosition(), and alrso transformed a global coordinate system based on a supplied 
+    resetSensorPosition(), and also transformed a global coordinate system based on a supplied 
     transform (usually this is the robot's global coordinate system using
     ArRobot::getToGlobalTransform()).  An incrementing counter must also be provided, and
     a timestamp.  The counter is used to check for updated data (by this class
@@ -165,7 +165,7 @@ public:
   /// Gets the sine component of the heading of the sensor reading
   double getSensorDY() const { return mySensorSin; }
 
-  /** Gets the X locaiton of the robot when the reading was received
+  /** Gets the X location of the robot when the reading was received
       @sa getPoseTaken()
   */
   double getXTaken() const { return myReadingTaken.getX(); }

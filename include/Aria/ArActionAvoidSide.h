@@ -27,9 +27,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArAction.h"
 
-/// Action to avoid impacts by firening into walls at a shallow angle
+/// Action to avoid impacts by firing into walls at a shallow angle
 /**
-   This action watches the sensors to see if it is close to firening into a wall
+   This action watches the sensors to see if it is close to firing into a wall
    at a shallow enough angle that other avoidance may not avoid.
 
   @ingroup ActionClasses

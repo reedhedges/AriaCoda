@@ -58,7 +58,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
   @code 
     ArFunctorC<int> example(&obj, &ExampleClass::exampleMethod);
   @endcode
-  otherwise you will recieve compile errors such as "invalid use of
+  otherwise you will receive compile errors such as "invalid use of
   member function", or that the function was not declared.
 
   Aria makes use of functors by using them as callback functions. Since
@@ -66,8 +66,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
   the callback functions need to be tied to an object and a particular
   instance. Thus the need for functors. Most of the use of callbacks simply
   take an ArFunctor, which is the base class for all the functors. This
-  class only has the ability to invoke a functor. All the derivitave
-  functors have the ability to invoke the correct function on the correct
+  class only has the ability to invoke a functor. All the derived
+  functor classes have the ability to invoke the correct function on the correct
   object.
 
   Because functions have different signatures because they take different

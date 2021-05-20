@@ -117,7 +117,7 @@ protected:
   bool myUsingSim;
   // if we're connecting via tcp (not to the sim), what remote host
   const char *myRemoteHost;
-  // robot port, if there isn't one this'll be NULL, which will just
+  // robot port, if there isn't one this will be NULL, which will just
   // be the default of ArUtil::COM1
   const char *myRobotPort;
   // baud for the serial

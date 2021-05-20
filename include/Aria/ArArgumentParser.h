@@ -103,7 +103,7 @@ public:
   AREXPORT void addDefaultArgumentAsIs(const char *argument, 
 				       int position = -1);
   /// Adds args from default files and environmental variables
-  AREXPORT void loadDefaultArguments(int positon = 1);
+  AREXPORT void loadDefaultArguments(int position = 1);
   /// Checks for the help strings and warns about unparsed arguments
   AREXPORT bool checkHelpAndWarnUnparsed(unsigned int numArgsOkay = 0);
   /// Checks for the help argument  

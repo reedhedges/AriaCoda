@@ -139,14 +139,14 @@ public:
       and listens for new incoming connections.  Use accept() to wait for a
       new incoming connection from a client.
 
-      In additon, internally this method calls setLinger(0), setReuseAddress(),
+      In addition, internally this method calls setLinger(0), setReuseAddress(),
       and setNonBlock() to turn on these options (having these on is 
       particularly useful for servers).  
       
       @param port Port number
       @param type ArSocket::TCP or ArSocket::UDP.
       @param openOnIP If given, only bind to the interface
-        accociated with this address (Linux only) (by default, all interfaces are used)
+        associated with this address (Linux only) (by default, all interfaces are used)
   */
   AREXPORT bool open(int port, Type type, const char *openOnIP = NULL);
 
@@ -155,7 +155,7 @@ public:
 
   /** Find the first valid unused port after @a startPort, and bind the socket to it.
       @param startPort first port to try
-	    @param openOnIP If given, only check ports open on the interface accociated with this address (Linux only)
+	    @param openOnIP If given, only check ports open on the interface associated with this address (Linux only)
   */
   AREXPORT bool findValidPort(int startPort, const char *openOnIP = NULL);
 

@@ -683,7 +683,7 @@ public:
    bool myConfigProcessedBefore;
    /// The name of the map file specified in the Aria config parameter
    char myConfigMapName[MAX_MAP_NAME_LENGTH];
-   /// Whether we want to force loading the map for some reasing
+   /// Whether we want to force loading the map for some reason
    bool myForceMapLoad;
  
    /// The current map used by the robot

@@ -32,7 +32,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 /// Represents the packets sent to the LMS2xx as well as those received from it
 /**
-   This class reimplements some of the buf operations since the robot is 
+   This class re-implements some of the buf operations since the robot is 
    little endian. 
    
    You can just look at the documentation for the ArBasePacket except

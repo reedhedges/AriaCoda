@@ -123,7 +123,7 @@ public:
    * wireless device). */
   AREXPORT static int getWirelessLinkQuality();
 
-  /** Get wireless netork signal level (for first configured
+  /** Get wireless network signal level (for first configured
    * wireless device). */
   AREXPORT static int getWirelessLinkSignal();
 

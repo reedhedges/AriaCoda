@@ -51,23 +51,26 @@ public:
   AREXPORT ArSonarAutoDisabler(ArRobot *robot);
   /// Destructor
   AREXPORT virtual ~ArSonarAutoDisabler();
-  /// Supresses this disabler (which turns off the sonar)
+  /// Suppresses this disabler (which turns off the sonar)
   void supress() 
-    { ArLog::log(ArLog::Normal, "ArSonarAutoDisabler::supress:"); 
+    { ArLog::log(ArLog::Normal, "ArSonarAutoDisabler::suppress:"); 
       mySupressed = true; }
-  /// Gets the callback to supress the autodisabler
+  void suppress() { supress(); }
+  /// Gets the callback to suppress the autodisabler
   ArFunctor *getSupressCallback() { return &mySupressCB; }
-  /// Unsupresses this disabler (goes back to auto enabling/disabling)
+  ArFunctor *getSuppressCallback() { return &mySupressCB; }
+  /// Unsuppresses this disabler (goes back to auto enabling/disabling)
   void unsupress() 
-    { ArLog::log(ArLog::Normal, "ArSonarAutoDisabler::unsupress:"); 
+    { ArLog::log(ArLog::Normal, "ArSonarAutoDisabler::unsuppress:"); 
       mySupressed = false; }
+  void unsuppress() { unsupress(); }
   /// Gets the callback to supress the autodisabler
   ArFunctor *getUnsupressCallback() { return &myUnsupressCB; }
-
+  ArFunctor *getUnsuppressCallback() { return &myUnsupressCB; }
   /// Sets that we're autonomous drivign so we only enable some sonar
   void setAutonomousDriving() 
-    { ArLog::log(ArLog::Normal, "ArSonarAutoDisabler::setAutonomousDriving:"); 
-      myAutonomousDriving = true; }
+  { ArLog::log(ArLog::Normal, "ArSonarAutoDisabler::setAutonomousDriving:"); 
+    myAutonomousDriving = true; }
   /// Gets the callback to set that we're driving autonomously
   ArFunctor *getSetAutonomousDrivingCallback() 
     { return &mySetAutonomousDrivingCB; }

@@ -294,7 +294,7 @@ protected:
   
   // the callback
   ArRetFunctor1C<bool, ArRobotConfigPacketReader, ArRobotPacket *> myPacketHandlerCB;
-  // callback for connectiosn in case we need to request a config packet
+  // callback for connections in case we need to request a config packet
   ArFunctorC<ArRobotConfigPacketReader> myConnectedCB;
   // callback for when we get a packet
   ArFunctor *myPacketArrivedCB;

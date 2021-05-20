@@ -53,7 +53,7 @@ public:
   AREXPORT virtual ~ArActionGroup();
   /// Adds an action to this group's robot, and associates the action with this group.
   AREXPORT virtual void addAction(ArAction *action, int priority);
-  /// Removes the action from this group's robot and dissasociates it from this group.
+  /// Removes the action from this group's robot and disassociates it from this group.
   AREXPORT virtual void remAction(ArAction *action);
   /// Activates all the actions in this group
   AREXPORT virtual void activate();

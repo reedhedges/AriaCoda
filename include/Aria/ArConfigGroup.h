@@ -46,7 +46,7 @@ public:
   AREXPORT bool writeFile(const char *fileName);
   /// Sets the base directory on all configs this contains
   AREXPORT void setBaseDirectory(const char *baseDirectory);
-  /// Gets the baes directory of this group (not the configs it contains)
+  /// Gets the base directory of this group (not the configs it contains)
   AREXPORT const char *getBaseDirectory() const;
 protected:
   std::string myBaseDirectory;

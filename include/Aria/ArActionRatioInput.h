@@ -27,7 +27,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArAction.h"
 
-/// Action that requests motion based on abstract ratios provided by diferent input sources 
+/// Action that requests motion based on abstract ratios provided by different input sources 
 /**
    This action interprets input drive commands as three abstract ratios, 
    translation, rotation, and throttle. (In this way it mimics many joysticks.)
@@ -40,7 +40,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    values in between request a linear percentage of the maximum.  The throttle
    input scales the other speed, and ranges from 0 (no motion) to 100 (maximum motion).
    
-   Seperate objects (e.g. ArRatioInputKeydrive, ArRatioInputJoydrive, ArRAtionInputRobotJoydrive) 
+   Separate objects (e.g. ArRatioInputKeydrive, ArRatioInputJoydrive, ArRActionInputRobotJoydrive) 
    are used to provide input.
 
    When this action is activated it resets all its input ratios to 0

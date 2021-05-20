@@ -409,7 +409,7 @@ AREXPORT double ArRangeDevice::currentReadingBox(double x1, double y1,
 
 /**
    Get the closest reading in the cumulative buffer within a rectangular region 
-   around the range device, defined by two points (opposeite points
+   around the range device, defined by two points (opposite points
    of a rectangle).
    @param x1 the x coordinate of one of the rectangle points
    @param y1 the y coordinate of one of the rectangle points

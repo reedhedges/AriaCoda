@@ -317,7 +317,7 @@ is a pointer to object to be deleted using the 'delete' operator.
    * This helper method is primarily used to ignore surrounding quotes 
    * when comparing ArArgumentBuilder args.
    * @return int set to 0 if the two strings are equivalent, a negative 
-   * number if str1 is "less than" str2, and a postive number if it is
+   * number if str1 is "less than" str2, and a positive number if it is
    * "greater than".
    * @swigomit
   **/
@@ -449,7 +449,7 @@ is a pointer to object to be deleted using the 'delete' operator.
   AREXPORT static const char *COM9; ///< Ninth serial port device name (value depends on compilation platform)
   AREXPORT static const char *COM10; ///< Tenth serial port device name (value depends on compilation platform)
   AREXPORT static const char *COM11; ///< Eleventh serial port device name (value depends on compilation platform)
-  AREXPORT static const char *COM12; ///< Twelth serial port device name (value depends on compilation platform)
+  AREXPORT static const char *COM12; ///< Twelfth serial port device name (value depends on compilation platform)
   AREXPORT static const char *COM13; ///< Thirteenth serial port device name (value depends on compilation platform)
   AREXPORT static const char *COM14; ///< Fourteenth serial port device name (value depends on compilation platform)
   AREXPORT static const char *COM15; ///< Fifteenth serial port device name (value depends on compilation platform)
@@ -965,7 +965,7 @@ public:
   //ArPose(const ArPose &pose) : 
   //  myX(pose.myX), myY(pose.myY), myTh(pose.myTh) {}
 
-    // Note:virtual destructor omited. Any subclasses of ArPose should also not have one (it would not be invoked if an instance stored as upcasted ArPose is destroyed).
+    // Note:virtual destructor omitted. Any subclasses of ArPose should also not have one (it would not be invoked if an instance stored as upcasted ArPose is destroyed).
 
 
   /// Sets the position to the given values
@@ -1209,7 +1209,7 @@ private:
 /// A class for time readings and measuring durations
 /** 
     This class is for timing durations or time between events.
-    The time values it stores are relative to an abritrary starting time; it
+    The time values it stores are relative to an arbitrary starting time; it
     does not correspond to "real world" or "wall clock" time in any way,
     so DON'T use this for keeping track of what time it is, 
     just for timestamps and relative timing (e.g. "this loop needs to sleep another 100 ms").
@@ -2042,7 +2042,7 @@ public:
   /// Gets the number of values currently averaged so far
   size_t getCurrentNumAveraged() const { return myNum; }
 
-  /// output current average (caculates average using getAverage()) and how many values were used to calculate that average.
+  /// output current average (calculates average using getAverage()) and how many values were used to calculate that average.
   std::ostream& operator<<(std::ostream& os) const
   {
     os << getAverage() << " (n=" << getCurrentNumAveraged() << ")";

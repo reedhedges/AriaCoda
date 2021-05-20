@@ -77,7 +77,7 @@ public:
 
   /// Connect to the laser while blocking
   AREXPORT virtual bool blockingConnect();
-  /// Connect to the laser asyncronously
+  /// Connect to the laser asynchronously
   AREXPORT bool asyncConnect();
   /// Disconnect from the laser
   AREXPORT virtual bool disconnect();
@@ -183,7 +183,7 @@ protected:
   unsigned int myWhichReading;
   unsigned int myTotalNumReadings;
 
-  // some variables so we don't have to do a tedios if every time
+  // some variables so we don't have to do a tedious if every time
   double myOffsetAmount;
   double myIncrementAmount;
 

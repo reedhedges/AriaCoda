@@ -40,10 +40,10 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    This is a signal handling class. It has both a threaded and non-threaded
    mode of operation. The non-threaded mode will work in a threaded application
    but it is best to use the threaded mode. The benefit of the threaded mode
-   is that if the signal incures some processing, but does not shutdown the
+   is that if the signal incurs some processing, but does not shutdown the
    program (ie. SIGUSR1 or SIGUSR2), the threaded mode will handle the signal
    in its own thread and hopefully that will not hurt the performance of the
-   tight loop robot control. Exaclty how much performance you get out of this
+   tight loop robot control. Exactly how much performance you get out of this
    depends on your machines physical hardware and exactly what the processing
    the signal handler does. For instance, a multi-processor machine has a much
    greater chance of the signal handler not interfering with the robot control
@@ -66,8 +66,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    It is just easier to exit the program than to try to wake up that thread
    and get it to exit itself.
 
-   This class is for Linux only. Windows has virtualy no support for signals
-   and the little support that it does have is not realy usefull. There is
+   This class is for Linux only. Windows has virtually no support for signals
+   and the little support that it does have is not really usefull. There is
    an empty implementation of this class for Windows so that code can compile
    in both Linux and Windows. Just do not expect the code that uses this
    signal handling to do anything in Windows. This should not be a problem

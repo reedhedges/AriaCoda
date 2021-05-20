@@ -44,7 +44,7 @@ public:
   AREXPORT void processMap();
   /// Remakes the readings 
   AREXPORT void processReadings();
-  /// Sets the robot pointer and attachs its process function
+  /// Sets the robot pointer and attaches its process function
   AREXPORT virtual void setRobot(ArRobot *robot);
 
   /// Enable readings 

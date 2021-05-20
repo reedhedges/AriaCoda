@@ -6873,7 +6873,7 @@ void ArRobot::ariaExitCallback()
 }
 
 /**
-   @note only available on robots with an firwmare
+   @note only available on robots with an firmware
    operating system (ARCOS or uARCS) thats at least newer than July of
    2005.  It'll just be CHARGING_UNKNOWN on everything else always.
 

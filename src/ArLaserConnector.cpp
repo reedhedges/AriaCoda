@@ -1281,7 +1281,7 @@ AREXPORT bool ArLaserConnector::connectLasers(
       }
       // if we want to turn on the lasers if we can, first see if we
       // have functors that'll do it, if so use them... if not then
-      // see if the firwmare supports the power command for the lasers
+      // see if the firmware supports the power command for the lasers
       // by checking the config (and only LRF and LRF5B2 are specified
       // in firmware right now too)
       if (turnOnLasers)

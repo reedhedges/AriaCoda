@@ -55,11 +55,11 @@ class ArDeviceConnection; // for pointer in ArGPS
  *
  *  For either method, to get new data from the GPS, must call read() or readWithLock() periodically, 
  *  ideally at a rate equal to or faster than your GPS sends data (usually one second). 
- *  You can do this from a Sensor Intetrpretation Task in ArRobot, or a seperate thread. 
+ *  You can do this from a Sensor Interpretation Task in ArRobot, or a separate thread. 
  *  If you are calling read() from a loop in a new thread, 
  *
  *  Here is an example of calling readWithLock() from a sensor interpretation
- *  task. The integer argument given to the functor constructor is a milisecond timeout that
+ *  task. The integer argument given to the functor constructor is a millisecond timeout that
  *  is passed to readWithLock() and prevents it from blocking too long if it doesn't read any data.
  *  It is important to do this in a robot task, or the robot task cycle will be
  *  blocked and cause problems.
@@ -163,9 +163,9 @@ public:
     /** @brief Read some data from the device connection, and update stored data as complete messages are received. 
      * @param maxTime If nonzero, return when this time limit is reached, even if there is still data available to read. If zero, then don't return until all available data has been exhausted or an error occurs. 
      *  Be careful setting this parameter to 0: read() could block for 
-     *  an arbitrary amount of time, even forever if for some reason data is recieved from
+     *  an arbitrary amount of time, even forever if for some reason data is received from
      *  the device faster than read() can read and parse it. 
-     * @return A mask of ReadFlags codes, combined with bitwise or (|), or 0 if no attempt to read from the device occured (for example because the @a maxTime timeout was reached before the first attempt to read occured).  The flags will include
+     * @return A mask of ReadFlags codes, combined with bitwise or (|), or 0 if no attempt to read from the device occurred (for example because the @a maxTime timeout was reached before the first attempt to read occurred).  The flags will include
      * ReadError if there was as error reading from the device connection,
      * ReadData if some data was read,
      * ReadUpdated if data was read and a full message was successfully read and
@@ -231,7 +231,7 @@ public:
         unsigned short numSatellitesTracked;
         double altitude;    ///< receiver provides this based on GPS data.  meters above sea level. (from NMEA GPGGA)
         bool haveAltitude; //< (from NMEA GPGGA)
-        double altimeter;   ///< from seperate altimeter (if receiver provides PGRMZ message). meters above sea level.
+        double altimeter;   ///< from separate altimeter (if receiver provides PGRMZ message). meters above sea level.
         bool haveAltimeter;
         unsigned short DGPSStationID; ///< (from NMEA GPGGA)
         bool haveDGPSStation; ///< (from NMEA GPGGA)
@@ -377,14 +377,14 @@ public:
     /** Manually set compass value. */
     void setCompassHeadingTrueWithLock(double val) { lock(); setCompassHeadingTrue(val); unlock(); }
 
-    /// Altitude above sea level calculated from satellite positions (see also haveAltimiter()) (from NMEA GPGGA, if provided)
+    /// Altitude above sea level calculated from satellite positions (see also haveAltimeter()) (from NMEA GPGGA, if provided)
     bool haveAltitude() const { return myData.haveAltitude; }
-    /// Altitude above sea level (meters), calculated from satellite positions (see also getAltimiter()) (from NMEA GPGGA, if provided)
+    /// Altitude above sea level (meters), calculated from satellite positions (see also getAltimeter()) (from NMEA GPGGA, if provided)
     double getAltitude() const { return myData.altitude; }
 
-    /// Some receivers may have an additional altitude from an altimiter (meters above sea level) (from PGRMZ, if receiver provides it)
+    /// Some receivers may have an additional altitude from an altimeter (meters above sea level) (from PGRMZ, if receiver provides it)
     bool haveAltimeter() const { return myData.haveAltimeter; }
-    /// Some receivers may have an additional altitude from an altimiter (meters above sea level) (from PGRMZ, if receiver provides it)
+    /// Some receivers may have an additional altitude from an altimeter (meters above sea level) (from PGRMZ, if receiver provides it)
     double getAltimeter() const { return myData.altimeter; }
 
     /** (from NMEA GPGGA) */
@@ -414,7 +414,7 @@ public:
     /** DGPS stationary beacon frequency (kHz) (from NMEA GPMSS) */
     double getBeaconFreq() const { return myData.beaconFreq; }
     /** DGPS stationary beacon bitrate (bits per second) (from NMEA GPMSS) */
-    unsigned short getBecaonBPS() const { return myData.beaconBPS; }
+    unsigned short getBeaconBPS() const { return myData.beaconBPS; }
     /** DGPS stationary beacon channel (from NMEA GPMSS) */
     unsigned short getBeaconChannel() const { return myData.beaconChannel; }
 
@@ -454,11 +454,11 @@ public:
     
 
     /** Set a handler for an NMEA message. Mostly for internal use or to be used
-     * by related classes, but you could use for ususual or custom messages
+     * by related classes, but you could use for unusual or custom messages
      * emitted by a device that you wish to be handled outside of the ArGPS
      * class. 
      * @param message Message identifier, without the prefix (i.e. without the "GP" prefix, or other prefix.)
-     * @param handhler Handler function to parse and handle the message
+     * @param handler Handler function to parse and handle the message
      * @sa ArNMEAParser::addHandler
      * @sa ArNMEAParser::Handler
      * @sa ArNMEAParser

@@ -723,9 +723,9 @@ public:
       myLatAccelDes.merge(&actDesired->myLatAccelDes);
       myLatDecelDes.merge(&actDesired->myLatDecelDes);
     }
-  /// Starts the process of avereraging together different desireds
+  /// Starts the process of averaging together different desired action changes
   /**
-     There is a three step process for averaging actionDesireds together,
+     There is a three step process for averaging desired actions together,
      first startAverage must be done to set up the process, then addAverage
      must be done with each average that is desired, then finally endAverage
      should be used, after that is done then the normal process of getting
@@ -801,7 +801,7 @@ public:
       myLatAccelDes.addAverage(&actDesired->myLatAccelDes);
       myLatDecelDes.addAverage(&actDesired->myLatDecelDes);
     }
-  /// Ends the process of avereraging together different desireds
+  /// Ends the process of averaging together different desired actions
   /**
      For a description of how to use this, see startAverage.
   */

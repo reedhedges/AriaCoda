@@ -50,7 +50,7 @@ public:
 		       this is for storage not for grasping/carrying an object
 		    */
     GRIPPER_DEPLOY = 8, /**< 
-			opens the paddles and lowers the lieft simultaneously,
+			opens the paddles and lowers the lift simultaneously,
 			this is for getting ready to grasp an object, not for
 			object drops
 		     */
@@ -61,9 +61,9 @@ public:
 			moving, regulates grasp pressure
 		     */
     LIFT_CARRY = 17 /**<
-		       raises or lowers the lieft, the argument is the number
+		       raises or lowers the lift, the argument is the number
 		       of 20 msec increments to raise or lower the lift,
-		       poseitive arguments for raise, negative for lower
+		       positive arguments for raise, negative for lower
 		    */
   };
 };

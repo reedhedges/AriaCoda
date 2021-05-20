@@ -42,7 +42,7 @@ public:
   AREXPORT ArRangeDeviceThreaded(size_t currentBufferSize, 
 				 size_t cumulativeBufferSize,
 				 const char *name, unsigned int maxRange,
-				 int maxSecondsTokeepCurrent = 0,
+				 int maxSecondsToKeepCurrent = 0,
 				 int maxSecondsToKeepCumulative = 0,
 				 double maxDistToKeepCumulative = 0,
 				 bool locationDependent = false);

@@ -50,7 +50,7 @@ class ArDeviceConnection
   /// destructor also forces a close on the connection
   AREXPORT virtual ~ArDeviceConnection();
     // XXX should also include other copy/move constructors and  copy/move assignment operators
-    // XXX Sholud it be possible to copy a device connection?
+    // XXX Should it be possible to copy a device connection?
   /// Reads data from connection
   /**
      Reads data from connection

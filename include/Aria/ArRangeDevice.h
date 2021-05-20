@@ -234,7 +234,7 @@ public:
       @note Only laser subclasses provide this data currently.  Sonar, bumpers,
       etc. do not provide raw readings.
       This method was added to this base class for use by multiple laser or
-laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
+      laser-like subclasses of ArRangeDevice and ArRangeDeviceThreaded
       similar devices.
       Other kinds of range devices are sufficiently different from lasers that
       any "raw" information provided would usually require very different interpretation.
@@ -247,7 +247,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
   PUBLICDEPRECATED("")
   AREXPORT virtual std::vector<ArSensorReading> *getRawReadingsAsVectorPtr();
 
-  /// Gets the raw unfiltered readings from the device (but pose takens are corrected)
+  /// Gets the raw unfiltered readings from the device (but robot poses are corrected)
   /** The raw readings are the full set of unfiltered readings from
       the device.  They are the latest readings. You should not
       manipulate the list you get from this function, the only
@@ -255,7 +255,7 @@ laser-like subclassses of ArRangeDevice and ArRangeDeviceThreaded
       itself.  (Its only pointers for speed.)
       
       This is like the raw readings but they were corrected for the
-      robot odometry offset (just the pose taken, and encoder psoe
+      robot odometry offset (just the pose taken, and encoder pose
       taken).
 
       TODO change to remove pointers

@@ -58,7 +58,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *
  *  An ArVCC4 object can be used to control the pan, tilt, zoom and some
  *  other aspects of the Canon VC-C4 camera.  Since the camera is 
- *  typically connected to the robot microcontroller's auxilliary serial
+ *  typically connected to the robot microcontroller's auxiliary serial
  *  port, and also uses ArRobot task cycle callbacks, a connected and
  *  running ArRobot object is required. 
  *
@@ -68,7 +68,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *  some time to allow the camera to process it. However, it will have
  *  no way of verifying that a command was successfully received by the 
  *  cameral. In bidirectional mode (COMM_BIDIRECTIONAL), ArVCC4 waits for a 
- *  response from the camera. Bidirectinal mode requires that the CTS 
+ *  response from the camera. Bidirectional mode requires that the CTS 
  *  line (pin 2 on the VISCA port) be connected. 
  *  When you create an ArVCC4 object, you can request a specific mode, 
  *  or you can specify COMM_UNKNOWN, and ArVCC4 will switch into
@@ -81,7 +81,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *  ArVCC4 sends commands to the camera using the ArVCC4Packet class to construct the command, and
  *  using either the ArRobot pointer or an internal ArDeviceConnection,
  *  depending on whether the camera is connected to the robot 
- *  microcontroller's auxilliary serial port (the usual connection method for
+ *  microcontroller's auxiliary serial port (the usual connection method for
  *  most robots) or a computer serial port.
  * 
  * @todo Implement setFocus() (send "Focus Position Assignment" command 0xB0 to camera)
@@ -90,7 +90,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 This camera has a reponse mechanism, whereby each packet sent to the camera generates an answer within 300ms.  For the most part, the answer consists of a 6-byte packet which has an error-status within it.  Some commands generate longer packets.  Receiving the error status is helpful in that you know that the camera will or will not execute the command.  However, it doesn't tell you when the command is completed.
 
-In order for the the reponses to work, the CTS line on the camera must be high.  This is pin 2 on the visca port.  If your camera is not wired in such a fashion, then no answers will be sent to the computer, and the computer will not know whether or not the last packet was processed correctly.  Because of this, systems operating without the answer feature will need to run with delays between sending packets.  Otherwise, packets will be ignored, but you will have no way of knowing that.  To achieve this, there are two types of communication modes that this class will operate under - COMM_UNIDIRECTIONAL or COMM_BIDIRECTIONAL.  The default is COMM_UNKNOWN, in which it will use bidirectional commuication if a response is received.
+In order for the the responses to work, the CTS line on the camera must be high.  This is pin 2 on the VISCA port.  If your camera is not wired in such a fashion, then no answers will be sent to the computer, and the computer will not know whether or not the last packet was processed correctly.  Because of this, systems operating without the answer feature will need to run with delays between sending packets.  Otherwise, packets will be ignored, but you will have no way of knowing that.  To achieve this, there are two types of communication modes that this class will operate under - COMM_UNIDIRECTIONAL or COMM_BIDIRECTIONAL.  The default is COMM_UNKNOWN, in which it will use bidirectional communication if a response is received.
 
 To handle the states and packet processing, this class runs as a user-task, different than the other pan/tilt devices.  Because of this, it must have a valid robot connection and a valid serial connection if using a computer serial port.  Note that the computer port must be set independently of this class.  The aux port can be selected via setAuxPort from the ArPTZ class.
 
@@ -101,7 +101,7 @@ The camera's pan and tilt commands work on a number of units equal to (degrees /
 
 \section VCC4C50iFeatures C50i features:
 
-NEW - There is now limited support for the night-mode version of the C50i.  To enable night-mode support, pass the camera type in with the constructor.  Night-mode consists of two parts - a phsyical IR-cutoff filter, and IR LEDs.  The cutoff filter must be enabled first, then turn on the IR LEDs.
+NEW - There is now limited support for the night-mode version of the C50i.  To enable night-mode support, pass the camera type in with the constructor.  Night-mode consists of two parts - a physical IR-cutoff filter, and IR LEDs.  The cutoff filter must be enabled first, then turn on the IR LEDs.
 
 This camera has a digital zoom as well as the optical one.  There is an additional function for handling the digital.  There is also limited support for the auto-focus mechanism, which may need to be elaborated on for better night-vision.  In addition to the focus, there are also gain and backlight adjustments that can be made, but are not yet implemented in this class.
 */
