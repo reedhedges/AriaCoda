@@ -143,24 +143,33 @@ public:
 };
 
 /// Used by ArVCC4 to construct command packets
-/** 
+/** @internal
     There are only a few functioning ways to put things into this packet, you
     MUST use thse, if you use anything else your commands won't work.  You 
-    must use only byteToBuf() and byte2ToBuf(), no other ArBasePacket methods.
+    must use only byteToBuf(), uByteToBuf(), byte4ToBuf(), and string and 
+    data packing methods, no other ArBasePacket methods are implemented for VCC4.
 */
 class ArVCC4Packet: public ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArVCC4Packet(ArTypes::UByte2 bufferSize = 30);
+  ArVCC4Packet(ArTypes::UByte2 bufferSize = 30);
   /// Destructor
-  AREXPORT virtual ~ArVCC4Packet();
+  virtual ~ArVCC4Packet();
 
-  AREXPORT virtual void byte2ToBuf(ArTypes::Byte4 val);
+  virtual void byte4ToBuf(ArTypes::Byte4 val) override;
 
-  AREXPORT virtual void finalizePacket();
+  void byte2ToBuf(ArTypes::Byte4 val) = delete; ///< previous versions overrode byte2ToBuf() but used Byte4 argument.
 
-protected:
+  virtual void finalizePacket() override;
+
+private:
+  // not implemented, make them private
+  using ArBasePacket::uByte2ToBuf;
+  using ArBasePacket::uByte4ToBuf;
+  using ArBasePacket::uByte8ToBuf;
+  using ArBasePacket::byte2ToBuf;
+  using ArBasePacket::byte8ToBuf;
 };
 
 class ArVCC4 : public ArPTZ

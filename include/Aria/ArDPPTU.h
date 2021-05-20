@@ -115,7 +115,7 @@ public:
 };
 
 /// A class for for making commands to send to the DPPTU
-/** 
+/** @internal
     Note, You must use byteToBuf() and byte2ToBuf(), no other ArBasePacket methods are
     implemented for ArDPPTU. 
     Each ArDPPTUPacket represents a single command.
@@ -125,15 +125,21 @@ class ArDPPTUPacket: public ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArDPPTUPacket(ArTypes::UByte2 bufferSize = 30);
+  ArDPPTUPacket(ArTypes::UByte2 bufferSize = 30);
   /// Destructor
-  AREXPORT virtual ~ArDPPTUPacket();
+  virtual ~ArDPPTUPacket();
 
-  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val) override;
+  virtual void byte2ToBuf(ArTypes::Byte2 val) override;
 
-  AREXPORT virtual void finalizePacket() override;
+  virtual void finalizePacket() override;
 
-protected:
+private:
+  // not implemented, make private:
+  using ArBasePacket::byte4ToBuf;
+  using ArBasePacket::byte8ToBuf;
+  using ArBasePacket::uByte2ToBuf;
+  using ArBasePacket::uByte4ToBuf;
+  using ArBasePacket::uByte8ToBuf;
 };
 
 /// Driver for the DPPTU

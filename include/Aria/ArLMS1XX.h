@@ -77,6 +77,12 @@ public:
 
   // adds a raw char to the buf
   virtual void rawCharToBuf(unsigned char c);
+
+private:
+  // not implemented, change to private:
+  using ArBasePacket::byte8ToBuf;
+  using ArBasePacket::uByte8ToBuf;
+
 protected:
   int deascii(char c);
 
