@@ -5895,7 +5895,7 @@ AREXPORT int ArRobot::getClosestSonarNumber(double startAngle, double endAngle) 
 {
   int i;
   ArSensorReading *sonar;
-  int closestReading = 999999;
+  unsigned int closestReading = 999999;
   int closestSonar = -1;
   bool noReadings = true;
 
