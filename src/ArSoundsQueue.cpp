@@ -46,33 +46,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 using namespace std;
 
 
-AREXPORT ArSoundsQueue::Item::Item() :
-  data(""), type(OTHER), params(""), priority(0)
-{
-}
-
-AREXPORT ArSoundsQueue::Item::Item(std::string _data, ItemType _type, std::string _params, int _priority, std::list<PlayItemFunctor*> _callbacks) : 
-      data(_data), type(_type), params(_params), priority(_priority), playCallbacks(_callbacks)
-{
-}
-
-AREXPORT ArSoundsQueue::Item::Item(std::string _data, ItemType _type, std::string _params, int _priority) : 
-  data(_data), type(_type), params(_params), priority(_priority)
-{
-}
-
-AREXPORT ArSoundsQueue::Item::Item(const ArSoundsQueue::Item& toCopy) 
-{
-  data = toCopy.data;
-  type = toCopy.type;
-  params = toCopy.params;
-  priority = toCopy.priority;
-  playCallbacks = toCopy.playCallbacks;
-  interruptCallbacks = toCopy.interruptCallbacks;
-  doneCallbacks = toCopy.doneCallbacks;
-  playbackConditionCallbacks = toCopy.playbackConditionCallbacks;
-}
-
 void ArSoundsQueue::Item::play()
 {
   for(std::list<PlayItemFunctor*>::const_iterator i = playCallbacks.begin(); i != playCallbacks.end(); i++) 

@@ -84,9 +84,9 @@ public:
   class Item {
   public:
     std::string data;
-    ItemType type;
+    ItemType type = OTHER;
     std::string params;
-    int priority;
+    int priority = 0;
 
     // TODO these should probably not be pointers
     std::list<InterruptItemFunctor*> interruptCallbacks;
@@ -94,10 +94,15 @@ public:
     std::list<ArFunctor*> doneCallbacks;
     std::list<PlaybackConditionFunctor*> playbackConditionCallbacks;
 
-    AREXPORT Item();
-    AREXPORT Item(std::string _data, ItemType _type, std::string _params = "", int priority = 0);
-    AREXPORT Item(std::string _data, ItemType _type, std::string _params, int priority, std::list<PlayItemFunctor*> callbacks); 
-	  AREXPORT Item(const ArSoundsQueue::Item& toCopy);
+    Item() = default;
+
+    Item(std::string _data, ItemType _type, std::string _params = "", int _priority = 0) :
+      data(_data), type(_type), params(_params), priority(_priority)
+    {}
+
+    Item(std::string _data, ItemType _type, std::string _params, int _priority, std::list<PlayItemFunctor*> _callbacks) :
+      data(_data), type(_type), params(_params), priority(_priority), playCallbacks(_callbacks)
+    {}
 
     /** Note: does not compare priority! */
     bool operator==(const Item& other) const
