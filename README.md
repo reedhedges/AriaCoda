@@ -170,7 +170,10 @@ add the `-DARIA_OMIT_DEPRECATED_MATH_FUNCS` compilation flag to `EXTRA_CXXFLAGS`
     make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS 
 
 Note: After building AriaCoda, you can build and run example and test programs
-without installing on the system by adding the library directory to your dynamic library path:
+without installing on the system by adding the library directory to your dynamic
+library path, otherwise you will receive an error similar to the following:
+
+    error while loading shared libraries: libAria.so: cannot open shared object file: No such file or directory
 
 Linux:
 
@@ -223,6 +226,10 @@ variable to run example programs without installing AriaCoda on the system, e.g.
     cd examples
     make simpleConnect
     ./simpleConnect
+
+Otherwise you will receive an error similar to the following:
+
+    error while loading shared libraries: libAria.so: cannot open shared object file: No such file or directory
 
 On MacOSX you similarly need to add the `lib` directory to your `DYLD_LIBRARY_PATH`
 environment variable, e.g.:
