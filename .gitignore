@@ -29,7 +29,6 @@ docs/*.css
 docs/*.png
 docs/search
 checks.json
-.vscode
 docs/Aria.tag
 README.html
 docs/options

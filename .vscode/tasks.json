@@ -1,0 +1,55 @@
+
+// https://code.visualstudio.com/docs/editor/tasks
+// I recommend the simple "Tasks" extension for a really basic and easy way to run these tasks from buttons on the status bar
+
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "make (default)",
+      "command": "make",
+      "type": "shell",
+      "args": [
+        "-j2"
+      ],
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "presentation": {
+        "reveal": "always"
+      },
+      "group": { "kind": "build", "isDefault": true }
+    },
+    {
+      "label": "make clean",
+      "command": "make",
+      "type": "shell",
+      "args": [ "clean" ],
+      "problemMatcher": [ "$gcc" ],
+      "presentation": { "reveal": "always" },
+      "group": "build"
+    },
+    {
+      "label": "cppcheck",
+      "command": "make",
+      "args": [ "cppcheck" ],
+      "type": "shell",
+      "presentation": { "reveal": "always" },
+      "group": "build",
+      "problemMatcher": 
+      {
+        "fileLocation": ["relative", "${workspaceFolder}"],
+        "severity": "info",
+        "pattern": {
+          "kind": "location",
+          "regexp": "^(.+):(\\d+):(\\d+):\\s+(style|performance|warning|error|portability|information):\\s+(.*)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 5
+        }
+      }
+      
+    }
+  ]
+}

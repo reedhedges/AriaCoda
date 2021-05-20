@@ -646,6 +646,17 @@ tags: $(SRC_FILES) $(HEADER_FILES)
 
 ctags: tags
 
+clang-tidy: FORCE
+	clang-tidy -header-filter=".*\.h" $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) $(CXXINC)
+
+tidy: clang-tidy
+
+cppcheck: FORCE
+	cppcheck --enable=all --language=c++ --std=$(CXXSTD) $(CXXINC) -j 4 -DAREXPORT $(SOURCE_FILES) $(HEADER_FILES)
+
+cppclean: FORCE
+	cppclean --include-path=include $(SOURCE_FILES) $(HEADER_FILES)
+
 # Make optimization, tell it what rules aren't files:
 .PHONY: all everything examples modExamples tests utils cleanDep docs doc dirs help info moreinfo clean cleanUtils cleanExamples cleanTests cleanDoc cleanPython dep params python python-doc java cleanJava params swig help info moreinfo py python-doc cleanSwigJava dirs install  distclean ctags csharp cleanCSharp cleanAll tidy
 
