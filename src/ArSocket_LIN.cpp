@@ -238,7 +238,7 @@ bool ArSocket::connect(const char *host, int port, Type type,
 bool ArSocket::open(int port, Type type, const char *openOnIP)
 {
   int ret;
-  char localhost[maxHostNameLen()];
+  char localhost[MaxHostNameLen];
 
   myError=NoErr;
   myErrorStr.clear();
@@ -364,7 +364,7 @@ bool ArSocket::create(Type type)
 /** @return false on error */
 bool ArSocket::findValidPort(int startPort, const char *openOnIP)
 {
-  //char localhost[maxHostNameLen()];
+  //char localhost[MaxHostNameLen];
 
   /*
   if (gethostname(localhost, sizeof(localhost)) == 1)
@@ -416,7 +416,7 @@ bool ArSocket::findValidPort(int startPort, const char *openOnIP)
 /** @return false and set error code and description string on failure */
 bool ArSocket::connectTo(const char *host, int port)
 {
-  char localhost[maxHostNameLen()];
+  char localhost[MaxHostNameLen];
   myError = NoErr;
   myErrorStr.clear();
   if (myFD < 0)

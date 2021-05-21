@@ -36,6 +36,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <ctype.h>
 #include <assert.h>
 #include <sstream>
+#include <limits>
 
 #ifdef WIN32
 #include <winsock2.h>
@@ -1120,7 +1121,7 @@ AREXPORT bool ArUtil::getStringFromFile(const char *fileName,
   
   if ((strFile = ArUtil::fopen(fileName, "r")) != NULL)
   {
-    assert(strLen <= MAXINT);
+    assert(strLen <= INT_MAX);
     if(fgets(str, (int)strLen, strFile) == NULL)
     {
       str[0] = '\0';

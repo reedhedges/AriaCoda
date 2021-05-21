@@ -25,6 +25,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaOSDef.h"
 #include <time.h>
 #include <ctype.h>
+#include <limits.h>
 
 #include "Aria/ArRobot.h"
 #include "Aria/ArLog.h"
@@ -1217,7 +1218,7 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
       if (baudNum != -1)
       {
 	// now switch it over
-  assert(baudNum <= MAXSHORT);
+  assert(baudNum <= SHRT_MAX);
 	comInt(ArCommands::HOSTBAUD, (short)baudNum);
 	ArUtil::sleep(10);
 	myAsyncConnectSentChangeBaud = true;
