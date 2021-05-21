@@ -19,7 +19,7 @@ CFILEEXT:=cpp
 # defaults.
 # Set CXXSTD to select C++ version.
 # Set CXXDEBBUGFLAGS and CXXOPTFLAGS to set debug and optimization flags
-CXXWARNFLAGS ?= -Wall -Wextra
+CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wpedantic -Wsign-conversion -Wconversion
 CXXSTD ?= c++14
 CXXDEBUGFLAGS ?= -g
 CXXOPTFLAGS ?= -O2

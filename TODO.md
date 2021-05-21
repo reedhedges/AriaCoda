@@ -85,6 +85,7 @@ TODO
       check state at end or at certain points in the session.  (E.g. a special 
       "MARK" packet triggers a callback, or we verify at every robot loop).
       Should add easy way to record session to file, including from demo. 
+      See more below.
   * Check ArConfig input/output
   * Check potentially tricky API calls for breaking changes/regressions
 * Replace some of the fixed size numeric typedefs with C/C++ standard types
