@@ -4376,7 +4376,6 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
     // Reset the file position to the beginning of the file
     fsetpos (file, &startPosition);
     // Read the first line of the file. This will be the keyword.
-    fgets(line, sizeof(line), file);
     if(fgets(line, sizeof(line), file) == NULL)
     {
       if(errorBuffer)
