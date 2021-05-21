@@ -87,7 +87,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #if __has_attribute(__fallthrough__)
 #define FALLTHROUGH __attribute__((fallthrough))
 #else
-#define FALLTRHOUGH  
+#define FALLTHROUGH  
 #endif
 
 #else
