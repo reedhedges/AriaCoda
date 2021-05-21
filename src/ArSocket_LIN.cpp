@@ -136,7 +136,7 @@ bool ArSocket::hostAddr(const char *host, struct in_addr &addr)
 bool ArSocket::connect(const char *host, int port, Type type,
 		       const char *openOnIP)
 {
-  char localhost[maxHostNameLen()];
+  char localhost[MaxHostNameLen];
   myError=NoErr;
   myErrorStr.clear();
   if (!host)

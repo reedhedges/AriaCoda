@@ -1217,7 +1217,8 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
       if (baudNum != -1)
       {
 	// now switch it over
-	comInt(ArCommands::HOSTBAUD, baudNum);
+  assert(baudNum <= MAXSHORT);
+	comInt(ArCommands::HOSTBAUD, (short)baudNum);
 	ArUtil::sleep(10);
 	myAsyncConnectSentChangeBaud = true;
 	myAsyncConnectStartedChangeBaud.setToNow();
@@ -1269,7 +1270,7 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
   // packets there are to read... if its a good packet, continue with sequence
   myAsyncConnectTimesTried++;
   ArLog::log(ArLog::Normal, "Syncing %d", myAsyncConnectState);
-  mySender.com(myAsyncConnectState);
+  mySender.com((unsigned char)myAsyncConnectState);
   //  packet = myReceiver.receivePacket(endTime.mSecTo());
   packet = myReceiver.receivePacket(1000);
   
@@ -1417,7 +1418,7 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
     strcpy(robotSubType, myRobotSubType.c_str());
     len = strlen(robotSubType);
     for (i = 0; i < len; i++)
-      robotSubType[i] = tolower(robotSubType[i]);
+      robotSubType[i] = (char)tolower(robotSubType[i]);
     myRobotSubType = robotSubType;
     ArLog::log(ArLog::Normal, "Subtype: %s", myRobotSubType.c_str());
     ArUtil::sleep(getCycleTime());
@@ -3665,7 +3666,7 @@ void ArRobot::stateReflector()
 	  myLastTransType != myTransType ||
 	  (myLastTransSent.mSecSince() >= myStateReflectionRefreshTime))
       {
-	com2Bytes(ArCommands::VEL2, transVal, transVal2);
+	com2Bytes(ArCommands::VEL2, (char)transVal, (char)transVal2);
 	myLastTransSent.setToNow();
 	if (myLogMovementSent)
 	  ArLog::log(ArLog::Normal, "Non-action vel2 of %d %d", 
@@ -4485,9 +4486,9 @@ void ArRobot::stateReflector()
 
     //maxLatVel = ArMath::roundShort(maxLatVel);
     if (latVal > 0 && latVal > maxLeftLatVel)
-      latVal = maxLeftLatVel;
+      latVal = (short)maxLeftLatVel;
     if (latVal < 0 && latVal < -maxRightLatVel)
-      latVal = -maxRightLatVel;
+      latVal = (short)-maxRightLatVel;
 
     if (myActionLatSet && 
 	(myLastLatSent.mSecSince() >= myStateReflectionRefreshTime ||
@@ -5654,7 +5655,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   return true;
 }
 
-void ArRobot::processNewSonar(char number, int range,
+void ArRobot::processNewSonar(int number, int range,
 				       ArTime timeReceived)
 {
   /**

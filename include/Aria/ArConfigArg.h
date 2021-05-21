@@ -558,7 +558,7 @@ public:
   /// TODO rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
 
   AREXPORT bool writeName(char *lineBuf,
-                          int lineBufSize,
+                          size_t lineBufSize,
                           int indentLevel) const;
 
 /*   [[deprecated("use getBoundsDescr()")]]

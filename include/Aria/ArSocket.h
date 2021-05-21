@@ -244,10 +244,10 @@ public:
 
 #ifdef WIN32
   /// Max host name length
-  static size_t maxHostNameLen() {return(MAXGETHOSTSTRUCT);}
+  const static size_t MaxHostNameLen = MAXGETHOSTSTRUCT;
 #else
   /// Max host name length
-  static size_t maxHostNameLen() {return(MAXHOSTNAMELEN);}
+  const static size_t MaxHostNameLen = MAXHOSTNAMELEN;
 #endif
 
   /// Convert an int from host byte order to network byte order

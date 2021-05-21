@@ -1508,58 +1508,59 @@ public:
 
   /// Packet Handler, internal (calls old or new as appropriate)
   /// @internal
-  AREXPORT void packetHandler();
+  void packetHandler();
   /// Action Handler, internal
   /// @internal
-  AREXPORT void actionHandler();
+  void actionHandler();
   /// State Reflector, internal
   /// @internal
-  AREXPORT void stateReflector();
+  void stateReflector();
   /// Robot locker, internal
   /// @internal
-  AREXPORT void robotLocker();
+  void robotLocker();
   /// Robot unlocker, internal
   /// @internal
-  AREXPORT void robotUnlocker();
+  void robotUnlocker();
 
   /// Packet handler, internal, for use in the syncloop when there's no threading
   /// @internal
-  AREXPORT void packetHandlerNonThreaded();
+  void packetHandlerNonThreaded();
   /// Packet handler, internal, for use in the syncloop to handle the
   /// actual packets
   /// @internal
-  AREXPORT void packetHandlerThreadedProcessor();
+  void packetHandlerThreadedProcessor();
   /// Packet handler, internal, for using from a thread to actually
   /// read all the packets
   /// @internal
-  AREXPORT void packetHandlerThreadedReader();
+  void packetHandlerThreadedReader();
 
   /// For the key handler, escape calls this to exit, internal
-  AREXPORT void keyHandlerExit();
+  /// @internal
+  void keyHandlerExit();
 
   /// Processes a motor packet, internal 
   /// @internal 
-  AREXPORT bool processMotorPacket(ArRobotPacket *packet);
+  bool processMotorPacket(ArRobotPacket *packet);
   /// Processes a new sonar reading, internal
   /// @internal
-  AREXPORT void processNewSonar(char number, int range, ArTime timeReceived);
+  void processNewSonar(int number, int range, ArTime timeReceived);
   /// Processes a new encoder packet, internal
   /// @internal
-  AREXPORT bool processEncoderPacket(ArRobotPacket *packet);
+  bool processEncoderPacket(ArRobotPacket *packet);
   /// Processes a new IO packet, internal
   /// @internal
-  AREXPORT bool processIOPacket(ArRobotPacket *packet);
+  bool processIOPacket(ArRobotPacket *packet);
   
   /// Internal function, shouldn't be used
   /// @internal
-  AREXPORT void init();
+  void init();
 
   /// Internal function, shouldn't be used, sets up the default sync list
   /// @internal
-  AREXPORT void setUpSyncList();
+  void setUpSyncList();
   /// Internal function, shouldn't be used, sets up the default packet handlers
   /// @internal
-  AREXPORT void setUpPacketHandlers();
+  void setUpPacketHandlers();
 #endif
 
   ArRetFunctor1C<bool, ArRobot, ArRobotPacket *> myMotorPacketCB;

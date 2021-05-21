@@ -595,7 +595,7 @@ AREXPORT bool ArSocket::addrHost(struct in_addr &addr, char *host, size_t len)
 
 AREXPORT std::string ArSocket::getHostName()
 {
-  char localhost[maxHostNameLen()];
+  char localhost[MaxHostNameLen];
 
   if (gethostname(localhost, sizeof(localhost)) == 1)
     return("");

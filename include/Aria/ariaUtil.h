@@ -429,10 +429,10 @@ is a pointer to object to be deleted using the 'delete' operator.
 					     const char *key,
 					     const char *value,
 					     char *str,
-					     int len);
+					     size_t len);
 
   /// Returns a string from the Windows registry, searching each of the following registry root paths in order: REGKEY_CURRENT_USER, REGKEY_LOCAL_MACHINE
- static bool findFirstStringInRegistry(const char* key, const char* value, char* str, int len) {
+ static bool findFirstStringInRegistry(const char* key, const char* value, char* str, size_t len) {
 	if(!getStringFromRegistry(REGKEY_CURRENT_USER, key, value, str, len))
 		return getStringFromRegistry(REGKEY_LOCAL_MACHINE, key, value, str, len);
 	return true;

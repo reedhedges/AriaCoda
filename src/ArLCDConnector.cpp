@@ -1017,7 +1017,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 
 			}
 	
-			char ch = builder.getArgInt(i, NULL, true);
+			char ch = (char) builder.getArgInt(i, NULL, true);
 			data.push_back(ch);
 			
 

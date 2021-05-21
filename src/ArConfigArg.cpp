@@ -1248,15 +1248,15 @@ AREXPORT bool ArConfigArg::setInt(int val, char *errorBuffer,
       break;
       
     case INT_SHORT:
-      *myData.myIntData.myIntShortPointer = val;
+      *myData.myIntData.myIntShortPointer = (short)val;
       break;
 
     case INT_UNSIGNED_SHORT:
-      *myData.myIntData.myIntUnsignedShortPointer = val;
+      *myData.myIntData.myIntUnsignedShortPointer = (unsigned int)val;
       break;
 
     case INT_UNSIGNED_CHAR:
-      *myData.myIntData.myIntUnsignedCharPointer = val;
+      *myData.myIntData.myIntUnsignedCharPointer = (unsigned char)val;
       break;
 
     default:
@@ -1797,7 +1797,7 @@ AREXPORT size_t ArConfigArg::getDescendantArgCount() const
       (myData.myListData.myChildArgList == NULL)) {
     return 0;
   }
-  int count = 0;
+  size_t count = 0;
   for (std::list<ArConfigArg>::const_iterator iter = myData.myListData.myChildArgList->begin();
        iter != myData.myListData.myChildArgList->end();
        iter++) {
@@ -3398,7 +3398,7 @@ AREXPORT bool ArConfigArg::writeInfo(ArSocket *socket,
     for (;
          ((i < priorityNameLength) && (i < sizeof(level))); 
          i++) {
-      level[i] = ::toupper(priorityName[i]);
+      level[i] = (char) ::toupper(priorityName[i]);
     } 
     if (i >= sizeof(level)) {
       i = sizeof(level) -1;
@@ -3760,35 +3760,37 @@ AREXPORT std::string ArConfigArg::parseResourceExtra(ArArgumentBuilder *arg,
 
 } // end method parseResourceExtra
 
-AREXPORT  bool ArConfigArg::parseResourceArgText(const char *argText,
-                                                 char *bufOut,
-                                                 size_t bufLen)
+AREXPORT  bool ArConfigArg::parseResourceArgText(const char* argText,
+  char* bufOut,
+  size_t bufLen)
 {
   if ((argText == NULL) || (bufOut == NULL) || (bufLen <= 0)) {
     ArLog::log(ArLog::Normal,
-               "ArConfigArg::parseResourceArgText() error, invalid input");
+      "ArConfigArg::parseResourceArgText() error, invalid input");
     return false;
   }
 
   char otherBuf[MAX_RESOURCE_ARG_TEXT_LENGTH];
-  
+
   strncpy(otherBuf, argText, MAX_RESOURCE_ARG_TEXT_LENGTH);
   otherBuf[MAX_RESOURCE_ARG_TEXT_LENGTH - 1] = '\0';
-  
-  int len = strlen(otherBuf);
 
-  for (int j = len - 1; j >= 0; j--) {
-   if ((otherBuf[j] < 0) || isspace(otherBuf[j])) {
-     otherBuf[j] = '\0';
-   }
-   else {
-     break;
-   }
- }
+  size_t len = strlen(otherBuf);
+
+  if (len > 0)
+  {
+    for (size_t j = len - 1; j >= 0; j--) {
+      if ((otherBuf[j] < 0) || isspace(otherBuf[j])) {
+        otherBuf[j] = '\0';
+      }
+      else {
+        break;
+      }
+    }
+  }
 
  len = strlen(otherBuf);
-
- int k = 0;
+ size_t k = 0;
  for (k = 0; k < len; k++) {
    if ((otherBuf[k] >= 0) && !isspace(otherBuf[k])) {
      break;
@@ -4019,10 +4021,10 @@ AREXPORT int ArConfigArg::writeResourceSectionHeader(FILE *file,
  * error occurred
 **/
 AREXPORT bool ArConfigArg::writeName(char *lineBuf,
-                                     int lineBufSize,
+                                     size_t lineBufSize,
                                      int indentLevel) const
 {
-  if ((lineBuf == NULL) || (lineBufSize <= 0)) {
+  if ((lineBuf == NULL) || (lineBufSize <= 0) ) {
     return false;
   }
 

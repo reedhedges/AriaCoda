@@ -839,14 +839,14 @@ std::string str2 = inStr2;
 	size_t x = 0;
 	while (x < str1.length()) {
 		if (isalpha(str1[x]) && isupper(str1[x]))
-			str1[x] = tolower(str1[x]);
+			str1[x] =  (char)tolower(str1[x]);
 	x++;
 	}
 
 	x = 0;
 	while (x < str2.length()) {
 		if (isalpha(str2[x]) && isupper(str2[x]))
-			str2[x] = tolower(str2[x]);
+			str2[x] = (char)tolower(str2[x]);
 	x++;
 	}
   
@@ -917,7 +917,7 @@ AREXPORT void ArUtil::lower(char *dest, const char *src, size_t maxLen)
   
   len = strlen(src);
   for (i = 0; i < len && i < maxLen; i++)
-    dest[i] = tolower(src[i]);
+    dest[i] = (char)tolower(src[i]);
   dest[i] = '\0';
 
 }
@@ -925,8 +925,8 @@ AREXPORT void ArUtil::lower(char *dest, const char *src, size_t maxLen)
 
 AREXPORT bool ArUtil::isOnlyAlphaNumeric(const char *str)
 {
-  unsigned int ui;
-  unsigned int len;
+  size_t ui;
+  size_t len;
   if (str == NULL)
     return true;
   for (ui = 0, len = strlen(str); ui < len; ui++)
@@ -942,7 +942,7 @@ AREXPORT bool ArUtil::isOnlyNumeric(const char *str)
 {
   if (str == NULL)
     return true;
-  for (unsigned i = 0, len = strlen(str); i < len; i++)
+  for (size_t i = 0, len = strlen(str); i < len; i++)
   {
     if (!isdigit(str[i]) && str[i] != '\0' && str[i] != '+' && str[i] != '-')
       return false;
@@ -1120,12 +1120,13 @@ AREXPORT bool ArUtil::getStringFromFile(const char *fileName,
   
   if ((strFile = ArUtil::fopen(fileName, "r")) != NULL)
   {
-    if(fgets(str, strLen, strFile) == NULL)
+    assert(strLen <= MAXINT);
+    if(fgets(str, (int)strLen, strFile) == NULL)
     {
       str[0] = '\0';
       return false;
     }
-    for (unsigned int i = 0; i < strLen; i++)
+    for (size_t i = 0; i < strLen; i++)
     {
       if (str[i] == '\r' || str[i] == '\n' || str[i] == '\0')
       {
@@ -1166,7 +1167,7 @@ AREXPORT bool ArUtil::getStringFromRegistry(REGKEY root,
 						   const char *key,
 						   const char *value,
 						   char *str,
-						   int len)
+						   size_t len)
 {
   HKEY hkey;
   int err;
@@ -1270,7 +1271,7 @@ AREXPORT bool ArUtil::getStringFromRegistry(REGKEY,
 						   const char *,
 						   const char *,
 						   char *,
-						   int )
+						   size_t )
 {
   return false;
 }
@@ -3072,8 +3073,8 @@ AREXPORT std::list<ArPose> ArPoseUtil::breakUpDistanceEvenly(
   if (dist > resolution)
   {
     // we're using integer truncation here
-    int steps = dist / resolution + 1;
-    double increment = dist / steps;
+    int steps = (int) (dist / (double)resolution + 1);
+    double increment = dist / (double)steps;
 
     double atX = start.getX();
     double atY = start.getY();

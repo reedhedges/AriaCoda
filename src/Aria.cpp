@@ -579,11 +579,10 @@ AREXPORT void Aria::signalHandlerCB(int sig)
 */
 AREXPORT void Aria::setDirectory(const char *directory)
 {
-  int ind;
   if (directory != NULL)
   {
     ourDirectory = directory;
-    ind = strlen(directory) - 1;
+    size_t ind = strlen(directory) - 1;
     if (ind < 0)
       ind = 0;
     if (directory[ind] != '/' && directory[ind] != '\\')
