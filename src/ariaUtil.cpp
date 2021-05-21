@@ -2498,7 +2498,7 @@ ArLaserCreatorHelper::ourTiM3XXCB(&ArLaserCreatorHelper::createTiM3XX);
 ArGlobalRetFunctor2<ArLaser *, int, const char *>
 ArLaserCreatorHelper::ourSZSeriesCB(&ArLaserCreatorHelper::createSZSeries);
 
-ArLaser *createAnyLMS1xx(int laserNumber, [[maybe_unused]] const char *logPrefix, const char *name, ArLMS1XX::LaserModel model)
+ArLaser *createAnyLMS1xx(int laserNumber, UNUSED const char *logPrefix, const char *name, ArLMS1XX::LaserModel model)
 {
 	return new ArLMS1XX(laserNumber, name, model);
 }
@@ -2539,7 +2539,7 @@ ArSonarMTXCreatorHelper::ourSonarMTXCB(&ArSonarMTXCreatorHelper::createSonarMTX)
 
 
 ArLaser *ArLaserCreatorHelper::createLMS2xx(int laserNumber, 
-					    [[maybe_unused]] const char *logPrefix)
+					    UNUSED const char *logPrefix)
 {
   return new ArLMS2xx(laserNumber);
 }
@@ -2549,7 +2549,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS2
   return &ourLMS2xxCB;
 }
 
-ArLaser *ArLaserCreatorHelper::createUrg(int laserNumber, [[maybe_unused]] const char *logPrefix)
+ArLaser *ArLaserCreatorHelper::createUrg(int laserNumber, UNUSED const char *logPrefix)
 {
   return new ArUrg(laserNumber);
 }
@@ -2560,7 +2560,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrgC
   return &ourUrgCB;
 }
 
-ArLaser *ArLaserCreatorHelper::createLMS1XX(int laserNumber, [[maybe_unused]] const char *logPrefix)
+ArLaser *ArLaserCreatorHelper::createLMS1XX(int laserNumber, UNUSED const char *logPrefix)
 {
 	return new ArLMS1XX(laserNumber, "lms1xx", ArLMS1XX::LMS1XX);
 }
@@ -2571,7 +2571,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS1
 }
 
 ArLaser *ArLaserCreatorHelper::createS3Series(int laserNumber, 
-					    [[maybe_unused]] const char *logPrefix)
+					    UNUSED const char *logPrefix)
 {
   return new ArS3Series(laserNumber);
 }
@@ -2583,7 +2583,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateS3Se
 
 
 ArLaser *ArLaserCreatorHelper::createUrg_2_0(int laserNumber, 
-					     [[maybe_unused]] const char *logPrefix)
+					     UNUSED const char *logPrefix)
 {
   return new ArUrg_2_0(laserNumber);
 }
@@ -2595,7 +2595,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateUrg_
 }
 
 ArLaser *ArLaserCreatorHelper::createLMS5XX(int laserNumber,
-		[[maybe_unused]] const char *logPrefix)
+		UNUSED const char *logPrefix)
 {
 
 	// PS 8/22/11 - added "lms5xx" and flag specifying laser is an lms5xx
@@ -2608,7 +2608,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateLMS5
 }
 
 ArLaser *ArLaserCreatorHelper::createTiM3XX(int laserNumber,
-		[[maybe_unused]] const char *logPrefix)
+		UNUSED const char *logPrefix)
 {
 
 	// PS 8/22/11 - added "lms5xx" and flag specifying laser is an lms5xx
@@ -2622,7 +2622,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateTiM3
 
 
 ArLaser *ArLaserCreatorHelper::createSZSeries(int laserNumber,
-					    [[maybe_unused]] const char *logPrefix)
+					    UNUSED const char *logPrefix)
 {
   return new ArSZSeries(laserNumber);
 }
@@ -2633,7 +2633,7 @@ ArRetFunctor2<ArLaser *, int, const char *> *ArLaserCreatorHelper::getCreateSZSe
 }
 
 ArBatteryMTX *ArBatteryMTXCreatorHelper::createBatteryMTX(int batteryNumber,
-					   [[maybe_unused]]  const char *logPrefix)
+					   UNUSED  const char *logPrefix)
 {
   return new ArBatteryMTX(batteryNumber);
 }
@@ -2644,7 +2644,7 @@ ArRetFunctor2<ArBatteryMTX *, int, const char *> *ArBatteryMTXCreatorHelper::get
 }
 
 ArLCDMTX *ArLCDMTXCreatorHelper::createLCDMTX(int lcdNumber,
-					    [[maybe_unused]] const char *logPrefix)
+					    UNUSED const char *logPrefix)
 {
   return new ArLCDMTX(lcdNumber);
 }
@@ -2655,7 +2655,7 @@ ArRetFunctor2<ArLCDMTX *, int, const char *> *ArLCDMTXCreatorHelper::getCreateLC
 }
 
 ArSonarMTX *ArSonarMTXCreatorHelper::createSonarMTX(int sonarNumber,
-					    [[maybe_unused]] const char *logPrefix)
+					    UNUSED const char *logPrefix)
 {
   return new ArSonarMTX(sonarNumber);
 }
@@ -2699,7 +2699,7 @@ ArDeviceConnection *ArDeviceConnectionCreatorHelper::createSerial422Connection(
 
 
 ArDeviceConnection *ArDeviceConnectionCreatorHelper::internalCreateSerialConnection(
-	const char *port, [[maybe_unused]] const char *defaultInfo, const char *logPrefix, bool is422)
+	const char *port, UNUSED const char *defaultInfo, const char *logPrefix, bool is422)
 {
   ArSerialConnection *serConn = new ArSerialConnection(is422);
   

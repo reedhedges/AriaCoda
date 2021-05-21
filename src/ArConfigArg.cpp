@@ -2418,7 +2418,7 @@ AREXPORT bool ArConfigArg::parseArgument(
       // something later please set up something to set the changed
       // bool poitner like the other entries in here.
       
-       [[maybe_unused]] int childCount = 
+       UNUSED int childCount = 
           arg->getArgInt(0, &ok);
        if (ok) {
       
@@ -3502,10 +3502,10 @@ AREXPORT bool ArConfigArg::writeInfo(ArSocket *socket,
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 AREXPORT bool ArConfigArg::parseResource(ArArgumentBuilder *arg, 
-				                                 [[maybe_unused]] char *errorBuffer,
-				                                 [[maybe_unused]] size_t errorBufferLen,
+				                                 UNUSED char *errorBuffer,
+				                                 UNUSED size_t errorBufferLen,
                                          const char *logPrefix,
-                                         [[maybe_unused]] bool isQuiet)
+                                         UNUSED bool isQuiet)
 {
     
   if (arg == NULL) {

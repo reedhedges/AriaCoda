@@ -440,8 +440,8 @@ AREXPORT ArDeviceConnection *ArLMS1XXPacketReceiver::getDeviceConnection()
 
 
 ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
-						      [[maybe_unused]] bool scandataShortcut,
-						      [[maybe_unused]] bool ignoreRemainders)
+						      UNUSED bool scandataShortcut,
+						      UNUSED bool ignoreRemainders)
 {
 	ArLMS1XXPacket *packet;
 	unsigned char c = 0;
@@ -726,8 +726,8 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 
 
 ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
-						      [[maybe_unused]] bool scandataShortcut,
-						      [[maybe_unused]] bool ignoreRemainders)
+						      UNUSED bool scandataShortcut,
+						      UNUSED bool ignoreRemainders)
 {
 	ArLMS1XXPacket *packet;
 	unsigned char c = 0;
@@ -1464,14 +1464,14 @@ void ArLMS1XX::sensorInterp ()
 				            measuringDistance, measuringReflectance);
 
 			// for LMS5XX Scaling Factor is a real number
-			[[maybe_unused]] int eachScalingFactor; // not used but must be read from laser
+			UNUSED int eachScalingFactor; // not used but must be read from laser
       if(myLaserModel == LMS5XX)
 				eachScalingFactor = packet->bufToByte4(); // FIX should be real
       else
 				eachScalingFactor = packet->bufToUByte4(); // FIX should be real
 
-			[[maybe_unused]] const int eachScalingOffset = packet->bufToUByte4(); // FIX should be real // not used but must be read from packet
-			[[maybe_unused]] const double eachStartingAngle = packet->bufToByte4() / 10000.0; // not used but must be read from packet
+			UNUSED const int eachScalingOffset = packet->bufToUByte4(); // FIX should be real // not used but must be read from packet
+			UNUSED const double eachStartingAngle = packet->bufToByte4() / 10000.0; // not used but must be read from packet
 			const double eachAngularStepWidth = packet->bufToUByte2() / 10000.0; // angular distance between each reading
 			eachNumberData = (size_t) packet->bufToUByte2(); // number of readings in this set
 			/*

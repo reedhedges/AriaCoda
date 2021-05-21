@@ -91,7 +91,7 @@ AREXPORT void ArActionLimiterRot::addToConfig(ArConfig *config,
 }
 
 AREXPORT ArActionDesired *
-ArActionLimiterRot::fire([[maybe_unused]] ArActionDesired currentDesired)
+ArActionLimiterRot::fire(UNUSED ArActionDesired currentDesired)
 {
   bool printing = false;
 

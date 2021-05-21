@@ -70,7 +70,7 @@ AREXPORT ArActionLimiterBackwards::~ArActionLimiterBackwards()
 }
 
 AREXPORT ArActionDesired *
-ArActionLimiterBackwards::fire([[maybe_unused]] ArActionDesired currentDesired)
+ArActionLimiterBackwards::fire(UNUSED ArActionDesired currentDesired)
 {
   double dist;
   double maxVel;

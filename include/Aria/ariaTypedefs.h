@@ -64,12 +64,32 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #ifndef _WIN32
 
-#define AREXPORT
 ////
 //// Linux
 ////
+#define AREXPORT
 
 #endif // linux
+
+
+
+// These are C++17 attributes that we use anyway. They weren't added until G++ version 7, so use these alternatives:
+#if __GNUC__ < 7
+
+#define NODISCARD
+#define UNUSED __attribute__((unused))
+#define FALLTHROUGH __attribute__((fallthrough))
+
+#else
+
+// On G++ version 7 and later, on on all other platforms including Windows, use standard C++ attributes:
+
+#define NODISCARD [[nodiscard]]
+#define UNUSED [[maybe_unused]]
+#define FALLTHROUGH [[fallthrough]]
+
+#endif
+
 
 
 typedef std::map<int, std::string> ArStrMap;

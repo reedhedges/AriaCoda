@@ -116,7 +116,7 @@ AREXPORT void ArActionGotoStraight::setEncoderGoalRel(double dist,
   setEncoderGoal(goal, backToGoal, justDistance);
 }
 
-AREXPORT ArActionDesired *ArActionGotoStraight::fire([[maybe_unused]] ArActionDesired currentDesired)
+AREXPORT ArActionDesired *ArActionGotoStraight::fire(UNUSED ArActionDesired currentDesired)
 {
   double angle = 0.0;
   double dist = 0.0;

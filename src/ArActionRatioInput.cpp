@@ -342,7 +342,7 @@ AREXPORT void ArActionRatioInput::deactivate()
 }
 
 AREXPORT ArActionDesired *ArActionRatioInput::fire(
-	[[maybe_unused]] ArActionDesired currentDesired)
+	UNUSED ArActionDesired currentDesired)
 {
   std::multimap<int, ArFunctor *>::iterator it;
   //ArLog::log(ArLog::Normal, "Calling");

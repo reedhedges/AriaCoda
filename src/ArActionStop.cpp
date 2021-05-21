@@ -39,7 +39,7 @@ AREXPORT ArActionStop::~ArActionStop()
 }
 
 AREXPORT ArActionDesired *ArActionStop::fire(
-	[[maybe_unused]] ArActionDesired currentDesired)
+	UNUSED ArActionDesired currentDesired)
 {
   myDesired.reset();
 

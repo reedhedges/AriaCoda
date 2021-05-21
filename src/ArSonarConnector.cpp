@@ -670,7 +670,7 @@ AREXPORT bool ArSonarConnector::connectSonar (ArSonarMTX *sonar,
 AREXPORT bool ArSonarConnector::connectSonars (
   bool continueOnFailedConnect, bool addConnectedSonarsToRobot,
   bool addAllSonarsToRobot, bool turnOnSonars,
-  [[maybe_unused]] bool powerCycleSonarOnFailedConnect)
+  UNUSED bool powerCycleSonarOnFailedConnect)
 {
 	std::map<int, SonarData *>::iterator it;
 	SonarData *sonarData = NULL;
@@ -828,9 +828,9 @@ AREXPORT bool ArSonarConnector::turnOnPower(SonarData *sonarData)
 }
 
 AREXPORT bool ArSonarConnector::connectReplaySonars(
-  [[maybe_unused]] bool continueOnFailedConnect, bool addConnectedSonarsToRobot,
-  bool addAllSonarsToRobot, [[maybe_unused]] bool turnOnSonars,
-  [[maybe_unused]] bool powerCycleSonarOnFailedConnect)
+  UNUSED bool continueOnFailedConnect, bool addConnectedSonarsToRobot,
+  bool addAllSonarsToRobot, UNUSED bool turnOnSonars,
+  UNUSED bool powerCycleSonarOnFailedConnect)
 
 {
 	std::map<int, SonarData *>::iterator it;

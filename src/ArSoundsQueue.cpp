@@ -51,7 +51,7 @@ void ArSoundsQueue::Item::play()
   for(std::list<PlayItemFunctor*>::const_iterator i = playCallbacks.begin(); i != playCallbacks.end(); i++) 
   {
     if(*i) {
-      [[maybe_unused]] bool r = 
+      UNUSED bool r = 
         (*i)->invokeR(data.c_str(), params.c_str());
     }
   }

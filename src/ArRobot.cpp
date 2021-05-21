@@ -74,7 +74,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 **/
 
-AREXPORT ArRobot::ArRobot(const char *name, [[maybe_unused]] bool unused, 
+AREXPORT ArRobot::ArRobot(const char *name, UNUSED bool unused, 
 			  bool doSigHandle, bool normalInit,
 			  bool addAriaExitCallback) :
   myMotorPacketCB(this, &ArRobot::processMotorPacket),

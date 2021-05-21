@@ -1292,7 +1292,7 @@ public:
       timeSince = since.getSecLL() * 1000 + since.getMSecLL();
       timeThis = mySec * 1000 + myMSec;
 
-      return timeSince - timeThis;
+      return (long long)timeSince - (long long) timeThis;
     }
   /// Gets the number of seconds since the given timestamp to this one
   /// @ingroup easy
@@ -1389,7 +1389,8 @@ public:
     {
       //unsigned long timeThis;
       long long timeThis;
-      timeThis = mySec * 1000 + myMSec;
+      assert(mySec * 1000 + myMSec <= LLONG_MAX);
+      timeThis = (long long) (mySec * 1000 + myMSec);
       //if (ms < 0 && (unsigned)abs(ms) > timeThis)
       if (ms < 0 && -ms > timeThis)
       {
@@ -1401,8 +1402,9 @@ public:
       else 
       {
         timeThis += ms;
-        mySec = timeThis / 1000;
-	      myMSec = timeThis % 1000;
+        assert(timeThis >= 0);
+        mySec = (unsigned long long) timeThis / 1000;
+	      myMSec = (unsigned long long) timeThis % 1000;
       }
       return true;
     } // end method addMSec
@@ -1412,7 +1414,8 @@ public:
     {
       //unsigned long timeThis;
       long long timeThis;
-      timeThis = mySec * 1000 + myMSec;
+      assert(mySec * 1000 + myMSec <= LLONG_MAX);
+      timeThis = (long long) ( mySec * 1000 + myMSec );
       //if (ms < 0 && (unsigned)abs(ms) > timeThis)
       if (ms < 0 && -ms > timeThis)
       {
@@ -1424,8 +1427,9 @@ public:
       else 
       {
         timeThis += ms;
-        mySec = timeThis / 1000;
-	myMSec = timeThis % 1000;
+        assert(timeThis >= 0);
+        mySec = (unsigned long long) timeThis / 1000;
+	      myMSec = (unsigned long long) timeThis % 1000;
       }
       return true;
     } // end method addMSec

@@ -69,7 +69,7 @@ AREXPORT void ArActionInput::clear()
 }
 
 AREXPORT ArActionDesired *ArActionInput::fire(
-	[[maybe_unused]] ArActionDesired currentDesired)
+	UNUSED ArActionDesired currentDesired)
 {
   myDesired.reset();
 

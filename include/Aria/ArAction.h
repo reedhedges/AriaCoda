@@ -88,7 +88,7 @@ public:
       Clear your stored ArActionDesired
       before modifying it with ArActionDesired::reset().
   */
-  AREXPORT virtual ArActionDesired *fire([[maybe_unused]] ArActionDesired currentDesired) = 0;
+  AREXPORT virtual ArActionDesired *fire(UNUSED ArActionDesired currentDesired) = 0;
   /// Sets the robot this action is driving
   AREXPORT virtual void setRobot(ArRobot *robot);
   /// Find the number of arguments this action takes

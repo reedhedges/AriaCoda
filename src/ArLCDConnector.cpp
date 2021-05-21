@@ -670,7 +670,7 @@ AREXPORT bool ArLCDConnector::connectLCDs (
   bool continueOnFailedConnect, bool addConnectedLCDsToRobot,
   bool addAllLCDsToRobot,
 	bool turnOnLCDs,
-	[[maybe_unused]] bool powerCycleLCDOnFailedConnect)
+	UNUSED bool powerCycleLCDOnFailedConnect)
 {
 	std::map<int, LCDData *>::iterator it;
 	LCDData *lcdData = NULL;

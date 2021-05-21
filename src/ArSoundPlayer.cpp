@@ -96,7 +96,7 @@ AREXPORT bool ArSoundPlayer::playSoundPCM16(char* data, int numSamples)
 #endif
 
 
-bool ArSoundPlayer::playNativeFile(const char* filename, [[maybe_unused]] const char* params)
+bool ArSoundPlayer::playNativeFile(const char* filename, UNUSED const char* params)
 {
   int snd_fd = ArUtil::open("/dev/dsp", O_WRONLY); // | O_NONBLOCK);
   if(snd_fd < 0) {
@@ -124,7 +124,7 @@ bool ArSoundPlayer::playNativeFile(const char* filename, [[maybe_unused]] const 
   return true;
 }
 
-bool ArSoundPlayer::playWavFile(const char* filename, [[maybe_unused]] const char* params)
+bool ArSoundPlayer::playWavFile(const char* filename, UNUSED const char* params)
 {
   ArArgumentBuilder builder;
   //builder.addPlain("sleep .35; play");

@@ -99,7 +99,7 @@ public:
   };
   /// Constructor.
   /// @param unused an old flag no longer used
-  AREXPORT ArRobot(const char * name = NULL, [[maybe_unused]] bool unused = true,
+  AREXPORT ArRobot(const char * name = NULL, UNUSED bool unused = true,
 		   bool doSigHandle=true, 
 		   bool normalInit = true, bool addAriaExitCallback = true);
 		   

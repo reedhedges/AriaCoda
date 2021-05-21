@@ -781,7 +781,7 @@ AREXPORT ArSimulatedGPS::~ArSimulatedGPS()
     myRobot->remPacketHandler(&mySimStatHandlerCB);
 }
 
-bool ArSimulatedGPS::connect([[maybe_unused]] unsigned long connectTimeout) 
+bool ArSimulatedGPS::connect(UNUSED unsigned long connectTimeout) 
 {
   /*
   std::list<ArRobot*> *robots = Aria::getRobotList();

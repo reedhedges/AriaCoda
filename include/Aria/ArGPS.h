@@ -632,7 +632,7 @@ public:
   void setDummyPositionFromArgs(ArArgumentBuilder *args) { setDummyPosition(args); } // non-overloaded function can be used in functors
   AREXPORT virtual bool connect(unsigned long connectTimeout = 10000);
   virtual bool initDevice() { return true; }
-  virtual int read([[maybe_unused]] unsigned long maxTime = 0) {
+  virtual int read(UNUSED unsigned long maxTime = 0) {
     if(myHaveDummyPosition)
     {
       myData.timeGotPosition.setToNow();
