@@ -464,7 +464,9 @@ void ArBatteryMTX::interpErrors()
       if (!myHaveSetRTC) 
       {
 	ArLog::log(ArLog::Normal, "%s: Setting RTC since it hasn't been set this run and there's an error with it", getName());
-	sendSetRealTimeClock(time(NULL));
+	const time_t t = time(NULL);
+	assert(t >= 0);
+	sendSetRealTimeClock((unsigned int) t);
 	myHaveSetRTC = true;
       }
       else
@@ -671,7 +673,7 @@ while (getRunning() )
 	if (getRunning() && myIsConnected && checkLostConnection() ) {
 		ArLog::log (ArLog::Terse,
 		            "%s::runThread()  Lost connection to the MTX battery because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(),
-		            myLastReading.mSecSince() / 1000.0,
+		            (double)myLastReading.mSecSince() / 1000.0,
 		            getConnectionTimeoutSeconds() );
 		myIsConnected = false;
 		disconnectOnError();
@@ -715,7 +717,7 @@ AREXPORT bool ArBatteryMTX::checkLostConnection()
 	
   if ((myRobot == NULL || myRobotRunningAndConnected) && 
       getConnectionTimeoutSeconds() > 0 && 
-      myLastReading.mSecSince() >  getConnectionTimeoutSeconds() * 1000)
+      myLastReading.mSecSince() > (long)(getConnectionTimeoutSeconds() * 1000.0))
     return true;
 
   if (!myRobotRunningAndConnected && myRobot != NULL && 
@@ -1065,7 +1067,7 @@ bool ArBatteryMTX::getBasicInfo()
 
 	bool gotPacket = false;
 	unsigned char *buf;
-	for (int i = 0; i < 5; i++) {
+	for (int attempt = 0; attempt < 5; attempt++) {
 		if (!sendBasicInfo (SEND_ONCE)) {
 			ArLog::log (ArLog::Normal,
 			            "%s::getBasicInfo() Could not send basic info to battery",
@@ -1175,33 +1177,64 @@ AREXPORT void ArBatteryMTX::updateSystemInfo (unsigned char *buf)
 	myId = buf[1];
 	myFirmwareVersion = buf[2];
 
-	// XXX TODO cast each character in buf to final target type (long, unsigned int, etc.) before shifting to get correct results.
-	// maybe we need a utility function in ArUtil to help with this kind of thing.
-	mySerialNumber = buf[6] << 24 | buf[5] << 16 | buf[4] << 8 | buf[3];
-	myCurrentTime = buf[14] << 56 | buf[13] << 48 | buf[12] << 40 | buf[11] << 32 | buf[10] << 24 | buf[9] << 16 | buf[8] << 8 | buf[7];
-	myLastChargeTime = buf[22] << 56 | buf[21] << 48 | buf[20] << 40 | buf[19] << 32 | buf[18] << 24 | buf[17] << 16 | buf[16] << 8 | buf[15];
-	myChargeRemainingEstimate = buf[26] << 24 | buf[25] << 16 | buf[24] << 8 | buf[23];
-	myCapacityEstimate = buf[30] << 24 | buf[29] << 16 | buf[28] << 8 | buf[27];
-	myRawDelay = buf[34] << 24 | buf[33] << 16 | buf[32] << 8 | buf[31];
+	// maybe we need a utility function in ArUtil to help with this kind of thing. note the code below receives values in MSB order
+
+	// 4 bytes -> uint32_t -> unsigned int
+	mySerialNumber = (uint32_t)buf[6] << 24 | (uint32_t)buf[5] << 16 | (uint32_t)buf[4] << 8 | (uint32_t)buf[3];
+
+	// 8 bytes -> uint64_t -> long long TODO myCurrentTime should probably be unsigned
+	myCurrentTime = (long long) ( (uint64_t)buf[14] << 56 | (uint64_t)buf[13] << 48 | (uint64_t)buf[12] << 40 | (uint64_t)buf[11] << 32 | (uint64_t)buf[10] << 24 | (uint64_t)buf[9] << 16 | (uint64_t)buf[8] << 8 | (uint64_t)buf[7]);
+
+	// 8 bytes -> uint64_t -> long long TODO myLastChargeTime should probably be unsigned
+	myLastChargeTime = (long long) ( (uint64_t)buf[22] << 56 | (uint64_t)buf[21] << 48 | (uint64_t)buf[20] << 40 | (uint64_t)buf[19] << 32 | (uint64_t)buf[18] << 24 | (uint64_t)buf[17] << 16 | (uint64_t)buf[16] << 8 | (uint64_t)buf[15] );
+
+	// 4 bytes -> uint32_t -> unsigned int
+	myChargeRemainingEstimate = (uint32_t)buf[26] << 24 | (uint32_t)buf[25] << 16 | (uint32_t)buf[24] << 8 | (uint32_t)buf[23];
+
+	// 4 bytes -> uint32_t -> unsigned int
+	myCapacityEstimate = (uint32_t)buf[30] << 24 | (uint32_t)buf[29] << 16 | (uint32_t)buf[28] << 8 | (uint32_t)buf[27];
+
+	// 4 bytes -> uint32_t -> unsigned int
+	myRawDelay = (uint32_t)buf[34] << 24 | (uint32_t)buf[33] << 16 | (uint32_t)buf[32] << 8 | (uint32_t)buf[31];
 	myDelay = myRawDelay / 1000.0;
-	myCycleCount = buf[36] << 8 | buf[35];
-	myRawTemperature = buf[38] << 8 | buf[37];
+
+	// 2 bytes -> uint16_t -> unsigned int
+	myCycleCount = (unsigned int) ((uint16_t)buf[36] << 8 | (uint16_t)buf[35]);
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawTemperature = (unsigned short) ( (uint16_t)(buf[38]) << 8 | (uint16_t)(buf[37]) );
 	myTemperature = myRawTemperature / 100.0;
-	myRawPaddleVolts = buf[40] << 8 | buf[39];
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawPaddleVolts = (unsigned short) ( (uint16_t)buf[40] << 8 | (uint16_t)buf[39] );
 	myPaddleVolts = myRawPaddleVolts / 1000.0;
-	myRawVoltage = buf[42] << 8 | buf[41];
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawVoltage = (unsigned short) ( (uint16_t)buf[42] << 8 | (uint16_t)buf[41] );
 	myVoltage = myRawVoltage / 1000.0;
-	myRawFuseVoltage = buf[44] << 8 | buf[43];
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawFuseVoltage = (unsigned short) ( (uint16_t)buf[44] << 8 | (uint16_t)buf[43] );
 	myFuseVoltage = myRawFuseVoltage / 1000.0;
-	myRawChargeCurrent = buf[46] << 8 | buf[45];
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawChargeCurrent = (unsigned short) ( (uint16_t)buf[46] << 8 | (uint16_t)buf[45] );
 	myChargeCurrent = myRawChargeCurrent / 1000.0;
-	myRawDisChargeCurrent = buf[48] << 8 | buf[47];
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawDisChargeCurrent = (unsigned short) ( (uint16_t)buf[48] << 8 | (uint16_t)buf[47] );
 	myDisChargeCurrent = myRawDisChargeCurrent / 1000.0;
-	myRawCellImbalance = buf[50] << 8 | buf[49];
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawCellImbalance = (unsigned short) ( (uint16_t)buf[50] << 8 | (uint16_t)buf[49] );
 	myCellImbalance = myRawCellImbalance / 100.0;
-	myRawImbalanceQuality = buf[52] << 8 | buf[51];
+
+	// 2 bytes -> uint16_t -> unsigned short
+	myRawImbalanceQuality = (unsigned short) ( (uint16_t)buf[52] << 8 | (uint16_t)buf[51] );
 	myImbalanceQuality = myRawImbalanceQuality / 100.0;
-	myRawReserveChargeValue = buf[54] << 8 | buf[53];
+
+  // 2 bytes -> uint16_t -> unsigned short
+	myRawReserveChargeValue = (unsigned short) ( (uint16_t)buf[54] << 8 | (uint16_t)buf[53] );
 	myReserveChargeValue = myRawReserveChargeValue / 100.0;
 }
 
@@ -1209,30 +1242,34 @@ AREXPORT void ArBatteryMTX::updateCellInfo (unsigned char *buf)
 {
 	myNumCells = buf[1];
 	int idx;
-	for (int i = 0; i < myNumCells; i++) {
+	for (int i = 0; i < (int)myNumCells; i++) {
 		// PS - note - need to hard code this as if we used the sizeof cellinfo, we'd
-		// get 12 as unsigned char flages is actually 2 bytes
+		// get 12 as unsigned char flags is actually 2 bytes
 		idx = 11 * i;
 		CellInfo *info = new CellInfo();
 		info->myCellFlags = buf[2 + idx];
-		info->myRawCellVoltage = buf[4 + idx] << 8 | buf[3  + idx];
+
+		// 2 bytes converted to short
+		info->myRawCellVoltage = (unsigned short) ((uint16_t)buf[4 + idx] << 8 | (uint16_t)buf[3  + idx]);
 		info->myCellVoltage = info->myRawCellVoltage / 1000.0;
-		info->myCellCharge = buf[8 + idx] << 24 | buf[7 + idx] << 16 | buf[6 + idx] << 8 | buf[5 + idx];
-		info->myCellCapacity = buf[12 + idx] << 24 | buf[11 + idx] << 16 | buf[10 + idx] << 8 | buf[9 + idx];
+
+		// 4 bytes but converted to short
+		info->myCellCharge = (unsigned short) ((uint32_t)buf[8 + idx] << 24 | (uint32_t)buf[7 + idx] << 16 | (uint32_t)buf[6 + idx] << 8 | (uint32_t)buf[5 + idx]);
+		info->myCellCapacity = (unsigned short) ((uint32_t)buf[12 + idx] << 24 | (uint32_t) buf[11 + idx] << 16 | (uint32_t) buf[10 + idx] << 8 | (uint32_t) buf[9 + idx] );
 		myCellNumToInfoMap[i] = info;
 	}
 }
 
 AREXPORT void ArBatteryMTX::updateBasicInfo (unsigned char *buf)
 {
-	myRawChargeEstimate = buf[2] << 8 | buf[1];
+	myRawChargeEstimate = (unsigned short)((uint16_t) buf[2] << 8 | (uint16_t) buf[1]);
 	myChargeEstimate = myRawChargeEstimate / 100.0;
-	myRawCurrentDraw = buf[4] << 8 | buf[3];
+	myRawCurrentDraw = (short)((uint16_t) ((signed char*)buf)[4] << 8 | (uint16_t) ((signed char*)buf)[3]); // could be negative? interpret as signed
 	myCurrentDraw = myRawCurrentDraw / 100.0;
-	myRawPackVoltage = buf[6] << 8 | buf[5];
+	myRawPackVoltage = (unsigned short)((uint16_t)buf[6] << 8 | (uint16_t)buf[5]);
 	myPackVoltage = myRawPackVoltage / 1000.0;
-	myStatusFlags = buf[8] << 8 | buf[7];
-	myErrorFlags = buf[10] << 8 | buf[9];
+	myStatusFlags = (unsigned short) ((uint16_t)buf[8] << 8 | (uint16_t) buf[7]);
+	myErrorFlags = (unsigned short)((uint16_t) buf[10] << 8 | (uint16_t) buf[9]);
 }
 
 

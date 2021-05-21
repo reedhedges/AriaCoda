@@ -212,7 +212,7 @@ protected:
     std::string name;
     bool sent;
     short int arg;
-    Cmd(unsigned char _cmd = -1, const std::string& _name = "") : cmd(_cmd), name(_name), sent(false), arg(-1) {}
+    Cmd(unsigned char _cmd = 255, const std::string& _name = "") : cmd(_cmd), name(_name), sent(false), arg(-1) {}
   };
 
   typedef std::map<unsigned char, Cmd> CmdMap;

@@ -641,7 +641,7 @@ AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
 AREXPORT void ArLog::logBacktrace(LogLevel level)
 {
 #ifndef _WIN32
-  int size = 100;
+  const int size = 100;
   int numEntries;
   void *buffer[size];
   char **names;

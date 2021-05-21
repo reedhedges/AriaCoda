@@ -296,13 +296,13 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
 			// buffer length is in range
 
 			if ((myTracking) && (packet->getLength() < 10000)) {
-				unsigned char *buf = (unsigned char *) packet->getBuf();
+				unsigned char *buf2 = (unsigned char *) packet->getBuf();
 		
 				char obuf[10000];
 				obuf[0] = '\0';
 				int j = 0;
 				for (int i = 0; i < packet->getLength(); i++) {
-					sprintf (&obuf[j], "_%02x", buf[i]);
+					sprintf (&obuf[j], "_%02x", buf2[i]);
 					j= j+3;
 				}
 

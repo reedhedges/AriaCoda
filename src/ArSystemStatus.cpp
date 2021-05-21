@@ -99,7 +99,7 @@ void ArSystemStatus::refreshCPU()
 	//fscanf(uptimefp, "%lf %lf", &uptime, &idle_uptime);
 	//ourUptime = (unsigned long)uptime;
 	unsigned long uptime;
-	int n = fscanf(uptimefp, "%ld", &uptime);
+	int n = fscanf(uptimefp, "%lu", &uptime);
 	if(n != 1)
 	{
 		ArLog::log(ArLog::Terse, "ArSystemStatus: Error: Error reading uptime value from /proc/uptime. Expected 1 integer value, got %d", n);

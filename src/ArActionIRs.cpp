@@ -115,7 +115,7 @@ AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired cur
 
   if (myParams.haveTableSensingIR())
   {
-    for (int i = 0; i < myParams.getNumIR(); ++i)
+    for (size_t i = 0; i < (size_t) myParams.getNumIR(); ++i)
     {
       unsigned char bit = 0;
 
@@ -148,10 +148,10 @@ AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired cur
       }
       if (myParams.haveNewTableSensingIR() && myRobot->getIODigInSize() > 3)
       {
-        if ((myParams.getIRType(i) && !(myRobot->getIODigIn(3) & bit)) ||
-          (!myParams.getIRType(i) && (myRobot->getIODigIn(3) & bit)))
+        if ((myParams.getIRType((int)i) && !(myRobot->getIODigIn(3) & bit)) ||
+          (!myParams.getIRType((int)i) && (myRobot->getIODigIn(3) & bit)))
         {
-          if (cycleCounters[i] < myParams.getIRCycles(i))
+          if (cycleCounters[i] < myParams.getIRCycles((int)i))
           {
             cycleCounters[i] = cycleCounters[i] + 1;
           }
@@ -160,8 +160,8 @@ AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired cur
             cycleCounters[i] = 1;
 
             ArPose pose;
-            pose.setX(myParams.getIRX(i));
-            pose.setY(myParams.getIRY(i));
+            pose.setX(myParams.getIRX((int)i));
+            pose.setY(myParams.getIRY((int)i));
             if (pose.getX() > 0)
             {
               ArPose center(0, 0, 0);
@@ -179,7 +179,7 @@ AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired cur
       {
         if (!(myRobot->getDigIn() & bit))
         {
-          if (cycleCounters[i] < myParams.getIRCycles(i))
+          if (cycleCounters[i] < myParams.getIRCycles((int)i))
           {
             cycleCounters[i] = cycleCounters[i] + 1;
           }
@@ -188,8 +188,8 @@ AREXPORT ArActionDesired *ArActionIRs::fire([[maybe_unused]] ArActionDesired cur
             cycleCounters[i] = 1;
 
             ArPose pose;
-            pose.setX(myParams.getIRX(i));
-            pose.setY(myParams.getIRY(i));
+            pose.setX(myParams.getIRX((int)i));
+            pose.setY(myParams.getIRY((int)i));
             if (pose.getX() > 0)
             {
               ArPose center(0, 0, 0);

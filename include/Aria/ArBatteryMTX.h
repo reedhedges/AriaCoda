@@ -164,7 +164,7 @@ public:
 		{ return myId; }
 	int getFirmwareVersion() const
 		{ return myFirmwareVersion; }
-	int getSerialNumber() const
+	unsigned int getSerialNumber() const
 		{ return mySerialNumber; }
 	//int getCurrentTime() const
 	//	{ return myCurrentTime; }
@@ -172,13 +172,13 @@ public:
 		{ return myCurrentTime; }
 	long long getLastChargeTime() const
 		{ return myLastChargeTime; }
-	int getChargeRemainingEstimate() const
+	unsigned int getChargeRemainingEstimate() const
 		{ return myChargeRemainingEstimate; }
-	int getCapacityEstimate() const
+	unsigned int getCapacityEstimate() const
 		{ return myCapacityEstimate; }
 	double getDelay() const
 		{ return myDelay; }
-	int getCycleCount() const
+	unsigned int getCycleCount() const
 		{ return myCycleCount; }
 	double getTemperature() const
 		{ return myTemperature; }
@@ -248,14 +248,14 @@ public:
 			return(info->myCellVoltage);
 		} }
 
-  /// Request a continous stream of packets
+  /// Request a continuous stream of packets
   AREXPORT void requestContinuousSysInfoPackets();
   /// Stop the stream of packets
   AREXPORT void stopSysInfoPackets();
   /// See if we've requested packets
   AREXPORT bool haveRequestedSysInfoPackets();
 
-  /// Request a continous stream of packets
+  /// Request a continuous stream of packets
   AREXPORT void requestContinuousCellInfoPackets();
   /// Stop the stream of packets
   AREXPORT void stopCellInfoPackets();
@@ -286,7 +286,7 @@ public:
 	AREXPORT bool checkLostConnection();
 	/// disconnect 
 	AREXPORT void disconnectOnError();
-  /// Gets the time data was last receieved
+  /// Gets the time data was last received
   ArTime getLastReadingTime() { return myLastReading; }
   /// Gets the number of battery readings received in the last second
   AREXPORT int getReadingCount();

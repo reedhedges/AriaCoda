@@ -417,6 +417,7 @@ AREXPORT bool ArLaser::laserPullUnsetParamsFromRobot()
   double paramDouble;
   int paramInt;
   bool paramBool;
+  unsigned int paramUnsignedInt;
 
   paramBool = params->getLaserFlipped(getLaserNumber());
   if (!myFlippedSet)
@@ -437,37 +438,39 @@ AREXPORT bool ArLaser::laserPullUnsetParamsFromRobot()
     }
   }
 
-  paramInt = params->getLaserMaxRange(getLaserNumber());
+  paramUnsignedInt = params->getLaserMaxRange(getLaserNumber());
   if (!myMaxRangeSet)
   {
-    if(paramInt < 0)
+
+/*  if(paramInt < 0)
     {
       ArLog::log(ArLog::Terse, "%s: LaserMaxRange in robot param file was negative but shouldn't be (it was '%d'), failing", getName(), paramInt);
       return false;
     }
-    if (paramInt > 0)
+    */
+    if (paramUnsignedInt > 0)
     {
       ArLog::log(myInfoLogLevel, 
-		 "%s: Setting max range to %d from robot params",
-		 getName(), paramInt);
-      setMaxRange(paramInt);
+		 "%s: Setting max range to %u from robot params",
+		 getName(), paramUnsignedInt);
+      setMaxRange(paramUnsignedInt);
     }
   }
 
-  paramInt = params->getLaserCumulativeBufferSize(getLaserNumber());
+  paramUnsignedInt = params->getLaserCumulativeBufferSize(getLaserNumber());
   if (!myCumulativeBufferSizeSet)
   {
-    if(paramInt < 0)
+ /*    if(paramInt < 0)
     {
       ArLog::log(ArLog::Terse, "%s: LaserCumulativeBufferSize in robot param file was negative but shouldn't be (it was '%d'), failing", getName(), paramInt);
       return false;
-    }
-    if (paramInt > 0)
+    } */
+    if (paramUnsignedInt > 0)
     {
       ArLog::log(myInfoLogLevel, 
-		 "%s: Setting cumulative buffer size to %d from robot params",
-		 getName(), paramInt);
-      setCumulativeBufferSize(paramInt);
+		 "%s: Setting cumulative buffer size to %u from robot params",
+		 getName(), paramUnsignedInt);
+      setCumulativeBufferSize(paramUnsignedInt);
     }
   }
 

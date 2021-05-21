@@ -3779,7 +3779,7 @@ AREXPORT  bool ArConfigArg::parseResourceArgText(const char* argText,
 
   if (len > 0)
   {
-    for (size_t j = len - 1; j >= 0; j--) {
+    for (size_t j = len - 1; j > 0; j--) {
       if ((otherBuf[j] < 0) || isspace(otherBuf[j])) {
         otherBuf[j] = '\0';
       }
@@ -3787,6 +3787,10 @@ AREXPORT  bool ArConfigArg::parseResourceArgText(const char* argText,
         break;
       }
     }
+    if ((otherBuf[0] < 0) || isspace(otherBuf[0])) {
+      otherBuf[0] = '\0';
+    }
+  
   }
 
  len = strlen(otherBuf);

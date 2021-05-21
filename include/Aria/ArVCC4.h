@@ -290,8 +290,9 @@ public:
   }
   bool canSetPanTiltSlew() { return true; }
 
-  /// Adds device ID and delimeter to packet buffer
-  AREXPORT void preparePacket(ArVCC4Packet *packet);
+private:
+  /// Adds device ID and delimeter to myPacket
+  void preparePacket();
 
 protected:
   AREXPORT virtual double getPan_i() const { return myPanDesired; }

@@ -608,12 +608,18 @@ public:
   bool hasFrontBumpers() const { return myParams->haveFrontBumpers(); }
   /// Get the number of the front bumper switches
   unsigned int getNumFrontBumpers() const 
-    { return myParams->numFrontBumpers(); }
+  {
+    assert(myParams->numFrontBumpers() > 0);
+    return (unsigned int)myParams->numFrontBumpers(); 
+  }
   /// Gets whether the robot has rear bumpers (see ARCOS parameters in the robot manual)
   bool hasRearBumpers() const { return myParams->haveRearBumpers(); }
   /// Gets the number of  rear bumper switches
   unsigned int getNumRearBumpers() const 
-    { return myParams->numRearBumpers(); }
+  {
+    assert(myParams->numRearBumpers() > 0);
+    return (unsigned int) myParams->numRearBumpers(); 
+  }
 
   /** @brief Get the position of the robot according to the last robot SIP,
    * possibly with gyro correction if installed and enabled, but without any
@@ -848,7 +854,7 @@ public:
 
   /// This gets the time since the "Trip Odometer" was reset (sec)
   /// @see getTripOdometerDistance()
-  double getTripOdometerTime() 
+  long getTripOdometerTime() 
     { return myTripOdometerStart.secSince(); }
 
   /// Resets the "Trip Odometer"
@@ -881,11 +887,11 @@ public:
     { return myOdometerDegrees; }
 
   /// This gets the time since the robot started (sec)
-  double getOdometerTime() 
+  long getOdometerTime() 
     { return myOdometerStart.secSince(); }
   /// This gets the time since the robot started (mins)
   double getOdometerTimeMinutes()
-    { return myOdometerStart.secSince() / 60.0; }
+    { return (double)myOdometerStart.secSince() / 60.0; }
   
 
 

@@ -51,7 +51,7 @@ AREXPORT ArActionTriangleDriveTo::ArActionTriangleDriveTo(
   myCloseDist = closeDist;
 
   setNextArgument(ArArg("acquire turn speed", &myAcquireTurnSpeed,
-		"if we are aqcquiring the rot vel to turn at (deg/sec)"));
+		"if we are acquiring the rot vel to turn at (deg/sec)"));
   myAcquireTurnSpeed = acquireTurnSpeed;
 
   myLaser = NULL;
@@ -196,7 +196,8 @@ AREXPORT void ArActionTriangleDriveTo::findTriangle(bool initial,
   //  myLineFinder->saveLast();
   
   int start;
-  int len = myLines->size();
+  assert(myLines->size() <= INT_MAX);
+  int len = (int) myLines->size();
   FILE *corners = NULL;
   /*if ((corners = ArUtil::fopen("corners", "w+")) == NULL)
   {

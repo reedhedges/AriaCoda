@@ -29,8 +29,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 /**
    @param name name of the action instance
    @param backOffSpeed speed at which to back away (mm/sec)
-   @param backOffTime number of milisecons to back up for (msec)
-   @param turnTime number of milisecons to alow for turn (msec)
+   @param backOffTime number of miliseconds to back up for (msec)
+   @param turnTime number of miliseconds to alow for turn (msec)
    @param setMaximums if true, set desired maximum translation velocity limits to backOffSpeed while performing the action; if false, retain existing limits.
 */
 AREXPORT ArActionBumpers::ArActionBumpers(const char *name, 
@@ -81,14 +81,14 @@ AREXPORT double ArActionBumpers::findDegreesToTurn(int bumpValue, int whichBumpe
 {
   double totalTurn = 0;
   int numTurn = 0;
-  int numBumpers;
+  unsigned int numBumpers;
 
   double turnRange = 135;
 
   if(whichBumper == 1) numBumpers = myRobot->getNumFrontBumpers();
   else numBumpers = myRobot->getNumRearBumpers();
 
-  for (int i = 0; i < numBumpers; i++)
+  for (unsigned int i = 0; i < numBumpers; i++)
     {
       // MPL I wrote this code, but checking for BIT8 makes no sense, BIT0 is  the stall, BIT8 would be beyond this data
       if((i == 0 && (bumpValue & ArUtil::BIT1)) || 
@@ -100,7 +100,7 @@ AREXPORT double ArActionBumpers::findDegreesToTurn(int bumpValue, int whichBumpe
 	 (i == 6 && (bumpValue & ArUtil::BIT7)) || 
 	 (i == 7 && (bumpValue & ArUtil::BIT8)))
 	{
-	  totalTurn = totalTurn +  (i * (turnRange / (double)numBumpers) + 
+	  totalTurn = totalTurn +  ((double)i * (turnRange / (double)numBumpers) + 
 				    ((turnRange / (double)numBumpers) / 2) - (turnRange / 2));
 	  ++numTurn;
 	}

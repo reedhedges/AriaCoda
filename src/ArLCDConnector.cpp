@@ -764,34 +764,34 @@ AREXPORT bool ArLCDConnector::connectLCDs (
 	return true;
 }
 
-AREXPORT bool ArLCDConnector::turnOnPower (LCDData *LCDData)
+AREXPORT bool ArLCDConnector::turnOnPower (LCDData *lcd)
 {
 	/// MPL the new way
 	if (myTurnOnPowerOutputCB != NULL) {
 		if (myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-		      LCDData->myNumber) == NULL ||
+		      lcd->myNumber) == NULL ||
 		    myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-		      LCDData->myNumber) [0] == '\0') {
+		      lcd->myNumber) [0] == '\0') {
 			ArLog::log (ArLog::Normal,
 			            "ArLCDConnector::turnOnPower: LCD %d has no power output set so can't be turned on (things may still work).",
-			            LCDData->myNumber);
+			            lcd->myNumber);
 			return false;
 		} else {
 			if (myTurnOnPowerOutputCB->invokeR (
 			      myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-			        LCDData->myNumber))) {
+			        lcd->myNumber))) {
 				ArLog::log (myInfoLogLevel,
 				            "ArLCDConnector::turnOnPower: Turned on power output %s for lcd %d",
 				            myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-				              LCDData->myNumber),
-				            LCDData->myNumber);
+				              lcd->myNumber),
+				            lcd->myNumber);
 				return true;
 			} else {
 				ArLog::log (ArLog::Normal,
 				            "ArLCDConnector::turnOnPower: Could not turn on power output %s for lcd %d (things may still work).",
 				            myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-				              LCDData->myNumber),
-				            LCDData->myNumber);
+				              lcd->myNumber),
+				            lcd->myNumber);
 				return false;
 			}
 		}
@@ -799,34 +799,34 @@ AREXPORT bool ArLCDConnector::turnOnPower (LCDData *LCDData)
 	return false;
 }
 
-AREXPORT bool ArLCDConnector::turnOffPower (LCDData *LCDData)
+AREXPORT bool ArLCDConnector::turnOffPower (LCDData *lcd)
 {
 	/// MPL the new way
 	if (myTurnOffPowerOutputCB != NULL) {
 		if (myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-		      LCDData->myNumber) == NULL ||
+		      lcd->myNumber) == NULL ||
 		    myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-		      LCDData->myNumber) [0] == '\0') {
+		      lcd->myNumber) [0] == '\0') {
 			ArLog::log (ArLog::Normal,
 			            "ArLCDConnector::turnOffPower: LCD %d has no power output set so can't be turned off (things may still work).",
-			            LCDData->myNumber);
+			            lcd->myNumber);
 			return false;
 		} else {
 			if (myTurnOffPowerOutputCB->invokeR (
 			      myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-			        LCDData->myNumber))) {
+			        lcd->myNumber))) {
 				ArLog::log (myInfoLogLevel,
 				            "ArLCDConnector::turnOffPower: Turned off power output %s for lcd %d",
 				            myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-				              LCDData->myNumber),
-				            LCDData->myNumber);
+				              lcd->myNumber),
+				            lcd->myNumber);
 				return true;
 			} else {
 				ArLog::log (ArLog::Normal,
 				            "ArLCDConnector::turnOffPower: Could not turn off power output %s for lcd %d (things may still work).",
 				            myRobot->getRobotParams()->getLCDMTXBoardPowerOutput (
-				              LCDData->myNumber),
-				            LCDData->myNumber);
+				              lcd->myNumber),
+				            lcd->myNumber);
 				return false;
 			}
 		}
@@ -834,18 +834,18 @@ AREXPORT bool ArLCDConnector::turnOffPower (LCDData *LCDData)
 	return false;
 }
 
-AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
+AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 
 {
 
 
 	// first we need to turn off the power, then turn it back on
-	if (!turnOffPower(LCDData))
+	if (!turnOffPower(lcd))
 		return false;
 
 	ArUtil::sleep(3000);
 
-	if (!turnOnPower(LCDData))
+	if (!turnOnPower(lcd))
 		return false;
 
 
@@ -853,15 +853,15 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 	// now connect to the serial port
 
 	ArSerialConnection *serConn = NULL;
-	serConn = dynamic_cast<ArSerialConnection *> (LCDData->myConn);
+	serConn = dynamic_cast<ArSerialConnection *> (lcd->myConn);
 	if (serConn != NULL)
 		serConn->setBaud (115200);
-	if (LCDData->myConn->getStatus() != ArDeviceConnection::STATUS_OPEN
-	    && !LCDData->myConn->openSimple()) {
+	if (lcd->myConn->getStatus() != ArDeviceConnection::STATUS_OPEN
+	    && !lcd->myConn->openSimple()) {
 		ArLog::log (
 		  ArLog::Normal,
 		  "ArLCDConnector::verifyFirmware: Could not connect (%d) because the connection was not open and could not open it",
-		  LCDData->myNumber);
+		  lcd->myNumber);
 
 		return false;
 	}
@@ -881,7 +881,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 	{
 		ArLog::log(ArLog::Normal,
 				"ArLCDConnector::verifyFirmware(%d) error adding msecs (30 * 1000)",
-				LCDData->myNumber);
+				lcd->myNumber);
 	}
 
 	unsigned char helloResp[4];
@@ -891,23 +891,23 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 
 	while (timeDone.mSecTo() > 0) {
 
-		if ((LCDData->myConn->write((char *)&hello, 1)) == -1) {
+		if ((lcd->myConn->write((char *)&hello, 1)) == -1) {
 
 			ArLog::log(ArLog::Normal,
-					"ArLCDConnector::verifyFirmware(%d) Could not send hello to LCD", LCDData->myNumber);
+					"ArLCDConnector::verifyFirmware(%d) Could not send hello to LCD", lcd->myNumber);
 			return false;
 		}
 
-		if ((LCDData->myConn->read((char *) &helloResp[0], 4, 500)) > 0) {
+		if ((lcd->myConn->read((char *) &helloResp[0], 4, 500)) > 0) {
 
 			ArLog::log(ArLog::Normal,
 					"ArLCDConnector::verifyFirmware(%d) received hello response 0x%02x 0x%02x 0x%02x 0x%02x",
-					LCDData->myNumber, helloResp[0],  helloResp[1],  helloResp[2],  helloResp[3] );
+					lcd->myNumber, helloResp[0],  helloResp[1],  helloResp[2],  helloResp[3] );
 
 			if ((helloResp[0] == 0xc0) && (helloResp[3] == 0x4b)) {
 				ArLog::log(ArLog::Normal,
 					"ArLCDConnector::verifyFirmware(%d) received hello response",
-					LCDData->myNumber);
+					lcd->myNumber);
 
 				gotResponse = true;
 				hmiVersion = helloResp[1];
@@ -921,14 +921,14 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 		else {
 			ArLog::log(ArLog::Normal,
 					"ArLCDConnector::verifyFirmware(%d) read failed",
-					LCDData->myNumber);
+					lcd->myNumber);
 
 		}
 	}
 
 	if (!gotResponse) {
 		ArLog::log(ArLog::Normal,
-				"ArLCDConnector::verifyFirmware(%d) Received no hello response", LCDData->myNumber);
+				"ArLCDConnector::verifyFirmware(%d) Received no hello response", lcd->myNumber);
 		return false;
 	}
 
@@ -954,7 +954,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 	if (hmiFile.empty()) {
 		ArLog::log(ArLog::Normal,
 				"ArLCDConnector::verifyFirmware(%d) can't find hmi file with prefix = %s", 
-						LCDData->myNumber, hmiFilePrefix);
+						lcd->myNumber, hmiFilePrefix);
 		return false;
 	}
 	else {
@@ -969,7 +969,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 		else {
 			ArLog::log(ArLog::Normal,
 				"ArLCDConnector::verifyFirmware(%d) hmi file found but version matches (%s)",
-						LCDData->myNumber, hmiFileOut);
+						lcd->myNumber, hmiFileOut);
 			return false;
 		}
 	}
@@ -978,7 +978,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 
 	if (!foundHmi) {
 		ArLog::log(ArLog::Normal,
-				"ArLCDConnector::verifyFirmware(%d) Can not find %s.ds file", LCDData->myNumber, hmiFileOut);
+				"ArLCDConnector::verifyFirmware(%d) Can not find %s.ds file", lcd->myNumber, hmiFileOut);
 		return false;
 	}
 
@@ -993,7 +993,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 	if ( (file = ArUtil::fopen (hmiDirFile.c_str(), "r")) == NULL) {
 		ArLog::log (ArLog::Normal,
 			            "ArLCDConnector::verifyFirmware(%d) Could not open file %s for reading errno (%d)",
-			            LCDData->myNumber, hmiDirFile.c_str(), errno);
+			            lcd->myNumber, hmiDirFile.c_str(), errno);
 		return false;
 	}
 
@@ -1012,7 +1012,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 			if (!builder.isArgInt(i, true)) {
 
 				ArLog::log(ArLog::Normal,
-							"ArLCDConnector::verifyFirmware(%d) Could not convert file", LCDData->myNumber);
+							"ArLCDConnector::verifyFirmware(%d) Could not convert file", lcd->myNumber);
 				return false;
 
 			}
@@ -1030,29 +1030,29 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 
 				//ArLog::log(ArLog::Normal,
 				//		"ArLCDConnector::verifyFirmware(%d) %d %c 0x%02x", LCDData->myNumber, data, data, data);
-			if ((LCDData->myConn->write((char *)data.c_str(), data.size())) == -1) {
+			if ((lcd->myConn->write((char *)data.c_str(), data.size())) == -1) {
 				ArLog::log(ArLog::Normal,
-						"ArLCDConnector::verifyFirmware(%d) Could not send data 0x%02x size(%d) to LCD errno (%d)", LCDData->myNumber, data.c_str(), data.size(), errno);
+						"ArLCDConnector::verifyFirmware(%d) Could not send data 0x%02x size(%d) to LCD errno (%d)", lcd->myNumber, data.c_str(), data.size(), errno);
 				return false;
 			}
 
 
 			// wait a sec for the response
-			if ((LCDData->myConn->read((char *) &c, 1, 1000)) > 0) {
+			if ((lcd->myConn->read((char *) &c, 1, 1000)) > 0) {
 		
 				if (c == 0x4b) 
 					continue;
 				else {
 					ArLog::log(ArLog::Normal,
 							"ArLCDConnector::verifyFirmware(%d) Invalid response %x02%x from LCD to load data", 
-							LCDData->myNumber, c);
+							lcd->myNumber, c);
 					return false;
 				}
 
 			}
 			else {
 				ArLog::log(ArLog::Normal,
-						"ArLCDConnector::verifyFirmware(%d) Did not get response from LCD to load data", LCDData->myNumber);
+						"ArLCDConnector::verifyFirmware(%d) Did not get response from LCD to load data", lcd->myNumber);
 				return false;
 
 			}
@@ -1062,7 +1062,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 		// end of file reached
 		ArLog::log (ArLog::Normal,
 			            "ArLCDConnector::verifyFirmware(%d) LCD firmware updated",
-			            LCDData->myNumber);
+			            lcd->myNumber);
 		fclose (file);
 
 		ArUtil::sleep(5000);
@@ -1073,7 +1073,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 
 		ArLog::log (ArLog::Normal,
 			            "ArLCDConnector::verifyFirmware(%d) failed updating LCD firmware",
-			            LCDData->myNumber);
+			            lcd->myNumber);
 		fclose (file);
 
 		return false;

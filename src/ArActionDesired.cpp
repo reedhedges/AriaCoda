@@ -159,4 +159,4 @@ AREXPORT void ArActionDesired::sanityCheck(const char *actionName)
 
   myLatAccelDes.checkLowerBound(actionName, "LatAccel", 1);
   myLatDecelDes.checkLowerBound(actionName, "LatDecel", 1);
-};
+}

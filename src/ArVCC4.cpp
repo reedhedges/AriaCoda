@@ -70,12 +70,12 @@ AREXPORT void ArVCC4Packet::finalizePacket()
 /*
 Creates new packet with default header, device id, and delimeter - FE 30 30 00
 */
-AREXPORT void ArVCC4::preparePacket(ArVCC4Packet *myPacket)		
+AREXPORT void ArVCC4::preparePacket()
 {
-  myPacket->uByteToBuf(ArVCC4Commands::HEADER);
-  myPacket->uByteToBuf(ArVCC4Commands::DEVICEID);
-  myPacket->uByteToBuf(ArVCC4Commands::DEVICEID);
-  myPacket->uByteToBuf(ArVCC4Commands::DELIM);
+  myPacket.uByteToBuf(ArVCC4Commands::HEADER);
+  myPacket.uByteToBuf(ArVCC4Commands::DEVICEID);
+  myPacket.uByteToBuf(ArVCC4Commands::DEVICEID);
+  myPacket.uByteToBuf(ArVCC4Commands::DELIM);
 
   myPacketTime.setToNow();
   
@@ -1907,7 +1907,7 @@ void ArVCC4::processGetProductNameResponse()
 bool ArVCC4::sendPower()
 {
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::POWER);
   if (myPowerStateDesired)
   {
@@ -1930,7 +1930,7 @@ bool ArVCC4::setControlMode()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::setControlMode: sending control mode packet\n");
   myPacket.empty();             //Send Control command
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::CONTROL);
   myPacket.uByteToBuf(ArVCC4Commands::DEVICEID);
 
@@ -1972,7 +1972,7 @@ bool ArVCC4::sendInit()
 
 
   myPacket.empty();		// Send Init command
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::INIT);
   myPacket.uByteToBuf(ArVCC4Commands::DEVICEID);
 
@@ -1993,7 +1993,7 @@ bool ArVCC4::setDefaultRange()
   ArLog::log(ArLog::Verbose,"ArVCC4::setDefaultRange: setting default range for camera movements");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
 
   myPacket.uByteToBuf(ArVCC4Commands::SETRANGE);
   myPacket.uByteToBuf(ArVCC4Commands::DEVICEID + 1);
@@ -2024,7 +2024,7 @@ bool ArVCC4::sendPanTilt()
   ArLog::log(ArLog::Verbose,"ArVCC4::sendPanTilt: sending panTilt packet");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::PANTILT);
   myPacket.byte4ToBuf(ArMath::roundInt( (myPanDesired)/.1125 ) + 0x8000);
   myPacket.byte4ToBuf(ArMath::roundInt( (myTiltDesired)/.1125 ) + 0x8000);
@@ -2055,7 +2055,7 @@ bool ArVCC4::sendZoom()
   char buf[5];
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::ZOOM);
   sprintf(buf, "%4X", myZoomDesired);
 
@@ -2087,7 +2087,7 @@ bool ArVCC4::sendDigitalZoom()
   ArLog::log(ArLog::Verbose,"ArVCC4::sendDigitalZoom: sending digital zoom packet");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::DIGITALZOOM);
 
   if (myDigitalZoomDesired < 4)
@@ -2115,7 +2115,7 @@ bool ArVCC4::sendHaltPanTilt()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendHaltPanTilt: sending halt pantilt packet");
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::STOP);
   myPacket.uByteToBuf(ArVCC4Commands::DEVICEID);
 
@@ -2128,7 +2128,7 @@ bool ArVCC4::sendHaltZoom()
 {
   ArLog::log(ArLog::Verbose,"ArVCC4::sendHaltZoom: sending halt zoom packet");
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::ZOOMSTOP);
   myPacket.uByteToBuf(ArVCC4Commands::DEVICEID);
 
@@ -2151,7 +2151,7 @@ bool ArVCC4::sendPanSlew()
     ArLog::log(ArLog::Verbose,"ArVCC4::sendPanSlew: sending panSlew packet");
 
     myPacket.empty();
-    preparePacket(&myPacket);
+    preparePacket();
     myPacket.uByteToBuf(ArVCC4Commands::PANSLEW);
 
     sprintf(buf,"%3X", ArMath::roundInt(myPanSlewDesired/.1125));
@@ -2190,7 +2190,7 @@ bool ArVCC4::sendTiltSlew()
     ArLog::log(ArLog::Verbose,"ArVCC4::sendTiltSlew: sending tiltSlew packet");
 
     myPacket.empty();
-    preparePacket(&myPacket);
+    preparePacket();
     myPacket.uByteToBuf(ArVCC4Commands::TILTSLEW);
 
     sprintf(buf,"%3X", ArMath::roundInt(myTiltSlewDesired/.1125));
@@ -2217,7 +2217,7 @@ bool ArVCC4::sendRealPanTiltRequest()
   ArLog::log(ArLog::Verbose,"ArVCC4::sendRealPanTiltRequest: sending request for real pan/tilt information");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::PANTILTREQ);
 
   // The camera will return 6 bytes in case of error
@@ -2232,7 +2232,7 @@ bool ArVCC4::sendRealZoomRequest()
   ArLog::log(ArLog::Verbose,"ArVCC4::sendRealZoomRequest: sending request for real zoom position.");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::ZOOMREQ);
   myPacket.uByteToBuf(ArVCC4Commands::DEVICEID);
 
@@ -2263,7 +2263,7 @@ bool ArVCC4::sendLEDControlMode()
   }
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::LEDCONTROL);
   myPacket.uByteToBuf(0x30 + (unsigned char) myDesiredLEDControlMode);
 
@@ -2277,7 +2277,7 @@ bool ArVCC4::sendIRFilterControl()
   ArLog::log(ArLog::Verbose,"ArVCC4::sendIRFilterControl: sending IR cut filter control packet.");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::IRCUTFILTER);
 
   if (myDesiredIRFilterMode)
@@ -2298,7 +2298,7 @@ bool ArVCC4::sendIRLEDControl()
   ArLog::log(ArLog::Verbose,"ArVCC4::sendIRLEDControl: sending IR-LED control packet.");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::INFRARED);
   if (myDesiredIRLEDsMode)
     myPacket.uByteToBuf(0x36);
@@ -2315,7 +2315,7 @@ bool ArVCC4::sendProductNameRequest()
   ArLog::log(ArLog::Verbose,"ArVCC4::sendProductNameRequest: sending request for product name.");
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::PRODUCTNAME);
 
   return sendPacket(&myPacket);
@@ -2328,7 +2328,7 @@ bool ArVCC4::sendFocus()
     myFocusModeDesired, 0x30+(unsigned char)myFocusModeDesired );
 
   myPacket.empty();
-  preparePacket(&myPacket);
+  preparePacket();
   
   myPacket.uByteToBuf(ArVCC4Commands::AUTOFOCUS);
   myPacket.uByteToBuf(0x30 + (unsigned char) myFocusModeDesired);

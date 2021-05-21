@@ -206,13 +206,13 @@ AREXPORT void ArBasePacket::empty()
   resetValid();
 }
 
-AREXPORT bool ArBasePacket::isNextGood(int bytes)
+AREXPORT bool ArBasePacket::isNextGood(size_t bytes)
 {
-  if (bytes <= 0)
+/*   if (bytes <= 0)
     return false;
-
+ */
   // make sure it comes in before the header
-  if (myReadLength + bytes <= myLength - myFooterLength)
+  if ((size_t)myReadLength + bytes <= (size_t)myLength - (size_t)myFooterLength)
     return true;
 
   myIsValid = false;
@@ -221,13 +221,13 @@ AREXPORT bool ArBasePacket::isNextGood(int bytes)
 }
 
 
-AREXPORT bool ArBasePacket::hasWriteCapacity(int bytes)
+AREXPORT bool ArBasePacket::hasWriteCapacity(size_t bytes)
 {
-  if (bytes < 0) {
+/*   if (bytes < 0) {
     ArLog::log(ArLog::Normal, "ArBasePacket::hasWriteCapacity(%d) cannot write negative amount",
                bytes);
     return false;
-  }
+  } */
 
   // Make sure there's enough room in the packet 
   if ((myLength + bytes) <= myMaxLength) {
@@ -291,9 +291,9 @@ AREXPORT void ArBasePacket::byte2ToBuf(ArTypes::Byte2 val)
   }
 
   unsigned char c;
-  c = (val >> 8) & 0xff;
+  c = (unsigned char) ((val >> 8) & 0xff);
   memcpy(myBuf+myLength+1, &c, 1);
-  c = val & 0xff;
+  c = (unsigned char) (val & 0xff);
   memcpy(myBuf+myLength, &c, 1);
   myLength += 2;
 }
@@ -305,13 +305,13 @@ AREXPORT void ArBasePacket::byte4ToBuf(ArTypes::Byte4 val)
   }
 
   unsigned char c;
-  c = (val >> 24) & 0xff;
+  c = (unsigned char) ((val >> 24) & 0xff);
   memcpy(myBuf+myLength+3, &c, 1);
-  c = (val >> 16) & 0xff;
+  c =  (unsigned char) ((val >> 16) & 0xff);
   memcpy(myBuf+myLength+2, &c, 1);
-  c = (val >> 8) & 0xff;
+  c = ((unsigned char) (val >> 8) & 0xff);
   memcpy(myBuf+myLength+1, &c, 1);
-  c = val & 0xff;
+  c = (unsigned char) (val & 0xff);
   memcpy(myBuf+myLength, &c, 1);
   myLength += 4;
 }
@@ -323,22 +323,22 @@ AREXPORT void ArBasePacket::byte8ToBuf(ArTypes::Byte8 val)
   }
 
   unsigned char c;
-  c = (val >> 56) & 0xff;
+  c = (unsigned char)( (val >> 56) & 0xff);
   memcpy(myBuf+myLength+7, &c, 1);
-  c = (val >> 48) & 0xff;
+  c = (unsigned char) ((val >> 48) & 0xff);
   memcpy(myBuf+myLength+6, &c, 1);
-  c = (val >> 40) & 0xff;
+  c = (unsigned char) ((val >> 40) & 0xff);
   memcpy(myBuf+myLength+5, &c, 1);
-  c = (val >> 32) & 0xff;
+  c = (unsigned char) ((val >> 32) & 0xff);
   memcpy(myBuf+myLength+4, &c, 1);
 
-  c = (val >> 24) & 0xff;
+  c = (unsigned char) ((val >> 24) & 0xff);
   memcpy(myBuf+myLength+3, &c, 1);
-  c = (val >> 16) & 0xff;
+  c = (unsigned char) ((val >> 16) & 0xff);
   memcpy(myBuf+myLength+2, &c, 1);
-  c = (val >> 8) & 0xff;
+  c = (unsigned char) ((val >> 8) & 0xff);
   memcpy(myBuf+myLength+1, &c, 1);
-  c = val & 0xff;
+  c = (unsigned char) (val & 0xff);
   memcpy(myBuf+myLength, &c, 1);
   myLength += 8;
 
@@ -360,9 +360,9 @@ AREXPORT void ArBasePacket::uByte2ToBuf(ArTypes::UByte2 val)
   }
   // Note that MSB is placed one byte after the LSB in the end of the buffer:
   unsigned char c;
-  c = (val >> 8) & 0xff;
+  c = (unsigned char)((val >> 8) & 0xff);
   memcpy(myBuf+myLength+1, &c, 1);
-  c = val & 0xff;
+  c = (unsigned char)(val & 0xff);
   memcpy(myBuf+myLength, &c, 1);
   myLength += 2;
 }
@@ -384,13 +384,13 @@ AREXPORT void ArBasePacket::uByte4ToBuf(ArTypes::UByte4 val)
   */
 
   unsigned char c;
-  c = (val >> 24) & 0xff;
+  c = (unsigned char)((val >> 24) & 0xff);
   memcpy(myBuf+myLength+3, &c, 1);
-  c = (val >> 16) & 0xff;
+  c = (unsigned char)((val >> 16) & 0xff);
   memcpy(myBuf+myLength+2, &c, 1);
-  c = (val >> 8) & 0xff;
+  c = (unsigned char)((val >> 8) & 0xff);
   memcpy(myBuf+myLength+1, &c, 1);
-  c = val & 0xff;
+  c = (unsigned char)(val & 0xff);
   memcpy(myBuf+myLength, &c, 1);
   myLength += 4;
 }
@@ -409,22 +409,22 @@ AREXPORT void ArBasePacket::uByte8ToBuf(ArTypes::UByte8 val)
   */
 
   unsigned char c;
-  c = (val >> 56) & 0xff;
+  c = (unsigned char)((val >> 56) & 0xff);
   memcpy(myBuf+myLength+7, &c, 1);
-  c = (val >> 48) & 0xff;
+  c = (unsigned char)((val >> 48) & 0xff);
   memcpy(myBuf+myLength+6, &c, 1);
-  c = (val >> 40) & 0xff;
+  c = (unsigned char)((val >> 40) & 0xff);
   memcpy(myBuf+myLength+5, &c, 1);
-  c = (val >> 32) & 0xff;
+  c = (unsigned char)((val >> 32) & 0xff);
   memcpy(myBuf+myLength+4, &c, 1);
 
-  c = (val >> 24) & 0xff;
+  c = (unsigned char)((val >> 24) & 0xff);
   memcpy(myBuf+myLength+3, &c, 1);
-  c = (val >> 16) & 0xff;
+  c = (unsigned char)((val >> 16) & 0xff);
   memcpy(myBuf+myLength+2, &c, 1);
-  c = (val >> 8) & 0xff;
+  c = (unsigned char)((val >> 8) & 0xff);
   memcpy(myBuf+myLength+1, &c, 1);
-  c = val & 0xff;
+  c = (unsigned char)(val & 0xff);
   memcpy(myBuf+myLength, &c, 1);
   myLength += 8;
 }
@@ -457,7 +457,7 @@ AREXPORT void ArBasePacket::strToBuf(const char *str)
 @param str character array to copy into the packet buffer
 @param length how many characters to copy from str into the packet buffer
 */
-AREXPORT void ArBasePacket::strNToBuf(const char *str, int length)
+AREXPORT void ArBasePacket::strNToBuf(const char *str, size_t length)
 {
   // Do not perform bounds checking because it breaks existing code.
 
@@ -474,7 +474,7 @@ If string ends before length it pads the string with NUL ('\\0') characters.
 @param str character array to copy into buffer
 @param length how many bytes to copy from the str into packet
 */
-AREXPORT void ArBasePacket::strToBufPadded(const char *str, int length)
+AREXPORT void ArBasePacket::strToBufPadded(const char *str, size_t length)
 {
   if (str == NULL) {
     str = "";
@@ -495,7 +495,7 @@ AREXPORT void ArBasePacket::strToBufPadded(const char *str, int length)
     memcpy(myBuf + myLength, str, tempLen);
     myLength += (ArTypes::UByte2) tempLen;
     memset(myBuf + myLength, 0, length - tempLen);
-    myLength += (ArTypes::UByte2)(length - (int)tempLen);
+    myLength += (ArTypes::UByte2)(length - tempLen);
   }
 }
 
@@ -504,7 +504,7 @@ AREXPORT void ArBasePacket::strToBufPadded(const char *str, int length)
 @param data character array to copy into buffer
 @param length how many bytes to copy from data into packet
 */
-AREXPORT void ArBasePacket::dataToBuf(const char *data, int length)
+AREXPORT void ArBasePacket::dataToBuf(const char *data, size_t length)
 {
   if (data == NULL) {
     ArLog::log(ArLog::Normal, "ArBasePacket::dataToBuf(NULL, %d) cannot add from null address",
@@ -526,7 +526,7 @@ AREXPORT void ArBasePacket::dataToBuf(const char *data, int length)
 @param data character array to copy into buffer
 @param length how many bytes to copy from data into packet
 */
-AREXPORT void ArBasePacket::dataToBuf(const unsigned char *data, int length)
+AREXPORT void ArBasePacket::dataToBuf(const unsigned char *data, size_t length)
 {
   if (data == NULL) {
     ArLog::log(ArLog::Normal, "ArBasePacket::dataToBuf(NULL, %d) cannot add from null address",
@@ -566,7 +566,7 @@ AREXPORT ArTypes::Byte2 ArBasePacket::bufToByte2()
   {
     memcpy(&c1, myBuf+myReadLength, 1);
     memcpy(&c2, myBuf+myReadLength+1, 1);
-    ret = (c1 & 0xff) | (c2 << 8);
+    ret = (ArTypes::Byte2) ((c1 & 0xff) | (c2 << 8));
     myReadLength+=2;
   }
 
@@ -635,7 +635,7 @@ AREXPORT ArTypes::UByte2 ArBasePacket::bufToUByte2()
   {
     memcpy(&c1, myBuf+myReadLength, 1);
     memcpy(&c2, myBuf+myReadLength+1, 1);
-    ret = (c1 & 0xff) | (c2 << 8);
+    ret = (ArTypes::UByte2) ((c1 & 0xff) | (c2 << 8));
     myReadLength+=2;
   }
 
@@ -655,7 +655,7 @@ AREXPORT ArTypes::UByte4 ArBasePacket::bufToUByte4()
     memcpy(&c2, myBuf+myReadLength+1, 1);
     memcpy(&c3, myBuf+myReadLength+2, 1);
     memcpy(&c4, myBuf+myReadLength+3, 1);
-    ret = (c1 & 0xff) | (c2 << 8) | (c3 << 16) | (c4 << 24);
+    ret = (ArTypes::UByte4) ((c1 & 0xff) | (c2 << 8) | (c3 << 16) | (c4 << 24));
     myReadLength+=4;
   }
 
@@ -695,7 +695,7 @@ if @a len bytes are copied).
 @param buf Destination buffer
 @param len Maximum number of characters to copy into the destination buffer
 */
-AREXPORT void ArBasePacket::bufToStr(char *buf, int len)
+AREXPORT void ArBasePacket::bufToStr(char *buf, size_t len)
 {
    if (buf == NULL) {
     ArLog::log(ArLog::Normal, "ArBasePacket::bufToStr(NULL, %d) cannot write to null address",
@@ -703,12 +703,11 @@ AREXPORT void ArBasePacket::bufToStr(char *buf, int len)
     return;
   }
 
-  int i;
-
   buf[0] = '\0';
   // see if we can read
   if (isNextGood(1))
   {
+    size_t i = 0;
     // while we can read copy over those bytes
     for (i = 0; 
          isNextGood(1) && i < (len - 1) && myBuf[myReadLength] != '\0';
@@ -772,10 +771,10 @@ from packet
 @param data character array to copy the data into
 @param length number of bytes to copy into data
 */
-AREXPORT void ArBasePacket::bufToData(char *data, int length)
+AREXPORT void ArBasePacket::bufToData(char *data, size_t length)
 {
   if (data == NULL) {
-    ArLog::log(ArLog::Normal, "ArBasePacket::bufToData(NULL, %d) cannot write to null address",
+    ArLog::log(ArLog::Normal, "ArBasePacket::bufToData(NULL, %lu) cannot write to null address",
                length);
     return;
   }
@@ -795,7 +794,7 @@ from packet
 @param data character array to copy the data into
 @param length number of bytes to copy into data
 */
-AREXPORT void ArBasePacket::bufToData(unsigned char *data, int length)
+AREXPORT void ArBasePacket::bufToData(unsigned char *data, size_t length)
 {
   if (data == NULL) {
     ArLog::log(ArLog::Normal, "ArBasePacket::bufToData(NULL, %d) cannot write to null address",

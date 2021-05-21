@@ -259,7 +259,7 @@ protected:
   double mySensorCos = 0.0, mySensorSin = 0.0;
   double myDistToCenter = 0.0;
   double myAngleToCenter = 0.0;
-  int myRange = 5000;
+  unsigned int myRange = 5000;
   int myExtraInt = 0;
   unsigned int myCounterTaken = 0;
   ArTime myTimeTaken;

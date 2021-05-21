@@ -328,7 +328,7 @@ public:
 	return false;
     }
   /// The max range to use the laser
-  int getLaserMaxRange(int laserNumber = 1) const 
+  unsigned int getLaserMaxRange(int laserNumber = 1) const 
     {
       if (getLaserData(laserNumber) != NULL)
 	return getLaserData(laserNumber)->myLaserMaxRange; 
@@ -336,7 +336,7 @@ public:
 	return 0;
     }
   /// The cumulative buffer size to use for the laser
-  int getLaserCumulativeBufferSize(int laserNumber = 1) const 
+  unsigned int getLaserCumulativeBufferSize(int laserNumber = 1) const 
     {
       if (getLaserData(laserNumber) != NULL)
 	return getLaserData(laserNumber)->myLaserCumulativeBufferSize; 

@@ -1284,13 +1284,14 @@ public:
       return timeSince - timeThis;
       */
     }
-  /// Gets the number of milliseconds since the given timestamp to this one
+  /// Gets the number of milliseconds since the given timestamp to this one. (May be negative.)
   long long mSecSinceLL(const ArTime& since) const 
     {
-      long long timeSince, timeThis;
+      unsigned long long timeSince, timeThis;
 
       timeSince = since.getSecLL() * 1000 + since.getMSecLL();
       timeThis = mySec * 1000 + myMSec;
+
       return timeSince - timeThis;
     }
   /// Gets the number of seconds since the given timestamp to this one

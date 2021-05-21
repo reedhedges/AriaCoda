@@ -1488,7 +1488,7 @@ void ArLMS1XX::sensorInterp ()
 			*/
 			// If we don't have any sensor readings created at all, make 'em all
 			if (myRawReadings->size() == 0)
-				for (size_t i = 0; i < eachNumberData; i++)
+				for (size_t j = 0; j < eachNumberData; j++)
 					myRawReadings->push_back (new ArSensorReading);
 
 			if (eachNumberData > myRawReadings->size()) {

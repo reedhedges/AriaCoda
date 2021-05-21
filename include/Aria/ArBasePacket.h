@@ -132,13 +132,13 @@ public:
    * @brief Copies the given number of bytes from str into packet buffer
    * @deprecated use strToBufPadded(), strToBuf(), or dataToBuf() instead
   **/
-  AREXPORT virtual void strNToBuf(const char *str, int length);
+  AREXPORT virtual void strNToBuf(const char *str, size_t length);
   /// Copies length bytes from str, if str ends before length, pads data with 0s
-  AREXPORT virtual void strToBufPadded(const char *str, int length);
+  AREXPORT virtual void strToBufPadded(const char *str, size_t length);
   /// Copies length bytes from data into packet buffer
-  AREXPORT virtual void dataToBuf(const char *data, int length);
+  AREXPORT virtual void dataToBuf(const char *data, size_t length);
   /// Copies length bytes from data into packet buffer
-  AREXPORT virtual void dataToBuf(const unsigned char *data, int length);
+  AREXPORT virtual void dataToBuf(const unsigned char *data, size_t length);
 
   // Utility functions to read different data types from a buffer. Each read
   // will increment the myReadLength.
@@ -161,15 +161,15 @@ public:
   AREXPORT virtual ArTypes::UByte8 bufToUByte8();
 
   /// Gets a null-terminated string from the buffer
-  AREXPORT virtual void bufToStr(char *buf, int maxlen);
+  AREXPORT virtual void bufToStr(char *buf, size_t maxlen);
   /// Gets a null-terminated string from the buffer
   AREXPORT std::string bufToString();
   /// Gets a null-terminated string from the buffer
   AREXPORT void bufToString(std::string *s);
   /// Gets length bytes from buffer and puts them into data
-  AREXPORT virtual void bufToData(char * data, int length);
+  AREXPORT virtual void bufToData(char * data, size_t length);
   /// Gets length bytes from buffer and puts them into data
-  AREXPORT virtual void bufToData(unsigned char * data, int length);
+  AREXPORT virtual void bufToData(unsigned char * data, size_t length);
 
   /// Restart the reading process
   AREXPORT virtual void resetRead();
@@ -214,15 +214,15 @@ public:
   /// Makes this packet a duplicate of another packet
   AREXPORT virtual void duplicatePacket(ArBasePacket *packet);
 
-  bool bufferContainsBytes(int bytes) { return isNextGood(bytes); }
+  bool bufferContainsBytes(size_t bytes) { return isNextGood(bytes); }
 
 protected:
   // internal function to make sure we have enough length left to read in the packet
-  AREXPORT bool isNextGood(int bytes);
+  AREXPORT bool isNextGood(size_t bytes);
 
   /// Returns true if there is enough room in the packet to add the specified number of bytes
-  AREXPORT bool hasWriteCapacity(int bytes);
-  bool hasWriteCapacity(size_t bytes) { return hasWriteCapacity((int)bytes); }
+  AREXPORT bool hasWriteCapacity(size_t bytes);
+  //bool hasWriteCapacity(size_t bytes) { return hasWriteCapacity((int)bytes); }
 
   // internal data
   ArTypes::UByte2 myHeaderLength;

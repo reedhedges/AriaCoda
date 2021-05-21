@@ -583,8 +583,7 @@ AREXPORT void Aria::setDirectory(const char *directory)
   {
     ourDirectory = directory;
     size_t ind = strlen(directory) - 1;
-    if (ind < 0)
-      ind = 0;
+
     if (directory[ind] != '/' && directory[ind] != '\\')
     {
 #ifdef WIN32

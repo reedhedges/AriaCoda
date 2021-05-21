@@ -190,6 +190,13 @@ TODO
   2/21) to build the string. 
 * Change ArLog to use c++ io instead of c io.  Use `clog` as output stream
   instead of stderr and fflush.  
+* ArDeviceConnection implementation for session recording/playback with three
+  modes:
+    1. read packets from file to send to ARIA, write packets sent.
+    2. recording mode: write session to file, pass through to another device
+connection.
+    3. verification mode: send packets from file to ARIA, recieve packets sent and check
+against what was recorded.
  
 
 Maybe TODO eventually

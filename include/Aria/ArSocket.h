@@ -39,6 +39,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <stdarg.h>
 #endif
 
+#include <limits.h>
 
 #include <string>
 #include "Aria/ariaTypedefs.h"
@@ -234,7 +235,11 @@ public:
   unsigned short int inPort() {return(mySin.sin_port);}
 
   /// Accessor for port number (converted to host byte order)
-  int getPortNumber() { return netToHostOrder(inPort()); }
+  int getPortNumber() {
+    const unsigned int p = netToHostOrder(inPort());
+    assert(p <= INT_MAX);
+    return (int)p;
+  }
 
   /// Convert @a addr into string numerical address
   AREXPORT static void inToA(struct in_addr *addr, char *buff);

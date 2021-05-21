@@ -4323,9 +4323,11 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
   std::string firstLine = line;
 
   // Strip the newline characters from the end of the first line.
-  size_t endPos = firstLine.find_last_not_of("\n\r");
-  if (endPos != std::string::npos) {
-    firstLine.erase(endPos + 1);
+  {
+    const size_t endPos = firstLine.find_last_not_of("\n\r");
+    if (endPos != std::string::npos) {
+      firstLine.erase(endPos + 1);
+    }
   }
 
   //this is a callback list to process stuff based on map versions
@@ -4391,10 +4393,10 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
       fsetpos(file, &position);
 
 
-      std::string firstLine = line;
+      //std::string firstLine = line;
 
       // Strip the newline characters from the end of the first line.
-      size_t endPos = firstLine.find_last_not_of("\n\r");
+      const size_t endPos = firstLine.find_last_not_of("\n\r");
       if (endPos != std::string::npos) {
         firstLine.erase(endPos + 1);
       }

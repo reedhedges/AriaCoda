@@ -295,11 +295,10 @@ void ArRobotParams::internalAddToConfigDefault()
   addParam(ArConfigArg("SonarUnit", &mySonarUnitSetFunctor, &mySonarUnitGetFunctor,
 		       "SonarUnit <sonarNumber> <x position, mm> <y position, mm> <heading of disc, degrees> <MTX sonar board> <MTX sonar board unit position> <MTX gain> <MTX detection threshold> <MTX max range> <autonomous driving sensor flag>"), section.c_str(), ArPriority::TRIVIAL);
 
-  int i;
-  for (i = 1; i <= Aria::getMaxNumSonarBoards(); i++)
+  for (int i = 1; i <= Aria::getMaxNumSonarBoards(); i++)
     addSonarBoardToConfig(i, this, ourUseDefaultBehavior);
 
-  for (i = 1; i <= Aria::getMaxNumLasers(); i++)
+  for (int i = 1; i <= Aria::getMaxNumLasers(); i++)
   {
     if (i == 1)
     {
@@ -315,10 +314,10 @@ void ArRobotParams::internalAddToConfigDefault()
     addLaserToConfig(i, this, ourUseDefaultBehavior, section.c_str());
   }
 
-  for (i = 1; i <= Aria::getMaxNumBatteries(); i++)
+  for (int i = 1; i <= Aria::getMaxNumBatteries(); i++)
     addBatteryToConfig(i, this, ourUseDefaultBehavior);
 
-  for (i = 1; i <= Aria::getMaxNumLCDs(); i++)
+  for (int i = 1; i <= Aria::getMaxNumLCDs(); i++)
     addLCDToConfig(i, this, ourUseDefaultBehavior);
 
   /** PTZ parameters here too */

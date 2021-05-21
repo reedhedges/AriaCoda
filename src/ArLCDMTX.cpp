@@ -1937,7 +1937,6 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 
 		// now reconnect to the serial port
 
-		ArSerialConnection *serConn = NULL;
 		serConn = dynamic_cast<ArSerialConnection *> (myConn);
 		if (serConn != NULL)
 			serConn->setBaud(115200);
