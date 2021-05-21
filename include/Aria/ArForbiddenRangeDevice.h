@@ -26,7 +26,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArRangeDevice.h"
-#include "Aria/ArMapInterface.h"
+
+class ArMapInterface;
 
 /// Class that takes forbidden lines and turns them into range readings
 ///  @ingroup OptionalClasses

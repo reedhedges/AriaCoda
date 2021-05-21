@@ -978,8 +978,8 @@ AREXPORT void ArLMS2xx::dropConnection()
   if (myState != STATE_CONNECTED)
     return;
 
-  myCurrentBuffer.reset();
-  myCumulativeBuffer.reset();
+  myCurrentBuffer.clear();
+  myCumulativeBuffer.clear();
   ArLog::log(ArLog::Terse, 
 	     "%s:  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(), 
 	     myLastReading.mSecSince()/1000.0, 
@@ -1047,8 +1047,8 @@ AREXPORT bool ArLMS2xx::disconnect()
     return ret;
   }
 
-  myCurrentBuffer.reset();
-  myCumulativeBuffer.reset();
+  myCurrentBuffer.clear();
+  myCumulativeBuffer.clear();
   ArLog::log(ArLog::Terse, "%s: Disconnecting from laser.", getName());
   myState = STATE_NONE;
   myStateMutex.unlock();

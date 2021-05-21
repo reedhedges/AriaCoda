@@ -25,9 +25,10 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARFILEPARSER_H
 
 #include "Aria/ariaTypedefs.h"
-#include "Aria/ArArgumentParser.h"
 #include "Aria/ArFunctor.h"
 #include "Aria/ariaUtil.h"
+
+class ArArgumentBuilder;
 
 /// Class for parsing files more easily
 /**

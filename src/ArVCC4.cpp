@@ -26,6 +26,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArVCC4.h"
 #include "Aria/ArCommands.h"
 #include "Aria/ArRobot.h"
+#include "Aria/ArDeviceConnection.h"
 
 
 AREXPORT ArVCC4Packet::ArVCC4Packet(ArTypes::UByte2 bufferSize) :
@@ -39,7 +40,7 @@ AREXPORT ArVCC4Packet::~ArVCC4Packet()
 }
 
 
-AREXPORT void ArVCC4Packet::byte2ToBuf(ArTypes::Byte4 val)
+AREXPORT void ArVCC4Packet::byte4ToBuf(ArTypes::Byte4 val)
 {
   int i;
   char buf[5];
@@ -49,7 +50,8 @@ AREXPORT void ArVCC4Packet::byte2ToBuf(ArTypes::Byte4 val)
     return;
   }
 
-  sprintf(buf, "%X", val);
+  snprintf(buf, 5, "%X", val);
+  buf[4] = '\0';
   for (i=0;i<(int)strlen(buf);i++)
   {
     myBuf[myLength] = buf[i];
@@ -2000,10 +2002,10 @@ bool ArVCC4::setDefaultRange()
   //    units = degrees / 0.1125
 
   // Set min tilt range
-  myPacket.byte2ToBuf(ArMath::roundInt(MIN_TILT/.1125) + 0x8000);
+  myPacket.byte4ToBuf(ArMath::roundInt(MIN_TILT/.1125) + 0x8000);
 
   // Set max tilt range
-  myPacket.byte2ToBuf(ArMath::roundInt(MAX_TILT/.1125) + 0x8000);
+  myPacket.byte4ToBuf(ArMath::roundInt(MAX_TILT/.1125) + 0x8000);
 
   requestBytes();
   return sendPacket(&myPacket);
@@ -2024,8 +2026,8 @@ bool ArVCC4::sendPanTilt()
   myPacket.empty();
   preparePacket(&myPacket);
   myPacket.uByteToBuf(ArVCC4Commands::PANTILT);
-  myPacket.byte2ToBuf(ArMath::roundInt( (myPanDesired)/.1125 ) + 0x8000);
-  myPacket.byte2ToBuf(ArMath::roundInt( (myTiltDesired)/.1125 ) + 0x8000);
+  myPacket.byte4ToBuf(ArMath::roundInt( (myPanDesired)/.1125 ) + 0x8000);
+  myPacket.byte4ToBuf(ArMath::roundInt( (myTiltDesired)/.1125 ) + 0x8000);
 
   // set these so that we know what was sent if the command is successful
   myPanSent = myPanDesired;

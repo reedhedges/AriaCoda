@@ -26,7 +26,10 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArRangeDevice.h"
+#include "Aria/ArRobotParams.h"
+#include "Aria/ArFunctor.h"
 
+#include <vector>
 
 /// A class that treats a robot's infrared sensors as a range device.
 /**

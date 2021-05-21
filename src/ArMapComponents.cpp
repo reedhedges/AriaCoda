@@ -4095,9 +4095,9 @@ AREXPORT bool ArMapSimple::routeInfoContains(const char *arg0Text)
 /// Determines whether the specified info contains the specified arg text.
 AREXPORT bool ArMapSimple::infoContains(const char *infoName,
                                         const char *argText,
-                                        int argIndex,
+                                        size_t argIndex,
                                         const char *secondaryArgText,
-                                        int secondaryArgIndex)
+                                        size_t secondaryArgIndex)
 {
   if (ArUtil::isStrEmpty(infoName)) {
     return false;
@@ -4126,8 +4126,7 @@ AREXPORT bool ArMapSimple::infoContains(const char *infoName,
 
         // If only the primary search string has been specified, then
         // the data has been found.
-        if (ArUtil::isStrEmpty(secondaryArgText) ||
-            (secondaryArgIndex < 0)) {
+        if (secondaryArgText == NULL || ArUtil::isStrEmpty(secondaryArgText) ) {
           return true;
         }
         // Otherwise, check the secondary arg to see if it matches

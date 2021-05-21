@@ -26,7 +26,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ariaOSDef.h"
-#include "Aria/ArRobotPacket.h"
+#include "Aria/ArBasePacket.h"
 #include "Aria/ArLaser.h"   
 #include "Aria/ArFunctor.h"
 
@@ -36,19 +36,19 @@ class ArSZSeriesPacket : public ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArSZSeriesPacket();
+  ArSZSeriesPacket();
   
   /// Gets the time the packet was received at
-  AREXPORT ArTime getTimeReceived();
+  ArTime getTimeReceived();
   /// Sets the time the packet was received at
-  AREXPORT void setTimeReceived(ArTime timeReceived);
+  void setTimeReceived(ArTime timeReceived);
 
-  AREXPORT virtual void duplicatePacket(ArSZSeriesPacket *packet);
-  AREXPORT virtual void empty();
+  virtual void duplicatePacket(ArSZSeriesPacket *packet);
+  virtual void empty() override;
 
-  AREXPORT virtual void byteToBuf(ArTypes::Byte val);
+  // not used AREXPORT virtual void byteToBuf(ArTypes::Byte val) override;
 
-  AREXPORT virtual ArTypes::Byte bufToByte();
+  virtual ArTypes::Byte bufToByte() override;
   
   void setDataLength(int x)
   { myDataLength = x; }
@@ -122,13 +122,13 @@ public:
   AREXPORT void setmyIsSZ00(bool isSZ00)
   { myIsSZ00 = isSZ00; }
   AREXPORT void setmyName(const char *name )
-  { strcpy(myName, name); }
+  { myName.assign(name); }
 
 protected:
   ArDeviceConnection *myConn;
   ArSZSeriesPacket myPacket;
   
-  char myName[1024];
+  std::string myName;
   unsigned int myNameLength;
   unsigned char myReadBuf[100000];
   int myReadCount;

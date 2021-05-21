@@ -76,6 +76,8 @@ int main()
     return(-1);
   }
 
+  ArLog::log(ArLog::Normal, "socketClientExample: socket address=%s port=%d", sock.getIPString(), sock.getPortNumber());
+
   // Read data from the socket. read() will block until
   // data is received. 
   strSize=sock.read(buff, sizeof(buff));

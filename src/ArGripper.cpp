@@ -23,6 +23,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 */
 #include "Aria/ArExport.h"
 #include "Aria/ariaOSDef.h"
+#include "Aria/ArRobot.h"
 #include "Aria/ArGripper.h"
 #include "Aria/ArCommands.h"
 

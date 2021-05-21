@@ -26,6 +26,16 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArSocket.h"
 #include "Aria/ArLog.h"
 
+#ifndef WIN32
+// on Windows gethostbyaddr() and inet_ntoa() definitions are included 
+// by headers included in ariaOSDef.h, 
+// on non-Windows by these headers:
+#include <arpa/inet.h>
+#include <sys/socket.h>
+#include <netinet/ip.h>
+#include <netdb.h>
+#endif
+
 AREXPORT const char *ArSocket::toString(Type t)
 {
   switch (t) {
@@ -55,7 +65,7 @@ void ArSocket::internalInit()
   myStringHaveEchoed = false;
   myLastStringReadTime.setToNow();
   myLogWriteStrings = false;
-  sprintf(myRawIPString, "none");
+  //sprintf(myRawIPString, "none");
   myIPString = "";
   myBadWrite = false;
   myBadRead = false;
@@ -291,14 +301,16 @@ AREXPORT int ArSocket::writeString(const char *str, ...)
 }
 #endif
 
-void ArSocket::setRawIPString()
+void ArSocket::setIPString(struct in_addr *addr)
 {
-  unsigned char *bytes;
-  bytes = (unsigned char *)inAddr();
-  if (bytes != NULL)
-    sprintf(myRawIPString, "%d.%d.%d.%d", 
+  if(addr == NULL)
+    return;
+  unsigned char *bytes = (unsigned char *)addr;
+  char s[16];
+  snprintf(s, 16, "%d.%d.%d.%d", 
 	    bytes[0], bytes[1], bytes[2], bytes[3]);
-  myIPString = myRawIPString;
+  s[15] = '\0';
+  myIPString = s;
 }
 
 
@@ -554,3 +566,39 @@ void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost,
 
 
   
+bool ArSocket::addrHost(struct in_addr &addr, char *host)
+{
+  struct hostent *hp;
+
+  hp=gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
+  if (hp)
+    strcpy(host, hp->h_name);
+  else
+    strcpy(host, inet_ntoa(addr));
+
+  return(true);
+}
+
+AREXPORT bool ArSocket::addrHost(struct in_addr &addr, char *host, size_t len)
+{
+  struct hostent *hp;
+
+  hp=gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
+  if (hp)
+    strncpy(host, hp->h_name, len);
+  else
+    strncpy(host, inet_ntoa(addr), len);
+
+  return(true);
+}
+
+
+AREXPORT std::string ArSocket::getHostName()
+{
+  char localhost[maxHostNameLen()];
+
+  if (gethostname(localhost, sizeof(localhost)) == 1)
+    return("");
+  else
+    return(localhost);
+}

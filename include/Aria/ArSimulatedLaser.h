@@ -27,7 +27,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArLaser.h"
 
-class ArRobot;
 class ArRobotPacket;
 
 /**

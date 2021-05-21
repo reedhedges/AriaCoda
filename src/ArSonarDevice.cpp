@@ -47,7 +47,7 @@ AREXPORT ArSonarDevice::ArSonarDevice(size_t currentBufferSize,
   // Remove readings from current buffer if more than 5 seconds old:
   setMaxSecondsToKeepCurrent(5);
 
-  // Remove readings from cumulatiive buffer if more than 15 seconds old:
+  // Remove readings from cumulative buffer if more than 15 seconds old:
   setMaxSecondsToKeepCumulative(15);
 
   // Visualization properties for GUI clients such as MobileEyes:
@@ -101,24 +101,19 @@ AREXPORT void ArSonarDevice::processReadings()
   }
 
   // delete too-far readings
-  std::list<ArPoseWithTime> *readingList;
-  double dx, dy, rx, ry;
-    
   myCumulativeBuffer.beginInvalidationSweep();
-  readingList = myCumulativeBuffer.getBufferPtr();
-  rx = myRobot->getX();
-  ry = myRobot->getY();
+  const std::list<ArPoseWithTime>& readingList = myCumulativeBuffer.getBuffer();
+  const double rx = myRobot->getX();
+  const double ry = myRobot->getY();
   // walk through the list and see if this makes any old readings bad
-  if (readingList != NULL)
-    {
-      for (auto it = readingList->begin(); it != readingList->end(); ++it)
-      {
-        dx = it->getX() - rx;
-        dy = it->getY() - ry;
-        if ((dx*dx + dy*dy) > (myFilterFarDist * myFilterFarDist)) 
-          myCumulativeBuffer.invalidateReading(it);
-      }
-    }
+  for (auto it = readingList.begin(); it != readingList.end(); ++it)
+  {
+    const double dx = it->getX() - rx;
+    const double dy = it->getY() - ry;
+    if ((dx*dx + dy*dy) > (myFilterFarDist * myFilterFarDist)) 
+      myCumulativeBuffer.invalidateReading(it);
+  }
+
   myCumulativeBuffer.endInvalidationSweep();
   // leave this unlock here or the world WILL end
   unlockDevice();
@@ -135,32 +130,26 @@ AREXPORT void ArSonarDevice::processReadings()
 */
 AREXPORT void ArSonarDevice::addReading(double x, double y)
 {
-  double rx = myRobot->getX();
-  double ry = myRobot->getY();
-  double dx = x - rx;		
-  double dy = y - ry;
-  double dist2 = dx*dx + dy*dy;
+  const double rx = myRobot->getX();
+  const double ry = myRobot->getY();
+  const double rdx = x - rx;		
+  const double rdy = y - ry;
+  const double dist2 = rdx*rdx + rdy*rdy;
   
   if (dist2 < myMaxRange*myMaxRange)
     myCurrentBuffer.addReading(x,y);
   
   if (dist2 < myMaxDistToKeepCumulative * myMaxDistToKeepCumulative)
   {
-    std::list<ArPoseWithTime> *readingList;
-
     myCumulativeBuffer.beginInvalidationSweep();
-
-    readingList = myCumulativeBuffer.getBufferPtr();
+    const std::list<ArPoseWithTime>& readingList = myCumulativeBuffer.getBuffer();
     // walk through the list and see if this makes any old readings bad
-    if (readingList != NULL)
+    for (auto it = readingList.begin(); it != readingList.end(); ++it)
     {
-      for (auto it = readingList->begin(); it != readingList->end(); ++it)
-      {
-        dx = it->getX() - x;
-        dy = it->getY() - y;
-        if ((dx*dx + dy*dy) < (myFilterNearDist * myFilterNearDist)) 
-          myCumulativeBuffer.invalidateReading(it);
-      }
+      const double dx = it->getX() - x;
+      const double dy = it->getY() - y;
+      if ((dx*dx + dy*dy) < (myFilterNearDist * myFilterNearDist)) 
+        myCumulativeBuffer.invalidateReading(it);
     }
     myCumulativeBuffer.endInvalidationSweep();
 

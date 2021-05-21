@@ -90,6 +90,8 @@ public:
   /// Destructor
   AREXPORT virtual ~ArPTZ();
 
+  // XXX TODO add other constructor and assigment operators
+
   /// Initializes the camera
   AREXPORT virtual bool init() = 0;
 

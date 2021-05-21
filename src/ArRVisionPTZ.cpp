@@ -26,6 +26,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArRVisionPTZ.h"
 #include "Aria/ArRobot.h"
 #include "Aria/ArCommands.h"
+#include "Aria/ArDeviceConnection.h"
+#include "Aria/ArSerialConnection.h"
 
 AREXPORT ArRVisionPacket::ArRVisionPacket(ArTypes::UByte2 bufferSize) :
   ArBasePacket(bufferSize)

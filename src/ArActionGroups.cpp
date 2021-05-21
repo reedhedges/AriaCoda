@@ -42,6 +42,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArRatioInputKeydrive.h"
 #include "Aria/ArRatioInputJoydrive.h"
 #include "Aria/ArRatioInputRobotJoydrive.h"
+#include "Aria/ArConfig.h"
 
 AREXPORT ArActionGroupInput::ArActionGroupInput(ArRobot *robot)
   : ArActionGroup(robot)

@@ -30,6 +30,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArRobot.h"
 #include "Aria/ArRobotPacket.h"
 #include "Aria/ArCommands.h"
+#include "Aria/ArDeviceConnection.h"
 
 /**
   @todo add "relocate" command
@@ -125,7 +126,7 @@ protected:
     myLastInterval = pkt->bufToUByte2();
     myTruePose.setX(pkt->bufToByte4());
     myTruePose.setY(pkt->bufToByte4());
-    int z = pkt->bufToByte4();
+    pkt->bufToByte4(); // Z, unused
     myTruePose.setTh(pkt->bufToByte4());
     if(myHaveGPS)
     {

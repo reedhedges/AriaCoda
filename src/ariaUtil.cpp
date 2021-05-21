@@ -399,7 +399,7 @@ AREXPORT bool ArUtil::stripQuotes(char *dest, const char *src, size_t destLen)
   if (srcLen < 2 || 
       (src[0] != '"' || src[srcLen - 1] != '"'))
   {
-    strcpy(dest, src);
+    strncpy(dest, src, destLen);
     return true;
   }
   // we have quotes so chop of the first and last char
@@ -831,10 +831,12 @@ AREXPORT bool ArUtil::strSuffixCaseCmp(const char *str, const char *suffix)
 AREXPORT int ArUtil::strcasequotecmp(const std::string &inStr1, 
                                      const std::string &inStr2)
 {
+  // todo replace this with use of transform and/or map
+
 std::string str1 = inStr1;
 std::string str2 = inStr2;
 
-	int x = 0;
+	size_t x = 0;
 	while (x < str1.length()) {
 		if (isalpha(str1[x]) && isupper(str1[x]))
 			str1[x] = tolower(str1[x]);
@@ -848,12 +850,12 @@ std::string str2 = inStr2;
 	x++;
 	}
   
-  int len1 = str1.length();
+  size_t len1 = str1.length();
   size_t pos1 = 0;
   if ((len1 >= 2) && (str1[0] == '\"') && (str1[len1 - 1] == '\"')) {
     pos1 = 1;
   }
-  int len2 = str2.length();
+  size_t len2 = str2.length();
   size_t pos2 = 0;
   if ((len2 >= 2) && (str2[0] == '\"') && (str2[len2 - 1] == '\"')) {
     pos2 = 1;

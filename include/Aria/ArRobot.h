@@ -356,15 +356,15 @@ public:
   double getTh() const { return myGlobalPose.getTh(); }
   /// Gets the distance to a point from the robot's current position
   /// @ingroup easy
-  double findDistanceTo(const ArPose pose) 
+  double findDistanceTo(const ArPose& pose) const
     { return myGlobalPose.findDistanceTo(pose); }
   /// Gets the angle to a point from the robot's current position and orientation
   /// @ingroup easy
-  double findAngleTo(const ArPose pose) 
+  double findAngleTo(const ArPose& pose) const
     { return myGlobalPose.findAngleTo(pose); }
   /// Gets the difference between the angle to a point from the robot's current heading
   /// @ingroup easy
-  double findDeltaHeadingTo(const ArPose pose) 
+  double findDeltaHeadingTo(const ArPose& pose) const
     { return ArMath::subAngle(myGlobalPose.findAngleTo(pose),
 			      myGlobalPose.getTh()); }
 
@@ -761,27 +761,27 @@ public:
   AREXPORT bool haveRequestedIOPackets();
 
   /// Gets packet data from the left encoder
-  AREXPORT long int getLeftEncoder();
+  AREXPORT long int getLeftEncoder() const;
 
   /// Gets packet data from the right encoder
-  AREXPORT long int getRightEncoder();
+  AREXPORT long int getRightEncoder() const;
 
   /// Changes the transform
-  AREXPORT void setEncoderTransform(ArPose deadReconPos,
-				    ArPose globalPos);
+  AREXPORT void setEncoderTransform(const ArPose& deadReconPos,
+				    const ArPose& globalPos);
 
   /// Changes the transform directly
-  AREXPORT void setEncoderTransform(ArPose transformPos);
+  AREXPORT void setEncoderTransform(const ArPose& transformPos);
 
   /// Changes the transform directly
-  AREXPORT void setEncoderTransform(ArTransform transform);
+  AREXPORT void setEncoderTransform(const ArTransform &transform);
 
   /// Sets the encoder pose, for internal use
-  void setEncoderPose(ArPose encoderPose) 
+  void setEncoderPose(const ArPose& encoderPose) 
     { myEncoderPose = encoderPose; }
 
   /// Sets the raw encoder pose, for internal use
-  void setRawEncoderPose(ArPose rawEncoderPose) 
+  void setRawEncoderPose(const ArPose& rawEncoderPose) 
     { myRawEncoderPose = rawEncoderPose; }
   
   /// Adds a callback for when the encoder transform is changed
@@ -798,19 +798,28 @@ public:
     { myMTXTimeUSecCB = functor; }
 
   /// Gets the encoder transform
-  AREXPORT ArTransform getEncoderTransform() const;
+  ArTransform getEncoderTransform() const {
+    return myEncoderTransform;
+  }
 
   /// This gets the transform from local coords to global coords
-  AREXPORT ArTransform getToGlobalTransform() const;
+  ArTransform getToGlobalTransform() const
+  {
+    return ArTransform(ArPose(0, 0, 0), getPose());
+  }
+
 
   /// This gets the transform for going from global coords to local coords
-  AREXPORT ArTransform getToLocalTransform() const;
+  ArTransform getToLocalTransform() const
+  {
+    return ArTransform(getPose(), ArPose(0,0,0));
+  }
 
   /// This applies a transform to all the robot range devices and to the sonar
-  AREXPORT void applyTransform(ArTransform trans, bool doCumulative = true);
+  AREXPORT void applyTransform(const ArTransform& trans, bool doCumulative = true);
 
   /// Sets the dead recon position of the robot
-  AREXPORT void setDeadReconPose(ArPose pose);
+  AREXPORT void setDeadReconPose(const ArPose& pose);
 
   /// This gets the distance the robot has travelled since the last time resetTripOdometer() was called (mm)
   /// This is a virtual odometer that measures the total linear distance the

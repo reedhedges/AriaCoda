@@ -27,7 +27,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArSerialConnection.h"
 #include "Aria/ArTcpConnection.h"
-#include "Aria/ArArgumentBuilder.h"
 #include "Aria/ArArgumentParser.h"
 #include "Aria/ariaUtil.h"
 

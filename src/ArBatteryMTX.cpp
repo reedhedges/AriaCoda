@@ -1174,6 +1174,9 @@ AREXPORT void ArBatteryMTX::updateSystemInfo (unsigned char *buf)
 {
 	myId = buf[1];
 	myFirmwareVersion = buf[2];
+
+	// XXX TODO cast each character in buf to final target type (long, unsigned int, etc.) before shifting to get correct results.
+	// maybe we need a utility function in ArUtil to help with this kind of thing.
 	mySerialNumber = buf[6] << 24 | buf[5] << 16 | buf[4] << 8 | buf[3];
 	myCurrentTime = buf[14] << 56 | buf[13] << 48 | buf[12] << 40 | buf[11] << 32 | buf[10] << 24 | buf[9] << 16 | buf[8] << 8 | buf[7];
 	myLastChargeTime = buf[22] << 56 | buf[21] << 48 | buf[20] << 40 | buf[19] << 32 | buf[18] << 24 | buf[17] << 16 | buf[16] << 8 | buf[15];

@@ -33,79 +33,26 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 */
 ArSensorReading::ArSensorReading(double xPos, double yPos, double thPos)
 {
-  myRange = 5000;
-  myCounterTaken = 0;
   myReading.setPose(-1, -1);
   myReadingTaken.setPose(-1, -1, -1);
   resetSensorPosition(xPos, yPos, thPos, true);
-  myExtraInt = 0;
-  myAdjusted = false;
-}
-
-AREXPORT ArSensorReading::ArSensorReading(const ArSensorReading & reading)
-{
-  myCounterTaken = reading.myCounterTaken;
-  myReading = reading.myReading;
-  myLocalReading = reading.myLocalReading;  
-  myReadingTaken = reading.myReadingTaken;
-  myEncoderPoseTaken = reading.myEncoderPoseTaken;
-  mySensorPos = reading.mySensorPos;
-  mySensorCos = reading.mySensorCos;
-  mySensorSin = reading.mySensorSin;
-  myDistToCenter = reading.myDistToCenter;
-  myAngleToCenter = reading.myAngleToCenter;
-  myRange = reading.myRange;
-  myTimeTaken = reading.myTimeTaken;
-  myIgnoreThisReading = reading.myIgnoreThisReading;
-  myExtraInt = reading.myExtraInt;  
-  myAdjusted = reading.myAdjusted;
-}
-
-AREXPORT ArSensorReading &ArSensorReading::operator=(
-        const ArSensorReading &reading)
-{
-  if (this != &reading)
-  {
-    myCounterTaken = reading.myCounterTaken;
-    myReading = reading.myReading;
-    myLocalReading = reading.myLocalReading;  
-    myReadingTaken = reading.myReadingTaken;
-    myEncoderPoseTaken = reading.myEncoderPoseTaken;
-    mySensorPos = reading.mySensorPos;
-    mySensorCos = reading.mySensorCos;
-    mySensorSin = reading.mySensorSin;
-    myDistToCenter = reading.myDistToCenter;
-    myAngleToCenter = reading.myAngleToCenter;
-    myRange = reading.myRange;
-    myTimeTaken = reading.myTimeTaken;
-    myIgnoreThisReading = reading.myIgnoreThisReading;
-    myExtraInt = reading.myExtraInt;
-    myAdjusted = reading.myAdjusted;
-  }
-  return *this;
 }
 
 
 
-ArSensorReading::~ArSensorReading()
-{
-}
-
-
-AREXPORT void ArSensorReading::newData(int range, ArPose robotPose,
-				       ArPose encoderPose, ArTransform trans, 
+AREXPORT void ArSensorReading::newData(int range, const ArPose& robotPose,
+				       const ArPose& encoderPose, const ArTransform& trans, 
 				       unsigned int counter,
-				       ArTime timeTaken,
+				       const ArTime& timeTaken,
 				       bool ignoreThisReading, int extraInt)
 {
   // TODO calculate the x and y position of the sensor
-  double rx, ry;
   myRange = range;
   myCounterTaken = counter;
   myReadingTaken = robotPose;
   myEncoderPoseTaken = encoderPose;
-  rx = getSensorX() + myRange * mySensorCos;
-  ry = getSensorY() + myRange * mySensorSin;
+  const double rx = getSensorX() + myRange * mySensorCos;
+  const double ry = getSensorY() + myRange * mySensorSin;
   myLocalReading.setPose(rx, ry);
   myReading = trans.doTransform(myLocalReading);
   myTimeTaken = timeTaken;
@@ -114,19 +61,18 @@ AREXPORT void ArSensorReading::newData(int range, ArPose robotPose,
   myAdjusted = false;
 }
 
-AREXPORT void ArSensorReading::newData(int sx, int sy, ArPose robotPose,
-				       ArPose encoderPose, ArTransform trans, 
-				       unsigned int counter, ArTime timeTaken,
+AREXPORT void ArSensorReading::newData(int sx, int sy, const ArPose& robotPose,
+				       const ArPose& encoderPose, const ArTransform& trans, 
+				       unsigned int counter, const ArTime& timeTaken,
 				       bool ignoreThisReading, int extraInt)
 {
   // TODO calculate the x and y position of the sensor
-  double rx, ry;
   myRange = (int)sqrt((double)(sx*sx + sy*sy));
   myCounterTaken = counter;
   myReadingTaken = robotPose;
   myEncoderPoseTaken = encoderPose;
-  rx = getSensorX() + sx;
-  ry = getSensorY() + sy;
+  const double rx = getSensorX() + sx;
+  const double ry = getSensorY() + sy;
   myLocalReading.setPose(rx, ry);
   myReading = trans.doTransform(myLocalReading);
   myTimeTaken = timeTaken;

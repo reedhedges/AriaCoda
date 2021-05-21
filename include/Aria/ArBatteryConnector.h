@@ -37,7 +37,7 @@ class ArRobot;
 
 
 
-/// Connect to robot and battery based on run-time availablitily and command-line arguments
+/// Connect to robot and battery based on run-time availability and command-line arguments
 /**
 
    ArBatteryConnector makes a battery connection either through a serial port 

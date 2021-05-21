@@ -127,53 +127,6 @@ AREXPORT ArGPS::ArGPS() :
 
 
 
-AREXPORT ArGPS::Data::Data() :
-  latitude(0.0),
-  longitude(0.0),
-  havePosition(false),
-  speed(0.0),
-  haveSpeed(false),
-  fixType(NoFix), 
-  numSatellitesTracked(0),
-  altitude(0.0),
-  haveAltitude(false),
-  altimeter(0.0),
-  haveAltimeter(false),
-  DGPSStationID(0),
-  haveDGPSStation(false),
-  garminPositionError(0.0),
-  haveGarminPositionError(false),
-  garminVerticalPositionError(0.0),
-  haveGarminVerticalPositionError(false),
-  compassHeadingMag(0.0),
-  compassHeadingTrue(0.0),
-  haveCompassHeadingMag(false),
-  haveCompassHeadingTrue(false),
-  compassMagCounter(0),
-  compassTrueCounter(0),
-  haveHDOP(false), 
-  HDOP(0.0),
-  haveVDOP(false), 
-  VDOP(0.0),
-  havePDOP(false),
-  PDOP(0.0),
-  qualityFlag(false),
-  meanSNR(0.0),
-  haveSNR(false),
-  beaconSignalStrength(0.0),
-  beaconSNR(0.0),
-  beaconFreq(0.0),
-  beaconBPS(0),
-  beaconChannel(0),
-  haveBeaconInfo(false),
-  inputsRMS(0.0),
-  haveInputsRMS(false),
-  haveErrorEllipse(false),
-  haveLatLonError(false),
-  altitudeError(0.0),
-  haveAltitudeError(false)
-{}
-
 
 
 AREXPORT bool ArGPS::connect(unsigned long connectTimeout)
@@ -205,7 +158,7 @@ AREXPORT bool ArGPS::waitForData(unsigned long timeout)
 {
   ArTime start;
   start.setToNow();
-  while ((unsigned long)start.mSecSince() <= timeout)
+  while ((unsigned long)(start.mSecSince()) <= timeout)
   {
     if (read(40) & ReadUpdated)  // read until data is sucessfully parsed 
       return true;

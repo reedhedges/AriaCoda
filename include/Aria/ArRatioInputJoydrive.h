@@ -25,7 +25,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARRATIOINPUTJOYDRIVE_H
 
 #include "Aria/ariaTypedefs.h"
-#include "Aria/ArAction.h"
 #include "Aria/ArActionRatioInput.h"
 #include "Aria/ArJoyHandler.h"
 

@@ -25,10 +25,11 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARDPPTU_H
 
 #include "Aria/ariaTypedefs.h"
-#include "Aria/ArRobot.h"
 #include "Aria/ArPTZ.h"
+#include "Aria/ArBasePacket.h"
 #include <vector>
 
+class ArRobot;
 class ArBasePacket;
 
 /** Interface to Directed Perception pan/tilt unit, implementing and extending the ArPTZ

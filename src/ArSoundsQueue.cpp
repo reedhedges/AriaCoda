@@ -51,7 +51,8 @@ void ArSoundsQueue::Item::play()
   for(std::list<PlayItemFunctor*>::const_iterator i = playCallbacks.begin(); i != playCallbacks.end(); i++) 
   {
     if(*i) {
-      (*i)->invokeR(data.c_str(), params.c_str());
+      [[maybe_unused]] bool r = 
+        (*i)->invokeR(data.c_str(), params.c_str());
     }
   }
 }
@@ -243,7 +244,7 @@ void ArSoundsQueue::invokeCallbacks(const std::list<ArRetFunctor<bool>*>& lst)
 {
   for(std::list<ArRetFunctor<bool>*>::const_iterator i = lst.begin(); i != lst.end(); i++)
   {
-    if(*i) (*i)->invokeR();
+    if(*i) (*i)->invoke();
     else ArLog::log(ArLog::Verbose, "ArSoundsQueue: warning: skipped NULL callback (bool ret. funct.).");
   }
 }

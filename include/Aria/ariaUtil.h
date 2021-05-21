@@ -1117,7 +1117,7 @@ public:
   }
 
   /// Less than operator (for sets)
-  virtual  bool operator<(const ArPose& other) const
+  /* virtual */ bool operator<(const ArPose& other) const
   {
 
     if (fabs(myX - other.myX) > ArMath::epsilon()) {
@@ -1199,10 +1199,11 @@ public:
   }
 private:
   // make some methods from ArPose private so they can't be used
-  double getTh() const { return 0.0; }
-  double getThRad() const { return 0.0; }
-  void setTh(double) {}
-  void setThRat(double) {}
+  using ArPose::getTh;
+  //double getTh() const { return 0.0; }
+  using ArPose::getThRad;
+  using ArPose::setTh;
+  using ArPose::setThRad;
 };
 
 
@@ -1505,8 +1506,8 @@ public:
 
 
 protected:
-  unsigned long long mySec;
-  unsigned long long myMSec;
+  unsigned long long mySec = 0;
+  unsigned long long myMSec = 0;
 //#if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK)
   static bool ourMonotonicClock; // will be statically initialized to true in ariaUtil.cpp if at compile we have _POSIX_TIMERS and _POSIX_MONOTONIC_CLOCK, otherwise to false.
 //#endif 
@@ -1574,7 +1575,7 @@ public:
       clear();
     }
   /// Destructor
-  virtual ~ArSectors() { delete mySectors; }
+  ~ArSectors() { delete mySectors; }
   
   // XXX TODO should also define copy and move constructors and assignment operators.
 
@@ -2227,9 +2228,9 @@ public:
 		     ArFunctor2<char *, ArTypes::UByte2> *functor)
     { myName = name; myMaxLength = maxLength; myFunctor = functor; }
   /// Gets the name of this piece of info
-  const char *getName() { return myName.c_str(); }
+  const char *getName() const { return myName.c_str(); }
   /// Gets the maximum length of this piece of info
-  ArTypes::UByte2 getMaxLength() { return myMaxLength; }
+  ArTypes::UByte2 getMaxLength() const { return myMaxLength; }
   /// Gets the function that will fill in this piece of info
   ArFunctor2<char *, ArTypes::UByte2> *getFunctor() { return myFunctor; }
 protected:

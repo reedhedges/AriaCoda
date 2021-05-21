@@ -180,9 +180,9 @@ ArTypes::UByte2 ArBasePacket::getDataLength() const {
  
   // KMC 12/20/13 Do not allow negative values to be returned.  (They are basically 
   // converted to an erroneous positive value by the UByte2.)
-  ArTypes::UByte2 len = myLength - myHeaderLength - myFooterLength; 
+  int len = myLength - myHeaderLength - myFooterLength; 
   if (len >= 0) {
-    return len;
+    return (ArTypes::UByte2) len;
   }
   else {
 /****
@@ -485,7 +485,8 @@ AREXPORT void ArBasePacket::strToBufPadded(const char *str, int length)
     return;
   }
 
-  if (tempLen >= length) {
+  assert(length > 0);
+  if (tempLen >= (size_t)length) {
     memcpy(myBuf + myLength, str, length);
     myLength += (ArTypes::UByte2)length;
   }
@@ -500,7 +501,7 @@ AREXPORT void ArBasePacket::strToBufPadded(const char *str, int length)
 
 
 /**
-@param data chacter array to copy into buffer
+@param data character array to copy into buffer
 @param length how many bytes to copy from data into packet
 */
 AREXPORT void ArBasePacket::dataToBuf(const char *data, int length)
@@ -522,7 +523,7 @@ AREXPORT void ArBasePacket::dataToBuf(const char *data, int length)
 
 /**
    This was added to get around having to cast data you put in, since the data shouldn't really matter if its signed or unsigned.
-@param data chacter array to copy into buffer
+@param data character array to copy into buffer
 @param length how many bytes to copy from data into packet
 */
 AREXPORT void ArBasePacket::dataToBuf(const unsigned char *data, int length)
@@ -750,7 +751,7 @@ AREXPORT void ArBasePacket::bufToStr(char *buf, int len)
 AREXPORT std::string ArBasePacket::bufToString()
 {
   // todo own implementation to avoid needing temporary buf rather than
-  // calling bufTotr() with temporary buffer
+  // calling bufTotSr() with temporary buffer
   char buf[512];
   bufToStr(buf, 512);
   return buf;
@@ -759,7 +760,7 @@ AREXPORT std::string ArBasePacket::bufToString()
 AREXPORT void ArBasePacket::bufToString(std::string *s)
 {
   // todo own implementation to avoid needing temporary buf rather than
-  // calling bufTotr() with temporary buffer
+  // calling bufToStr() with temporary buffer
   char buf[512];
   bufToStr(buf, 512);
   s->assign(buf);

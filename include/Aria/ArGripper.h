@@ -25,7 +25,11 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARGRIPPER_H
 
 #include "Aria/ariaTypedefs.h"
-#include "Aria/ArRobot.h"
+#include "Aria/ariaUtil.h"
+#include "Aria/ArFunctor.h"
+
+class ArRobot;
+class ArRobotPacket;
 
 /// Contains gripper command numbers
 /**

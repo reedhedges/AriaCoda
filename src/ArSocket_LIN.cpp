@@ -40,7 +40,7 @@ bool ArSocket::ourInitialized=true;
 
 /**
    In Windows, the networking subsystem needs to be initialized and shutdown
-   individyaly by each program. So when a program starts they will need to
+   individually by each program. So when a program starts they will need to
    call the static function ArSocket::init() and call ArSocket::shutdown()
    when it exits. For programs that use Aria::init() and Aria::uninit()
    calling the ArSocket::init() and ArSocket::shutdown() is unnecessary. The
@@ -54,7 +54,7 @@ bool ArSocket::init()
 
 /**
    In Windows, the networking subsystem needs to be initialized and shutdown
-   individyaly by each program. So when a program starts they will need to
+   individually by each program. So when a program starts they will need to
    call the static function ArSocket::init() and call ArSocket::shutdown()
    when it exits. For programs that use Aria::init() and Aria::uninit()
    calling the ArSocket::init() and ArSocket::shutdown() is unnecessary. The
@@ -125,33 +125,12 @@ bool ArSocket::hostAddr(const char *host, struct in_addr &addr)
   }
   else
   {
-    bcopy(hp->h_addr, &addr, hp->h_length);
+    //bcopy(hp->h_addr, &addr, hp->h_length);
+    memcpy(&addr, hp->h_addr, hp->h_length);
     return(true);
   }
 }
 
-bool ArSocket::addrHost(struct in_addr &addr, char *host)
-{
-  struct hostent *hp;
-
-  hp=gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
-  if (hp)
-    strcpy(host, hp->h_name);
-  else
-    strcpy(host, inet_ntoa(addr));
-
-  return(true);
-}
-
-std::string ArSocket::getHostName()
-{
-  char localhost[maxHostNameLen()];
-
-  if (gethostname(localhost, sizeof(localhost)) == 1)
-    return("");
-  else
-    return(localhost);
-}
 
 /** @return false and set error code and description string on failure  */
 bool ArSocket::connect(const char *host, int port, Type type,
@@ -185,7 +164,7 @@ bool ArSocket::connect(const char *host, int port, Type type,
 
   if (!hostAddr(useHost, mySin.sin_addr))
     return(false);
-  setRawIPString();
+  setIPString(inAddr());
   mySin.sin_family=AF_INET;
   mySin.sin_port=hostToNetOrder(usePort);
 
@@ -321,7 +300,7 @@ bool ArSocket::open(int port, Type type, const char *openOnIP)
     mySin.sin_addr.s_addr=htonl(INADDR_ANY);
   }
 
-  setRawIPString();
+  setIPString(inAddr());
   mySin.sin_family=AF_INET;
   mySin.sin_port=hostToNetOrder(port);
 
@@ -404,7 +383,7 @@ bool ArSocket::findValidPort(int startPort, const char *openOnIP)
 	!hostAddr("localhost", mySin.sin_addr))
       return(false);
     */
-    setRawIPString();
+    setIPString(inAddr());
     
     if (openOnIP != NULL)
     {
@@ -463,7 +442,7 @@ bool ArSocket::connectTo(const char *host, int port)
   bzero(&mySin, sizeof(mySin));
   if (!hostAddr(useHost, mySin.sin_addr))
     return(false);
-  setRawIPString();
+  setIPString(inAddr());
   mySin.sin_family=AF_INET;
   mySin.sin_port=hostToNetOrder(usePort);
 
@@ -559,7 +538,7 @@ bool ArSocket::setBroadcast()
 
 /** @return false and set error code and description string on failure. 
     @internal
-    @note ArSocket always sets the reuse-address option in open(), so calling this function is normally unneccesary.
+    @note ArSocket always sets the reuse-address option in open(), so calling this function is normally unnecessary.
      (This apparently needs to be done after the socket is created before
      the socket is bound.)
 */
@@ -645,7 +624,7 @@ bool ArSocket::accept(ArSocket *sock)
   len=sizeof(struct sockaddr_in);
   sock->myFD=::accept(myFD, (struct sockaddr*)&(sock->mySin), &len);
   sock->myType=myType;
-  sock->setRawIPString();
+  sock->setIPString(inAddr());
   /*
   bytes = (unsigned char *)sock->inAddr();
   sprintf(sock->myIPString, "%d.%d.%d.%d", bytes[0], bytes[1], bytes[2], 

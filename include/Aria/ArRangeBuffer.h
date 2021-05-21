@@ -73,7 +73,7 @@ public:
     return myRobotPose;
   }
   /// For ArRangeDevice implementations: Sets the pose of the robot when most recently added readings were taken
-  void setPoseTaken(ArPose p) {
+  void setPoseTaken(const ArPose& p) {
     myRobotPose = p;
   }
   /// Gets the encoder pose of the robot when recently added readings were taken
@@ -81,7 +81,7 @@ public:
     return myRobotEncoderPose;
   }
   /// For ArRangeDevice implementations: Sets the pose of the robot when recently added readings were last added
-  void setEncoderPoseTaken(ArPose p) {
+  void setEncoderPoseTaken(const ArPose& p) {
     myRobotEncoderPose = p;
   }
 
@@ -131,10 +131,10 @@ public:
   const std::list<ArPoseWithTime>& getBuffer() const { return myBuffer; }
 
   /// Get const_iterator pointing to the beginning or start of buffer items (most recent)
-  const auto getBegin() const { return myBuffer.cbegin(); }
+  auto getBegin() const { return myBuffer.cbegin(); }
 
   /// Get const_iterator pointing to the end of the buffer items (oldest)
-  const auto getEnd() const { return myBuffer.cend(); }
+  auto getEnd() const { return myBuffer.cend(); }
 
   /** 
    *  @swigomit

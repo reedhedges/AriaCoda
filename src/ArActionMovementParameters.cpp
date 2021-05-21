@@ -26,6 +26,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArActionMovementParameters.h"
 #include "Aria/ArConfig.h"
 #include "Aria/ArRobot.h"
+#include "Aria/ArMapObject.h"
 
 /**
    @param name the name of this instance of the action

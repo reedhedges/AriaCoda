@@ -28,8 +28,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArBasePacket.h"
 #include "Aria/ArPTZ.h"
 #include "Aria/ariaUtil.h"
-#include "Aria/ArCommands.h"
-#include "Aria/ArSerialConnection.h"
 
 // maximum number of bytes expected for a response from the camera
 #define MAX_RESPONSE_BYTES 14
@@ -176,13 +174,15 @@ class ArVCC4 : public ArPTZ
 {
 public:
   // the states for communication
-  enum CommState {
+  enum CommState
+  {
     COMM_UNKNOWN,
     COMM_BIDIRECTIONAL,
     COMM_UNIDIRECTIONAL
   };
 
-  enum CameraType {
+  enum CameraType
+  {
     CAMERA_VCC4,
     CAMERA_C50I
   };
@@ -192,36 +192,47 @@ public:
   /// Destructor
   AREXPORT virtual ~ArVCC4();
 
-  AREXPORT virtual bool power(bool state) { myPowerStateDesired = state; return true; }
+  AREXPORT virtual bool power(bool state)
+  {
+    myPowerStateDesired = state;
+    return true;
+  }
   AREXPORT bool getPower() { return myPowerState; }
-  AREXPORT virtual bool init() { myInitRequested = true; return true; }
-  AREXPORT virtual void reset() { ArPTZ::reset(); init(); }
-  AREXPORT virtual const char  *getTypeName() { return "vcc4"; }
+  AREXPORT virtual bool init()
+  {
+    myInitRequested = true;
+    return true;
+  }
+  AREXPORT virtual void reset()
+  {
+    ArPTZ::reset();
+    init();
+  }
+  AREXPORT virtual const char *getTypeName() { return "vcc4"; }
 
   /// Returns true if the camera has been initialized
-   bool isInitted() { return myCameraIsInitted; }
+  bool isInitted() { return myCameraIsInitted; }
   AREXPORT virtual void connectHandler();
   AREXPORT virtual bool packetHandler(ArBasePacket *packet);
 
 protected:
-   virtual bool pan_i(double deg) { return panTilt_i(deg, myTiltDesired); }
-   virtual bool panRel_i(double deg) { return panTilt_i(myPanDesired + deg, myTiltDesired); }
-   virtual bool tilt_i(double deg) { return panTilt_i(myPanDesired, deg); }
-   virtual bool tiltRel_i(double deg) { return panTilt_i(myPanDesired, myTiltDesired + deg); }
-   virtual bool panTiltRel_i(double pdeg, double tdeg) { return panTilt_i(myPanDesired + pdeg, myTiltDesired + tdeg); }
+  virtual bool pan_i(double deg) { return panTilt_i(deg, myTiltDesired); }
+  virtual bool panRel_i(double deg) { return panTilt_i(myPanDesired + deg, myTiltDesired); }
+  virtual bool tilt_i(double deg) { return panTilt_i(myPanDesired, deg); }
+  virtual bool tiltRel_i(double deg) { return panTilt_i(myPanDesired, myTiltDesired + deg); }
+  virtual bool panTiltRel_i(double pdeg, double tdeg) { return panTilt_i(myPanDesired + pdeg, myTiltDesired + tdeg); }
 
 public:
-
   /*
-  AREXPORT virtual double getMaxPosPan() const 
-    { if (myInverted) return invert(MIN_PAN); else return MAX_PAN; }
-  AREXPORT virtual double getMaxNegPan() const 
-    { if (myInverted) return invert(MAX_PAN); else return MIN_PAN; }
-  AREXPORT virtual double getMaxPosTilt() const 
-    { if (myInverted) return invert(MIN_TILT); else return MAX_TILT; }
-  AREXPORT virtual double getMaxNegTilt() const
-    { if (myInverted) return invert(MAX_TILT); else return MIN_TILT; }
- */
+AREXPORT virtual double getMaxPosPan() const 
+  { if (myInverted) return invert(MIN_PAN); else return MAX_PAN; }
+AREXPORT virtual double getMaxNegPan() const 
+  { if (myInverted) return invert(MAX_PAN); else return MIN_PAN; }
+AREXPORT virtual double getMaxPosTilt() const 
+  { if (myInverted) return invert(MIN_TILT); else return MAX_TILT; }
+AREXPORT virtual double getMaxNegTilt() const
+  { if (myInverted) return invert(MAX_TILT); else return MIN_TILT; }
+*/
 
   /// Requests that a packet be sent to the camera to retrieve what
   /// the camera thinks are its pan/tilt positions. getPan() and getTilt()
@@ -253,14 +264,30 @@ public:
   AREXPORT void remErrorCB(ArFunctor *functor);
 
   /// Halts all pan-tilt movement
-  AREXPORT bool haltPanTilt() { myHaltPanTiltRequested = true; return true; }
+  AREXPORT bool haltPanTilt()
+  {
+    myHaltPanTiltRequested = true;
+    return true;
+  }
   /// Halts zoom movement
-  AREXPORT bool haltZoom() { myHaltZoomRequested = true; return true; }
+  AREXPORT bool haltZoom()
+  {
+    myHaltZoomRequested = true;
+    return true;
+  }
 
   /// Sets the rate that the unit pans at
-  AREXPORT bool panSlew(double deg) { myPanSlewDesired = deg; return true; }
-  /// Sets the rate the unit tilts at 
-  AREXPORT bool tiltSlew(double deg) { myTiltSlewDesired = deg; return true; }
+  AREXPORT bool panSlew(double deg)
+  {
+    myPanSlewDesired = deg;
+    return true;
+  }
+  /// Sets the rate the unit tilts at
+  AREXPORT bool tiltSlew(double deg)
+  {
+    myTiltSlewDesired = deg;
+    return true;
+  }
   bool canSetPanTiltSlew() { return true; }
 
   /// Adds device ID and delimeter to packet buffer
@@ -279,18 +306,34 @@ public:
   AREXPORT virtual bool canSetFocus() const { return false; }
   /// Set autofocus mode:
   /// @deprecated use setAutoFocus() instead
-  AREXPORT virtual bool autoFocus() { myFocusModeDesired = 0; return true;}
+  AREXPORT virtual bool autoFocus()
+  {
+    myFocusModeDesired = 0;
+    return true;
+  }
   /// set manual focus mode
   /// @deprecated use setAutoFocus() instead
-  AREXPORT virtual bool manualFocus() { myFocusModeDesired = 1; return true;}
-  /// auto-focus on a near object
-  AREXPORT virtual bool focusNear() { myFocusModeDesired = 2; return true;}
-  /// auto-focus on a far object
-  AREXPORT virtual bool focusFar() { myFocusModeDesired = 3; return true; }
-
-  AREXPORT virtual bool setAutoFocus(bool af = true) 
+  AREXPORT virtual bool manualFocus()
   {
-    if(af)
+    myFocusModeDesired = 1;
+    return true;
+  }
+  /// auto-focus on a near object
+  AREXPORT virtual bool focusNear()
+  {
+    myFocusModeDesired = 2;
+    return true;
+  }
+  /// auto-focus on a far object
+  AREXPORT virtual bool focusFar()
+  {
+    myFocusModeDesired = 3;
+    return true;
+  }
+
+  AREXPORT virtual bool setAutoFocus(bool af = true)
+  {
+    if (af)
       return autoFocus();
     else
       return manualFocus();
@@ -319,7 +362,6 @@ public:
   /// Gets the field of view at minimum zoom
   AREXPORT virtual double getFOVAtMinZoom() { return myFOVAtMinZoom; }
 
-
   /// Returns true if the error callback list was called during the last cycle
   AREXPORT bool wasError() { return myWasError; }
 
@@ -342,34 +384,37 @@ public:
   /// Disable IR cutoff filter.  This also turns off the LEDs, if they're on
   AREXPORT void disableIRFilterMode() { myDesiredIRFilterMode = false; }
   /// Returns true if the IR cutoff filter is in place
-  AREXPORT bool getIRFilterModeEnabled () { return myIRFilterModeEnabled; }
-protected:
+  AREXPORT bool getIRFilterModeEnabled() { return myIRFilterModeEnabled; }
 
+protected:
   // preset limits on movements.  Based on empirical data
-  enum Param {
-    MAX_PAN = 98,		// 875 units is max pan assignment
-    MIN_PAN = -98,		// -875 units is min pan assignment
-    MAX_TILT = 88,		// 790 units is max tilt assignment
-    MIN_TILT = -30,		// -267 units is min tilt assignment
-    MAX_PAN_SLEW = 90,		// 800 positions per sec (PPS)
-    MIN_PAN_SLEW = 1,		// 8 positions per sec (PPS)
-    MAX_TILT_SLEW = 69,		// 662 positions per sec (PPS)
-    MIN_TILT_SLEW = 1,		// 8 positions per sec (PPS)
+  enum Param
+  {
+    MAX_PAN = 98,       // 875 units is max pan assignment
+    MIN_PAN = -98,      // -875 units is min pan assignment
+    MAX_TILT = 88,      // 790 units is max tilt assignment
+    MIN_TILT = -30,     // -267 units is min tilt assignment
+    MAX_PAN_SLEW = 90,  // 800 positions per sec (PPS)
+    MIN_PAN_SLEW = 1,   // 8 positions per sec (PPS)
+    MAX_TILT_SLEW = 69, // 662 positions per sec (PPS)
+    MIN_TILT_SLEW = 1,  // 8 positions per sec (PPS)
     MAX_ZOOM_OPTIC = 1960,
     MIN_ZOOM = 0
   };
 
   // the various error states that the camera can return
-  enum Error {
-    CAM_ERROR_NONE = 0x30, ///<No error
-    CAM_ERROR_BUSY = 0x31, ///<Camera busy, will not execute the command
-    CAM_ERROR_PARAM = 0x35, ///<Illegal parameters to function call
-    CAM_ERROR_MODE = 0x39,  ///<Not in host control mode
+  enum Error
+  {
+    CAM_ERROR_NONE = 0x30,   ///<No error
+    CAM_ERROR_BUSY = 0x31,   ///<Camera busy, will not execute the command
+    CAM_ERROR_PARAM = 0x35,  ///<Illegal parameters to function call
+    CAM_ERROR_MODE = 0x39,   ///<Not in host control mode
     CAM_ERROR_UNKNOWN = 0xFF ///<Unknown error condition.  Should never happen
- };
+  };
 
   // the states of the FSM
-  enum State {
+  enum State
+  {
     UNINITIALIZED,
     STATE_UNKNOWN,
     INITIALIZING,
@@ -404,7 +449,7 @@ protected:
   // flips the sign if needed
   //double invert(double before) const
   //  { if (myInverted) return -before; else return before; }
- // bool myInverted;
+  // bool myInverted;
 
   // true if there was an error during the last cycle
   bool myWasError;
@@ -432,7 +477,7 @@ protected:
   CommState myCommType;
 
   // used to read data if the camera is attached directly to a computer
-  virtual ArBasePacket* readPacket();
+  virtual ArBasePacket *readPacket();
 
   // the functor to add as a usertask
   ArFunctorC<ArVCC4> myTaskCB;
@@ -485,7 +530,7 @@ protected:
   bool sendRealZoomRequest();
   bool sendDigitalZoom();
   bool sendFocus();
-  
+
   // this is currently not used because it doesn't work right
   bool sendProductNameRequest();
 
@@ -504,7 +549,7 @@ protected:
   bool myIRFilterModeEnabled;
   bool myDesiredIRFilterMode;
 
-  // These should only be used by the state machine to initialize the 
+  // These should only be used by the state machine to initialize the
   // camera for the first time
   bool setDefaultRange();
   bool setControlMode();
@@ -516,7 +561,7 @@ protected:
   void processGetZoomResponse();
   void processGetProductNameResponse();
 
-  // true if autoupdating of camera's position should be used  
+  // true if autoupdating of camera's position should be used
   bool myAutoUpdate;
 
   // cycle for stepping through various autoupdate resquests from the camera

@@ -159,6 +159,8 @@ AREXPORT const char *ArSyncLoop::getThreadActivity()
 {
   if (myRunning)
   {
+    assert(myRobot);
+    assert(myRobot->getSyncTaskRoot());
     ArSyncTask *syncTask;
     syncTask = myRobot->getSyncTaskRoot()->getRunning();
     if (syncTask != NULL)

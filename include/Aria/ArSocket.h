@@ -29,7 +29,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <sys/param.h>
@@ -81,6 +80,22 @@ public:
   /// Constructor. You must then use either connect() or open().
   AREXPORT ArSocket();
 
+  ArSocket(const ArSocket &) = delete;
+
+  /// Move constructor. Transfers ownership of underlying system socket to this instance. @sa ArSocket::transferFrom()
+  ArSocket(ArSocket&& other) {
+    this->transferFrom(&other);
+  }
+
+  /// Move assignment. Transfers ownership of the underlying system socket to this instance. @sa ArSocket::transferFrom()
+  ArSocket& operator=(ArSocket&& other) {
+    this->transferFrom(&other);
+    return *this;
+  }
+
+  ArSocket &operator=(const ArSocket &) = delete;
+
+
   /// Constructor which immediately connects to a server as a client
   /// @a host Hostname or IP address of remote server
   /// @a port Port number on server
@@ -113,7 +128,7 @@ private:
   /// @internal
   bool copy(int fd, bool doclose);
 
-  /// Copy socket 
+  /// Copy socket. The other socket retains control and will close the socket when deleted. This instance will not close the socket when deleted.
   /// @internal
   void copy(ArSocket *s)
     {myFD=s->myFD; myDoClose=false; mySin=s->mySin;}
@@ -121,13 +136,23 @@ private:
 public:
 
   /// Transfer ownership of a socket
-  /** transfer() will transfer ownership to this socket. The input socket
-      will no longer close the file descriptor when it is destructed.
+  /** transfer() will transfer ownership from @a s to this socket. The other socket (@a s)
+      will no longer close the file descriptor when it is destructed. It should generally not be used anymore as an interface to the OS socket, use this instance instead.
   */
-  AREXPORT void transfer(ArSocket *s)
-    {myFD=s->myFD; myDoClose=true; s->myDoClose=false; mySin=s->mySin;
-      myType=s->myType; strcpy(myRawIPString, s->myRawIPString); 
-      setIPString(s->getIPString()); }
+  AREXPORT void transferFrom(ArSocket *s)
+  {
+    myFD=s->myFD;
+    myDoClose=true;
+    s->myDoClose=false;
+    mySin=s->mySin;
+    myType=s->myType;  
+    setIPString(s->getIPString()); 
+  }
+
+  [[deprecated("use transferFrom() instead")]] void transfer(ArSocket *s)
+  {
+    transferFrom(s);
+  }
 
   /// Connect as a client to a server
   AREXPORT bool connect(const char *host, int port, Type type = TCP,
@@ -190,22 +215,26 @@ public:
   AREXPORT static bool hostAddr(const char *host, struct in_addr &addr);
 
   /// Convert an address structure to a hostname string
-  AREXPORT static bool addrHost(struct in_addr &addr, char *host);
+  AREXPORT static bool addrHost(struct in_addr &addr, char *s, size_t len);
+  [[deprecated("must now supply string length as third argument")]] AREXPORT static bool addrHost(struct in_addr &addr, char *host);
 
   /// Get the localhost address
   AREXPORT static std::string getHostName();
 
-  /// Get socket information (socket "name"). Aspects of this "name" are accessible with sockAddrIn(), inAddr(), inPort() 
+  /// Get socket information (socket "name"). Aspects of this "name" are accessible with sockAddrIn(), man sock(), inPort() 
   AREXPORT bool getSockName();
 
   /// Accessor for the sockaddr
   struct sockaddr_in * sockAddrIn() {return(&mySin);}
 
-  /// Accessor for the in_addr part of sockaddr
+  /// Accessor for the sin_addr part of sockaddr
   struct in_addr * inAddr() {return(&mySin.sin_addr);}
 
-  /// Accessor for the port of the sockaddr
+  /// Accessor for the sin_port of the sockaddr
   unsigned short int inPort() {return(mySin.sin_port);}
+
+  /// Accessor for port number (converted to host byte order)
+  int getPortNumber() { return netToHostOrder(inPort()); }
 
   /// Convert @a addr into string numerical address
   AREXPORT static void inToA(struct in_addr *addr, char *buff);
@@ -309,8 +338,8 @@ public:
   /// Gets whether we log the writeStrings or not
   AREXPORT bool getStringUseWrongEndChars() 
     { return myStringWrongEndChars; }
-  /// Gets the raw ip number as a string
-  AREXPORT const char *getRawIPString() const { return myRawIPString; }
+  // Gets the raw ip number as a string
+  //AREXPORT const char *getRawIPString() const { return myRawIPString; }
   /// Gets the ip number as a string (this can be modified though)
   AREXPORT const char *getIPString() const { return myIPString.c_str(); }
   /// Sets the ip string
@@ -338,8 +367,9 @@ public:
   bool isOpen() { return myFD > 0; }
 protected:
   /// Sets the ip string
-  /// internal function that sets the ip string from the inAddr
-  void setRawIPString();
+  /// internal function that sets the ip string from inAddr
+  void setIPString(struct in_addr* addr);
+  [[deprecated("use setIPString(in_addr*) instead")]] void setRawIPString() { setIPString(inAddr());  }
   /// internal function that echos strings from read string
   void doStringEcho();
   // internal crossplatform init (mostly for string reading stuff)
@@ -381,7 +411,7 @@ protected:
   char myStringBufEmpty[1];
   size_t myStringPosLast;
   std::string myIPString;
-  char myRawIPString[128];
+  //char myRawIPString[128];
   ArTime myLastStringReadTime;
   bool myStringGotEscapeChars;
   bool myStringGotComplete;

@@ -25,10 +25,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARGPSCOORDS_H
 
 #include "Aria/ariaTypedefs.h"
+#include "Aria/ariaUtil.h"
 
 
-
-class Ar3DPoint;
 class ArLLACoords;
 class ArECEFCoords;
 class ArENUCoords;
@@ -45,14 +44,14 @@ class Ar3DPoint
   Ar3DPoint(double x, double y, double z) : myX(x), myY(y), myZ(z) {}
 
   /// Add
-  Ar3DPoint operator+(Ar3DPoint c)
+  Ar3DPoint operator+(const Ar3DPoint& c)
   {
     return Ar3DPoint(myX + c.myX, 
 		  myY + c.myY,
 		  myZ + c.myZ);
   }
   /// Diff
-  Ar3DPoint operator-(Ar3DPoint c)
+  Ar3DPoint operator-(const Ar3DPoint& c)
   {
     return Ar3DPoint(myX - c.myX, 
 		  myY - c.myY,
@@ -64,12 +63,12 @@ class Ar3DPoint
     return Ar3DPoint(myX*c, myY*c, myZ*c);
   }
   /// Dot product
-  double dot(Ar3DPoint c)
+  double dot(const Ar3DPoint& c)
   {
     return (myX * c.myX + myY * c.myY + myZ * c.myZ);
   }
   /// Cross product
-  Ar3DPoint cross(Ar3DPoint c)
+  Ar3DPoint cross(const Ar3DPoint& c)
   {
     return Ar3DPoint(myY * c.myZ - myZ * c.myY, 
 		     myZ * c.myX - myX * c.myZ, 
@@ -139,7 +138,7 @@ class ArLLACoords : public Ar3DPoint
   public:
   ArLLACoords() : Ar3DPoint(0, 0, 0) {}
   ArLLACoords(double x, double y, double z) : Ar3DPoint(x, y, z) {}
-  ArLLACoords(ArPose pos, double alt) : Ar3DPoint(pos.getX(), pos.getY(), alt) {}
+  ArLLACoords(const ArPose& pos, double alt) : Ar3DPoint(pos.getX(), pos.getY(), alt) {}
   AREXPORT ArECEFCoords LLA2ECEF() const;
   double getLatitude() const {return getX();}
   double getLongitude() const {return getY();}

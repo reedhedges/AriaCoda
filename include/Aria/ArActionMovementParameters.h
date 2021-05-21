@@ -26,7 +26,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArAction.h"
-#include "Aria/ArMapObject.h"
+
+class ArMapObject;
 
 /// This is a class for setting max velocities and accels and decels via ArConfig parameters (see addToConfig()) or manually (using setParameters())
 /**

@@ -1040,7 +1040,7 @@ AREXPORT bool ArConfig::parseVersion(ArArgumentBuilder *arg,
   if ((errorBuffer != NULL) && (errorBufferLen > 0)) {
     errorBuffer[0] = '\0';
   }
-  if ((arg->getArgc() < 0) || (arg->getArg(0) == NULL)) {
+  if ( /*(arg->getArgc() < 0) ||*/ (arg->getArg(0) == NULL)) {
     if ((errorBuffer != NULL) && (errorBufferLen > 0)) {
       snprintf(errorBuffer, errorBufferLen,
                "Configuration version error (blank");
@@ -1460,7 +1460,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
               if (matchParam == NULL) {
                 continue;
               }
-              for (int i = 0; i < matchParam->getArgCount(); i++) {
+              for (size_t i = 0; i < matchParam->getArgCount(); i++) {
             
                 ArConfigArg *childArg = matchParam->getArg(i);
                 if (childArg == NULL) {
@@ -1490,7 +1490,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
                continue;
              }
 
-             for (int i = 0; i < matchParam->getArgCount(); i++) {
+             for (size_t i = 0; i < matchParam->getArgCount(); i++) {
             
                 ArConfigArg *childArg = matchParam->getArg(i);
                 if (childArg == NULL) {

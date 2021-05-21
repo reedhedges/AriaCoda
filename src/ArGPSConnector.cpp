@@ -24,16 +24,17 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ArExport.h"
 #include "Aria/ariaOSDef.h"
-#include "Aria/ArGPSConnector.h"
 #include "Aria/ArGPS.h"
 #include "Aria/ArDeviceConnection.h"
 #include "Aria/ArSerialConnection.h"
 #include "Aria/ArTcpConnection.h"
 #include "Aria/ArRobot.h"
 #include "Aria/ariaInternal.h"
-
 #include "Aria/ArNovatelGPS.h"
 #include "Aria/ArTrimbleGPS.h"
+
+#include "Aria/ArGPSConnector.h"
+
 
 #include <iostream>
 

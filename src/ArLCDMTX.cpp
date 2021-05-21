@@ -1872,12 +1872,10 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 		ArArgumentBuilder builder;
 		builder.add(line);
 
-		int i;
-
 		std::string data;
-		data.clear();
+		//data.clear();
 
-		for (i = 0; i < builder.getArgc(); i++) {
+		for (size_t i = 0; i < builder.getArgc(); i++) {
 
 			if (!builder.isArgInt(i, true)) {
 

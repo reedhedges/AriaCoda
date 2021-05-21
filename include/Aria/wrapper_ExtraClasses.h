@@ -25,6 +25,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #ifndef ARIA_wrapper_ExtraClasses_h
 #define ARIA_wrapper_ExtraClasses_h
 
+#include "Aria/ArConfigArg.h"
+#include <limits.h>
+
 /** @cond INCLUDE_SWIG_ONLY_CLASSES */
 
 /* ArConfigArg subclasses for specific types, since for some target languages

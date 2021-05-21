@@ -25,6 +25,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaOSDef.h"
 #include "Aria/ArDPPTU.h"
 #include "Aria/ArCommands.h"
+#include "Aria/ArRobot.h"
 #include "Aria/ArBasePacket.h"
 #include "Aria/ariaInternal.h"
 #include "Aria/ArDeviceConnection.h"

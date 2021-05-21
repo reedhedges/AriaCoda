@@ -77,6 +77,8 @@ AREXPORT void ArSZSeriesPacket::uByteToBuf(ArTypes::UByte val)
 }
 #endif
 
+/*
+not used
 AREXPORT void ArSZSeriesPacket::byteToBuf(ArTypes::Byte val)
 {
 	char buf[1024];
@@ -86,6 +88,7 @@ AREXPORT void ArSZSeriesPacket::byteToBuf(ArTypes::Byte val)
 		sprintf(buf, "%d", val);
 	strToBuf(buf);
 }
+*/
 
 
 AREXPORT ArTypes::Byte ArSZSeriesPacket::bufToByte()
@@ -160,7 +163,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 	timeDone.setToNow();
 	if (!timeDone.addMSec(msWait)) {
 		ArLog::log(ArLog::Terse, "%s::receivePacket() error adding msecs (%i)",
-				myName, msWait);
+				myName.c_str(), msWait);
 	}
 	//msWait = 100;
 
@@ -171,7 +174,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		/*
 		 ArLog::log(ArLog::Terse,
 		 "%s::receivePacket() timeToRunFor = %d",
-		 myName, timeToRunFor);
+		 myName.c_str(), timeToRunFor);
 		 */
 
 		myPacket.empty();
@@ -236,7 +239,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 				if (startMode)
 					ArLog::log(ArLog::Terse,
 							"%s::receivePacket() myConn->read error (header)",
-							myName);
+							myName.c_str());
 				return NULL;
 			}
 		} // end for
@@ -257,7 +260,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 			ArLog::log(
 					ArLog::Terse,
 					"%s::receivePacket() myConn->read error (data block number)",
-					myName);
+					myName.c_str());
 			return NULL;
 		}
 
@@ -265,7 +268,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		{
 			ArLog::log(ArLog::Terse,
 			"%s::receivePacket() Invalid command ID (must be 0x91) = 0x%x",
-			myName, c);
+			myName.c_str(), c);
 			continue;
 		}
 
@@ -286,7 +289,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 			ArLog::log(
 					ArLog::Terse,
 					"%s::receivePacket() myConn->read error (data block number)",
-					myName);
+					myName.c_str());
 			return NULL;
 		}
 
@@ -295,7 +298,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		{
 			ArLog::log(ArLog::Terse,
 			"%s::receivePacket() Communication ID error = %d",
-			myName, c);
+			myName.c_str(), c);
 			continue;
 		}
 
@@ -310,7 +313,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 			} else {
 				ArLog::log(ArLog::Terse,
 						"%s::receivePacket() myConn->read error (length)",
-						myName);
+						myName.c_str());
 				return NULL;
 			}
 		} // end for
@@ -328,14 +331,14 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 
 		/*
 		ArLog::Terse(
-		"%s::receivePacket() Data Length = %d", myName, myPacket.getDataLength());
+		"%s::receivePacket() Data Length = %d", myName.c_str(), myPacket.getDataLength());
 		*/
 
 		myPacket.setNumReadings(myPacket.getDataLength() / 2);
 
 		/*
 		ArLog::Terse(
-		"%s::receivePacket() Number of readings = %d", myName, myPacket.getNumReadings());
+		"%s::receivePacket() Number of readings = %d", myName.c_str(), myPacket.getNumReadings());
 		*/
 
 		// next scan frequency
@@ -346,7 +349,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 			ArLog::log(
 					ArLog::Terse,
 					"%s::receivePacket() myConn->read error (data block number)",
-					myName);
+					myName.c_str());
 			return NULL;
 		}
 
@@ -360,13 +363,13 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		// trap if we failed the read
 		if (numRead < 0) {
 			ArLog::log(ArLog::Terse, "%s::receivePacket() Failed read (%d)",
-					myName, numRead);
+					myName.c_str(), numRead);
 			return NULL;
 		}
 
 		/*
 		ArLog::log(ArLog::Terse,
-				"%s::receivePacket() Number of bytes read = %d, asked for = %d", myName,
+				"%s::receivePacket() Number of bytes read = %d, asked for = %d", myName.c_str(),
 				numRead, myPacket.getDataLength());
 		*/
 
@@ -380,7 +383,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 			else
 			{
 				ArLog::log(ArLog::Terse,
-						"%s::receivePacket() myConn->read error (crc)", myName);
+						"%s::receivePacket() myConn->read error (crc)", myName.c_str());
 				return NULL;
 			}
 		} // end for
@@ -400,7 +403,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 				ArLog::log(
 						ArLog::Terse,
 						"%s::receivePacket() myConn->read error (got 4 zeros in data)",
-						myName);
+						myName.c_str());
 				return NULL;
 			}
 		}
@@ -415,7 +418,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		int t = myPacket.getDataLength() + n + 1;
 
 		ArLog::log(ArLog::Normal,
-		           "%s::receivePacket() DATA LEN  = %d  CRC byte1 = %x CRC byte2 = %x", myName, t, temp[0], temp[1]);
+		           "%s::receivePacket() DATA LEN  = %d  CRC byte1 = %x CRC byte2 = %x", myName.c_str(), t, temp[0], temp[1]);
 		int y = n;
 		for (y = 0;y < t; y++) {
 			sprintf(&buf[x++], "%02x", (char *)crcbuf[y] );
@@ -428,7 +431,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		
 		
 		ArLog::log(ArLog::Normal,
-		           "%s::receivePacket() packet = %s", myName, buf);
+		           "%s::receivePacket() packet = %s", myName.c_str(), buf);
 			*/
 		
 		
@@ -458,7 +461,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		{
 			ArLog::log(ArLog::Terse,
 					"%s::receivePacket() CRC error (in = 0x%02x calculated = 0x%02x) ",
-					myName, incrc, crc);
+					myName.c_str(), incrc, crc);
 			return NULL;
 		}
 
@@ -470,7 +473,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 
 		/*
 		ArLog::log(ArLog::Normal,
-		           "%s::receivePacket() returning packet %d %d", myName, packet->getNumReadings(), myPacket.getNumReadings());
+		           "%s::receivePacket() returning packet %d %d", myName.c_str(), packet->getNumReadings(), myPacket.getNumReadings());
 		*/
 
 		myPacket.empty();
@@ -479,7 +482,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 
 	} while (timeDone.mSecTo() >= 0); // || !myStarting)
 
-	ArLog::log(ArLog::Terse, "%s::receivePacket() Timeout on read", myName);
+	ArLog::log(ArLog::Terse, "%s::receivePacket() Timeout on read", myName.c_str());
 	return NULL;
 }
 
@@ -643,11 +646,8 @@ void ArSZSeries::sensorInterp() {
 		ArTime time = packet->getTimeReceived();
 		
 		ArPose pose;
-		int ret;
-		int retEncoder;
 		ArPose encoderPose;
 		int dist;
-		int j;
 
 		unsigned char *buf = (unsigned char *) packet->getBuf();
 
@@ -663,9 +663,8 @@ void ArSZSeries::sensorInterp() {
 			pose.setPose(0, 0, 0);
 			encoderPose.setPose(0, 0, 0);
 		}
-		else if ((ret = myRobot->getPoseInterpPosition(time, &pose)) < 0
-				|| (retEncoder = myRobot->getEncoderPoseInterpPosition(time,
-						&encoderPose)) < 0)
+		else if (myRobot->getPoseInterpPosition(time, &pose) < 0
+				|| myRobot->getEncoderPoseInterpPosition(time, &encoderPose) < 0)
 		{
 			ArLog::log(ArLog::Normal,
 					"%s::sensorInterp() reading too old to process", getName());
@@ -688,14 +687,13 @@ void ArSZSeries::sensorInterp() {
 
 		myNumChans = packet->getNumReadings();
 
-		double eachAngularStepWidth;
-		int eachNumberData;
+		size_t eachNumberData = 0;
 
 		// PS - test for SZ-16D, each reading is .36 degrees for 270 degrees
 
 		if (packet->getNumReadings() == 751)
 		{
-			eachNumberData = packet->getNumReadings();
+			eachNumberData = (size_t) packet->getNumReadings();
 		}
 		else
 		{
@@ -713,7 +711,7 @@ void ArSZSeries::sensorInterp() {
 
 		// If we don't have any sensor readings created at all, make 'em all
 		if (myRawReadings->size() == 0) {
-			for (j = 0; j < eachNumberData; j++) {
+			for (size_t j = 0; j < eachNumberData; j++) {
 				myRawReadings->push_back(new ArSensorReading);
 			}
 		}
@@ -732,14 +730,11 @@ void ArSZSeries::sensorInterp() {
 			continue;
 		}
 
-		std::list<ArSensorReading *>::iterator it;
-		double atDeg;
-		int onReading;
 
 		double start;
 		double increment;
 
-		eachAngularStepWidth = .36;
+		const double eachAngularStepWidth = .36;
 
 		if (myFlipped) {
 			start = mySensorPose.getTh() + 135;
@@ -749,20 +744,19 @@ void ArSZSeries::sensorInterp() {
 			increment = eachAngularStepWidth;
 		}
 
-		int readingIndex;
-		bool ignore = false;
-
-		for (atDeg = start,
-				it = myRawReadings->begin(),
-				readingIndex = 0,
-				onReading = 0;
+		const bool ignore = false;
+		double atDeg = start;
+		std::list<ArSensorReading *>::const_iterator it = myRawReadings->begin();
+		int readingIndex = 0;
+		size_t onReading = 0;
+		for (;
 
 				onReading < eachNumberData;
 
 				atDeg += increment,
-				it++,
-				readingIndex++,
-				onReading++)
+				++it,
+				++readingIndex,
+				++onReading)
 		{
 
 

@@ -92,7 +92,10 @@ Several major changes have been made for AriaCoda since the last release of Aria
   to override a method, the use of the "override" specifier is encouraged;
   the C++ compiler should then warn if the base class method is not virtual.
 * Many small fixes and changes to improve optimization and
-  conformance/correctness. This may have introduced bugs or changes in behavior,
+  conformance/correctness.  Due to code removal, various optimizations in the 
+  source code, and compilation optimizations turned on by default, the AriaCoda
+  shared library should be smaller, and a bit more efficient. 
+  This may have introduced bugs or changes in behavior however,
   please report any problems on github issues.
 
 Several other changes are planned that will not be compatible with prior Aria

@@ -27,7 +27,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArBasePacket.h"
 #include "Aria/ArPTZ.h"
-#include "Aria/ArSerialConnection.h"
+
 /// A class for for making commands to send to the RVision camera
 /** There are only two functioning ways to put things into this packet,
  * uByteToBuf() and byte2ToBuf;  You

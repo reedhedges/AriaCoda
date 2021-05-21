@@ -76,7 +76,7 @@ public:
 	  if (myOverrideDoesLessThan)
 	    myDesired = std::min(myDesired, 
 					desiredChannel->getDesired());
-	  else if (!myOverrideDoesLessThan)
+	  else //if (!myOverrideDoesLessThan)
 	    myDesired = std::max(myDesired, 
 					desiredChannel->getDesired());
 	}
@@ -112,7 +112,7 @@ public:
 	  if (myOverrideDoesLessThan)
 	    myDesired = std::min(myDesired, 
 					desiredChannel->getDesired());
-	  else if (!myOverrideDoesLessThan)
+	  else //if (!myOverrideDoesLessThan)
 	    myDesired = std::max(myDesired, 
 					desiredChannel->getDesired());
 	}
@@ -178,12 +178,12 @@ public:
 
 
 protected:
-  double myDesired;
-  double myStrength;
-  bool myAllowOverride;
-  double myDesiredTotal;
-  double myStrengthTotal;
-  bool myOverrideDoesLessThan;
+  double myDesired = 0;
+  double myStrength = NO_STRENGTH;
+  bool myAllowOverride = true;
+  double myDesiredTotal = 0;
+  double myStrengthTotal = NO_STRENGTH;
+  bool myOverrideDoesLessThan = true;
 };
 
 /// Contains values returned by ArAction objects expressing desired motion commands to resolver
@@ -230,9 +230,8 @@ public:
   AREXPORT static const double MIN_STRENGTH;
   AREXPORT static const double MAX_STRENGTH;
   /// Constructor
-  ArActionDesired() 
-    { 
-      myHeadingSet = false; 
+  ArActionDesired() : myHeading(0), myHeadingStrength(MIN_STRENGTH), myHeadingSet(false) 
+    {
       myTransDecelDes.setOverrideDoesLessThan(false); 
       myRotDecelDes.setOverrideDoesLessThan(false);
       myMaxNegVelDes.setOverrideDoesLessThan(false); 

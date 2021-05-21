@@ -144,8 +144,8 @@ AREXPORT bool ArUrg_2_0::setParams(
   startingStepRaw = -(startingDegrees - myStepFirst) / myStepSize;
   //endingStepRaw = -(endingDegrees - 135.0) / .3515625;
   endingStepRaw = -(endingDegrees - myStepFirst) / myStepSize;
-  startingStep = (int)ceil(ArUtil::findMin(startingStepRaw, endingStepRaw));
-  endingStep = (int)floor(ArUtil::findMax(startingStepRaw, endingStepRaw));
+  startingStep = (int)ceil(std::min(startingStepRaw, endingStepRaw));
+  endingStep = (int)floor(std::max(startingStepRaw, endingStepRaw));
   //clusterCount = ArMath::roundInt(incrementDegrees / .3515625);
   clusterCount = ArMath::roundInt(incrementDegrees / myStepSize);
   if (clusterCount < 1)
@@ -335,7 +335,8 @@ bool ArUrg_2_0::writeLine(const char *str)
   size_t len = strlen(str);
 
   myConnMutex.lock();
-  if (myConn->write(str, len) < len || 
+  int r = myConn->write(str, len);
+  if ( r < 1 || (size_t)r < len || 
       myConn->write("\n", 1) < 1)
     ret = false;
   myConnMutex.unlock();
@@ -706,9 +707,9 @@ bool ArUrg_2_0::internalConnect()
     return false;
   }
 
-  if (!(ret = sendCommandAndRecvStatus(
+  if (!sendCommandAndRecvStatus(
 		"PP", "parameter info request", 
-		buf, sizeof(buf), 10000)) || 
+		buf, sizeof(buf), 10000) || 
       strcasecmp(buf, "00") != 0)      
   {
     ArLog::log(ArLog::Normal, 
@@ -752,9 +753,9 @@ bool ArUrg_2_0::internalConnect()
 
   myStepSize = 360.0 / myARes;
   myStepFirst = myAFront * myStepSize;
-  
-  if (myMaxRange > myDMax)
-    setMaxRange(myDMax);
+  assert(myDMax > 0);
+  if (myMaxRange > (unsigned int)myDMax)
+    setMaxRange((unsigned int)myDMax);
 
   //log();
 
@@ -767,7 +768,7 @@ bool ArUrg_2_0::internalConnect()
   
   //printf("myRequestString %s\n", myRequestString);
 
-  if (!(ret = sendCommandAndRecvStatus(
+  if (!(sendCommandAndRecvStatus(
 		myRequestString, "request distance reading", 
 		buf, sizeof(buf), 10000)) || 
       strcasecmp(buf, "00") != 0)
@@ -842,8 +843,6 @@ void ArUrg_2_0::sensorInterp()
 
   ArTime time = readingRequested;
   ArPose pose;
-  int ret;
-  int retEncoder;
   ArPose encoderPose;
 
   //time.addMSec(-13);
@@ -852,9 +851,8 @@ void ArUrg_2_0::sensorInterp()
     pose.setPose(0, 0, 0);
     encoderPose.setPose(0, 0, 0);
   } 
-  else if ((ret = myRobot->getPoseInterpPosition(time, &pose)) < 0 ||
-	   (retEncoder = 
-	    myRobot->getEncoderPoseInterpPosition(time, &encoderPose)) < 0)
+  else if (myRobot->getPoseInterpPosition(time, &pose) < 0 ||
+	   myRobot->getEncoderPoseInterpPosition(time, &encoderPose) < 0)
   {
     ArLog::log(ArLog::Normal, "%s: reading too old to process", getName());
     return;

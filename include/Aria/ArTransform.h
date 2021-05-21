@@ -42,13 +42,13 @@ public:
   /// Constructor, Sets the transform so points in this coord system
   /// transform to abs world coords
 
-  ArTransform(ArPose pose) 
+  ArTransform(const ArPose& pose) 
     { 
       setTransform(pose);
     }
   /// Constructor, sets the transform so that pose1 will be
   /// transformed to pose2
-  ArTransform(ArPose pose1, ArPose pose2)
+  ArTransform(const ArPose& pose1, const ArPose& pose2)
     {
       setTransform(pose1, pose2);
     }

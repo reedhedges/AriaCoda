@@ -74,12 +74,6 @@ class ArSensorReading
 public:
   /// Constructor, the three args are the physical location of the sensor
   AREXPORT ArSensorReading(double xPos = 0.0, double yPos = 0.0, double thPos = 0.0);
-   /// Copy constructor
-  AREXPORT ArSensorReading(const ArSensorReading & reading);
-  /// Assignment operator
-  AREXPORT ArSensorReading &operator=(const ArSensorReading &reading);
-  /// Destructor
-  AREXPORT virtual ~ArSensorReading();
 
   /// Gets the range from sensor of the reading
   /**
@@ -201,9 +195,9 @@ coordinate system.
     @param ignoreThisReading Set the "ignore" flag for this reading. Data is stored but applications (e.g. navigation) may use this flag to ignore some sensor readings based on robot or user configuration.
     @param extraInt extra device-specific data. @see getExtraInt()
 */
-  AREXPORT void newData(int range, ArPose robotPose, ArPose encoderPose,
-			ArTransform trans, unsigned int counter, 
-			ArTime timeTaken, bool ignoreThisReading = false,
+  AREXPORT void newData(int range, const ArPose& robotPose, const ArPose& encoderPose,
+			const ArTransform& trans, unsigned int counter, 
+			const ArTime& timeTaken, bool ignoreThisReading = false,
 			int extraInt = 0);
 
   /**
@@ -221,11 +215,11 @@ coordinate system.
     @param ignoreThisReading Set the "ignore" flag for this reading. Data is stored but applications (e.g. navigation) may use this flag to ignore some sensor readings based on robot or user configuration.
     @param extraInt extra device-specific data. @see getExtraInt()
   */
-  AREXPORT void newData(int sx, int sy, ArPose robotPose,
-			ArPose encoderPose,
-			ArTransform trans, 
+  AREXPORT void newData(int sx, int sy, const ArPose& robotPose,
+			const ArPose& encoderPose,
+			const ArTransform& trans, 
 			unsigned int counter,
-			ArTime timeTaken,
+			const ArTime& timeTaken,
 			bool ignoreThisReading = false,
 			int extraInt = 0);
 
@@ -257,20 +251,20 @@ coordinate system.
   /// @internal
   AREXPORT void setAdjusted(bool adjusted) { myAdjusted = adjusted; }
 protected:
-  unsigned int myCounterTaken;
   ArPose myReading;
   ArPose myLocalReading;  
   ArPose myReadingTaken;
   ArPose myEncoderPoseTaken;
   ArPose mySensorPos;
-  double mySensorCos, mySensorSin;
-  double myDistToCenter;
-  double myAngleToCenter;
-  int myRange;
+  double mySensorCos = 0.0, mySensorSin = 0.0;
+  double myDistToCenter = 0.0;
+  double myAngleToCenter = 0.0;
+  int myRange = 5000;
+  int myExtraInt = 0;
+  unsigned int myCounterTaken = 0;
   ArTime myTimeTaken;
-  bool myIgnoreThisReading;
-  int myExtraInt;
-  bool myAdjusted;
+  bool myIgnoreThisReading = false;
+  bool myAdjusted = false;
 };
 
 #endif

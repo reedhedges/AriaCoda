@@ -205,7 +205,7 @@ public:
   /// Returns the "to" pose for lines and rectangles; valid only if hasFromTo() 
   AREXPORT ArPose getToPose() const;
 
-  void setPose(ArPose p) { myPose = p; }
+  void setPose(const ArPose& p) { myPose = p; }
   AREXPORT void setFromTo(ArPose from, ArPose to);
 
   /// Returns the optional rotation of a rectangle; or 0 if none

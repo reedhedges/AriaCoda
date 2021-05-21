@@ -96,11 +96,11 @@ public:
 
     Item() = default;
 
-    Item(std::string _data, ItemType _type, std::string _params = "", int _priority = 0) :
+    Item(const std::string& _data, ItemType _type, const std::string& _params = "", int _priority = 0) :
       data(_data), type(_type), params(_params), priority(_priority)
     {}
 
-    Item(std::string _data, ItemType _type, std::string _params, int _priority, std::list<PlayItemFunctor*> _callbacks) :
+    Item(const std::string& _data, ItemType _type, const std::string& _params, int _priority, const std::list<PlayItemFunctor*>& _callbacks) :
       data(_data), type(_type), params(_params), priority(_priority), playCallbacks(_callbacks)
     {}
 

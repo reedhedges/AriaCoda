@@ -271,11 +271,11 @@ AREXPORT template<typename VT> std::vector<VT> ArPacketUtil::getNextVectorField(
   std::vector<VT> vec;
   size_t len = p.bufToUByte4();
   vec.reserve(len);
-  for(int i = 0; i < len; ++i)
+  for(size_t i = 0; i < len; ++i)
   {
     vec.push_back(getNextField<VT>(p));
   }
-  // todo deal with truncated packet, we need to specialize bufferContainsBytes for ecah
+  // todo deal with truncated packet, we need to specialize bufferContainsBytes for each
   // type. just return vec so far 
   return vec;
 }
@@ -285,11 +285,11 @@ AREXPORT template<typename LT> std::list<LT> ArPacketUtil::getNextListField(ArBa
   std::list<LT> l;
   size_t len = p.bufToUByte4();
   l.reserve(len);
-  for(int i = 0; i < len; ++i)
+  for(size_t i = 0; i < len; ++i)
   {
     l.push_back(getNextField<LT>(p));
   }
-  // todo deal with truncated packet, we need to specialize bufferContainsBytes for ecah
+  // todo deal with truncated packet, we need to specialize bufferContainsBytes for each
   // type. just return list so far
   return l;
 }
@@ -300,7 +300,7 @@ AREXPORT template<typename VT> void ArPacketUtil::getNextField(ArBasePacket& p, 
   vec->clear();
   size_t len = p.bufToUByte4();
   vec->reserve(len);
-  for(int i = 0; i < len; ++i)
+  for(size_t i = 0; i < len; ++i)
   {
     vec->push_back(getNextField<VT>(p));
   }
@@ -313,7 +313,7 @@ AREXPORT template<typename LT> void ArPacketUtil::getNextField(ArBasePacket& p, 
   l->clear();
   size_t len = p.bufToUByte4();
   l->reserve(len);
-  for(int i = 0; i < len; ++i)
+  for(size_t i = 0; i < len; ++i)
   {
     l->push_back(getNextField<LT>(p));
   }

@@ -27,6 +27,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArRobot.h"
 #include "Aria/ariaUtil.h"
 #include "Aria/ArForbiddenRangeDevice.h"
+#include "Aria/ArMapInterface.h"
 
 /**
    This will take a map and then convert the forbidden lines into

@@ -25,17 +25,11 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARLCDCONNECTOR_H
 
 #include "Aria/ariaTypedefs.h"
-#include "Aria/ArSerialConnection.h"
-#include "Aria/ArTcpConnection.h"
-#include "Aria/ArArgumentBuilder.h"
-#include "Aria/ArArgumentParser.h"
 #include "Aria/ariaUtil.h"
-#include "Aria/ArRobotConnector.h"
 
 class ArLCDMTX;
 class ArRobot;
-
-
+class ArRobotConnector;
 
 /// Connect to robot and lcd based on run-time availablitily and command-line arguments
 /**

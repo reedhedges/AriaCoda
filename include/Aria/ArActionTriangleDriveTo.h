@@ -189,19 +189,19 @@ public:
     myVertexSeenThisCycle = false; myVertexSeen = false; }
     ~Data() = default;
     void setLinesAndVertex(std::map<int, ArLineFinderSegment *> *lines, 
-			   ArPose vertex)
+			   const ArPose& vertex)
     {
       myLines.clear();
       std::map<int, ArLineFinderSegment *>::iterator it;
-      for (it = lines->begin(); it != lines->end(); it++)
+      for (it = lines->begin(); it != lines->end(); ++it)
       {
 	myLines.push_front(*(*it).second);
       }
       myVertex = vertex;
       myLinesAndVertexSet = true;
     }
-    void setFinal(ArPose final) { myFinalSet = true; myFinal = final; }
-    void setApproach(ArPose approach) 
+    void setFinal(const ArPose& final) { myFinalSet = true; myFinal = final; }
+    void setApproach(const ArPose& approach) 
     { myApproachSet = true; myApproach = approach; }
     void setVertexSeenThisCycle(bool vertexSeenThisCycle)
     { myVertexSeenThisCycle = vertexSeenThisCycle; }

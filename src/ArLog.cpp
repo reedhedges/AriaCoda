@@ -490,12 +490,15 @@ std::string ArLog::logTypeName(ArLog::LogType type)
     case None:
       return "None";
   }
+  assert(false);
+  return "BadType";
 }
 
 std::string ArLog::logLevelName(ArLog::LogLevel level)
 {
   switch(level)
   {
+    
     case Terse:
       return "Terse";
     case Normal:
@@ -503,6 +506,8 @@ std::string ArLog::logLevelName(ArLog::LogLevel level)
     case Verbose:
       return "Verbose";
   }
+  assert(false);
+  return "BadLevel";
 }
 
 

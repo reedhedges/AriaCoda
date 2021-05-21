@@ -166,14 +166,13 @@ public:
   AREXPORT void setIsS300(bool isS300)
   { myIsS300 = isS300; }
   AREXPORT void setName(const char *name )
-  { strcpy(myName, name); }
+  { myName.assign(name); }
 
 protected:
   ArDeviceConnection *myConn;
   ArS3SeriesPacket myPacket;
-  
-  char myName[1024];
-  unsigned int myNameLength;
+
+  std::string myName;
   unsigned char myReadBuf[100000];
   int myReadCount;
   bool myIsS300;

@@ -31,10 +31,10 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ariaUtil.h"
 #include "Aria/ArFunctor.h"
-#include "Aria/ArGPS.h"
 
 class ArDeviceConnection;
 class ArRobot;
+class ArGPS;
 
 /** 
  *  @brief Factory for creating GPS interface object (for any kind of GPS supported by ARIA) based on robot parameter file and command-line arguments.

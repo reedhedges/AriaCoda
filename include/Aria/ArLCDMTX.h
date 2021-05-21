@@ -25,11 +25,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define ARLCDMTX_H
 
 #include "Aria/ariaTypedefs.h"
-#include "Aria/ArRangeDevice.h"
 #include "Aria/ArFunctor.h"
 #include "Aria/ArRobot.h"
-#include "Aria/ArRobotPacket.h"
-#include "Aria/ArRobotConnector.h"
 
 
 

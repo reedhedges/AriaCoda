@@ -26,7 +26,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArActionGroup.h"
-#include "Aria/ArPTZ.h"
 
 class ArActionStop;
 class ArActionInput;
@@ -36,6 +35,7 @@ class ArActionRatioInput;
 class ArRatioInputKeydrive;
 class ArRatioInputJoydrive;
 class ArRatioInputRobotJoydrive;
+class ArConfig;
 
 /// Action group to use to drive the robot with input actions (keyboard, joystick, etc.)
 /** 

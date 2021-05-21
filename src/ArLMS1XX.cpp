@@ -1304,11 +1304,10 @@ void ArLMS1XX::sensorInterp ()
 			counter = myRobot->getCounter();
 		lockDevice();
 		myDataMutex.lock();
-		int i;
-		int dist;
-		int refl;
+		//int dist;
+		//int refl;
 		//int onStep;
-		ArSensorReading *reading;
+		//ArSensorReading *reading;
 		// read the extra stuff
 		myVersionNumber = packet->bufToUByte2(); // first value after LMDscandata
 		myDeviceNumber = packet->bufToUByte2();
@@ -1410,7 +1409,7 @@ void ArLMS1XX::sensorInterp ()
 		if (myNumberEncoders > 0)
 			ArLog::log (myLogLevel, "%s::sensorInterp() Encoders %d", getName(), myNumberEncoders);
 
-		for (i = 0; i < myNumberEncoders; i++) {
+		for (int i = 0; i < myNumberEncoders; i++) {
 			packet->bufToUByte4();
 			packet->bufToUByte2();
 			//printf("\t\t%d\t%d %d\n", i, eachEncoderPosition, eachEncoderSpeed);
@@ -1429,21 +1428,18 @@ void ArLMS1XX::sensorInterp ()
 			ArLog::log (myLogLevel, "%s::sensorInterp() NumChans16Bit %d", getName(), myNumChans16Bit);
 
 		char eachChanMeasured[1024];
-		[[maybe_unused]] int eachScalingFactor;
-		[[maybe_unused]] int eachScalingOffset;
-		[[maybe_unused]] double eachStartingAngle;
-		double eachAngularStepWidth;
-		int eachNumberData = 0;
+		//double eachAngularStepWidth;
+		size_t eachNumberData = 0;
 		std::list<ArSensorReading *>::iterator it;
-		double atDeg; // angle of reading transformed according to sensorPoseTh parameter
+		double atDeg = 0; // angle of reading transformed according to sensorPoseTh parameter
     double atDegLocal = 0; // angle of reading local to laser
-		int onReading;
+		size_t onReading;
 		double start = 0;
     double startLocal = 0;
 		double increment = 0;
 		bool startedProcessing = false;
 
-		for (i = 0; i < myNumChans16Bit; i++) {
+		for (int i = 0; i < myNumChans16Bit; i++) {
 			bool measuringDistance = false;
 			bool measuringReflectance = false;
 			eachChanMeasured[0] = '\0';
@@ -1468,15 +1464,16 @@ void ArLMS1XX::sensorInterp ()
 				            measuringDistance, measuringReflectance);
 
 			// for LMS5XX Scaling Factor is a real number
+			[[maybe_unused]] int eachScalingFactor; // not used but must be read from laser
       if(myLaserModel == LMS5XX)
 				eachScalingFactor = packet->bufToByte4(); // FIX should be real
       else
 				eachScalingFactor = packet->bufToUByte4(); // FIX should be real
 
-			eachScalingOffset = packet->bufToUByte4(); // FIX should be real
-			eachStartingAngle = packet->bufToByte4() / 10000.0;
-			eachAngularStepWidth = packet->bufToUByte2() / 10000.0; // angular distance between each reading
-			eachNumberData = packet->bufToUByte2(); // number of readings in this set
+			[[maybe_unused]] const int eachScalingOffset = packet->bufToUByte4(); // FIX should be real // not used but must be read from packet
+			[[maybe_unused]] const double eachStartingAngle = packet->bufToByte4() / 10000.0; // not used but must be read from packet
+			const double eachAngularStepWidth = packet->bufToUByte2() / 10000.0; // angular distance between each reading
+			eachNumberData = (size_t) packet->bufToUByte2(); // number of readings in this set
 			/*
 			ArLog::log(ArLog::Terse, "%s: %s start %.1f step %.2f numReadings %d",
 			getName(), eachChanMeasured,
@@ -1491,7 +1488,7 @@ void ArLMS1XX::sensorInterp ()
 			*/
 			// If we don't have any sensor readings created at all, make 'em all
 			if (myRawReadings->size() == 0)
-				for (i = 0; i < eachNumberData; i++)
+				for (size_t i = 0; i < eachNumberData; i++)
 					myRawReadings->push_back (new ArSensorReading);
 
 			if (eachNumberData > myRawReadings->size()) {
@@ -1553,7 +1550,7 @@ void ArLMS1XX::sensorInterp ()
 
 				ignore = false;
 
-        reading = (*it);
+        ArSensorReading* reading = (*it);
 
 				if (myFirstReadings)
 					reading->resetSensorPosition (ArMath::roundInt (mySensorPose.getX()),
@@ -1573,7 +1570,7 @@ void ArLMS1XX::sensorInterp ()
         // and update the ArSensorReading reading with the new data
 				if (measuringDistance)  
         {
-					dist = packet->bufToUByte2();
+					int dist = packet->bufToUByte2();
 					// this was the original code, that just ignored 0s as a
 					// reading... however sometimes the sensor reports very close
 					// distances for rays it gets no return on... Sick wasn't very
@@ -1618,7 +1615,7 @@ void ArLMS1XX::sensorInterp ()
 					reading->newData (dist, pose, encoderPose, transform, counter,
 					                  time, ignore, 0); // no reflector yet
 				} else if (measuringReflectance) {
-					refl = packet->bufToUByte2();
+					const int refl = packet->bufToUByte2();
 					if (refl > 254 * 255) {
 						reading->setExtraInt (refl/255);
 						//ArLog::log (ArLog::Normal, "%s: refl at %g of %d (raw %d)", getName(), atDeg, refl/255, refl);
@@ -1648,7 +1645,7 @@ void ArLMS1XX::sensorInterp ()
 		//ArLog::log(ArLog::Normal, "%s::sensorInterp() NumChans8Bit %d", getName(), myNumChans8Bit);
 		char eachChanMeasured8Bit[1024];
 
-		for (i = 0; i < myNumChans8Bit; i++) {
+		for (int i = 0; i < myNumChans8Bit; i++) {
 			eachChanMeasured8Bit[0] = '\0';
 			packet->bufToStr (eachChanMeasured8Bit, sizeof (eachChanMeasured));
 			/*
@@ -1696,8 +1693,8 @@ void ArLMS1XX::sensorInterp ()
 			     atDeg += increment,
 			     it++,
 			     onReading++) {
-				reading = (*it);
-				refl = packet->bufToUByte();
+				ArSensorReading *reading = (*it);
+				const int refl = packet->bufToUByte();
 				if (refl == 254) {
 					reading->setExtraInt (32);
 					// ArLog::log(ArLog::Normal, "%s: refl at %g of %d", getName(), atDeg, refl);
@@ -1712,13 +1709,13 @@ void ArLMS1XX::sensorInterp ()
 		// 10/17/11 - PS read the last bytes, the first
 		// 4 bytes need to be zero, if timestamp is there
 		// just grap it
-		int positionData = packet->bufToUByte2();
+		const int positionData = packet->bufToUByte2();
 		if (positionData == 0) {
-			int deviceName = packet->bufToUByte2();
+			const int deviceName = packet->bufToUByte2();
 			if (deviceName == 0) {
-				int comment = packet->bufToUByte2();
+				const int comment = packet->bufToUByte2();
 				if (comment == 0) {
-					int timeStamp = packet->bufToUByte2();
+					const int timeStamp = packet->bufToUByte2();
 					if (timeStamp != 0) {
 						/*
 						myYear = packet->bufToUByte2();

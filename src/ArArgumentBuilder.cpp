@@ -138,11 +138,11 @@ AREXPORT void ArArgumentBuilder::removeArg(size_t which,
   size_t i;
   char *temp;
 
-	if (which < 0) {
+/* 	if (which < 0) {
 		ArLog::log(ArLog::Terse, "ArArgumentBuilder::removeArg: cannot remove arg at negative index (%i)",
 							 which);
 		return;
-	}
+	} */
   if (which > myArgc - 1)
   {
     ArLog::log(ArLog::Terse, "ArArgumentBuilder::removeArg: %d is greater than the number of arguments which is %d", which, myArgc);
@@ -226,8 +226,8 @@ bool ArArgumentBuilder::isStartArg(const char *buf,
 
 
 bool ArArgumentBuilder::isEndArg(const char *buf, 
-                                 int len, 
-                                 int &index,
+                                 size_t len, 
+                                 size_t &index,
                                  int endArgFlags)
 {
   if (index >= len) {
@@ -283,12 +283,12 @@ AREXPORT void ArArgumentBuilder::internalAdd(const char *str, int position)
     addAtEnd = false;
 
   char buf[10000];
-  strncpy(buf, str, sizeof(buf));
+  strncpy(buf, str, sizeof(buf)-1);
   size_t len = strlen(buf);
 
   // can do whatever you want with the buf now
   // first we advance to non-space
-  int i = 0;
+  size_t i = 0;
   for (i = 0; i < len; ++i)
   {
     if (!isSpace(buf[i])) {
@@ -587,7 +587,7 @@ AREXPORT void ArArgumentBuilder::setFullString(const char *str)
 
 AREXPORT const char* ArArgumentBuilder::getArg(size_t whichArg) const
 {
-  if ((whichArg >= 0) && (whichArg < myArgc)) {
+  if ( /*(whichArg >= 0) &&*/ (whichArg < myArgc)) {
     return myArgv[whichArg];
   }
   else {

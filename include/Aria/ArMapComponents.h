@@ -1280,9 +1280,9 @@ protected:
   /// Determines whether the specified info contains the specified arg text.
   AREXPORT virtual bool infoContains(const char *infoName,
                                      const char *argText,
-                                     int argIndex,
+                                     size_t argIndex,
                                      const char *secondaryArgText = NULL,
-                                     int secondaryArgIndex = -1);
+                                     size_t secondaryArgIndex = 0);
 
   AREXPORT bool isDataTag(const char *line); 
 

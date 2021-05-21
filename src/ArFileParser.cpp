@@ -26,6 +26,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArFileParser.h"
 #include "Aria/ArLog.h"
 #include "Aria/ariaUtil.h"
+#include "Aria/ArArgumentBuilder.h"
 #include <ctype.h>
 #include <assert.h>
 

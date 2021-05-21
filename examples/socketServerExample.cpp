@@ -84,6 +84,8 @@ int main()
     return(-1);
   }
 
+  ArLog::log(ArLog::Normal, "socketServerExample: server address=%s port=%d", serverSock.getIPString(), serverSock.getPortNumber());
+
   for(int clientNo = 0; Aria::getRunning(); ++clientNo)
   {
 
@@ -95,6 +97,8 @@ int main()
     else
       ArLog::log(ArLog::Terse, "socketServerExample: Error in accepting a connection from the client: %s.",
          serverSock.getErrorStr().c_str());
+
+    ArLog::log(ArLog::Normal, "socketServerExample: client address=%s port=%d", clientSock.getIPString(), clientSock.getPortNumber());
 
     // Send the string 'Hello Client' to the client. write() should
     // return the same number of bytes that we told it to write. Otherwise,
@@ -129,7 +133,7 @@ int main()
     // Now lets close the connection to the client
     clientSock.close();
     ArLog::log(ArLog::Normal, "socketServerExample: Socket to client closed.");
-    
+
   }
 
   // And lets close the server port

@@ -4609,7 +4609,7 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
 /** @note You must first start the encoder packet stream by calling
  * requestEncoderPackets() before this function will return encoder values.
  */
-AREXPORT long int ArRobot::getLeftEncoder()
+AREXPORT long int ArRobot::getLeftEncoder() const
 {
   return myLeftEncoder;
 }
@@ -4617,7 +4617,7 @@ AREXPORT long int ArRobot::getLeftEncoder()
 /** @note You must first start the encoder packet stream by calling
  * requestEncoderPackets() before this function will return encoder values.
  */
-AREXPORT long int ArRobot::getRightEncoder()
+AREXPORT long int ArRobot::getRightEncoder() const
 {
   return myRightEncoder;
 }
@@ -6424,8 +6424,8 @@ AREXPORT void ArRobot::moveTo(ArPose poseTo, ArPose poseFrom,
    @param deadReconPos the dead recon position to transform from
    @param globalPos the real world global position to transform to
 **/
-AREXPORT void ArRobot::setEncoderTransform(ArPose deadReconPos, 
-				    ArPose globalPos)
+AREXPORT void ArRobot::setEncoderTransform(const ArPose& deadReconPos, 
+				    const ArPose& globalPos)
 {
   myEncoderTransform.setTransform(deadReconPos, globalPos);
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
@@ -6439,7 +6439,7 @@ AREXPORT void ArRobot::setEncoderTransform(ArPose deadReconPos,
  * @sa moveTo()
    @param transformPos the position to transform to
 **/
-AREXPORT void ArRobot::setEncoderTransform(ArPose transformPos)
+AREXPORT void ArRobot::setEncoderTransform(const ArPose& transformPos)
 {
   myEncoderTransform.setTransform(transformPos);
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
@@ -6453,59 +6453,23 @@ AREXPORT void ArRobot::setEncoderTransform(ArPose transformPos)
  * @sa moveTo()
    @param transformPos the position to transform to
 */
-AREXPORT void ArRobot::setEncoderTransform(ArTransform transform)
+AREXPORT void ArRobot::setEncoderTransform(const ArTransform& transform)
 {
   myEncoderTransform = transform;
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
   mySetEncoderTransformCBList.invoke();
 }
 
-/**
-   @return the transform from encoder to global coords
-**/
-AREXPORT ArTransform ArRobot::getEncoderTransform() const
-{
-  return myEncoderTransform;
-}
 
 /**
    @param pose the position to set the dead recon position to
 **/
-AREXPORT void ArRobot::setDeadReconPose(ArPose pose)
+AREXPORT void ArRobot::setDeadReconPose(const ArPose& pose)
 {
   myEncoderPose.setPose(pose);
   myEncoderTransform.setTransform(myEncoderPose, myGlobalPose);
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
   mySetEncoderTransformCBList.invoke();
-}
-
-
-/** 
-    @return an ArTransform which can be used for transforming a position
-    in local coordinates to one in global coordinates
-**/
-AREXPORT ArTransform ArRobot::getToGlobalTransform() const
-{
-  ArTransform trans;
-  ArPose origin(0, 0, 0);
-  ArPose pose = getPose();
-
-  trans.setTransform(origin, pose);
-  return trans;
-}
-
-/** 
-    @return an ArTransform which can be used for transforming a position
-    in global coordinates to one in local coordinates
-**/
-AREXPORT ArTransform ArRobot::getToLocalTransform() const
-{
-  ArTransform trans;
-  ArPose origin(0, 0, 0);
-  ArPose pose = getPose();
-
-  trans.setTransform(pose, origin);
-  return trans;
 }
 
 /** 
@@ -6515,7 +6479,7 @@ AREXPORT ArTransform ArRobot::getToLocalTransform() const
     @param trans the transform to apply
     @param doCumulative whether to transform the cumulative buffers or not
 **/    
-AREXPORT void ArRobot::applyTransform(ArTransform trans, bool doCumulative)
+AREXPORT void ArRobot::applyTransform(const ArTransform& trans, bool doCumulative)
 {
   std::list<ArRangeDevice *>::iterator it;
   ArSensorReading *son;

@@ -24,9 +24,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #ifndef ARMTXIO_H
 #define ARMTXIO_H
 
-
+#include "Aria/ArFunctor.h"
+#include "Aria/ArMutex.h"
 #include "Aria/ariaTypedefs.h"
-#include "Aria/ArRobot.h"
 
 /** @brief Interface to digital and analog I/O and switched power outputs on MTX
  * core (used in Pioneer LX and other MTX-based robots).

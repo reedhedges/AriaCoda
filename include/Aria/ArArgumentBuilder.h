@@ -215,8 +215,8 @@ protected:
    * with space-quote, then the argument must end with a quote-space.
   **/
   bool isEndArg(const char *buf, 
-                int len, 
-                int &indexInOut,
+                size_t len, 
+                size_t &indexInOut,
                 int endArgFlags);
 
   /// Determines whether the specified character is an acceptable space (either normal or extra)

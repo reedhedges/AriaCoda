@@ -23,12 +23,15 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 */
 #include "Aria/ArExport.h"
 #include "Aria/ariaOSDef.h"
-#include "Aria/ArLCDConnector.h"
 #include "Aria/ArRobot.h"
+#include "Aria/ArRobotConnector.h"
 #include "Aria/ArLCDMTX.h"
 #include "Aria/ariaInternal.h"
 #include "Aria/ArCommands.h"
 #include "Aria/ArRobotConfigPacketReader.h"
+
+#include "Aria/ArLCDConnector.h"
+
 
 #include <sys/types.h>
 
@@ -1001,12 +1004,10 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *LCDData)
 		ArArgumentBuilder builder;
 		builder.add(line);
 
-		int i;
-
 		std::string data;
-		data.clear();
+		//data.clear();
 
-		for (i = 0; i < builder.getArgc(); i++) {
+		for (size_t i = 0; i < builder.getArgc(); i++) {
 	
 			if (!builder.isArgInt(i, true)) {
 

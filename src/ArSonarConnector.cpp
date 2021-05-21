@@ -595,8 +595,16 @@ AREXPORT bool ArSonarConnector::setupSonar (ArSonarMTX *sonar,
 		delete sonarData;
 		mySonars.erase (sonarNumber);
 		mySonars[sonarNumber] = new SonarData (sonarNumber, sonar);
+
+    // This has been copied from commented out section below:
+		if (myAutoParseArgs && !parseSonarArgs (myParser, sonarData)) {
+			ArLog::log (ArLog::Terse, "ArSonarConnector: Error Auto parsing args for sonar %s (num %d)", sonarData->mySonar->getName(), sonarNumber);
+			return false;
+		}
 	}
-	if (sonarData == NULL && sonar != NULL) {
+	// XXX TODO the next block seems to duplicate prior block (and leaks memory by creating SonarData twice), removed 
+	// but argument parsing copied into previous block. This may need to be tested and verified as correct.
+	/*if (sonarData == NULL && sonar != NULL) {
 		sonarData = new SonarData (sonarNumber, sonar);
 		mySonars[sonarNumber] = sonarData;
 		if (myAutoParseArgs && !parseSonarArgs (myParser, sonarData)) {
@@ -604,6 +612,8 @@ AREXPORT bool ArSonarConnector::setupSonar (ArSonarMTX *sonar,
 			return false;
 		}
 	}
+	*/
+
 	// see if there is no sonar (ie if it was a sick done in the old
 	// style), or if the sonar passed in doesn't match the one this
 	// class created (I don't know how it'd happen, but...)... and then

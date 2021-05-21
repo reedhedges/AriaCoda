@@ -278,9 +278,9 @@ AREXPORT void ArMapId::setFileName(const char *fileName)
 AREXPORT void ArMapId::setChecksum(const unsigned char *checksum,
                                    size_t checksumLen)
 {
-  if (checksumLen < 0) {
+/*   if (checksumLen < 0) {
     checksumLen = 0;
-  }
+  } */
   if (checksumLen != myChecksumLength) {
     delete [] myChecksum;
     myChecksum = NULL;

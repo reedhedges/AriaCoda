@@ -28,7 +28,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include <iostream>
 #include <list>
-#include <ariaTypedefs.h>
+#include "Aria/ariaTypedefs.h"
 
 /** @brief An expanding ring queue. 
  *

@@ -264,7 +264,8 @@ bool ArUrg::writeLine(const char *str)
   size_t len = strlen(str);
 
   myConnMutex.lock();
-  if (myConn->write(str, len) < len || 
+  int r = myConn->write(str, len);
+  if ( r < 0 || (size_t)r < len || 
       myConn->write("\n", 1) < 1)
     ret = false;
   myConnMutex.unlock();
@@ -629,8 +630,6 @@ void ArUrg::sensorInterp()
 
   ArTime time = readingRequested;
   ArPose pose;
-  int ret;
-  int retEncoder;
   ArPose encoderPose;
 
   //time.addMSec(-13);
@@ -639,9 +638,8 @@ void ArUrg::sensorInterp()
     pose.setPose(0, 0, 0);
     encoderPose.setPose(0, 0, 0);
   } 
-  else if ((ret = myRobot->getPoseInterpPosition(time, &pose)) < 0 ||
-	   (retEncoder = 
-	    myRobot->getEncoderPoseInterpPosition(time, &encoderPose)) < 0)
+  else if (myRobot->getPoseInterpPosition(time, &pose) < 0 ||
+	   myRobot->getEncoderPoseInterpPosition(time, &encoderPose) < 0)
   {
     ArLog::log(ArLog::Normal, "%s: reading too old to process", getName());
     return;

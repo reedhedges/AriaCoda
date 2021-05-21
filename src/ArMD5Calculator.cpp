@@ -86,11 +86,10 @@ AREXPORT void ArMD5Calculator::toDisplay(const unsigned char *digestBuf,
   if ((displayBuf == NULL) || (digestBuf == NULL)) {
     return;
   }
-  int j = 0;
 
   memset(displayBuf, 0, displayLength);
-
-  for (int i = 0; 
+  size_t j = 0;
+  for (size_t i = 0; 
         ((i < digestLength) && (j < displayLength - 1)); 
         i++) {
 
@@ -158,10 +157,10 @@ AREXPORT bool ArMD5Calculator::calculateChecksum(const char *fileName,
           ArUtil::findMin(md5DigestBufferLen, ArMD5Calculator::DIGEST_LENGTH));
   }
 
-  int elapsed = calcTime.mSecSince();
+  const long elapsed = calcTime.mSecSince();
   
   ArLog::log(ArLog::Normal,
-             "ArMD5Calculator::calculateChecksum(%s) took %i msecs",
+             "ArMD5Calculator::calculateChecksum(%s) took %ld msecs",
              fileName, elapsed);
 
   return true;

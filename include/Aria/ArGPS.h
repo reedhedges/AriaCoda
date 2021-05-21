@@ -217,57 +217,58 @@ public:
         OmnistarConverged = RTKinFix
      } FixType;
 
-    class Data {
-    public:
-        AREXPORT Data();
-        double latitude; ///< (from NMEA GPRMC)
-        double longitude; ///< (from NMEA GPRMC)
-        bool havePosition; ///< (from NMEA GPRMC)
-        ArTime timeGotPosition;   ///< Local computer time when ArGPS class received the GPRMC position message from the GPS. 
-        double speed; ///< (From NMEA GPRMC, if provided)
-        bool haveSpeed; ///< (From NMEA GPRMC)
+    struct Data {
+        double latitude = 0.0; ///< (from NMEA GPRMC). @see havePosition
+        double longitude = 0.0; ///< (from NMEA GPRMC) @see havePosition
+        double speed = 0.0; ///< (From NMEA GPRMC, if provided) @see haveSpeed
+        double altitude = 0.0;    ///< receiver provides this based on GPS data.  meters above sea level. (from NMEA GPGGA) @see haveAltitude
+        double altimeter = 0.0;   ///< from separate altimeter (if receiver provides PGRMZ message). meters above sea level. @see haveAltimiter
+        double garminPositionError = 0.0; ///< Error in meters, only some GPS devices provide this. @see haveGarminPositionError
+        double garminVerticalPositionError = 0.0; ///< Error in meters, only some GPS devices provide this (PGRME). @see haveGarminVerticalPositionError
+        double compassHeadingMag = 0.0; ///< (from HCDHM message, if device provides it). @see haveCompassHeadingMag
+        double compassHeadingTrue = 0.0; ///< (from HCHDT, if device provides it). @see haveCompassHeadingTrue
+        unsigned long compassMagCounter = 0;  ///< Incremented whenever @a compassHeadingMag is updated with new data
+        unsigned long compassTrueCounter = 0;  ///< Incremented whenever @a compassHeadingMag is updated with new data
+        double HDOP = 0.0; ///< Horizontal dilution of precision (from NMEA GPGGA). @see haveHDOP
+        double VDOP = 0.0; ///< Vertical dilution of precision (from NMEA GPGGA) @see haveVDOP
+        double PDOP = 0.0; ///< Combined dilution of precision (from NMEA GPGGA) @see havePDOP
+        double meanSNR = 0.0;   ///< Mean of satellite signal-noise ratios (dB). @see haveSNR. From NMEA GPGSV.
+        double beaconSignalStrength = 0.0;  ///< dB (from NMEA GPMSS). @see haveBeaconInfo
+        double beaconSNR = 0.0; ///< dB  (from NMEA GPMSS). @see haveBeaconInfo.
+        double beaconFreq = 0.0; ///< kHz (from NMEA GPMSS). @see haveBeaconInfo
+        double inputsRMS = 0.0; ///< (from NMEA GPGST). @see haveInputsRMS
+        double altitudeError = 0.0; ///< Std. deviation, meters. Note, value could be inf or nan (GPS sends these in some situations). use isinf() and isnan() to check. @see haveAltitudeError
+        
+        ArTime timeGotPosition;   ///< Local computer time when ArGPS class received the GPRMC position message from the GPS. @see havePosition
         ArTime GPSPositionTimestamp;   ///< Timestamp provided by GPS device along with latitude and longitude. (from NMEA GPRMC message)
-        ArGPS::FixType fixType; ///< (from NMEA GPGGA)
-        unsigned short numSatellitesTracked;
-        double altitude;    ///< receiver provides this based on GPS data.  meters above sea level. (from NMEA GPGGA)
-        bool haveAltitude; //< (from NMEA GPGGA)
-        double altimeter;   ///< from separate altimeter (if receiver provides PGRMZ message). meters above sea level.
-        bool haveAltimeter;
-        unsigned short DGPSStationID; ///< (from NMEA GPGGA)
-        bool haveDGPSStation; ///< (from NMEA GPGGA)
-        double garminPositionError; ///< Error in meters, only some GPS devices provide this
-        bool haveGarminPositionError; ///< Error in meters, only some GPS devices provide this (PGRME)
-        double garminVerticalPositionError; ///< Error in meters, only some GPS devices provide this (PGRME)
-        bool haveGarminVerticalPositionError; ///< Error in meters, only some GPS devices provide this (PGRME)
-        double compassHeadingMag; ///< (from HCDHM message, if device provides it)
-        double compassHeadingTrue; ///< (from HCHDT, if device provides it)
-        bool haveCompassHeadingMag; ///< (from HCDHM message, if device provides it)
-        bool haveCompassHeadingTrue; ///< (from HCHDT message, if device provides it)
-        unsigned long compassMagCounter;  ///< Incremented whenever @a compassHeadingMag is updated with new data
-        unsigned long compassTrueCounter;  ///< Incremented whenever @a compassHeadingMag is updated with new data
-        bool haveHDOP; ///< Horizontal dilution of precision (from NMEA GPGGA)
-        double HDOP; ///< Horizontal dilution of precision (from NMEA GPGGA)
-        bool haveVDOP; ///< Vertical dilution of precision (from NMEA GPGGA)
-        double VDOP; ///< Vertical dilution of precision (from NMEA GPGGA)
-        bool havePDOP; ///< Combined dilution of precision (from NMEA GPGGA)
-        double PDOP; ///< Combined dilution of precision (from NMEA GPGGA)
-        bool qualityFlag;   ///< Some GPS devices set this to false if data quality is below some thresholds.
-        double meanSNR;   ///< Mean of satellite signal-noise ratios (dB)
-        bool haveSNR; ///< (from NMEA GPGSV)
-        double beaconSignalStrength;  ///< dB (from NMEA GPMSS)
-        double beaconSNR; ///< dB  (from NMEA GPMSS)
-        double beaconFreq; ///< kHz (from NMEA GPMSS)
-        unsigned short beaconBPS; ///< Bits/sec (from NMEA GPMSS)
-        unsigned short beaconChannel; ///< (from NMEA GPMSS)
-        bool haveBeaconInfo; ///< (from NMEA GPMSS)
-        double inputsRMS; ///< (from NMEA GPGST)
-        bool haveInputsRMS; ///< (from NMEA GPGST)
-        ArPose errorEllipse; ///< Ellipse shows standard deviation, in meters. Orientation is degrees from true north. (from NMEA GPGST)
-        bool haveErrorEllipse; ///< (from NMEA GPGST)
-        ArPose latLonError; ///< Std.deviation, meters. Theta is unused. May only be provided by the GPS in certain fix modes. Note, values could be inf or nan (GPS sends these in some situations). Use isinf() and isnan() to check.
-        bool haveLatLonError;
-        double altitudeError; ///< Std. deviation, meters. Note, value could be inf or nan (GPS sends these in some situations). use isinf() and isnan() to check.
-        bool haveAltitudeError;
+        ArPose errorEllipse; ///< Ellipse shows standard deviation, in meters. Orientation is degrees from true north. From NMEA GPGST. @see haveErrorElipse
+        ArPose latLonError; ///< Std.deviation, meters. Theta is unused. May only be provided by the GPS in certain fix modes. Note, values could be inf or nan (GPS sends these in some situations). Use isinf() and isnan() to check. @see haveLatLonError.
+        
+        ArGPS::FixType fixType = NoFix; ///< (from NMEA GPGGA)
+        unsigned short numSatellitesTracked = 0;
+        unsigned short DGPSStationID = 0; ///< (from NMEA GPGGA) @see haveDGPSStation
+        unsigned short beaconBPS = 0; ///< Bits/sec (from NMEA GPMSS)
+        unsigned short beaconChannel = 0; ///< (from NMEA GPMSS)
+
+        bool havePosition = false; ///< (from NMEA GPRMC)
+        bool haveSpeed = false; ///< (From NMEA GPRMC)
+        bool haveAltitude = false; //< (from NMEA GPGGA)
+        bool haveAltimeter = false;
+        bool haveDGPSStation = false; ///< (from NMEA GPGGA)        
+        bool haveGarminPositionError = false; ///< Error in meters, only some GPS devices provide this (PGRME)
+        bool haveGarminVerticalPositionError = false; ///< Error in meters, only some GPS devices provide this (PGRME)
+        bool haveCompassHeadingMag = false; ///< (from HCDHM message, if device provides it)
+        bool haveCompassHeadingTrue = false; ///< (from HCHDT message, if device provides it)
+        bool haveHDOP = false; ///< Horizontal dilution of precision (from NMEA GPGGA)
+        bool haveVDOP = false; ///< Vertical dilution of precision (from NMEA GPGGA)
+        bool havePDOP = false; ///< Combined dilution of precision (from NMEA GPGGA)
+        bool qualityFlag = false;   ///< Some GPS devices set this to false if data quality is below some thresholds.
+        bool haveSNR = false; ///< (from NMEA GPGSV)
+        bool haveBeaconInfo = false; ///< (from NMEA GPMSS)
+        bool haveInputsRMS = false; ///< (from NMEA GPGST)
+        bool haveErrorEllipse = false; ///< (from NMEA GPGST)
+        bool haveLatLonError = false;
+        bool haveAltitudeError = false;
     };
 
     /** Access all of the internally stored data directly. @see ArGPS::Data  */

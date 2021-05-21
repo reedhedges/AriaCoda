@@ -137,19 +137,6 @@ AREXPORT bool ArSocket::hostAddr(const char *host, struct in_addr &addr)
   }
 }
 
-/** @return false on failure */
-AREXPORT bool ArSocket::addrHost(struct in_addr &addr, char *host)
-{
-  struct hostent *hp;
-
-  hp=gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
-  if (hp)
-    strcpy(host, hp->h_name);
-  else
-    strcpy(host, inet_ntoa(addr));
-
-  return(true);
-}
 
 /** @return false and set error code and description string on failure */
 AREXPORT bool ArSocket::connect(const char *host, int port, Type type,
@@ -200,7 +187,7 @@ AREXPORT bool ArSocket::connect(const char *host, int port, Type type,
   // which could happen occasionally. If OVERLAPPED is not enabled in this situation, calls can
   // hang mysteriously.
   // This flag is also required for all non-blocking sockets on Windows NT 4.0 (according to MS
-  // Knowlege Base article Q179942)
+  // Knowledge Base article Q179942)
   if ((type == TCP) && ((myFD=WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED)) < 0))
   {
     myError=NetFail;
@@ -640,7 +627,7 @@ AREXPORT bool ArSocket::setBroadcast()
 
 /** @return false and set error code and description string on failure 
     @internal
-    @note ArSocket always sets the reuse-address option in open(), so calling this function is normally unneccesary.
+    @note ArSocket always sets the reuse-address option in open(), so calling this function is normally unnecessary.
      (This apparently needs to be done after the socket is created before
      the socket is bound.)
 */

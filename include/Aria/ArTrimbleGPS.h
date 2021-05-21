@@ -30,12 +30,11 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArFunctor.h"
 #include "Aria/ariaUtil.h"
 #include "Aria/ArGPS.h"
-#include "Aria/ArDeviceConnection.h"
 #include "Aria/ArMutex.h"
 
 #include <deque>
 
-class ArTrimbleAuxDeviceConnection;
+//class ArTrimbleAuxDeviceConnection;
 
 /** @brief GPS subclass to support the Trimble AgGPS and other Trimble GPS devices.
  *  
