@@ -647,9 +647,13 @@ tags: $(SRC_FILES) $(HEADER_FILES)
 ctags: tags
 
 clang-tidy: FORCE
-	clang-tidy -header-filter=".*\.h" $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) $(CXXINC)
+	clang-tidy --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) $(CXXINC)
 
-tidy: clang-tidy
+clang-tidy-%: include/Aria/%.h src/%.cpp
+	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) $(CXXINC)
+
+clang-tidy-%: include/Aria/%.h
+	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) $(CXXINC)
 
 cppcheck: FORCE
 	cppcheck --enable=all --language=c++ --std=$(CXXSTD) $(CXXINC) -j 4 -DAREXPORT $(SOURCE_FILES) $(HEADER_FILES)
