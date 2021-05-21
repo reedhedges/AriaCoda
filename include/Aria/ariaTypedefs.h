@@ -77,8 +77,18 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #if __GNUC__ < 7
 
 #define NODISCARD
+
+#if __has_attribute(__unused__)
 #define UNUSED __attribute__((unused))
+#else
+#define UNUSED  
+#endif
+
+#if __has_attribute(__fallthrough__)
 #define FALLTHROUGH __attribute__((fallthrough))
+#else
+#define FALLTRHOUGH  
+#endif
 
 #else
 
