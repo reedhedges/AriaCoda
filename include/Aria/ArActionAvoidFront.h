@@ -69,7 +69,7 @@ protected:
   bool myUseTableIRIfAvail;
   int myTurning; // 1 for turning left, 0 for not turning, -1 for turning right
   ArActionDesired myDesired;
-  ArSectors myQuadrants;
+  ArSectors<8> myQuadrants;
   ArFunctorC<ArActionAvoidFront> myConnectCB;
 };
 

@@ -157,7 +157,7 @@ protected:
   double myLastVel;
   double myDistDiff;
   double myDegDiff;
-  ArSectors mySectors;
+  ArSectors<18> mySectors;
   ArFunctorC<ArLaserLogger> myTaskCB;
   int myScanNumber;
   ArTime myStartTime;

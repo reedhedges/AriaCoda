@@ -1562,55 +1562,57 @@ protected:
 /// A class for keeping track of if a complete revolution has been attained
 /**
    This class can be used to keep track of if a complete revolution has been
-   done, it is used by doing doing a clearQuadrants when you want to stat
-   the revolution.  Then at each point doing an updateQuadrant with the current
-   heading of the robot.  When didAllQuadrants returns true, then all the 
-   quadrants have been done.
+   done, using a set of flags for each sector of 360 degrees.  The template 
+   parameter NumSectors determines the resolution, i.e. how often through the rotation
+   to set a flag for that sector. Begin with a new ArSectors object or by calling clear()
+   on a stored ArSectors object.  Periodically call update() with a current angle, this
+   sets the flag for the sector corresponding to that angle. Call didAll() to determine
+   if all sectors have been flagged as visited.
+
+  @example
+  If <code>robot</code> is an <code>ArRobot*</code>:
+  @code
+  ArSectors sectors;
+  robot->setRotVel(10);
+  while(!sectors.didAll())
+  {
+    sectors.update(robot->getTheta());
+    // robot still performing rotation. 
+    ArUtil::sleep(50);
+  }
+  robot->stop();
+  @endcode
+
+  @sa ArMath::addAngle(), ArMath::subAngle(), ArMath::fixAngle()
+  @sa ArMath::angleBetween()
+  @sa ArPose::findAngleTo()
+
   @ingroup UtilityClasses
 */
+template <size_t NumSectors>
 class ArSectors
 {
 public:
-  /// Constructor
-  ArSectors(int numSectors = 8) 
-    { 
-      mySectorSize = 360/numSectors;
-      mySectors = new int[numSectors]; 
-      myNumSectors = numSectors; 
-      clear();
-    }
-  /// Destructor
-  ~ArSectors() { delete mySectors; }
-  
-  // XXX TODO should also define copy and move constructors and assignment operators.
-
   /// Clears all quadrants
   void clear() 
     {
-      int i;
-      for (i = 0; i < myNumSectors; i++)
-	mySectors[i] = false;
+    mySectors.fill(false);
     }
   /// Updates the appropriate quadrant for the given angle
   void update(double angle)
     {
-      int angleInt;
-      angleInt = ArMath::roundInt(ArMath::fixAngle(angle) + 180);
-      mySectors[angleInt / mySectorSize] = true;
+    const int angleInt = ArMath::roundInt(ArMath::fixAngle(angle) + 180); // shift value by 180 to avoid negative result
+    assert(angleInt >= 0);
+    mySectors[(size_t)angleInt / mySectorSize] = true;
     }
   /// Returns true if the all of the quadrants have been gone through
   bool didAll() const
     {
-      int i;
-      for (i = 0; i < myNumSectors; i++)
-	if (mySectors[i] == false)
-	  return false;
-      return true;
+    return std::all_of(mySectors.cbegin(), mySectors.cend(), [](bool b) { return b == true; });
     }
 protected:
-  int *mySectors;
-  int myNumSectors;
-  int mySectorSize;
+  std::array<bool, NumSectors> mySectors;
+  const size_t mySectorSize = 360/NumSectors;
 };
 
 

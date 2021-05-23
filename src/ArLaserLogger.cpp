@@ -204,7 +204,6 @@ AREXPORT ArLaserLogger::ArLaserLogger(
 		       ArRetFunctor3<int, ArTime, ArPose *, ArPoseWithTime *> *, 
 		       ArStrCaseCmpOp> *extraLocationData,
 	std::list<ArLaser *> *extraLasers) :
-  mySectors(18), 
   myTaskCB(this, &ArLaserLogger::robotTask),
   myGoalKeyCB(this, &ArLaserLogger::goalKeyCallback), 
   myLoopPacketHandlerCB(this, &ArLaserLogger::loopPacketHandler)
