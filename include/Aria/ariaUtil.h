@@ -1605,17 +1605,27 @@ protected:
 /// A class for keeping track of if a complete revolution has been attained
 /**
    This class can be used to keep track of if a complete revolution has been
-   done, using a set of flags for each sector of 360 degrees.  The template 
+   done, using a set of flags for each sector of 360 degrees.  It can be used 
+   e.g. when the robot may be rotating in a more complex way than a constant predictable rotation 
+   (e.g. while following a path or trajectory, or at varying speeds and directions). 
+   
+   The template 
    parameter NumSectors determines the resolution, i.e. how often through the rotation
-   to set a flag for that sector. Begin with a new ArSectors object or by calling clear()
-   on a stored ArSectors object.  Periodically call update() with a current angle, this
+   to set a flag for that sector. 
+   
+   Begin with a new ArSectors object or by calling clear()
+   on a reused ArSectors object.  Periodically call update() with a current angle, this
    sets the flag for the sector corresponding to that angle. Call didAll() to determine
    if all sectors have been flagged as visited.
+
+   Note use of a large number of sectors
+   that will be flagged at a high speed (e.g. high rotation speed of robot) may result
+   in higher likelyhood that a sector will be accidentally skipped.
 
   @example
   If <code>robot</code> is an <code>ArRobot*</code>:
   @code
-  ArSectors sectors;
+  ArSectors sectors<8>;
   robot->setRotVel(10);
   while(!sectors.didAll())
   {
