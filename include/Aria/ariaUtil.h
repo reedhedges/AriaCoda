@@ -46,6 +46,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <limits>
 #include <ostream>
 #include <cassert>
+#include <array>
+#include <algorithm>
 
 #if defined(_WIN32) && !defined(MINGW)
 #include <sys/timeb.h>
@@ -656,7 +658,7 @@ public:
   constexpr static double epsilon() { return std::numeric_limits<double>::epsilon(); }
 
 
-  /// This adds two angles together and fixes the result to [-180, 180] 
+  /// This adds two angles together and fixes the result to (-180, 180] 
   /**
      @param ang1 first angle
      @param ang2 second angle, added to first
@@ -668,7 +670,7 @@ public:
   static double addAngle(double ang1, double ang2) 
     { return fixAngle(ang1 + ang2); }
 
-  /// This subtracts one angle from another and fixes the result to [-180,180]
+  /// This subtracts one angle from another and fixes the result to (-180,180]
   /**
      @param ang1 first angle
      @param ang2 second angle, subtracted from first angle
@@ -680,10 +682,11 @@ public:
   static double subAngle(double ang1, double ang2) 
     { return fixAngle(ang1 - ang2); }
 
-  /// Takes an angle and returns the angle in range (-180,180]
+  /// Takes an angle and returns the angle in range (-180,180]. This is the conventional range for many angle values in Aria.
   /**
      @param angle the angle to fix
      @return the angle in range (-180,180]
+     @see fixAngle360
      @see addAngle
      @see subAngle
      @ingroup easy
@@ -698,9 +701,28 @@ public:
 	angle = + 180.0 + (angle + 180.0);
       if (angle > 180)
 	angle = - 180.0 + (angle - 180.0);
+      assert(angle > -180.0);
+      assert(angle <= 180);
       return angle;
     } 
   
+  /// Takes an angle and returns the angle in range [0, 360]
+  /**
+     @param angle the angle to fix
+     @return the angle in range [0,360], always a positive value
+     @see fixAngle
+     @ingroup easy
+  */
+  static double fixAngle360(double angle)
+  {
+    if(angle == 0)
+      return angle;
+    const double a = fixAngle(angle) + 180.0;
+    assert(a >= 0);
+    assert(a <= 360);
+    return a;
+  }
+
   /// Converts an angle in degrees to an angle in radians
   /**
      @param deg the angle in degrees
@@ -1589,10 +1611,14 @@ protected:
 
   @ingroup UtilityClasses
 */
-template <size_t NumSectors>
+template <size_t NumSectors = 8>
 class ArSectors
 {
 public:
+  ArSectors()
+  {
+    clear();
+  }
   /// Clears all quadrants
   void clear() 
     {
@@ -1601,21 +1627,50 @@ public:
   /// Updates the appropriate quadrant for the given angle
   void update(double angle)
     {
-    const int angleInt = ArMath::roundInt(ArMath::fixAngle(angle) + 180); // shift value by 180 to avoid negative result
+    // TODO why is the angle rounded here? my is mySectorSize int?  change to doubles with final conversion using floor() or similar
+    const int angleInt = (int) floor(ArMath::fixAngle360(angle)); // shift range to [0,360], and ensure positive value
     assert(angleInt >= 0);
+    assert(angleInt <= 360);
     mySectors[(size_t)angleInt / mySectorSize] = true;
     }
   /// Returns true if the all of the quadrants have been gone through
   bool didAll() const
     {
-    return std::all_of(mySectors.cbegin(), mySectors.cend(), [](bool b) { return b == true; });
+    return std::all_of(mySectors.cbegin(), mySectors.cend(), [](bool b) -> bool { return b == true; });
     }
+
+  template <size_t NS> friend std::ostream& operator<<(std::ostream& os, const ArSectors<NS>& rhs);
+
+  std::string toString() const
+  {
+    std::string s("(");
+    for (size_t i = 0; i < mySectors.size(); ++i)
+    {
+      if(i != 0) s += ", ";
+      s += (mySectors[i] ? "true" : "false");
+    }
+    s += ")";
+    return s;
+  }  
+
 protected:
   std::array<bool, NumSectors> mySectors;
   const size_t mySectorSize = 360/NumSectors;
 };
 
 
+template <size_t NumSectors>
+std::ostream& operator<<(std::ostream& os, const ArSectors<NumSectors>& rhs)
+{
+  os << "(";
+  for (size_t i = 0; i < rhs.mySectors.size(); ++i)
+  {
+    if(i != 0) os << ", ";
+    os << (rhs.mySectors[i] ? "true" : "false");
+  }
+  os << ")";
+  return os;
+} 
 
 
 /// Represents geometry of a line in two-dimensional space.
