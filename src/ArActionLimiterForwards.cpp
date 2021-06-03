@@ -62,10 +62,10 @@ AREXPORT ArActionLimiterForwards::ArActionLimiterForwards(const char *name,
   myLastSensorReadingDev = NULL;
 }
 
-AREXPORT ArActionLimiterForwards::~ArActionLimiterForwards()
+/* AREXPORT ArActionLimiterForwards::~ArActionLimiterForwards()
 {
 
-}
+} */
 
 /**
    @param stopDistance distance at which to stop (mm)

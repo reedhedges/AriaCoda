@@ -131,8 +131,9 @@ public:
   /// Assignment operator
   AREXPORT ArMapScan &operator=(const ArMapScan &other);
 
-  /// Destructor
-  AREXPORT virtual ~ArMapScan();
+  // TODO move constructor and assignment 
+  
+  //AREXPORT virtual ~ArMapScan();
 
 
   // --------------------------------------------------------------------------
@@ -654,13 +655,16 @@ protected:
     std::list<ArArgumentBuilder *> myInfo;
     ArRetFunctor1C<bool, ArMapInfo, ArArgumentBuilder *> *myInfoCB;
 
-    ArMapInfoData(ArMapInfo *parent,
+    explicit ArMapInfoData(ArMapInfo *parent,
                   const char *name = NULL,
                   int type = -1);
     ~ArMapInfoData();
-    ArMapInfoData(ArMapInfo *parent,
+    /// Copy specifying new parent. May not make a copy with same parent.
+    explicit ArMapInfoData(ArMapInfo *parent,
                   const ArMapInfoData &other);
+    ArMapInfoData(const ArMapInfoData &other) = delete;
     ArMapInfoData &operator=(const ArMapInfoData &other);
+
 
   }; // end struct ArMapInfoData
 
@@ -712,8 +716,9 @@ public:
   /// Assignment operator
   AREXPORT ArMapSupplement &operator=(const ArMapSupplement &other);
 
-  /// Destructor
-  AREXPORT virtual ~ArMapSupplement();
+  // TODO move constructor and assignment
+
+  //AREXPORT virtual ~ArMapSupplement();
 
 
   // --------------------------------------------------------------------------

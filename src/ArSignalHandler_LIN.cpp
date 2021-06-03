@@ -242,9 +242,9 @@ ArSignalHandler::ArSignalHandler() :
   initSigMap();
 }
 
-ArSignalHandler::~ArSignalHandler()
+/* ArSignalHandler::~ArSignalHandler()
 {
-}
+} */
 
 AREXPORT void * ArSignalHandler::runThread(void *)
 {

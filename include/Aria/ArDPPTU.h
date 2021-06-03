@@ -127,8 +127,7 @@ class ArDPPTUPacket: public ArBasePacket
 public:
   /// Constructor
   ArDPPTUPacket(ArTypes::UByte2 bufferSize = 30);
-  /// Destructor
-  virtual ~ArDPPTUPacket();
+  //virtual ~ArDPPTUPacket();
 
   virtual void byte2ToBuf(ArTypes::Byte2 val) override;
 
@@ -159,7 +158,7 @@ public:
   };
 
   /// Constructor
-  AREXPORT ArDPPTU(ArRobot *robot, DeviceType deviceType = PANTILT_DEFAULT, int deviceIndex = -1);
+  AREXPORT explicit ArDPPTU(ArRobot *robot, DeviceType deviceType = PANTILT_DEFAULT, int deviceIndex = -1);
   /// Destructor
   AREXPORT virtual ~ArDPPTU();
 

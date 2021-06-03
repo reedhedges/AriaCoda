@@ -53,9 +53,9 @@ AREXPORT ArActionRatioInput::ArActionRatioInput(const char *name) :
   myLatDeadZone = 10;
 }
 
-AREXPORT ArActionRatioInput::~ArActionRatioInput()
+/* AREXPORT ArActionRatioInput::~ArActionRatioInput()
 {
-}
+} */
 
 AREXPORT void ArActionRatioInput::addToConfig(ArConfig *config, 
 					      const char *section)

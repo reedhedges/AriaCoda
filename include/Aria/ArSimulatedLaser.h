@@ -53,9 +53,8 @@ class ArSimulatedLaser : public ArLaser
 {
 public:
   /// Constructor
-  AREXPORT ArSimulatedLaser(ArLaser *laser);
-  /// Destructor
-  AREXPORT virtual ~ArSimulatedLaser();
+  AREXPORT explicit ArSimulatedLaser(ArLaser *laser);
+
 
   AREXPORT virtual bool blockingConnect();
   AREXPORT virtual bool asyncConnect();

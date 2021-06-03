@@ -40,8 +40,7 @@ class ArActionLimiterTableSensor : public ArAction
 public:
   /// Constructor
   AREXPORT ArActionLimiterTableSensor(const char *name = "TableSensorLimiter");
-  /// Destructor
-  AREXPORT virtual ~ArActionLimiterTableSensor();
+  //AREXPORT virtual ~ArActionLimiterTableSensor();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

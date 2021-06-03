@@ -101,10 +101,10 @@ protected:
 class ArSZSeriesPacketReceiver
 {
 public:
-  /// Constructor with assignment of a device connection
+/*   // Constructor with assignment of a device connection
   AREXPORT ArSZSeriesPacketReceiver();
-  /// Destructor
-  AREXPORT virtual ~ArSZSeriesPacketReceiver();
+  // Destructor
+  AREXPORT virtual ~ArSZSeriesPacketReceiver(); */
   
   /// Receives a packet from the robot if there is one available
   AREXPORT ArSZSeriesPacket *receivePacket(unsigned int msWait = 0,

@@ -37,8 +37,7 @@ class ArActionInput : public ArAction
 public:
   /// Constructor
   AREXPORT ArActionInput(const char *name = "Input");
-  /// Destructor
-  AREXPORT virtual ~ArActionInput();
+  //AREXPORT virtual ~ArActionInput();
   /// Set velocity (cancels deltaVel)
   AREXPORT void setVel(double vel);
   /// Increment/decrement the heading from current

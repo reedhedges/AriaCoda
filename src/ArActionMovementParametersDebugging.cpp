@@ -61,11 +61,11 @@ AREXPORT ArActionMovementParametersDebugging::ArActionMovementParametersDebuggin
   myLatDecel = 500;
 }
 
-AREXPORT ArActionMovementParametersDebugging::~ArActionMovementParametersDebugging()
+/* AREXPORT ArActionMovementParametersDebugging::~ArActionMovementParametersDebugging()
 {
 
 }
-
+ */
 AREXPORT void ArActionMovementParametersDebugging::addToConfig(
 	ArConfig *config, const char *section, const char *prefix)
 {

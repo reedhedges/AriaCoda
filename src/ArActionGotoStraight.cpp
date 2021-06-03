@@ -26,7 +26,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArActionGotoStraight.h"
 #include "Aria/ArRobot.h"
 
+#ifndef DEBUG
 #define DEBUG false // if true enables misc debug logging
+#endif
 
 AREXPORT ArActionGotoStraight::ArActionGotoStraight(const char *name,
 						    double speed) :
@@ -46,10 +48,10 @@ AREXPORT ArActionGotoStraight::ArActionGotoStraight(const char *name,
   myMaxRotVel = 0;
 }
 
-AREXPORT ArActionGotoStraight::~ArActionGotoStraight()
+/* AREXPORT ArActionGotoStraight::~ArActionGotoStraight()
 {
 
-}
+} */
 
 AREXPORT bool ArActionGotoStraight::haveAchievedGoal()
 {

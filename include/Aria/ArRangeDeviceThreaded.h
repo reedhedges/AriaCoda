@@ -47,7 +47,7 @@ public:
 				 double maxDistToKeepCumulative = 0,
 				 bool locationDependent = false);
   /// Destructor
-  AREXPORT virtual ~ArRangeDeviceThreaded();
+  virtual ~ArRangeDeviceThreaded() = default;
   /// The functor you need to implement that will be the one executed by the thread
   AREXPORT virtual void * runThread(void *arg) = 0;
   /// Run in this thread

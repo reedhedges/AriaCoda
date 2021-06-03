@@ -65,10 +65,10 @@ AREXPORT ArActionAvoidFront::ArActionAvoidFront(const char *name,
   myTurning = 0;
 }
 
-AREXPORT ArActionAvoidFront::~ArActionAvoidFront()
+/* AREXPORT ArActionAvoidFront::~ArActionAvoidFront()
 {
 
-}
+} */
 
 AREXPORT ArActionDesired *ArActionAvoidFront::fire(ArActionDesired currentDesired)
 {

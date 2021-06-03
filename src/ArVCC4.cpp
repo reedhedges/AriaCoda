@@ -34,11 +34,11 @@ AREXPORT ArVCC4Packet::ArVCC4Packet(ArTypes::UByte2 bufferSize) :
 {
 }
 
-AREXPORT ArVCC4Packet::~ArVCC4Packet()
+/* AREXPORT ArVCC4Packet::~ArVCC4Packet()
 {
 
 }
-
+ */
 
 AREXPORT void ArVCC4Packet::byte4ToBuf(ArTypes::Byte4 val)
 {

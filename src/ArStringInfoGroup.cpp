@@ -34,10 +34,10 @@ AREXPORT ArStringInfoGroup::ArStringInfoGroup()
   myDataMutex.setLogName("ArStringInfoGroup::myDataMutex");
 }
 
-AREXPORT ArStringInfoGroup::~ArStringInfoGroup()
+/* AREXPORT ArStringInfoGroup::~ArStringInfoGroup()
 {
 
-}
+} */
 
 /**
   @note It is recommended that you avoid characters in a string name or value

@@ -43,8 +43,7 @@ public:
 				double obstacleDistance = 225, int cyclesToMove = 50, 
 				double speed = 150, double degreesToTurn = 45,
 				bool enabled = true);
-  /// Destructor
-  AREXPORT virtual ~ArActionStallRecover();
+  //AREXPORT virtual ~ArActionStallRecover();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() 
     { return &myActionDesired; }

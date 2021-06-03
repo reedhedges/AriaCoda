@@ -53,8 +53,7 @@ public:
   AREXPORT ArActionAvoidFront(const char *name = "avoid front obstacles", 
 		     double obstacleDistance = 450, double avoidVelocity = 200,
 		     double turnAmount = 15, bool useTableIRIfAvail = true);
-  /// Destructor
-  AREXPORT virtual ~ArActionAvoidFront();
+  //AREXPORT virtual ~ArActionAvoidFront();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

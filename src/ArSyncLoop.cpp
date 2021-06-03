@@ -38,9 +38,9 @@ AREXPORT ArSyncLoop::ArSyncLoop() :
   myInRun = false;
 }
 
-AREXPORT ArSyncLoop::~ArSyncLoop()
+/* AREXPORT ArSyncLoop::~ArSyncLoop()
 {
-}
+} */
 
 AREXPORT void ArSyncLoop::setRobot(ArRobot *robot)
 {
@@ -137,7 +137,9 @@ AREXPORT void * ArSyncLoop::runThread(void *)
     
 
     if (timeToSleep > 0)
-      ArUtil::sleep(timeToSleep);
+    {
+      ArUtil::sleep((unsigned int)timeToSleep);
+    }
   }   
   myRobot->lock();
   myRobot->wakeAllRunExitWaitingThreads();

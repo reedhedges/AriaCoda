@@ -60,10 +60,10 @@ AREXPORT ArRatioInputRobotJoydrive::ArRatioInputRobotJoydrive(
 
 }
 
-AREXPORT ArRatioInputRobotJoydrive::~ArRatioInputRobotJoydrive()
+/* AREXPORT ArRatioInputRobotJoydrive::~ArRatioInputRobotJoydrive()
 {
 
-}
+} */
 
 AREXPORT void ArRatioInputRobotJoydrive::fireCallback()
 {

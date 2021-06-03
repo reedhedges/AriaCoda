@@ -225,10 +225,6 @@ AREXPORT ArSoundsQueue::ArSoundsQueue(ArSpeechSynth* speechSynth,
 }
 */
 
-AREXPORT ArSoundsQueue::~ArSoundsQueue()
-{
-
-}
 
 
 void ArSoundsQueue::invokeCallbacks(const std::list<ArFunctor*>& lst)

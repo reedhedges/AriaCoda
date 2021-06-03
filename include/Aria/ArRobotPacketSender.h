@@ -51,8 +51,7 @@ public:
 			       unsigned char sync2,
 						bool tracking,
 						const char *trackingLogName);
-  /// Destructor
-  AREXPORT virtual ~ArRobotPacketSender();
+
 
   /// Sends a command to the robot with no arguments
   AREXPORT bool com(unsigned char command);

@@ -131,8 +131,7 @@ public:
   /// Block all the signals for the calling thread only
   AREXPORT static void blockAllThisThread();
 
-  /// Destructor
-  virtual ~ArSignalHandler();
+  //virtual ~ArSignalHandler();
 
   AREXPORT virtual void * runThread(void *arg);
 

@@ -37,8 +37,7 @@ class ArActionMovementParametersDebugging : public ArAction
 public: 
   /// Constructor
   AREXPORT ArActionMovementParametersDebugging(const char *name = "MovementParametersDebugging");
-  /// Destructor
-  AREXPORT virtual ~ArActionMovementParametersDebugging();
+  //AREXPORT virtual ~ArActionMovementParametersDebugging();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

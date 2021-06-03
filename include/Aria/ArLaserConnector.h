@@ -83,8 +83,7 @@ public:
 	  ArLog::LogLevel infoLogLevel = ArLog::Verbose,
 	  ArRetFunctor1<bool, const char *> *turnOnPowerOutputCB = NULL,
 	  ArRetFunctor1<bool, const char *> *turnOffPowerOutputCB = NULL);
-  /// Destructor
-  AREXPORT ~ArLaserConnector();
+  //AREXPORT ~ArLaserConnector();
   /// Connects all the lasers the robot has that should be auto connected
   AREXPORT bool connectLasers(bool continueOnFailedConnect = false,
 			      bool addConnectedLasersToRobot = true,

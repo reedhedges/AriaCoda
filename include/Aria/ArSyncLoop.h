@@ -38,7 +38,7 @@ class ArSyncLoop : public ArASyncTask
 public:
 
   AREXPORT ArSyncLoop();
-  AREXPORT virtual ~ArSyncLoop();
+  //AREXPORT virtual ~ArSyncLoop();
 
   AREXPORT void setRobot(ArRobot *robot);
 

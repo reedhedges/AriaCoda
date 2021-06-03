@@ -58,7 +58,7 @@ public:
 			ArPose goal = ArPose(0.0, 0.0, 0.0), 
 			double closeDist = 100, double speed = 400,
 			double speedToTurnAt = 150, double turnAmount = 7);
-  AREXPORT virtual ~ArActionGoto();
+  //AREXPORT virtual ~ArActionGoto();
 
   /** Sees if the goal has been achieved. The goal is achieved when
    *  the robot's reported position is within a certain distance

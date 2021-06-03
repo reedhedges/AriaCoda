@@ -38,10 +38,10 @@ AREXPORT ArActionConstantVelocity::ArActionConstantVelocity(const char *name,
   myVelocity = velocity;  
 }
 
-AREXPORT ArActionConstantVelocity::~ArActionConstantVelocity()
+/* AREXPORT ArActionConstantVelocity::~ArActionConstantVelocity()
 {
 
-}
+} */
 
 AREXPORT ArActionDesired *ArActionConstantVelocity::fire(
 	UNUSED ArActionDesired currentDesired)

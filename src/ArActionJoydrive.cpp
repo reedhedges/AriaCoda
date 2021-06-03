@@ -87,10 +87,10 @@ AREXPORT ArActionJoydrive::ArActionJoydrive(const char *name,
   myUseThrottle = false;
 }
 
-AREXPORT ArActionJoydrive::~ArActionJoydrive()
+/* AREXPORT ArActionJoydrive::~ArActionJoydrive()
 {
 
-}
+} */
 
 AREXPORT void ArActionJoydrive::setStopIfNoButtonPressed(
 	bool stopIfNoButtonPressed)

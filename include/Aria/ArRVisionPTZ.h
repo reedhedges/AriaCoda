@@ -39,7 +39,6 @@ class ArRVisionPacket: public ArBasePacket
 public:
   /// Constructor
   AREXPORT ArRVisionPacket(ArTypes::UByte2 bufferSize = 15);
-  AREXPORT virtual ~ArRVisionPacket();
   
   AREXPORT virtual void uByteToBuf(ArTypes::UByte val);
   AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val);

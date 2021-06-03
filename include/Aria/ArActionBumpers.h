@@ -47,8 +47,7 @@ public:
   AREXPORT ArActionBumpers(const char *name = "bumpers", 
 			   double backOffSpeed = 100, int backOffTime = 3000,
 			   int turnTime = 3000, bool setMaximums = false);
-  /// Destructor
-  AREXPORT virtual ~ArActionBumpers();
+  //AREXPORT virtual ~ArActionBumpers();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

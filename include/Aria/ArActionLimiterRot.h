@@ -47,8 +47,7 @@ class ArActionLimiterRot : public ArAction
 public:
   /// Constructor
   AREXPORT ArActionLimiterRot(const char *name = "limitRot");
-  /// Destructor
-  AREXPORT virtual ~ArActionLimiterRot();
+  //AREXPORT virtual ~ArActionLimiterRot();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

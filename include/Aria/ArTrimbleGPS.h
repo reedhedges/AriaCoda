@@ -66,7 +66,7 @@ private:
   void handlePTNLAG001(ArNMEAParser::Message message);
 public:
   AREXPORT ArTrimbleGPS();
-  AREXPORT virtual ~ArTrimbleGPS();
+  //AREXPORT virtual ~ArTrimbleGPS();
 
   /** Send a TSIP command to the Trimble GPS.
    *  See the TSIP Reference guide for details.

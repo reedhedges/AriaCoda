@@ -67,7 +67,7 @@ class ArActionGotoStraight : public ArAction
 public:
   AREXPORT ArActionGotoStraight(const char *name = "goto", 
 				double speed = 400);
-  AREXPORT virtual ~ArActionGotoStraight();
+  //AREXPORT virtual ~ArActionGotoStraight();
 
   /// Sees if the goal has been achieved
   AREXPORT bool haveAchievedGoal();

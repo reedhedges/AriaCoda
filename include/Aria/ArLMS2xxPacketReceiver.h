@@ -42,8 +42,7 @@ public:
 				unsigned char receivingAddress = 0,
 				bool allocatePackets = false,
 				bool useBase0Address = false);
-  /// Destructor
-  AREXPORT virtual ~ArLMS2xxPacketReceiver();
+  //AREXPORT virtual ~ArLMS2xxPacketReceiver();
   
   /// Receives a packet from the robot if there is one available
   AREXPORT ArLMS2xxPacket *receivePacket(unsigned int msWait = 0);

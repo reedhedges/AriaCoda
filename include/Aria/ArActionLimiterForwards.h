@@ -45,8 +45,7 @@ public:
 				   double slowDistance = 1000,
 				   double slowSpeed = 200,
 				   double widthRatio = 1);
-  /// Destructor
-  AREXPORT virtual ~ArActionLimiterForwards();
+  //AREXPORT virtual ~ArActionLimiterForwards();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

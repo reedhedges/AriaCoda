@@ -66,10 +66,10 @@ AREXPORT ArActionBumpers::ArActionBumpers(const char *name,
 		ArUtil::BIT5 | ArUtil::BIT6 | ArUtil::BIT7 | ArUtil::BIT8); 
 }
 
-AREXPORT ArActionBumpers::~ArActionBumpers()
+/* AREXPORT ArActionBumpers::~ArActionBumpers()
 {
 
-}
+} */
 
 AREXPORT void ArActionBumpers::activate()
 {

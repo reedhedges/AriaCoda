@@ -35,11 +35,11 @@ AREXPORT ArConfigGroup::ArConfigGroup(const char *baseDirectory)
     myBaseDirectory = "";
 }
 
-AREXPORT ArConfigGroup::~ArConfigGroup()
+/* AREXPORT ArConfigGroup::~ArConfigGroup()
 {
   
 }
-
+ */
 AREXPORT void ArConfigGroup::addConfig(ArConfig *config)
 {
   myConfigs.push_back(config);

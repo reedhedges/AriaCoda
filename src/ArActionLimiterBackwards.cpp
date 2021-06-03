@@ -64,10 +64,10 @@ AREXPORT ArActionLimiterBackwards::ArActionLimiterBackwards(
   myAvoidLocationDependentObstacles = avoidLocationDependentObstacles;
 }
 
-AREXPORT ArActionLimiterBackwards::~ArActionLimiterBackwards()
+/* AREXPORT ArActionLimiterBackwards::~ArActionLimiterBackwards()
 {
 
-}
+} */
 
 AREXPORT ArActionDesired *
 ArActionLimiterBackwards::fire(UNUSED ArActionDesired currentDesired)

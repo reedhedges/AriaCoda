@@ -53,8 +53,7 @@ public:
   /// Constructor
   AREXPORT ArActionRobotJoydrive(const char * name = "robotJoyDrive", 
 				 bool requireDeadmanPushed = true);
-  /// Destructor
-  AREXPORT virtual ~ArActionRobotJoydrive();
+  //AREXPORT virtual ~ArActionRobotJoydrive();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

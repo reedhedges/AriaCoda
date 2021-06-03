@@ -40,8 +40,7 @@ public:
   AREXPORT ArActionMovementParameters(const char *name = "MovementParameters",
 				      bool overrideFaster = true, 
 				      bool addLatVelIfAvailable = true);
-  /// Destructor
-  AREXPORT virtual ~ArActionMovementParameters();
+  //AREXPORT virtual ~ArActionMovementParameters();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

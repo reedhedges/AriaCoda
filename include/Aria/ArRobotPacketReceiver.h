@@ -53,8 +53,7 @@ public:
 				 unsigned char sync2,
 					bool tracking,
 					const char *trackingLogName);
-  /// Destructor
-  AREXPORT virtual ~ArRobotPacketReceiver();
+
   
   /// Receives a packet from the robot if there is one available
   AREXPORT ArRobotPacket *receivePacket(unsigned int msWait = 0);

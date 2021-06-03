@@ -36,8 +36,7 @@ class ArPriorityResolver : public ArResolver
 public:
   /// Constructor
   AREXPORT ArPriorityResolver();
-  /// Destructor
-  AREXPORT virtual ~ArPriorityResolver();
+  //AREXPORT virtual ~ArPriorityResolver();
   AREXPORT virtual ArActionDesired *resolve(ArResolver::ActionMap *actions,
 					    ArRobot *robot,
 					    bool logActions = false);

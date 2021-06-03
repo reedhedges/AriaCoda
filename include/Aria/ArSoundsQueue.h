@@ -154,7 +154,7 @@ public:
 //		    PlayItemFunctor *playFileCB = 0,
 //        InterruptItemFunctor *interruptFileCB = 0);
 
-  AREXPORT virtual ~ArSoundsQueue();
+
 
   /** Add a callback to be called when the sound queue begins to run in its
    *  thread.  (For example, the speech synthesizers must be initialized in

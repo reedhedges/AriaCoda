@@ -54,8 +54,7 @@ public:
   /// Constructor
   AREXPORT ArActionDeceleratingLimiter(const char *name = "limitAndDecel", 
 				       LimiterType type = FORWARDS);
-  /// Destructor
-  AREXPORT virtual ~ArActionDeceleratingLimiter();
+  //AREXPORT virtual ~ArActionDeceleratingLimiter();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

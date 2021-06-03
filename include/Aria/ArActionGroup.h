@@ -48,7 +48,7 @@ class ArActionGroup
 {
 public:
   /// Constructor
-  AREXPORT ArActionGroup(ArRobot * robot);
+  AREXPORT explicit ArActionGroup(ArRobot * robot);
   /// Destructor, it also deletes the actions in its group
   AREXPORT virtual ~ArActionGroup();
   /// Adds an action to this group's robot, and associates the action with this group.

@@ -35,10 +35,7 @@ AREXPORT ArRVisionPacket::ArRVisionPacket(ArTypes::UByte2 bufferSize) :
 
 }
 
-AREXPORT ArRVisionPacket::~ArRVisionPacket()
-{
 
-}
 
 AREXPORT void ArRVisionPacket::uByteToBuf(ArTypes::UByte val)
 {
@@ -123,10 +120,10 @@ AREXPORT ArRVisionPTZ::ArRVisionPTZ(UNUSED ArRobot *robot) :
   */
 
 }
-
+/* 
 AREXPORT ArRVisionPTZ::~ArRVisionPTZ()
 {
-}
+} */
 
 void ArRVisionPTZ::initializePackets()
 {

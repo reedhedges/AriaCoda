@@ -35,9 +35,9 @@ ArBasePacket(10000, 1, NULL, 1) {
 
 }
 
-AREXPORT ArS3SeriesPacket::~ArS3SeriesPacket() {
+/* AREXPORT ArS3SeriesPacket::~ArS3SeriesPacket() {
 
-}
+} */
 
 AREXPORT ArTime ArS3SeriesPacket::getTimeReceived() {
 	return myTimeReceived;
@@ -76,13 +76,13 @@ AREXPORT void ArS3SeriesPacket::empty() {
 	myReadLength = 0;
 }
 
-AREXPORT ArS3SeriesPacketReceiver::ArS3SeriesPacketReceiver() {
+/* AREXPORT ArS3SeriesPacketReceiver::ArS3SeriesPacketReceiver() {
 
 }
 
 AREXPORT ArS3SeriesPacketReceiver::~ArS3SeriesPacketReceiver() {
 
-}
+} */
 
 AREXPORT void ArS3SeriesPacketReceiver::setDeviceConnection(
 		ArDeviceConnection *conn) {

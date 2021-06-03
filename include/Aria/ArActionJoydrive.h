@@ -55,8 +55,7 @@ public:
 			    double turnAmountMax = 15, 
 			    bool stopIfNoButtonPressed = true,
 			    bool useOSCalForJoystick = true);
-  /// Destructor
-  AREXPORT virtual ~ArActionJoydrive();
+  //AREXPORT virtual ~ArActionJoydrive();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   /// Whether the joystick is initalized or not
   AREXPORT bool joystickInited();

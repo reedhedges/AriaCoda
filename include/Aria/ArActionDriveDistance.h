@@ -55,7 +55,7 @@ class ArActionDriveDistance : public ArAction
 public:
   AREXPORT ArActionDriveDistance(const char *name = "driveDistance", 
 				double speed = 400, double deceleration = 200);
-  AREXPORT virtual ~ArActionDriveDistance();
+  //AREXPORT virtual ~ArActionDriveDistance();
 
   /// Sees if the goal has been achieved
   AREXPORT bool haveAchievedDistance();

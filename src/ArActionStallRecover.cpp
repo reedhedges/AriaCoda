@@ -84,12 +84,12 @@ ArActionStallRecover::ArActionStallRecover(const char * name,
   myLastFired = 0;
 }
 
-AREXPORT
+/* AREXPORT
 ArActionStallRecover::~ArActionStallRecover()
 {
 
 
-}
+} */
 
 AREXPORT void ArActionStallRecover::activate()
 {

@@ -117,7 +117,7 @@ public:
 		   bool locationDependent = false,
 		   bool appendLaserNumberToName = true);
   /// Destructor
-  AREXPORT virtual ~ArLaser();
+  virtual ~ArLaser() = default;
 
   /// Connect to the laser and block for the result
   AREXPORT virtual bool blockingConnect() = 0;

@@ -42,10 +42,10 @@ AREXPORT ArActionDriveDistance::ArActionDriveDistance(const char *name,
   myState = STATE_NO_DISTANCE;
 }
 
-AREXPORT ArActionDriveDistance::~ArActionDriveDistance()
+/* AREXPORT ArActionDriveDistance::~ArActionDriveDistance()
 {
 
-}
+} */
 
 AREXPORT bool ArActionDriveDistance::haveAchievedDistance()
 {

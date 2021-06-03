@@ -34,9 +34,9 @@ AREXPORT ArActionInput::ArActionInput(const char *name) :
   clear();
 }
 
-AREXPORT ArActionInput::~ArActionInput()
+/* AREXPORT ArActionInput::~ArActionInput()
 {
-}
+} */
 
 AREXPORT void ArActionInput::setVel(double vel)
 {

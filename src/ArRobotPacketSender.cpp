@@ -96,10 +96,6 @@ AREXPORT ArRobotPacketSender::ArRobotPacketSender(
   myPacketSentCallback = NULL;
 }
 
-AREXPORT ArRobotPacketSender::~ArRobotPacketSender()
-{
-
-}
 
 AREXPORT void ArRobotPacketSender::setDeviceConnection(
 	ArDeviceConnection *deviceConnection)

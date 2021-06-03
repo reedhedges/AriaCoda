@@ -136,8 +136,9 @@ public:
   /// Assignment operator
   AREXPORT ArMapObject &operator=(const ArMapObject &mapObject);
 
-  /// Destructor
-  AREXPORT virtual ~ArMapObject();
+   // TODO move constructor and assignment
+
+  //AREXPORT virtual ~ArMapObject();
 
   // --------------------------------------------------------------------------
   // Text Attributes:

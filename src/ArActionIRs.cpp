@@ -63,10 +63,10 @@ AREXPORT ArActionIRs::ArActionIRs(const char *name,
   myHeading = 0.0;
 }
 
-AREXPORT ArActionIRs::~ArActionIRs()
+/* AREXPORT ArActionIRs::~ArActionIRs()
 {
 
-}
+} */
 
 AREXPORT void ArActionIRs::setRobot(ArRobot *robot)
 {

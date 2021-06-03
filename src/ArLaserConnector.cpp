@@ -80,10 +80,10 @@ AREXPORT ArLaserConnector::ArLaserConnector(
   Aria::addLogOptionsCB(&myLogOptionsCB, 80);
 }
 
-AREXPORT ArLaserConnector::~ArLaserConnector()
+/* AREXPORT ArLaserConnector::~ArLaserConnector()
 {
 
-}
+} */
 
 
 /**
@@ -361,10 +361,10 @@ AREXPORT bool ArLaserConnector::parseLaserArgs(ArArgumentParser *parser,
 					     "-lf%s", buf) ||
 
 
-      (!parser->checkParameterArgumentIntegerVar(
+      (!parser->checkParameterArgumentUnsignedIntegerVar(
 	       &laserData->myMaxRangeReallySet, &laserData->myMaxRange,
 	       "-laserMaxRange%s", buf)) ||
-      (!parser->checkParameterArgumentIntegerVar(
+      (!parser->checkParameterArgumentUnsignedIntegerVar(
 	       &laserData->myMaxRangeReallySet, &laserData->myMaxRange,
 	       "-lmr%s", buf)) ||
 

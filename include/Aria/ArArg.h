@@ -89,13 +89,17 @@ public:
 		 ArRetFunctor<const std::list<ArArgumentBuilder *> *> *getFunctor,
 		 const char *description);
   /// Constructor for just holding a description (for ArConfig)
-  AREXPORT ArArg(const char *description);
+  AREXPORT explicit ArArg(const char *description);
   /// Copy constructor
   AREXPORT ArArg(const ArArg & arg);
   /// Assignment operator
   AREXPORT ArArg &operator=(const ArArg &arg);
   /// Destructor
-  AREXPORT virtual ~ArArg();
+  ~ArArg() = default;
+
+  ArArg(ArArg&& old);
+
+  ArArg &operator=(ArArg &&other) noexcept;
 
   /// Gets the type of the argument
   AREXPORT Type getType() const;

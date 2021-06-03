@@ -60,10 +60,10 @@ AREXPORT ArForbiddenRangeDevice::ArForbiddenRangeDevice(
   myMapChangedCB.setName("ArForbiddenRangeDevice");
 }
 
-AREXPORT ArForbiddenRangeDevice::~ArForbiddenRangeDevice()
+/* AREXPORT ArForbiddenRangeDevice::~ArForbiddenRangeDevice()
 {
 
-}
+} */
 
 AREXPORT void ArForbiddenRangeDevice::processMap()
 {

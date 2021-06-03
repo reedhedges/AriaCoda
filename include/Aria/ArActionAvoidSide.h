@@ -41,8 +41,7 @@ public:
   AREXPORT ArActionAvoidSide(const char *name = "Avoid side", 
 		    double obstacleDistance = 300,
 		    double turnAmount = 5);
-  /// Destructor
-  AREXPORT virtual ~ArActionAvoidSide();
+  //AREXPORT virtual ~ArActionAvoidSide();
   AREXPORT virtual ArActionDesired * fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

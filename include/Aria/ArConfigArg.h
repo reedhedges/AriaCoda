@@ -289,17 +289,17 @@ public:
 		 const char *description);
 
   /// Constructor for just holding a description (for ArConfig)
-  AREXPORT ArConfigArg(const char *str, Type type = DESCRIPTION_HOLDER);
+  AREXPORT explicit ArConfigArg(const char *str, Type type = DESCRIPTION_HOLDER);
   /// Constructor for holding an unknown argument (STRING_HOLDER)
-  AREXPORT ArConfigArg(const char *name, const char *str);
+  AREXPORT explicit ArConfigArg(const char *name, const char *str);
 
   /// Constructs a new named argument of the specified type.
-  AREXPORT ArConfigArg(Type type,
+  AREXPORT explicit ArConfigArg(Type type,
                        const char *name, 
 		                   const char *description);
 
   /// Constructs a new argument of the specified type.
-  AREXPORT ArConfigArg(Type type);
+  AREXPORT explicit ArConfigArg(Type type);
 
   /// Destructor
   AREXPORT virtual ~ArConfigArg();

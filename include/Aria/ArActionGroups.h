@@ -53,7 +53,7 @@ class ArConfig;
 class ArActionGroupInput : public ArActionGroup
 {
 public:
-  AREXPORT ArActionGroupInput(ArRobot *robot);
+  AREXPORT explicit ArActionGroupInput(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupInput();
   AREXPORT void setVel(double vel);
   AREXPORT void setRotVel(double rotVel);
@@ -74,7 +74,7 @@ protected:
 class ArActionGroupStop : public ArActionGroup
 {
 public:
-  AREXPORT ArActionGroupStop(ArRobot *robot);
+  AREXPORT explicit ArActionGroupStop(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupStop();
   AREXPORT ArActionStop *getActionStop();
 public:
@@ -91,7 +91,7 @@ public:
 class ArActionGroupTeleop : public ArActionGroup
 {
 public:
-  AREXPORT ArActionGroupTeleop(ArRobot *robot);
+  AREXPORT explicit ArActionGroupTeleop(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupTeleop();
   AREXPORT void setThrottleParams(int lowSpeed, int highSpeed);
 protected:
@@ -108,7 +108,7 @@ protected:
 class ArActionGroupUnguardedTeleop : public ArActionGroup
 {
 public:
-  AREXPORT ArActionGroupUnguardedTeleop(ArRobot *robot);
+  AREXPORT explicit ArActionGroupUnguardedTeleop(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupUnguardedTeleop();
   AREXPORT void setThrottleParams(int lowSpeed, int highSpeed);
 protected:
@@ -124,7 +124,7 @@ protected:
 class ArActionGroupWander : public ArActionGroup
 {
 public:
-  AREXPORT ArActionGroupWander(ArRobot *robot, int forwardVel = 400, int avoidFrontDist = 450, int avoidVel = 200, int avoidTurnAmt = 15);
+  AREXPORT explicit ArActionGroupWander(ArRobot *robot, int forwardVel = 400, int avoidFrontDist = 450, int avoidVel = 200, int avoidTurnAmt = 15);
   AREXPORT virtual ~ArActionGroupWander();
 };
 
@@ -138,7 +138,7 @@ public:
 class ArActionGroupRatioDrive : public ArActionGroup
 {
 public:
-  AREXPORT ArActionGroupRatioDrive(ArRobot *robot);
+  AREXPORT explicit ArActionGroupRatioDrive(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupRatioDrive();
   AREXPORT ArActionRatioInput *getActionRatioInput();
   AREXPORT void addToConfig(ArConfig *config, const char *section);
@@ -165,7 +165,7 @@ protected:
 class ArActionGroupRatioDriveUnsafe : public ArActionGroup
 {
 public:
-  AREXPORT ArActionGroupRatioDriveUnsafe(ArRobot *robot);
+  AREXPORT explicit ArActionGroupRatioDriveUnsafe(ArRobot *robot);
   AREXPORT virtual ~ArActionGroupRatioDriveUnsafe();
   AREXPORT ArActionRatioInput *getActionRatioInput();
   AREXPORT void addToConfig(ArConfig *config, const char *section);

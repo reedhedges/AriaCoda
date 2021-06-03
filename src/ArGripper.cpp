@@ -49,9 +49,9 @@ AREXPORT ArGripper::ArGripper(ArRobot *robot, int gripperType) :
   myLastDataTime.setToNow();
 }
 
-AREXPORT ArGripper::~ArGripper()
+/* AREXPORT ArGripper::~ArGripper()
 {
-}
+} */
 
 AREXPORT void ArGripper::connectHandler()
 {

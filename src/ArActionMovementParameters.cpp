@@ -52,10 +52,10 @@ AREXPORT ArActionMovementParameters::ArActionMovementParameters(
   setParameters();
 }
 
-AREXPORT ArActionMovementParameters::~ArActionMovementParameters()
+/* AREXPORT ArActionMovementParameters::~ArActionMovementParameters()
 {
 
-}
+} */
 
 AREXPORT void ArActionMovementParameters::setParameters(double maxVel, 
 							double maxNegVel,

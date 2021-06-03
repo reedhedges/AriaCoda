@@ -39,6 +39,6 @@ AREXPORT ArRangeDeviceThreaded::ArRangeDeviceThreaded(
   myTask.setThreadName(name);
 }
 
-AREXPORT ArRangeDeviceThreaded::~ArRangeDeviceThreaded()
+/* AREXPORT ArRangeDeviceThreaded::~ArRangeDeviceThreaded()
 {
-}
+} */

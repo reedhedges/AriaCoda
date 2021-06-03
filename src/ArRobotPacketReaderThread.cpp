@@ -38,9 +38,9 @@ AREXPORT ArRobotPacketReaderThread::ArRobotPacketReaderThread() :
   myInRun = false;
 }
 
-AREXPORT ArRobotPacketReaderThread::~ArRobotPacketReaderThread()
+/* AREXPORT ArRobotPacketReaderThread::~ArRobotPacketReaderThread()
 {
-}
+} */
 
 AREXPORT void ArRobotPacketReaderThread::setRobot(ArRobot *robot)
 {

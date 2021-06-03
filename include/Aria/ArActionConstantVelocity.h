@@ -38,8 +38,7 @@ public:
   /// Constructor
   AREXPORT ArActionConstantVelocity(const char *name = "Constant Velocity", 
 			   double velocity = 400);
-  /// Destructor
-  AREXPORT virtual ~ArActionConstantVelocity();
+  //AREXPORT virtual ~ArActionConstantVelocity();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

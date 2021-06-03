@@ -33,9 +33,9 @@ AREXPORT ArPriorityResolver::ArPriorityResolver() :
 }
 
 
-AREXPORT ArPriorityResolver::~ArPriorityResolver()
+/* AREXPORT ArPriorityResolver::~ArPriorityResolver()
 {
-}
+} */
 
 AREXPORT ArActionDesired *ArPriorityResolver::resolve(
 	ArResolver::ActionMap *actions, ArRobot *robot, bool logActions)

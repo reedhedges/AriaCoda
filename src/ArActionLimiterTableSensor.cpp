@@ -34,9 +34,9 @@ AREXPORT ArActionLimiterTableSensor::ArActionLimiterTableSensor(
 
 }
 
-AREXPORT ArActionLimiterTableSensor::~ArActionLimiterTableSensor()
+/* AREXPORT ArActionLimiterTableSensor::~ArActionLimiterTableSensor()
 {
-}
+} */
 
 AREXPORT ArActionDesired *ArActionLimiterTableSensor::fire(
 	UNUSED ArActionDesired currentDesired)

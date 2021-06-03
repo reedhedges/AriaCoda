@@ -152,8 +152,7 @@ class ArVCC4Packet: public ArBasePacket
 public:
   /// Constructor
   ArVCC4Packet(ArTypes::UByte2 bufferSize = 30);
-  /// Destructor
-  virtual ~ArVCC4Packet();
+  //virtual ~ArVCC4Packet();
 
   virtual void byte4ToBuf(ArTypes::Byte4 val) override;
 

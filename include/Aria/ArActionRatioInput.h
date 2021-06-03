@@ -61,8 +61,7 @@ class ArActionRatioInput : public ArAction
 public:
   /// Constructor
   AREXPORT ArActionRatioInput(const char *name = "RatioInput");
-  /// Destructor
-  AREXPORT virtual ~ArActionRatioInput();
+  //AREXPORT virtual ~ArActionRatioInput();
   /// Set ratios
   AREXPORT void setRatios(double transRatio, double rotRatio, 
 			  double throttleRatio, double latRatio = 0);

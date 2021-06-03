@@ -151,8 +151,7 @@ class ArRobotParams : public ArConfig
 public:
   /// Constructor
   AREXPORT ArRobotParams();
-  /// Destructor
-  AREXPORT virtual ~ArRobotParams();
+  //AREXPORT virtual ~ArRobotParams();
   /// Returns the class from the parameter file
   const char *getClassName() const { return myClass; }
   /// Returns the subclass from the parameter file

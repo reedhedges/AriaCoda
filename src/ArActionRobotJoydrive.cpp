@@ -46,10 +46,10 @@ AREXPORT ArActionRobotJoydrive::ArActionRobotJoydrive(
   myHandleJoystickPacketCB.setName("ArActionRobotJoydrive");
 }
 
-AREXPORT ArActionRobotJoydrive::~ArActionRobotJoydrive()
+/* AREXPORT ArActionRobotJoydrive::~ArActionRobotJoydrive()
 {
 
-}
+} */
 
 AREXPORT void ArActionRobotJoydrive::setRobot(ArRobot *robot)
 {

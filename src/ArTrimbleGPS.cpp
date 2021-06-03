@@ -39,10 +39,10 @@ AREXPORT ArTrimbleGPS::ArTrimbleGPS() :
   myMutex.setLogName("ArTrimbleGPS::myMutex");
   addNMEAHandler("NLAG001", &myAuxDataHandler);
 }
-
+/* 
 AREXPORT ArTrimbleGPS::~ArTrimbleGPS() {
 }
-
+ */
 
 AREXPORT bool ArTrimbleGPS::initDevice()
 {

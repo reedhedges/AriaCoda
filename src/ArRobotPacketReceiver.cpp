@@ -107,10 +107,7 @@ AREXPORT ArRobotPacketReceiver::ArRobotPacketReceiver(
  
 }
 
-AREXPORT ArRobotPacketReceiver::~ArRobotPacketReceiver() 
-{
-  
-}
+
 
 AREXPORT void ArRobotPacketReceiver::setDeviceConnection(
 	ArDeviceConnection *deviceConnection)

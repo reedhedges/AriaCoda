@@ -53,10 +53,10 @@ AREXPORT ArDPPTUPacket::ArDPPTUPacket(ArTypes::UByte2 bufferSize) :
 {
 }
 
-AREXPORT ArDPPTUPacket::~ArDPPTUPacket()
+/* AREXPORT ArDPPTUPacket::~ArDPPTUPacket()
 {
 
-}
+} */
 
 AREXPORT void ArDPPTUPacket::byte2ToBuf(ArTypes::Byte2 val)
 {

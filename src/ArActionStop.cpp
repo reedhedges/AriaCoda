@@ -34,9 +34,9 @@ AREXPORT ArActionStop::ArActionStop(const char *name) :
 {
 }
 
-AREXPORT ArActionStop::~ArActionStop()
+/* AREXPORT ArActionStop::~ArActionStop()
 {
-}
+} */
 
 AREXPORT ArActionDesired *ArActionStop::fire(
 	UNUSED ArActionDesired currentDesired)

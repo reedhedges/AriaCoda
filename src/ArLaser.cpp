@@ -108,9 +108,9 @@ AREXPORT ArLaser::ArLaser(
   myRobotRunningAndConnected = false;
 }
 
-AREXPORT ArLaser::~ArLaser()
+/* AREXPORT ArLaser::~ArLaser()
 {
-}
+} */
 
 /**
    This can be used to set the name on mutexes and such to match the

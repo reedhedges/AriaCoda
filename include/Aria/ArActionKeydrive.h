@@ -41,8 +41,7 @@ public:
 			   double turnAmountMax = 24,
 			   double velIncrement = 25,
 			   double turnIncrement = 8);
-  /// Destructor
-  AREXPORT virtual ~ArActionKeydrive();
+  //AREXPORT virtual ~ArActionKeydrive();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   /// For setting the maximum speeds
   AREXPORT void setSpeeds(double transVelMax, double turnAmountMax);

@@ -39,8 +39,7 @@ public:
                                   double distanceIncrement = 100,
 				                          unsigned int maxRange = 4000,
 				                          const char *name = "forbidden");
-  /// Destructor
-  AREXPORT virtual ~ArForbiddenRangeDevice();
+  //AREXPORT virtual ~ArForbiddenRangeDevice();
   /// Saves the forbidden lines from the map
   AREXPORT void processMap();
   /// Remakes the readings 

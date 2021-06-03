@@ -94,7 +94,7 @@ class ArAnalogGyro
 {
 public:
   /// Constructor
-  AREXPORT ArAnalogGyro(ArRobot *robot);
+  AREXPORT explicit ArAnalogGyro(ArRobot *robot);
   /// Destructor
   AREXPORT virtual ~ArAnalogGyro();
   /// Gets if we really have a gyro or not

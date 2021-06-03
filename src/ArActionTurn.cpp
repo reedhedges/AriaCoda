@@ -47,10 +47,10 @@ AREXPORT ArActionTurn::ArActionTurn(const char *name, double speedStartTurn,
 
 }
 
-AREXPORT ArActionTurn::~ArActionTurn()
+/* AREXPORT ArActionTurn::~ArActionTurn()
 {
 
-}
+} */
 
 AREXPORT ArActionDesired *ArActionTurn::fire(UNUSED ArActionDesired currentDesired)
 {

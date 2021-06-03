@@ -59,10 +59,10 @@ AREXPORT ArActionKeydrive::ArActionKeydrive(const char *name,
   mySpeedReset = true;
 }
 
-AREXPORT ArActionKeydrive::~ArActionKeydrive()
+/* AREXPORT ArActionKeydrive::~ArActionKeydrive()
 {
 
-}
+} */
 
 AREXPORT void ArActionKeydrive::setRobot(ArRobot *robot)
 {

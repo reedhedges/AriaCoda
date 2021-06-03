@@ -135,10 +135,10 @@ AREXPORT ArRobotParams::ArRobotParams() :
     internalAddToConfigDefault();
 }
 
-AREXPORT ArRobotParams::~ArRobotParams()
+/* AREXPORT ArRobotParams::~ArRobotParams()
 {
 
-}
+} */
 
 
 void ArRobotParams::internalAddToConfigDefault()

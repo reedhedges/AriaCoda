@@ -37,8 +37,7 @@ class ArActionStop : public ArAction
 public:
   /// Constructor
   AREXPORT ArActionStop(const char *name = "stop");
-  /// Destructor
-  AREXPORT virtual ~ArActionStop();
+  //AREXPORT virtual ~ArActionStop();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

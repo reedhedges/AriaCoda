@@ -61,10 +61,10 @@ AREXPORT ArLMS2xxPacketReceiver::ArLMS2xxPacketReceiver(
   myUseBase0Address = useBase0Address;
 }
 
-AREXPORT ArLMS2xxPacketReceiver::~ArLMS2xxPacketReceiver() 
+/* AREXPORT ArLMS2xxPacketReceiver::~ArLMS2xxPacketReceiver() 
 {
   
-}
+} */
 
 AREXPORT void ArLMS2xxPacketReceiver::setDeviceConnection(
 	ArDeviceConnection *deviceConnection)

@@ -172,10 +172,35 @@ AREXPORT ArArg &ArArg::operator=(const ArArg & arg)
 	return *this;
 }
 
-
-AREXPORT ArArg::~ArArg()
-{
+ArArg::ArArg(ArArg&& arg) {
+  myType = arg.myType;
+  myName = std::move(arg.myName);
+  myDescription = std::move(arg.myDescription);
+  myIntPointer = arg.myIntPointer;
+  myDoublePointer = arg.myDoublePointer;
+  myPosePointer = arg.myPosePointer;
+  myBoolPointer = arg.myBoolPointer;
+  myStringPointer = arg.myStringPointer;
+  myMinInt = arg.myMinInt;
+  myMaxInt = arg.myMaxInt;
+  myMinDouble = arg.myMinDouble;
+  myMaxDouble = arg.myMaxDouble;
+  myMaxStrLen = arg.myMaxStrLen;
+  mySetFunctor = arg.mySetFunctor;
+  myGetFunctor = arg.myGetFunctor;
+  myConfigPrioritySet = arg.myConfigPrioritySet;
+  myConfigPriority = arg.myConfigPriority;
 }
+
+ArArg &ArArg::operator=(ArArg &&other) noexcept
+{ 
+  if(&other != this) ArArg(other); return *this; 
+}
+
+
+/* AREXPORT ArArg::~ArArg()
+{
+} */
 
 AREXPORT void ArArg::clear()
 {

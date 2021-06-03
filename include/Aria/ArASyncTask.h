@@ -51,8 +51,15 @@ public:
 
   /// Constructor
   AREXPORT ArASyncTask();
-  /// Destructor
-  AREXPORT virtual ~ArASyncTask();
+
+  /// Destructor. Override if neccesary in your subclass.
+  virtual ~ArASyncTask() = default;
+
+  // todo implement?
+  ArASyncTask(const ArASyncTask& other) = delete;
+  ArASyncTask(ArASyncTask&& old) = delete;
+  ArASyncTask& operator=(const ArASyncTask& other) = delete;
+  ArASyncTask& operator=(ArASyncTask&& other) = delete;
 
   /// The main run loop
   /**
@@ -76,23 +83,23 @@ public:
   /// Run in its own thread
   virtual void runAsync() { create(); }
 
-  // reimplemented here just so its easier to see in the docs
+  // re-implemented here just so its easier to see in the docs
   /// Stop the thread
   virtual void stopRunning() {myRunning=false;}
 
   /// Create the task and start it going
-  AREXPORT virtual int create(bool joinable=true, bool lowerPriority=true);
+  AREXPORT int create(bool joinable=true, bool lowerPriority=true);
 
   /** Internal function used with system threading system to run the new thread.
       In general, use run() or runAsync() instead.
       @internal
   */
-  AREXPORT virtual void * runInThisThread(void *arg=0);
+  AREXPORT void * runInThisThread(void *arg=0);
 
   /// Gets a string that describes what the thread is doing, or NULL if it
   /// doesn't know. Override this in your subclass to return a status
   /// string. This can be used for debugging or UI display.
-  virtual const char *getThreadActivity() { return NULL; }
+  virtual const char *getThreadActivity() override { return NULL; }
 private:
 
   // Hide regular Thread::Create

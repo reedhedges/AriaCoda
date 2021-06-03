@@ -37,8 +37,7 @@ class ArS3SeriesPacket : public ArBasePacket
 public:
   /// Constructor
   AREXPORT ArS3SeriesPacket();
-  /// Destructor
-  AREXPORT virtual ~ArS3SeriesPacket();
+  //AREXPORT virtual ~ArS3SeriesPacket();
   
   /// Gets the time the packet was received at
   AREXPORT ArTime getTimeReceived();
@@ -145,10 +144,10 @@ protected:
 class ArS3SeriesPacketReceiver
 {
 public:
-  /// Constructor with assignment of a device connection
-  AREXPORT ArS3SeriesPacketReceiver();
-  /// Destructor
-  AREXPORT virtual ~ArS3SeriesPacketReceiver();
+  // Constructor with assignment of a device connection
+  //AREXPORT ArS3SeriesPacketReceiver();
+  // Destructor
+  //AREXPORT virtual ~ArS3SeriesPacketReceiver();
   
   /// Receives a packet from the robot if there is one available
   AREXPORT ArS3SeriesPacket *receivePacket(unsigned int msWait = 0,

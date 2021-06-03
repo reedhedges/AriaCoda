@@ -125,10 +125,6 @@ AREXPORT ArSimulatedLaser::ArSimulatedLaser(ArLaser *laser) :
   myReceivedData = false;
 }
 
-AREXPORT ArSimulatedLaser::~ArSimulatedLaser()
-{
-
-}
 
 AREXPORT bool ArSimulatedLaser::blockingConnect()
 {

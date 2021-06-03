@@ -127,13 +127,13 @@ int ArSZSeriesPacket::deascii(char c)
 		return 0;
 }
 
-AREXPORT ArSZSeriesPacketReceiver::ArSZSeriesPacketReceiver() {
+/* AREXPORT ArSZSeriesPacketReceiver::ArSZSeriesPacketReceiver() {
 
 }
 
 AREXPORT ArSZSeriesPacketReceiver::~ArSZSeriesPacketReceiver() {
 
-}
+} */
 
 AREXPORT void ArSZSeriesPacketReceiver::setDeviceConnection(
 		ArDeviceConnection *conn) {

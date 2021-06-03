@@ -57,8 +57,7 @@ public:
 				     ArActionRatioInput *input,
 				     int priority = 75,
 				     bool requireDeadmanPushed = true);
-  /// Destructor
-  AREXPORT virtual ~ArRatioInputRobotJoydrive();
+  //AREXPORT virtual ~ArRatioInputRobotJoydrive();
 protected:
   AREXPORT void fireCallback();
 

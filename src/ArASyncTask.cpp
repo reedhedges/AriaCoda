@@ -40,9 +40,9 @@ AREXPORT ArASyncTask::ArASyncTask() :
 {
 }
 
-AREXPORT ArASyncTask::~ArASyncTask()
+/* AREXPORT ArASyncTask::~ArASyncTask()
 {
-}
+} */
 
 AREXPORT int ArASyncTask::create(bool joinable, bool lowerPriority)
 {

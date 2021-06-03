@@ -56,10 +56,10 @@ AREXPORT ArActionGoto::ArActionGoto(const char *name, ArPose goal,
   
 }
 
-AREXPORT ArActionGoto::~ArActionGoto()
+/* AREXPORT ArActionGoto::~ArActionGoto()
 {
 
-}
+} */
 
 AREXPORT bool ArActionGoto::haveAchievedGoal()
 {

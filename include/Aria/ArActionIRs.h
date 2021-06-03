@@ -47,8 +47,7 @@ public:
   AREXPORT ArActionIRs(const char *name = "IRs", 
 		       double backOffSpeed = 100, int backOffTime = 5000,
 		       int turnTime = 3000, bool setMaximums = false);
-  /// Destructor
-  AREXPORT virtual ~ArActionIRs();
+  //AREXPORT virtual ~ArActionIRs();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual void setRobot(ArRobot *robot);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }

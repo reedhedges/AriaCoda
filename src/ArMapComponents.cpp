@@ -242,9 +242,9 @@ AREXPORT ArMapScan &ArMapScan::operator=(const ArMapScan &other)
 }
 
 
-AREXPORT ArMapScan::~ArMapScan()
+/* AREXPORT ArMapScan::~ArMapScan()
 {
-}
+} */
 
 AREXPORT bool ArMapScan::addToFileParser(ArFileParser *fileParser)
 {
@@ -2841,9 +2841,9 @@ AREXPORT ArMapSupplement &ArMapSupplement::operator=(const ArMapSupplement &othe
 }
 
 
-AREXPORT ArMapSupplement::~ArMapSupplement()
+/* AREXPORT ArMapSupplement::~ArMapSupplement()
 {
-}
+} */
 
 AREXPORT bool ArMapSupplement::addToFileParser(ArFileParser *fileParser)
 {

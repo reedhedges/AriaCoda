@@ -43,10 +43,10 @@ AREXPORT ArActionLimiterRot::ArActionLimiterRot(
   myUseLocationDependentDevices = true;
 }
 
-AREXPORT ArActionLimiterRot::~ArActionLimiterRot()
+/* AREXPORT ArActionLimiterRot::~ArActionLimiterRot()
 {
 
-}
+} */
 
 /**
    @param checkRadius True to check the radius and apply this speed, false not to

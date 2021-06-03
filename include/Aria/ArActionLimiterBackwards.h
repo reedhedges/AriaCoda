@@ -45,8 +45,7 @@ public:
 				    double maxBackwardsSpeed = -250,
 				    double widthRatio = 1.5,
 				    bool avoidLocationDependentObstacles = true);
-  /// Destructor
-  AREXPORT virtual ~ArActionLimiterBackwards();
+  //AREXPORT virtual ~ArActionLimiterBackwards();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

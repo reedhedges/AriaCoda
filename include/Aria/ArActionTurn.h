@@ -45,8 +45,7 @@ public:
 			double speedStartTurn = 200,
 			double speedFullTurn = 100,
 			double turnAmount = 15);
-  /// Destructor
-  AREXPORT virtual ~ArActionTurn();
+  //AREXPORT virtual ~ArActionTurn();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG

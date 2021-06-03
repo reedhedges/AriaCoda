@@ -79,9 +79,8 @@ class ArGripper
 {
 public:
   /// Constructor
-  AREXPORT ArGripper(ArRobot *robot, int gripperType = QUERYTYPE);
-  /// Destructor
-  AREXPORT virtual ~ArGripper();
+  explicit AREXPORT ArGripper(ArRobot *robot, int gripperType = QUERYTYPE);
+  //AREXPORT virtual ~ArGripper();
   /// Opens the gripper paddles
   AREXPORT bool gripOpen();
   /// Closes the gripper paddles

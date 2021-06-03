@@ -297,10 +297,10 @@ AREXPORT ArMapObject &ArMapObject::operator=(const ArMapObject &mapObject)
 
 } // end operator=
 
-/// Destructor
+/* /// Destructor
 AREXPORT ArMapObject::~ArMapObject() 
 {
-}
+} */
 
 /// Gets the type of the object
 AREXPORT const char *ArMapObject::getType() const { return myType.c_str(); }

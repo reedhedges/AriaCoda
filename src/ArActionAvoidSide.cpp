@@ -48,10 +48,10 @@ AREXPORT ArActionAvoidSide::ArActionAvoidSide(const char *name,
 
 }
 
-AREXPORT ArActionAvoidSide::~ArActionAvoidSide()
+/* AREXPORT ArActionAvoidSide::~ArActionAvoidSide()
 {
 
-}
+} */
 
 AREXPORT ArActionDesired *ArActionAvoidSide::fire(
 	UNUSED ArActionDesired currentDesired)
