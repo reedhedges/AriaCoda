@@ -172,6 +172,10 @@ add the `-DARIA_OMIT_DEPRECATED_MATH_FUNCS` compilation flag to `EXTRA_CXXFLAGS`
 
     make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS 
 
+You can set other variables to configure the build, such as enabling/disabling
+Pioneer/ROS interfaces, overriding compilation commands, overriding optimization
+and warning flags, and more.  Run `make help` for a list.
+
 Note: After building AriaCoda, you can build and run example and test programs
 without installing on the system by adding the library directory to your dynamic
 library path, otherwise you will receive an error similar to the following:

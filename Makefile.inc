@@ -8,6 +8,7 @@ CXX:=g++
 endif
 
 CFILEEXT:=cpp
+
 # BARECXXFLAGS is used when compiling python and java wrapper code
 # CXXFLAGS is used when compiling everything else (libraries, static libraries,
 # examples) and adds EXTRA_CXXFLAGS and possibly other options.
@@ -19,10 +20,23 @@ CFILEEXT:=cpp
 # defaults.
 # Set CXXSTD to select C++ version.
 # Set CXXDEBBUGFLAGS and CXXOPTFLAGS to set debug and optimization flags
+
 CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wpedantic -Wsign-conversion -Wconversion
+# -Wnon-virtual-dtor -Woverloaded-virtual 
+# -Wduplicated-cond -Wduplicated-branches -Wlogical-op
+# -Wnull-dereference
+# -Wcast-align -Wuseless-cast 
+# -Wlifetime (clang only)
+
 CXXSTD ?= c++14
 CXXDEBUGFLAGS ?= -g
+
+ifdef DEBUG
+CXXOPTFLAGS ?= -Og
+else
 CXXOPTFLAGS ?= -O2
+endif
+
 BARECXXFLAGS=-std=$(CXXSTD) $(CXXDEBUGFLAGS) $(CXXOPTFLAGS) $(CXXWARNFLAGS) -D_REENTRANT  
 CXXFLAGS+=$(BARECXXFLAGS) $(EXTRA_CXXFLAGS)
 CXXINC=-Iinclude # used in all targets

@@ -10,7 +10,7 @@
       "command": "make",
       "type": "shell",
       "args": [
-        "-j2"
+        "-j4"
       ],
       "problemMatcher": [
         "$gcc"
@@ -20,8 +20,12 @@
       },
       "group": { "kind": "build", "isDefault": true }
     },
+    { "label": "make examples/demo", "command": "make", "type": "shell", "args":
+[ "examples/demo" ], "problemMatcher": [ "$gcc" ], "presentation": { "reveal": "always" }, "group": "build" },
 
     { "label": "make clean", "command": "make", "type": "shell", "args": [ "clean" ], "problemMatcher": [ "$gcc" ], "presentation": { "reveal": "always" }, "group": "build" },
+    { "label": "make debug", "command": "make", "type": "shell", "args": [
+"debug", "-j4" ], "problemMatcher": [ "$gcc" ], "presentation": { "reveal": "always" }, "group": "build" },
 
     { "label": "clang-tidy", "command": "make", "args": [ "clang-tidy" ], "type": "shell", "presentation": { "reveal": "always" }, "group": "build", "problemMatcher":  [ "$gcc" ] },
 
