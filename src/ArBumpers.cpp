@@ -110,7 +110,7 @@ AREXPORT void ArBumpers::processReadings()
 */
 AREXPORT void ArBumpers::addBumpToBuffer(int bumpValue, int whichBumper)
 {
-  int numBumpers;
+  size_t numBumpers;
   double x;
   double y;
   double degree;
@@ -124,7 +124,7 @@ AREXPORT void ArBumpers::addBumpToBuffer(int bumpValue, int whichBumper)
   if(whichBumper == 1) numBumpers = myRobot->getNumFrontBumpers();
   else numBumpers = myRobot->getNumRearBumpers();
 
-  for (int i = 0; i < numBumpers; i++)
+  for (size_t i = 0; i < numBumpers; i++)
     {
       // MPL I wrote this code, but checking for BIT8 makes no sense, BIT0 is  the stall, BIT8 would be beyond this data
       if((i == 0 && (bumpValue & ArUtil::BIT1)) || 

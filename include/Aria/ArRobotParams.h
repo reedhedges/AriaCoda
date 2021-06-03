@@ -221,6 +221,14 @@ public:
       else
 	return false;
     }
+
+  bool haveIR(size_t number) const
+  {
+    if(number <= INT_MAX)
+      return false;
+    return haveIR((int)number);
+  }
+
   /// Returns the X location of the given numbered IR
   int getIRX(int number) const
     {
@@ -233,6 +241,13 @@ public:
 	return 0;
       return (*it2).second;
     }
+
+  int getIRX(size_t number) const
+  {
+    assert(number <= INT_MAX);
+    return getIRX((int)number);
+  }
+
   /// Returns the Y location of the given numbered IR
   int getIRY(int number) const
     {
@@ -244,6 +259,36 @@ public:
 	return 0;
       return (*it2).second;
     }
+
+  int getIRY(size_t number) const
+  {
+    assert(number <= INT_MAX);
+    return getIRY((int)number);
+  }
+
+  /// Returns the angle at which the given IR is pointing.
+  int getIRTheta(int) const
+  {
+    // TODO implement? not essential since IR is used for very short range sensing on e.g. Peoplebot, MTX, etc. and may just detect presence rather than supply a range distance
+    return 0;
+  }
+
+  int getIRTheta(size_t number) const
+  {
+    assert(number <= INT_MAX);
+    return getIRTheta((int)number);
+  }
+
+  ArPose getIRPose(int number) const
+  {
+    return ArPose(getIRX(number), getIRY(number), getIRTheta(number));
+  }
+
+  ArPose getIRPose(size_t number) const
+  {
+    return ArPose(getIRX(number), getIRY(number), getIRTheta(number));
+  }
+
   int getIRType(int number) const
     {
       std::map<int, std::map<int, int> >::const_iterator it;
@@ -254,6 +299,13 @@ public:
 	return 0;
       return (*it2).second;
     }
+
+  int getIRType(size_t number) const
+  {
+    assert(number <= INT_MAX);
+    return getIRType((int)number);
+  }
+
   int getIRCycles(int number) const
     {
       std::map<int, std::map<int, int> >::const_iterator it;
@@ -264,6 +316,12 @@ public:
 	return 0;
       return (*it2).second;
     }
+
+  int getIRCycles(size_t number) const
+  {
+    assert(number <= INT_MAX);
+    return getIRCycles((int)number);
+  }
 
   /// Returns the number of sonar
   int getNumSonar() const { return myNumSonar; }
@@ -350,6 +408,8 @@ public:
       else
 	return 0;
     }
+
+
   /// The Y location of the laser 
   int getLaserY(int laserNumber = 1) const 
     { 
@@ -944,8 +1004,8 @@ protected:
 				      ArConfig *config,
 				      bool useDefaultBehavior);
 
-  AREXPORT void addPTZToConfig(int i, ArConfig *config);
-  AREXPORT void addVideoToConfig(int i, ArConfig *config);
+  AREXPORT void addPTZToConfig(size_t i, ArConfig *config);
+  AREXPORT void addVideoToConfig(size_t i, ArConfig *config);
   
   // Processes the config for commercial
   AREXPORT bool commercialProcessFile();
@@ -1268,7 +1328,7 @@ protected:
     IR_X, 
     IR_Y,
     IR_TYPE,
-    IR_CYCLES
+    IR_CYCLES,
   };
   AREXPORT void internalSetIR(int num, int type, int cycles, int x, int y);
   AREXPORT bool parseIRUnit(ArArgumentBuilder *builder);

@@ -77,7 +77,7 @@ AREXPORT void ArIRs::processReadings()
   unsigned char bit = 0;
   if(myParams.haveTableSensingIR())
     {
-      for (int i = 0; i < myParams.getNumIR(); ++i)
+      for (size_t i = 0; i < myParams.getNumIR(); ++i)
 	{
 	  switch(i)
 	    {
@@ -108,60 +108,47 @@ AREXPORT void ArIRs::processReadings()
 	    }
 
 	  if(myParams.haveNewTableSensingIR() && myRobot->getIODigInSize() > 3)
-	    {
-	      if((myParams.getIRType(i) && !(myRobot->getIODigIn(3) & bit)) ||
-		  (!myParams.getIRType(i) && (myRobot->getIODigIn(3) & bit)))
-		{
-		  if(cycleCounters[i] < myParams.getIRCycles(i))
-		    {
-		      cycleCounters[i] = cycleCounters[i] + 1;		      
-		    }
-		  else
-		    {
-		      cycleCounters[i] = 1;
-		      ArPose pose;
-		      pose.setX(myParams.getIRX(i));
-		      pose.setY(myParams.getIRY(i));
-		      
-		      ArTransform global = myRobot->getToGlobalTransform();
-		      pose = global.doTransform(pose);
-		      
-		      myCurrentBuffer.addReading(pose.getX(), pose.getY());
-		    }
-		}
-	      else
-		{
-		  cycleCounters[i] = 1;
-		}
-	    }
+	  {
+	    if((myParams.getIRType(i) && !(myRobot->getIODigIn(3) & bit)) ||
+		  	(!myParams.getIRType(i) && (myRobot->getIODigIn(3) & bit)))
+			{
+				if(cycleCounters[i] < myParams.getIRCycles(i))
+				{
+					cycleCounters[i] = cycleCounters[i] + 1;		      
+				}
+				else
+				{
+					cycleCounters[i] = 1;		      
+					const ArPose pose(myRobot->getToGlobalTransform().doTransform(myParams.getIRPose(i)));
+					myCurrentBuffer.addReading(pose.getX(), pose.getY());
+				}
+			}
+			else
+			{
+				cycleCounters[i] = 1;
+			}
+	  }
 	  else
-	    {
-	      if(!(myRobot->getDigIn() & bit))
-		{
-		  if(cycleCounters[i] < myParams.getIRCycles(i))
-		    {
-		      cycleCounters[i] = cycleCounters[i] + 1;		      
-		    }
-		  else
-		    {
-		      cycleCounters[i] = 1;
-		      
-		      ArPose pose;
-		      pose.setX(myParams.getIRX(i));
-		      pose.setY(myParams.getIRY(i));
-		      
-		      ArTransform global = myRobot->getToGlobalTransform();
-		      pose = global.doTransform(pose);
-		      
-		      myCurrentBuffer.addReading(pose.getX(), pose.getY());
-		    }
-		}
-	      else
-		{
-		  cycleCounters[i] = 1;
-		}
+	  {
+	    if(!(myRobot->getDigIn() & bit))
+			{
+				if(cycleCounters[i] < myParams.getIRCycles(i))
+				{
+					cycleCounters[i] = cycleCounters[i] + 1;		      
+				}
+				else
+				{
+					cycleCounters[i] = 1;
+					const ArPose pose(myRobot->getToGlobalTransform().doTransform(myParams.getIRPose(i)));
+					myCurrentBuffer.addReading(pose.getX(), pose.getY());
+				}
+			}
+			else
+			{
+				cycleCounters[i] = 1;
+			}
 	    }
-	}
-    }
+		}
+  }
 }
 

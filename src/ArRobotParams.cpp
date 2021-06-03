@@ -885,8 +885,11 @@ AREXPORT void ArRobotParams::addSonarBoardToConfig(
   
 }
 
-void ArRobotParams::addPTZToConfig(int i, ArConfig *config)
+void ArRobotParams::addPTZToConfig(size_t i, ArConfig *config)
 {
+  //assert(which >= 0);
+  //const size_t i = (size_t)which;
+  assert(i < myPTZParams.size());
   std::stringstream sectionStream;
   sectionStream << "PTZ " << i+1 << " parameters";
   std::string section = sectionStream.str();
@@ -903,8 +906,11 @@ void ArRobotParams::addPTZToConfig(int i, ArConfig *config)
 }
 
 
-void ArRobotParams::addVideoToConfig(int i, ArConfig *config)
+void ArRobotParams::addVideoToConfig(size_t i, ArConfig *config)
 {
+  //assert(which >= 0);
+  //const size_t i = (size_t)which;
+  assert(i < myVideoParams.size());
   std::stringstream sectionStream;
   sectionStream << "Video " << i+1 << " parameters";
   std::string section = sectionStream.str();

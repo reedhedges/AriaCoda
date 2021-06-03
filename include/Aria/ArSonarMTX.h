@@ -260,10 +260,10 @@ public:
 	int getNumConfiguredTransducers() const
 		{ return myNumConfiguredTransducers; }
   /// Board Delay
-	int getBoardDelay() const
+	unsigned int getBoardDelay() const
 		{ return myBoardDelay; }
   /// 
-	int getBoardGain() const
+	unsigned int getBoardGain() const
 		{ return myBoardGain; }
   ///
 	/*
@@ -271,12 +271,12 @@ public:
     { return myBoardNoiseDelta; }
 	*/
   /// 
-	int getBoardDetectionThreshold() const
+	unsigned int getBoardDetectionThreshold() const
   { 
     return myBoardDetectionThreshold; 
   }
 
-	int getBoardMaxRange() const
+	unsigned int getBoardMaxRange() const
   { 
     return myBoardMaxRange; 
   }
