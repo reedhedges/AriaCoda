@@ -1193,10 +1193,17 @@ public:
     return inside;
   }
 
-  std::ostream& operator<<(std::ostream& os)
+  std::ostream& operator<<(std::ostream& os) const
   {
     os << "{x=" << getX() << ", y=" << getY() << ", th=" << getTh() << "}";
     return os;
+  }
+
+  std::string toString() const
+  {
+    std::string s("{x=");
+    s += std::to_string(getX()) + ", y=" + std::to_string(getY()) + ", th=" + std::to_string(getTh()) + "}";
+    return s;
   }
 
 protected:
@@ -1214,10 +1221,16 @@ class ArPos2D : public ArPose
 {
 public:
   ArPos2D(double x, double y) : ArPose(x, y, 0) {}
-  std::ostream& operator<<(std::ostream& os)
+  std::ostream& operator<<(std::ostream& os) const
   {
     os << "{x=" << getX() << ", y=" << getY() << "}";
     return os;
+  }
+  std::string toString() const
+  {
+    std::string s("{x=");
+    s += std::to_string(getX()) + ", y=" + std::to_string(getY()) + "}";
+    return s;
   }
 private:
   // make some methods from ArPose private so they can't be used
@@ -1525,11 +1538,14 @@ public:
   std::ostream& operator<<(std::ostream& os) const
   {
     // todo move to toString() and call it here
-    os << getSec() << "s:" << getMSec() << "ms (" << mSecSince() << "ms ago.)";
+    os << getSec() << "s:" << getMSec() << "ms (" << mSecSince() << "ms ago)";
     return os;
   }
 
-  AREXPORT std::string toString() const;
+  AREXPORT std::string toString() const
+  {
+    return std::to_string(getSec()) + "s:" + std::to_string(getMSec()) + "ms (" + std::to_string(mSecSince()) + "ms ago)";
+  }
 
 
 protected:
@@ -1575,6 +1591,11 @@ public:
   {
     os << "{x=" << getX() << ", y=" << getY() << ", th=" << getTh() << ", time=" << getTime().toString() << "}";
     return os;
+  }
+
+  std::string toString() const
+  {
+    return std::string("{x=") + std::to_string(getX()) + ", y=" + std::to_string(getY()) + ", th=" + std::to_string(getTh()) + ", time=" + getTime().toString() + "}";
   }
 
 protected:
@@ -2074,6 +2095,13 @@ public:
     return os;
   } 
 
+  std::string toString() const
+  {
+    std::string s("(");
+    s += std::to_string(getX1()) + ", " + std::to_string(getY1()) + ", " + std::to_string(getX2()) + ", " + std::to_string(getY2()) + ")";
+    return s;
+  } 
+
 protected:
   double myX1, myY1, myX2, myY2;
   ArLine myLine;
@@ -2110,6 +2138,12 @@ public:
   {
     os << getAverage() << " (n=" << getCurrentNumAveraged() << ")";
     return os;
+  }
+
+    /// output current average (calculates average using getAverage()) and how many values were used to calculate that average.
+  std::string toString() const
+  {
+    return std::to_string(getAverage()) + " (n=" + std::to_string(getCurrentNumAveraged()) + ")";
   }
 
 protected:

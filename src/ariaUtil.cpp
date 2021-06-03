@@ -1344,14 +1344,6 @@ AREXPORT void ArTime::setToNow()
       
 }
 
-AREXPORT std::string ArTime::toString() const
-{
-  // todo replace with fmt::format() or std::format()
-  std::stringstream s;
-  this->operator<<(s);
-  return std::string(s.str());
-}
-
 AREXPORT ArRunningAverage::ArRunningAverage(size_t numToAverage)
 {
   myNumToAverage = numToAverage;
