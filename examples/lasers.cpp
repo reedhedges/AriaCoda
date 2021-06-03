@@ -88,7 +88,7 @@ int main(int argc, char **argv)
   // Log parameters related to the lasers
   ArLog::log(ArLog::Normal, "\nlasersExample: Robot parameters include information for %d lasers:", robot.getNumLasers());
   const ArRobotParams *params = robot.getRobotParams();
-  for(size_t i = 1; i <= robot.getNumLasers(); ++i)
+  for(int i = 1; i <= robot.getNumLasers(); ++i)
   {
     if(!robot.findLaser(i))
       continue;

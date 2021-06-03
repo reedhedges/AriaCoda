@@ -86,6 +86,9 @@ public:
   AREXPORT bool checkParameterArgumentInteger(const char *argument, int *dest,
 					      bool *wasReallySet = NULL, 
 					      bool returnFirst = false);
+  /// Returns the unsigned integer after given argument, error if negative
+  AREXPORT bool checkParameterArgumentUnsignedInteger(const char *argument, unsigned int *dest,
+                                                      bool *wasReallySet = NULL, bool returnFirst = false);
   /// Returns the word/argument after given argument 
   AREXPORT bool checkParameterArgumentBool(const char *argument, bool *dest,
 					   bool *wasReallySet = NULL,
@@ -154,6 +157,13 @@ public:
    */
   AREXPORT bool checkParameterArgumentIntegerVar(bool *wasReallySet, int *dest,
 						 const char *argument, ...);
+
+  /** @brief Returns the unsigned integer after given argument, error if negative
+   *  @swigomit
+   */
+  AREXPORT bool checkParameterArgumentUnsignedIntegerVar(bool *wasReallySet, unsigned int *dest,
+						 const char *argument, ...);
+
   /** @brief Returns the float after given argument 
    *  @swigomit
    */

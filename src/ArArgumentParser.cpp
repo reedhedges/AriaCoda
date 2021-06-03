@@ -330,6 +330,17 @@ AREXPORT bool ArArgumentParser::checkParameterArgumentIntegerVar(
   return checkParameterArgumentInteger(arg, dest, wasReallySet);
 }
 
+AREXPORT bool ArArgumentParser::checkParameterArgumentUnsignedIntegerVar(
+	bool *wasReallySet, unsigned int *dest, const char *argument, ...)
+{
+  char arg[2048];
+  va_list ptr;
+  va_start(ptr, argument);
+  vsnprintf(arg, sizeof(arg), argument, ptr);
+  va_end(ptr);
+  return checkParameterArgumentUnsignedInteger(arg, dest, wasReallySet);
+}
+
 
 /**
    This is like checkParameterArgument but lets you fail out if the
@@ -359,7 +370,6 @@ AREXPORT bool ArArgumentParser::checkParameterArgumentInteger(
 {
   char *param;
   char *endPtr;
-  int intVal;
 
   param = checkParameterArgument(argument, returnFirst);
   
@@ -371,12 +381,18 @@ AREXPORT bool ArArgumentParser::checkParameterArgumentInteger(
   }
   else if (param[0] != '\0')
   {
-    intVal = strtol(param, &endPtr, 10);
+    const long intVal = strtol(param, &endPtr, 10);
     if (endPtr[0] == '\0')
     {
-      *dest = intVal;
+      if(intVal < -INT_MAX || intVal > INT_MAX)
+      {
+        ArLog::log(ArLog::Normal, "Argument value given to \"%s\" too large.", argument);
+        if(wasReallySet) *wasReallySet = false;
+        return false;
+      }
+      *dest = (int) intVal;
       if (wasReallySet)
-	*wasReallySet = true;
+	      *wasReallySet = true;
       return true;
     }
     else
@@ -384,6 +400,77 @@ AREXPORT bool ArArgumentParser::checkParameterArgumentInteger(
       ArLog::log(ArLog::Normal, 
 		"Argument given to %s was not an integer it was the string %s",
 		 argument, param);
+      return false;
+    }
+ 
+  }
+  else
+  {
+    ArLog::log(ArLog::Normal, "No argument given to %s", argument);
+    return false;
+  }
+
+}
+
+/**
+   This is like checkParameterArgument but lets you fail out if the
+   argument is there but the parameter for it is not
+
+   @param argument the string to check for, if the argument is found
+   its pulled from the list of arguments
+
+   @param dest if the parameter to the argument is found and is a
+   valid integer then dest is set to the integer value
+
+   @param returnFirst if we should go just take the first argument
+   (true) or if we should through the list and pull up the last one
+   (default is false, use true if you want to use the same parameter
+   multiple times)
+
+   @param wasReallySet the target of this pointer is set to true if
+     @a argument was found followed by a valid value, 
+     and @a dest was set to the value,
+     or false if @a argument was not found and @a dest was not changed.
+
+   @return true if either this parameter wasn't there or if the
+      parameter was there and a valid argument value was given. 
+      return false if an invalid argument value was given or another error occured
+      getting the argument or checking for the parameter.
+**/
+AREXPORT bool ArArgumentParser::checkParameterArgumentUnsignedInteger(
+	const char *argument, unsigned int *dest, bool *wasReallySet, bool returnFirst)
+{
+  char *param = checkParameterArgument(argument, returnFirst);
+  if (param == NULL)
+  {
+    if (wasReallySet && !myReallySetOnlyTrue)
+      *wasReallySet = false;
+    return true;
+  }
+  else if (param[0] != '\0')
+  {
+    char *endPtr;
+    const long long val = strtoll(param, &endPtr, 10);
+    if (endPtr[0] == '\0') // no parsing error from strtoll
+    {
+      if(val < 0 || val > UINT_MAX)
+      {
+        ArLog::log(ArLog::Normal, "Argument given with \"%s\" (invalid \"%s\"). Must not be negative.", argument, param);
+        if(wasReallySet && !myReallySetOnlyTrue)
+          *wasReallySet = false;
+        return false;
+      }
+
+      *dest = (unsigned int) val;
+      if (wasReallySet)
+	      *wasReallySet = true;
+      return true;
+    }
+    else // parsing error from strtoll
+    {
+      ArLog::log(ArLog::Normal, 
+        "Argument given to %s was not an integer it was the string %s",
+        argument, param);
       return false;
     }
  
@@ -642,24 +729,25 @@ void ArArgumentParser::removeArg(size_t which)
     return;
   }
   if (myUsingBuilder)
-    {
-      myBuilder->removeArg(which);
-    }
+  {
+    myBuilder->removeArg(which);
+  }
   else
-    {
-      size_t i;
-      for (i = which; i < getArgc() - 1; i++)
-	myArgv[i] = myArgv[i+1];
-      *myArgc -= 1;
-    }
+  {
+    size_t i;
+    for (i = which; i < getArgc() - 1; i++)
+      myArgv[i] = myArgv[i+1];
+    *myArgc -= 1;
+  }
 }
 
 AREXPORT size_t ArArgumentParser::getArgc() const
 {
+  assert(myArgc != NULL && *myArgc >= 0);
   if (myUsingBuilder)
     return myBuilder->getArgc();
   else
-    return *myArgc;
+    return (size_t) (*myArgc);
 }
 
 AREXPORT char** ArArgumentParser::getArgv() const
@@ -759,7 +847,7 @@ AREXPORT void ArArgumentParser::loadDefaultArguments(int position)
       ArArgumentBuilder compressed;
       compressed.addPlain(argumentsPtr);
       compressed.compressQuoted(true);
-      myBuilder->addStringsAsIs(compressed.getArgc(), compressed.getArgv(), 
+      myBuilder->addStringsAsIs( (int) compressed.getArgc(), compressed.getArgv(), 
                                position);
       ArLog::log(ArLog::Normal, 
 		 "Added arguments from environmental variable '%s'", str);
@@ -771,7 +859,7 @@ AREXPORT void ArArgumentParser::loadDefaultArguments(int position)
       ArArgumentBuilder compressed;
       compressed.addPlain(arguments);
       compressed.compressQuoted(true);
-      myBuilder->addStringsAsIs(compressed.getArgc(), compressed.getArgv(), 
+      myBuilder->addStringsAsIs( (int) compressed.getArgc(), compressed.getArgv(), 
                               position);
       ArLog::log(ArLog::Normal, "Added arguments from file '%s'", 
 		 str);
@@ -869,7 +957,7 @@ AREXPORT bool ArArgumentParser::checkHelpAndWarnUnparsed(
     return true;
 
   std::string msg{"Unhandled arguments to program:"};
-  for (size_t i = 1 + (int)numArgsOkay; i < getArgc(); i++)
+  for (size_t i = 1 + numArgsOkay; i < getArgc(); i++)
   {
     msg += " ";
     msg += getArg(i);

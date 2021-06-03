@@ -956,7 +956,19 @@ public:
   AREXPORT const ArLaser *findLaser(int laserNumber) const;
 
   /// Finds a laser in the robot's list (@a laserNumber indices start at 1)
+  const ArLaser *findLaser(size_t laserNumber) const {
+    assert(laserNumber <= INT_MAX);
+    return findLaser(static_cast<int>(laserNumber));
+  }
+
+  /// Finds a laser in the robot's list (@a laserNumber indices start at 1)
   AREXPORT ArLaser *findLaser(int laserNumber);
+
+  /// Finds a laser in the robot's list (@a laserNumber indices start at 1)
+  ArLaser *findLaser(size_t laserNumber) {
+    assert(laserNumber <= INT_MAX);
+    return findLaser(static_cast<int>(laserNumber));
+  }
 
   /// Gets the range device list
   AREXPORT const std::map<int, ArLaser *> *getLaserMap() const;
@@ -967,7 +979,11 @@ public:
   /// Finds whether a particular range device is attached to this robot or not
   AREXPORT bool hasLaser(ArLaser *device) const;
 
-  size_t getNumLasers() { return myLaserMap.size(); }
+  int getNumLasers() {
+    const size_t size = myLaserMap.size();
+    assert(size <= INT_MAX);
+    return (int)size;
+  }
 
 #ifndef ARIA_WRAPPER
   /// Adds a battery to the robot's map of them
@@ -1151,6 +1167,16 @@ public:
 			       ArFunctor *functor,
 			       ArTaskState::State *state = NULL);
 
+  bool addUserTask(ArFunctor *functor, const char *name = NULL, int position = ArListPos::LAST)
+  {
+    return addUserTask(name, position, functor);
+  }
+
+  
+  bool addUserTask(ArFunctor& functor, const char *name = NULL, int position = ArListPos::LAST)
+  {
+    return addUserTask(name, position, &functor);
+  }
 
   /// Removes a user task from the list of synchronous tasks by name
   AREXPORT void remUserTask(const char *name);
@@ -1174,6 +1200,16 @@ public:
 				       ArFunctor *functor,
 	       			       ArTaskState::State *state = NULL);
 
+  bool addSensorInterpTask(ArFunctor *functor, const char *name = NULL, int position = ArListPos::LAST)
+  {
+    return addSensorInterpTask(name, position, functor);
+  }
+
+  
+  bool addSensorInterpTask(ArFunctor& functor, const char *name = NULL, int position = ArListPos::LAST)
+  {
+    return addSensorInterpTask(name, position, &functor);
+  }
 
   /// Removes a sensor interp tasks by name
   AREXPORT void remSensorInterpTask(const char *name);

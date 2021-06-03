@@ -37,7 +37,7 @@ class ArLCDMTX;
 
 class ArKeyHandler;
 class ArJoyHandler;
-
+class ArLaser;
 
 /** Contains global initialization, deinitialization and other global functions
     @ingroup ImportantClasses

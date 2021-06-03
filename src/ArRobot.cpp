@@ -2678,19 +2678,28 @@ AREXPORT const ArRobotConfigPacketReader *ArRobot::getOrigRobotConfig() const
 }
   
 /**
-   Adds a packet handler.  A packet handler is an ArRetFunctor1<bool, ArRobotPacket*>, 
+   Adds a packet handler.  The packet handler function should return true to prevent any
+   further packet handlers from being invoked with this packet, or  false to allow other
+   packet handlers to received the packet. 
+
+   A packet handler is an ArRetFunctor1<bool, ArRobotPacket*>, 
    (e.g.  created as an instance of ArRetFunctor1C.  The return is a boolean, while the functor
    takes an ArRobotPacket pointer as the argument.  This functor is placed in
    a list of functors to call when a packet arrives. This list is processed
-   in order until one of the handlers returns true. Your packet handler
+   in order until one of the handlers returns true. 
+   
+   Your packet handler
    function may be invoked for any packet, so it should test the packet type
-   ID (see ArRobotPacket::getID()). If you handler gets data from the packet
+   ID (see ArRobotPacket::getID()). If your handler gets data from the packet
    (it "handles" it) it should return true, to prevent ArRobot from invoking
-   other handlers with the packet (with data removed). If you hander
+   other handlers with the packet (with data removed). 
+   
+   If you hander
    cannot interpret the packet, it should leave it unmodified and return
    false to allow other handlers a chance to receive it.
+
    @param functor the functor to call when the packet comes in
-   @param position whether to place the functor first or last
+   @param position whether to place the functor first or last in the packet handler list
    @see remPacketHandler
 **/
 AREXPORT void ArRobot::addPacketHandler(
