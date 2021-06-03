@@ -694,13 +694,13 @@ public:
   static double fixAngle(double angle) 
     {
       if (angle >= 360)
-	angle = angle - 360.0 * (double)((int)angle / 360);
+	      angle = angle - 360.0 * (double)((int)angle / 360);
       if (angle < -360)
-	angle = angle + 360.0 * (double)((int)angle / -360);
+	      angle = angle + 360.0 * (double)((int)angle / -360);
       if (angle <= -180)
-	angle = + 180.0 + (angle + 180.0);
+	      angle = + 180.0 + (angle + 180.0);
       if (angle > 180)
-	angle = - 180.0 + (angle - 180.0);
+	      angle = - 180.0 + (angle - 180.0);
       assert(angle > -180.0);
       assert(angle <= 180);
       return angle;
@@ -785,10 +785,10 @@ public:
       startAngle = fixAngle(startAngle);
       endAngle = fixAngle(endAngle);
       if ((startAngle < endAngle && angle > startAngle && angle < endAngle) ||
-	  (startAngle > endAngle && (angle > startAngle || angle < endAngle)))
-	return true;
+	        (startAngle > endAngle && (angle > startAngle || angle < endAngle)))
+	      return true;
       else
-	return false;
+	      return false;
     }
 
   /// Finds the absolute value of a double
@@ -1616,8 +1616,8 @@ protected:
    Begin with a new ArSectors object or by calling clear()
    on a reused ArSectors object.  Periodically call update() with a current angle, this
    sets the flag for the sector corresponding to that angle. Call didAll() to determine
-   if all sectors have been flagged as visited.
-
+   if all sectors have been flagged as visited.  
+   
    Note use of a large number of sectors
    that will be flagged at a high speed (e.g. high rotation speed of robot) may result
    in higher likelyhood that a sector will be accidentally skipped.
@@ -1652,23 +1652,23 @@ public:
   }
   /// Clears all quadrants
   void clear() 
-    {
+  {
     mySectors.fill(false);
-    }
+  }
   /// Updates the appropriate quadrant for the given angle
   void update(double angle)
-    {
+  {
     // TODO why is the angle rounded here? my is mySectorSize int?  change to doubles with final conversion using floor() or similar
     const int angleInt = (int) floor(ArMath::fixAngle360(angle)); // shift range to [0,360], and ensure positive value
     assert(angleInt >= 0);
     assert(angleInt <= 360);
     mySectors[(size_t)angleInt / mySectorSize] = true;
-    }
+  }
   /// Returns true if the all of the quadrants have been gone through
   bool didAll() const
-    {
+  {
     return std::all_of(mySectors.cbegin(), mySectors.cend(), [](bool b) -> bool { return b == true; });
-    }
+  }
 
   template <size_t NS> friend std::ostream& operator<<(std::ostream& os, const ArSectors<NS>& rhs);
 
@@ -1689,7 +1689,7 @@ protected:
   const size_t mySectorSize = 360/NumSectors;
 };
 
-
+  
 template <size_t NumSectors>
 std::ostream& operator<<(std::ostream& os, const ArSectors<NumSectors>& rhs)
 {
