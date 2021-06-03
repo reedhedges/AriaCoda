@@ -74,7 +74,7 @@ public:
   /* @arg robot In some cases the robot connection is used to communicate with
    * devices via auxiliary serial connections, so this robot interface is used.
    * May be NULL. */
-  AREXPORT ArPTZConnector(ArArgumentParser* argParser, ArRobot *robot = NULL);
+  AREXPORT explicit ArPTZConnector(ArArgumentParser* argParser, ArRobot *robot = NULL);
   AREXPORT ~ArPTZConnector();
 
   /** For each PTZ specified in program arguments, and in robot parameters with
@@ -146,7 +146,7 @@ public:
 protected:
   bool parseArgs();
   bool parseArgs(ArArgumentParser *parser);
-  bool parseArgsFor(ArArgumentParser *parser, int which);
+  bool parseArgsFor(ArArgumentParser *parser, int which); ///< if which is -1 then check for -ptz argument, otherwise check for -ptz<which> arguments (e.g. -ptz1, -ptz2, etc.
   AREXPORT void logOptions() const;
   void populateRobotParams(ArRobotParams *params);
 

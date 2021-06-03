@@ -38,16 +38,16 @@ class ArRobotPacketReceiver
 {
 public:
   /// Constructor without an already assigned device connection
-  AREXPORT ArRobotPacketReceiver(bool allocatePackets = false,
+  AREXPORT explicit ArRobotPacketReceiver(bool allocatePackets = false,
 				 unsigned char sync1 = 0xfa, 
 				 unsigned char sync2 = 0xfb);
   /// Constructor with assignment of a device connection
-  AREXPORT ArRobotPacketReceiver(ArDeviceConnection *deviceConnection, 
+  AREXPORT explicit ArRobotPacketReceiver(ArDeviceConnection *deviceConnection, 
 				 bool allocatePackets = false,
 				 unsigned char sync1 = 0xfa, 
 				 unsigned char sync2 = 0xfb);
   /// Constructor with assignment of a device connection and tracking
-  AREXPORT ArRobotPacketReceiver(ArDeviceConnection *deviceConnection, 
+  AREXPORT explicit ArRobotPacketReceiver(ArDeviceConnection *deviceConnection, 
 				 bool allocatePackets,
 				 unsigned char sync1, 
 				 unsigned char sync2,

@@ -35,7 +35,7 @@ class ArForbiddenRangeDevice : public ArRangeDevice
 {
 public:
   /// Constructor
-  AREXPORT ArForbiddenRangeDevice(ArMapInterface *armap, 
+  AREXPORT explicit ArForbiddenRangeDevice(ArMapInterface *armap, 
                                   double distanceIncrement = 100,
 				                          unsigned int maxRange = 4000,
 				                          const char *name = "forbidden");

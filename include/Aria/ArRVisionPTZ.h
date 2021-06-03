@@ -40,10 +40,10 @@ public:
   /// Constructor
   AREXPORT ArRVisionPacket(ArTypes::UByte2 bufferSize = 15);
   
-  AREXPORT virtual void uByteToBuf(ArTypes::UByte val);
-  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val);
+  AREXPORT virtual void uByteToBuf(ArTypes::UByte val) override;
+  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val) override;
   /// This is a new function, read the details before you try to use it
-  AREXPORT void byte2ToBufAtPos(ArTypes::Byte2 val, ArTypes::UByte2 pose);
+  AREXPORT void byte2ToBufAtPos(ArTypes::Byte2 val, ArTypes::UByte2 pos);
 };
 
 //class ArRobot;
@@ -60,11 +60,11 @@ public:
 class ArRVisionPTZ : public ArPTZ
 {
 public:
-  AREXPORT ArRVisionPTZ(ArRobot *robot);
-  AREXPORT virtual ~ArRVisionPTZ();
+  AREXPORT explicit ArRVisionPTZ(ArRobot *robot);
+  //AREXPORT virtual ~ArRVisionPTZ();
   
-  AREXPORT virtual bool init();
-  AREXPORT virtual const char *getTypeName() { return "rvision"; }
+  AREXPORT virtual bool init() override;
+  AREXPORT virtual const char *getTypeName() override { return "rvision"; }
   /// Set serial port
   /// @since 2.7.6
   void setPort(const char *port)
@@ -72,39 +72,39 @@ public:
 	  mySerialPort = port;
   }
 protected:
-  AREXPORT virtual bool pan_i(double degrees);
-  AREXPORT virtual bool panRel_i(double degrees);
-  AREXPORT virtual bool tilt_i(double degrees);
-  AREXPORT virtual bool tiltRel_i(double degrees);
-  AREXPORT virtual bool panTilt_i(double degreesPan, double degreesTilt);
-  AREXPORT virtual bool panTiltRel_i(double degreesPan, double degreesTilt);
+  AREXPORT virtual bool pan_i(double degrees) override;
+  AREXPORT virtual bool panRel_i(double degrees) override;
+  AREXPORT virtual bool tilt_i(double degrees) override;
+  AREXPORT virtual bool tiltRel_i(double degrees) override;
+  AREXPORT virtual bool panTilt_i(double degreesPan, double degreesTilt) override;
+  AREXPORT virtual bool panTiltRel_i(double degreesPan, double degreesTilt) override;
 public:
-  AREXPORT virtual bool canZoom() const { return true; }
-  AREXPORT virtual bool zoom(int zoomValue);
-  AREXPORT virtual bool zoomRel(int zoomValue);
+  AREXPORT virtual bool canZoom() const override { return true; }
+  AREXPORT virtual bool zoom(int zoomValue) override;
+  AREXPORT virtual bool zoomRel(int zoomValue) override;
 protected:
-  AREXPORT virtual double getPan_i() const { return myPan; }
-  AREXPORT virtual double getTilt_i() const { return myTilt; }
+  AREXPORT virtual double getPan_i() const override { return myPan; }
+  AREXPORT virtual double getTilt_i() const override { return myTilt; }
 public:
-  AREXPORT virtual int getZoom() const { return myZoom; }
+  AREXPORT virtual int getZoom() const override { return myZoom; }
   //AREXPORT void getRealPanTilt();
   //AREXPORT void getRealZoomPos();
   /*
-  AREXPORT virtual double getMaxPosPan() const { return MAX_PAN; }
-  AREXPORT virtual double getMaxNegPan() const { return MIN_PAN; }
-  AREXPORT virtual double getMaxPosTilt() const { return MAX_TILT; }
-  AREXPORT virtual double getMaxNegTilt() const { return MIN_TILT; }
-  AREXPORT virtual int getMaxZoom() const { return MAX_ZOOM; }
-  AREXPORT virtual int getMinZoom() const { return MIN_ZOOM; }
+  AREXPORT virtual double getMaxPosPan() const override { return MAX_PAN; }
+  AREXPORT virtual double getMaxNegPan() const override { return MIN_PAN; }
+  AREXPORT virtual double getMaxPosTilt() const override { return MAX_TILT; }
+  AREXPORT virtual double getMaxNegTilt() const override { return MIN_TILT; }
+  AREXPORT virtual int getMaxZoom() const override { return MAX_ZOOM; }
+  AREXPORT virtual int getMinZoom() const override { return MIN_ZOOM; }
   */
 
-  AREXPORT virtual bool canGetRealPanTilt() const { return false; }
-  AREXPORT virtual bool canGetRealZoom() const { return false; }
-  AREXPORT virtual bool canGetFOV() { return true; }
+  AREXPORT virtual bool canGetRealPanTilt() const override { return false; }
+  AREXPORT virtual bool canGetRealZoom() const override { return false; }
+  AREXPORT virtual bool canGetFOV() override { return true; }
   /// Gets the field of view at maximum zoom
-  AREXPORT virtual double getFOVAtMaxZoom() { return 4.4; }
+  AREXPORT virtual double getFOVAtMaxZoom()  override { return 4.4; }
   /// Gets the field of view at minimum zoom
-  AREXPORT virtual double getFOVAtMinZoom() { return 48.8; }
+  AREXPORT virtual double getFOVAtMinZoom() override { return 48.8; }
 
   virtual ArBasePacket* readPacket();
   enum {

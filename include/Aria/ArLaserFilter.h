@@ -49,7 +49,7 @@ public:
   /// Constructor
   AREXPORT ArLaserFilter(ArLaser *laser, const char *name = NULL);
   /// Destructor
-  AREXPORT ~ArLaserFilter();
+  AREXPORT virtual ~ArLaserFilter();
   /// Set robot
   AREXPORT virtual void setRobot(ArRobot *robot);
   /// Add to the config

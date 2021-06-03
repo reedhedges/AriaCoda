@@ -39,14 +39,14 @@ class ArRobotPacketSender
 {
 public:
   /// Constructor without an already assigned device connection
-  AREXPORT ArRobotPacketSender(unsigned char sync1 = 0xfa,
+  AREXPORT explicit ArRobotPacketSender(unsigned char sync1 = 0xfa,
 			       unsigned char sync2 = 0xfb);
   /// Constructor with assignment of a device connection
-  AREXPORT ArRobotPacketSender(ArDeviceConnection *deviceConnection,
+  AREXPORT explicit ArRobotPacketSender(ArDeviceConnection *deviceConnection,
 			       unsigned char sync1 = 0xfa,
 			       unsigned char sync2 = 0xfb);
   /// Constructor with assignment of a device connection and tracking
-  AREXPORT ArRobotPacketSender(ArDeviceConnection *deviceConnection,
+  AREXPORT explicit ArRobotPacketSender(ArDeviceConnection *deviceConnection,
 			       unsigned char sync1,
 			       unsigned char sync2,
 						bool tracking,

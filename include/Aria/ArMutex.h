@@ -255,7 +255,7 @@ class ArScopedLock {
 private:
 	ArMutex& mtx;
 public:
-	ArScopedLock(ArMutex& m) : mtx(m) {
+	explicit ArScopedLock(ArMutex& m) : mtx(m) {
 		mtx.lock();
 	}
 	~ArScopedLock() {

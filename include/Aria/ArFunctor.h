@@ -171,7 +171,7 @@ public:
   virtual ~ArFunctor1()  = default;
 
   /// Invokes the functor
-  virtual void invoke() = 0;
+  virtual void invoke() override = 0;
 
   /// Invokes the functor
   /**
@@ -198,13 +198,13 @@ public:
   virtual ~ArFunctor2()  = default;
 
   /// Invokes the functor
-  virtual void invoke() = 0;
+  virtual void invoke() override = 0;
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) = 0;
+  virtual void invoke(P1 p1) override = 0;
 
   /// Invokes the functor
   /**
@@ -232,20 +232,20 @@ public:
   virtual ~ArFunctor3()  = default;
 
   /// Invokes the functor
-  virtual void invoke() = 0;
+  virtual void invoke() override = 0;
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) = 0;
+  virtual void invoke(P1 p1) override = 0;
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) = 0;
+  virtual void invoke(P1 p1, P2 p2) override = 0;
 
   /// Invokes the functor
   /**
@@ -276,20 +276,20 @@ public:
   virtual ~ArFunctor4()  = default;
 
   /// Invokes the functor
-  virtual void invoke() = 0;
+  virtual void invoke() override = 0;
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) = 0;
+  virtual void invoke(P1 p1) override = 0;
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) = 0;
+  virtual void invoke(P1 p1, P2 p2) override = 0;
 
   /// Invokes the functor
   /**
@@ -297,7 +297,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) = 0;
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override = 0;
 
   /// Invokes the functor
   /**
@@ -329,20 +329,20 @@ public:
   virtual ~ArFunctor5()  = default;
 
   /// Invokes the functor
-  virtual void invoke() = 0;
+  virtual void invoke() override = 0;
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) = 0;
+  virtual void invoke(P1 p1) override = 0;
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) = 0;
+  virtual void invoke(P1 p1, P2 p2) override = 0;
 
   /// Invokes the functor
   /**
@@ -350,7 +350,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) = 0;
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override = 0;
 
   /// Invokes the functor
   /**
@@ -359,7 +359,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override = 0;
 
   /// Invokes the functor
   /**
@@ -398,7 +398,7 @@ public:
   virtual ~ArRetFunctor()  = default;
 
   /// Invokes the functor, discards any return value
-  virtual void invoke() {
+  virtual void invoke() override {
 #ifdef WIN32
 #pragma warning(push)
 #pragma warning(disable:4834) // disable MSVC warning about invokeR() having NODISCARD
@@ -432,7 +432,7 @@ public:
   virtual ~ArRetFunctor1()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() = 0;
+  NODISCARD virtual Ret invokeR() override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -460,13 +460,13 @@ public:
   virtual ~ArRetFunctor2()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() = 0;
+  NODISCARD virtual Ret invokeR() override = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1) override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -495,20 +495,20 @@ public:
   virtual ~ArRetFunctor3()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() = 0;
+  NODISCARD virtual Ret invokeR() override = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1) override = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -539,20 +539,20 @@ public:
   virtual ~ArRetFunctor4()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() = 0;
+  NODISCARD virtual Ret invokeR() override = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1) override = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -560,7 +560,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -591,20 +591,20 @@ public:
   virtual ~ArRetFunctor5()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() = 0;
+  NODISCARD virtual Ret invokeR() override = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1) override = 0;
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -612,7 +612,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -621,7 +621,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override = 0;
 
   /// Invokes the functor with return value
   /**
@@ -680,7 +680,7 @@ public:
   virtual ~ArGlobalFunctor()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(*myFunc)();}
+  virtual void invoke() override {(*myFunc)();}
 protected:
 
   void (*myFunc)();
@@ -720,13 +720,13 @@ public:
   virtual ~ArGlobalFunctor1()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(*myFunc)(myP1);}
+  virtual void invoke() override {(*myFunc)(myP1);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(*myFunc)(p1);}
+  virtual void invoke(P1 p1) override {(*myFunc)(p1);}
 
   /// Set the default parameter
   /**
@@ -750,7 +750,7 @@ public:
   ArGlobalFunctor1Const(void (*func)(P1)) :
     myFunc(func) {}
   virtual ~ArGlobalFunctor1Const()  = default;
-  virtual void invoke(P1 p1) {(*myFunc)(p1);}
+  virtual void invoke(P1 p1) override {(*myFunc)(p1);}
 protected:
   void (*myFunc)(P1);
 };
@@ -801,20 +801,20 @@ public:
   virtual ~ArGlobalFunctor2()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(*myFunc)(myP1, myP2);}
+  virtual void invoke() override {(*myFunc)(myP1, myP2);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(*myFunc)(p1, myP2);}
+  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(*myFunc)(p1, p2);}
+  virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2);}
 
   /// Set the default parameter
   /**
@@ -890,20 +890,20 @@ public:
   virtual ~ArGlobalFunctor3()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(*myFunc)(myP1, myP2, myP3);}
+  virtual void invoke() override {(*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(*myFunc)(p1, myP2, myP3);}
+  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(*myFunc)(p1, p2, myP3);}
+  virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor
   /**
@@ -911,7 +911,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(*myFunc)(p1, p2, p3);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3);}
 
   /// Set the default parameter
   /**
@@ -1003,20 +1003,20 @@ public:
   virtual ~ArGlobalFunctor4()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(*myFunc)(p1, myP2, myP3, myP4);}
+  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(*myFunc)(p1, p2, myP3, myP4);}
+  virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor
   /**
@@ -1024,7 +1024,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(*myFunc)(p1, p2, p3, myP4);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor
   /**
@@ -1033,7 +1033,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) {(*myFunc)(p1, p2, p3, p4);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(*myFunc)(p1, p2, p3, p4);}
 
   /// Set the default parameter
   /**
@@ -1147,20 +1147,20 @@ public:
   virtual ~ArGlobalFunctor5()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(*myFunc)(p1, p2, myP3, myP4, myP5);}
+  virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -1168,7 +1168,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(*myFunc)(p1, p2, p3, myP4, myP5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -1177,7 +1177,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) {(*myFunc)(p1, p2, p3, p4, myP5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the functor
   /**
@@ -1187,7 +1187,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {(*myFunc)(p1, p2, p3, p4, p5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) override {(*myFunc)(p1, p2, p3, p4, p5);}
 
   /// Set the default parameter
   /**
@@ -1278,7 +1278,7 @@ public:
   virtual ~ArGlobalRetFunctor()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (*myFunc)();}
+  NODISCARD virtual Ret invokeR() override {return (*myFunc)();}
 
 protected:
 
@@ -1322,13 +1322,13 @@ public:
   virtual ~ArGlobalRetFunctor1()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (*myFunc)(myP1);}
+  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (*myFunc)(p1);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1);}
 
   /// Set the default parameter
   /**
@@ -1387,20 +1387,20 @@ public:
   virtual ~ArGlobalRetFunctor2()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (*myFunc)(myP1, myP2);}
+  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2);}
 
   /// Set the default parameter
   /**
@@ -1476,20 +1476,20 @@ public:
   virtual ~ArGlobalRetFunctor3()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3);}
+  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -1497,7 +1497,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3);}
 
   /// Set the default parameter
   /**
@@ -1595,20 +1595,20 @@ public:
   virtual ~ArGlobalRetFunctor4()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -1616,7 +1616,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3, myP4);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -1625,7 +1625,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) {return (*myFunc)(p1, p2, p3, p4);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override {return (*myFunc)(p1, p2, p3, p4);}
 
   /// Set the default parameter
   /**
@@ -1739,20 +1739,20 @@ public:
   virtual ~ArGlobalRetFunctor5()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (*myFunc)(p1, p2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -1760,7 +1760,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) {return (*myFunc)(p1, p2, p3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -1769,7 +1769,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) {return (*myFunc)(p1, p2, p3, p4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override {return (*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -1779,7 +1779,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {return (*myFunc)(p1, p2, p3, p4, p5);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) override {return (*myFunc)(p1, p2, p3, p4, p5);}
 
   /// Set the default parameter
   /**
@@ -1887,7 +1887,7 @@ public:
 
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)();}
+  virtual void invoke() override {(myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -1963,13 +1963,13 @@ public:
   virtual ~ArFunctor1C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1);}
 
   /// Set the 'this' pointer
   /**
@@ -2018,11 +2018,11 @@ public:
   ArFunctor1CConst(T *obj, void (T::*func)(P1)) :
     myFunc(func), myObj(obj) {}
   virtual ~ArFunctor1CConst()  = default;
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1);}
   virtual void setThis(T *obj) {myObj=obj;}
   virtual void setThis(T &obj) {myObj=&obj;}
 private:
-  virtual void invoke() {} // can't do anything without an argument
+  virtual void invoke() override {} // can't do anything without an argument
 protected:
   void (T::* myFunc)(P1);
   T *myObj;
@@ -2104,20 +2104,20 @@ public:
   virtual ~ArFunctor2C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2);}
 
   /// Set the 'this' pointer
   /**
@@ -2247,20 +2247,20 @@ public:
   virtual ~ArFunctor3C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2, myP3);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2, myP3);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor
   /**
@@ -2268,7 +2268,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(myObj->*myFunc)(p1, p2, p3);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3);}
 
   /// Set the 'this' pointer
   /**
@@ -2433,20 +2433,20 @@ public:
   virtual ~ArFunctor4C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2, myP3, myP4);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor
   /**
@@ -2454,7 +2454,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(myObj->*myFunc)(p1, p2, p3, myP4);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor
   /**
@@ -2463,7 +2463,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) {(myObj->*myFunc)(p1, p2, p3, p4);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4);}
 
   /// Set the 'this' pointer
   /**
@@ -2661,20 +2661,20 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
   virtual ~ArFunctor5C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -2682,7 +2682,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -2691,7 +2691,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
 
   /// Invokes the functor
@@ -2702,7 +2702,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {(myObj->*myFunc)(p1, p2, p3, p4, p5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) override {(myObj->*myFunc)(p1, p2, p3, p4, p5);}
 
   /// Set the 'this' pointer
   /**
@@ -2813,7 +2813,7 @@ public:
   virtual ~ArRetFunctorC()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)();}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -2889,13 +2889,13 @@ public:
   virtual ~ArRetFunctor1C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1);}
 
   /// Set the 'this' pointer
   /**
@@ -2997,20 +2997,20 @@ public:
   virtual ~ArRetFunctor2C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2);}
 
   /// Set the 'this' pointer
   /**
@@ -3142,20 +3142,20 @@ public:
   virtual ~ArRetFunctor3C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -3163,7 +3163,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3);}
 
   /// Set the 'this' pointer
@@ -3337,20 +3337,20 @@ public:
   virtual ~ArRetFunctor4C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -3358,7 +3358,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor with return value
@@ -3368,7 +3368,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override
     {return (myObj->*myFunc)(p1, p2, p3, p4);}
 
 
@@ -3571,20 +3571,20 @@ public:
   virtual ~ArRetFunctor5C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -3592,7 +3592,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor with return value
@@ -3602,7 +3602,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override
     {return (myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the functor with return value
@@ -3613,7 +3613,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) override
     {return (myObj->*myFunc)(p1, p2, p3, p4, p5);}
 
 
@@ -3726,7 +3726,7 @@ public:
   virtual ~ArConstFunctorC()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)();}
+  virtual void invoke() override {(myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -3803,13 +3803,13 @@ public:
   virtual ~ArConstFunctor1C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1);}
 
   /// Set the 'this' pointer
   /**
@@ -3911,20 +3911,20 @@ public:
   virtual ~ArConstFunctor2C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2);}
 
   /// Set the 'this' pointer
   /**
@@ -4054,20 +4054,20 @@ public:
   virtual ~ArConstFunctor3C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2, myP3);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2, myP3);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor
   /**
@@ -4075,7 +4075,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(myObj->*myFunc)(p1, p2, p3);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3);}
 
   /// Set the 'this' pointer
   /**
@@ -4238,20 +4238,20 @@ public:
   virtual ~ArConstFunctor4C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2, myP3, myP4);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor
   /**
@@ -4259,7 +4259,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(myObj->*myFunc)(p1, p2, p3, myP4);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor
   /**
@@ -4268,7 +4268,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) {(myObj->*myFunc)(p1, p2, p3, p4);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4);}
 
   /// Set the 'this' pointer
   /**
@@ -4467,20 +4467,20 @@ public:
   virtual ~ArConstFunctor5C()  = default;
 
   /// Invokes the functor
-  virtual void invoke() {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -4488,7 +4488,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor
   /**
@@ -4497,7 +4497,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the functor
   /**
@@ -4507,7 +4507,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) {(myObj->*myFunc)(p1, p2, p3, p4, p5);}
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) override {(myObj->*myFunc)(p1, p2, p3, p4, p5);}
 
   /// Set the 'this' pointer
   /**
@@ -4617,7 +4617,7 @@ public:
   virtual ~ArConstRetFunctorC()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)();}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
   /**
@@ -4692,13 +4692,13 @@ public:
   virtual ~ArConstRetFunctor1C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1);}
 
   /// Set the 'this' pointer
   /**
@@ -4800,20 +4800,20 @@ public:
   virtual ~ArConstRetFunctor2C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2);}
 
   /// Set the 'this' pointer
   /**
@@ -4944,20 +4944,20 @@ public:
   virtual ~ArConstRetFunctor3C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the functor with return value
   /**
@@ -4965,7 +4965,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3);}
 
   /// Set the 'this' pointer
@@ -5136,20 +5136,20 @@ public:
   virtual ~ArConstRetFunctor4C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the functor with return value
   /**
@@ -5157,7 +5157,7 @@ public:
      @param p2 second parameter
      @param p3 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the functor with return value
@@ -5167,7 +5167,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override
     {return (myObj->*myFunc)(p1, p2, p3, p4);}
 
 
@@ -5370,20 +5370,20 @@ public:
   virtual ~ArConstRetFunctor5C()  = default;
 
   /// Invokes the functor with return value
-  NODISCARD virtual Ret invokeR() {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the functor with return value
   /**
@@ -5391,7 +5391,7 @@ public:
      @param p2 second parameter
      @param p3 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the functor with return value
@@ -5401,7 +5401,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override
     {return (myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
 
@@ -5413,7 +5413,7 @@ public:
      @param p4 fourth parameter
      @param p5 fifth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) 
+  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) override
     {return (myObj->*myFunc)(p1, p2, p3, p4, p5);}
 
 

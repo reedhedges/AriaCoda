@@ -191,10 +191,10 @@ class ArS3Series : public ArLaser
 {
 public:
   /// Constructor
-  AREXPORT ArS3Series(int laserNumber,
+  AREXPORT explicit ArS3Series(int laserNumber,
 		 const char *name = "S3Series");
   /// Destructor
-  AREXPORT ~ArS3Series();
+  AREXPORT virtual ~ArS3Series();
   AREXPORT virtual bool blockingConnect();
   AREXPORT virtual bool asyncConnect();
   AREXPORT virtual bool disconnect();

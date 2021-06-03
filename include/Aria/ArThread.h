@@ -96,12 +96,12 @@ public:
   } Status;
 
   /// Constructor
-  AREXPORT ArThread(bool blockAllSignals=true);
+  AREXPORT explicit ArThread(bool blockAllSignals=true);
   /// Constructor - starts the thread
-  AREXPORT ArThread(ThreadType thread, bool joinable,
+  AREXPORT explicit ArThread(ThreadType thread, bool joinable,
 		    bool blockAllSignals=true);
   /// Constructor - starts the thread
-  AREXPORT ArThread(ArFunctor *func, bool joinable=true,
+  AREXPORT explicit ArThread(ArFunctor *func, bool joinable=true,
 		    bool blockAllSignals=true);
   /// Destructor
   AREXPORT virtual ~ArThread();

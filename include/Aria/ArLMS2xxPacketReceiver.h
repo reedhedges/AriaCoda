@@ -34,11 +34,11 @@ class ArLMS2xxPacketReceiver
 {
 public:
   /// Constructor without an already assigned device connection
-  AREXPORT ArLMS2xxPacketReceiver(unsigned char receivingAddress = 0, 
+  AREXPORT explicit ArLMS2xxPacketReceiver(unsigned char receivingAddress = 0, 
 				bool allocatePackets = false,
 				bool useBase0Address = false);
   /// Constructor with assignment of a device connection
-  AREXPORT ArLMS2xxPacketReceiver(ArDeviceConnection *deviceConnection, 
+  AREXPORT explicit ArLMS2xxPacketReceiver(ArDeviceConnection *deviceConnection, 
 				unsigned char receivingAddress = 0,
 				bool allocatePackets = false,
 				bool useBase0Address = false);

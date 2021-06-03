@@ -43,9 +43,9 @@ public:
   AREXPORT void setRobot(ArRobot *robot);
 
   AREXPORT void stopRunIfNotConnected(bool stopRun);
-  AREXPORT virtual void * runThread(void *arg);
+  AREXPORT virtual void * runThread(void *arg) override;
 
-  AREXPORT virtual const char *getThreadActivity();
+  AREXPORT virtual const char *getThreadActivity() override;
 
 
 protected:

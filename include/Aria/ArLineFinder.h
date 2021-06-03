@@ -40,7 +40,7 @@ class ArLineFinder
 {
 public:
   /// Constructor
-  AREXPORT ArLineFinder(ArRangeDevice *dev);
+  AREXPORT explicit ArLineFinder(ArRangeDevice *dev);
 
 #ifndef SWIG
   /// Finds the lines and returns a pointer to ArLineFinder's map of them 

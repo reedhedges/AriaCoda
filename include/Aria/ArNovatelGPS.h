@@ -61,7 +61,7 @@ public:
   AREXPORT ArNovatelGPS();
   AREXPORT virtual ~ArNovatelGPS();
 protected:
-  AREXPORT virtual bool initDevice();
+  AREXPORT virtual bool initDevice() override;
 };
 
 /** @brief GPS subclass to support the NovAtel SPAN GPS with integrated IMU. 
@@ -80,7 +80,7 @@ protected:
   * message in this class rather than ArGPS. */
   void handleGPRMC(ArNMEAParser::Message msg);
   void handleINGLL(ArNMEAParser::Message msg);
-  AREXPORT virtual bool initDevice();
+  AREXPORT virtual bool initDevice() override;
   ArFunctor1C<ArNovatelSPAN, ArNMEAParser::Message> myGPRMCHandler;
   ArFunctor1C<ArNovatelSPAN, ArNMEAParser::Message> myINGLLHandler;
 public:

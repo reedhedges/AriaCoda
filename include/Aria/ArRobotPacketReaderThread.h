@@ -39,7 +39,7 @@ class ArRobotPacketReaderThread : public ArASyncTask
 public:
 
   AREXPORT ArRobotPacketReaderThread();
-  AREXPORT virtual ~ArRobotPacketReaderThread();
+  //AREXPORT virtual ~ArRobotPacketReaderThread();
 
   AREXPORT void setRobot(ArRobot *robot);
 

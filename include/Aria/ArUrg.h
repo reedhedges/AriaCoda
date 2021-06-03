@@ -41,10 +41,10 @@ class ArUrg : public ArLaser
 {
 public:
   /// Constructor
-  AREXPORT ArUrg(int laserNumber,
+  AREXPORT explicit ArUrg(int laserNumber,
 		 const char *name = "urg");
   /// Destructor
-  AREXPORT ~ArUrg();
+  AREXPORT virtual ~ArUrg();
   AREXPORT virtual bool blockingConnect();
   AREXPORT virtual bool asyncConnect();
   AREXPORT virtual bool disconnect();

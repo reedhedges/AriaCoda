@@ -41,7 +41,7 @@ class ArRobotConfigPacketReader
 {
 public:
   /// Constructor
-  AREXPORT ArRobotConfigPacketReader(ArRobot *robot, 
+  AREXPORT explicit ArRobotConfigPacketReader(ArRobot *robot, 
 				     bool onlyOneRequest = false,
 				     ArFunctor *packetedArrivedCB = NULL);
   /// Destructor

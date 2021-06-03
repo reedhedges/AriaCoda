@@ -2032,7 +2032,7 @@ class ArRunningAverage
 {
 public:
   /// Constructor, give it the number of elements to store to compute the average
-  AREXPORT ArRunningAverage(size_t numToAverage);
+  AREXPORT explicit ArRunningAverage(size_t numToAverage);
   /// Calculate and return the average of all values added with add() so far.
   AREXPORT double getAverage() const;
   /// Adds a value to the average. An old value is discarded if the number of elements to average has been reached.
@@ -2779,7 +2779,7 @@ public:
     { myCBList.remCallback(functor); }
   
   // thread 
-  AREXPORT virtual void *runThread(void *arg);  
+  AREXPORT virtual void *runThread(void *arg) override;  
 protected:
   int myMSecsBetweenCallbacks;
   ArCallbackList myCBList;
@@ -2978,11 +2978,11 @@ public:
     myAccessor(func),
     myFormat(format)
   {}
-  virtual std::string invokeR() {
+  virtual std::string invokeR() override {
     snprintf(myBuf, 1024, myFormat, myAccessor->invokeR());
     return myBuf;
   }
-  virtual void invoke() {
+  virtual void invoke() override {
     myAccessor->invoke();
   }
   void setAccessor(ArRetFunctor<T> *f) { myAccessor = f; }

@@ -68,7 +68,7 @@ class ArLMS2xx : public ArLaser
 {
 public:
   /// Constructor
-  AREXPORT ArLMS2xx(int laserNumber,
+  AREXPORT explicit ArLMS2xx(int laserNumber,
 		    const char *name = "lms2xx",
 		    bool appendLaserNumberToName = true);
 

@@ -50,7 +50,7 @@ class ArRobotJoyHandler
 {
  public:
   /// Constructor
-  AREXPORT ArRobotJoyHandler(ArRobot *robot);
+  AREXPORT explicit ArRobotJoyHandler(ArRobot *robot);
   /// Destructor
   AREXPORT ~ArRobotJoyHandler();
   /// Gets the adjusted reading, as floats

@@ -41,7 +41,7 @@ class ArRobotBatteryPacketReader
 {
 public:
   /// Constructor
-  AREXPORT ArRobotBatteryPacketReader(ArRobot *robot);
+  AREXPORT explicit ArRobotBatteryPacketReader(ArRobot *robot);
   /// Destructor
   AREXPORT ~ArRobotBatteryPacketReader();
   /// Request a single packet.. 

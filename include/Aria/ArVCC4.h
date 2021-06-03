@@ -187,7 +187,7 @@ public:
   };
 
   /// Constructor
-  AREXPORT ArVCC4(ArRobot *robot, bool inverted = false, CommState commDirection = COMM_UNKNOWN, bool autoUpdate = true, bool disableLED = false, CameraType cameraType = CAMERA_VCC4);
+  AREXPORT explicit ArVCC4(ArRobot *robot, bool inverted = false, CommState commDirection = COMM_UNKNOWN, bool autoUpdate = true, bool disableLED = false, CameraType cameraType = CAMERA_VCC4);
   /// Destructor
   AREXPORT virtual ~ArVCC4();
 

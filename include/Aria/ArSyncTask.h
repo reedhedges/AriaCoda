@@ -84,7 +84,7 @@ class ArSyncTask
 {
 public:
   /// Constructor, shouldn't ever do a new on anything besides the root node
-  AREXPORT ArSyncTask(const char *name, ArFunctor * functor = NULL, 
+  AREXPORT explicit ArSyncTask(const char *name, ArFunctor * functor = NULL, 
 		      ArTaskState::State *state = NULL,
 		      ArSyncTask * parent = NULL);
   /// Destructor

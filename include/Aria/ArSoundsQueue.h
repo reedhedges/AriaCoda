@@ -137,7 +137,7 @@ public:
    *  @see setPlayFileCallback
    *  @see setInterruptFileCallback
    */
-  AREXPORT ArSoundsQueue(ArRetFunctor<bool> *speakInitCB, 
+  AREXPORT explicit ArSoundsQueue(ArRetFunctor<bool> *speakInitCB, 
 		    PlayItemFunctor *speakCB = 0, 
         InterruptItemFunctor *interruptSpeechCB = 0,
 		    ArRetFunctor<bool> *playInitCB = 0, 
@@ -200,10 +200,10 @@ public:
 
 
   /// Begin processing the sounds queue synchronously (in this thread; does not return)
-  AREXPORT void run() { runInThisThread(); }
+  AREXPORT virtual void run() { runInThisThread(); }
 
   /// Begin processing the sounds queue in a background thread
-  AREXPORT void runAsync() { create(false); }
+  AREXPORT virtual void runAsync() override { create(false); }
 
   /** Temporarily stop processing the sounds queue. (Any currently playing sound
       or speech utterance will finish. The sound device may remain open.)

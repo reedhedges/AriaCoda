@@ -64,7 +64,7 @@ class ArGPS;
 
 class ArGPSConnector {
 public:
-  AREXPORT ArGPSConnector(ArArgumentParser* argParser);
+  AREXPORT explicit ArGPSConnector(ArArgumentParser* argParser);
   AREXPORT ~ArGPSConnector();
 
   /** Gets command line arguments */

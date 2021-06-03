@@ -151,10 +151,10 @@ class ArSZSeries : public ArLaser
 {
 public:
   /// Constructor
-  AREXPORT ArSZSeries(int laserNumber,
+  AREXPORT explicit ArSZSeries(int laserNumber,
 		 const char *name = "SZSeries");
   /// Destructor
-  AREXPORT ~ArSZSeries();
+  AREXPORT virtual ~ArSZSeries();
   AREXPORT virtual bool blockingConnect();
   AREXPORT virtual bool asyncConnect();
   AREXPORT virtual bool disconnect();
