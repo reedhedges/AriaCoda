@@ -187,15 +187,22 @@ AREXPORT unsigned int ArUtil::getTime()
 #if defined(_POSIX_TIMERS) && defined(_POSIX_MONOTONIC_CLOCK) && !defined(__MACH__)
   struct timespec tp;
   if (clock_gettime(CLOCK_MONOTONIC, &tp) == 0)
-    return tp.tv_nsec / 1000000 + (tp.tv_sec % 1000000)*1000;
-// the old unix way as a fallback
+  {
+    const long t = tp.tv_nsec / 1000000 + (tp.tv_sec % 1000000)*1000;
+    assert(t >= 0 && t < UINT_MAX);
+    return (unsigned int)t;
+  }
+ // else fall through to the old unix way as a fallback
 #endif // if it isn't the good way
 #if !defined(_WIN32)
   struct timeval tv;
   if (gettimeofday(&tv,NULL) == 0)
-    return tv.tv_usec/1000 + (tv.tv_sec % 1000000)*1000;
-  else
-    return 0;
+  {
+    const long t = tv.tv_usec/1000 + (tv.tv_sec % 1000000)*1000;
+    assert(t >= 0 && t < UINT_MAX);
+    return (unsigned int)t;
+  }
+  else return 0;
 #elif defined(_WIN32)
   return timeGetTime();
 #endif
