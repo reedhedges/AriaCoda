@@ -67,7 +67,7 @@ AREXPORT void ArRVisionPacket::byte2ToBuf(ArTypes::Byte2 val)
 
 /**
    This function is my concession to not rebuilding a packet from scratch
-   for every command, basicaly this is to not lose all speed over just using
+   for every command, basically this is to not lose all speed over just using
    a character array.  This is used by the default rvision commands, unless
    you have a deep understanding of how the packets are working and what
    the packet structure looks like you should not play with this function, 
@@ -76,16 +76,16 @@ AREXPORT void ArRVisionPacket::byte2ToBuf(ArTypes::Byte2 val)
    @param pose the position in the packets array to put the value
 */
 AREXPORT void ArRVisionPacket::byte2ToBufAtPos(ArTypes::Byte2 val,
-					    ArTypes::UByte2 pose)
+					    ArTypes::UByte2 pos)
 {
   ArTypes::Byte2 prevLength = myLength;
 
-  if ((pose + 4) > myMaxLength)
+  if ((pos + 4) > myMaxLength)
   {
     ArLog::log(ArLog::Terse, "ArRVisionPacket::Byte2ToBuf: Trying to add beyond length of buffer.");
     return;
   }
-  myLength = pose;
+  myLength = pos;
   byte2ToBuf(val);
   myLength = prevLength;
 }
