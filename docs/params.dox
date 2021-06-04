@@ -167,7 +167,7 @@ The first and default laser is in the "Laser parameters" section.  The second la
 is in "Laser 2 parameters", the third in "Laser 3 parameters", and so on.
 
 @a LaserType indicates the kind of laser device present: <code>lms2xx</code> for a SICK LMS 200 and compatible,
-or <code>urg</code> for an Hokoyu URG or UTM. Other types will be added as support is added to ARIA.
+or <code>urg</code> for a Hokuyo URG or UTM. Other types will be added as support is added to ARIA.
 
 @a LaserPortType and @a LaserPort indicate how the laser is connected to the onboard computer.
 @a LaserPortType currently is either blank or has the value <code>serial</code> for a serial port. 
