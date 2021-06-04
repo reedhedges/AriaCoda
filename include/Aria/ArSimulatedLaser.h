@@ -94,6 +94,7 @@ protected:
   bool myIsConnected;
   bool myTryingToConnect;
   bool myReceivedData;
+  static const bool mySRISimCompat = true;
 
   std::list<ArSensorReading *>::iterator myIter;
   // range buffers to hold current range set and assembling range set

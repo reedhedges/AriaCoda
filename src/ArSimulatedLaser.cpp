@@ -42,13 +42,13 @@ AREXPORT ArSimulatedLaser::ArSimulatedLaser(ArLaser *laser) :
   name += getName();
   laserSetName(name.c_str());
 
-  /*
-  printf("@@@@@@ %d %d @ %d %d\n", 
+  
+/*   printf("@@@@@@ ArSimulatedLaser constructor %d %d @ %d %d\n", 
 	 laser->getCurrentRangeBuffer()->getSize(),
 	 laser->getCumulativeRangeBuffer()->getSize(),
 	 getCurrentRangeBuffer()->getSize(),
-	 getCumulativeRangeBuffer()->getSize());
-  */
+	 getCumulativeRangeBuffer()->getSize()); */
+ 
 
   // laser parameters
   setInfoLogLevel(myLaser->getInfoLogLevel());
@@ -200,33 +200,42 @@ AREXPORT bool ArSimulatedLaser::blockingConnect()
   bool failed = false;
   bool robotIsRunning = myRobot->isRunning();
 
-  // return true if we could send all the commands
-  if (!failed && !myRobot->comInt(36, ArMath::roundInt(mySimBegin)))
-    failed = true;
-  if (!failed && !myRobot->comInt(37, ArMath::roundInt(mySimEnd)))
-    failed = true;
-  if (!failed && !myRobot->comInt(38, 
-				  ArMath::roundInt(mySimIncrement * 100.0)))
-    failed = true;
-  // Enable sending data, with extended info 
-  ///@todo only choose extended info if reflector bits desired, also shorten range.
-  if (!failed && !myRobot->comInt(35, 2))
-    failed = true;
-
+  // Old SRISim commands to start and configure laser
+  if(mySRISimCompat)
+  {
+    ArLog::log(ArLog::Verbose, "%s: Sending old SRISim startup commands (36, 37, 38, 35) for compatibility", getName());
+    // return true if we could send all the commands
+    if (!failed && !myRobot->comInt(36, ArMath::roundInt(mySimBegin)))
+      failed = true;
+    if (!failed && !myRobot->comInt(37, ArMath::roundInt(mySimEnd)))
+      failed = true;
+    if (!failed && !myRobot->comInt(38, 
+            ArMath::roundInt(mySimIncrement * 100.0)))
+      failed = true;
+    // Enable sending data, with extended info 
+    ///@todo only choose extended info if reflector bits desired, also shorten range.
+    if (!failed && !myRobot->comInt(35, 2))
+      failed = true;
+  } 
+  else 
+  {
+    // TODO send new commands?
+    ArLog::log(ArLog::Verbose, "%s: NOT sending old SRISim startup commands", getName());
+  }
   myRobot->unlock();
 
   if (robotIsRunning)
   {
     ArTime startWait;
+    ArLog::log(ArLog::Verbose, "%s::blockingConnect: Waiting for data", getName());
     while (!failed && !myReceivedData)
     {
       if (startWait.secSince() >= 30)
-	failed = true;
+	      failed = true;
     }
     if (!failed && myReceivedData)
     {
-      ArLog::log(ArLog::Verbose, "%s::blockingConnect: Got data back", 
-		 getName());
+      ArLog::log(ArLog::Verbose, "%s::blockingConnect: Got data back", getName());
     }
   }
   else
@@ -343,6 +352,7 @@ AREXPORT bool ArSimulatedLaser::laserCheckParams()
 AREXPORT void *ArSimulatedLaser::runThread(void *)
 {
 
+  ArLog::log(ArLog::Verbose, "%s: Running thread", getName());
   while (getRunning())
   {
     lockDevice();
@@ -414,7 +424,8 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
    
   // if we got here, its the right type of packet
 
-  //printf("Got in a packet from the simulator\n");
+  //printf("XXX ArSimulatedLaser: Got simulator laser packet 0x%x\n", packet->getID());
+
   lockDevice();
 
   if(!isExtendedPacket)
