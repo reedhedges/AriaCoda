@@ -27,6 +27,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArFunctor.h"
 #include "Aria/ArMutex.h"
 #include "Aria/ariaTypedefs.h"
+#include <cassert>
 
 /** @brief Interface to digital and analog I/O and switched power outputs on MTX
  * core (used in Pioneer LX and other MTX-based robots).
@@ -99,15 +100,20 @@ public:
 
   /// Set one bit of an output bank. @a bank and @a bit are 0-indexed.
   bool setDigitalOutputBit(int bank, int bit) {
+    assert(bank >= 0);
+    assert(bit >= 0);
+
     unsigned char val;
     if(!getDigitalBankOutputs(bank, &val))
       return false;
-    return setDigitalBankOutputs( bank, val | (1 << bit) );
+    return setDigitalBankOutputs( bank, (unsigned char)(val | (1 << bit)) );
   }
 
   /// Get one bit of an input bank. @a bank and @a bit are 0-indexed.
   bool getDigitalInputBit(int bank, int bit) {
     unsigned char val = 0;
+    assert(bit >= 0);
+    assert(bank >= 0);
     getDigitalBankInputs(bank, &val);
     return val & (1 << bit);
   }
@@ -127,16 +133,18 @@ public:
       For example, aux 5V is documented as bank 3 bit 1, so to turn it on, call setPowerOutput(2, 1, true);
   */
   bool setPowerOutput(int bank, int bit, bool on) {
-    if(bank < 0 || bit < 1 || bank > 2 || bit > 8)
-	return false;
+    assert(bit > 0 && bit <= 8);
+    assert(bank >= 0 && bank <= 2);
+   // if(bank < 0 || bit < 1 || bank > 2 || bit > 8)
+	//return false;
     --bit;
     unsigned char val = 0;
     if(!getPeripheralPowerBankOutputs(bank, &val))
       return false;
     if (on)
-      return setPeripheralPowerBankOutputs(bank, val | (1 << bit));
+      return setPeripheralPowerBankOutputs(bank, (unsigned char)(val | (1 << bit)));
     else
-      return setPeripheralPowerBankOutputs(bank, val & ~(1 << bit));
+      return setPeripheralPowerBankOutputs(bank, (unsigned char)(val & ~(1 << bit)));
   }
 
 #if 0 
