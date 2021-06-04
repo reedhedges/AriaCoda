@@ -34,7 +34,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 AREXPORT ArSyncTask::ArSyncTask(const char *name, ArFunctor *functor,
 				ArTaskState::State *state, ArSyncTask *parent)
 {
-  myName = name;
+  if(name) myName = name;
   myStatePointer = state;
   myFunctor = functor;
   myParent = parent;
