@@ -193,8 +193,8 @@ bool ArArgumentBuilder::isSpace(char c)
 
 
 bool ArArgumentBuilder::isStartArg(const char *buf, 
-                                   int len, 
-                                   int index,
+                                   size_t len, 
+                                   size_t index,
                                    int *endArgFlagsOut)
 {
   if (index < len) {

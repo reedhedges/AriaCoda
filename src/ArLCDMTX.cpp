@@ -1430,7 +1430,7 @@ AREXPORT void ArLCDMTX::writeToLCD()
 AREXPORT unsigned char ArLCDMTX::getBatteryPercentage()
 {
 	if (myRobot->haveStateOfCharge())
-		return myRobot->getStateOfCharge();
+		return (unsigned char)(myRobot->getStateOfCharge());
 	else {
 		if (!myLoggedBatteryError) {
 			ArLog::log(ArLog::Normal,
@@ -1885,8 +1885,9 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 
 			}
 
-			char ch = builder.getArgInt(i, NULL, true);
-			data.push_back(ch);
+			int ch = builder.getArgInt(i, NULL, true);
+			assert(ch <= CHAR_MAX);
+			data.push_back((char)ch);
 
 
 
@@ -1898,7 +1899,7 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 
 		//ArLog::log(ArLog::Normal,
 		//		"%s::downloadFirmware() %d %c 0x%02x", getName(), data, data, data);
-		if ((myConn->write((char *)data.c_str(), data.size())) == -1) {
+		if ((myConn->write(data.c_str(), data.size())) == -1) {
 			ArLog::log(ArLog::Normal,
 				"%s::downloadFirmware() Could not send data size(%d) to LCD errno (%d)", getName(), data.length(), errno);
 			return false;

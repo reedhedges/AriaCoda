@@ -1030,9 +1030,9 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 
 				//ArLog::log(ArLog::Normal,
 				//		"ArLCDConnector::verifyFirmware(%d) %d %c 0x%02x", LCDData->myNumber, data, data, data);
-			if ((lcd->myConn->write((char *)data.c_str(), data.size())) == -1) {
+			if ((lcd->myConn->write(data.c_str(), data.size())) == -1) {
 				ArLog::log(ArLog::Normal,
-						"ArLCDConnector::verifyFirmware(%d) Could not send data 0x%02x size(%d) to LCD errno (%d)", lcd->myNumber, data.c_str(), data.size(), errno);
+						"ArLCDConnector::verifyFirmware(%d) Could not send data 0x%02x size(%lu) to LCD errno (%d)", lcd->myNumber, data.c_str(), data.size(), errno);
 				return false;
 			}
 

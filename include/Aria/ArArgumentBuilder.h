@@ -191,14 +191,14 @@ protected:
    * parsed (i.e. the previous character was a space).  
    * @param buf the char * buffer that is being parsed; must be non-NULL
    * @param len the maximum number of characters in the buffer
-   * @param index the int buffer position of the character to be tested
+   * @param index the buffer position of the character to be tested
    * @param endArgFlagsOut a pointer to an output int that will indicate which separators
-   * will mark the end of the argument.  If quotes are being pre-processed, and the
+   * will mark the end of the argument. See ArgSeparatorType. If quotes are being pre-processed, and the
    * current argument starts with space-quote, then the argument must end with a quote-space.
   **/
   bool isStartArg(const char *buf, 
-                  int len, 
-                  int index,
+                  size_t len, 
+                  size_t index,
                   int *endArgFlagsOut);
 
   /// Determines whether the current buffer position marks the end of an argument
@@ -207,11 +207,11 @@ protected:
    * parsed (i.e. isStartArg returned true).  
    * @param buf the char * buffer that is being parsed; must be non-NULL
    * @param len the maximum number of characters in the buffer
-   * @param indexInOut the input/output int buffer position of the character to be tested; 
-   * if the argument ends with a quote-space, then the index will be incremented to mark
+   * @param indexInOut reference to the buffer position of the character to be tested; 
+   * if the argument ends with a quote-space, then this value will be incremented to mark
    * the space; otherwise, it will remain unchanged
    * @param endArgFlags an int that indicates which separators mark the end of the 
-   * argument.  If quotes are being pre-processed, and the current argument started
+   * argument.  See ArgSeparatorType. If quotes are being pre-processed, and the current argument started
    * with space-quote, then the argument must end with a quote-space.
   **/
   bool isEndArg(const char *buf, 

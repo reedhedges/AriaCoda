@@ -415,7 +415,7 @@ AREXPORT bool ArLaser::laserPullUnsetParamsFromRobot()
   const char *paramStr;
   char *endPtr;
   double paramDouble;
-  int paramInt;
+  //int paramInt;
   bool paramBool;
   unsigned int paramUnsignedInt;
 
@@ -1292,50 +1292,48 @@ AREXPORT bool ArLaser::addIgnoreReadings(const char *ignoreReadings)
 
   size_t i;
   const char *str;
-  float begin, end;
-  float ignore;
+  double begin, end, ignore;
   for (i = 0; i < args.getArgc(); i++)
   {
     if (args.isArgDouble(i))
     {
       ignore = args.getArgDouble(i);
       addIgnoreReading(ignore);
-      ArLog::log(ArLog::Verbose, "%s: Added ignore reading %g", 
-		 getName(), ignore);
+      ArLog::log(ArLog::Verbose, "%s: Added ignore reading %g", getName(), ignore);
     }
     else
     {
       str = args.getArg(i);
       if (sscanf(str, "%f:%f", &begin, &end) == 2 || 
-	  sscanf(str, "%f-%f", &begin, &end) == 2)
+	        sscanf(str, "%f-%f", &begin, &end) == 2)
       {
-	ArLog::log(ArLog::Verbose, "%s: Adding ignore reading from %g to %g", 
-		   getName(), begin, end);
-	// reorder them for easier looping
-	if (begin > end)
-	{
-	  ignore = begin;
-	  begin = end;
-	  end = ignore;
-	}
+	      ArLog::log(ArLog::Verbose, "%s: Adding ignore reading from %g to %g", 
+		       getName(), begin, end);
+        // reorder them for easier looping
+        if (begin > end)
+        {
+          ignore = begin;
+          begin = end;
+          end = ignore;
+        }
 
-	ArLog::log(ArLog::Verbose, "%s: Added ignore reading (beginning) %g", 
-		   getName(), begin);
-	addIgnoreReading(begin);
-	for (ignore = begin; ignore <= end; ignore += 1.0)
-	{
-	  ArLog::log(ArLog::Verbose, "%s: Added ignore reading %g", 
-		     getName(), ignore);
-	  addIgnoreReading(ignore);
-	}
-	ArLog::log(ArLog::Verbose, "%s: Added ignore reading (ending) %g", 
-		   getName(), end);
-	addIgnoreReading(end);
+        ArLog::log(ArLog::Verbose, "%s: Added ignore reading (beginning) %g", 
+            getName(), begin);
+        addIgnoreReading(begin);
+        for (ignore = begin; ignore <= end; ignore += 1.0)
+        {
+          ArLog::log(ArLog::Verbose, "%s: Added ignore reading %g", 
+              getName(), ignore);
+          addIgnoreReading(ignore);
+        }
+        ArLog::log(ArLog::Verbose, "%s: Added ignore reading (ending) %g", 
+            getName(), end);
+        addIgnoreReading(end);
       }
       else
       {
-	ArLog::log(ArLog::Terse, "%s: Bad syntax for ignore readings, had string '%s' as one of the arguments (the values need to either be individual doubles, or begin:end (75:77) or begin-end (75-77))", getName(), str);
-	return false;
+	      ArLog::log(ArLog::Terse, "%s: Bad syntax for ignore readings, had string '%s' as one of the arguments (the values need to either be individual doubles, or begin:end (75:77) or begin-end (75-77))", getName(), str);
+	      return false;
       }
     }
   }
