@@ -74,7 +74,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 
 // These are C++17 attributes that we use anyway. They weren't added until G++ version 7, so use these alternatives:
-#if __GNUC__ < 7
+#if defined(__GNUC__) && (__GNUC__ < 7)
 
 #define NODISCARD
 
