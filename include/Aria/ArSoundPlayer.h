@@ -92,7 +92,7 @@ class ArSoundPlayer
    *  The sound will be played back at 16kHz, monaurally.
    *  @return false on error, true on success.
    */
-  AREXPORT static bool playSoundPCM16(char* data, int numSamples);
+  AREXPORT static bool playSoundPCM16(char* data, size_t numSamples);
 
   /** Set a volume adjustment applied to all sounds right before playing.
      (So this adjusts the volume in addition to, not instead of, the

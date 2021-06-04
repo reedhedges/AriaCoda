@@ -109,12 +109,13 @@ bool ArSoundPlayer::playNativeFile(const char* filename, UNUSED const char* para
 			  "ArSoundPlayer::playNativeFile: open failed");
     return false;
   }
-  int len;
-  const int buflen = 512;
+  ssize_t len;
+  const size_t buflen = 512;
   char buf[buflen];
   while((len = read(file_fd, buf, buflen)) > 0)
   {
-    if (write(snd_fd, buf, len) != len) {
+    assert(len >= 0);
+    if (write(snd_fd, buf, (size_t)len) != len) {
       ArLog::logErrorFromOS(ArLog::Normal, 
 			  "ArSoundPlayer::playNativeFile: write failed");
     }
@@ -258,7 +259,7 @@ void ArSoundPlayer::stopPlaying()
 }
 
 
-bool ArSoundPlayer::playSoundPCM16(char* data, int numSamples)
+bool ArSoundPlayer::playSoundPCM16(char* data, size_t numSamples)
 {
 #ifdef __linux__
   //ArLog::log(ArLog::Normal, "ArSoundPlayer::playSoundPCM16[linux]: opening sound device.");
@@ -285,7 +286,7 @@ bool ArSoundPlayer::playSoundPCM16(char* data, int numSamples)
   }
   //ArLog::log(ArLog::Normal, "ArSoundPlayer::playSoundPCM16[linux]: writing %d bytes to sound device.", 2*numSamples);
   int r;
-  if((r = write(fd, data, 2*numSamples) < 0))
+  if((r = write(fd, data, (2*numSamples)) < 0))
   {
     close(fd);
     return false;

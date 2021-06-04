@@ -127,7 +127,7 @@ AREXPORT bool ArPTZConnector::connect()
       // function?
       std::string logname = pi->type;
       logname += " ";
-      logname += i;
+      logname += std::to_string(i);
       logname += " control serial connection on ";
       logname += pi->serialPort;
       ArDeviceConnection *serCon = ArDeviceConnectionCreatorHelper::createSerialConnection(pi->serialPort.c_str(), NULL, logname.c_str());
@@ -141,7 +141,7 @@ AREXPORT bool ArPTZConnector::connect()
     ptz->setInverted(pi->inverted);
 
     if(ptz->init())
-      ArLog::log(ArLog::Verbose, "ArPTZConnector: Sucessfully initialized %s PTZ #%d ", ptz->getTypeName(), i+1);
+      ArLog::log(ArLog::Verbose, "ArPTZConnector: Successfully initialized %s PTZ #%d ", ptz->getTypeName(), i+1);
     else
       ArLog::log(ArLog::Normal, "ArPTZConnector: Warning: Error initializing PTZ #%d (%s)", i+1, ptz->getTypeName());
   
@@ -197,8 +197,8 @@ bool ArPTZConnector::parseArgsFor(ArArgumentParser *parser, int which)
   std::stringstream prefixconcat;
   prefixconcat << "-ptz";
 
-  // If which is -1 then we check for just -ptz... with no number, but it is
-  // same as first ptz ("-ptz1...") 
+  // If which is -1 (or any negative) then we check for just -ptzXXX with no number, but it is
+  // same as first ptz ("-ptz1...") which is index 0.
   if(which >= 0)
     prefixconcat << which+1;
   if(which < 0)
@@ -281,18 +281,21 @@ bool ArPTZConnector::parseArgsFor(ArArgumentParser *parser, int which)
   if(parser->checkParameterArgumentString( (prefix+"Password").c_str(), &password) && password != NULL) 
     newargs.password = password;
   
+
+  // Note, `which` has been confirmed above to be positive.
+
   if((size_t)which >= myArguments.size())
   {
     // try not to assume we will be called with regular increasing which parameters,
     // (though we probably will be) so resize and set rather than use push_back:
     //printf("setting new, resized myArguments[%d] to these new params.\n", which);
-    myArguments.resize(which+1);
+    myArguments.resize((size_t)which+1);
   }
 
   // merge these rather than replacing them -- don't replace items in existing
   // myArguments[which] if not set in newargs.
   //myArguments[which] = newargs;
-  myArguments[which].merge(newargs);
+  myArguments[(size_t)which].merge(newargs);
 
   return true;
 }

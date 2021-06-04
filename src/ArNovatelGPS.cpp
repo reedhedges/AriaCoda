@@ -63,7 +63,9 @@ AREXPORT bool ArNovatelGPS::initDevice()
         // prefix, or, the expected prefixes for different GPS receiver types,
         // in the message/handler list?
     //ArLog::log(ArLog::Verbose, "ArNovatelGPS: sending command: %s", cmd);
-    if (myDevice->write(cmd, strlen(cmd)) != (int) strlen(cmd)) return false;
+    size_t cmdlen = strlen(cmd);
+    assert(cmdlen <= INT_MAX);
+    if (myDevice->write(cmd, (unsigned int)cmdlen) != (int)cmdlen) return false;
   }
 
   return true;
@@ -155,7 +157,7 @@ AREXPORT bool ArNovatelSPAN::initDevice()
 
   // Actually request a faster rate for INGLL than ArNovatelGPS::initDevice() did:
   const char *cmd = "log thisport INGLL ontime 0.25\r\n";
-  myDevice->write(cmd, strlen(cmd));
+  myDevice->write(cmd, (unsigned int) strlen(cmd));
 
   return true;
 }

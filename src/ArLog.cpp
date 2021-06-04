@@ -87,18 +87,15 @@ AREXPORT void ArLog::log(LogLevel level, const char *str, ...)
   char buf[10000];
   char *bufPtr;
   char *timeStr;
-  int timeLen = 0; // this is a value based on the standard length of
-                       // ctime return
-  time_t now;
+  const size_t timeLen = 26; // max size of string returned by ctime
 
 
   ourMutex.lock();
   // put our time in if we want it
   if (ourLoggingTime)
   {
-    now = time(NULL);
+    time_t now = time(NULL);
     timeStr = ctime(&now);
-    timeLen = 20;
     // get take just the portion of the time we want
     strncpy(buf, timeStr, timeLen);
     buf[timeLen] = '\0';
