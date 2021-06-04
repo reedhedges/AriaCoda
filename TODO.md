@@ -2,7 +2,11 @@
 TODO
 ====
 
+* Use new laser simulator commands in ArSimulatedLaser instead of old SRISim
+  commands
 * Edit (review and improve) README
+* Remove exceptions from ArPacketUtil and re-add -fno-exceptions to build (and
+  disable exceptions on Windows?)
 * Add [[deprecated]] attribute to deprecated methods
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and insttructions to users to transition existing
@@ -103,7 +107,22 @@ TODO
     * ArTypes::Ubyte4 -> uint32_t
     * ArTypes::Ubyte8 -> uint64_t
     * move ArListPos from ariaTypedefs.h into ariaUtil.h, remove ariaTypedefs.h.
-  * smart pointers
+  * smart pointers (shared_ptr)
+    * Start with various classes that take a pointer to another object in
+      constructor, stored for the life of the object. Usually this is an
+      ArRobot*, ArRobotConnector*, ArLaserConnector*, etc.
+    * Fix accessors that take pointers as arguments but do not store the
+      pointer. Most of these could be references?
+    * Fix accessors that return pointers to internally stored objects.  
+      Use std::optional/nullopt if they only do that so they can return NULL
+      for missing/uninitialized/error.
+    * Fix accessors that return pointers to allocated objects. Some of these
+      must be owned by the object that created them, others could be managed
+      globally/allowed to live beyond creating object.
+      Use std::optional/nullopt (C++17) if they only do that so they can return NULL
+      for missing/uninitialized/error.
+  * Use std::optional (C++17) for methods that return boolean status flag and return
+    a value via a pointer argument.
   * Use standard `<thread>` library for threads rather than our own
   * Replace ArFunctor usage with std::function.
     * Users can provide any bare function, which is converted to std::function
@@ -158,6 +177,8 @@ TODO
       But maybe we can use some introspection functions to get string
       representations of the function type names and target type name. Or wrap
       it in a small container class with a subclass containing an optional name.
+    * use std::mem_fn for member function pointer, for compatibility with
+     ArFunctor.
   * ArRangeBuffer and other collections should perhaps implement iterator or STL container
     interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view.
   * Find more opportunities to use improved STL algorithms including parallel.
@@ -197,6 +218,9 @@ TODO
 connection.
     3. verification mode: send packets from file to ARIA, recieve packets sent and check
 against what was recorded.
+* In several places there are sets of methods that operate with different data
+  types. Replace with template functions. ArArgumentParser, ArArgumentBuilder?,
+  ArRobotParams, ArConfig
  
 
 Maybe TODO eventually
