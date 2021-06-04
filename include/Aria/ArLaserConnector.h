@@ -117,7 +117,7 @@ public:
   /// Internal function to replace the laser (only useful between parseArgs and connectLasers) but not the laser data
   AREXPORT bool replaceLaser(ArLaser *laser, int laserNumber);
 
-  /// Log all currently set paramter values
+  /// Log all currently set parameter values
   AREXPORT void logLaserData();
   
 protected:
@@ -148,7 +148,7 @@ protected:
 	myPowerControlled = true; myPowerControlledReallySet = false; 
 	myStartingBaud = NULL;
 	myAutoBaud = NULL;
-	myMaxRange = INT_MAX; myMaxRangeReallySet = false; 
+	myMaxRange = UINT_MAX; myMaxRangeReallySet = false; 
 	myAdditionalIgnoreReadings = NULL;
       }
     //virtual ~LaserData() {}
@@ -207,7 +207,7 @@ protected:
     /// the auto baud we want to use
     const char *myAutoBaud;
     // if we set a new max range from the command line
-    int myMaxRange;
+    unsigned int myMaxRange;
     // if our new max range was really set
     bool myMaxRangeReallySet;
     /// the additional laser ignore readings
