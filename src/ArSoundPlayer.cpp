@@ -69,7 +69,7 @@ AREXPORT void ArSoundPlayer::stopPlaying()
 }
 
 
-AREXPORT bool ArSoundPlayer::playSoundPCM16(char* data, int numSamples)
+AREXPORT bool ArSoundPlayer::playSoundPCM16(char* data, size_t numSamples)
 {
   ArLog::log(ArLog::Terse, "INTERNAL ERROR: ArSoundPlayer::playSoundPCM16() is not implemented for Windows yet! Bug reed@activmedia.com about it!");
   assert(false);
