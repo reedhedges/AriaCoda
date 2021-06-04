@@ -129,6 +129,7 @@ public:
   * Also note that this method may need to be removed or replaced if internal implementation of ArRangeBuffer changes.  getBegin() and getEnd() are preferred.
   */
   const std::list<ArPoseWithTime>& getBuffer() const { return myBuffer; }
+  // when this is (temporary?) rvalue: std::list<ArPoseWithTime> getBuffer() && { return std::move(myBuffer);  }
 
   /// Get const_iterator pointing to the beginning or start of buffer items (most recent)
   auto getBegin() const { return myBuffer.cbegin(); }
