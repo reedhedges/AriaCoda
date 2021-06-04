@@ -6,39 +6,132 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "make (default)",
-      "command": "make",
-      "type": "shell",
-      "args": [
-        "-j4"
-      ],
-      "problemMatcher": [
-        "$gcc"
-      ],
+      "label": "Build (Release)",
+      "windows": {
+        "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "args": [
+          "visualc\\AriaCoda.sln",
+          "-p:Platform=x64",
+          "-p:Configuration=Release", "-maxCpuCount"
+        ],
+        "problemMatcher": ["$msCompile"]
+      },
+      "linux": {
+        "command": "make",
+        "type": "shell",
+        "args": [
+          "-j4"
+        ],
+        "problemMatcher": [
+          "$gcc"
+        ]
+      },
+      "presentation": {
+        "revealProblems": "onProblem",
+        "reveal": "always"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Build (Debug)",
+      "windows": {
+        "command": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "args": [
+          "visualc\\AriaCoda.sln",
+          "-p:Platform=x64",
+          "-p:Configuration=Debug", "-maxCpuCount"
+        ],
+        "problemMatcher": ["$msCompile"]
+      },
+      "linux": {
+        "command": "make",
+        "type": "shell",
+        "args": [
+          "debug",
+          "-j4"
+        ],
+        "problemMatcher": [
+          "$gcc"
+        ]
+      },
+      "presentation": {
+        "revealProblems": "onProblem",
+        "reveal": "always"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "make examples/demo",
+      "linux": {
+        "command": "make",
+        "type": "shell",
+        "args": [
+          "examples/demo"
+        ],
+        "problemMatcher": [
+          "$gcc"
+        ],
+        "presentation": {
+          "reveal": "always"
+        },
+        "group": "build"
+      }
+    },
+    {
+      "label": "Clean",
+      "linux": {
+        "command": "make",
+        "type": "shell",
+        "args": [
+          "clean"
+        ],
+        "problemMatcher": [
+          "$gcc"
+        ],
+      },
       "presentation": {
         "reveal": "always"
       },
-      "group": { "kind": "build", "isDefault": true }
+      "group": "build"
     },
-    { "label": "make examples/demo", "command": "make", "type": "shell", "args":
-[ "examples/demo" ], "problemMatcher": [ "$gcc" ], "presentation": { "reveal": "always" }, "group": "build" },
 
-    { "label": "make clean", "command": "make", "type": "shell", "args": [ "clean" ], "problemMatcher": [ "$gcc" ], "presentation": { "reveal": "always" }, "group": "build" },
-    { "label": "make debug", "command": "make", "type": "shell", "args": [
-"debug", "-j4" ], "problemMatcher": [ "$gcc" ], "presentation": { "reveal": "always" }, "group": "build" },
-
-    { "label": "clang-tidy", "command": "make", "args": [ "clang-tidy" ], "type": "shell", "presentation": { "reveal": "always" }, "group": "build", "problemMatcher":  [ "$gcc" ] },
-
+    {
+      "label": "clang-tidy",
+      "command": "make",
+      "args": [
+        "clang-tidy"
+      ],
+      "type": "shell",
+      "presentation": {
+        "reveal": "always"
+      },
+      "group": "build",
+      "problemMatcher": [
+        "$gcc"
+      ]
+    },
     {
       "label": "cppcheck",
       "command": "make",
-      "args": [ "cppcheck" ],
+      "args": [
+        "cppcheck"
+      ],
       "type": "shell",
-      "presentation": { "reveal": "always" },
+      "presentation": {
+        "reveal": "always"
+      },
       "group": "build",
-      "problemMatcher": 
-      {
-        "fileLocation": ["relative", "${workspaceFolder}"],
+      "problemMatcher": {
+        "fileLocation": [
+          "relative",
+          "${workspaceFolder}"
+        ],
         "severity": "info",
         "pattern": {
           "kind": "location",
@@ -49,7 +142,6 @@
           "message": 5
         }
       }
-      
     }
   ]
 }
