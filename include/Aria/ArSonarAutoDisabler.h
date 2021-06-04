@@ -48,9 +48,9 @@ class ArSonarAutoDisabler
 {
 public:
   /// Constructor
-  AREXPORT ArSonarAutoDisabler(ArRobot *robot);
+  AREXPORT explicit ArSonarAutoDisabler(ArRobot *robot);
   /// Destructor
-  AREXPORT virtual ~ArSonarAutoDisabler();
+  AREXPORT  ~ArSonarAutoDisabler();
   /// Suppresses this disabler (which turns off the sonar)
   void supress() 
     { ArLog::log(ArLog::Normal, "ArSonarAutoDisabler::suppress:"); 
@@ -83,7 +83,7 @@ public:
     { return &myClearAutonomousDrivingCB; }
 protected:
   /// our user task
-  AREXPORT void userTask();
+  void userTask();
   ArRobot *myRobot;
   ArTime myLastMoved;
   ArTime myLastSupressed;

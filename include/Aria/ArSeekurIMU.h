@@ -81,7 +81,7 @@ class ArRobotPacket;
 class ArSeekurIMU
 {
 public:
-  AREXPORT ArSeekurIMU(ArRobot *robot);
+  AREXPORT explicit ArSeekurIMU(ArRobot *robot);
   AREXPORT virtual ~ArSeekurIMU();
 
   typedef double Vec3[3];

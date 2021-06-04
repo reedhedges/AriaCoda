@@ -51,7 +51,7 @@ class ArSimUtil
   ArPose myOdomError;
 
 public:
-  ArSimUtil(ArRobot *robot) : 
+  explicit ArSimUtil(ArRobot *robot) : 
     myRobot (robot),
     myPacketCB(this, &ArSimUtil::handleRobotPacket),
     myConnectCB(this, &ArSimUtil::connectCB),

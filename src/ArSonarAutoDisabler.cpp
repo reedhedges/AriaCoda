@@ -55,7 +55,7 @@ AREXPORT ArSonarAutoDisabler::~ArSonarAutoDisabler()
   myRobot->remUserTask("SonarAutoDisabler");
 }
 
-AREXPORT void ArSonarAutoDisabler::userTask()
+void ArSonarAutoDisabler::userTask()
 {
   if (mySupressed && (myRobot->areSonarsEnabled() || 
 		      myRobot->areAutonomousDrivingSonarsEnabled()))
