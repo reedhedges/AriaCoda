@@ -319,7 +319,7 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
                packet->printHex();
 	       */
             ArLog::log(ArLog::Normal, 
-                       "ArRobotPacketReceiver::receivePacket: bad packet, bad checksum");
+                       "ArRobotPacketReceiver::receivePacket: Warning: bad packet, bad checksum (received packet type ID 0x%x)", packet->getID());
             state = STATE_SYNC1;
 	    myDeviceConn->debugEndPacket(false, -50);
             break;
