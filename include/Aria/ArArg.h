@@ -169,6 +169,7 @@ protected:
   ArPriority::Priority myConfigPriority;
   ArRetFunctor1<bool, ArArgumentBuilder *> *mySetFunctor;
   ArRetFunctor<const std::list<ArArgumentBuilder *> *> *myGetFunctor;
+  void init(const ArArg& other);
 };
 
 #endif // ARARGUMENT_H

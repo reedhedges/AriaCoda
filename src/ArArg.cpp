@@ -129,6 +129,29 @@ AREXPORT ArArg::ArArg(const char * description)
 
 AREXPORT ArArg::ArArg(const ArArg & arg) 
 {
+  init(arg);
+}
+
+AREXPORT ArArg &ArArg::operator=(const ArArg & arg) 
+{
+	if (this != &arg) {
+    init(arg);
+	}
+	return *this;
+}
+
+ArArg::ArArg(ArArg&& arg) {
+  init(arg);
+}
+
+ArArg &ArArg::operator=(ArArg &&other) noexcept
+{ 
+  if(&other != this) init(other); 
+  return *this; 
+}
+
+void ArArg::init(const ArArg& arg)
+{
   myType = arg.myType;
   myName = arg.myName;
   myDescription = arg.myDescription;
@@ -146,55 +169,6 @@ AREXPORT ArArg::ArArg(const ArArg & arg)
   myGetFunctor = arg.myGetFunctor;
   myConfigPrioritySet = arg.myConfigPrioritySet;
   myConfigPriority = arg.myConfigPriority;
-}
-
-AREXPORT ArArg &ArArg::operator=(const ArArg & arg) 
-{
-	if (this != &arg) {
-		myType = arg.myType;
-		myName = arg.myName;
-		myDescription = arg.myDescription;
-		myIntPointer = arg.myIntPointer;
-		myDoublePointer = arg.myDoublePointer;
-		myPosePointer = arg.myPosePointer;
-		myBoolPointer = arg.myBoolPointer;
-		myStringPointer = arg.myStringPointer;
-		myMinInt = arg.myMinInt;
-		myMaxInt = arg.myMaxInt;
-		myMinDouble = arg.myMinDouble;
-		myMaxDouble = arg.myMaxDouble;
-		myMaxStrLen = arg.myMaxStrLen;
-		mySetFunctor = arg.mySetFunctor;
-		myGetFunctor = arg.myGetFunctor;
-		myConfigPrioritySet = arg.myConfigPrioritySet;
-		myConfigPriority = arg.myConfigPriority;
-	}
-	return *this;
-}
-
-ArArg::ArArg(ArArg&& arg) {
-  myType = arg.myType;
-  myName = std::move(arg.myName);
-  myDescription = std::move(arg.myDescription);
-  myIntPointer = arg.myIntPointer;
-  myDoublePointer = arg.myDoublePointer;
-  myPosePointer = arg.myPosePointer;
-  myBoolPointer = arg.myBoolPointer;
-  myStringPointer = arg.myStringPointer;
-  myMinInt = arg.myMinInt;
-  myMaxInt = arg.myMaxInt;
-  myMinDouble = arg.myMinDouble;
-  myMaxDouble = arg.myMaxDouble;
-  myMaxStrLen = arg.myMaxStrLen;
-  mySetFunctor = arg.mySetFunctor;
-  myGetFunctor = arg.myGetFunctor;
-  myConfigPrioritySet = arg.myConfigPrioritySet;
-  myConfigPriority = arg.myConfigPriority;
-}
-
-ArArg &ArArg::operator=(ArArg &&other) noexcept
-{ 
-  if(&other != this) ArArg(other); return *this; 
 }
 
 
