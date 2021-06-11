@@ -4573,7 +4573,7 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
 
     sprintf(buf, "Losing connection because microcontroller reset with reset data");
 
-#ifndef _WIN32
+#ifdef __GNUC__
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wformat-overflow"
 #endif
@@ -4583,7 +4583,7 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
       sprintf(buf, "%s 0x%x", tmp, packet->bufToUByte());
       bufrem -= 6;
     }
-#ifndef _WIN32
+#ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
 
