@@ -174,7 +174,7 @@ AREXPORT bool ArRobotPacketSender::comInt(unsigned char command,
     myPacket.uByteToBuf(NINTARG);
     argument = -argument;
   }
-  myPacket.uByte2ToBuf(argument);
+  myPacket.uByte2ToBuf((unsigned short)argument);
 
   myPacket.finalizePacket();
 
@@ -202,7 +202,7 @@ AREXPORT bool ArRobotPacketSender::comInt(unsigned char command,
 AREXPORT bool ArRobotPacketSender::com2Bytes(unsigned char command, char high,
 					     char low)
 {
-  return comInt(command, ((high & 0xff)<<8) + (low & 0xff));
+  return comInt(command, (short)((high & 0xff)<<8) + (low & 0xff));
 }
 
 /**
@@ -271,7 +271,8 @@ AREXPORT bool ArRobotPacketSender::comStrN(unsigned char command,
   myPacket.setID(command);
   myPacket.uByteToBuf(STRARG);
 
-  myPacket.uByteToBuf(size);
+  assert(size <= UCHAR_MAX);
+  myPacket.uByteToBuf((unsigned char)size);
   myPacket.strNToBuf(str, size);
   
   myPacket.finalizePacket();

@@ -113,23 +113,23 @@ void ArNMEAParser::beginMessage()
 
 AREXPORT int ArNMEAParser::parse(ArDeviceConnection *dev) 
 {
-  int n = dev->read(myReadBuffer, sizeof(myReadBuffer));
+  const int n = dev->read(myReadBuffer, sizeof(myReadBuffer));
 #ifdef DEBUG_ARNMEAPARSER
   std::cerr << "\t[ArNMEAParser: read " << n << " bytes of data from device connection:\n\t";
   ArNMEAParser_printBuf(stderr, myReadBuffer, n);
 #endif
   if(n < 0) return ParseError;
   if(n == 0) return ParseFinished;
-  return parse(myReadBuffer, n);
+  return parse(myReadBuffer, (size_t)n);
 }
 
 AREXPORT int ArNMEAParser::parse(const char *buf, size_t n)
 {
   int result = 0;
-  if (n < 0) 
+/*   if (n < 0) 
   {
     return ParseError;
-  }
+  } */
 
   if (n == 0) 
   {

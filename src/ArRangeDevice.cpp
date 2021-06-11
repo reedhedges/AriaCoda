@@ -85,9 +85,7 @@ AREXPORT ArRangeDevice::ArRangeDevice(size_t currentBufferSize,
   myAdjustedRawReadings = NULL;
 
   // take out any spaces in the name since that'll break things
-  int i;
-  int len = myName.size();
-  for (i = 0; i < len; i++)
+  for (size_t i = 0; i < myName.size(); i++)
   {
     if (isspace(myName[i]))
       myName[i] = '_';

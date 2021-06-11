@@ -81,7 +81,7 @@ bool ArSeekurIMU::handleIMUPacket(ArRobotPacket *packet)
   int nr = packet->bufToByte(); // number of readings
   if (nr <= 0) return true;
 
-  double reading_interval_ms = (timeThisPacketReceived.mSecSince() - myTimeLastPacketReceived.mSecSince()) / nr;
+  double reading_interval_ms = (double)(timeThisPacketReceived.mSecSince() - myTimeLastPacketReceived.mSecSince()) / nr;
 
   myTimeLastPacketReceived = timeThisPacketReceived;
   myHaveData = true;
@@ -93,8 +93,8 @@ bool ArSeekurIMU::handleIMUPacket(ArRobotPacket *packet)
 
     int na = packet->bufToByte(); // number of axes 
 
-    int rangemode = packet->bufToByte();
-    double convert;
+    const int rangemode = packet->bufToByte();
+    float convert;
     if(rangemode == 1)
       convert = 0.07326;
     else if(rangemode == 2)
@@ -147,7 +147,7 @@ bool ArSeekurIMU::handleIMUPacket(ArRobotPacket *packet)
     na = packet->bufToByte();
 
     convert = 0.1453; 
-    const double offset = 25.0;
+    const float offset = 25.0;
 
     if(na == 1)
     {
@@ -159,7 +159,7 @@ bool ArSeekurIMU::handleIMUPacket(ArRobotPacket *packet)
       int a;
       for(a = 0; a < na && a < 3; ++a)
         myAvgTemperature += (packet->bufToByte2() * convert) + offset;
-      myAvgTemperature /= a;
+      myAvgTemperature /= (float)a;
     }
     else
     {

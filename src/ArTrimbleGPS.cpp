@@ -175,13 +175,16 @@ AREXPORT bool ArTrimbleGPS::sendTSIPCommand(char cmd, const char *data, size_t s
   const char *dataStart = data;
   while(nextSegment)
   {
-    getDeviceConnection()->write(data, nextSegment - data);
+    assert(nextSegment >= data);
+    getDeviceConnection()->write(data, (unsigned int)(nextSegment - data));
     getDeviceConnection()->write("\x10\x10", 2);
     data = nextSegment + 1;
     nextSegment = strchr(data, '\x10');
   }
   // Write the last segment, if it exists
-  getDeviceConnection()->write(data, dataStart + size - data);
+  const int span = (int)(dataStart + size - data);
+  assert(span > 0);
+  getDeviceConnection()->write(data, (unsigned int) span);
   getDeviceConnection()->write("\x10\x03", 2); // command suffix
 
   return true;

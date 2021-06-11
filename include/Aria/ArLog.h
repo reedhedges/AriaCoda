@@ -205,7 +205,7 @@ private:
   static FILE *ourFP;
   static std::string ourFileName;
   static bool ourAlsoPrint;
-  static int ourCharsLogged;
+  static long ourCharsLogged;
   
   static LogType ourConfigLogType;
   static LogLevel ourConfigLogLevel;

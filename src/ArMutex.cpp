@@ -84,7 +84,7 @@ void ArMutex::checkLockTime()
 #else
 	  getpid(), 
 #endif
-   	  myLockStarted->mSecSince() / 1000.0);
+   	  (double) myLockStarted->mSecSince() / 1000.0);
 
 }
 
@@ -98,7 +98,7 @@ void ArMutex::startUnlockTimer()
 }
 
 void ArMutex::checkUnlockTime() {
-	//printf("checking unlock time: warningms=%d, myFirstLock=%d, msecSince=%d\n", ourUnlockWarningMS, myFirstLock, myLockTime->mSecSince());
+	//printf("checking unlock time: warningMS=%d, myFirstLock=%d, msecSince=%d\n", ourUnlockWarningMS, myFirstLock, myLockTime->mSecSince());
   if (ourUnlockWarningMS > 0 && !myFirstLock &&  myLockTime &&
         myLockTime->mSecSince() >= ourUnlockWarningMS)
     ArLog::logNoLock(ArLog::Normal, 
@@ -111,5 +111,5 @@ void ArMutex::checkUnlockTime() {
 #else
 			getpid(),
 #endif
-		    myLockTime->mSecSince() / 1000.0);
+		  (double) myLockTime->mSecSince() / 1000.0);
 }

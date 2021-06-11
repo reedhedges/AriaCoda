@@ -175,12 +175,14 @@ AREXPORT void ArSystemStatus::startPeriodicUpdate(int refreshFrequency, ArLog::L
 
 	if (ourPeriodicUpdateThread) {
 		// If we already have a thread, just change its refresh frequency
-		ourPeriodicUpdateThread->setRefreshFreq(refreshFrequency);
+		assert(refreshFrequency > 0);
+		ourPeriodicUpdateThread->setRefreshFreq((unsigned int) refreshFrequency);
 		ourPeriodicUpdateThread->setLogLevel(logLevel);
 		return;
 	}
 	// Otherwise, start a new thread, with the desired refresh frequency
-	ourPeriodicUpdateThread = new ArSystemStatusRefreshThread(refreshFrequency);
+	assert(refreshFrequency > 0);
+	ourPeriodicUpdateThread = new ArSystemStatusRefreshThread((unsigned int)refreshFrequency);
 	ourPeriodicUpdateThread->setLogLevel(logLevel);
 	ourPeriodicUpdateThread->runAsync();
 }

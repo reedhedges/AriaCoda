@@ -240,7 +240,7 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
 	  getGyroFWVersion());
 
   ret += line;
-  int flags = getConfigFlags();
+  const unsigned int flags = getConfigFlags();
   
   sprintf(line, "configFlags 0x%08x\n", flags);
   ret += line;
@@ -343,7 +343,7 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
   const size_t bufsize = 128;
   char buf[bufsize];
   size_t buflen = bufsize;
-  unsigned int value = getPowerBits();
+  const int value = getPowerBits();
   buf[0] = '\0';
   for (int j = 0, bit = 1; j < 16; ++j, bit *= 2)
   {

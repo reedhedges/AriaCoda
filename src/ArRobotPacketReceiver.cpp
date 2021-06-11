@@ -175,7 +175,7 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
       if (state == STATE_SYNC1)
 	myDeviceConn->debugStartPacket();
 
-      if (myDeviceConn->read((char *)&c, 1, timeToRunFor) == 0) 
+      if (myDeviceConn->read((char *)&c, 1, (unsigned int) timeToRunFor) == 0) 
         {
 	  myDeviceConn->debugBytesRead(0);
           if (state == STATE_SYNC1)
@@ -253,7 +253,8 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
         lastDataRead.setToNow();
         while (count < c)
           {
-            numRead = myDeviceConn->read(buf + count, c - count, 1);
+            assert(c - count > 0);
+            numRead = myDeviceConn->read(buf + count, (unsigned int)(c - count), 1);
             if (numRead > 0)
 	    {
 	      myDeviceConn->debugBytesRead(numRead);

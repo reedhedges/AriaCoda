@@ -50,7 +50,7 @@ ArMutex ArLog::ourMutex;
 ArLog::LogType ArLog::ourType=ArLog::DefaultLogType;
 ArLog::LogLevel ArLog::ourLevel=ArLog::Normal;
 FILE * ArLog::ourFP=0;
-int ArLog::ourCharsLogged = 0;
+long ArLog::ourCharsLogged = 0;
 std::string ArLog::ourFileName;
 bool ArLog::ourLoggingTime = false;
 bool ArLog::ourAlsoPrint = false;
@@ -172,26 +172,28 @@ AREXPORT void ArLog::logErrorFromOS(LogLevel level, const char *str, ...)
 
   char buf[10000];
   char *bufPtr;
-  char *timeStr;
-  int timeLen = 0; // this is a value based on the standard length of
-                       // ctime return
-  time_t now;
+  size_t timeLen = 0; 
 
 
   ourMutex.lock();
   // put our time in if we want it
   if (ourLoggingTime)
   {
-    now = time(NULL);
-    timeStr = ctime(&now);
-    timeLen = 20;
+    const time_t now = time(NULL);
+    char *timeStr = ctime(&now);
+    timeLen = 20; // this is a value based on the standard length of
+                  // ctime return
+
     // get take just the portion of the time we want
     strncpy(buf, timeStr, timeLen);
     buf[timeLen] = '\0';
     bufPtr = &buf[timeLen];
   }
   else
+  {
     bufPtr = buf;
+    timeLen = 0;
+  }
   va_list ptr;
   va_start(ptr, str);
   
@@ -289,31 +291,32 @@ AREXPORT void ArLog::logErrorFromOSNoLock(LogLevel level, const char *str, ...)
 
   char buf[10000];
   char *bufPtr;
-  char *timeStr;
-  int timeLen = 0; // this is a value based on the standard length of
-                       // ctime return
-  time_t now;
-
+  size_t timeLen = 0; 
 
   // put our time in if we want it
   if (ourLoggingTime)
   {
-    now = time(NULL);
-    timeStr = ctime(&now);
-    timeLen = 20;
+    const time_t now = time(NULL);
+    char* timeStr = ctime(&now);
+    timeLen = 20;      // this is a value based on the standard length of
+                       // ctime return
+
     // get take just the portion of the time we want
     strncpy(buf, timeStr, timeLen);
     buf[timeLen] = '\0';
     bufPtr = &buf[timeLen];
   }
   else
+  {
     bufPtr = buf;
+    timeLen = 0;
+  }
+
   va_list ptr;
   va_start(ptr, str);
-  
+
   vsnprintf(bufPtr, sizeof(buf) - timeLen - 2, str, ptr);
   bufPtr[sizeof(buf) - timeLen - 1] = '\0';
-
 
   char bufWithError[10200];  
 
@@ -594,24 +597,25 @@ AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
 
   char buf[2048];
   char *bufPtr;
-  char *timeStr;
-  int timeLen = 20; // this is a value based on the standard length of
+  size_t timeLen = 20; // this is a value based on the standard length of
                        // ctime return
-  time_t now;
 
   
   // put our time in if we want it
   if (ourLoggingTime)
   {
-    now = time(NULL);
-    timeStr = ctime(&now);
+    const time_t now = time(NULL);
+    char *timeStr = ctime(&now);
     // get take just the portion of the time we want
     strncpy(buf, timeStr, timeLen);
     buf[timeLen] = '\0';
     bufPtr = &buf[timeLen];
   }
   else
+  {
     bufPtr = buf;
+    timeLen = 0;
+  }
   va_list ptr;
   va_start(ptr, str);
   //vsnprintf(bufPtr, sizeof(buf) - timeLen - 1, str, ptr);
@@ -623,7 +627,8 @@ AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
     if ((written = fprintf(ourFP, "%s\n", buf)) > 0)
       ourCharsLogged += written;
     fflush(ourFP);
-    if(ourType == File) checkFileSize();
+    if (ourType == File)
+      checkFileSize();
   }
   else if (ourType != None)
     printf("%s\n", buf);
@@ -754,8 +759,13 @@ void ArLog::invokeFunctor(const char *message)
 void ArLog::checkFileSize()
 {
   if(ourType != File) return;
-  long size = sizeFile(ourFileName);
-  if (size > 0 && size > ourCharsLogged)
+  const long size = sizeFile(ourFileName);
+  if(size < 0)
+  {
+    ArLog::log(ArLog::Normal, "Warning: Error checking current size of log file %s", ourFileName);
+    return;
+  }
+  if (size > ourCharsLogged)
   {
     ourCharsLogged = size;
   }

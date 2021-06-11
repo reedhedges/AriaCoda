@@ -175,7 +175,7 @@ AREXPORT ArSyncTask *ArSyncTask::findNonRecursive(ArFunctor *functor)
 
 /**
    Creates a new task with the given name and puts the task into its 
-   own iternal list at the given position.  
+   own internal list at the given position.  
    @param nameOfNew Name to give to the new task.
    @param position place in list to put the branch, things are run/printed in 
    the order of highest number to lowest number, no limit on numbers (other 
@@ -192,7 +192,7 @@ AREXPORT void ArSyncTask::addNewBranch(const char *nameOfNew, int position,
 
 /**
    Creates a new task with the given name and puts the task into its 
-   own iternal list at the given position.  Sets the nodes functor so that
+   own internal list at the given position.  Sets the nodes functor so that
    it will call the functor when run is called.
    @param nameOfNew Name to give to the new task.
    @param position place in list to put the branch, things are run/printed in 
@@ -244,12 +244,8 @@ AREXPORT void ArSyncTask::run()
 {
   myRunning = true;
 
-  std::multimap<int, ArSyncTask *>::reverse_iterator it;
-  ArTaskState::State state;
-  ArTime runTime;
-  unsigned int took;  
+  const ArTaskState::State state = getState();
 
-  state = getState();
   switch (state) 
   {
   case ArTaskState::SUSPEND:
@@ -264,21 +260,23 @@ AREXPORT void ArSyncTask::run()
   default:
     break;
   }
-  
-  runTime.setToNow();
+
+  ArTime runTime;
   if (myFunctor != NULL)
     myFunctor->invoke();
-  
+  const long took = runTime.mSecSince();
+  assert(took > 0);
+  long warningTime = 0;
   if (myNoTimeWarningCB != NULL && !myNoTimeWarningCB->invokeR() && 
       myFunctor != NULL && myWarningTimeCB != NULL &&
       myWarningTimeCB->invokeR() > 0 && 
-      (took = runTime.mSecSince()) > (signed int)myWarningTimeCB->invokeR())
+      (took > (warningTime = (long) myWarningTimeCB->invokeR())) )
     ArLog::log(ArLog::Normal, 
-	       "Warning: Task '%s' took %ld ms to run (longer than the %d warning time)",
-	       myName.c_str(), took, (signed int)myWarningTimeCB->invokeR());
+	       "Warning: Task '%s' took %ld ms to run (longer than the %ld warning time)",
+	       myName.c_str(), took, warningTime);
   
   
-  for (it = myMultiMap.rbegin(); it != myMultiMap.rend(); it++)
+  for (auto it = myMultiMap.rbegin(); it != myMultiMap.rend(); ++it)
   {
     myInvokingOtherFunctor = (*it).second;
     myInvokingOtherFunctor->run();
