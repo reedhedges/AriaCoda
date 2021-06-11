@@ -828,7 +828,8 @@ AREXPORT bool ArSonarConnector::turnOnPower(SonarData *sonarData)
 }
 
 AREXPORT bool ArSonarConnector::connectReplaySonars(
-  UNUSED bool continueOnFailedConnect, bool addConnectedSonarsToRobot,
+  UNUSED bool continueOnFailedConnect, 
+	UNUSED bool addConnectedSonarsToRobot,
   bool addAllSonarsToRobot, UNUSED bool turnOnSonars,
   UNUSED bool powerCycleSonarOnFailedConnect)
 
