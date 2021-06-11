@@ -76,13 +76,13 @@ int main(int argc, char **argv)
   // See the section on threading in the manual for more about this.
   robot.lock();
   bool soc = robot.hasStateOfCharge();
-  float battv = 0.0;
+  double batt = 0.0;
   if(soc)
-    battv = robot.getStateOfCharge();
+    batt = robot.getStateOfCharge();
   else
-    battv = robot.getBatteryVoltage();
+    batt = robot.getBatteryVoltage();
   ArLog::log(ArLog::Normal, "simpleConnect: Pose=(%.2f,%.2f,%.2f), Trans.  Vel=%.2f, Battery=%.2f%c",
-    robot.getX(), robot.getY(), robot.getTh(), robot.getVel(), battv, soc?'%':'V');
+    robot.getX(), robot.getY(), robot.getTh(), robot.getVel(), batt, soc?'%':'V');
   robot.unlock();
 
   // Sleep for 3 seconds.
