@@ -36,16 +36,16 @@ class ArS3SeriesPacket : public ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArS3SeriesPacket();
+  ArS3SeriesPacket();
   //AREXPORT virtual ~ArS3SeriesPacket();
   
   /// Gets the time the packet was received at
-  AREXPORT ArTime getTimeReceived();
+  ArTime getTimeReceived();
   /// Sets the time the packet was received at
-  AREXPORT void setTimeReceived(ArTime timeReceived);
+  void setTimeReceived(ArTime timeReceived);
 
-  AREXPORT virtual void duplicatePacket(ArS3SeriesPacket *packet);
-  AREXPORT virtual void empty();
+  void duplicatePacket(ArS3SeriesPacket *packet);
+  virtual void empty() override;
   
 
   void setDataLength(int x)
@@ -150,21 +150,21 @@ public:
   //AREXPORT virtual ~ArS3SeriesPacketReceiver();
   
   /// Receives a packet from the robot if there is one available
-  AREXPORT ArS3SeriesPacket *receivePacket(unsigned int msWait = 0,
+  ArS3SeriesPacket *receivePacket(unsigned int msWait = 0,
 					 bool shortcut = false);
 
   /// Sets the device this instance receives packets from
-  AREXPORT void setDeviceConnection(ArDeviceConnection *conn);
+  void setDeviceConnection(ArDeviceConnection *conn);
   /// Gets the device this instance receives packets from
-  AREXPORT ArDeviceConnection *getDeviceConnection();
+  ArDeviceConnection *getDeviceConnection();
   unsigned short CRC16(unsigned char *, int);
 
   // PS - added to pass info to this class
-  AREXPORT void	setInfoLogLevel(ArLog::LogLevel infoLogLevel)
+  void	setInfoLogLevel(ArLog::LogLevel infoLogLevel)
   { myInfoLogLevel = infoLogLevel; }
-  AREXPORT void setIsS300(bool isS300)
+  void setIsS300(bool isS300)
   { myIsS300 = isS300; }
-  AREXPORT void setName(const char *name )
+  void setName(const char *name )
   { myName.assign(name); }
 
 protected:
@@ -225,13 +225,13 @@ public:
   /// Logs the information about the sensor
   AREXPORT void log();
 protected:
-  AREXPORT virtual void laserSetName(const char *name);
-  AREXPORT virtual void * runThread(void *arg);
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  virtual void laserSetName(const char *name);
+  virtual void * runThread(void *arg);
+  virtual void setRobot(ArRobot *robot);
   void sensorInterp();
   void failedToConnect();
   void clear();
-  AREXPORT bool packetHandler(ArRobotPacket *packet);
+  bool packetHandler(ArRobotPacket *packet);
   bool myIsConnected;
   bool myTryingToConnect;
   bool myStartConnect;

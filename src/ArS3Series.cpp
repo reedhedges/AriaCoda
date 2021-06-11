@@ -30,7 +30,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <time.h>
 
 
-AREXPORT ArS3SeriesPacket::ArS3SeriesPacket() :
+ArS3SeriesPacket::ArS3SeriesPacket() :
 ArBasePacket(10000, 1, NULL, 1) {
 
 }
@@ -39,15 +39,15 @@ ArBasePacket(10000, 1, NULL, 1) {
 
 } */
 
-AREXPORT ArTime ArS3SeriesPacket::getTimeReceived() {
+ArTime ArS3SeriesPacket::getTimeReceived() {
 	return myTimeReceived;
 }
 
-AREXPORT void ArS3SeriesPacket::setTimeReceived(ArTime timeReceived) {
+void ArS3SeriesPacket::setTimeReceived(ArTime timeReceived) {
 	myTimeReceived = timeReceived;
 }
 
-AREXPORT void ArS3SeriesPacket::duplicatePacket(ArS3SeriesPacket *packet) {
+void ArS3SeriesPacket::duplicatePacket(ArS3SeriesPacket *packet) {
 	myLength = packet->getLength();
 	myReadLength = packet->getReadLength();
 	myTimeReceived = packet->getTimeReceived();
@@ -71,7 +71,7 @@ AREXPORT void ArS3SeriesPacket::duplicatePacket(ArS3SeriesPacket *packet) {
 	memcpy(myBuf, packet->getBuf(), myLength);
 }
 
-AREXPORT void ArS3SeriesPacket::empty() {
+void ArS3SeriesPacket::empty() {
 	myLength = 0;
 	myReadLength = 0;
 }
@@ -84,12 +84,12 @@ AREXPORT ArS3SeriesPacketReceiver::~ArS3SeriesPacketReceiver() {
 
 } */
 
-AREXPORT void ArS3SeriesPacketReceiver::setDeviceConnection(
+void ArS3SeriesPacketReceiver::setDeviceConnection(
 		ArDeviceConnection *conn) {
 	myConn = conn;
 }
 
-AREXPORT ArDeviceConnection *ArS3SeriesPacketReceiver::getDeviceConnection() {
+ArDeviceConnection *ArS3SeriesPacketReceiver::getDeviceConnection() {
 	return myConn;
 }
 
@@ -697,7 +697,7 @@ void ArS3Series::clear() {
 	myNumChans = 0;
 }
 
-AREXPORT void ArS3Series::laserSetName(const char *name) {
+void ArS3Series::laserSetName(const char *name) {
 	myName = name;
 	myConnMutex.setLogNameVar("%s::myConnMutex", name);
 	myPacketsMutex.setLogNameVar("%s::myPacketsMutex", name);
@@ -707,7 +707,7 @@ AREXPORT void ArS3Series::laserSetName(const char *name) {
 	ArLaser::laserSetName(name);
 }
 
-AREXPORT void ArS3Series::setRobot(ArRobot *robot) {
+void ArS3Series::setRobot(ArRobot *robot) {
 	myRobot = robot;
 
 	if (myRobot != NULL) {
@@ -1294,7 +1294,7 @@ AREXPORT bool ArS3Series::blockingConnect() {
 
 }
 
-AREXPORT void * ArS3Series::runThread(void *) {
+void * ArS3Series::runThread(void *) {
 	//char buf[1024];
 	ArS3SeriesPacket *packet;
 
@@ -1469,7 +1469,7 @@ AREXPORT void * ArS3Series::runThread(void *) {
 	return NULL;
 }
 
-AREXPORT bool ArS3Series::packetHandler(ArRobotPacket *packet)
+bool ArS3Series::packetHandler(ArRobotPacket *packet)
 {
   if (packet->getID() != 0xd9)
     return false;
