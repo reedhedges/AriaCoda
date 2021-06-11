@@ -85,7 +85,7 @@ public:
 
   // re-implemented here just so its easier to see in the docs
   /// Stop the thread
-  virtual void stopRunning() {myRunning=false;}
+  virtual void stopRunning() override {myRunning=false;}
 
   /// Create the task and start it going
   AREXPORT int create(bool joinable=true, bool lowerPriority=true);
@@ -104,7 +104,7 @@ private:
 
   // Hide regular Thread::Create
   virtual int create(ArFunctor * /*func*/, bool /*joinable=true*/,
-		     bool /*lowerPriority=true*/) {return(false);}
+		     bool /*lowerPriority=true*/) override {return(false);}
 
 
   ArRetFunctor1C<void*, ArASyncTask, void*> myFunc;

@@ -54,7 +54,7 @@ public:
     }
   double getDesired() const { return myDesired; }
   double getStrength() const { return myStrength; }
-  double getAllowOverride() const { return myAllowOverride; }
+  bool getAllowOverride() const { return myAllowOverride; }
   void reset() 
     { myDesired = 0; myStrength = NO_STRENGTH; myAllowOverride = true; }
   void merge(ArActionDesiredChannel *desiredChannel)
