@@ -762,7 +762,7 @@ void ArLog::checkFileSize()
   const long size = sizeFile(ourFileName);
   if(size < 0)
   {
-    ArLog::log(ArLog::Normal, "Warning: Error checking current size of log file %s", ourFileName);
+    ArLog::log(ArLog::Normal, "Warning: Error checking current size of log file %s", ourFileName.c_str());
     return;
   }
   if (size > ourCharsLogged)
