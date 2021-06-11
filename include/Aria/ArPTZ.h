@@ -140,12 +140,12 @@ public:
   /** The angle the camera is panned to (or last commanded value sent, if unable to obtain real pan position)
       @sa canGetRealPanTilt()
   */
-  virtual double getPan() const  { if(myInverted) return -getPan_i(); else return getPan_i(); }
+  virtual double getPan() const { if(myInverted) return -getPan_i(); else return getPan_i(); }
 
   /** The angle the camera is tilted to (or last commanded value sent, if unable to obtain real pan position)
       @sa canGetRealPanTilt()
   */
-  virtual double getTilt() const  { if(myInverted) return -getTilt_i(); else return getTilt_i(); }
+  virtual double getTilt() const { if(myInverted) return -getTilt_i(); else return getTilt_i(); }
 
   /** The amount the camera is zoomed to (or last commanded value sent, 
       if unable to obtain real pan position)

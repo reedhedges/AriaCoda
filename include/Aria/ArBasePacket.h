@@ -84,8 +84,9 @@ public:
   /// Destructor
   AREXPORT virtual ~ArBasePacket();
 
-    // XXX should also include other copy/move constructors and  move assignment operator
+  ArBasePacket(ArBasePacket &&old);
 
+  ArBasePacket &operator=(ArBasePacket &&other) noexcept;
 
   /// resets the length for more data to be added
   AREXPORT virtual void empty();

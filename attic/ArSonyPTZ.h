@@ -33,15 +33,17 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     MUST use thse, if you use anything else your commands won't work.  You 
     must use uByteToBuf and byte2ToBuf.  
 */
-class ArSonyPacket: public ArBasePacket
+class ArSonyPacket: public virtual ArBasePacket
 {
 public:
   /// Constructor
   AREXPORT ArSonyPacket(ArTypes::UByte2 bufferSize = 15);
-  AREXPORT virtual ~ArSonyPacket();
   
-  AREXPORT virtual void uByteToBuf(ArTypes::UByte val);
-  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val);
+  virtual  void uByteToBuf(ArTypes::UByte val);
+  virtual void byte2ToBuf(ArTypes::Byte2 val);
+
+  // todo disable others 
+  
   /// This is a new function, read the details before you try to use it
   AREXPORT void byte2ToBufAtPos(ArTypes::Byte2 val, ArTypes::UByte2 pose);
 };
@@ -50,7 +52,7 @@ class ArRobot;
 
 /// A class to use the sony pan tilt zoom unit
 
-class ArSonyPTZ : public ArPTZ
+class ArSonyPTZ : public virtual ArPTZ
 {
 public:
   AREXPORT ArSonyPTZ(ArRobot *robot);

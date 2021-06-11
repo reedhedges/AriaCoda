@@ -69,14 +69,14 @@ public:
   AREXPORT ArTypes::Byte2 calcCheckSum();
   
   // only call finalizePacket before a send
-  AREXPORT virtual void finalizePacket();
+  AREXPORT virtual void finalizePacket() override;
   
   /// Gets the time the packet was received at
   AREXPORT ArTime getTimeReceived();
   /// Sets the time the packet was received at
   AREXPORT void setTimeReceived(ArTime timeReceived);
 
-  AREXPORT virtual void log();
+  AREXPORT virtual void log() override;
 
 protected:
   unsigned char mySync1;

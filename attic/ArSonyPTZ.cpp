@@ -33,10 +33,6 @@ AREXPORT ArSonyPacket::ArSonyPacket(ArTypes::UByte2 bufferSize) :
   
 }
 
-AREXPORT ArSonyPacket::~ArSonyPacket()
-{
-
-}
 
 AREXPORT void ArSonyPacket::uByteToBuf(ArTypes::UByte val)
 {

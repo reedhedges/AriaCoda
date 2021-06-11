@@ -275,7 +275,7 @@ AREXPORT bool ArRVisionPTZ::packetHandler(ArRobotPacket *packet)
 }
 */
 
-#define ARRVISION_MAX_RESPONSE_BYTES 16
+/* #define ARRVISION_MAX_RESPONSE_BYTES 16
 //AREXPORT bool ArRVisionPTZ::packetHandler(ArBasePacket *packet)
 ArBasePacket * ArRVisionPTZ::readPacket()
 {
@@ -320,7 +320,7 @@ ArBasePacket * ArRVisionPTZ::readPacket()
   //printf("\t[%d]: 0x%x\n", i, data[i]);
   //}
   return NULL;
-}
+} */
 
 ArPTZConnector::GlobalPTZCreateFunc ArRVisionPTZ::ourCreateFunc(&ArRVisionPTZ::create);
 

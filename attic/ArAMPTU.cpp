@@ -34,10 +34,6 @@ AREXPORT ArAMPTUPacket::ArAMPTUPacket(ArTypes::UByte2 bufferSize) :
   myUnitNumber = 0;
 }
 
-AREXPORT ArAMPTUPacket::~ArAMPTUPacket()
-{
-
-}
 
 AREXPORT void ArAMPTUPacket::byteToBuf(ArTypes::Byte val)
 {
@@ -114,10 +110,6 @@ AREXPORT ArAMPTU::ArAMPTU(ArRobot *robot, int unitNumber) :
   myTilt = 0;
   myUnitNumber = unitNumber;
   ArPTZ::setLimits(150, -150, 90, -90);
-}
-
-AREXPORT ArAMPTU::~ArAMPTU()
-{
 }
 
 AREXPORT bool ArAMPTU::init(void)

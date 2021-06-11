@@ -65,23 +65,21 @@ public:
     @see getUnitNumber
     @see setUnitNumber
 */
-class ArAMPTUPacket: public ArBasePacket
+class ArAMPTUPacket: public virtual ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArAMPTUPacket(ArTypes::UByte2 bufferSize = 30);
-  /// Destructor
-  AREXPORT virtual ~ArAMPTUPacket();
+  ArAMPTUPacket(ArTypes::UByte2 bufferSize = 30);
 
   /// Gets the unit number this packet is for
-  AREXPORT unsigned char getUnitNumber(void);
+  unsigned char getUnitNumber(void);
   /// Sets the unit number htis packet is for
-  AREXPORT bool setUnitNumber(unsigned char unitNumber);
+  bool setUnitNumber(unsigned char unitNumber);
   
-  AREXPORT virtual void byteToBuf(ArTypes::Byte val);
-  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val);
+  virtual void byteToBuf(ArTypes::Byte val) override;
+  virtual void byte2ToBuf(ArTypes::Byte2 val) override;
   
-  AREXPORT virtual void finalizePacket(void);
+  virtual void finalizePacket(void) override;
 
 protected:
   unsigned char myUnitNumber;
@@ -89,13 +87,13 @@ protected:
 
 /// Driver for the AMPTU
 /// @ingroup ObscureClasses
-class ArAMPTU : public ArPTZ
+class ArAMPTU : public virtual ArPTZ
 {
 public:
   /// Constructor
   AREXPORT ArAMPTU(ArRobot *robot, int unitNumber = 0);
   /// Destructor
-  AREXPORT virtual ~ArAMPTU();
+  virtual ~ArAMPTU() = default;
   AREXPORT virtual bool init(void);
   AREXPORT virtual const char *getTypeName() { return "amptu"; }
 protected:
@@ -124,9 +122,9 @@ public:
   /// Retrieves the camera status
   AREXPORT bool requestStatus(void);
   /// Gets the angle the camera is panned to
-  AREXPORT virtual double getPan_i(void) const { return myPan; }
+  virtual double getPan_i(void) const { return myPan; }
   /// Gets the angle the camera is tilted to
-  AREXPORT virtual double getTilt_i(void) const { return myTilt; }
+  virtual double getTilt_i(void) const { return myTilt; }
   enum {
     MIN_SLEW = 15,
     MAX_TILT_SLEW = 200,

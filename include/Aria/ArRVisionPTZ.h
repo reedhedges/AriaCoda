@@ -34,7 +34,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *  MUST use thse, if you use anything else your commands won't work.  
  *  @since 2.7.0
 */
-class ArRVisionPacket: public ArBasePacket
+class ArRVisionPacket: public virtual ArBasePacket
 {
 public:
   /// Constructor
@@ -42,6 +42,8 @@ public:
   
   AREXPORT virtual void uByteToBuf(ArTypes::UByte val) override;
   AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val) override;
+  // todo disable others
+  
   /// This is a new function, read the details before you try to use it
   AREXPORT void byte2ToBufAtPos(ArTypes::Byte2 val, ArTypes::UByte2 pos);
 };
@@ -57,7 +59,7 @@ public:
 	@since 2.7.0
 */
 
-class ArRVisionPTZ : public ArPTZ
+class ArRVisionPTZ : public virtual ArPTZ
 {
 public:
   AREXPORT explicit ArRVisionPTZ(ArRobot *robot);
@@ -106,7 +108,7 @@ public:
   /// Gets the field of view at minimum zoom
   AREXPORT virtual double getFOVAtMinZoom() override { return 48.8; }
 
-  virtual ArBasePacket* readPacket();
+  //virtual ArBasePacket* readPacket();
   enum {
     MAX_PAN = 180, ///< maximum degrees the unit can pan (clockwise from top)
     MIN_PAN = -180, ///< minimum degrees the unit can pan (counterclockwise from top)

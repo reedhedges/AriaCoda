@@ -146,11 +146,11 @@ AREXPORT ArVCC4::ArVCC4(ArRobot *robot, bool inverted, CommState commDirection, 
     myStateTimeout = UNIDIRECTIONAL_TIMEOUT;
   }
 
-  // Set these to TOLERANCE +1 and desired's to 0, so it will be automatically
+  // Set these to 1 and desired's to 0, so it will be automatically
   // zero out during the first first passes through the state machine
-  myPan = TOLERANCE + 1;
-  myTilt = TOLERANCE + 1;
-  myZoom = TOLERANCE + 1;
+  myPan = 1;
+  myTilt = 1;
+  myZoom = 1;
   myPanResponse = 0;
   myTiltResponse = 0;
   myZoomResponse = 0;
@@ -273,7 +273,8 @@ void ArVCC4::requestBytes(int num)
     else
     {
       // request the rest of the bytes.  asumess num=myBytesLeft
-      myRobot->comInt(myAuxRxCmd,num);
+      assert(num <= SHRT_MAX);
+      myRobot->comInt(myAuxRxCmd, (short)num);
       myBytesLeft = 0;
     }
   }
@@ -286,7 +287,7 @@ void ArVCC4::requestBytes(int num)
 /*
 This is the user task for the camera.  It controls the state that the camera is in and responds accordingly.
 
-The POWERED_ON state will send commands as needed, and then switch the state into a state of waiting for a response.  If that state waits for too long without a response, it will timeout.  The states wait for a responseReceived flag, which says that a valid response packet was received back from the camera.  Based on that, it uses the myError variable to determine what the packet said.  If there is not responseReceived, or if operating in undirectional mode, the state will wait for a timeout, at which point it will fail if in bidirectional, or assume success in unidirectional mode.
+The POWERED_ON state will send commands as needed, and then switch the state into a state of waiting for a response.  If that state waits for too long without a response, it will timeout.  The states wait for a responseReceived flag, which says that a valid response packet was received back from the camera.  Based on that, it uses the myError variable to determine what the packet said.  If there is not responseReceived, or if operating in unidirectional mode, the state will wait for a timeout, at which point it will fail if in bidirectional, or assume success in unidirectional mode.
 */
 void ArVCC4::camTask()
 {
@@ -1432,7 +1433,7 @@ void ArVCC4::switchState(State state, int delayTime)
   to transition from state to state, despite how many packets have or 
   haven't been received.  Passing an argument will check for a statetimeout
   greater than the argument.  The packet timeout is always the same, but
-  does not exist for unidirecitonal communication
+  does not exist for unidirectional communication
 */
 bool ArVCC4::timeout(int mSec)
 {
@@ -1462,7 +1463,7 @@ ArBasePacket* ArVCC4::readPacket()
 {
   unsigned char data[MAX_RESPONSE_BYTES];
   unsigned char byte = 0;
-  int num;
+  size_t num;
   
   myPacketBufLen = 0;
 
@@ -1808,15 +1809,11 @@ AREXPORT bool ArVCC4::digitalZoom(int deg)
 void ArVCC4::processGetPanTiltResponse()
 {
   unsigned char buf[4];
-  char byte;
-  unsigned int valU;
-  double val;
-  int i;
 
   // remove the ascii encoding, and put into 4-byte array
-  for (i=0;i<4;i++)
+  for (int i=0;i<4;i++)
   {
-    byte = myPacketBuf[i+5];
+    unsigned char byte = myPacketBuf[i+5];
     if (byte < 0x40)
       byte = byte - 0x30;
     else
@@ -1825,25 +1822,25 @@ void ArVCC4::processGetPanTiltResponse()
   }
 
   // convert the 4-bytes into a number
-  valU = buf[0]*0x1000 + buf[1]*0x100 + buf[2]*0x10 + buf[3];
+  unsigned int valU = (unsigned int) buf[0]*0x1000 + (unsigned int) buf[1]*0x100 + (unsigned int) buf[2]*0x10 + (unsigned int) buf[3];
 
   // convert the number to a value that's meaningful, based on camera specs
-  val = (((int)valU - (int)0x8000)*0.1125);
+  double val = (((int)valU - (int)0x8000)*0.1125);
 
   // now set myPan to the response received for where the camera thinks it is
   myPanResponse = val;
 
   // repeat the steps for the tilt value
-  for (i=0;i<4;i++)
+  for (int i=0;i<4;i++)
   {
-    byte = myPacketBuf[i+9];
+    unsigned char byte = myPacketBuf[i+9];
     if (byte < 0x40)
       byte = byte - 0x30;
     else
       byte = byte - 'A' + 10;
     buf[i] = byte;
   }
-  valU = buf[0]*0x1000 + buf[1]*0x100 + buf[2]*0x10 + buf[3];
+  valU = (unsigned int)buf[0]*0x1000 + (unsigned int)buf[1]*0x100 + (unsigned int)buf[2]*0x10 + (unsigned int)buf[3];
   val =(((int)valU  - (int)0x8000)*0.1125);
   myTiltResponse = val;
 
@@ -1857,7 +1854,7 @@ void ArVCC4::processGetPanTiltResponse()
 void ArVCC4::processGetZoomResponse()
 {
   unsigned char buf[4];
-  char byte;
+  unsigned char byte;
   unsigned int valU;
   int i;
 
@@ -2093,7 +2090,7 @@ bool ArVCC4::sendDigitalZoom()
   if (myDigitalZoomDesired < 4)
   {
     myPacket.uByteToBuf(0x30);
-    myPacket.uByteToBuf(0x30 + (0x1 << myDigitalZoomDesired));
+    myPacket.uByteToBuf((ArTypes::UByte) (0x30 + (0x1 << myDigitalZoomDesired)));
   }
   else
   {

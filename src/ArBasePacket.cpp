@@ -106,6 +106,56 @@ AREXPORT ArBasePacket &ArBasePacket::operator=(const ArBasePacket &other)
   return *this;
 }
 
+AREXPORT ArBasePacket::ArBasePacket(ArBasePacket &&other)
+{
+  // move constructor
+  
+  myHeaderLength = other.myHeaderLength;
+  myFooterLength = other.myFooterLength;
+  myReadLength   = other.myReadLength;
+
+  myBuf = other.myBuf;
+
+  if(other.myOwnMyBuf )
+    myOwnMyBuf = true;
+
+  other.myOwnMyBuf = false;
+  other.myBuf = NULL;
+
+  myLength = other.myLength;
+  myMaxLength = other.myLength;   
+  myIsValid = other.myIsValid;
+  other.myIsValid = false;
+}
+
+AREXPORT ArBasePacket& ArBasePacket::operator=(ArBasePacket&& other) noexcept
+{
+  // move assignment
+  if(&other == this)
+    return *this;
+
+  myHeaderLength = other.myHeaderLength;
+  myFooterLength = other.myFooterLength;
+  myReadLength   = other.myReadLength;
+
+  if (myOwnMyBuf && myBuf != NULL)
+	  delete [] myBuf;
+
+  myBuf = other.myBuf;
+
+  if(other.myOwnMyBuf )
+    myOwnMyBuf = true;
+
+  other.myOwnMyBuf = false;
+  other.myBuf = NULL;
+
+  myLength = other.myLength;
+  myMaxLength = other.myLength;   
+  myIsValid = other.myIsValid;
+  other.myIsValid = false;
+
+  return *this;
+}
 
 
 AREXPORT ArBasePacket::~ArBasePacket()
