@@ -56,24 +56,25 @@ public:
   /// Sets the time the packet was received at
   void setTimeReceived(ArTime timeReceived);
 
-  virtual void duplicatePacket(ArLMS1XXPacket *packet);
-  virtual void empty();
-  
-  virtual void byteToBuf(ArTypes::Byte val);
-  virtual void byte2ToBuf(ArTypes::Byte2 val);
-  virtual void byte4ToBuf(ArTypes::Byte4 val);
-  virtual void uByteToBuf(ArTypes::UByte val);
-  virtual void uByte2ToBuf(ArTypes::UByte2 val);
-  virtual void uByte4ToBuf(ArTypes::UByte4 val);
-  virtual void strToBuf(const char *str);
+  void duplicatePacket(ArLMS1XXPacket *packet);
+  virtual void empty() override;
 
-  virtual ArTypes::Byte bufToByte();
-  virtual ArTypes::Byte2 bufToByte2();
-  virtual ArTypes::Byte4 bufToByte4();
-  virtual ArTypes::UByte bufToUByte();
-  virtual ArTypes::UByte2 bufToUByte2();
-  virtual ArTypes::UByte4 bufToUByte4();
-  virtual void bufToStr(char *buf, int len);
+  void intToBuf(int val);
+  virtual void byteToBuf(ArTypes::Byte val) override { intToBuf((int)val); }
+  virtual void byte2ToBuf(ArTypes::Byte2 val) override { intToBuf((int)val); }
+  virtual void byte4ToBuf(ArTypes::Byte4 val) override { intToBuf((int)val); }
+  virtual void uByteToBuf(ArTypes::UByte val) override;
+  virtual void uByte2ToBuf(ArTypes::UByte2 val) override;
+  virtual void uByte4ToBuf(ArTypes::UByte4 val) override;
+  virtual void strToBuf(const char *str) override;
+
+  virtual ArTypes::Byte bufToByte() override;
+  virtual ArTypes::Byte2 bufToByte2() override;
+  virtual ArTypes::Byte4 bufToByte4() override;
+  virtual ArTypes::UByte bufToUByte() override;
+  virtual ArTypes::UByte2 bufToUByte2() override;
+  virtual ArTypes::UByte4 bufToUByte4() override;
+  virtual void bufToStr(char *buf, size_t len) override;
 
   // adds a raw char to the buf
   virtual void rawCharToBuf(unsigned char c);
@@ -128,7 +129,7 @@ public:
     strncpy(myName, name, sizeof(myName)); 
     myName[sizeof(myName)-1] = '\0';
   }
-  void setReadTimeout(int timeout )
+  void setReadTimeout(unsigned int timeout )
   { myReadTimeout = timeout; }
 
 
@@ -146,8 +147,8 @@ protected:
   char myName[1024];
   unsigned int myNameLength;
   char myReadBuf[100000];
-  int myReadCount;
-	int myReadTimeout;
+  unsigned int myReadCount;
+	unsigned int myReadTimeout;
 
 	int myLaserModel;
 
@@ -240,7 +241,7 @@ protected:
 
   int myVersionNumber;
   int myDeviceNumber;
-  int mySerialNumber;
+  unsigned int mySerialNumber;
   int myDeviceStatus1;
   int myDeviceStatus2;
   int myMessageCounter;

@@ -34,8 +34,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 //#define DEBUG_ARNMEAPARSER 1
 
 #ifdef DEBUG_ARNMEAPARSER
-void ArNMEAParser_printBuf(FILE *fp, const char *data, int size) {  
-  for(int i = 0; i < size; ++i) {
+void ArNMEAParser_printBuf(FILE *fp, const char *data, size_t size) {  
+  for(size_t i = 0; i < size; ++i) {
     if(data[i] == '\n')
       fprintf(fp, "[LF]");
     else if(data[i] == '\r')
@@ -123,17 +123,17 @@ AREXPORT int ArNMEAParser::parse(ArDeviceConnection *dev)
   return parse(myReadBuffer, n);
 }
 
-AREXPORT int ArNMEAParser::parse(const char *buf, int n)
+AREXPORT int ArNMEAParser::parse(const char *buf, size_t n)
 {
   int result = 0;
   if (n < 0) 
   {
-    return result|ParseError;
+    return ParseError;
   }
 
   if (n == 0) 
   {
-    return result|ParseFinished;
+    return ParseFinished;
   }
 
 #ifdef DEBUG_ARNMEAPARSER
@@ -144,7 +144,7 @@ AREXPORT int ArNMEAParser::parse(const char *buf, int n)
 #endif
 
 
-  for (int i = 0; i < n; i++)
+  for (size_t i = 0; i < n; i++)
   {
     // Check for message start
     if (buf[i] == '$')

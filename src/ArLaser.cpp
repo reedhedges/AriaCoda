@@ -714,16 +714,16 @@ AREXPORT void ArLaser::laserConnect()
   }
   else
   {
-	// PS 10/20/11 - This was missing causing buffer size to be very large
-	// set this to the lowest, note both the SZ and S3 are setting the buffer
-	// size but it's being overriden by this procedure - do we want to fix
-	// this or just leave it at the max value 360/.25=1440???
-	increment = .25;
+    // PS 10/20/11 - This was missing causing buffer size to be very large
+    // set this to the lowest, note both the SZ and S3 are setting the buffer
+    // size but it's being overriden by this procedure - do we want to fix
+    // this or just leave it at the max value 360/.25=1440???
+    increment = .25;
     ArLog::log(ArLog::Terse, "%s: Don't have any settings for increment, arbitrarily using .25", getName());
   }
   
-  int size = (int)ceil(degrees / increment) + 1;
-  ArLog::log(myInfoLogLevel, "%s: Setting current buffer size to %d", 
+  size_t size = (size_t) ceil(degrees / increment) + 1;
+  ArLog::log(myInfoLogLevel, "%s: Setting current buffer size to %lu", 
 	     getName(), size);
   setCurrentBufferSize(size);
   
@@ -1304,8 +1304,8 @@ AREXPORT bool ArLaser::addIgnoreReadings(const char *ignoreReadings)
     else
     {
       str = args.getArg(i);
-      if (sscanf(str, "%f:%f", &begin, &end) == 2 || 
-	        sscanf(str, "%f-%f", &begin, &end) == 2)
+      if (sscanf(str, "%lf:%lf", &begin, &end) == 2 || 
+	        sscanf(str, "%lf-%lf", &begin, &end) == 2)
       {
 	      ArLog::log(ArLog::Verbose, "%s: Adding ignore reading from %g to %g", 
 		       getName(), begin, end);
@@ -1373,7 +1373,7 @@ AREXPORT bool ArLaser::laserCheckLostConnection()
 	
   if ((myRobot == NULL || myRobotRunningAndConnected) && 
       getConnectionTimeoutSeconds() > 0 && 
-      myLastReading.mSecSince() >  getConnectionTimeoutSeconds() * 1000)
+      myLastReading.mSecSince() >  (long) (getConnectionTimeoutSeconds() * 1000))
     return true;
 
   if (!myRobotRunningAndConnected && myRobot != NULL && 

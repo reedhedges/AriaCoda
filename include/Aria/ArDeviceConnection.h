@@ -62,6 +62,7 @@ class ArDeviceConnection
   */
   AREXPORT virtual int read(const char *data, unsigned int size, 
 			    unsigned int msWait = 0) = 0;
+
   /// Writes data to connection
   /**
      Writes data to connection from a packet
@@ -71,7 +72,7 @@ class ArDeviceConnection
   */
   AREXPORT virtual int writePacket(ArBasePacket *packet)
     { if (packet == NULL || packet->getLength() == 0) return 0;
-    return write(packet->getBuf(), packet->getLength()); }
+    return write(packet->getBuf(), (unsigned int) packet->getLength()); }
   /// Writes data to connection
   /**
      Writes data to connection
@@ -81,6 +82,7 @@ class ArDeviceConnection
      @see read, writePacket
   */
   AREXPORT virtual int write(const char *data, unsigned int size) = 0;
+
   /// Gets the status of the connection, which is one of the enum status
   /**
      Gets the status of the connection, which is one of the enum status.

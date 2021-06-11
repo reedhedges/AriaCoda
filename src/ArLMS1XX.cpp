@@ -46,25 +46,25 @@ ArBasePacket(10000, 1, NULL, 1)
 
 
 
-AREXPORT const char *ArLMS1XXPacket::getCommandType()
+const char *ArLMS1XXPacket::getCommandType()
 {
 	return myCommandType;
 }
 
-AREXPORT const char *ArLMS1XXPacket::getCommandName()
+const char *ArLMS1XXPacket::getCommandName()
 {
 	return myCommandName;
 }
 
 
-AREXPORT void ArLMS1XXPacket::finalizePacket()
+void ArLMS1XXPacket::finalizePacket()
 {
 	myBuf[0] = '\002';
 	rawCharToBuf('\003');
 	myBuf[myLength] = '\0';
 }
 
-AREXPORT void ArLMS1XXPacket::resetRead()
+void ArLMS1XXPacket::resetRead()
 {
 	myReadLength = 1;
 
@@ -75,17 +75,17 @@ AREXPORT void ArLMS1XXPacket::resetRead()
 	bufToStr(myCommandName, sizeof(myCommandName));
 }
 
-AREXPORT ArTime ArLMS1XXPacket::getTimeReceived()
+ArTime ArLMS1XXPacket::getTimeReceived()
 {
 	return myTimeReceived;
 }
 
-AREXPORT void ArLMS1XXPacket::setTimeReceived(ArTime timeReceived)
+void ArLMS1XXPacket::setTimeReceived(ArTime timeReceived)
 {
 	myTimeReceived = timeReceived;
 }
 
-AREXPORT void ArLMS1XXPacket::duplicatePacket(ArLMS1XXPacket *packet)
+void ArLMS1XXPacket::duplicatePacket(ArLMS1XXPacket *packet)
 {
 	myLength = packet->getLength();
 	myReadLength = packet->getReadLength();
@@ -96,7 +96,7 @@ AREXPORT void ArLMS1XXPacket::duplicatePacket(ArLMS1XXPacket *packet)
 	memcpy(myBuf, packet->getBuf(), myLength);
 }
 
-AREXPORT void ArLMS1XXPacket::empty()
+void ArLMS1XXPacket::empty()
 {
 	myLength = 0;
 	myReadLength = 0;
@@ -105,10 +105,9 @@ AREXPORT void ArLMS1XXPacket::empty()
 	myCommandName[0] = '\0';
 }
 
-
-AREXPORT void ArLMS1XXPacket::byteToBuf(ArTypes::Byte val)
+void ArLMS1XXPacket::intToBuf(int val)
 {
-	char buf[1024];
+	char buf[12];
 	if (val > 0)
 		sprintf(buf, "+%d", val);
 	else
@@ -116,47 +115,28 @@ AREXPORT void ArLMS1XXPacket::byteToBuf(ArTypes::Byte val)
 	strToBuf(buf);
 }
 
-AREXPORT void ArLMS1XXPacket::byte2ToBuf(ArTypes::Byte2 val)
-{
-	char buf[1024];
-	if (val > 0)
-		sprintf(buf, "+%d", val);
-	else
-		sprintf(buf, "%d", val);
-	strToBuf(buf);
-}
 
-AREXPORT void ArLMS1XXPacket::byte4ToBuf(ArTypes::Byte4 val)
+void ArLMS1XXPacket::uByteToBuf(ArTypes::UByte val)
 {
-	char buf[1024];
-	if (val > 0)
-		sprintf(buf, "+%d", val);
-	else
-		sprintf(buf, "%d", val);
-	strToBuf(buf);
-}
-
-AREXPORT void ArLMS1XXPacket::uByteToBuf(ArTypes::UByte val)
-{
-	char buf[1024];
+	char buf[12];
 	sprintf(buf, "%u", val);
 	strToBuf(buf);
 }
 
-AREXPORT void ArLMS1XXPacket::uByte2ToBuf(ArTypes::UByte2 val)
+void ArLMS1XXPacket::uByte2ToBuf(ArTypes::UByte2 val)
 {
-	uByteToBuf(val & 0xff);
-	uByteToBuf((val >> 8) & 0xff);
+	uByteToBuf((ArTypes::UByte) (val & 0xff));
+	uByteToBuf((ArTypes::UByte) ((val >> 8) & 0xff));
 }
 
-AREXPORT void ArLMS1XXPacket::uByte4ToBuf(ArTypes::UByte4 val)
+void ArLMS1XXPacket::uByte4ToBuf(ArTypes::UByte4 val)
 {
-	char buf[1024];
+	char buf[12];
 	sprintf(buf, "%u", val);
 	strToBuf(buf);
 }
 
-AREXPORT void ArLMS1XXPacket::strToBuf(const char *str)
+void ArLMS1XXPacket::strToBuf(const char *str)
 {
 	if (str == NULL) {
 		str = "";
@@ -170,7 +150,9 @@ AREXPORT void ArLMS1XXPacket::strToBuf(const char *str)
 
 	myFirstAdd = false;
 
-	ArTypes::UByte2 tempLen = strlen(str);
+  const size_t len = strlen(str);
+	assert(len <= USHRT_MAX);
+	const ArTypes::UByte2 tempLen = (ArTypes::UByte2)len;
 
 	if (!hasWriteCapacity(tempLen)) {
 		return;
@@ -180,10 +162,8 @@ AREXPORT void ArLMS1XXPacket::strToBuf(const char *str)
 	myLength += tempLen;
 }
 
-AREXPORT ArTypes::Byte ArLMS1XXPacket::bufToByte()
+ArTypes::Byte ArLMS1XXPacket::bufToByte()
 {
-	ArTypes::Byte ret=0;
-
 
 	if (!isNextGood(1))
 		return 0;
@@ -194,19 +174,17 @@ AREXPORT ArTypes::Byte ArLMS1XXPacket::bufToByte()
 	if (!isNextGood(4))
 		return 0;
 
-	unsigned char n1, n2;
-	n2 = deascii(myBuf[myReadLength+6]);
-	n1 = deascii(myBuf[myReadLength+7]);
-	ret = n2 << 4 | n1;
+	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
+	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
+	const ArTypes::Byte ret = (ArTypes::Byte) (n2 << 4 | n1);
 
 	myReadLength += 4;
 
 	return ret;
 }
 
-AREXPORT ArTypes::Byte2 ArLMS1XXPacket::bufToByte2()
+ArTypes::Byte2 ArLMS1XXPacket::bufToByte2()
 {
-	ArTypes::Byte2 ret=0;
 
 	if (!isNextGood(1))
 		return 0;
@@ -217,22 +195,19 @@ AREXPORT ArTypes::Byte2 ArLMS1XXPacket::bufToByte2()
 	if (!isNextGood(4))
 		return 0;
 
-	unsigned char n1, n2, n3, n4;
-	n4 = deascii(myBuf[myReadLength+4]);
-	n3 = deascii(myBuf[myReadLength+5]);
-	n2 = deascii(myBuf[myReadLength+6]);
-	n1 = deascii(myBuf[myReadLength+7]);
-	ret = n4 << 12 | n3 << 8 | n2 << 4 | n1;
+	const unsigned char n4 = (unsigned char) deascii(myBuf[myReadLength+4]);
+	const unsigned char n3 = (unsigned char) deascii(myBuf[myReadLength+5]);
+	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
+	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
+	const ArTypes::Byte2 ret = (ArTypes::Byte2) (n4 << 12 | n3 << 8 | n2 << 4 | n1);
 
 	myReadLength += 4;
 
 	return ret;
 }
 
-AREXPORT ArTypes::Byte4 ArLMS1XXPacket::bufToByte4()
+ArTypes::Byte4 ArLMS1XXPacket::bufToByte4()
 {
-	ArTypes::Byte4 ret=0;
-
 	if (!isNextGood(1))
 		return 0;
 
@@ -242,25 +217,23 @@ AREXPORT ArTypes::Byte4 ArLMS1XXPacket::bufToByte4()
 	if (!isNextGood(8))
 		return 0;
 
-	unsigned char n1, n2, n3, n4, n5, n6, n7, n8;
-	n8 = deascii(myBuf[myReadLength]);
-	n7 = deascii(myBuf[myReadLength+1]);
-	n6 = deascii(myBuf[myReadLength+2]);
-	n5 = deascii(myBuf[myReadLength+3]);
-	n4 = deascii(myBuf[myReadLength+4]);
-	n3 = deascii(myBuf[myReadLength+5]);
-	n2 = deascii(myBuf[myReadLength+6]);
-	n1 = deascii(myBuf[myReadLength+7]);
-	ret = n8 << 28 | n7 << 24 | n6 << 20 | n5 << 16 | n4 << 12 | n3 << 8 | n2 << 4 | n1;
+	const unsigned char n8 = (unsigned char) deascii(myBuf[myReadLength]);
+	const unsigned char n7 = (unsigned char) deascii(myBuf[myReadLength+1]);
+	const unsigned char n6 = (unsigned char) deascii(myBuf[myReadLength+2]);
+	const unsigned char n5 = (unsigned char) deascii(myBuf[myReadLength+3]);
+	const unsigned char n4 = (unsigned char) deascii(myBuf[myReadLength+4]);
+	const unsigned char n3 = (unsigned char) deascii(myBuf[myReadLength+5]);
+	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
+	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
+	const ArTypes::Byte4 ret = (ArTypes::Byte4) (n8 << 28 | n7 << 24 | n6 << 20 | n5 << 16 | n4 << 12 | n3 << 8 | n2 << 4 | n1);
 
 	myReadLength += 8;
 
 	return ret;
 }
 
-AREXPORT ArTypes::UByte ArLMS1XXPacket::bufToUByte()
+ArTypes::UByte ArLMS1XXPacket::bufToUByte()
 {
-	ArTypes::UByte ret=0;
 	if (!isNextGood(1))
 		return 0;
 
@@ -275,16 +248,14 @@ AREXPORT ArTypes::UByte ArLMS1XXPacket::bufToUByte()
 		myReadLength += 1;
 	}
 
-	ret = strtol(str.c_str(), NULL, 16);
-
-	return ret;
+  const long ret = strtol(str.c_str(), NULL, 16);
+	//assert(ret >= 0 && ret <= UCHAR_MAX);
+	return (ArTypes::UByte)ret;
 }
 
-AREXPORT ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2()
+ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2()
 {
 	//printf("@ 1\n");
-
-	ArTypes::UByte2 ret=0;
 
 	if (!isNextGood(1))
 		return 0;
@@ -304,16 +275,14 @@ AREXPORT ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2()
 	}
 
 
-	ret = strtol(str.c_str(), NULL, 16);
+	const long ret = strtol(str.c_str(), NULL, 16);
 
 	//printf("@ 3 %d\n", ret);
-	return ret;
+	return (ArTypes::UByte2) ret;
 }
 
-AREXPORT ArTypes::UByte4 ArLMS1XXPacket::bufToUByte4()
+ArTypes::UByte4 ArLMS1XXPacket::bufToUByte4()
 {
-	ArTypes::Byte4 ret=0;
-
 	if (!isNextGood(1))
 		return 0;
 
@@ -329,9 +298,9 @@ AREXPORT ArTypes::UByte4 ArLMS1XXPacket::bufToUByte4()
 	}
 
 
-	ret = strtol(str.c_str(), NULL, 16);
+	const long ret = strtol(str.c_str(), NULL, 16);
 
-	return ret;
+	return (ArTypes::UByte4) ret;
 }
 
 /** 
@@ -345,7 +314,7 @@ if @a len bytes are copied).
 @param buf Destination buffer
 @param len Maximum number of characters to copy into the destination buffer
  */
-AREXPORT void ArLMS1XXPacket::bufToStr(char *buf, int len)
+void ArLMS1XXPacket::bufToStr(char *buf, size_t len)
 {
 	if (buf == NULL)
 	{
@@ -353,7 +322,7 @@ AREXPORT void ArLMS1XXPacket::bufToStr(char *buf, int len)
 				len);
 		return;
 	}
-	int i;
+	size_t i;
 
 	buf[0] = '\0';
 
@@ -385,7 +354,7 @@ AREXPORT void ArLMS1XXPacket::bufToStr(char *buf, int len)
 			// string for debugging
 			myBuf[len - 1] = '\0';
 
-			ArLog::log(ArLog::Normal, "ArLMS1XXPacket::bufToStr(buf, %d) output buf is not large enough for packet string %s",
+			ArLog::log(ArLog::Normal, "ArLMS1XXPacket::bufToStr(buf, %lu) output buf is not large enough for packet string %s",
 					len, myBuf);
 
 			while (isNextGood(1) && myBuf[myReadLength] != ' ' &&
@@ -399,12 +368,12 @@ AREXPORT void ArLMS1XXPacket::bufToStr(char *buf, int len)
 	buf[len - 1] = '\0';
 }
 
-AREXPORT void ArLMS1XXPacket::rawCharToBuf(unsigned char c)
+void ArLMS1XXPacket::rawCharToBuf(unsigned char c)
 {
 	if (!hasWriteCapacity(1)) {
 		return;
 	}
-	myBuf[myLength] = c;
+	myBuf[myLength] = (char)c;
 	//memcpy(myBuf+myLength, &c, 1);
 	myLength += 1;
 }
@@ -421,19 +390,19 @@ int ArLMS1XXPacket::deascii(char c)
 		return 0;
 }
 
-AREXPORT ArLMS1XXPacketReceiver::ArLMS1XXPacketReceiver()
+ArLMS1XXPacketReceiver::ArLMS1XXPacketReceiver()
 {
 	myState = STARTING;
 }
 
 
 
-AREXPORT void ArLMS1XXPacketReceiver::setDeviceConnection(ArDeviceConnection *conn)
+void ArLMS1XXPacketReceiver::setDeviceConnection(ArDeviceConnection *conn)
 {
 	myConn = conn;
 }
 
-AREXPORT ArDeviceConnection *ArLMS1XXPacketReceiver::getDeviceConnection()
+ArDeviceConnection *ArLMS1XXPacketReceiver::getDeviceConnection()
 {
 	return myConn;
 }
@@ -444,13 +413,12 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 						      UNUSED bool ignoreRemainders)
 {
 	ArLMS1XXPacket *packet;
-	unsigned char c = 0;
-	long timeToRunFor;
-	ArTime timeDone;
-	ArTime lastDataRead;
-	ArTime packetReceived;
-	int numRead;
-	int i;
+	//unsigned char c = 0;
+	//long timeToRunFor;
+	//ArTime lastDataRead;
+	//ArTime packetReceived;
+	//int numRead;
+	//int i;
 
 	//if (myLaserModel == ArLMS1XX::TiM3XX)
 	//	return receiveTiMPacket(msWait, scandataShortcut, ignoreRemainders);
@@ -461,7 +429,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 		return NULL;
 	}
 
-	timeDone.setToNow();
+	ArTime timeDone;
 	if (!timeDone.addMSec(msWait)) {
 		ArLog::log(ArLog::Terse,
 				"%s::receivePacket() error adding msecs (%i)",
@@ -470,31 +438,35 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 
 	do
 	{
-		timeToRunFor = timeDone.mSecTo();
+		long timeToRunFor = timeDone.mSecTo();
 		if (timeToRunFor < 0)
 			timeToRunFor = 0;
 
 		//printf("%x\n", c);
 		if (myState == STARTING)
 		{
-			if ((numRead = myConn->read((char *)&c, 1, timeToRunFor)) <= 0) {
+			char c;
+			const int numRead = myConn->read(&c, 1, (unsigned int) timeToRunFor);
+			
+			if (numRead <= 0)
+			{
 
 				//ArLog::log(ArLog::Terse,
-				//			"%s::receivePacket() Timeout on initial read - read timeout = (%d)",
+				//			"%s::receivePacket() Timeout on initial read - read timeout = (%lu)",
 				//					myName, timeToRunFor);
 				return NULL;
 
-			}//printf("%x\n", c);
+			} //printf("%x\n", c);
 
 			if (c == '\002')
 			{
 				myState = DATA;
 				myPacket.empty();
 				myPacket.setLength(0);
-				myPacket.rawCharToBuf(c);
+				myPacket.rawCharToBuf((unsigned char)c);
 				myReadCount = 0;
-				packetReceived = myConn->getTimeRead(0);
-				myPacket.setTimeReceived(packetReceived);
+				//packetReceived = myConn->getTimeRead(0);
+				myPacket.setTimeReceived(myConn->getTimeRead(0)); //packetReceived);
 			}
 			else
 			{
@@ -508,7 +480,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 		}
 		else if (myState == DATA)
 		{
-			numRead = myConn->read(&myReadBuf[myReadCount],
+			int numRead = myConn->read(&myReadBuf[myReadCount],
 					sizeof(myReadBuf) - myReadCount, myReadTimeout);
 
 			// trap if we failed the read
@@ -532,13 +504,13 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 			{
 
 				// print out using logging
-				int i;
+				//int i;
 				char x[100000];
 				x[0] = '\0';
 				int idx=0;
 				strcat(&x[idx],"<STX>");
 				idx = idx+5;
-				for (i = 0;i < numRead;i++)
+				for (unsigned int i = 0;i < numRead;i++)
 				{
 					//
 					if (myReadBuf[i] == '\002')
@@ -561,7 +533,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
              ); // end IFDEBUG
 
 			// see if we found the end of the packet
-			for (i = myReadCount; i < myReadCount + numRead; i++)
+			for (unsigned int i = myReadCount; i < myReadCount + (unsigned int)numRead; i++)
 			{
 				if (myReadBuf[i] == '\002')
 				{
@@ -570,8 +542,8 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 							myName);
 					myPacket.empty();
 					myPacket.setLength(0);
-					memmove(myReadBuf, &myReadBuf[i], myReadCount + numRead - i);
-					numRead -= (i - myReadCount);
+					memmove(myReadBuf, &myReadBuf[i], myReadCount + (unsigned int)numRead - i);
+					numRead -= (int)(i - myReadCount);
 					myReadCount -= i;
 					i = 0;
 					continue;
@@ -589,7 +561,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 					// if it's the end of the data just go back to the beginning
 					//printf("i=%d, myReadCount = %d, numRead = %d\n",i, myReadCount, numRead);
 
-					if (i == myReadCount + numRead - 1)
+					if (i == myReadCount + (unsigned int)numRead - 1)
 					{
 						//ArLog::log(myLogLevel1XXPacketReceiver: Starting again");
 						myState = STARTING;
@@ -599,8 +571,8 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 					{
 					  if (!ignoreRemainders)
 					  {
-					    memmove(myReadBuf, &myReadBuf[i+1], myReadCount + numRead - i - 1);
-					    myReadCount = myReadCount + numRead - i - 1;
+					    memmove(myReadBuf, &myReadBuf[i+1], myReadCount + (unsigned int)numRead - i - 1);
+					    myReadCount = myReadCount + (unsigned int)numRead - i - 1;
 					    myState = REMAINDER;
 					    ArLog::log(myInfoLogLevel, "%s::receivePacket() Got remainder, %d bytes beyond one packet ...",
 						       myName,myReadCount);
@@ -616,7 +588,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 				}
 			}
 			//printf("didn't get enough bytes\n");
-			myReadCount += numRead;
+			myReadCount += (unsigned int)numRead;
 			if (numRead != 0)
 				ArLog::log(myInfoLogLevel, "%s::receivePacket() Got %d bytes (but not end char), up to %d",
 						myName, numRead, myReadCount);
@@ -637,27 +609,14 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 			// packet does not have the last byte
 			// so for the LMS500 - just use one less byte in the for loop
 
-			int loopcount;
-
-			switch (myLaserModel) {
-
-				case ArLMS1XX::LMS1XX:
-					loopcount = myReadCount - 1;
-				break;
-
-        default:
-					loopcount = myReadCount;
-				break;
-			
-			} // end switch laserModel
-
+			const unsigned int loopcount = (myLaserModel == ArLMS1XX::LMS1XX) ? myReadCount - 1 : myReadCount;
 
 //			if (myIsLMS5XX)
 //				loopcount = myReadCount;
 //			else
 //				loopcount = myReadCount - 1;
 
-			for (i = 0; i < loopcount; i++)
+			for (unsigned int i = 0; i < loopcount; i++)
 			//for (i = 0; i < myReadCount - 1; i++)
 			{
 				//printf("%03d '%c' %d\n", i, myReadBuf[i], myReadBuf[i]);
@@ -736,7 +695,6 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 	ArTime lastDataRead;
 	ArTime packetReceived;
 	int numRead;
-	int i;
 
 	if (myConn == NULL ||
 			myConn->getStatus() != ArDeviceConnection::STATUS_OPEN)
@@ -760,7 +718,8 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 		//printf("%x\n", c);
 		if (myState == STARTING)
 		{
-			if ((numRead = myConn->read((char *)&c, 1, timeToRunFor)) <= 0) {
+			assert(timeToRunFor <= UINT_MAX);
+			if ((numRead = myConn->read((char *)&c, 1, (unsigned int)timeToRunFor)) <= 0) {
 
 				return NULL;
 
@@ -808,13 +767,12 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 			{
 
 				// print out using logging
-				int i;
 				char x[100000];
 				x[0] = '\0';
 				int idx=0;
 				strcat(&x[idx],"<STX>");
 				idx = idx+5;
-				for (i = 0;i < numRead;i++)
+				for (unsigned int i = 0;i < numRead;i++)
 				{
 					//
 					if (myReadBuf[i] == '\002')
@@ -837,7 +795,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
              ); // end IFDEBUG
 
 			// see if we found the end of the packet
-			for (i = myReadCount; i < myReadCount + numRead; i++)
+			for (unsigned int i = myReadCount; i < myReadCount + (unsigned int)numRead; i++)
 			{
 				if (myReadBuf[i] == '\002')
 				{
@@ -846,8 +804,8 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 							myName);
 					myPacket.empty();
 					myPacket.setLength(0);
-					memmove(myReadBuf, &myReadBuf[i], myReadCount + numRead - i);
-					numRead -= (i - myReadCount);
+					memmove(myReadBuf, &myReadBuf[i], myReadCount + (unsigned int)numRead - i);
+					numRead -= (int)(i - myReadCount);
 					myReadCount -= i;
 					i = 0;
 					continue;
@@ -868,7 +826,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 					ArLog::log(myInfoLogLevel, "%s::receiveTiMPacket() i=%d, myReadCount = %d, numRead = %d",
 									myName, i, myReadCount, numRead);
 
-					if (i == myReadCount + numRead - 1)
+					if (i == myReadCount + (unsigned int)numRead - 1)
 					{
 						ArLog::log(myInfoLogLevel, "%s::receiveTiMPacket() Starting again", myName);
 						myState = STARTING;
@@ -884,7 +842,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 				}
 			}
 			//printf("didn't get enough bytes\n");
-			myReadCount += numRead;
+			myReadCount += (unsigned int)numRead;
 			if (numRead != 0)
 				ArLog::log(myInfoLogLevel, "%s::receivePacket() Got %d bytes (but not end char), up to %d",
 						myName, numRead, myReadCount);
@@ -1309,27 +1267,27 @@ void ArLMS1XX::sensorInterp ()
 		//int onStep;
 		//ArSensorReading *reading;
 		// read the extra stuff
-		myVersionNumber = packet->bufToUByte2(); // first value after LMDscandata
-		myDeviceNumber = packet->bufToUByte2();
+		myVersionNumber = (int) packet->bufToUByte2(); // first value after LMDscandata
+		myDeviceNumber = (int) packet->bufToUByte2();
 		mySerialNumber = packet->bufToUByte4();
-		myDeviceStatus1 = packet->bufToUByte();
-		myDeviceStatus2 = packet->bufToUByte();
-		myMessageCounter = packet->bufToUByte2();
+		myDeviceStatus1 = (int) packet->bufToUByte();
+		myDeviceStatus2 = (int) packet->bufToUByte();
+		myMessageCounter = (int) packet->bufToUByte2();
 		myScanCounter = packet->bufToUByte2();
-		myPowerUpDuration = packet->bufToUByte4();
-		myTransmissionDuration = packet->bufToUByte4();
+		myPowerUpDuration = (int) packet->bufToUByte4();
+		myTransmissionDuration = (int) packet->bufToUByte4();
 		//printf("time values = %d %d\n",myPowerUpDuration, myTransmissionDuration);
 		//printf("scan values = %d %d\n",myMessageCounter, myScanCounter);
-		myInputStatus1 = packet->bufToUByte();
-		myInputStatus2 = packet->bufToUByte();
-		myOutputStatus1 = packet->bufToUByte();
-		myOutputStatus2 = packet->bufToUByte();
+		myInputStatus1 = (int) packet->bufToUByte();
+		myInputStatus2 = (int) packet->bufToUByte();
+		myOutputStatus1 = (int) packet->bufToUByte();
+		myOutputStatus2 = (int) packet->bufToUByte();
 
 		// myReserved is checksum on TiM
-		myReserved = packet->bufToUByte2(); // 14th value after LMDscandata
+		myReserved = (int) packet->bufToUByte2(); // 14th value after LMDscandata
 
-		myScanningFreq = packet->bufToUByte4();
-		myMeasurementFreq = packet->bufToUByte4();
+		myScanningFreq = (int) packet->bufToUByte4();
+		myMeasurementFreq = (int) packet->bufToUByte4();
 
 
 		if (myDeviceStatus1 != 0 || myDeviceStatus2 != 0)
@@ -1371,7 +1329,7 @@ void ArLMS1XX::sensorInterp ()
     }
     else
     {
-      freq = 1000.0/ ((double)myScanningFreq/100.0);
+      freq = (int)(1000.0/ ((double)myScanningFreq/100.0));
     }
 
 		//ArLog::log(ArLog::Normal,
@@ -1466,13 +1424,13 @@ void ArLMS1XX::sensorInterp ()
 			// for LMS5XX Scaling Factor is a real number
 			UNUSED int eachScalingFactor; // not used but must be read from laser
       if(myLaserModel == LMS5XX)
-				eachScalingFactor = packet->bufToByte4(); // FIX should be real
+				eachScalingFactor = (int) packet->bufToByte4(); // FIX should be real
       else
-				eachScalingFactor = packet->bufToUByte4(); // FIX should be real
+				eachScalingFactor = (int) packet->bufToUByte4(); // FIX should be real
 
-			UNUSED const int eachScalingOffset = packet->bufToUByte4(); // FIX should be real // not used but must be read from packet
-			UNUSED const double eachStartingAngle = packet->bufToByte4() / 10000.0; // not used but must be read from packet
-			const double eachAngularStepWidth = packet->bufToUByte2() / 10000.0; // angular distance between each reading
+			UNUSED const int eachScalingOffset = (int) packet->bufToUByte4(); // FIX should be real // not used but must be read from packet
+			UNUSED const double eachStartingAngle = (double) (packet->bufToByte4()) / 10000.0; // not used but must be read from packet
+			const double eachAngularStepWidth = (double)(packet->bufToUByte2()) / 10000.0; // angular distance between each reading
 			eachNumberData = (size_t) packet->bufToUByte2(); // number of readings in this set
 			/*
 			ArLog::log(ArLog::Terse, "%s: %s start %.1f step %.2f numReadings %d",
@@ -1508,14 +1466,14 @@ void ArLMS1XX::sensorInterp ()
 
       // first iteration:
 			if (!startedProcessing) {
-        startLocal = -1 * ((eachNumberData - 1) * eachAngularStepWidth) / 2.0;
+        startLocal = -1 * ((double)(eachNumberData - 1) * eachAngularStepWidth) / 2.0;
 				if (getFlipped()) {
 					// original from LMS100, but this seems to have some problems
 					//start = mySensorPose.getTh() + eachStartingAngle - 90.0 + eachAngularStepWidth * eachNumberData;
 					// so we're trying this new algorithm which should be less dependent on SICK's protocol
 					//start = mySensorPose.getTh() + ( (eachNumberData - 1) * eachAngularStepWidth) / 2.0;
 					// but this might have had problems pointing backwards (found on 3/16/2015)				
-          start = ArMath::addAngle(mySensorPose.getTh(), ( (eachNumberData - 1) * eachAngularStepWidth) / 2.0);
+          start = ArMath::addAngle(mySensorPose.getTh(), ( (double)(eachNumberData - 1) * eachAngularStepWidth) / 2.0);
 					increment = -eachAngularStepWidth;
 				} else {
 					// original from LMS100, but this seems to have some problems
@@ -1524,7 +1482,7 @@ void ArLMS1XX::sensorInterp ()
 				  // but this might have had problems pointing backwards (found on 3/16/2015)
 				  //start = mySensorPose.getTh() - ( (eachNumberData - 1) * eachAngularStepWidth) / 2.0;
 				  // so we're trying this one
-				  start = ArMath::subAngle(mySensorPose.getTh(), ( (eachNumberData - 1) * eachAngularStepWidth) / 2.0);
+				  start = ArMath::subAngle(mySensorPose.getTh(), ( (double)(eachNumberData - 1) * eachAngularStepWidth) / 2.0);
 					increment = eachAngularStepWidth;
 					/*
 						ArLog::log(ArLog::Normal,
@@ -1570,7 +1528,7 @@ void ArLMS1XX::sensorInterp ()
         // and update the ArSensorReading reading with the new data
 				if (measuringDistance)  
         {
-					int dist = packet->bufToUByte2();
+					unsigned int dist = packet->bufToUByte2();
 					// this was the original code, that just ignored 0s as a
 					// reading... however sometimes the sensor reports very close
 					// distances for rays it gets no return on... Sick wasn't very
@@ -1584,12 +1542,7 @@ void ArLMS1XX::sensorInterp ()
 					// they are... 9/21/2010 MPL
 					//if (dist == 0)
 					// try not doing this for 500?????
-					int mindist;
-
-          if(myLaserModel == LMS5XX)
-            mindist = 15;
-          else
-            mindist = 50;
+					const unsigned int mindist = (myLaserModel == LMS5XX) ? 15 : 50;
 
 					if (dist < mindist) {
             // too close to be valid, ignore
@@ -1906,8 +1859,8 @@ AREXPORT bool ArLMS1XX::blockingConnect()
 	laserPullUnsetParamsFromRobot();
 	laserCheckParams();
 
-	int size = (270 / .25 + 1);
-	ArLog::log(myInfoLogLevel, "%s::blockingConnect() Setting current buffer size to %d",
+	constexpr size_t size = (270 / .25 + 1);
+	ArLog::log(myInfoLogLevel, "%s::blockingConnect() Setting current buffer size to %lu",
 			getName(), size);
 	setCurrentBufferSize(size);
 
@@ -2018,7 +1971,7 @@ AREXPORT bool ArLMS1XX::lms5xxConnect()
 
 		sendPacket.byte2ToBuf(1); // number segments
 
-		sendPacket.byte4ToBuf(getIncrementChoiceDouble() * 10000); // angle resolution
+		sendPacket.byte4ToBuf( (ArTypes::Byte4) (getIncrementChoiceDouble() * 10'000) ); // angle resolution
 		//sendPacket.byte4ToBuf(.25 * 10000); // angle resolution
 		//ArLog::log(ArLog::Normal,
 		//		"%s::lms5xxConnect() increment = %d", getName(), getIncrementChoiceDouble());
@@ -2101,13 +2054,13 @@ AREXPORT bool ArLMS1XX::lms5xxConnect()
 		sendPacket.empty();
 		sendPacket.strToBuf("sMN");
 		sendPacket.strToBuf("LSPsetdatetime");
-		sendPacket.byte2ToBuf(Tm->tm_year+1900);
-		sendPacket.byteToBuf(Tm->tm_mon+1);
-		sendPacket.byteToBuf(Tm->tm_mday);
-		sendPacket.byteToBuf(Tm->tm_hour);
-		sendPacket.byteToBuf(Tm->tm_min);
-		sendPacket.byteToBuf(Tm->tm_sec);
-		sendPacket.byteToBuf(0x0);
+		sendPacket.byte2ToBuf((ArTypes::Byte2)Tm->tm_year+1900);
+		sendPacket.byteToBuf((char) Tm->tm_mon+1);
+		sendPacket.byteToBuf((char) Tm->tm_mday);
+		sendPacket.byteToBuf((char) Tm->tm_hour);
+		sendPacket.byteToBuf((char) Tm->tm_min);
+		sendPacket.byteToBuf((char) Tm->tm_sec);
+		sendPacket.byteToBuf(0);
 
 		sendPacket.finalizePacket();
 
@@ -2192,7 +2145,7 @@ AREXPORT bool ArLMS1XX::lms5xxConnect()
 		sendPacket.strToBuf("LMPoutputRange");
 		sendPacket.byte2ToBuf(1); // number segments
 
-		sendPacket.byte4ToBuf(getIncrementChoiceDouble() * 10000); // angle resolution
+		sendPacket.byte4ToBuf((ArTypes::Byte4)(getIncrementChoiceDouble() * 10'000.0)); // angle resolution
 		//sendPacket.byte4ToBuf(.25 * 10000); // angle resolution
 
 		 sendPacket.byte4ToBuf(-5 * 10000); // can't change starting angle
@@ -2570,9 +2523,9 @@ AREXPORT bool ArLMS1XX::lms1xxConnect()
 		sendPacket.strToBuf("mLMPsetscancfg");
 		sendPacket.byte4ToBuf(5000); // scanning freq
 		sendPacket.byte2ToBuf(1); // number segments
-		sendPacket.byte4ToBuf(getIncrementChoiceDouble() * 10000); // angle resolution
-		sendPacket.byte4ToBuf((getStartDegrees() + 90) * 10000); // starting angle
-		sendPacket.byte4ToBuf((getEndDegrees() + 90) * 10000); // ending angle
+		sendPacket.byte4ToBuf((ArTypes::Byte4)(getIncrementChoiceDouble() * 10000)); // angle resolution
+		sendPacket.byte4ToBuf((ArTypes::Byte4)((getStartDegrees() + 90) * 10000)); // starting angle
+		sendPacket.byte4ToBuf((ArTypes::Byte4)((getEndDegrees() + 90) * 10000)); // ending angle
 
 		sendPacket.finalizePacket();
 
@@ -2992,7 +2945,7 @@ AREXPORT void * ArLMS1XX::runThread(void *)
     {
       ArLog::log(ArLog::Terse,
 		 "%s::runThread()  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(),
-		 myLastReading.mSecSince()/1000.0,
+		 (double)myLastReading.mSecSince()/1000.0,
 		 getConnectionTimeoutSeconds());
       myIsConnected = false;
       laserDisconnectOnError();
@@ -3019,10 +2972,10 @@ bool ArLMS1XX::validateCheckSum(ArLMS1XXPacket *packet)
   unsigned short checksum = 0;
   char str[1024];
   char *pch;
-  unsigned char val = 0;
-  unsigned char val1 = 0;
+  //unsigned char val = 0;
+  //unsigned char val1 = 0;
 
-  const int maxcopylen = ArUtil::findMin(1024, packet->getLength());
+  const size_t maxcopylen = (size_t) ArUtil::findMin(1024, packet->getLength());
 	strncpy(str, packet->getBuf(), maxcopylen);
   str[maxcopylen-1] = '\0';
 
@@ -3045,36 +2998,58 @@ bool ArLMS1XX::validateCheckSum(ArLMS1XXPacket *packet)
 			else {
 				// if it's an odd number - do the 1st byte
 				if (strlen(pch) & 1) {
-
+					unsigned short val = 0;
 					if ((pch[0] >= '0') && (pch[0] <= '9')) {
-						val = pch[0] - '0';
+						val = (unsigned short)(pch[0] - '0');
 					} 
 					else if ((pch[0] >= 'A') && (pch[0] <= 'F')) {
-						val = 10 + pch[0] - 'A';
+						val = 10 + (unsigned short)(pch[0] - 'A');
 					}
+					IFDEBUG(
+						else
+						{
+								ArLog::log(ArLog::Normal, "%s::validateCheckSum() bad hex digit in laser packet = 0x%x (%c)", getName(), pch[0], pch[0]);
+						}
+					)
 
-				checksum ^= val;
-			
-				pch = &pch[1];
+					checksum ^= val;
+
+					pch = &pch[1];
 
 				}
 
 				while (strlen(pch) != 0) {
+					unsigned short val = 0;
+					unsigned short val1 = 0;
 
 					if ((pch[0] >= '0') && (pch[0] <= '9')) {
-						val = pch[0] - '0';
+						val = (unsigned short)(pch[0] - '0');
 					} 
 					else if ((pch[0] >= 'A') && (pch[0] <= 'F')) {
-						val = 10 + pch[0] - 'A';
+						val = 10 + (unsigned short)(pch[0] - 'A');
 					}
+					IFDEBUG(
+						else
+						{
+								ArLog::log(ArLog::Normal, "%s::validateCheckSum() bad hex digit in laser packet = 0x%x (%c)", getName(), pch[0], pch[0]);
+						}
+					)
 
 					if ((pch[1] >= '0') && (pch[1] <= '9')) {
-						val1 = pch[1] - '0';
+						val1 = (unsigned short) pch[1] - '0';
 					} 
 					else if ((pch[1] >= 'A') && (pch[1] <= 'F')) {
-						val1 = 10 + pch[1] - 'A';
+						val1 = 10 + (unsigned short) pch[1] - 'A';
 					}
-					checksum ^= (val1 | (val << 4));       // Calculate the checksum... (XOR)
+					IFDEBUG(
+						else
+						{
+								ArLog::log(ArLog::Normal, "%s::validateCheckSum() bad hex digit in laser packet = 0x%x (%c)", getName(), pch[1], pch[1]);
+						}
+					)
+
+
+					checksum ^= (unsigned short)(val1 | (val << 4));       // Calculate the checksum... (XOR)
 
 					pch = &pch[2];
 				}

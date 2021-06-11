@@ -256,7 +256,7 @@ AREXPORT bool ArRobotPacketSender::comStr(unsigned char command,
    @return whether the command could be sent or not
 */
 AREXPORT bool ArRobotPacketSender::comStrN(unsigned char command, 
-					   const char *str, int size)
+					   const char *str, size_t size)
 {
   if (!connValid())
     return false;
@@ -341,7 +341,7 @@ AREXPORT bool ArRobotPacketSender::sendPacket(ArRobotPacket *packet)
   
 }
 
-AREXPORT bool ArRobotPacketSender::comDataN(unsigned char command, const char* data, int size)
+AREXPORT bool ArRobotPacketSender::comDataN(unsigned char command, const char* data, size_t size)
 {
   if(!connValid()) return false;
   if(size > 200) return false;

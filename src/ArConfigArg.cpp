@@ -1252,7 +1252,7 @@ AREXPORT bool ArConfigArg::setInt(int val, char *errorBuffer,
       break;
 
     case INT_UNSIGNED_SHORT:
-      *myData.myIntData.myIntUnsignedShortPointer = (unsigned int)val;
+      *myData.myIntData.myIntUnsignedShortPointer = (unsigned short)val;
       break;
 
     case INT_UNSIGNED_CHAR:
@@ -2527,7 +2527,7 @@ AREXPORT bool ArConfigArg::parseArgument(
  * @param file the FILE * to be written, must be non-NULL
  * @param lineBuf a char array to be used as a temporary write buffer,
  * must be non-NULL
- * @param lineBufSize the int number of chars in lineBuf, must be positive
+ * @param lineBufSize the  number of chars in lineBuf
  * @param startCommentColumn the int column index at which to indent
  * the arg description / comment
  * @param isWriteExtra a bool set to true if the arg priority, display
@@ -2542,7 +2542,7 @@ AREXPORT bool ArConfigArg::parseArgument(
 **/
 AREXPORT bool ArConfigArg::writeArguments(FILE *file,
                                           char *lineBuf,
-                                          int lineBufSize,
+                                          size_t lineBufSize,
                                           int startCommentColumn,
                                           bool isWriteExtra,
                                           const char *logPrefix,
@@ -2550,7 +2550,6 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
 {
   if ((file == NULL) || 
       (lineBuf == NULL) || 
-      (lineBufSize <= 0) || 
       (logPrefix == NULL) ||
       (indentLevel < 0)) {
     ArLog::log(ArLog::Normal, 
@@ -2642,7 +2641,6 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
   writeName(nameBuf, sizeof(nameBuf),
             ((!isListType()) ? indentLevel : 0));
 
-
   // Write the param value...
   switch (getType()) {
 
@@ -2660,7 +2658,7 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
       int p = getDoublePrecision();
 
       if (p >= 0) {
-        snprintf(lineBuf, lineBufSize,
+        snprintf(lineBuf, (size_t)lineBufSize,
                  "%s %.*f", nameBuf, p, d);
       }
       else { // Old-style, inconsistent precision...
@@ -3824,7 +3822,7 @@ AREXPORT  bool ArConfigArg::parseResourceArgText(const char* argText,
  
 AREXPORT bool ArConfigArg::writeResource(FILE *file,
                                          char *lineBuf,
-                                         int lineBufSize,
+                                         size_t lineBufSize,
                                          char separatorChar,
                                          const char *sectionName,
                                          const char *logPrefix) const
@@ -3888,7 +3886,7 @@ AREXPORT bool ArConfigArg::writeResource(FILE *file,
  
 AREXPORT int ArConfigArg::writeResourceHeader(FILE *file,
                                          char *lineBuf,
-                                         int lineBufSize,
+                                         size_t lineBufSize,
                                          char separatorChar,
                                          const char *sectionTitle,
                                          const char *logPrefix)
@@ -3968,7 +3966,7 @@ AREXPORT int ArConfigArg::writeResourceHeader(FILE *file,
 
 AREXPORT int ArConfigArg::writeResourceSectionHeader(FILE *file,
                                                      char *lineBuf,
-                                                     int lineBufSize,
+                                                     size_t lineBufSize,
                                                      char separatorChar,
                                                      const char *sectionName,
                                                      const char *sectionDesc,

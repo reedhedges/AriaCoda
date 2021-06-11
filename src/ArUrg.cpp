@@ -656,8 +656,8 @@ void ArUrg::sensorInterp()
   myDataMutex.lock();
 
   //double angle;
-  int i;
-  int len = reading.size();
+  size_t i;
+  const size_t len = reading.size();
 
   int range;
   int big; 
@@ -729,9 +729,10 @@ AREXPORT void * ArUrg::runThread(void *)
     if (laserCheckLostConnection())
     {
       ArLog::log(ArLog::Terse, 
-		 "%s:  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(), 
-		 myLastReading.mSecSince()/1000.0, 
-		 getConnectionTimeoutSeconds());
+		    "%s:  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", 
+        getName(), 
+		    (double) myLastReading.mSecSince() / 1000.0, 
+		    getConnectionTimeoutSeconds());
       myIsConnected = false;
       laserDisconnectOnError();
       continue;

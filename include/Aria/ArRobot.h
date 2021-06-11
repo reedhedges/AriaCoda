@@ -241,9 +241,9 @@ public:
   /// Sends a command to the robot with a length-prefixed string for argument
   AREXPORT bool comStr(unsigned char command, const char *argument);
   /// Sends a command to the robot with a length-prefixed string for argument
-  AREXPORT bool comStrN(unsigned char command, const char *str, int size);
+  AREXPORT bool comStrN(unsigned char command, const char *str, size_t size);
   /// Sends a command containing exactly the data in the given buffer as argument
-  AREXPORT bool comDataN(unsigned char command, const char *data, int size);
+  AREXPORT bool comDataN(unsigned char command, const char *data, size_t size);
 
   /// Returns the robot's name that is set in its onboard firmware configuration
   const char * getRobotName() const { return myRobotName.c_str();}
@@ -1585,7 +1585,7 @@ public:
   bool processMotorPacket(ArRobotPacket *packet);
   /// Processes a new sonar reading, internal
   /// @internal
-  void processNewSonar(int number, int range, ArTime timeReceived);
+  void processNewSonar(int number, unsigned int range, ArTime timeReceived);
   /// Processes a new encoder packet, internal
   /// @internal
   bool processEncoderPacket(ArRobotPacket *packet);
@@ -1915,7 +1915,7 @@ protected:
 
   ArTime myLastPulseSent;
 
-  int myDirectPrecedenceTime;
+  unsigned int myDirectPrecedenceTime;
   
   int myStateReflectionRefreshTime;
 

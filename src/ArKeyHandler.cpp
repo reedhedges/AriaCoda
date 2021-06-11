@@ -109,7 +109,7 @@ AREXPORT void ArKeyHandler::takeKeys(bool blocking)
     int flags = fcntl(fd, F_GETFL);
     fcntl(fd, F_SETFL, flags & O_NONBLOCK);
   }
-  newTermios.c_lflag &= (~ECHO & ~ICANON);
+  newTermios.c_lflag &= (unsigned int) (~ECHO & ~ICANON);
 
   if (myStream == NULL)
     tcsetattr(fileno(stdin), TCSANOW, &newTermios);

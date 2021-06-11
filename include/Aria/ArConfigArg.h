@@ -548,7 +548,7 @@ public:
   /// TODO rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT bool writeArguments(FILE *file,
                                char *lineBuf,
-                               int lineBufSize,
+                               size_t lineBufSize,
                                int startCommentColumn,
                                bool isWriteExtra = false,
                                const char *logPrefix = "",
@@ -669,7 +669,7 @@ public:
   /// TODO maybe rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT bool writeResource(FILE *file,
                          char *lineBuf,
-                         int lineBufSize,
+                         size_t lineBufSize,
                          char separatorChar,
                          const char *sectionName,
                          const char *logPrefix = "") const;
@@ -679,7 +679,7 @@ public:
   /// TODO maybe rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT static int writeResourceHeader(FILE *file,
                                           char *lineBuf,
-                                          int lineBufSize,
+                                          size_t lineBufSize,
                                           char separatorChar,
                                           const char *sectionTitle,
                                           const char *logPrefix = "");
@@ -688,7 +688,7 @@ public:
   /// TODO maybe rewrite to avoid writing to char buffer (or sometimes to file), using sprintf to concatenate, etc.
   AREXPORT static int writeResourceSectionHeader(FILE *file,
                                                  char *lineBuf,
-                                                 int lineBufSize,
+                                                 size_t lineBufSize,
                                                  char separatorChar,
                                                  const char *sectionName,
                                                  const char *sectionDesc,

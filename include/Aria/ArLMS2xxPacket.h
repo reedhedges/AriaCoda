@@ -69,8 +69,8 @@ public:
   AREXPORT ArTypes::Byte2 calcCRC();
   
   // only call finalizePacket before a send
-  AREXPORT virtual void finalizePacket();
-  AREXPORT virtual void resetRead();
+  AREXPORT virtual void finalizePacket() override;
+  AREXPORT virtual void resetRead() override;
   
   /// Gets the time the packet was received at
   AREXPORT ArTime getTimeReceived();
@@ -78,7 +78,7 @@ public:
   AREXPORT void setTimeReceived(ArTime timeReceived);
 
   /// Duplicates the packet
-  AREXPORT virtual void duplicatePacket(ArLMS2xxPacket *packet);
+  AREXPORT void duplicatePacket(ArLMS2xxPacket *packet);
 protected:
   ArTime myTimeReceived;
   unsigned char mySendingAddress;

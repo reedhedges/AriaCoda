@@ -1304,9 +1304,15 @@ AREXPORT void ArTime::setToNow()
     if (clock_gettime(CLOCK_MONOTONIC, &timeNow) == 0)
     {
       // start a million seconds into the future so we have some room
-      // to go backwards
-      mySec = timeNow.tv_sec + 1000000;
-      myMSec = timeNow.tv_nsec / 1000000;
+      // to go backwards  (rh -- then why use unsigned type?)
+      if(timeNow.tv_sec <= 0)
+        mySec = 10'000'000;
+      else
+        mySec = (unsigned long long) timeNow.tv_sec + 1'000'000;
+      if(timeNow.tv_nsec <= 0)
+        myMSec = 0;
+      else
+        myMSec = (unsigned long long) timeNow.tv_nsec / 1'000'000;
       return;
     }
     else
@@ -1324,8 +1330,14 @@ AREXPORT void ArTime::setToNow()
   {
     // start a million seconds into the future so we have some room
     // to go backwards
-    mySec = timeNow.tv_sec + 1000000;
-    myMSec = timeNow.tv_usec / 1000;
+    if(timeNow.tv_sec <= 0)
+      mySec = 10'000'000;
+    else
+      mySec = (unsigned long long) timeNow.tv_sec + 1'000'000;
+    if(timeNow.tv_usec <= 0)
+      myMSec = 0;
+    else
+      myMSec = (unsigned long long) timeNow.tv_usec / 1'000;
   }
   else
     ArLog::logNoLock(ArLog::Terse, "ArTime::setToNow: invalid return from gettimeofday.");
@@ -1365,9 +1377,9 @@ AREXPORT double ArRunningAverage::getAverage() const
     return 0.0;
 
   if (myUseRootMeanSquare)
-    return sqrt(myTotal / myNum);
+    return sqrt(myTotal / (double)myNum);
   else
-    return myTotal / myNum;
+    return myTotal / (double)myNum;
 }
 
 AREXPORT void ArRunningAverage::add(double val)
@@ -2393,7 +2405,7 @@ AREXPORT bool ArUtil::floatIsNormal(double f)
 AREXPORT int ArUtil::atoi(const char *str, bool *ok, bool forceHex) 
 {
   bool isSuccess = false;
-  int ret = 0;
+  long ret = 0;
 
   // if the argument isn't bogus
   if (str != NULL) {
@@ -2410,7 +2422,7 @@ AREXPORT int ArUtil::atoi(const char *str, bool *ok, bool forceHex)
     char *endPtr = NULL;
     ret = strtol(str, &endPtr, base);
  
-    if (endPtr[0] == '\0' && endPtr != str) {
+    if (endPtr[0] == '\0' && endPtr != str && ret <= INT_MAX) {
       isSuccess = true;
     }
   } // end if valid arg
@@ -2420,7 +2432,7 @@ AREXPORT int ArUtil::atoi(const char *str, bool *ok, bool forceHex)
   }
   
   if (isSuccess) 
-    return ret;
+    return (int)ret;
   else 
     return 0;
 
@@ -2441,7 +2453,7 @@ AREXPORT long ArMath::getRandMax() { return ourRandMax; }
 
 
 AREXPORT ArThreadedCallbackList::ArThreadedCallbackList(
-	int mSecsBetweenCallbacks, const char *name)
+	unsigned int mSecsBetweenCallbacks, const char *name)
 {
   myMSecsBetweenCallbacks = mSecsBetweenCallbacks;
 

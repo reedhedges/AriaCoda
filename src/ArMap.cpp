@@ -786,10 +786,10 @@ AREXPORT bool ArMap::readFile(const char *fileName,
     *myCurrentMap = *myLoadingMap;
     //myCurrentMap->set(myLoadingMap);
 
-    int elapsed = copyTime.mSecSince();
+    const long elapsed = copyTime.mSecSince();
 
     ArLog::log(ArLog::Normal,
-               "ArMap::readFile() took %i msecs to copy loading map",
+               "ArMap::readFile() took %ld msecs to copy loading map",
                elapsed);
 
     myFileName = fileName;

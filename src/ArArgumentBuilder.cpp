@@ -30,6 +30,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
+#include <limits.h>
 
 char * cppstrdup(const char *str)
 {
@@ -682,8 +683,8 @@ AREXPORT int ArArgumentBuilder::getArgInt(size_t whichArg,
                                           bool *ok, bool forceHex) const
 {
   bool isSuccess = false;
-  int  ret = 0;
-    
+  long ret = 0;
+
   const char *str = getArg(whichArg);
 
   // If the specified arg was successfully obtained...
@@ -701,7 +702,7 @@ AREXPORT int ArArgumentBuilder::getArgInt(size_t whichArg,
     char *endPtr = NULL;
     ret = strtol(str, &endPtr, base);
  
-    if (endPtr[0] == '\0' && endPtr != str) {
+    if (endPtr[0] == '\0' && endPtr != str && ret <= INT_MAX) {
       isSuccess = true;
     }
   } // end if valid arg
@@ -711,7 +712,7 @@ AREXPORT int ArArgumentBuilder::getArgInt(size_t whichArg,
   }
   
   if (isSuccess) 
-    return ret;
+    return (int)ret;
   else 
     return 0;
 

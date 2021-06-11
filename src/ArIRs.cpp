@@ -77,7 +77,7 @@ AREXPORT void ArIRs::processReadings()
   unsigned char bit = 0;
   if(myParams.haveTableSensingIR())
     {
-      for (size_t i = 0; i < myParams.getNumIR(); ++i)
+      for (size_t i = 0; i < (size_t) myParams.getNumIR(); ++i)
 	{
 	  switch(i)
 	    {

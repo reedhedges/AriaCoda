@@ -62,9 +62,9 @@ public:
   /// Sends a command to the robot with a length-prefixed string for argument
   AREXPORT bool comStr(unsigned char command, const char *argument);
   /// Sends a command to the robot with a length-prefixed string for argument
-  AREXPORT bool comStrN(unsigned char command, const char *str, int size);
+  AREXPORT bool comStrN(unsigned char command, const char *str, size_t size);
   /// Sends a command containing exactly the data in the given buffer as argument
-  AREXPORT bool comDataN(unsigned char command, const char *data, int size);
+  AREXPORT bool comDataN(unsigned char command, const char *data, size_t size);
   /// Sends a ArRobotPacket
   AREXPORT bool sendPacket(ArRobotPacket *packet);
   

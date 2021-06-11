@@ -72,7 +72,7 @@ void ArSystemStatus::refreshCPU()
 {
 #ifndef _WIN32
 	if (ourPeriodicUpdateThread && !ourShouldRefreshCPU) return;
-	unsigned long interval = ourLastCPURefreshTime.mSecSince();
+	const long interval = ourLastCPURefreshTime.mSecSince();
 	FILE* statfp = ArUtil::fopen("/proc/stat", "r");
 	FILE* uptimefp = ArUtil::fopen("/proc/uptime", "r");
 	if (!statfp) {
@@ -123,7 +123,7 @@ void ArSystemStatus::refreshCPU()
 	else
 	{
 		fclose(statfp);
-		unsigned long total = user + nice + sys; // total non-idle cpu time in 100ths of a sec
+		const unsigned long total = user + nice + sys; // total non-idle cpu time in 100ths of a sec
 		if (ourLastCPUTime == 0 || interval == 0)
 		{
 			// no time has past since last refresh
@@ -144,15 +144,15 @@ void ArSystemStatus::refreshCPU()
 /** @cond INTERNAL_CLASSES */
 class ArSystemStatusRefreshThread : public virtual ArASyncTask {
 public:
-	ArSystemStatusRefreshThread(int refreshFrequency) :
+	ArSystemStatusRefreshThread(unsigned int refreshFrequency) :
 		myRefreshFrequency(refreshFrequency)
 	{
 		setThreadName("ArSystemStatusRefreshThread");
 	}
 	void runAsync() { create(false); }
-	void setRefreshFreq(int freq) { myRefreshFrequency = freq; }
+	void setRefreshFreq(unsigned int freq) { myRefreshFrequency = freq; }
 private:
-	int myRefreshFrequency;
+	unsigned int myRefreshFrequency;
 	virtual void* runThread(void*)
 	{
 		threadStarted();
@@ -235,7 +235,7 @@ AREXPORT unsigned long ArSystemStatus::getUptime() {
 AREXPORT double ArSystemStatus::getUptimeHours() {
 	ArScopedLock lock(ourCPUMutex);
 	refreshCPU();
-	return ourUptime / 3600.0;
+	return (double)ourUptime / 3600.0;
 }
 
 // Get total system uptime (seconds)

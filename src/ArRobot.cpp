@@ -953,7 +953,7 @@ AREXPORT bool ArRobot::blockingConnect(bool tryHarderToConnect)
   myBlockingConnectRun = true;
   myAsyncConnectState = -1;
   while ((ret = asyncConnectHandler(tryHarderToConnect)) == 0 && myBlockingConnectRun)
-    ArUtil::sleep(ArMath::roundInt(getCycleTime() * .80));
+    ArUtil::sleep((unsigned int) ArMath::roundInt(getCycleTime() * .80));
   unlock();
   if (ret == 1)
     return true;
@@ -985,11 +985,11 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
   ArRobotPacket *packet;
   ArRobotPacket *tempPacket = NULL;
   char robotSubType[255];
-  int i;
-  int len;
+  //int i;
+  //int len;
   std::string str;
   ArTime endTime;
-  int timeToWait;
+  long timeToWait = 0;
   ArSerialConnection *serConn;
 
   endTime.setToNow();
@@ -1290,7 +1290,7 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
 	timeToWait = endTime.mSecTo();
 	if (timeToWait < 0)
 	  timeToWait = 0;
-	tempPacket = myReceiver.receivePacket(timeToWait);
+	tempPacket = myReceiver.receivePacket((unsigned int) timeToWait);
 	if (tempPacket != NULL)
 	  ArLog::log(ArLog::Verbose, "Got in another packet!");
 	if (tempPacket != NULL && tempPacket->getID() == 50)
@@ -1417,8 +1417,8 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
     packet->bufToStr(nameBuf, 512);
     myRobotSubType = nameBuf;
     strcpy(robotSubType, myRobotSubType.c_str());
-    len = strlen(robotSubType);
-    for (i = 0; i < len; i++)
+    size_t len = strlen(robotSubType);
+    for (size_t i = 0; i < len; i++)
       robotSubType[i] = (char)tolower(robotSubType[i]);
     myRobotSubType = robotSubType;
     ArLog::log(ArLog::Normal, "Subtype: %s", myRobotSubType.c_str());
@@ -4675,7 +4675,7 @@ void ArRobot::packetHandler()
 void ArRobot::packetHandlerNonThreaded()
 {
   ArRobotPacket *packet;
-  int timeToWait;
+  long timeToWait = 0;
   ArTime start;
   bool sipHandled = false;
 
@@ -4735,9 +4735,11 @@ void ArRobot::packetHandlerNonThreaded()
   if (isCycleChained())
     timeToWait = getCycleTime() * 2 - start.mSecSince();
   
+  if(timeToWait < 0) timeToWait = 0;
+
   // if we didn't get a sip and we're chained to the sip, wait for the sip
   while (isCycleChained() && !sipHandled && isRunning() && 
-	 (packet = myReceiver.receivePacket(timeToWait)) != NULL)
+	 (packet = myReceiver.receivePacket((unsigned int) timeToWait)) != NULL)
   {
     if (myPacketsReceivedTracking)
     {
@@ -4797,7 +4799,7 @@ void ArRobot::packetHandlerNonThreaded()
 void ArRobot::packetHandlerThreadedProcessor()
 {
   ArRobotPacket *packet;
-  int timeToWait;
+  long timeToWait;
   ArTime start;
   bool sipHandled = false;
   bool anotherSip = false;
@@ -4855,7 +4857,7 @@ void ArRobot::packetHandlerThreadedProcessor()
       int ret = 0;
 
       if (timeToWait <= 0 ||
-	  (ret = myPacketReceivedCondition.timedWait(timeToWait)) != 0)
+	  (ret = myPacketReceivedCondition.timedWait((unsigned int) timeToWait)) != 0)
       {
 	if (myCycleWarningTime != 0)
 	  ArLog::log(ArLog::Normal, "ArRobot::myPacketReader: Timed out (%d) at %d (%d into cycle after sleeping %d)", 	     
@@ -5233,12 +5235,6 @@ AREXPORT int ArRobot::getSonarPacCount() const
 
 bool ArRobot::processMotorPacket(ArRobotPacket *packet)
 {
-  int x, y, th, qx, qy, qth; 
-  double deltaX, deltaY, deltaTh;
-
-  int numReadings;
-  int sonarNum;
-  int sonarRange;
 
   if (packet->getID() != 0x32 && packet->getID() != 0x33) 
     return false;
@@ -5252,9 +5248,9 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   }
   myMotorPacCurrentCount++;
 
-  x = (packet->bufToUByte2() & 0x7fff);
-  y = (packet->bufToUByte2() & 0x7fff);
-  th = packet->bufToByte2();
+  const int x = (packet->bufToUByte2() & 0x7fff);
+  const int y = (packet->bufToUByte2() & 0x7fff);
+  const int th = packet->bufToByte2();
 
   if (myFakeFirstEncoderPose)
   {
@@ -5263,6 +5259,8 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
     myLastTh = th;
     myFakeFirstEncoderPose = false;
   }
+
+  int qx, qy, qth; 
 
   if (myFirstEncoderPose)
   {
@@ -5300,9 +5298,9 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   if (qy < -0x1000)
     qy += 0x8000;
   
-  deltaX = myParams->getDistConvFactor() * (double)qx;
-  deltaY = myParams->getDistConvFactor() * (double)qy;
-  deltaTh = ArMath::radToDeg(myParams->getAngleConvFactor() * (double)qth);
+  double deltaX = myParams->getDistConvFactor() * (double)qx;
+  double deltaY = myParams->getDistConvFactor() * (double)qy;
+  double deltaTh = ArMath::radToDeg(myParams->getAngleConvFactor() * (double)qth);
   //encoderTh = ArMath::radToDeg(myParams->getAngleConvFactor() * (double)(th));
 
 
@@ -5314,8 +5312,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   myRightVel = myParams->getVelConvFactor() * packet->bufToByte2();
   myVel = (myLeftVel + myRightVel)/2.0;
 
-  double batteryVoltage;
-  batteryVoltage = packet->bufToUByte() * .1;
+  const double batteryVoltage = packet->bufToUByte() * .1;
   if (!myIgnoreMicroControllerBatteryInfo)
   {
     myBatteryVoltage = batteryVoltage;
@@ -5335,21 +5332,23 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
 
   myFlags = packet->bufToUByte2();
   myCompass = 2*packet->bufToUByte();
-  
+
+  int numReadings;
   for (numReadings = packet->bufToByte(); numReadings > 0; numReadings--)
   {
-    sonarNum = packet->bufToByte();
-    sonarRange = ArMath::roundInt(
+    const int sonarNum = packet->bufToByte();
+    const int sonarRange = ArMath::roundInt(
 	    (double)packet->bufToUByte2() * myParams->getRangeConvFactor());
-    processNewSonar(sonarNum, sonarRange, packet->getTimeReceived());
+    assert(sonarRange >= 0);
+    processNewSonar(sonarNum, (unsigned int) sonarRange, packet->getTimeReceived());
   }
   
   if (packet->getDataLength() - packet->getDataReadLength() > 0)
   {
     myAnalogPortSelected = packet->bufToUByte2();
-    myAnalog = packet->bufToByte();
-    myDigIn = packet->bufToByte();
-    myDigOut = packet->bufToByte();
+    myAnalog = (unsigned char) packet->bufToByte();
+    myDigIn = (unsigned char) packet->bufToByte();
+    myDigOut = (unsigned char) packet->bufToByte();
   }
 
   double realBatteryVoltage;
@@ -5420,21 +5419,25 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
 
   if (packet->getDataLength() - packet->getDataReadLength() > 0)
   {
-    ArTypes::UByte4 uCUSec = 0;
     ArTypes::UByte4 lpcNowUSec = 0;
     ArTypes::UByte4 lpcUSec = 0;
     ArTime now;
     long long mSecSince = -999;
     ArTime recvTime;
 
-    uCUSec = packet->bufToUByte4();
+    const ArTypes::UByte4 uCUSec = packet->bufToUByte4();
     // make sure we get a good value
     if ((myPacketsReceivedTracking || myLogMovementReceived) && 
 	myMTXTimeUSecCB != NULL && myMTXTimeUSecCB->invokeR(&lpcNowUSec))
     {
       mSecSince = packet->getTimeReceived().mSecSinceLL(now);
-      lpcUSec = lpcNowUSec - (mSecSince + myOdometryDelay) * 1000;
-      
+      long long sec = (mSecSince + myOdometryDelay) * 1000;
+      if(sec > UINT_MAX)
+        sec = UINT_MAX;
+      else if(sec < 0)
+        sec = 0;
+      lpcUSec = lpcNowUSec - (ArTypes::UByte4)sec;
+
       recvTime = packet->getTimeReceived();
       /// MPL adding this so that each place the pose interpolation is
       /// used it doesn't have to account for the odometry delay
@@ -5478,7 +5481,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   if (packet->getDataLength() - packet->getDataReadLength() > 0)
   {
     myHasFlags3 = true;
-    myFlags3 = packet->bufToUByte4();      
+    myFlags3 = (int) packet->bufToUByte4();      
   }
   else
   {
@@ -5549,23 +5552,21 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
     
   **/
 
-  myRawEncoderPose.setX(myRawEncoderPose.getX() + deltaX);
-  myRawEncoderPose.setY(myRawEncoderPose.getY() + deltaY);
-  myRawEncoderPose.setTh(myRawEncoderPose.getTh() + deltaTh);
+  myRawEncoderPose.setPose(myRawEncoderPose.getX() + deltaX, myRawEncoderPose.getY() + deltaY, myRawEncoderPose.getTh() + deltaTh);
 
   // check if there is a correction callback, if there is get the new
   // heading out of it instead of using the raw encoder heading
   if (myEncoderCorrectionCB != NULL)
   {
-    ArPoseWithTime deltaPose(deltaX, deltaY, deltaTh,
+    const ArPoseWithTime deltaPose(deltaX, deltaY, deltaTh,
 			     packet->getTimeReceived());
     deltaTh = myEncoderCorrectionCB->invokeR(deltaPose);   
-    ArTransform trans(ArPose(0, 0, myRawEncoderPose.getTh()),
+    const ArTransform trans(ArPose(0, 0, myRawEncoderPose.getTh()),
 		      ArPose(0, 0,
 			     ArMath::addAngle(myEncoderPose.getTh(), 
 					      deltaTh)));
 
-    ArPose rotatedDelta = trans.doTransform(ArPose(deltaX, deltaY, 0));
+    const ArPose rotatedDelta = trans.doTransform(ArPose(deltaX, deltaY, 0));
 
     deltaX = rotatedDelta.getX();
     deltaY = rotatedDelta.getY();
@@ -5578,8 +5579,8 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
 
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
 
-  double degreesTravelled = fabs(deltaTh);
-  double distTravelled = sqrt(fabs(deltaX * deltaX + deltaY * deltaY));
+  const double degreesTravelled = fabs(deltaTh);
+  const double distTravelled = sqrt(fabs(deltaX * deltaX + deltaY * deltaY));
 
   myOdometerDegrees += degreesTravelled;
   myOdometerDistance += distTravelled;
@@ -5665,7 +5666,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   return true;
 }
 
-void ArRobot::processNewSonar(int number, int range,
+void ArRobot::processNewSonar(int number, unsigned int range,
 				       ArTime timeReceived)
 {
   /**
@@ -5757,7 +5758,7 @@ AREXPORT int ArRobot::getSonarRange(int num) const
   std::map<int, ArSensorReading *>::const_iterator it;
   
   if ((it = mySonars.find(num)) != mySonars.end())
-    return (*it).second->getRange();
+    return (int) (*it).second->getRange();
   else
     return -1;
 }
@@ -5869,24 +5870,24 @@ AREXPORT bool ArRobot::comStr(unsigned char command, const char *argument)
    @sa ArCommands
 **/
 AREXPORT bool ArRobot::comStrN(unsigned char command, const char *str, 
-			       int size)
+			       size_t size)
 {
   if (myPacketsSentTracking)
   {
     char strBuf[512];
     strncpy(strBuf, str, size);
     strBuf[size] = '\0';
-    ArLog::log(ArLog::Normal, "Sent: comStrN(%d, '%s') (size %d)",
+    ArLog::log(ArLog::Normal, "Sent: comStrN(%d, '%s') (size %lu)",
 	       command, strBuf, size);
   }
   return mySender.comStrN(command, str, size);
 }
 
-AREXPORT bool ArRobot::comDataN(unsigned char command, const char* data, int size)
+AREXPORT bool ArRobot::comDataN(unsigned char command, const char* data, size_t size)
 {
   if(myPacketsSentTracking)
   {
-    ArLog::log(ArLog::Normal, "Sent: comDataN(%d, <data...>) (size %d)", command, size);
+    ArLog::log(ArLog::Normal, "Sent: comDataN(%d, <data...>) (size %lu)", command, size);
   }
   return mySender.comDataN(command, data, size);
 }
@@ -6594,7 +6595,7 @@ AREXPORT void ArRobot::setDirectMotionPrecedenceTime(int mSec)
   if (mSec < 0) 
     myDirectPrecedenceTime = 0;
   else
-    myDirectPrecedenceTime = mSec;
+    myDirectPrecedenceTime = (unsigned int) mSec;
 }
 
 /**
@@ -6608,7 +6609,7 @@ AREXPORT void ArRobot::setDirectMotionPrecedenceTime(int mSec)
 **/
 AREXPORT unsigned int ArRobot::getDirectMotionPrecedenceTime() const
 {
-  return myDirectPrecedenceTime;
+  return  myDirectPrecedenceTime;
 }
 
 

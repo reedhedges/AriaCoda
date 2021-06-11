@@ -334,7 +334,7 @@ AREXPORT bool ArFileParser::parseLine(char *line,
   char keyword[512];
   char *choppingPos = NULL;
   char *valueStart = NULL;
-  size_t textStart;
+  size_t textStart = 0;
   size_t len;
   size_t i;
   bool noArgs;

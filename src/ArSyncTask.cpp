@@ -247,7 +247,7 @@ AREXPORT void ArSyncTask::run()
   std::multimap<int, ArSyncTask *>::reverse_iterator it;
   ArTaskState::State state;
   ArTime runTime;
-  int took;  
+  unsigned int took;  
 
   state = getState();
   switch (state) 
@@ -274,7 +274,7 @@ AREXPORT void ArSyncTask::run()
       myWarningTimeCB->invokeR() > 0 && 
       (took = runTime.mSecSince()) > (signed int)myWarningTimeCB->invokeR())
     ArLog::log(ArLog::Normal, 
-	       "Warning: Task '%s' took %d ms to run (longer than the %d warning time)",
+	       "Warning: Task '%s' took %ld ms to run (longer than the %d warning time)",
 	       myName.c_str(), took, (signed int)myWarningTimeCB->invokeR());
   
   

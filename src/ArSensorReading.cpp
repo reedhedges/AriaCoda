@@ -40,7 +40,7 @@ ArSensorReading::ArSensorReading(double xPos, double yPos, double thPos)
 
 
 
-AREXPORT void ArSensorReading::newData(int range, const ArPose& robotPose,
+AREXPORT void ArSensorReading::newData(unsigned int range, const ArPose& robotPose,
 				       const ArPose& encoderPose, const ArTransform& trans, 
 				       unsigned int counter,
 				       const ArTime& timeTaken,
@@ -67,7 +67,7 @@ AREXPORT void ArSensorReading::newData(int sx, int sy, const ArPose& robotPose,
 				       bool ignoreThisReading, int extraInt)
 {
   // TODO calculate the x and y position of the sensor
-  myRange = (int)sqrt((double)(sx*sx + sy*sy));
+  myRange = (unsigned int)sqrt((double)(sx*sx + sy*sy));
   myCounterTaken = counter;
   myReadingTaken = robotPose;
   myEncoderPoseTaken = encoderPose;

@@ -110,7 +110,7 @@ public:
      * messages are parsed.  Parsing state is stored in this ArNMEAParser object.
      * @return a result code from ParseFlags
      */
-    AREXPORT int parse(const char *buf, int n);
+    AREXPORT int parse(const char *buf, size_t n);
 
     
 

@@ -119,10 +119,10 @@ AREXPORT int ArFileDeviceConnection::read(const char *data, unsigned int size, U
 #ifdef WIN32
   int r = _read(myInFD, (void*)data, s);
 #else
-  int r =  ::read(myInFD, (void*)data, s);
+  int r = (int) ::read(myInFD, (void*)data, s);
 #endif
-  if(myReadByteDelay > 0)
-    ArUtil::sleep(r * myReadByteDelay);
+  if(myReadByteDelay > 0 && r > 0)
+    ArUtil::sleep((unsigned int) r * myReadByteDelay);
   // TODO add option for intermittent data by returning 0 until a timeout has passed.
   // TODO add option to delay full lines (up to \n\r or \n) in above behavior
   return r;
@@ -131,7 +131,7 @@ AREXPORT int ArFileDeviceConnection::read(const char *data, unsigned int size, U
 AREXPORT int ArFileDeviceConnection::write(const char *data, unsigned int size)
 {
 #ifdef WIN32
-  return (int) _write(myOutFD, (void*)data, (size_t)size);
+  return _write(myOutFD, (void*)data, (size_t)size);
 #else
   return (int) ::write(myOutFD, (void*)data, (size_t)size);
 #endif

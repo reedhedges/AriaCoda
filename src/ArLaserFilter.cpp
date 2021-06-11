@@ -485,7 +485,7 @@ void ArLaserFilter::processReadings()
 /**
    @return Return true if the reading is good, false if the reading is bad
 **/
-bool ArLaserFilter::checkRanges(int thisReading, int otherReading,
+bool ArLaserFilter::checkRanges(unsigned int thisReading, unsigned int otherReading,
 				double factor)
 {
   if (thisReading == otherReading || factor <= 0)

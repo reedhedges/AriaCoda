@@ -195,7 +195,7 @@ coordinate system.
     @param ignoreThisReading Set the "ignore" flag for this reading. Data is stored but applications (e.g. navigation) may use this flag to ignore some sensor readings based on robot or user configuration.
     @param extraInt extra device-specific data. @see getExtraInt()
 */
-  AREXPORT void newData(int range, const ArPose& robotPose, const ArPose& encoderPose,
+  AREXPORT void newData(unsigned int range, const ArPose& robotPose, const ArPose& encoderPose,
 			const ArTransform& trans, unsigned int counter, 
 			const ArTime& timeTaken, bool ignoreThisReading = false,
 			int extraInt = 0);

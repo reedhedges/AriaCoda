@@ -2866,8 +2866,13 @@ class ArThreadedCallbackList : public ArASyncTask
 {
 public:
   /// Constructor
-  AREXPORT ArThreadedCallbackList(int mSecsBetweenCallbacks, 
+  AREXPORT ArThreadedCallbackList(unsigned int mSecsBetweenCallbacks, 
 				    const char *name);
+
+  ArThreadedCallbackList(int mSecsBetween, const char *name) {
+    assert(mSecsBetween >= 0);
+    ArThreadedCallbackList((unsigned int)mSecsBetween, name);
+  }
 
   /// Adds a functor that will be called 
   AREXPORT void addCallback(ArFunctor *functor, int position = 50)
@@ -2880,7 +2885,7 @@ public:
   // thread 
   AREXPORT virtual void *runThread(void *arg) override;  
 protected:
-  int myMSecsBetweenCallbacks;
+  unsigned int myMSecsBetweenCallbacks;
   ArCallbackList myCBList;
 };
 

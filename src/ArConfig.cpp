@@ -2527,10 +2527,11 @@ AREXPORT void ArConfig::writeSection(ArConfigSection *section,
     }
 
     // Write the parameter to the file.
+    assert(startCommentColumn <= INT_MAX);
     param->writeArguments(file,
                           line,
                           sizeof(line),
-                          startCommentColumn,
+                          (int)startCommentColumn,
                           writeExtras,
                           myLogPrefix.c_str());
                            

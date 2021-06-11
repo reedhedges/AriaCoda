@@ -177,7 +177,7 @@ AREXPORT void ArDataLogger::addToConfig(ArConfig *config)
   fmtArg.setDisplayHint("Choices:TSV;;CSV;;Fixed");
   myConfig->addParam(fmtArg, section.c_str(), ArPriority::DETAILED);
 
-  for (int i = 0; i < myStringsCount; ++i)
+  for (size_t i = 0; i < myStringsCount; ++i)
   {
     if(!myStringsAddedToConfig[i])
     {
@@ -498,7 +498,7 @@ void ArDataLogger::writeHeader()
 {
   fprintf(myFile, (myLogFormat == Fixed)?"; %-12s":";%s", "Time");
   std::map<std::string, bool *, ArStrCaseCmpOp>::iterator it;
-  for (int i = 0; i < myStringsCount; ++i)
+  for (size_t i = 0; i < myStringsCount; ++i)
   {
     if (*(myStringsEnabled[i]))
     {
@@ -613,7 +613,7 @@ void ArDataLogger::userTask()
   char *buf;
   buf = new char[myMaxMaxLength];
   ArStringInfoHolder *infoHolder;
-  for (int i = 0; i < myStringsCount; ++i)
+  for (size_t i = 0; i < myStringsCount; ++i)
   {
     if (*(myStringsEnabled[i]))
     {

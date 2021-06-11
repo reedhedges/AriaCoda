@@ -136,10 +136,10 @@ AREXPORT void ArBumpers::addBumpToBuffer(int bumpValue, int whichBumper)
 	 (i == 6 && (bumpValue & ArUtil::BIT7)) || 
 	 (i == 7 && (bumpValue & ArUtil::BIT8)))
 	{
-	  degree = -1 * (i * (myAngleRange / (double)numBumpers) + 
-		    ((myAngleRange / (double)numBumpers) / 2) - (myAngleRange / 2));
+	  degree = -1.0 * ((double)i * (myAngleRange / (double)numBumpers) + 
+		    ((myAngleRange / (double)numBumpers) / 2.0) - (myAngleRange / 2.0));
 
-	  if(whichBumper == 2) degree = degree + 180;
+	  if(whichBumper == 2) degree = degree + 180.0;
 
 	  x = radius * ArMath::cos(degree);
 	  y = radius * ArMath::sin(degree);

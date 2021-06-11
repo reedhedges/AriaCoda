@@ -1030,34 +1030,35 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 
 				//ArLog::log(ArLog::Normal,
 				//		"ArLCDConnector::verifyFirmware(%d) %d %c 0x%02x", LCDData->myNumber, data, data, data);
-			if ((lcd->myConn->write(data.c_str(), data.size())) == -1) {
-				ArLog::log(ArLog::Normal,
-						"ArLCDConnector::verifyFirmware(%d) Could not send data 0x%02x size(%lu) to LCD errno (%d)", lcd->myNumber, data.c_str(), data.size(), errno);
-				return false;
-			}
+		assert(data.size() <= UINT_MAX);
+		if ((lcd->myConn->write(data.c_str(), (unsigned int) data.size())) == -1)
+		{
+			ArLog::log(ArLog::Normal,
+								"ArLCDConnector::verifyFirmware(%d) Could not send data 0x%02x size(%lu) to LCD errno (%d)", lcd->myNumber, data.c_str(), data.size(), errno);
+			return false;
+		}
 
-
-			// wait a sec for the response
-			if ((lcd->myConn->read((char *) &c, 1, 1000)) > 0) {
-		
-				if (c == 0x4b) 
-					continue;
-				else {
-					ArLog::log(ArLog::Normal,
-							"ArLCDConnector::verifyFirmware(%d) Invalid response %x02%x from LCD to load data", 
-							lcd->myNumber, c);
-					return false;
-				}
-
-			}
+		// wait a sec for the response
+		if ((lcd->myConn->read((char *) &c, 1, 1000)) > 0) {
+	
+			if (c == 0x4b) 
+				continue;
 			else {
 				ArLog::log(ArLog::Normal,
-						"ArLCDConnector::verifyFirmware(%d) Did not get response from LCD to load data", lcd->myNumber);
+						"ArLCDConnector::verifyFirmware(%d) Invalid response %x02%x from LCD to load data", 
+						lcd->myNumber, c);
 				return false;
-
 			}
 
+		}
+		else {
+			ArLog::log(ArLog::Normal,
+					"ArLCDConnector::verifyFirmware(%d) Did not get response from LCD to load data", lcd->myNumber);
+			return false;
+
+		}
 	} // end while
+
 	if (feof(file)) {
 		// end of file reached
 		ArLog::log (ArLog::Normal,

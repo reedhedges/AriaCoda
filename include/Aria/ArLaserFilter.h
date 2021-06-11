@@ -95,7 +95,7 @@ protected:
   double myAnyMinRangeGreaterThanAngle;
 
   /// Does the check against all neighbor factor
-  bool checkRanges(int thisReading, int otherReading, double factor);
+  bool checkRanges(unsigned int thisReading, unsigned int otherReading, double factor);
   
   // Callback to do the actual filtering
   void processReadings();

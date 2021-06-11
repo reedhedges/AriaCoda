@@ -185,7 +185,7 @@ protected:
   bool myLogChargeState;
   bool myLogBatteryInfo;
   bool myLogMovementSent;
-  int myStringsCount;
+  size_t myStringsCount;
   std::vector<bool *> myStringsEnabled;
   std::vector<bool> myStringsAddedToConfig;
 
