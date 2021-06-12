@@ -61,8 +61,6 @@ int main()
   const char *strToSend="Hello Client";
   // The buffer in which to recieve the hello from the client
   char buff[100];
-  // The size of the string the client sent
-  size_t strSize;
 
   // Initialize Aria.  This is especially essential on Windows,
   // because it will initialize Windows's sockets sytem.
@@ -114,20 +112,20 @@ int main()
 
     // Read data from the client. read() will block until data is
     // received. 
-    strSize=clientSock.read(buff, sizeof(buff));
+    const int strSize=clientSock.read(buff, sizeof(buff));
 
     // If the amount read is 0 or less, its an error condition.
-    if (strSize > 0)
-    {
-      // Terminate the string with a NULL character.
-      buff[strSize]='\0';
-      ArLog::log(ArLog::Normal, "socketServerExample: Client said: %s.", buff);
-    }
-    else
+    if(strSize < 0)
     {
       ArLog::log(ArLog::Normal, "socketServerExample: Error in waiting/reading the hello from the client.");
       Aria::exit(-1);
       return(-1);
+    }
+    else
+    {
+      // Terminate the string with a NULL character.
+      buff[strSize]='\0';
+      ArLog::log(ArLog::Normal, "socketServerExample: Client said: %s.", buff);
     }
 
     // Now lets close the connection to the client

@@ -73,10 +73,8 @@ bool JoydriveAction::joystickInited()
 }
 
 // the guts of the thing
-ArActionDesired *JoydriveAction::fire(ArActionDesired currentDesired)
+ArActionDesired *JoydriveAction::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
-  int rot, trans;
-
   // print out some info about hte robot
   printf("\rx %6.1f  y %6.1f  tth  %6.1f vel %7.1f mpacs %3d", myRobot->getX(),
 	 myRobot->getY(), myRobot->getTh(), myRobot->getVel(), 
@@ -88,6 +86,7 @@ ArActionDesired *JoydriveAction::fire(ArActionDesired currentDesired)
 				    myJoyHandler.getButton(2)))
   {
     // get the readings from the joystick
+    int rot, trans;
     myJoyHandler.getAdjusted(&rot, &trans);
     // set what we want to do
     myDesired.setVel(trans);

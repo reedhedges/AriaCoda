@@ -28,7 +28,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  * technique if your platform/system does not support threading. 
  */
 
-int main(int argc, char **argv)
+int main()
 {
   Aria::init();
   ArRobot robot;
@@ -59,8 +59,8 @@ int main(int argc, char **argv)
 
     
     // Print out some data from the SIP.  
-    bool soc = robot.hasStateOfCharge();
-    float battv = 0.0;
+    const bool soc = robot.hasStateOfCharge();
+    double battv = 0.0;
     if(soc)
       battv = robot.getStateOfCharge();
     else
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
 
     // slow the loop down a little bit.
     
-    unsigned int sleepTime = 20;
+    long sleepTime = 20;
     if(t.mSecSince() > 20)
       sleepTime = 0;
     else

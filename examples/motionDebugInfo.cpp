@@ -93,7 +93,7 @@ bool handleTorqueData(ArRobotPacket *pkt)
 bool handleHeadingInfo(ArRobotPacket *pkt)
 {
   if(pkt->getID() != 149) return false;
-  unsigned char flags = pkt->bufToUByte();
+  const unsigned char flags = pkt->bufToUByte();
   printf("HeadingInfo: EncoderRotVel=%f deg/s\n", pkt->bufToByte2() / 10.0);
   printf("HeadingInfo: GyroRotVel=%f deg/s\n", pkt->bufToByte2() / 10.0);
   printf("HeadingInfo: RobotRotVel=%f deg/s\n", pkt->bufToByte2() / 10.0);
@@ -101,6 +101,7 @@ bool handleHeadingInfo(ArRobotPacket *pkt)
   printf("HeadingInfo: RobotHeading=%f deg\n", pkt->bufToByte2() / 10.0);
   printf("HeadingInfo: GyroOffset=%f deg\n", pkt->bufToByte2() / 10.0);
   printf("HeadingInfo: TimeSinceGyroCentered=%d\n", pkt->bufToByte2());
+  printf("HeadingInfo: Flags=%d\n", flags);
   return true;
 }
 

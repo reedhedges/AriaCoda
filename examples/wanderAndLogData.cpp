@@ -47,7 +47,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 
 /* function to display a byte as a string of 8 '1' and '0' characters. */
-std::string byte_as_bitstring(char byte) 
+std::string ubyte_as_bitstring(unsigned char byte) 
 {
   char tmp[9];
   int bit; 
@@ -58,8 +58,8 @@ std::string byte_as_bitstring(char byte)
   return std::string(tmp);
 }
 
-/* function to display a 2-byte int as a string of 16 '1' and '0' characters. */
-std::string int_as_bitstring(ArTypes::Byte2 n) 
+/* function to display a 2-byte unsigned int as a string of 16 '1' and '0' characters. */
+std::string uint16_as_bitstring(ArTypes::UByte2 n) 
 {
   char tmp[17];
   int bit;
@@ -102,7 +102,8 @@ bool wasEStopTriggered = false;
 
 bool cycleCallback(ArRobot* robot)
 {
-  cumulativeStallVal |= robot->getStallValue();
+  cumulativeStallVal |= (ArTypes::UByte2) robot->getStallValue();
+  cumulativeRobotFlags |= (ArTypes::UByte2) robot->getFlags();
   wasLeftMotorStalled = wasLeftMotorStalled || robot->isLeftMotorStalled();
   wasRightMotorStalled = wasRightMotorStalled || robot->isRightMotorStalled();
   wasEStopTriggered = wasEStopTriggered || robot->getEstop();
@@ -291,17 +292,17 @@ int main(int argc, char **argv)
     printf( DATAFORMAT,
         timestamp,
         robot.getRealBatteryVoltage(),
-        int_as_bitstring(cumulativeRobotFlags).c_str(),
+        uint16_as_bitstring(cumulativeRobotFlags).c_str(),
         (wasEStopTriggered ? "YES" : "   "),
         (wasLeftMotorStalled?"YES":"   "), 
         (wasRightMotorStalled?"YES":"   "),
-        int_as_bitstring(cumulativeStallVal).c_str(),
+        uint16_as_bitstring(cumulativeStallVal).c_str(),
         robot.getMotorPacCount(),
         robot.getSonarPacCount(),
         robot.getLeftVel(), 
         robot.getRightVel(),
-        byte_as_bitstring(robot.getDigIn()).c_str(),
-        byte_as_bitstring(robot.getDigOut()).c_str(),
+        ubyte_as_bitstring(robot.getDigIn()).c_str(),
+        ubyte_as_bitstring(robot.getDigOut()).c_str(),
         robot.getLeftEncoder(),
         robot.getRightEncoder(),
         wasLeftIRTriggered?"YES": "   ",
@@ -322,7 +323,7 @@ int main(int argc, char **argv)
         bit--;
         continue;
       }
-      //printf("\n\tComparing stallval=%s to bumpmask=%s... ", int_as_bitstring(stallval).c_str(), int_as_bitstring(bumpmask).c_str());
+      //printf("\n\tComparing stallval=%s to bumpmask=%s... ", uint16_as_bitstring(stallval).c_str(), uint16_as_bitstring(bumpmask).c_str());
       if(cumulativeStallVal & bumpmask)
         printf("%d ", bump);
       bumpmask = bumpmask >> 1;

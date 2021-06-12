@@ -56,7 +56,6 @@ int main()
   // The buffer in which to recieve the hello from the server
   char buff[100];
   // The size of the string the server sent
-  size_t strSize;
 
   // The socket object
   ArSocket sock;
@@ -80,25 +79,25 @@ int main()
 
   // Read data from the socket. read() will block until
   // data is received. 
-  strSize=sock.read(buff, sizeof(buff));
+  const int strSize=sock.read(buff, sizeof(buff));
 
   // If the amount read is 0 or less, its an error condition.
-  if (strSize > 0)
-  {
-    buff[strSize]='\0'; // Terminate the string with a NULL character:
-    ArLog::log(ArLog::Normal, "socketClientExample: Server said: \"%s\"", buff);
-  }
-  else
+  if(strSize < 0)
   {
     ArLog::log(ArLog::Terse, "socketClientExample: Error in waiting/reading from the server.");
     Aria::exit(-1);
     return(-1);
   }
+  else
+  {
+    buff[strSize]='\0'; // Terminate the string with a NULL character:
+    ArLog::log(ArLog::Normal, "socketClientExample: Server said: \"%s\"", buff);
+  }
 
   // Send the string 'Hello Server' to the server. write() should
   // return the same number of bytes that we told it to write. Otherwise,
   // its an error condition.
-  if (sock.write(strToSend, strlen(strToSend)) == strlen(strToSend))
+  if (sock.write(strToSend, strlen(strToSend)) == (int) strlen(strToSend))
     ArLog::log(ArLog::Normal, "socketClientExample: Said hello to the server.");
   else
   {

@@ -106,13 +106,13 @@ protected:
   int myPanValPTU;
   int myTiltValPTU;
 
-  int myDesiredPanPos;
-  int myDesiredTiltPos;
-  int mySlew;
-  int myPosIncrement;
-  int mySlewIncrement;
+  double myDesiredPanPos;
+  double myDesiredTiltPos;
+  double mySlew;
+  double myPosIncrement;
+  double mySlewIncrement;
 
-  int POS_INCREMENT_ADJUSTMENT;
+  double POS_INCREMENT_ADJUSTMENT;
 
   bool myMonitor;
   bool myReset;
@@ -525,9 +525,9 @@ void KeyPTU::drive()
     // but once the first set of pan and tilt positions is read back from the
     // PTU device, it becomes true.  
     if(myPTU.canGetRealPanTilt())
-      printf("Position (%.1f deg, %.1f deg)     [Incr. %d deg]     Press ? for help  \r", myPTU.getPan(), myPTU.getTilt(), myPosIncrement);
+      printf("Position (%.1f deg, %.1f deg)     [Incr. %.1f deg]     Press ? for help  \r", myPTU.getPan(), myPTU.getTilt(), myPosIncrement);
     else
-      printf("Requested (%.1f deg, %.1f deg)     [Incr. %d deg]     Press ? for help  \r", myPTU.getPan(), myPTU.getTilt(), myPosIncrement);
+      printf("Requested (%.1f deg, %.1f deg)     [Incr. %.1f deg]     Press ? for help  \r", myPTU.getPan(), myPTU.getTilt(), myPosIncrement);
 
     if (myDesiredPanPos != myPTU.getLastPanRequest())
     {

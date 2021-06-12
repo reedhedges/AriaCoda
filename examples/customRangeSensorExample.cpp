@@ -94,7 +94,7 @@ public:
     {
       // fake range. for a real sensor, use a range value provided by the
       // sensor:
-      double fakeRange = 5000; // mm
+      unsigned int fakeRange = 5000; // mm
 
       // Get current state of robot. In this example, this method (updateTask())
       // is being called by ArRobot in its task thread. If you were acessing
@@ -176,16 +176,16 @@ int main(int argc, char **argv)
     // with the background thread started by the call to robot.runAsync() above.
     // See the section on threading in the manual for more about this.
     robot.lock();
-    bool soc = robot.hasStateOfCharge();
-    float battv = 0.0;
+    const bool soc = robot.hasStateOfCharge();
+    double batt = 0.0;
     if(soc)
-      battv = robot.getStateOfCharge();
+      batt = robot.getStateOfCharge();
     else
-      battv = robot.getBatteryVoltage();
+      batt = robot.getBatteryVoltage();
     ArLog::log(ArLog::Normal, "customRangeSensorExample: Pose=(%.2f,%.2f,%.2f), Trans.  Vel=%.2f, Battery=%.2f%c",
-      robot.getX(), robot.getY(), robot.getTh(), robot.getVel(), battv, soc?'%':'V');
+      robot.getX(), robot.getY(), robot.getTh(), robot.getVel(), batt, soc?'%':'V');
     double angle = 0;
-    double dist = robot.checkRangeDevicesCurrentPolar(-180, 180, &angle);
+    const double dist = robot.checkRangeDevicesCurrentPolar(-180, 180, &angle);
     ArLog::log(ArLog::Normal, "customRangeSensorExample: Closest range reading is %f mm at %f degrees.", dist, angle);
     robot.unlock();
 

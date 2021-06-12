@@ -44,6 +44,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArSoundPlayer.h"
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 using namespace std;
 
@@ -117,7 +118,7 @@ int main(int argc, char** argv) {
       cout << "\t" << i << "\tadd " << filenames[i] << " to the queue\n";
     cout << "\tq\tquit\n\n";
 
-    int c = getchar();
+    const int c = getchar();
     if(c == '\n')
       continue;
     switch(c)
@@ -125,7 +126,7 @@ int main(int argc, char** argv) {
       case 'p': soundQueue.pause(); break;
       case 'r': soundQueue.resume(); break;
       case 'i': soundQueue.interrupt(); break;
-      case 'q': soundQueue.stop(); ArUtil::sleep(100); Aria::exit(0);
+      case 'q': soundQueue.stop(); ArUtil::sleep(100); Aria::exit(0); break;
       case 'c': soundQueue.clearQueue(); break;
       case 'C': soundQueue.removePendingItems(4); break;
       case 'n': 
@@ -146,7 +147,8 @@ int main(int argc, char** argv) {
       default:
         if(filenames.size() > 0 && c >= '0' && c <= '9')
         {
-          size_t i = c - '0';
+          assert((c - '0') >= 0);
+          const size_t i = (size_t) c - '0';
           if(i < filenames.size()) 
           {
             cout << "Adding \"" << filenames[i] << "\" to the queue...\n"; 

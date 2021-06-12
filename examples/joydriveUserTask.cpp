@@ -115,7 +115,7 @@ void Joydrive::drive()
   }
 }
 
-int main(int argc, char **argv) 
+int main()
 {
   std::string str;
   int ret;

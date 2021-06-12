@@ -159,7 +159,7 @@ void ActionGo::setRobot(ArRobot *robot)
   the pointer we returned would be invalid after this method
   returned.
 */
-ArActionDesired *ActionGo::fire(ArActionDesired currentDesired)
+ArActionDesired *ActionGo::fire([[maybe_unused]] ArActionDesired current)
 {
   double range;
   double speed;
@@ -232,7 +232,7 @@ void ActionTurn::setRobot(ArRobot *robot)
 /*
   This is the guts of the Turn action.
 */
-ArActionDesired *ActionTurn::fire(ArActionDesired currentDesired)
+ArActionDesired *ActionTurn::fire([[maybe_unused]] ArActionDesired currentDesired)
 {
   double leftRange, rightRange;
   // reset the actionDesired (must be done)

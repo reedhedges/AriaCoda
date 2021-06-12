@@ -85,7 +85,7 @@ Joydrive::Joydrive(ArRobot *robot)
 }
 
 // this is the function called in the new thread
-void *Joydrive::runThread(void *arg)
+void *Joydrive::runThread(void*)
 {
   threadStarted();
 
@@ -206,7 +206,7 @@ void ConnHandler::disconnected()
   Aria::exit(3);  // exit program with error code 3
 }
 
-int main(int argc, char **argv) 
+int main()
 {
   std::string str;
   int ret;

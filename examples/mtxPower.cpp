@@ -93,8 +93,8 @@ int main(int argc, char **argv)
 
   std::list<powerspec> todo;
 
-  int nargs = parser.getArgc();
-  for(int argi = 1; argi < nargs; ++argi)
+  const size_t nargs = parser.getArgc();
+  for(size_t argi = 1; argi < nargs; ++argi)
   {
     const char *opt = parser.getArg(argi);
     if(opt[0] != '-')

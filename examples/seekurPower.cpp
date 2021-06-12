@@ -31,9 +31,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 typedef struct {
   const char *option;
-  int port;
+  char port;
   const char *description;
-  int set;
+  char set;
 } powerspec;
 
 powerspec PowerSpecs[] = {
@@ -103,8 +103,8 @@ int main(int argc, char **argv)
 
   std::list<powerspec> todo;
 
-  int nargs = parser.getArgc();
-  for(int argi = 1; argi < nargs; ++argi)
+  const size_t nargs = parser.getArgc();
+  for(size_t argi = 1; argi < nargs; ++argi)
   {
     const char *opt = parser.getArg(argi);
     if(opt[0] != '-')
@@ -151,7 +151,13 @@ int main(int argc, char **argv)
         powerspec ps;
         ps.option = opt;
         ps.description = NULL;
-        ps.port = atoi(opt);
+        const int p = atoi(opt);
+        if(p < 0 || p > CHAR_MAX)
+        {
+          ArLog::log(ArLog::Terse, "seekurPower: Error: Invalid port number %d", p);
+          Aria::exit(8);
+        }
+        ps.port = (char) p;
         if(strcmp(val, "on") == 0)
           ps.set = 1;
         else if(strcmp(val, "off") == 0)
