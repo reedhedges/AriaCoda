@@ -1420,6 +1420,14 @@ public:
     {
       return mSecSinceLL()/1000;
     }
+  double secSinceDouble() const
+  {
+    return (double)mSecSince() / 1000.0;
+  }
+  float secSinceFloat() const
+  {
+    return (float)mSecSince() / 1000.0f;
+  }
   /// returns whether the given time is before this one or not
   /// @ingroup easy
   bool isBefore(const ArTime& testTime) const
