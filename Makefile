@@ -221,6 +221,9 @@ HEADER_FILES:=$(shell find include -type f -name \*.h)
 # Default Rule
 all: dirs $(TARGETS)
 
+debug: FORCE
+	$(MAKE) all DEBUG=1
+
 # Build all targets, docs, params, etc. etc.
 everything: dirs $(ALL_TARGETS) 
 
@@ -409,8 +412,6 @@ cleanAll: clean cleanJava cleanPython cleanDocs
 	rm -f lib/lib*.$(sosuffix)*
 	rm -f obj/*.o*
 
-tidy:
-	clang-tidy $(SRC_FILES) -- $(BARECXXFLAGS) $(CXXINC)
 
 
 params: utils/makeParams$(binsuffix)
@@ -658,15 +659,28 @@ clang-tidy-%: include/Aria/%.h src/%.cpp
 clang-tidy-%: include/Aria/%.h
 	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) $(CXXINC)
 
+#tidy:
+#	clang-tidy $(SRC_FILES) -- $(BARECXXFLAGS) $(CXXINC)
+
+clang-tidy-headers: FORCE
+	clang-tidy --header-filter=include/Aria/.* $(HEADER_FILES) -- -x c++ $(CXXFLAGS) $(CXXINC) 
+
+clang-tidy-examples: FORCE
+	clang-tidy --header-filter=include/Aria/.* $(EXAMPLES_CPP) -- -x c++ $(CXXFLAGS) $(CXXINC) 
+
 cppcheck: FORCE
 	cppcheck --enable=all --language=c++ --std=$(CXXSTD) $(CXXINC) -j 4 -DAREXPORT $(SOURCE_FILES) $(HEADER_FILES)
+
+cppcheck-headers: FORCE
+	cppcheck --enable=all --language=c++ --std=$(CXXSTD) $(CXXINC) -j 4 -DAREXPORT $(HEADER_FILES)
 
 cppclean: FORCE
 	cppclean --include-path=include $(SOURCE_FILES) $(HEADER_FILES)
 
+cppclean-headers: FORCE
+	cppclean --include-path=include $(HEADER_FILES)
 
-debug: FORCE
-	$(MAKE) all DEBUG=1
+
 
 # Make optimization, tell it what rules aren't files:
 .PHONY: all everything examples modExamples tests utils cleanDep docs doc dirs help info moreinfo clean cleanUtils cleanExamples cleanTests cleanDoc cleanPython dep params python python-doc java cleanJava params swig help info moreinfo py python-doc cleanSwigJava dirs install  distclean ctags csharp cleanCSharp cleanAll tidy cppclean cppcheck clang-tidy debug
