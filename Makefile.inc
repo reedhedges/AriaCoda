@@ -21,8 +21,9 @@ CFILEEXT:=cpp
 # Set CXXSTD to select C++ version.
 # Set CXXDEBBUGFLAGS and CXXOPTFLAGS to set debug and optimization flags
 
-CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wpedantic -Wsign-conversion -Wconversion
-# -Wnon-virtual-dtor -Woverloaded-virtual 
+CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wpedantic -Wsign-conversion -Wconversion -Woverloaded-virtual 
+# -Wfloat-conversion (Note one of the flags above appears to turn this on with clang on MacOSX)
+# -Wnon-virtual-dtor
 # -Wduplicated-cond -Wduplicated-branches -Wlogical-op
 # -Wnull-dereference
 # -Wcast-align -Wuseless-cast 
