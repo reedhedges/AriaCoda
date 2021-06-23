@@ -505,7 +505,7 @@ ArS3SeriesPacket *ArS3SeriesPacketReceiver::receivePacket(unsigned int msWait,
 
 		unsigned short crc = CRC16(crcbuf, myPacket.getDataLength() + n);
 
-		unsigned short incrc = (temp[1] << 8) | temp[0];
+		unsigned short incrc = (unsigned short) ((temp[1] << 8) | temp[0]);
 
 		if (incrc != crc)
 		{
@@ -538,10 +538,10 @@ ArS3SeriesPacket *ArS3SeriesPacketReceiver::receivePacket(unsigned int msWait,
 			myPacket.setMonitoringDataByte1(myReadBuf[3]);
 			myPacket.setMonitoringDataByte2(myReadBuf[4]);
 
-			myPacket.dataToBuf(&myReadBuf[9], myPacket.getNumReadings() * 2);
+			myPacket.dataToBuf(&myReadBuf[9], (size_t) myPacket.getNumReadings() * 2);
 		}
 		else
-			myPacket.dataToBuf(&myReadBuf[5], myPacket.getNumReadings() * 2);
+			myPacket.dataToBuf(&myReadBuf[5], (size_t) myPacket.getNumReadings() * 2);
 
 		myPacket.resetRead();
 		packet = new ArS3SeriesPacket;
@@ -794,7 +794,7 @@ void ArS3Series::sensorInterp() {
 		int retEncoder;
 		ArPose encoderPose;
 		ArPose encoderPoseEnd;
-		int dist;
+		unsigned int dist;
 
 		// Packet will already be offset by 5 bytes to the start
 		// of the readings - for S3000 there should be 381 readings (190 degrees)
@@ -1079,8 +1079,8 @@ void ArS3Series::sensorInterp() {
 
 			reading = (*it);
 
-			dist = ((buf[(readingIndex * 2) + 1] & 0x8f) << 8)
-							| buf[readingIndex * 2];
+			dist = (unsigned int) ( ((buf[(readingIndex * 2) + 1] & 0x8f) << 8)
+							| buf[readingIndex * 2] );
 			dist = dist * 10; // convert to mm
 
 			if (interpolateReadings)
@@ -1200,9 +1200,9 @@ AREXPORT bool ArS3Series::blockingConnect() {
 	//laserPullUnsetParamsFromRobot();
 	//laserCheckParams();
 
-	int size = ArMath::roundInt((270 / .25) + 1);
+	const size_t size = (size_t) ArMath::roundInt((270 / .25) + 1);
 	ArLog::log(myInfoLogLevel,
-			"%s::blockingConnect() Setting current buffer size to %d",
+			"%s::blockingConnect() Setting current buffer size to %lu",
 			getName(), size);
 	setCurrentBufferSize(size);
 
@@ -1408,7 +1408,7 @@ void * ArS3Series::runThread(void *) {
 		if (getRunning() && myIsConnected && laserCheckLostConnection() ) {
 			ArLog::log (ArLog::Terse,
 									"%s::runThread()  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(),
-									myLastReading.mSecSince() / 1000.0,
+									(double) myLastReading.mSecSince() / 1000.0,
 									getConnectionTimeoutSeconds() );
 			myIsConnected = false;
 			laserDisconnectOnError();
@@ -1520,10 +1520,9 @@ crc_table[256] = { 0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5,
 
 unsigned short ArS3SeriesPacketReceiver::CRC16(unsigned char *Data, int length) {
 	unsigned short CRC_16 = 0xFFFF;
-	int i;
-	for (i = 0; i < length; i++)
+	for (int i = 0; i < length; i++)
 	{
-		CRC_16 = (CRC_16 << 8) ^ (crc_table[(CRC_16 >> 8) ^ (Data[i])]);
+		CRC_16 = (unsigned short)( (CRC_16 << 8) ^ (crc_table[(CRC_16 >> 8) ^ (Data[i])]) );
 	}
 	return CRC_16;
 }

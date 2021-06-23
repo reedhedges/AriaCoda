@@ -93,9 +93,6 @@ AREXPORT void ArSZSeriesPacket::byteToBuf(ArTypes::Byte val)
 
 AREXPORT ArTypes::Byte ArSZSeriesPacket::bufToByte()
 {
-	ArTypes::Byte ret=0;
-
-
 	if (!isNextGood(1))
 		return 0;
 
@@ -105,14 +102,13 @@ AREXPORT ArTypes::Byte ArSZSeriesPacket::bufToByte()
 	if (!isNextGood(4))
 		return 0;
 
-	unsigned char n1, n2;
-	n2 = deascii(myBuf[myReadLength+6]);
-	n1 = deascii(myBuf[myReadLength+7]);
-	ret = n2 << 4 | n1;
+	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
+	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
+	const int ret = n2 << 4 | n1;
 
 	myReadLength += 4;
 
-	return ret;
+	return (ArTypes::Byte) ret;
 }
 
 int ArSZSeriesPacket::deascii(char c)
@@ -439,7 +435,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 
 		unsigned short crc = CRC16(crcbuf, myPacket.getDataLength() + n);
 
-		unsigned short incrc = (temp[0] << 8) | temp[1];
+		unsigned short incrc = (unsigned short)((temp[0] << 8) | temp[1]);
 
 		
 		if (myPrevCrc == crc) {
@@ -466,7 +462,7 @@ ArSZSeriesPacket *ArSZSeriesPacketReceiver::receivePacket(unsigned int msWait,
 		}
 
 
-		myPacket.dataToBuf(&myReadBuf[0], myPacket.getNumReadings() * 2);
+		myPacket.dataToBuf(&myReadBuf[0], (size_t) myPacket.getNumReadings() * 2);
 		myPacket.resetRead();
 		packet = new ArSZSeriesPacket;
 		packet->duplicatePacket(&myPacket);
@@ -647,7 +643,7 @@ void ArSZSeries::sensorInterp() {
 		
 		ArPose pose;
 		ArPose encoderPose;
-		int dist;
+		unsigned int dist;
 
 		unsigned char *buf = (unsigned char *) packet->getBuf();
 
@@ -762,7 +758,7 @@ void ArSZSeries::sensorInterp() {
 
 			reading = (*it);
 
-			dist = (((buf[readingIndex * 2] & 0x3f)<< 8) | (buf[(readingIndex * 2) + 1]));
+			dist = (unsigned int) (((buf[readingIndex * 2] & 0x3f)<< 8) | (buf[(readingIndex * 2) + 1]));
 
 			// note max distance is 16383 mm, if the measurement
 			// object is not there, distance will still be 16383
@@ -857,9 +853,9 @@ AREXPORT bool ArSZSeries::blockingConnect() {
 	//laserPullUnsetParamsFromRobot();
 	//laserCheckParams();
 
-	int size = ArMath::roundInt((270/.3) + 1);
+	const size_t size = (size_t) ArMath::roundInt((270/.3) + 1);
 	ArLog::log(myInfoLogLevel,
-			"%s::blockingConnect() Setting current buffer size to %d",
+			"%s::blockingConnect() Setting current buffer size to %lu",
 			getName(), size);
 	setCurrentBufferSize(size);
 
@@ -1057,7 +1053,7 @@ AREXPORT void * ArSZSeries::runThread(void *) {
 	if (getRunning() && myIsConnected && laserCheckLostConnection() ) {
 		ArLog::log (ArLog::Normal,
 		            "%s::runThread()  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(),
-		            myLastReading.mSecSince() / 1000.0,
+		            (double) myLastReading.mSecSince() / 1000.0,
 		            getConnectionTimeoutSeconds() );
 		myIsConnected = false;
 		laserDisconnectOnError();
@@ -1158,7 +1154,7 @@ unsigned short ArSZSeriesPacketReceiver::CRC16(unsigned char *Data, int length) 
 
 	for (i = 0; i < length; i++)
 	{
-		CRC_16 = (CRC_16 << 8) ^ (crc_table[(CRC_16 >> 8) ^ (Data[i])] );
+		CRC_16 = (unsigned short) ( (CRC_16 << 8) ^ (crc_table[(CRC_16 >> 8) ^ (Data[i])] ) );
 //printf("CRC_16=0x%x\n",CRC_16);
 	}
 
