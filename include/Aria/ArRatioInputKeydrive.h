@@ -77,7 +77,7 @@ protected:
   ArFunctorC<ArRatioInputKeydrive> myXCB;
   ArFunctorC<ArRatioInputKeydrive> mySpaceCB;
 
-  double myPrinting;
+  bool myPrinting;
   double myTransRatio;
   double myRotRatio;
   double myThrottle;

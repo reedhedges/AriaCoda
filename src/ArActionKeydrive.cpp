@@ -209,11 +209,11 @@ AREXPORT ArActionDesired *ArActionKeydrive::fire(ArActionDesired currentDesired)
     myDesiredSpeed = myRobot->getVel();
   mySpeedReset = false;
 
-  if (currentDesired.getMaxVelStrength() && 
+  if (currentDesired.getMaxVelStrength() != 0 && 
       myDesiredSpeed > currentDesired.getMaxVel())
     myDesiredSpeed = currentDesired.getMaxVel();
 
-  if (currentDesired.getMaxNegVelStrength() && 
+  if (currentDesired.getMaxNegVelStrength() != 0 && 
       myDesiredSpeed < currentDesired.getMaxNegVel())
     myDesiredSpeed = currentDesired.getMaxNegVel();
 
