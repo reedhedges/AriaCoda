@@ -76,7 +76,7 @@ public:
   double getDeceleration() { return myDeceleration; }
   /// Sets if we're printing or not
   void setPrinting(bool printing) { myPrinting = printing; }
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

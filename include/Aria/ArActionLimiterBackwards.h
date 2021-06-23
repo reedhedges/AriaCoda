@@ -46,7 +46,7 @@ public:
 				    double widthRatio = 1.5,
 				    bool avoidLocationDependentObstacles = true);
   //AREXPORT virtual ~ArActionLimiterBackwards();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

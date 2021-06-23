@@ -42,7 +42,7 @@ public:
 			   double velIncrement = 25,
 			   double turnIncrement = 8);
   //AREXPORT virtual ~ArActionKeydrive();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   /// For setting the maximum speeds
   AREXPORT void setSpeeds(double transVelMax, double turnAmountMax);
   /// For setting the increment amounts

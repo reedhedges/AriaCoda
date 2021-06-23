@@ -48,8 +48,8 @@ public:
   const char *getCommandName();
   
   // only call finalizePacket before a send
-  virtual void finalizePacket();
-  virtual void resetRead();
+  virtual void finalizePacket() override;
+  virtual void resetRead() override;
   
   /// Gets the time the packet was received at
   ArTime getTimeReceived();
@@ -57,6 +57,10 @@ public:
   void setTimeReceived(ArTime timeReceived);
 
   void duplicatePacket(ArLMS1XXPacket *packet);
+  virtual void duplicatePacket(ArBasePacket *packet) override {
+    duplicatePacket(dynamic_cast<ArLMS1XXPacket*>(packet));
+  }
+
   virtual void empty() override;
 
   void intToBuf(int val);

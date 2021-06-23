@@ -56,7 +56,7 @@ public:
 			    bool stopIfNoButtonPressed = true,
 			    bool useOSCalForJoystick = true);
   //AREXPORT virtual ~ArActionJoydrive();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   /// Whether the joystick is initalized or not
   AREXPORT bool joystickInited();
   /// Set Speeds

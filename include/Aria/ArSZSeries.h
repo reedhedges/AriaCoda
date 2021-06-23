@@ -43,7 +43,12 @@ public:
   /// Sets the time the packet was received at
   void setTimeReceived(ArTime timeReceived);
 
-  virtual void duplicatePacket(ArSZSeriesPacket *packet);
+  void duplicatePacket(ArSZSeriesPacket *packet);
+
+  virtual void duplicatePacket(ArBasePacket *packet) override {
+    duplicatePacket(dynamic_cast<ArSZSeriesPacket*>(packet));
+  }
+
   virtual void empty() override;
 
   // not used AREXPORT virtual void byteToBuf(ArTypes::Byte val) override;
@@ -52,8 +57,13 @@ public:
   
   void setDataLength(int x)
   { myDataLength = x; }
-  int getDataLength()
-  { return myDataLength; }
+
+  virtual ArTypes::UByte2 getDataLength() const override
+  { 
+    assert(myDataLength <= USHRT_MAX);
+    return (ArTypes::UByte2) myDataLength; 
+  }
+
   void setNumReadings(int x)
   { myNumReadings = x; }
   int getNumReadings()

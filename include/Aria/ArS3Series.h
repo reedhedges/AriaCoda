@@ -45,13 +45,21 @@ public:
   void setTimeReceived(ArTime timeReceived);
 
   void duplicatePacket(ArS3SeriesPacket *packet);
+
+  virtual void duplicatePacket(ArBasePacket *packet) override {
+    duplicatePacket(dynamic_cast<ArS3SeriesPacket*>(packet));
+  }
+
   virtual void empty() override;
   
 
   void setDataLength(int x)
   { myDataLength = x; }
-  int getDataLength()
-  { return myDataLength; }
+  virtual ArTypes::UByte2 getDataLength() const override
+  { 
+    assert(myDataLength <= USHRT_MAX);
+    return (ArTypes::UByte2) myDataLength; 
+  }
   void setNumReadings(int x)
   { myNumReadings = x; }
   int getNumReadings()

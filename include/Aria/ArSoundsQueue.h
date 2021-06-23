@@ -200,7 +200,7 @@ public:
 
 
   /// Begin processing the sounds queue synchronously (in this thread; does not return)
-  AREXPORT virtual void run() { runInThisThread(); }
+  AREXPORT virtual void run() override { runInThisThread(); }
 
   /// Begin processing the sounds queue in a background thread
   AREXPORT virtual void runAsync() override { create(false); }
@@ -497,7 +497,7 @@ public:
 #ifndef ARIA_WRAPPPER
   /// main function for thread
   /** @internal */
-  AREXPORT virtual void *runThread(void *arg);
+  AREXPORT virtual void *runThread(void *arg) override;
 #endif
 
 private:

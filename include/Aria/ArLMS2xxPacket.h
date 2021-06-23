@@ -79,6 +79,11 @@ public:
 
   /// Duplicates the packet
   AREXPORT void duplicatePacket(ArLMS2xxPacket *packet);
+
+  virtual void duplicatePacket(ArBasePacket *packet) override {
+    duplicatePacket(dynamic_cast<ArLMS2xxPacket*>(packet));
+  }
+
 protected:
   ArTime myTimeReceived;
   unsigned char mySendingAddress;

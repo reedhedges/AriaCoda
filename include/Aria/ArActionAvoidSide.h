@@ -42,7 +42,7 @@ public:
 		    double obstacleDistance = 300,
 		    double turnAmount = 5);
   //AREXPORT virtual ~ArActionAvoidSide();
-  AREXPORT virtual ArActionDesired * fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired * fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   virtual const ArActionDesired *getDesired() const 

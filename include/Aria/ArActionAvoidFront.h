@@ -54,7 +54,7 @@ public:
 		     double obstacleDistance = 450, double avoidVelocity = 200,
 		     double turnAmount = 15, bool useTableIRIfAvail = true);
   //AREXPORT virtual ~ArActionAvoidFront();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   virtual const ArActionDesired *getDesired() const 

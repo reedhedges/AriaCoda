@@ -48,7 +48,7 @@ public:
   AREXPORT void setHeading(double heading);
   /// Clears it so its not using vel or heading
   AREXPORT void clear();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

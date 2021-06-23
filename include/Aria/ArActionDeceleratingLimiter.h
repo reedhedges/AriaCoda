@@ -55,7 +55,7 @@ public:
   AREXPORT ArActionDeceleratingLimiter(const char *name = "limitAndDecel", 
 				       LimiterType type = FORWARDS);
   //AREXPORT virtual ~ArActionDeceleratingLimiter();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

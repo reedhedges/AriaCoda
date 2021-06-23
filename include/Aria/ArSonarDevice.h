@@ -61,12 +61,12 @@ public:
 
   /// Sets the robot pointer, also attaches its process function to the
   /// robot as a Sensor Interpretation task.
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
 
   /// Adds sonar readings to the current and cumulative buffers
   /// Overrides the ArRangeDevice default action.
   /// (This method is primarily for internal use.)
-  AREXPORT virtual void addReading(double x, double y);
+  AREXPORT virtual void addReading(double x, double y, bool *wasAdded = NULL) override;
 
   /// Sets a callback which if it returns true will ignore the reading
   AREXPORT void setIgnoreReadingCB(ArRetFunctor1<bool, ArPose> *ignoreReadingCB);

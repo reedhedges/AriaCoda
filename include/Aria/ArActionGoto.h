@@ -91,7 +91,7 @@ public:
    *  have one. 
    *  @param currentDesired Current desired action from the resolver
    */
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
 
   /** Used by the action resolver; return current desired action. */
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }

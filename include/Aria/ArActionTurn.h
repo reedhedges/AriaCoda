@@ -46,7 +46,7 @@ public:
 			double speedFullTurn = 100,
 			double turnAmount = 15);
   //AREXPORT virtual ~ArActionTurn();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

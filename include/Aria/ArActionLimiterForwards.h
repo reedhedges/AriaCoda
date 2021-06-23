@@ -46,7 +46,7 @@ public:
 				   double slowSpeed = 200,
 				   double widthRatio = 1);
   //AREXPORT virtual ~ArActionLimiterForwards();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

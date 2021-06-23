@@ -44,7 +44,7 @@ public:
 				double speed = 150, double degreesToTurn = 45,
 				bool enabled = true);
   //AREXPORT virtual ~ArActionStallRecover();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() 
     { return &myActionDesired; }
 #ifndef SWIG

@@ -39,7 +39,7 @@ public:
   AREXPORT ArActionConstantVelocity(const char *name = "Constant Velocity", 
 			   double velocity = 400);
   //AREXPORT virtual ~ArActionConstantVelocity();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

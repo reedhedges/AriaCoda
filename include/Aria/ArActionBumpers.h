@@ -48,7 +48,7 @@ public:
 			   double backOffSpeed = 100, int backOffTime = 3000,
 			   int turnTime = 3000, bool setMaximums = false);
   //AREXPORT virtual ~ArActionBumpers();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

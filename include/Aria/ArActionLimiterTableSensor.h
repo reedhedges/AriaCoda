@@ -41,7 +41,7 @@ public:
   /// Constructor
   AREXPORT ArActionLimiterTableSensor(const char *name = "TableSensorLimiter");
   //AREXPORT virtual ~ArActionLimiterTableSensor();
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

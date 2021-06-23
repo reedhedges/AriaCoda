@@ -166,7 +166,7 @@ public:
   AREXPORT virtual void activate();
   AREXPORT virtual void deactivate();
   AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired);
+  AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
 #ifndef SWIG
   AREXPORT virtual const ArActionDesired *getDesired() const 

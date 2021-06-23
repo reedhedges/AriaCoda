@@ -472,7 +472,7 @@ protected:
   CommState myCommType;
 
   // used to read data if the camera is attached directly to a computer
-  virtual ArBasePacket *readPacket();
+  virtual ArBasePacket *readPacket() override;
 
   // the functor to add as a usertask
   ArFunctorC<ArVCC4> myTaskCB;
