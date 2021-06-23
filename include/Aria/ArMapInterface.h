@@ -1007,6 +1007,7 @@ public:
   AREXPORT virtual void mapChanged(bool invokePathPlanningCB,
                                    bool invokeLocalizationCB) = 0;
 
+#if 0
   /// Adds a callback that is invoked when the map has been changed.
   /**
    * The given functor should assume that the map has been lock()-ed when
@@ -1024,6 +1025,7 @@ public:
   **/
   AREXPORT virtual void addMapChangedCB(ArFunctor *functor, 
 					ArListPos::Pos position);
+#endif
 
 
   /// Adds a callback that is invoked when the map has been changed.
@@ -1050,7 +1052,7 @@ public:
   **/
   AREXPORT virtual void remMapChangedCB(ArFunctor *functor) = 0;
 
-#ifndef SWIG
+#if 0
   /// Adds a callback for pathplanning that is invoked when the map has been changed.
   /**
    * The given functor should assume that the map has been lock()-ed when
@@ -1066,7 +1068,7 @@ public:
    * @param position the ArListPos::Pos indication at which to add the functor
    * (i.e. at the beginning or at the end of the callback list)
   **/
-  AREXPORT virtual void addMapChangedPathPlanningCB(ArFunctor *functor,
+  DEPRECATED AREXPORT virtual void addMapChangedPathPlanningCB(ArFunctor *functor,
                     ArListPos::Pos position);
 #endif
 
@@ -1094,8 +1096,8 @@ public:
   **/
   AREXPORT virtual void remMapChangedPathPlanningCB(ArFunctor *functor) = 0;
 
+#if 0
   /// Adds a callback for localization that is invoked when the map has been changed.
-#ifndef SWIG
   /**
    * The given functor should assume that the map has been lock()-ed when
    * it is invoked. It should also not attempt to make changes to the
@@ -1137,6 +1139,7 @@ public:
   **/
   AREXPORT virtual void remMapChangedLocalizationCB(ArFunctor *functor) = 0;
 
+#if 0
   /// Adds a callback called before the map changed callbacks are called
   /**
    * The "pre-map-changed callbacks" are invoked *after* the map has been 
@@ -1155,6 +1158,7 @@ public:
    * object for @a position rather than an int
   **/
   AREXPORT virtual void addPreMapChangedCB(ArFunctor *functor, ArListPos::Pos position);
+#endif
 
   /// Adds a callback called before the map changed callbacks are called
   /**

@@ -197,6 +197,7 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
 
 } // end method createRealFileName
 
+#if 0
 AREXPORT void ArMapInterface::addMapChangedCB(ArFunctor *functor, 
 					      ArListPos::Pos position)
 {
@@ -207,8 +208,10 @@ AREXPORT void ArMapInterface::addMapChangedCB(ArFunctor *functor,
   else
     ArLog::log(ArLog::Terse, "ArMapInterface::addMapChangedCB: Invalid position.");
 }
+#endif
 
 
+#if 0
 AREXPORT void ArMapInterface::addPreMapChangedCB(ArFunctor *functor, 
 						 ArListPos::Pos position)
 {
@@ -219,7 +222,9 @@ AREXPORT void ArMapInterface::addPreMapChangedCB(ArFunctor *functor,
   else
     ArLog::log(ArLog::Terse, "ArMapInterface::addPreMapChangedCB: Invalid position.");
 }
+#endif
 
+#if 0
 AREXPORT void ArMapInterface::addMapChangedPathPlanningCB(ArFunctor *functor,
                           ArListPos::Pos position)
 {
@@ -230,6 +235,9 @@ AREXPORT void ArMapInterface::addMapChangedPathPlanningCB(ArFunctor *functor,
   else
     ArLog::log(ArLog::Terse, "ArMapInterface::addMapChangedPathPlanningCB: Invalid position.");
 }
+#endif
+
+#if 0
 AREXPORT void ArMapInterface::addMapChangedLocalizationCB(ArFunctor *functor,
                           ArListPos::Pos position)
 {
@@ -240,3 +248,5 @@ AREXPORT void ArMapInterface::addMapChangedLocalizationCB(ArFunctor *functor,
   else
     ArLog::log(ArLog::Terse, "ArMapInterface::addMapChangedLocalizationCB: Invalid position.");
 }
+#endif
+
