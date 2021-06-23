@@ -40,4 +40,4 @@ jobs:
 git:
   depth: 1
 script:
-  - make -j4 CXXDEBUGFLAGS= CXXOPTFLAGS=-O0
+  - make -s -j4 CXXDEBUGFLAGS= CXXOPTFLAGS=-O0
