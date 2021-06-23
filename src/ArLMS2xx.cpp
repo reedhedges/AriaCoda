@@ -192,7 +192,7 @@ AREXPORT bool ArLMS2xx::simPacketHandler(ArRobotPacket *packet)
   ArSensorReading *reading;
   std::list<ArSensorReading *>::iterator tempIt;
   unsigned int newReadings;
-  int range;
+  //int range;
   int refl = 0;
   ArPose encoderPose;
   //std::list<double>::iterator ignoreIt;  
@@ -223,8 +223,12 @@ AREXPORT bool ArLMS2xx::simPacketHandler(ArRobotPacket *packet)
     packet->bufToByte2();
     packet->bufToByte2();
   }
-  totalNumReadings = packet->bufToByte2(); // total for this reading
-  readingNumber = packet->bufToByte2(); // which one we're on in this packet
+  ArTypes::Byte2 tempb2 = packet->bufToByte2(); // total for this reading
+  assert(tempb2 >= 0);
+  totalNumReadings = (unsigned int)tempb2;
+  tempb2 = packet->bufToByte2(); // which one we're on in this packet
+  assert(tempb2 >= 0);
+  readingNumber = (unsigned int)tempb2;
   newReadings = packet->bufToUByte(); // how many are in this packet
   if (readingNumber == 0)
   {
@@ -285,7 +289,7 @@ AREXPORT bool ArLMS2xx::simPacketHandler(ArRobotPacket *packet)
        i++, myWhichReading++, atDeg += myIncrementAmount)
   {
     reading = (*myIter);
-    range = packet->bufToUByte2();
+    const unsigned int range = packet->bufToUByte2();
     if(isExtendedPacket)
     {
       refl = packet->bufToUByte();
@@ -496,13 +500,18 @@ AREXPORT int ArLMS2xx::internalConnectHandler()
     }
     break;
   case STATE_CONFIGURE:
+  {
     // wait a while for the baud to change
     if (myStateStart.mSecSince() < 300)
       return 0;
     myPacket.empty();
     myPacket.byteToBuf(0x3b);
-    myPacket.uByte2ToBuf(abs(ArMath::roundInt(myOffsetAmount * 2)));
-    myPacket.uByte2ToBuf(abs(ArMath::roundInt(myIncrementAmount * 100)));
+    const int off = abs(ArMath::roundInt(myOffsetAmount * 2));
+    assert(off >= 0 && off <= USHRT_MAX);
+    myPacket.uByte2ToBuf((ArTypes::UByte2)off);
+    const int inc = abs(ArMath::roundInt(myIncrement * 100));
+    assert(inc >= 0 && inc <= USHRT_MAX);
+    myPacket.uByte2ToBuf((ArTypes::UByte2)inc);
     myPacket.finalizePacket();
     if (myConn->write(myPacket.getBuf(), myPacket.getLength()))
     {
@@ -519,6 +528,7 @@ AREXPORT int ArLMS2xx::internalConnectHandler()
       return 2;
     }
     break;
+  }
   case STATE_WAIT_FOR_CONFIGURE_ACK:
     while ((packet = myLMS2xxPacketReceiver.receivePacket()) != NULL)
     {
@@ -946,9 +956,9 @@ AREXPORT bool ArLMS2xx::internalConnectSim()
 
   myRobot->lock();
   // return true if we could send all the commands
-  if (myRobot->comInt(36, -ArMath::roundInt(offset)) &&   // Start angle
-      myRobot->comInt(37, ArMath::roundInt(offset)) &&    // End angle
-      myRobot->comInt(38, ArMath::roundInt(increment * 100.0)) && // increment
+  if (myRobot->comInt(36, (short) -ArMath::roundInt(offset)) &&   // Start angle
+      myRobot->comInt(37, (short) ArMath::roundInt(offset)) &&    // End angle
+      myRobot->comInt(38, (short) ArMath::roundInt(increment * 100.0)) && // increment
       myRobot->comInt(35, 2)) // Enable sending data, with extended info 
     ///@todo only choose extended info if reflector bits desired, also shorten range.
   {
@@ -982,7 +992,7 @@ AREXPORT void ArLMS2xx::dropConnection()
   myCumulativeBuffer.clear();
   ArLog::log(ArLog::Terse, 
 	     "%s:  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(), 
-	     myLastReading.mSecSince()/1000.0, 
+	     myLastReading.secSinceDouble(), 
 	     getConnectionTimeoutSeconds());
   switchState(STATE_NONE);
 
@@ -1153,8 +1163,7 @@ AREXPORT bool ArLMS2xx::laserCheckParams()
   }
 
 
-  int maxRange;
-  maxRange = 8;
+  unsigned int maxRange = 8;
   if (myNumReflectorBits == 1)
     maxRange *= 4;
   else if (myNumReflectorBits == 2)
@@ -1311,15 +1320,14 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
   std::list<ArFunctor *>::iterator it;  
   unsigned int rawValue;
   unsigned int value;
-  unsigned int reflector = 0;
+  int reflector = 0;
   unsigned int numReadings;
   unsigned int i;
   double atDeg;
   unsigned int onReading;
   ArSensorReading *reading;
-  int dist;
+  unsigned int dist;
   std::list<ArSensorReading *>::iterator tempIt;
-  int multiplier;
   ArTransform transform;
   //std::list<double>::iterator ignoreIt;  
   bool ignore;
@@ -1343,6 +1351,7 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
   {
     value = packet->bufToUByte2();
     numReadings = value & 0x3ff;
+    unsigned int multiplier;
     //printf("numreadings %d\n", numReadings);
     if (!(value & ArUtil::BIT14) && !(value & ArUtil::BIT15))
       multiplier = 10;
