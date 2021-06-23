@@ -99,12 +99,11 @@ AREXPORT void ArLineFinder::fillPointsFromLaser()
   std::list<ArSensorReading *>::const_iterator it;
   std::list<ArSensorReading *>::const_reverse_iterator rit;
   ArSensorReading *reading;
-  int pointCount = 0;
 
   if (myPoints != NULL)
     delete myPoints;
 
-  myPoints = new std::map<int, ArPose>;
+  myPoints = new std::map<int, ArPose>; // XXX TODO clear and resize myPoints instead of allocating
   
   myRangeDevice->lockDevice();
   readings = myRangeDevice->getRawReadings();
@@ -113,18 +112,17 @@ AREXPORT void ArLineFinder::fillPointsFromLaser()
   {
     if (readings->begin() != readings->end())
     {
-      int size;
-      size = readings->size();
+      size_t size = readings->size();
       it = readings->begin();
       // advance along 10 readings
-      for (int i = 0; i < 10 && i < size / 2; i++)
-	it++;
+      for (size_t i = 0; i < 10 && i < size / 2; i++)
+        it++;
       // see if we're flipped
       if (ArMath::subAngle((*(readings->begin()))->getSensorTh(), 
 			   (*it)->getSensorTh()) > 0)
-	myFlipped = true;
+        myFlipped = true;
       else
-	myFlipped = false;
+        myFlipped = false;
       myFlippedFound = true;
       //printf("@@@ LINE %d %.0f\n", myFlipped, ArMath::subAngle((*(readings->begin()))->getSensorTh(), (*it)->getSensorTh()));
 
@@ -141,6 +139,7 @@ AREXPORT void ArLineFinder::fillPointsFromLaser()
     return;
   }
   myPoseTaken = (*readings->begin())->getPoseTaken();
+  int pointCount = 0;
 
   if (myFlipped)
   {
@@ -159,7 +158,7 @@ AREXPORT void ArLineFinder::fillPointsFromLaser()
     {
       reading = (*it);
       if (reading->getRange() > 5000 || reading->getIgnoreThisReading())
-	continue;
+        continue;
       (*myPoints)[pointCount] = reading->getPose();
       pointCount++;
     }
@@ -169,9 +168,6 @@ AREXPORT void ArLineFinder::fillPointsFromLaser()
 
 AREXPORT void ArLineFinder::findLines()
 {
-  int start = 0;
-  int pointsLen = myPoints->size();
-  int end;
 
   if (myLines != NULL)
   {
@@ -180,7 +176,7 @@ AREXPORT void ArLineFinder::findLines()
     myLines = NULL;
   }
   myLines = new std::map<int, ArLineFinderSegment *>;
-  int numLines = 0;
+
 
   FILE *lineFile = NULL;
   /*
@@ -190,35 +186,34 @@ AREXPORT void ArLineFinder::findLines()
     return;
   }
   */
-  ArLineFinderSegment *newLine;
-  double totalDistFromLine = 0;
-  double dist;
-  int i;
-  bool maxDistTriggered;
 
+
+
+  int start = 0;
+  int end;
+  int numLines = 0;
+  assert(myPoints->size() <= INT_MAX);
+  const int pointsLen = (int) myPoints->size();
   while (1)
   {
-    maxDistTriggered = false;
+    bool maxDistTriggered = false;
     // first we try to find the first place we'll check for lines
     // move out from the start as far as we should for the first one
     for (end = start; ; end++)
     {
       // if we hit the end stop
       if (end >= pointsLen)
-	break;
+        break;
       // if we've moved at least two spots AND at least 50 mm then go
-      if (end - start >= myMakingMinPoints && 
-  (*myPoints)[start].findDistanceTo((*myPoints)[end]) > myMakingMinLen)
-	break;
+      if (end - start >= myMakingMinPoints && (*myPoints)[start].findDistanceTo((*myPoints)[end]) > myMakingMinLen)
+        break;
       // if the distance between any of the points is too great than
       // break (to try and get rid of spots where a laser spot half
       // way between things hurts us)
-      if (myMaxDistBetweenPoints > 0 && end > start && 
-	  ((*myPoints)[end-1].findDistanceTo((*myPoints)[end]) > 
-	   myMaxDistBetweenPoints))
+      if (myMaxDistBetweenPoints > 0 && end > start && ((*myPoints)[end-1].findDistanceTo((*myPoints)[end]) > myMaxDistBetweenPoints))
       {
-	maxDistTriggered = true;
-	break;
+        maxDistTriggered = true;
+        break;
       }
     } 
     if (end < pointsLen)
@@ -228,58 +223,59 @@ AREXPORT void ArLineFinder::findLines()
       // laser spot half way between things hurts us)
       if (maxDistTriggered)
       {
-	if (myPrinting)
-	  ArLog::log(ArLog::Normal, "too great a distance between some points on the line %d %d", start, end);
+        if (myPrinting)
+          ArLog::log(ArLog::Normal, "too great a distance between some points on the line %d %d", start, end);
       }
       // see if its too far between these line segments
       else if ((*myPoints)[start].findDistanceTo((*myPoints)[end]) <
 	       ((*myPoints)[start].findDistanceTo(myPoseTaken) * mySinMultiplier))
       {
-	if (lineFile != NULL)
-	  fprintf(lineFile, "%.0f %.0f %.0f %.0f\n",
-		  (*myPoints)[start].getX(), (*myPoints)[start].getY(),
-		  (*myPoints)[end].getX() - (*myPoints)[start].getX(),
-		  (*myPoints)[end].getY() - (*myPoints)[start].getY());
-	
-	newLine = new ArLineFinderSegment(
-		(*myPoints)[start].getX(), 
-		(*myPoints)[start].getY(),
-		(*myPoints)[end].getX(),
-		(*myPoints)[end].getY(), 
-		1, start, end);
-	
-	totalDistFromLine = 0;
-	// Make sure none of the points are too far away from the new line
-	for (i = newLine->getStartPoint(); i <= newLine->getEndPoint(); i++)
-	{
-	  dist = newLine->getDistToLine((*myPoints)[i]);
-	  totalDistFromLine += dist;
-	}
-	newLine->setAveDistFromLine(totalDistFromLine / (end - start));
-	
-	(*myLines)[numLines] = newLine;
-	numLines++;
+        if (lineFile != NULL)
+          fprintf(lineFile, "%.0f %.0f %.0f %.0f\n",
+            (*myPoints)[start].getX(), (*myPoints)[start].getY(),
+            (*myPoints)[end].getX() - (*myPoints)[start].getX(),
+            (*myPoints)[end].getY() - (*myPoints)[start].getY());
+        
+        ArLineFinderSegment *newLine = new ArLineFinderSegment(
+          (*myPoints)[start].getX(), 
+          (*myPoints)[start].getY(),
+          (*myPoints)[end].getX(),
+          (*myPoints)[end].getY(), 
+          1, start, end);
+        
+        double totalDistFromLine = 0;
+        // Make sure none of the points are too far away from the new line
+        for (int i = newLine->getStartPoint(); i <= newLine->getEndPoint(); i++)
+        {
+          const double dist = newLine->getDistToLine((*myPoints)[i]);
+          totalDistFromLine += dist;
+        }
+        newLine->setAveDistFromLine(totalDistFromLine / (end - start));
+        
+        (*myLines)[numLines] = newLine;
+        numLines++;
       }
       else
       {
-	if (myPrinting)
-	  ArLog::log(ArLog::Normal, "too great a distance between the two line points %d %d", start, end);
+        if (myPrinting)
+          ArLog::log(ArLog::Normal, "too great a distance between the two line points %d %d", start, end);
       }
     }
-    
+          
     start += 1;
     if (start >= pointsLen)
       break;
   }
-  
+        
   if (lineFile != NULL)
-    fclose(lineFile);
+  fclose(lineFile);
 }
 
 AREXPORT bool ArLineFinder::combineLines()
 {
   int start = 0;
-  int len = myLines->size();
+  assert(myLines->size() <= INT_MAX);
+  const int len = (int) myLines->size();
   // this is the min line distance
   std::map<int, ArLineFinderSegment *> *newLines;
   int numNewLines = 0;
@@ -540,7 +536,8 @@ AREXPORT ArLineFinderSegment *ArLineFinder::averageSegments(
 AREXPORT void ArLineFinder::filterLines()
 {
   int start = 0;
-  int len = myLines->size();
+  assert(myLines->size() <= INT_MAX);
+  int len = (int) myLines->size();
 
   // this is the min line distance
   std::map<int, ArLineFinderSegment *> *newLines;
@@ -599,7 +596,8 @@ AREXPORT void ArLineFinder::filterLines()
 **/
 AREXPORT void ArLineFinder::saveLast()
 {
-  int len = myPoints->size();
+  assert(myPoints->size() <= INT_MAX);
+  int len = (int) myPoints->size();
   int i;
   
   FILE *points;
@@ -616,7 +614,8 @@ AREXPORT void ArLineFinder::saveLast()
   fclose(points);
 
 
-  len = myLines->size();
+  assert(myLines->size() <= INT_MAX);
+  len = (int) myLines->size();
   
   FILE *lines;
   if ((lines = ArUtil::fopen("lines", "w+")) == NULL)
