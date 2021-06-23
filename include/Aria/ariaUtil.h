@@ -2325,24 +2325,25 @@ protected:
 /**
    This class holds information for about different strings that are available 
     @internal
+    @note Eventually parts of ARIA that use this will probably be refactored and this will be removed
  **/
 class ArStringInfoHolder
 {
 public:
   /// Constructor
-  ArStringInfoHolder(const char *name, ArTypes::UByte2 maxLength, 
-		     ArFunctor2<char *, ArTypes::UByte2> *functor)
+  ArStringInfoHolder(const char *name, size_t maxLength, 
+		     ArFunctor2<char *, size_t> *functor)
     { myName = name; myMaxLength = maxLength; myFunctor = functor; }
   /// Gets the name of this piece of info
   const char *getName() const { return myName.c_str(); }
   /// Gets the maximum length of this piece of info
-  ArTypes::UByte2 getMaxLength() const { return myMaxLength; }
+  size_t getMaxLength() const { return myMaxLength; }
   /// Gets the function that will fill in this piece of info
-  ArFunctor2<char *, ArTypes::UByte2> *getFunctor() { return myFunctor; }
+  ArFunctor2<char *, size_t> *getFunctor() { return myFunctor; }
 protected:
   std::string myName;
-  ArTypes::UByte2 myMaxLength;
-  ArFunctor2<char *, ArTypes::UByte2> *myFunctor;
+  size_t myMaxLength;
+  ArFunctor2<char *, size_t> *myFunctor;
 };
 
 /// This class just holds some helper functions for the ArStringInfoHolder 
@@ -2350,7 +2351,7 @@ protected:
 class ArStringInfoHolderFunctions
 {
 public:
-  static void intWrapper(char * buffer, ArTypes::UByte2 bufferLen, 
+  static void intWrapper(char * buffer, size_t bufferLen, 
 			 ArRetFunctor<int> *functor, const char *format, int navalue)
   { 
     const int value = functor->invokeR();
@@ -2360,29 +2361,29 @@ public:
       snprintf(buffer, bufferLen - 1, format, value);
     buffer[bufferLen-1] = '\0'; 
   }
-  static void doubleWrapper(char * buffer, ArTypes::UByte2 bufferLen, 
+  static void doubleWrapper(char * buffer, size_t bufferLen, 
 			    ArRetFunctor<double> *functor, const char *format)
     { snprintf(buffer, bufferLen - 1, format, functor->invokeR()); 
     buffer[bufferLen-1] = '\0'; }
-  static void boolWrapper(char * buffer, ArTypes::UByte2 bufferLen, 
+  static void boolWrapper(char * buffer, size_t bufferLen, 
 			  ArRetFunctor<bool> *functor, const char *format)
     { snprintf(buffer, bufferLen - 1, format, 
 	       ArUtil::convertBool(functor->invokeR())); 
     buffer[bufferLen-1] = '\0'; }
-  static void stringWrapper(char * buffer, ArTypes::UByte2 bufferLen, 
+  static void stringWrapper(char * buffer, size_t bufferLen, 
 			    ArRetFunctor<const char *> *functor, 
 			    const char *format)
   { snprintf(buffer, bufferLen - 1, format, functor->invokeR()); 
   buffer[bufferLen-1] = '\0'; }
 
-  static void cppStringWrapper(char *buffer, ArTypes::UByte2 bufferLen, 
+  static void cppStringWrapper(char *buffer, size_t bufferLen, 
           ArRetFunctor<std::string> *functor)
   { 
     snprintf(buffer, bufferLen - 1, "%s", functor->invokeR().c_str());
     buffer[bufferLen-1] = '\0'; 
   }
 
-  static void unsignedLongWrapper(char * buffer, ArTypes::UByte2 bufferLen, 
+  static void unsignedLongWrapper(char * buffer, size_t bufferLen, 
 			 ArRetFunctor<unsigned long> *functor, const char *format, unsigned long navalue)
   { 
     const unsigned long value = functor->invokeR();
@@ -2392,7 +2393,7 @@ public:
       snprintf(buffer, bufferLen - 1, format, value);
     buffer[bufferLen-1] = '\0'; 
   }
-  static void longWrapper(char * buffer, ArTypes::UByte2 bufferLen, 
+  static void longWrapper(char * buffer, size_t bufferLen, 
 			 ArRetFunctor<long> *functor, const char *format, long navalue)
   { 
     const long value = functor->invokeR();
@@ -2403,7 +2404,7 @@ public:
     buffer[bufferLen-1] = '\0'; 
   }
 
-  static void arTimeWrapper(char *buffer, ArTypes::UByte2 bufferLen,
+  static void arTimeWrapper(char *buffer, size_t bufferLen,
         ArRetFunctor<ArTime> *functor, const char *format)
   {
     ArTime t = functor->invokeR();
@@ -2411,7 +2412,7 @@ public:
     buffer[bufferLen-1] = '\0'; 
   }
 
-  static void floatWrapper(char * buffer, ArTypes::UByte2 bufferLen, 
+  static void floatWrapper(char * buffer, size_t bufferLen, 
 			    ArRetFunctor<float> *functor, const char *format)
     { snprintf(buffer, bufferLen - 1, format, functor->invokeR()); 
     buffer[bufferLen-1] = '\0'; }

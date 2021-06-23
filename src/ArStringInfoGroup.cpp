@@ -45,8 +45,8 @@ AREXPORT ArStringInfoGroup::ArStringInfoGroup()
   '#', ';', tabs and newlines.
 */
 AREXPORT bool ArStringInfoGroup::addString(
-	const char *name, ArTypes::UByte2 maxLength,
-	ArFunctor2<char *, ArTypes::UByte2> *functor)
+	const char *name, size_t maxLength,
+	ArFunctor2<char *, size_t> *functor)
 {
   myDataMutex.lock();
   if (myAddedStrings.find(name) != myAddedStrings.end())
@@ -56,8 +56,8 @@ AREXPORT bool ArStringInfoGroup::addString(
     return false;
   }
 
-  std::list<ArFunctor3<const char *, ArTypes::UByte2,
-  ArFunctor2<char *, ArTypes::UByte2> *> *>::iterator it;
+  std::list<ArFunctor3<const char *, size_t,
+  ArFunctor2<char *, size_t> *> *>::iterator it;
   ArLog::log(ArLog::Verbose, "ArStringInfoGroups: Adding info '%s'", name);
   myAddedStrings.insert(name);
   for (it = myAddStringCBList.begin(); it != myAddStringCBList.end(); it++)
@@ -70,104 +70,104 @@ AREXPORT bool ArStringInfoGroup::addString(
 }
 
 AREXPORT bool ArStringInfoGroup::addStringInt(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<int> *functor, const char *format,
   int navalue)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor5<char *, ArTypes::UByte2, 
+	    (new ArGlobalFunctor5<char *, size_t, 
 	     ArRetFunctor<int> *, 
 	     const char *, int>(&ArStringInfoHolderFunctions::intWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format, navalue)));
 }
 
 AREXPORT bool ArStringInfoGroup::addStringDouble(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<double> *functor, const char *format)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor4<char *, ArTypes::UByte2, 
+	    (new ArGlobalFunctor4<char *, size_t, 
 	     ArRetFunctor<double> *, 
 	     const char *>(&ArStringInfoHolderFunctions::doubleWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format)));
 }
 
 AREXPORT bool ArStringInfoGroup::addStringFloat(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<float> *functor, const char *format)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor4<char *, ArTypes::UByte2, 
+	    (new ArGlobalFunctor4<char *, size_t, 
 	     ArRetFunctor<float> *, 
 	     const char *>(&ArStringInfoHolderFunctions::floatWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format)));
 }
 
 
 AREXPORT bool ArStringInfoGroup::addStringBool(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<bool> *functor, const char *format)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor4<char *, ArTypes::UByte2, 
+	    (new ArGlobalFunctor4<char *, size_t, 
 	     ArRetFunctor<bool> *, 
 	     const char *>(&ArStringInfoHolderFunctions::boolWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format)));
 }
 
 // for a functor returning a C string (const char*)
 AREXPORT bool ArStringInfoGroup::addStringString(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<const char *> *functor, const char *format)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor4<char *, ArTypes::UByte2, 
+	    (new ArGlobalFunctor4<char *, size_t, 
 	     ArRetFunctor<const char *> *, 
 	     const char *>(&ArStringInfoHolderFunctions::stringWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format)));
 }
 
 // for a functor returning a C++ string (std::string)
 AREXPORT bool ArStringInfoGroup::addStringString(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<std::string> *functor)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor3<char *, ArTypes::UByte2, ArRetFunctor<std::string>*>(
+	    (new ArGlobalFunctor3<char *, size_t, ArRetFunctor<std::string>*>(
          &ArStringInfoHolderFunctions::cppStringWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor)
       )
   );
 }
 
 AREXPORT bool ArStringInfoGroup::addStringUnsignedLong(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<unsigned long> *functor, const char *format,
   unsigned long navalue)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor5<char *, ArTypes::UByte2, 
+	    (new ArGlobalFunctor5<char *, size_t, 
 	     ArRetFunctor<unsigned long> *, 
 	     const char *, unsigned long>(&ArStringInfoHolderFunctions::unsignedLongWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format, navalue)));
 }
 
 AREXPORT bool ArStringInfoGroup::addStringLong(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<long> *functor, const char *format,
   long navalue)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor5<char *, ArTypes::UByte2, ArRetFunctor<long> *, const char *, long>(
+	    (new ArGlobalFunctor5<char *, size_t, ArRetFunctor<long> *, const char *, long>(
          &ArStringInfoHolderFunctions::longWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format, navalue)
       )
    );
@@ -177,21 +177,21 @@ AREXPORT bool ArStringInfoGroup::addStringLong(
        the results of ArTime::getSecLL() and ArTime::getMSecLL().
 */
 AREXPORT bool ArStringInfoGroup::addStringTime(
-	const char *name, ArTypes::UByte2 maxLength,
+	const char *name, size_t maxLength,
 	ArRetFunctor<ArTime> *functor, const char *format)
 {
   return addString(name, maxLength, 
-	    (new ArGlobalFunctor4<char *, ArTypes::UByte2, 
+	    (new ArGlobalFunctor4<char *, size_t, 
 	     ArRetFunctor<ArTime> *, 
 	     const char *>(&ArStringInfoHolderFunctions::arTimeWrapper, 
-			   (char *)NULL, (ArTypes::UByte2) 0, 
+			   (char *)NULL, (size_t) 0, 
 			   functor, format)));
 }
 
 
 AREXPORT void ArStringInfoGroup::addAddStringCallback(
-	ArFunctor3<const char *, ArTypes::UByte2,
-	ArFunctor2<char *, ArTypes::UByte2> *> *functor,
+	ArFunctor3<const char *, size_t,
+	ArFunctor2<char *, size_t> *> *functor,
 	ArListPos::Pos position)
 {
   if (position == ArListPos::FIRST)

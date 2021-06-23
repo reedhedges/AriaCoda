@@ -504,7 +504,7 @@ void ArDataLogger::writeHeader()
     {
       char formatBuf[64];
       if(myLogFormat == Fixed)
-        snprintf(formatBuf, 64, "%c%%-0%ds", myLogSep, myStrings[i]->getMaxLength());
+        snprintf(formatBuf, 64, "%c%%-0%lus", myLogSep, myStrings[i]->getMaxLength());
       else
         snprintf(formatBuf, 64, "%c%%s", myLogSep);
       fprintf(myFile, formatBuf, myStrings[i]->getName());
@@ -620,7 +620,7 @@ void ArDataLogger::userTask()
       char formatBuf[64];
       infoHolder = myStrings[i];
       if(myLogFormat == Fixed)
-        snprintf(formatBuf, 64, "%c%%-0%ds", myLogSep, myStrings[i]->getMaxLength());
+        snprintf(formatBuf, 64, "%c%%-0%lus", myLogSep, myStrings[i]->getMaxLength());
       else
         snprintf(formatBuf, 64, "%c%%s", myLogSep);
       infoHolder->getFunctor()->invoke(buf, infoHolder->getMaxLength());
@@ -793,10 +793,10 @@ void ArDataLogger::userTask()
 
 // todo omit units from config name? (ie separate name and units here, concat) 
 AREXPORT void ArDataLogger::addString(
-	const char *orig_name, ArTypes::UByte2 maxLength,
-	ArFunctor2<char *, ArTypes::UByte2> *functor)
+	const char *orig_name, size_t maxLength,
+	ArFunctor2<char *, size_t> *functor)
 {
-  ArTypes::UByte2 len;
+  size_t len;
 
   // todo maybe this should be an option:
   std::string name(orig_name);
@@ -811,7 +811,7 @@ AREXPORT void ArDataLogger::addString(
   // TODO check myStrings and warn if we already have one of this name
 
   if (maxLength < name.length())
-    len = (ArTypes::UByte2) name.length();
+    len = name.length();
   else
     len = maxLength;  
   if (myMaxMaxLength < len)
@@ -908,7 +908,7 @@ AREXPORT std::string ArDataLogger::getStatus()
     return "Not logging";
 }
 
-AREXPORT void ArDataLogger::getStatus(char *buf, ArTypes::UByte2 buflen)
+AREXPORT void ArDataLogger::getStatus(char *buf, size_t buflen)
 {
   strncpy(buf, getStatus().c_str(), buflen);
 }

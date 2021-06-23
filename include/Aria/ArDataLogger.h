@@ -56,8 +56,8 @@ public:
   /// Adds the data logger information to the config
   AREXPORT void addToConfig(ArConfig *config);
   /// Adds a string to the list of options in the raw format
-  AREXPORT void addString(const char *name, ArTypes::UByte2 maxLen, 
-			  ArFunctor2<char *, ArTypes::UByte2> *functor);
+  AREXPORT void addString(const char *name, size_t  maxLen, 
+			  ArFunctor2<char *, size_t> *functor);
 
   /// Add data to be logged.   T is the data type to log.  This can be any type
   /// supported by ArStringFormatBufFunctor  (including any specializations) using the appropriate format string in
@@ -71,18 +71,18 @@ public:
   {
     std::stringstream ns;
     ns << name << " (" << unitDesc << ")";
-    addString(ns.str().c_str(), maxStrLen, new ArStringFormatBufFunctor<T, ArTypes::UByte2>(accessor, format));
+    addString(ns.str().c_str(), maxStrLen, new ArStringFormatBufFunctor<T, size_t>(accessor, format));
   }
 
   /// @copydoc addData()
   template<typename T> void addData(const char *name, ArRetFunctor<T> *accessor, const char *format, size_t maxStrLen = 32)
   {
-    addString(name, maxStrLen, new ArStringFormatBufFunctor<T, ArTypes::UByte2>(accessor, format));
+    addString(name, maxStrLen, new ArStringFormatBufFunctor<T, size_t>(accessor, format));
   }
 
   /// Gets the functor for adding a string (for ArStringInfoGroup)
-  ArFunctor3<const char *, ArTypes::UByte2,
-				    ArFunctor2<char *, ArTypes::UByte2> *> *
+  ArFunctor3<const char *, size_t,
+				    ArFunctor2<char *, size_t> *> *
                      getAddStringFunctor() { return &myAddStringFunctor; }
 
   AREXPORT void startLogging(int interval);
@@ -117,7 +117,7 @@ public:
   ArFunctor *getStopLogFunctor() { return &myStopLogFunctor; }
 
   AREXPORT std::string getStatus();
-  AREXPORT void getStatus(char *buf, ArTypes::UByte2 buflen);
+  AREXPORT void getStatus(char *buf, size_t buflen);
 
   AREXPORT void saveCopyAs(const char *name);
   void saveCopy() { saveCopyAs(NULL); }
@@ -192,9 +192,9 @@ protected:
   ArMutex myMutex;
 
   std::vector<ArStringInfoHolder *> myStrings;
-  ArTypes::UByte2 myMaxMaxLength;
-  ArFunctor3C<ArDataLogger, const char *, ArTypes::UByte2,
-		    ArFunctor2<char *, ArTypes::UByte2> *> myAddStringFunctor;
+  size_t myMaxMaxLength;
+  ArFunctor3C<ArDataLogger, const char *, size_t,
+		    ArFunctor2<char *, size_t> *> myAddStringFunctor;
 
   ArFunctor1C<ArDataLogger, ArArgumentBuilder*> myWriteCommentFunctor;
   

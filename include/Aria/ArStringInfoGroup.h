@@ -44,39 +44,39 @@ public:
   AREXPORT ArStringInfoGroup();
   //AREXPORT virtual ~ArStringInfoGroup();
   /// Adds a string to the list in the raw format
-  AREXPORT bool addString(const char *name, ArTypes::UByte2 maxLen, 
-			  ArFunctor2<char *, ArTypes::UByte2> *functor);
+  AREXPORT bool addString(const char *name, size_t maxLen, 
+			  ArFunctor2<char *, size_t> *functor);
 
   /// Adds an int to the list in the helped way
   /// @param navalue if value is >= this value, then display "N/A" instead
-  AREXPORT bool addStringInt(const char *name, ArTypes::UByte2 maxLen, 
+  AREXPORT bool addStringInt(const char *name, size_t maxLen, 
 			     ArRetFunctor<int> *functor, 
 			     const char *format = "%d", 
            int navalue = INT_MAX);
 
   /// Adds a double to the list in the helped way
-  AREXPORT bool addStringDouble(const char *name, ArTypes::UByte2 maxLen, 
+  AREXPORT bool addStringDouble(const char *name, size_t maxLen, 
 				ArRetFunctor<double> *functor, 
 				const char *format = "%g");
 
   /// Adds a bool to the list in the helped way
-  AREXPORT bool addStringBool(const char *name, ArTypes::UByte2 maxLen, 
+  AREXPORT bool addStringBool(const char *name, size_t maxLen, 
 			      ArRetFunctor<bool> *functor,
 			      const char *format = "%s");
 
   /// Adds a string to the list in the helped way
-  AREXPORT bool addStringString(const char *name, ArTypes::UByte2 maxLen, 
+  AREXPORT bool addStringString(const char *name, size_t maxLen, 
 			      ArRetFunctor<const char *> *functor,
 			      const char *format = "%s");
 
   /// Adds a std::string to the list. std::string::c_str() will be used to  
-  AREXPORT bool addStringString(const char *name, ArTypes::UByte2 maxLen,
+  AREXPORT bool addStringString(const char *name, size_t maxLen,
             ArRetFunctor<std::string> *functor);
 
   /// Adds an int to the list in the helped way
   /// @param navalue if value is >= this value, then display "N/A" instead
   AREXPORT bool addStringUnsignedLong(const char *name, 
-				      ArTypes::UByte2 maxLen, 
+				      size_t maxLen, 
 				      ArRetFunctor<unsigned long> *functor, 
 				      const char *format = "%lu",
               unsigned long navalue = ULONG_MAX);
@@ -84,31 +84,31 @@ public:
   /// Adds an int to the list in the helped way
   /// @param navalue if value is >= this value, then display "N/A" instead
   AREXPORT bool addStringLong(const char *name, 
-			      ArTypes::UByte2 maxLen, 
+			      size_t maxLen, 
 			      ArRetFunctor<long> *functor, 
 			      const char *format = "%ld",
             long navalue = LONG_MAX);
 
   AREXPORT bool addStringTime(const char *name,
-            ArTypes::UByte2 maxLen,
+            size_t maxLen,
             ArRetFunctor<ArTime> *functor,
             const char *format = "%llu:%llu");
 
-  AREXPORT bool addStringFloat(const char *name, ArTypes::UByte2 maxLen, 
+  AREXPORT bool addStringFloat(const char *name, size_t maxLen, 
 				ArRetFunctor<float> *functor, 
 				const char *format = "%g");
 
   /// This is the function to add a callback to be called by addString
   AREXPORT void addAddStringCallback(
-	  ArFunctor3<const char *, ArTypes::UByte2,
-	  ArFunctor2<char *, ArTypes::UByte2> *> *functor,
+	  ArFunctor3<const char *, size_t,
+	  ArFunctor2<char *, size_t> *> *functor,
 	  ArListPos::Pos position = ArListPos::LAST);
 
 protected:
   ArMutex myDataMutex;
   std::set<std::string, ArStrCaseCmpOp> myAddedStrings;
-  std::list<ArFunctor3<const char *, ArTypes::UByte2,
-	      ArFunctor2<char *, ArTypes::UByte2> *> *> myAddStringCBList;
+  std::list<ArFunctor3<const char *, size_t,
+	      ArFunctor2<char *, size_t> *> *> myAddStringCBList;
 };
 
 
