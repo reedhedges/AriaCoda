@@ -445,7 +445,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 		//printf("%x\n", c);
 		if (myState == STARTING)
 		{
-			char c;
+			char c = 0;
 			const int numRead = myConn->read(&c, 1, (unsigned int) timeToRunFor);
 			
 			if (numRead <= 0)
