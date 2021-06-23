@@ -509,16 +509,18 @@ void ArSocket::doStringEcho()
 }
 
 void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost, 
-			    size_t useHostSize, int *port)
+			    size_t useHostSize, int *port, bool *ok)
 {
   if (useHost == NULL)
   {
     ArLog::log(ArLog::Normal, "ArSocket: useHost was NULL");
+    if(ok) *ok = false;
     return;
   }
   if (port == NULL)
   {
     ArLog::log(ArLog::Normal, "ArSocket: port was NULL");
+    if(ok) *ok = false;
     return;
   }
 
@@ -527,6 +529,7 @@ void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost,
   if (rawHost == NULL || rawHost[0] == '\0')
   {
     ArLog::log(ArLog::Normal, "ArSocket: rawHost was NULL or empty");
+    if(ok) *ok = false;
     return;
   }
   
@@ -536,6 +539,7 @@ void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost,
   if (separator.getArgc() <= 0)
   {
     ArLog::log(ArLog::Normal, "ArSocket: rawHost was empty");
+    if(ok) *ok = false;
     return;
   }
   if (separator.getArgc() == 1)
@@ -550,17 +554,20 @@ void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost,
     {
       strncpy(useHost, separator.getArg(0), useHostSize - 1);
       *port = separator.getArgInt(1);
+      if(ok) *ok = true;
       return;
     }
     else
     {
-      ArLog::log(ArLog::Normal, "ArSocket: port given in hostname was not an integer it was %s", separator.getArg(1));
+      ArLog::log(ArLog::Normal, "ArSocket: invalid port value (%s) given with hostname", separator.getArg(1));
+      if(ok) *ok = false;
       return;
     }
   }
 
   // if we get down here there's too many args
   ArLog::log(ArLog::Normal, "ArSocket: too many arguments in hostname %s", separator.getFullString());
+      if(ok) *ok = false;
   return;
 }
 

@@ -28,6 +28,7 @@ int main()
 
   Aria::init();
 
+  // TODO fail on unexpected results
 
   ArLog::log(ArLog::Normal, "\nTesting ArTime with large values:");
   ArTime startLarge, testlarge;
@@ -148,6 +149,19 @@ int main()
     (new LocaltimeTestThread(now))->runAsync();
   ArUtil::sleep(5000);
   */
+
+  ArLog::log(ArLog::Normal, "Testing ArUtil::getTime()");
+  unsigned int prev = ArUtil::getTime();
+  ArLog::log(ArLog::Normal, "Current value from getTime(): %u", prev);
+  ArLog::log(ArLog::Normal, "Checking value of getTime() over next 2 minutes...");
+  ArTime elapsed;
+  do {
+    const unsigned int now = ArUtil::getTime();
+    if(now < prev)
+      ArLog::log(ArLog::Normal, "Time has wrapped! Previous time was %u ms new time is %u ms", prev, now);
+    prev = now;
+    ArUtil::sleep(10);
+  } while (elapsed.secSince() <= 2);
 
   ArLog::log(ArLog::Normal, "test is done.");
 

@@ -679,6 +679,32 @@ AREXPORT bool ArArgumentBuilder::isArgInt(size_t whichArg, bool forceHex) const
     return false;
 }
 
+AREXPORT bool ArArgumentBuilder::isArgUInt(size_t whichArg, bool forceHex) const
+{
+  const char *str;
+  char *endPtr;
+  if (whichArg > myArgc || getArg(whichArg) == NULL)
+    return false;
+
+  int base = 10;
+  str = getArg(whichArg);
+
+  if (forceHex)
+    base = 16;
+  // see if it has the hex prefix and strip it
+  if (strlen(str) > 2 && str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+  {
+    str = &str[2];
+    base = 16;
+  }
+
+  const long val = strtol(str, &endPtr, base);
+  if (endPtr[0] == '\0' && endPtr != str && val > 0)
+    return true;
+  else
+    return false;
+}
+
 AREXPORT int ArArgumentBuilder::getArgInt(size_t whichArg,
                                           bool *ok, bool forceHex) const
 {
@@ -716,7 +742,46 @@ AREXPORT int ArArgumentBuilder::getArgInt(size_t whichArg,
   else 
     return 0;
 
-} // end method getArgInt
+}
+
+AREXPORT unsigned int ArArgumentBuilder::getArgUInt(size_t whichArg,
+                                          bool *ok, bool forceHex) const
+{
+  bool isSuccess = false;
+  long ret = 0;
+
+  const char *str = getArg(whichArg);
+
+  // If the specified arg was successfully obtained...
+  if (str != NULL) {
+  
+    int base = 10;
+    if (forceHex)
+      base = 16;
+    // see if it has the hex prefix and strip it
+    if (strlen(str) > 2 && str[0] == '0' && (str[1] == 'x' || str[1] == 'X'))
+    {
+      str = &str[2];
+      base = 16;
+    }
+    char *endPtr = NULL;
+    ret = strtol(str, &endPtr, base);
+ 
+    if (endPtr[0] == '\0' && endPtr != str && ret > 0 && ret <= UINT_MAX) {
+      isSuccess = true;
+    }
+  } // end if valid arg
+
+  if (ok != NULL) {
+    *ok = isSuccess;
+  }
+  
+  if (isSuccess) 
+    return (unsigned int)ret;
+  else 
+    return 0;
+
+}
 
 AREXPORT bool ArArgumentBuilder::isArgLongLongInt(size_t whichArg) const
 {
@@ -786,7 +851,7 @@ AREXPORT long long ArArgumentBuilder::getArgLongLongInt(size_t whichArg,
   else 
     return 0;
 
-} // end method getArgInt
+} 
 
 AREXPORT bool ArArgumentBuilder::isArgDouble(size_t whichArg) const
 {

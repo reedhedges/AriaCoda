@@ -126,7 +126,8 @@ bool ArSocket::hostAddr(const char *host, struct in_addr &addr)
   else
   {
     //bcopy(hp->h_addr, &addr, hp->h_length);
-    memcpy(&addr, hp->h_addr, hp->h_length);
+    assert(hp->h_length >= 0);
+    memcpy(&addr, hp->h_addr, (size_t) hp->h_length);
     return(true);
   }
 }
@@ -162,11 +163,19 @@ bool ArSocket::connect(const char *host, int port, Type type,
   int usePort;
   separateHost(host, port, useHost, sizeof(useHost), &usePort);
 
+  if(port < 0 || port > USHRT_MAX)
+  {
+    myError = InvalidParam;
+    myErrorStr = std::string("Port number (") + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
+    ArLog::log(ArLog::Normal, (std::string("ArSocket::connect: Error: ") + myErrorStr).c_str());
+    return false;
+  }
+
   if (!hostAddr(useHost, mySin.sin_addr))
     return(false);
   setIPString(inAddr());
   mySin.sin_family=AF_INET;
-  mySin.sin_port=hostToNetOrder(usePort);
+  mySin.sin_port = hostToNetOrder((unsigned short)usePort);
 
   if ((type == TCP) && ((myFD=socket(AF_INET, SOCK_STREAM, 0)) < 0))
   {
@@ -196,7 +205,8 @@ bool ArSocket::connect(const char *host, int port, Type type,
       return(false); 
     }
     outSin.sin_family=AF_INET;
-    outSin.sin_port=hostToNetOrder(0);
+    //outSin.sin_port=hostToNetOrder(0);
+    outSin.sin_port = 0;
     if (bind(myFD, (struct sockaddr *)&outSin, sizeof(outSin)) < 0)
     {
       ArLog::logErrorFromOS(ArLog::Normal, "ArSocket::connect: Failure to bind socket to port %d", 0);
@@ -302,7 +312,18 @@ bool ArSocket::open(int port, Type type, const char *openOnIP)
 
   setIPString(inAddr());
   mySin.sin_family=AF_INET;
-  mySin.sin_port=hostToNetOrder(port);
+
+  if(port < 0 || port > USHRT_MAX)
+  {
+    myError = InvalidParam;
+    myErrorStr = std::string("Port number (") + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
+    ArLog::log(ArLog::Normal, (std::string("ArSocket::open: Error: ") + myErrorStr).c_str());
+    ::close(myFD);
+    myFD = -1;
+    return false;
+  }
+
+  mySin.sin_port = hostToNetOrder( (unsigned short) port);
 
   if ((ret=bind(myFD, (struct sockaddr *)&mySin, sizeof(mySin))) < 0)
   {
@@ -404,7 +425,9 @@ bool ArSocket::findValidPort(int startPort, const char *openOnIP)
     }
     
     mySin.sin_family=AF_INET;
-    mySin.sin_port=hostToNetOrder(startPort+i);
+    const unsigned int p = hostToNetOrder(startPort + i);
+    assert(p <= USHRT_MAX);
+    mySin.sin_port = (unsigned short)p;
 
     if (bind(myFD, (struct sockaddr *)&mySin, sizeof(mySin)) == 0)
       break;
@@ -439,12 +462,20 @@ bool ArSocket::connectTo(const char *host, int port)
   int usePort;
   separateHost(host, port, useHost, sizeof(useHost), &usePort);
 
+  if(port < 0 || port > USHRT_MAX)
+  {
+    myError = InvalidParam;
+    myErrorStr = std::string("Port number (") + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
+    ArLog::log(ArLog::Normal, (std::string("ArSocket::connectTo: Error: ") + myErrorStr).c_str());
+    return false;
+  }
+
   bzero(&mySin, sizeof(mySin));
   if (!hostAddr(useHost, mySin.sin_addr))
     return(false);
   setIPString(inAddr());
   mySin.sin_family=AF_INET;
-  mySin.sin_port=hostToNetOrder(usePort);
+  mySin.sin_port=hostToNetOrder((unsigned short) port);
 
   myLastStringReadTime.setToNow();
   return(connectTo(&mySin));
@@ -675,15 +706,38 @@ bool ArSocket::getSockName()
   return(true);
 }
 
+unsigned int ArSocket::hostToNetOrder(unsigned int i)
+{
+  return(htonl(i));
+}
+
 unsigned int ArSocket::hostToNetOrder(int i)
 {
-  return(htons(i));
+  assert(i >= 0);
+  return(htonl((unsigned int)i));
+}
+
+unsigned int ArSocket::netToHostOrder(unsigned int i)
+{
+  return(ntohl(i));
 }
 
 unsigned int ArSocket::netToHostOrder(int i)
 {
+  assert(i >= 0);
+  return(ntohl((unsigned int)i));
+}
+
+unsigned short ArSocket::hostToNetOrder(unsigned short i)
+{
+  return(htons(i));
+}
+
+unsigned short ArSocket::netToHostOrder(unsigned short i)
+{
   return(ntohs(i));
 }
+
 
 /** If this socket is a TCP socket, then set the TCP_NODELAY flag,
  *  to disable the use of the Nagle algorithm (which waits until enough

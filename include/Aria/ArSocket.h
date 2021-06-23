@@ -76,7 +76,7 @@ class ArSocket
 public:
 
   enum Type {UDP, TCP, Unknown};
-  enum Error {NoErr, NetFail, ConBadHost, ConNoRoute, ConRefused, NameLookup};
+  enum Error {NoErr, NetFail, ConBadHost, ConNoRoute, ConRefused, NameLookup, InvalidParam};
 
   /// Constructor. You must then use either connect() or open().
   AREXPORT ArSocket();
@@ -256,9 +256,19 @@ public:
 #endif
 
   /// Convert an int from host byte order to network byte order
+  AREXPORT static unsigned int hostToNetOrder(unsigned int i);
+  /// Convert a short from host byte order to network byte order
+  AREXPORT static unsigned short hostToNetOrder(unsigned short i);
+  /// Convert an int from host byte order to network byte order, converting to
+  /// unsigned int first. Will fail with assertion if @a i is < 0 
   AREXPORT static unsigned int hostToNetOrder(int i);
 
   /// Convert an int from network byte order to host byte order
+  AREXPORT static unsigned int netToHostOrder(unsigned int i);
+  /// Convert a short from network byte order to host byte order
+  AREXPORT static unsigned short netToHostOrder(unsigned short i);
+  /// Convert an int from network byte order to host byte order, after
+  /// converting to unsigned int. Will fail with assertion if @a i is < 0 
   AREXPORT static unsigned int netToHostOrder(int i);
 
   /// Set the linger value
@@ -382,8 +392,18 @@ protected:
 
   // separates out a host string (possibly host:port) into a host and
   // the port that should be used.
-  void separateHost(const char *rawHost, int rawPort, char *useHost, 
-		    size_t useHostSize, int *port);
+  // @param hostString input host string to parse. May contain only a hostname,
+  // or may contain hostname and port number separated by ':' character.
+  // @param defaultPort port number to return if @a hostString does not contain
+  // a port number.
+  // @param hostname Host name (only) is copied into this string buffer.
+  // @param hostnameSize Size of @a hostname buffer
+  // @param port If @a hostString contained a port number, set this output
+  // parameter to the port number.  If not, set it to @a defaultPort.
+  // @param ok If provided, set this boolean value to false no any parsing
+  // errors, true otherwise.  Log messages are also emitted on error.
+  void separateHost(const char *hostString, int defaultPort, char *hostname, 
+		    size_t hostnameSize, int *port, bool *ok = NULL);
 
   Type myType;
   Error myError;

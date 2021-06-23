@@ -99,9 +99,13 @@ public:
 
   /// Sees if an argument is an int
   /**
-   * @param whichArg the size_t index of the arg to retrieve; must be >= 0
-   * and less than getArgc()
-   * @param forceHex if true this makes it find the int in base 16 instead of 10
+   * @return true if value can be read as integer from the string as base 10 (if
+   * forceHex is false) or
+   * base 16 number (must be prefixed by 0x if forceHex is false). Does not
+   * check if value is too large to store in an int, only getArgInt() does.
+   * @param whichArg the index of the argument to check; must be less than getArgc()
+   * @param forceHex if true this makes it find the int in base 16 only instead
+   * of 10. Value does not need to be prefixed by "0x" if @a forceHex is true.
    */
   AREXPORT bool isArgInt(size_t whichArg, bool forceHex = false) const;
 
@@ -110,7 +114,9 @@ public:
    * There are two ways to to verify that the specified argument is an integer.
    * Either call isArgInt() before calling this method, or specify a non-NULL
    * ok parameter value. The latter is somewhat more efficient because the 
-   * digit status of each character is checked only once.
+   * digit status of each character is checked only once. (Note that isArgInt()
+   * does not check if the value is too large to fit in an int, only getArgInt()
+   * does, setting @a *ok to false if so.)
    * 
    * @param whichArg the size_t index of the arg to retrieve; must be >= 0
    * and less than getArgc()
@@ -122,6 +128,11 @@ public:
   **/
   AREXPORT int getArgInt(size_t whichArg,
                          bool *ok = NULL, bool forceHex = false) const;
+
+  AREXPORT bool isArgUInt(size_t whichArg, bool forceHex = false) const;
+  AREXPORT unsigned int getArgUInt(size_t whichArg, bool *ok = NULL, bool forceHex = false) const;
+    
+
 
   /// Sees if an argument is a long long int
   AREXPORT bool isArgLongLongInt(size_t whichArg) const;
