@@ -128,7 +128,7 @@ AREXPORT void ArSonarDevice::processReadings()
    @param x the global x coordinate of the reading
    @param y the global y coordinate of the reading
 */
-AREXPORT void ArSonarDevice::addReading(double x, double y)
+AREXPORT void ArSonarDevice::addReading(double x, double y, bool *wasAdded)
 {
   const double rx = myRobot->getX();
   const double ry = myRobot->getY();
@@ -137,7 +137,12 @@ AREXPORT void ArSonarDevice::addReading(double x, double y)
   const double dist2 = rdx*rdx + rdy*rdy;
   
   if (dist2 < myMaxRange*myMaxRange)
+  {
     myCurrentBuffer.addReading(x,y);
+    if(wasAdded) *wasAdded = true;
+  }
+  else
+    if(wasAdded) *wasAdded = false;
   
   if (dist2 < myMaxDistToKeepCumulative * myMaxDistToKeepCumulative)
   {
@@ -155,6 +160,7 @@ AREXPORT void ArSonarDevice::addReading(double x, double y)
 
     myCumulativeBuffer.addReading(x,y);
   }
+
 }
 
 
