@@ -2,6 +2,10 @@
 TODO
 ====
 
+If you would like to contribute, consider items below labelled "HELP WANTED", or
+any improvement or change that would make this library more useful for you or
+easier to use.  Contact me or discuss on the GitHub page.
+
 * Fix unnecessary virtual inheritance.  
   * Virtual inheritance must be used for
   interface implementations, i.e. subclasses of:
@@ -21,13 +25,13 @@ TODO
     * ArPose and other utility classes with extensions (eg.. ArPoseWithTime)
     * ArRobotTypes?
 * Bug: does not close robot connection when TCP connection write fails because
-  remote side (ie sim) closed.
+  remote side (ie sim) closed. (HELP WANTED)
 * Use new laser simulator commands in ArSimulatedLaser instead of old SRISim
-  commands
+  commands (HELP WANTED)
 * Edit (review and improve) README
 * Remove exceptions from ArPacketUtil and re-add -fno-exceptions to build (and
   disable exceptions on Windows?)
-* Add `[[deprecated]]` attribute to deprecated methods
+* Add `[[deprecated]]` attribute (or `DEPRECATED` macro) to deprecated methods
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and instructions to users to transition existing
   code due to all changes below.
@@ -40,7 +44,7 @@ TODO
   constructors and assignment operators to delete, default, or implement.
 * Replace classes that only contain enums with "enum class".  Fix any non-scoped
   enums as well (I don't think there are any.)
-* Switch to CMake?
+* Switch to CMake? (HELP WANTED)
   * use `CMAKE_EXPORT_COMPILE_COMMANDS` to export `compile_commands.json` that analysis tools etc. might use (eg clang-tidy)
 * Move examples and tests Makefile rules into their own Makefiles (with their
   own dependencies)?  (Makes CI builds slightly faster if we skip examples and
@@ -51,7 +55,7 @@ TODO
 * Change robot parameter file loading to also check user home directory
 * Remove `ArStringInfoGroup` (merge with data logger, let classes
   supply data accessors for data logger or other higher level uses
-  such as UI, middleware, etc.)
+  such as UI, middleware, etc.) Remove "Holder" classes.
 * Split robot config value storage (public ArRobotConfig) from
   ArRobotConfigPacketReader (becomes internally used only). (Note there was an
   old "ArRobotConfig" class but nothing actually ever used it.)
@@ -63,9 +67,6 @@ TODO
   lines of code.  ArRobot should be able to do default connection behavior
   with one call, same with laser.  ArRobot.connect()? Aria::connectRobot(robot)?
   Aria::init() should take argc and argv to create an ArArgumentParser.
-* Reduce header dependencies. Fewer files should include Aria.h, ideally none --
-  Aria.h should only be for users who need a single file that includes
-  everything for convenience.
 * Remove `ArDrawingData` (move to ArNetworking registry of what sensor
   visualizations should look like, maybe configurable in server config file)
 * [IN PRG] Remove various features in ARIA that are needed for ArNetworking/ARAM only.
@@ -73,14 +74,14 @@ TODO
   * ArActionKeyDrive? ArRatioInputKeydrive? ArKeyHandler? (Move into demo.cpp like ArModes was)
   * Move rest of classes from ArActionGroups.h/ArActionGroups.cpp into  
      inlined classes in examples/ActionGroups.h used by relevant examples.
-* Add explicit "override" specifier
+* Add explicit "override" specifier to virtual methods that override [IN PRG]
 * overhaul other documentation.  
 * Add more data logger features.
 * Consolidate `src/*.cpp` and `include/*.h` in `aria/` subdirectories? should
   match header installation directory.  
 * Move `matlab/ariac` to `ariac/`. Update matlab and ariac-rust builds.
 * Remove weird stuff in ArSystemStatus
-* Start adding some real unit testing?
+* Start adding some real unit testing? (HELP WANTED)
   * use doctest in python examples and tests, or in an examples/tests file?
   * Use unit tests to check against regressions as we do the refactoring in this
     list.
@@ -235,7 +236,7 @@ TODO
   into an internal include directory inside src.  Only public API should be in
   include/
 * Keep finding 'protected' members to make 'private'.  
-* Keep removing AREXPORT from inline and private members.
+* Keep removing AREXPORT from inline and private members. (IN PRG)
 * Add modern packaging to python wrapper (HELP WANTED)
 * Add better rust packaging to rust wrapper (HELP WANTED)
 * Fix all the sprintf errors in demo.cpp and ARIA (e.g. it's trying to use sprintf to include
@@ -261,6 +262,16 @@ against what was recorded.
 Maybe TODO eventually
 ----------
 
+* Add "talker" prefix filter to ArNMEAParser and ArGPS. I.e. list of talker IDs
+  to accept, ignoring all others.  This would be used on a complex vehicle
+  instrument system in which different "talkers" (sources, devices, instruments)
+  may emit the same sentence types, or to support a GPS receiver that
+  doesn't use "GP" prefix for some reason.   Talker IDs are two characters. 
+  (is check of `std::vector<uint16_t>` or `std::vector<char[2]>`, with vector
+  size probably 1, 2 or 3, a low performance impact? How about a fixed size
+  array of size 6 or something?)
+* Replace ArNMEAParser with the guts of gpsd? (device support and nmea packet
+  parsing layers)
 * Simplify ArMap.  (Restore from older version of ARIA without "Components"?)
 * Possibly refactor ArRobot to be a smaller class. Separate robot communications
   and control/data API from other higher level features
@@ -273,3 +284,4 @@ Maybe TODO eventually
   implementations possible in other libraries or code units, e.g. user custom, ROS, HTTP REST, etc.)
 * Develop logging (ArLog) further. Or replace with spdlog and {fmt}.
 * enums in config items
+
