@@ -121,8 +121,38 @@ public:
   /// Sleep for the given number of milliseconds
   /// @ingroup easy
   AREXPORT static void sleep(unsigned int ms);
+
+  /// Sleep for the given number of milliseconds.  These are convenience
+  /// functions that accepts a signed argument types ( e.g. long used in
+  /// ArTime), and calls sleep(unsigned int ms) with the converted value, if
+  /// possible.
+  /// @param ms Time to sleep in milliseconds. If negative or zero, return immediately.
+  ///           If too large to pass as an unsigned int, use UINT_MAX.
+  /// @ingroup easy
+  /// @todo Maybe print warnings (in debug mode only?) with arguments outside of
+  /// range
+  //@{
+  static void sleep(long ms) {
+    if(ms <= 0) {
+      return;
+    }
+    if(ms > UINT_MAX) {
+      sleep(UINT_MAX);
+    }
+    else sleep((unsigned int)ms);
+  }
+  static void sleep(int ms) {
+    if(ms <= 0) {
+      return;
+    }
+    if(ms > INT_MAX) {
+      sleep(INT_MAX);
+    }
+    else sleep((unsigned int)ms);
+  }
+  //@}
   
-  /// Get the time in milliseconds
+  /// Get the time in milliseconds.
   AREXPORT static unsigned int getTime();
 
 #ifndef ARIA_WRAPPER

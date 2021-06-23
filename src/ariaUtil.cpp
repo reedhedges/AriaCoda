@@ -148,6 +148,9 @@ ArMutex ArUtil::ourLocaltimeMutex;
 hardware with a known response time.  To perform actions at specific intervals,
 however, use the ArTime timer utility instead, or the ArUtil::getTime() method
 to check time.
+ Note that the maximum sleep time will be the maximum value that can be held by
+ the @a ms argument, an unsigned
+ int. (UINT_MAX, or 4,294,967,295, or about 50 days.) 
   @note in Linux, it actually calls the system usleep() function with 10 ms less
 than the desired sleep time, since usleep() can sleep for about 10 ms. more than
 requested (for small sleep times especially, it sleeps for the next highest
