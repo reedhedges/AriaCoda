@@ -1324,7 +1324,8 @@ AREXPORT void ArMapScan::loadDataPoint(double x, double y)
   if (y < myMin.getY())
     myMin.setY(y);
   
-  myPoints.push_back(ArPose(x, y));
+  //myPoints.push_back(ArPose(x, y));
+  myPoints.emplace_back(x, y);
   
 } // end method loadDataPoint
 
@@ -1352,7 +1353,8 @@ AREXPORT void ArMapScan::loadLineSegment(double x1, double y1,
   if (y2 < myLineMin.getY())
     myLineMin.setY(y2);
   
-  myLines.push_back(ArLineSegment(x1, y1, x2, y2));
+  //myLines.push_back(ArLineSegment(x1, y1, x2, y2));
+  myLines.emplace_back(x1, y1, x2, y2);
 
 } // end method loadLineSegment
 

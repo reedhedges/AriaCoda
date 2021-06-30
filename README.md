@@ -91,11 +91,18 @@ Several major changes have been made for AriaCoda since the last release of Aria
   destructors) have been removed. If you derive from any ARIA class and intend
   to override a method, the use of the "override" specifier is encouraged;
   the C++ compiler should then warn if the base class method is not virtual.
-* Many small fixes and changes to improve optimization and
+* Various fixes and changes to improve optimization and
   conformance/correctness.  Due to code removal, various optimizations in the 
-  source code, and compilation optimizations turned on by default, the AriaCoda
-  shared library should be smaller, and a bit more efficient. 
-  This may have introduced bugs or changes in behavior however,
+  source code (especially in frequently used storage and utility classes such 
+  as ArSensorReading, ArRangeBuffer, ArRangeDevice, ArPose, etc), and compilation 
+  optimizations turned on by default, the AriaCoda
+  shared library should be a bit more efficient.  (It is slightly larger,
+  probably due to code inlining and loop unrolling during optimization; the
+  `CXXOPTFLAGS` makefile variable can be used to override default opmitization
+  flags, see below for details.)
+  Additional warning flags have been enabled during compilation, and some 
+  of the potential problems indicated by those warnings have been fixed.
+  If any changes have introduced undetected bugs or unintentional changes in behavior,
   please report any problems on github issues.
 
 Several other changes are planned that will not be compatible with prior Aria
@@ -191,6 +198,12 @@ Mac OSX:
     export DYLIB_LIBRARY_PATH=$DYLIB_LIBRARY_PATH:~/AriaCoda/lib
 
 Replace `~/AriaCoda` with the correct path to your AriaCoda source directory.
+
+The Makefile used to build AriaCoda on Linux and MacOSX uses certain variables
+to contain compilation flags, compiler command name, and optional features. 
+Run `make help` for a brief description. These can be set in the shell 
+environment or on the command line when running `make`.
+
 
 Installation
 ------------

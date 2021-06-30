@@ -48,7 +48,6 @@ AREXPORT ArForbiddenRangeDevice::ArForbiddenRangeDevice(
   myDataMutex(),
   myMap(armap),
   myDistanceIncrement(distanceIncrement),
-  mySegments(),
   myProcessCB(this, &ArForbiddenRangeDevice::processReadings),
   myMapChangedCB(this, &ArForbiddenRangeDevice::processMap)  ,
   myIsEnabled(true),
@@ -67,42 +66,40 @@ AREXPORT ArForbiddenRangeDevice::ArForbiddenRangeDevice(
 
 AREXPORT void ArForbiddenRangeDevice::processMap()
 {
-  std::list<ArMapObject *>::const_iterator it;
-  ArMapObject *obj;
-
   myDataMutex.lock();
-  ArUtil::deleteSet(mySegments.begin(), mySegments.end());
+//  ArUtil::deleteSet(mySegments.begin(), mySegments.end());
   mySegments.clear();
-
-  for (it = myMap->getMapObjects()->begin();
-       it != myMap->getMapObjects()->end();
-       it++)
+  mySegments.reserve(myMap->getMapObjects()->size() * 4);
+  for (auto it = myMap->getMapObjects()->cbegin();
+       it != myMap->getMapObjects()->cend();
+       ++it)
   {
-    obj = (*it);
-    if (strcmp(obj->getType(), "ForbiddenLine") == 0 &&
-	obj->hasFromTo())
+    if (strcmp(it->getType(), "ForbiddenLine") == 0 && it->hasFromTo())
     {
-      mySegments.push_back(new ArLineSegment(obj->getFromPose(), 
-					     obj->getToPose()));
+      mySegments.push_back(ArLineSegment(it->getFromPose(), 
+					     it->getToPose()));
     }
-    if (strcmp(obj->getType(), "ForbiddenArea") == 0 &&
-	obj->hasFromTo())
+    if (strcmp(it->getType(), "ForbiddenArea") == 0 && it->hasFromTo())
     {
-      double angle = obj->getPose().getTh();
-      double sa = ArMath::sin(angle);
-      double ca = ArMath::cos(angle);
-      double fx = obj->getFromPose().getX();
-      double fy = obj->getFromPose().getY();
-      double tx = obj->getToPose().getX();
-      double ty = obj->getToPose().getY();
-      ArPose P0((fx*ca - fy*sa), (fx*sa + fy*ca));
-      ArPose P1((tx*ca - fy*sa), (tx*sa + fy*ca));
-      ArPose P2((tx*ca - ty*sa), (tx*sa + ty*ca));
-      ArPose P3((fx*ca - ty*sa), (fx*sa + ty*ca));
-      mySegments.push_back(new ArLineSegment(P0, P1));
-      mySegments.push_back(new ArLineSegment(P1, P2));
-      mySegments.push_back(new ArLineSegment(P2, P3));
-      mySegments.push_back(new ArLineSegment(P3, P0));
+      const double angle = it->getPose().getTh();
+      const double sa = ArMath::sin(angle);
+      const double ca = ArMath::cos(angle);
+      const double fx = it->getFromPose().getX();
+      const double fy = it->getFromPose().getY();
+      const double tx = it->getToPose().getX();
+      const double ty = it->getToPose().getY();
+      const ArPose P0((fx*ca - fy*sa), (fx*sa + fy*ca));
+      const ArPose P1((tx*ca - fy*sa), (tx*sa + fy*ca));
+      const ArPose P2((tx*ca - ty*sa), (tx*sa + ty*ca));
+      const ArPose P3((fx*ca - ty*sa), (fx*sa + ty*ca));
+      //mySegments.push_back(ArLineSegment(P0, P1));
+      //mySegments.push_back(ArLineSegment(P1, P2));
+      //mySegments.push_back(ArLineSegment(P2, P3));
+      //mySegments.push_back(ArLineSegment(P3, P0));
+      mySegments.emplace_back(P0, P1);
+      mySegments.emplace_back(P1, P2);
+      mySegments.emplace_back(P2, P3);
+      mySegments.emplace_back(P3, P0);
     }
   }
   myDataMutex.unlock();
@@ -110,9 +107,6 @@ AREXPORT void ArForbiddenRangeDevice::processMap()
 
 AREXPORT void ArForbiddenRangeDevice::processReadings()
 {
-  ArPose intersection;
-  std::list<ArLineSegment *>::iterator it;
-  
   lockDevice();
   myDataMutex.lock();
 
@@ -126,62 +120,47 @@ AREXPORT void ArForbiddenRangeDevice::processReadings()
     return;
   }
 
-  ArLineSegment *segment;
-  ArPose start;
-  double startX;
-  double startY;
-  ArPose end;
-  double angle;
-  double length;
-  double gone;
-  double sin;
-  double cos;
-  double atX;
-  double atY;
-  double robotX = myRobot->getX();
-  double robotY = myRobot->getY();
-  double max = (double) myMaxRange;
-  double maxSquared = (double) myMaxRange * (double) myMaxRange;
+  const double robotX = myRobot->getX();
+  const double robotY = myRobot->getY();
+  const double max = (double) myMaxRange;
+  const double maxSquared = (double) myMaxRange * (double) myMaxRange;
   ArTime startingTime;
   //startingTime.setToNow();
   // now see if the end points of the segments are too close to us
-  for (it = mySegments.begin(); it != mySegments.end(); it++)
+  for (auto it = mySegments.begin(); it != mySegments.end(); it++)
   {
-    segment = (*it);
     // if either end point or some perpindicular point is close to us
     // add the line's data
     if (ArMath::squaredDistanceBetween(
-	    segment->getX1(), segment->getY1(), 
-	    myRobot->getX(), myRobot->getY()) < maxSquared ||
-	ArMath::squaredDistanceBetween(
-		segment->getX2(), segment->getY2(), 
-		myRobot->getX(), myRobot->getY()) < maxSquared ||
-	segment->getPerpDist(myRobot->getPose()) < max)
+        it->getX1(), it->getY1(), 
+        myRobot->getX(), myRobot->getY()) < maxSquared ||
+      ArMath::squaredDistanceBetween(
+        it->getX2(), it->getY2(), 
+        myRobot->getX(), myRobot->getY()) < maxSquared ||
+      it->getPerpDist(myRobot->getPose()) < max)
     {
-      start.setPose(segment->getX1(), segment->getY1());
-      end.setPose(segment->getX2(), segment->getY2());
-      angle = start.findAngleTo(end);
-      cos = ArMath::cos(angle);
-      sin = ArMath::sin(angle);
-      startX = start.getX();
-      startY = start.getY();
-      length = start.findDistanceTo(end);
+      const ArPose start(it->getX1(), it->getY1());
+      const ArPose end(it->getX2(), it->getY2());
+      const double angle = start.findAngleTo(end);
+      const double cos = ArMath::cos(angle);
+      const double sin = ArMath::sin(angle);
+      const double startX = start.getX();
+      const double startY = start.getY();
+      const double length = start.findDistanceTo(end);
       // first put in the start point if we should
-      if (ArMath::squaredDistanceBetween(
-	      startX, startY, robotX, robotY) < maxSquared)
-	myCurrentBuffer.redoReading(start.getX(), start.getY());
+      if (ArMath::squaredDistanceBetween(startX, startY, robotX, robotY) < maxSquared)
+        myCurrentBuffer.redoReading(start.getX(), start.getY());
       // now walk the length of the line and see if we should put the points in
-      for (gone = 0; gone < length; gone += myDistanceIncrement)
+      for (double gone = 0; gone < length; gone += myDistanceIncrement)
       {
-	atX = startX + gone * cos;
-	atY = startY + gone * sin;
-	if (ArMath::squaredDistanceBetween(
-		atX, atY, robotX, robotY) < maxSquared)
-	  myCurrentBuffer.redoReading(atX, atY);
+        const double atX = startX + gone * cos;
+        const double atY = startY + gone * sin;
+        if (ArMath::squaredDistanceBetween(atX, atY, robotX, robotY) < maxSquared)
+          myCurrentBuffer.redoReading(atX, atY);
       }
       // now check the end point
       if (end.squaredFindDistanceTo(myRobot->getPose()) < maxSquared)
-	myCurrentBuffer.redoReading(end.getX(), end.getY());
+        myCurrentBuffer.redoReading(end.getX(), end.getY());
     }
   }
   myDataMutex.unlock();

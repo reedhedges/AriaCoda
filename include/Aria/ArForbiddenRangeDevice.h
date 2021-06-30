@@ -61,7 +61,7 @@ protected:
   ArMutex myDataMutex;
   ArMapInterface *myMap;
   double myDistanceIncrement;
-  std::list<ArLineSegment *> mySegments;
+  std::vector<ArLineSegment> mySegments;
   ArFunctorC<ArForbiddenRangeDevice> myProcessCB;
   ArFunctorC<ArForbiddenRangeDevice> myMapChangedCB;
   bool myIsEnabled;

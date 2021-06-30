@@ -84,9 +84,9 @@ AREXPORT ArMapObject *ArMapObject::createMapObject(ArArgumentBuilder *arg)
 
   if (isSuccess) {
 
-    double x  = arg->getArgDouble(1, &xOk);  
-    double y  = arg->getArgDouble(2, &yOk);
-	  double th = arg->getArgDouble(3, &thOk);
+    const double x  = arg->getArgDouble(1, &xOk);  
+    const double y  = arg->getArgDouble(2, &yOk);
+	  const double th = arg->getArgDouble(3, &thOk);
     
     if (xOk && yOk && thOk) {
       pose.setPose(x, y, th);
@@ -99,8 +99,10 @@ AREXPORT ArMapObject *ArMapObject::createMapObject(ArArgumentBuilder *arg)
   if (isSuccess) { 
 
     const char *fileArg = arg->getArg(4);
-    int fileBufferLen = strlen(fileArg) + 1;
+    const size_t fileBufferLen = strlen(fileArg) + 1;
     fileBuffer = new char[fileBufferLen];
+    // TODO use std::string or similar instead of allocating a new char buffer
+    // here
   
      if (!ArUtil::stripQuotes(fileBuffer, fileArg, fileBufferLen))
      {
@@ -114,8 +116,10 @@ AREXPORT ArMapObject *ArMapObject::createMapObject(ArArgumentBuilder *arg)
   if (isSuccess) {
 
     const char *nameArg = arg->getArg(6);
-    int nameBufferLen = strlen(nameArg) + 1;
+    const size_t nameBufferLen = strlen(nameArg) + 1;
     nameBuffer = new char[nameBufferLen];
+    // TODO use std::string or similar instead of allocating a new char buffer
+    // here
   
     if (!ArUtil::stripQuotes(nameBuffer, nameArg, nameBufferLen))
     {
@@ -248,10 +252,14 @@ AREXPORT void ArMapObject::setFromTo(ArPose fromPose, ArPose toPose)
     ArPose P2((tx*ca - ty*sa), (tx*sa + ty*ca));
     ArPose P3((fx*ca - ty*sa), (fx*sa + ty*ca));
     myFromToSegments.clear();
-    myFromToSegments.push_back(ArLineSegment(P0, P1));
-    myFromToSegments.push_back(ArLineSegment(P1, P2));
-    myFromToSegments.push_back(ArLineSegment(P2, P3));
-    myFromToSegments.push_back(ArLineSegment(P3, P0));
+    //myFromToSegments.push_back(ArLineSegment(P0, P1));
+    //myFromToSegments.push_back(ArLineSegment(P1, P2));
+    //myFromToSegments.push_back(ArLineSegment(P2, P3));
+    //myFromToSegments.push_back(ArLineSegment(P3, P0));
+    myFromToSegments.emplace_back(P0, P1);
+    myFromToSegments.emplace_back(P1, P2);
+    myFromToSegments.emplace_back(P2, P3);
+    myFromToSegments.emplace_back(P3, P0);
     myFromToSegment.newEndPoints(fromPose, toPose);
     myFromPose = fromPose;
     myToPose = toPose;
@@ -605,10 +613,14 @@ AREXPORT  std::vector<ArPose> ArMapObject::getRegionVertices() const
   const double tx = getToPose().getX();
   const double ty = getToPose().getY();
   v.reserve(4);
-  v.push_back(ArPose((fx*ca - fy*sa), (fx*sa + fy*ca)));
-  v.push_back(ArPose((tx*ca - fy*sa), (tx*sa + fy*ca)));
-  v.push_back(ArPose((tx*ca - ty*sa), (tx*sa + ty*ca)));
-  v.push_back(ArPose((fx*ca - ty*sa), (fx*sa + ty*ca)));
+  //v.push_back(ArPose((fx*ca - fy*sa), (fx*sa + fy*ca)));
+  //v.push_back(ArPose((tx*ca - fy*sa), (tx*sa + fy*ca)));
+  //v.push_back(ArPose((tx*ca - ty*sa), (tx*sa + ty*ca)));
+  //v.push_back(ArPose((fx*ca - ty*sa), (fx*sa + ty*ca)));
+  v.emplace_back((fx*ca - fy*sa), (fx*sa + fy*ca));
+  v.emplace_back((tx*ca - fy*sa), (tx*sa + fy*ca));
+  v.emplace_back((tx*ca - ty*sa), (tx*sa + ty*ca));
+  v.emplace_back((fx*ca - ty*sa), (fx*sa + ty*ca));
   return v;
 }
 

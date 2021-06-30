@@ -96,10 +96,13 @@ protected:
   bool myReceivedData;
   static const bool mySRISimCompat = true;
 
-  std::list<ArSensorReading *>::iterator myIter;
   // range buffers to hold current range set and assembling range set
-  std::list<ArSensorReading *> *myAssembleReadings;
-  std::list<ArSensorReading *> *myCurrentReadings;
+  // XXX TODO change these to list<ArSensorReading> instead of holding pointers
+  std::list<ArSensorReading*>::iterator myIter;
+  std::list<ArSensorReading*> myReadingsBuffer1;
+  std::list<ArSensorReading*> myReadingsBuffer2;
+  std::list<ArSensorReading*> *myAssembleReadings;
+  std::list<ArSensorReading*> *myCurrentReadings;
 
   ArRetFunctor1C<bool, ArSimulatedLaser, ArRobotPacket *> mySimPacketHandler;
 };

@@ -166,11 +166,14 @@ protected:
   ArFunctorC<ArLMS2xx> myRobotConnectCB;
   ArRetFunctor1C<bool, ArLMS2xx, ArRobotPacket *> mySimPacketHandler;
   ArFunctorC<ArLMS2xx> mySensorInterpCB;
-  std::list<ArSensorReading *>::iterator myIter;
   bool myStartConnect;
   bool myRunningOnRobot;
 
   // range buffers to hold current range set and assembling range set
+  // TODO change to pointers to member lists ratherh than allocating in
+  // constructor.
+  // TODO chang eto list<ArSensorReading> rather than list of pointers
+  std::list<ArSensorReading *>::iterator myIter;
   std::list<ArSensorReading *> *myAssembleReadings;
   std::list<ArSensorReading *> *myCurrentReadings;
 

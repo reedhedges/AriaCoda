@@ -117,8 +117,8 @@ AREXPORT ArSimulatedLaser::ArSimulatedLaser(ArLaser *laser) :
   myStartConnect = false;
   myIsConnected = false;
   myTryingToConnect = false;
-  myAssembleReadings = new std::list<ArSensorReading *>;
-  myCurrentReadings = new std::list<ArSensorReading *>;
+  myAssembleReadings = &myReadingsBuffer1; //new std::list<ArSensorReading>;
+  myCurrentReadings = &myReadingsBuffer2; //new std::list<ArSensorReading>;
   myRawReadings = myCurrentReadings;
   myIter = myAssembleReadings->begin();
   myDataCBList.setLogging(false);
@@ -420,7 +420,7 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
 
   myReceivedData = true;
 
-  bool isExtendedPacket = (packet->getID() == 0x61);
+  const bool isExtendedPacket = (packet->getID() == 0x61);
    
   // if we got here, its the right type of packet
 
@@ -446,6 +446,10 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
     mySimPacketCounter = myRobot->getCounter();
   }
   //printf("ArSimulatedLaser::simPacketHandler: On reading number %d out of %d, new %d\n", readingNumber, totalNumReadings, newReadings);
+
+  // TODO is this reimplementing behavior of ArRangeBuffer and ArRangeDevice?
+  // Is there a reason we are managing our own readings first?
+
   // if we have too many readings in our list of raw readings, pop the extras
   while (myAssembleReadings->size() > totalNumReadings)
   {
@@ -476,8 +480,8 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
       tempIt++;
       if (tempIt == myAssembleReadings->end() && (i + 1 != myTotalNumReadings))
       {
-	myAssembleReadings->push_back(new ArSensorReading);
-	//printf("@\n");
+        myAssembleReadings->push_back(new ArSensorReading);
+        //printf("@\n");
       }
       myIter++;
     }
@@ -543,8 +547,7 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
     //addReading(reading->getX(), reading->getY());
     tempIt = myIter;
     tempIt++;
-    if (tempIt == myAssembleReadings->end() && 
-	myWhichReading + 1 != myTotalNumReadings)
+    if (tempIt == myAssembleReadings->end() && myWhichReading + 1 != myTotalNumReadings)
     {
       printf("!\n");
       myAssembleReadings->push_back(new ArSensorReading);

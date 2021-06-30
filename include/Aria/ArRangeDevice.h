@@ -501,7 +501,12 @@ protected:
   ArPose myMaxInsertDistCumulativePose;
 
   ArFunctorC<ArRangeDevice> myFilterCB;
+
+  /// Subclasses may optionally set this pointer to a list of "raw" unprocessed readings. 
+  // XXX TODO change these to list<ArSensorReading> pointers.
   std::list<ArSensorReading *> *myRawReadings;
+  /// Subclasses may optionally set this pointer to a list of "raw" unprocessed readings (adjusted for robot position)
+  // XXX TODO change these to list<ArSensorReading> pointers.
   std::list<ArSensorReading *> *myAdjustedRawReadings;
   ArDrawingData *myCurrentDrawingData;
   bool myOwnCurrentDrawingData;

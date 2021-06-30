@@ -2120,40 +2120,34 @@ std::list<std::string> ArUtil::splitFileName(const char *fileName)
   if (fileName == NULL)
     return split;
 
-  char separator;  
 #ifndef WIN32
-  separator = '/';
+  const char separator = '/';
 #else
-  separator = '\\';
+  const char separator = '\\';
 #endif
 
-  size_t len;
-  size_t i;
-  size_t last;
-  bool justSepped;
+  const size_t len = strlen(fileName);;
+  size_t last = 0;
+  bool justSepped = false;
   char entry[2048];
-  for (i = 0, justSepped = false, last = 0, len = strlen(fileName); 
-       ; 
-       i++)
+  for (size_t i = 0; ; i++)
   {
     
-    if ((fileName[i] == separator && !justSepped) 
-	|| fileName[i] == '\0' || i >= len)
+    if ((fileName[i] == separator && !justSepped) || fileName[i] == '\0' || i >= len)
     {
       if (i - last > 2047)
       {
-	ArLog::log(ArLog::Normal, "ArUtil::splitFileName: some directory or file too long");
+        ArLog::log(ArLog::Normal, "ArUtil::splitFileName: some directory or file too long");
       }
       if (!justSepped)
       {
-	strncpy(entry, &fileName[last], i - last);
-	entry[i-last] = '\0';
-	split.push_back(entry);
-
-	justSepped = true;
+        strncpy(entry, &fileName[last], i - last);
+        entry[i-last] = '\0';
+        split.push_back(entry);
+        justSepped = true;
       }
       if (fileName[i] == '\0' || i >= len)
-	return split;
+        return split;
     }
     else if (fileName[i] == separator && justSepped)
     {
@@ -2846,127 +2840,108 @@ ArLog::LogLevel ArDeviceConnectionCreatorHelper::setSuccessLogLevel()
   return ourSuccessLogLevel;
 }
 
-AREXPORT std::list<ArPose> ArPoseUtil::findCornersFromRobotBounds(
+// TODO return std::array<8, ArPose>
+/// @param fastButUnsafe Must be true, false is unimplemented condition
+AREXPORT std::vector<ArPose> ArPoseUtil::findCornersFromRobotBounds(
 	double radius, double widthLeft, double widthRight, 
 	double lengthFront, double lengthRear, bool fastButUnsafe)
 {
 
-  std::list<ArPose> ret;
+  std::vector<ArPose> ret;
 
-  if (fastButUnsafe)
-  {
+  // condition where fastButUnsafe is false was never implemented?
+  assert(fastButUnsafe);
+  //if (fastButUnsafe)
+  //{
     ArPose frontLeft;   
     if (lengthFront >= radius && widthLeft >= radius)
-      frontLeft.setPose(lengthFront,
-			widthLeft);
+      frontLeft.setPose(lengthFront, widthLeft);
     else if (lengthFront >= radius)
-      frontLeft.setPose(lengthFront,
-			0);
+      frontLeft.setPose(lengthFront, 0);
     else
-      frontLeft.setPose(lengthFront,
-			sqrt(radius * radius - lengthFront * lengthFront));
+      frontLeft.setPose(lengthFront, sqrt(radius * radius - lengthFront * lengthFront));
     
     ArPose leftFront;
     if (widthLeft >= radius && lengthFront >= radius)
-      leftFront.setPose(lengthFront, 
-			widthLeft);
+      leftFront.setPose(lengthFront, widthLeft);
     else if (widthLeft >= radius)
-      leftFront.setPose(0, 
-			widthLeft);
+      leftFront.setPose(0, widthLeft);
     else
-      leftFront.setPose(sqrt(radius * radius - widthLeft * widthLeft),
-			widthLeft);
+      leftFront.setPose(sqrt(radius * radius - widthLeft * widthLeft), widthLeft);
 
     ArPose leftRear;
     if (widthLeft >= radius && lengthRear >= radius)
-      leftRear.setPose(-lengthRear, 
-		       widthLeft);
+      leftRear.setPose(-lengthRear, widthLeft);
     else if (widthLeft >= radius)
-      leftRear.setPose(0, 
-		       widthLeft);
+      leftRear.setPose(0, widthLeft);
     else
-      leftRear.setPose(-sqrt(radius * radius - widthLeft * widthLeft),
-		       widthLeft);
+      leftRear.setPose(-sqrt(radius * radius - widthLeft * widthLeft), widthLeft);
 
     ArPose rearLeft;
     if (lengthRear >= radius && widthLeft >= radius)
-      rearLeft.setPose(-lengthRear, 
-		       widthLeft);
+      rearLeft.setPose(-lengthRear, widthLeft);
     else if (lengthRear >= radius)
-      rearLeft.setPose(-lengthRear, 
-		       0);
+      rearLeft.setPose(-lengthRear, 0);
     else
-      rearLeft.setPose(-lengthRear,
-		       sqrt(radius * radius - lengthRear * lengthRear ));
+      rearLeft.setPose(-lengthRear, sqrt(radius * radius - lengthRear * lengthRear ));
 
 
     ArPose rearRight;
     if (lengthRear >= radius && widthRight >= radius)
-      rearRight.setPose(-lengthRear, 
-			-widthRight);
+      rearRight.setPose(-lengthRear, -widthRight);
     else if (lengthRear >= radius)
-      rearRight.setPose(-lengthRear, 
-		       0);
+      rearRight.setPose(-lengthRear, 0);
     else
-      rearRight.setPose(-lengthRear,
-			-sqrt(radius * radius - lengthRear * lengthRear));
+      rearRight.setPose(-lengthRear, -sqrt(radius * radius - lengthRear * lengthRear));
 
 
     ArPose rightRear;
     if (widthRight >= radius && lengthRear >= radius)      
-      rightRear.setPose(-lengthRear, 
-			-widthRight);
+      rightRear.setPose(-lengthRear, -widthRight);
     else if (widthRight >= radius)
-      rightRear.setPose(0, 
-			-widthRight);
+      rightRear.setPose(0, -widthRight);
     else
-      rightRear.setPose(-sqrt(radius * radius - widthRight * widthRight),
-			-widthRight);
+      rightRear.setPose(-sqrt(radius * radius - widthRight * widthRight), -widthRight);
 
     ArPose rightFront;
     if (widthRight >= radius && lengthFront >= radius)
-      rightFront.setPose(lengthFront, 
-			 -widthRight);
+      rightFront.setPose(lengthFront, -widthRight);
     else if (widthRight >= radius)
-      rightFront.setPose(0, 
-			-widthRight);
+      rightFront.setPose(0, -widthRight);
     else
-      rightFront.setPose(sqrt(radius * radius - widthRight * widthRight),
-			 -widthRight);
+      rightFront.setPose(sqrt(radius * radius - widthRight * widthRight), -widthRight);
 
     ArPose frontRight;
     if (lengthFront >= radius && widthRight >= radius)
-      frontRight.setPose(lengthFront,
-			 -widthRight);
+      frontRight.setPose(lengthFront, -widthRight);
     else if (lengthFront >= radius)
-      frontRight.setPose(lengthFront,
-			0);
+      frontRight.setPose(lengthFront, 0);
     else
-      frontRight.setPose(lengthFront,
-			 -sqrt(radius * radius - lengthFront * lengthFront));
+      frontRight.setPose(lengthFront, -sqrt(radius * radius - lengthFront * lengthFront));
 
     if (frontRight.squaredFindDistanceTo(frontLeft) > 1)
-      ret.push_back(frontLeft);
+      ret.push_back(std::move(frontLeft));
 
     if (frontLeft.squaredFindDistanceTo(leftFront) > 1)
-      ret.push_back(leftFront);
+      ret.push_back(std::move(leftFront));
     if (leftFront.squaredFindDistanceTo(leftRear) > 1)
-      ret.push_back(leftRear);
+      ret.push_back(std::move(leftRear));
 
     if (leftRear.squaredFindDistanceTo(rearLeft) > 1) 
-      ret.push_back(rearLeft);
+      ret.push_back(std::move(rearLeft));
     if (rearLeft.squaredFindDistanceTo(rearRight) > 1) 
-      ret.push_back(rearRight);
+      ret.push_back(std::move(rearRight));
 
     if (rearRight.squaredFindDistanceTo(rightRear) > 1)
-      ret.push_back(rightRear);
+      ret.push_back(std::move(rightRear));
     if (rightRear.squaredFindDistanceTo(rightFront) > 1)
-      ret.push_back(rightFront);
+      ret.push_back(std::move(rightFront));
 
     if (rightFront.squaredFindDistanceTo(frontRight) > 1)
-      ret.push_back(frontRight);
-    return ret;
-  }
+      ret.push_back(std::move(frontRight));
+
+    //return ret;
+  //}
 
   return ret;
 
@@ -3078,18 +3053,18 @@ AREXPORT std::list<ArPose> ArPoseUtil::breakUpDistanceEvenly(
 {
   std::list<ArPose> ret;
 
-  ret.push_back(start);
+  ret.push_back(std::move(start));
 
-  double dist = start.findDistanceTo(end);
-  double angle = start.findAngleTo(end);
-  double cos = ArMath::cos(angle);
-  double sin = ArMath::sin(angle);
+  const double dist = start.findDistanceTo(end);
+  const double angle = start.findAngleTo(end);
+  const double cos = ArMath::cos(angle);
+  const double sin = ArMath::sin(angle);
 
   if (dist > resolution)
   {
     // we're using integer truncation here
-    int steps = (int) (dist / (double)resolution + 1);
-    double increment = dist / (double)steps;
+    const int steps = (int) (dist / (double)resolution + 1);
+    const double increment = dist / (double)steps;
 
     double atX = start.getX();
     double atY = start.getY();
@@ -3099,11 +3074,11 @@ AREXPORT std::list<ArPose> ArPoseUtil::breakUpDistanceEvenly(
     {
       atX += increment * cos;
       atY += increment * sin;
-      ret.push_back(ArPose(atX, atY));
+      ret.emplace_back(atX, atY); // construct ArPose(atX, atY) in new list item
     }
   }
 
-  ret.push_back(end);
+  ret.push_back(std::move(end));
   return ret;
 }
 
@@ -3174,7 +3149,7 @@ AREXPORT unsigned long ArUtil::availableDiskSpaceKB(const char *path, bool *ok)
   }
 #else
   struct statvfs s;
-  int r = statvfs(path, &s);
+  const int r = statvfs(path, &s);
   if(r == 0) {
     if(ok) *ok = true;
     return s.f_bavail * s.f_frsize / 1024;

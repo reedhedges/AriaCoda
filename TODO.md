@@ -6,6 +6,14 @@ If you would like to contribute, consider items below labelled "HELP WANTED", or
 any improvement or change that would make this library more useful for you or
 easier to use.  Contact me or discuss on the GitHub page.
 
+* In packet receivers e.g. ArRobotPacketReceiver, return ArRobotPacket by value
+  as data, with all callers using std::move to move it to temporary or to store it? 
+* In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
+  list<ArSensorReading> rather than list<ArSensorReading*> and don't allocate
+  each one. Use emplace_back when creating a new ArSensorReading objects for the
+  list. [It looks like all uses of myRawReadings etc. are allocating new
+  ArSensorReading objects with "new", not borrowing/sharing pointers to existing
+  ArSensorReading objects.
 * Fix unnecessary virtual inheritance.  
   * Virtual inheritance must be used for
   interface implementations, i.e. subclasses of:
@@ -266,7 +274,7 @@ Maybe TODO eventually
   to accept, ignoring all others.  This would be used on a complex vehicle
   instrument system in which different "talkers" (sources, devices, instruments)
   may emit the same sentence types, or to support a GPS receiver that
-  doesn't use "GP" prefix for some reason.   Talker IDs are two characters. 
+  doesn't use "GP" prefix for some reason.   Talker IDs are two characters.
   (is check of `std::vector<uint16_t>` or `std::vector<char[2]>`, with vector
   size probably 1, 2 or 3, a low performance impact? How about a fixed size
   array of size 6 or something?)
@@ -284,4 +292,3 @@ Maybe TODO eventually
   implementations possible in other libraries or code units, e.g. user custom, ROS, HTTP REST, etc.)
 * Develop logging (ArLog) further. Or replace with spdlog and {fmt}.
 * enums in config items
-
