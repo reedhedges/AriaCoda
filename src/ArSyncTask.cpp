@@ -265,7 +265,6 @@ AREXPORT void ArSyncTask::run()
   if (myFunctor != NULL)
     myFunctor->invoke();
   const long took = runTime.mSecSince();
-  assert(took > 0);
   long warningTime = 0;
   if (myNoTimeWarningCB != NULL && !myNoTimeWarningCB->invokeR() && 
       myFunctor != NULL && myWarningTimeCB != NULL &&
