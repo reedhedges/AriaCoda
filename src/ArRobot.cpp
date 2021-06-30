@@ -1028,7 +1028,7 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
     // needed for the old infowave radio modem:
     if (dynamic_cast<ArSerialConnection *>(myConn))
     {
-      myConn->write("WMS2\15", strlen("WMS2\15"));
+      myConn->write("WMS2\15", (unsigned int)strlen("WMS2\15"));
     }
 
     // here we're flushing out all previously received packets

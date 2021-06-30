@@ -77,11 +77,14 @@ void ArSocket::internalInit()
 }
 
 /// Normally, write() should be used instead. This is a wrapper around the sendto() system call.
-AREXPORT int ArSocket::sendTo(const void *msg, int len)
+AREXPORT int ArSocket::sendTo(const void *msg, size_t len)
 {
-  int ret;
-  ret = ::sendto(myFD, (char*)msg, len, 0, (struct sockaddr*)&mySin,
-		  sizeof(mySin));
+#ifdef WIN32
+  const int ret = ::sendto(myFD, (char*)msg, (int)len, 0, (struct sockaddr*)&mySin, (int)sizeof(mySin));
+#else
+  const int ret = (int) ::sendto(myFD, msg, len, 0, (struct sockaddr*)&mySin, sizeof(mySin));
+#endif
+
   if (ret > 0)
   {
     mySends++;
@@ -91,12 +94,14 @@ AREXPORT int ArSocket::sendTo(const void *msg, int len)
 }
 
 /// Normally, write() should be used instead. This is a wrapper around the sendto() system call.
-AREXPORT int ArSocket::sendTo(const void *msg, int len, 
-			      struct sockaddr_in *sin)
+AREXPORT int ArSocket::sendTo(const void *msg, size_t len, struct sockaddr_in *sin)
 { 
-  int ret;
-  ret = ::sendto(myFD, (char*)msg, len, 0, (struct sockaddr*)sin,
-		  sizeof(struct sockaddr_in));
+#ifdef WIN32
+  const int ret = ::sendto(myFD, (char*)msg, (int)len, 0, (struct sockaddr*)sin, (int)sizeof(sockaddr_in));
+#else
+  const int ret = (int) ::sendto(myFD, msg, len, 0, (struct sockaddr*)sin, sizeof(struct sockaddr_in));
+#endif
+
   if (ret > 0)
   {
     mySends++;
@@ -107,16 +112,16 @@ AREXPORT int ArSocket::sendTo(const void *msg, int len,
 
 
 /// Normally, read() should be used instead. This is a wrapper around the recvfrom() system call.
-AREXPORT int ArSocket::recvFrom(void *msg, int len, sockaddr_in *sin)
+AREXPORT int ArSocket::recvFrom(void *msg, size_t len, sockaddr_in *sin)
 {
-
 #ifdef WIN32
   int i=sizeof(sockaddr_in);
+  const int ret = ::recvfrom(myFD, (char *)msg, (int)len, 0, (struct sockaddr *)sin, &i);
 #else
   socklen_t i=sizeof(sockaddr_in);
+  const int ret = (int)::recvfrom(myFD, msg, len, 0, (struct sockaddr *)sin, &i);
 #endif
-  int ret;
-  ret = ::recvfrom(myFD, (char*)msg, len, 0, (struct sockaddr*)sin, &i);
+ 
   if (ret > 0)
   {
     myRecvs++;
@@ -134,7 +139,7 @@ AREXPORT int ArSocket::write(const void *buff, size_t len)
 {
   // this is for when we're faking ArNetworking commands over the text server
   if (myFakeWrites)
-    return len;
+    return (int)len;
 
   if (myFD < 0)
   {
@@ -160,7 +165,7 @@ AREXPORT int ArSocket::write(const void *buff, size_t len)
 #ifdef WIN32
   ret = ::send(myFD, (char*)buff, len, 0);
 #else
-  ret = ::write(myFD, (char*)buff, len);
+  ret = (int) ::write(myFD, buff, len);
 #endif
 
   if (ret > 0)
@@ -221,7 +226,7 @@ AREXPORT int ArSocket::read(void *buff, size_t len, unsigned int msWait)
       return 0;
 #endif
   }
-  ret = ::recv(myFD, (char*)buff, len, 0);
+  ret = (int) ::recv(myFD, (char*)buff, len, 0);
   if (ret > 0)
   {
     myRecvs++;
@@ -257,33 +262,26 @@ AREXPORT int ArSocket::read(void *buff, size_t len, unsigned int msWait)
 AREXPORT int ArSocket::writeString(const char *str, ...)
 {
   char buf[10000];
-  int len;
-  int ret;
   myWriteStringMutex.lock();
   va_list ptr;
   va_start(ptr, str);
   vsnprintf(buf, sizeof(buf) - 3, str, ptr);
   va_end(ptr);
-  len = strlen(buf);
+  size_t len = strlen(buf);
   if (myStringWrongEndChars)
   {
-    buf[len] = '\n';
-    len++;
-    buf[len] = '\r';
-    len++;
+    buf[len++] = '\n';
+    buf[len++] = '\r';
   }
   else
   {
-    buf[len] = '\r';
-    len++;
-    buf[len] = '\n';
-    len++;
+    buf[len++] = '\r';
+    buf[len++] = '\n';
   }
-  ret = write(buf, len);
+  const int ret = write(buf, len);
   // this is after the write since we don't send NULLs out the write,
   // but we need them on the log messages or it'll crash
-  buf[len] = '\0';
-  len++;
+  buf[len++] = '\0';
   if (ret <= 0)
   {
     if (ret < 0)

@@ -98,7 +98,7 @@ AREXPORT ArLMS2xxPacket *ArLMS2xxPacketReceiver::receivePacket(
   //unsigned int timeDone;
   //unsigned int curTime;
   long timeToRunFor;
-  long packetLength;
+  long packetLength = 0;
   ArTime timeDone;
   ArTime lastDataRead;
   ArTime packetReceived;
@@ -127,7 +127,8 @@ AREXPORT ArLMS2xxPacket *ArLMS2xxPacketReceiver::receivePacket(
     if (state == STATE_START)
       myDeviceConn->debugStartPacket();
 
-    if (myDeviceConn->read((char *)&c, 1, timeToRunFor) == 0) 
+    assert(timeToRunFor >= 0 && timeToRunFor <= UINT_MAX);
+    if (myDeviceConn->read((char *)&c, 1, (unsigned int)timeToRunFor) == 0) 
     {
       myDeviceConn->debugBytesRead(0);
       if (state == STATE_START)
@@ -192,6 +193,7 @@ AREXPORT ArLMS2xxPacket *ArLMS2xxPacketReceiver::receivePacket(
       state = STATE_ACQUIRE_DATA;
       break;
     case STATE_ACQUIRE_DATA:
+    {
       // the character c is high ordre byte of the packet length count 
       // so we'll just build the length of the packet then get the 
       //rest of the data
@@ -203,60 +205,65 @@ AREXPORT ArLMS2xxPacket *ArLMS2xxPacketReceiver::receivePacket(
       if (packetLength > ((long)myPacket.getMaxLength() -
 			  (long)myPacket.getHeaderLength()))
       {
-	ArLog::log(ArLog::Normal, 
-	   "ArLMS2xxPacketReceiver::receivePacket: packet too long, it is %d long while the maximum is %d.", packetLength, myPacket.getMaxLength());
-	state = STATE_START;
-	//myPacket.log();
-	break;
+        ArLog::log(ArLog::Normal, 
+          "ArLMS2xxPacketReceiver::receivePacket: packet too long, it is %d long while the maximum is %d.", packetLength, myPacket.getMaxLength());
+        state = STATE_START;
+        //myPacket.log();
+        break;
       }
       // here we read until we get as much as we want, OR until
       // we go 100 ms without data... its arbitrary but it doesn't happen often
       // and it'll mean a bad packet anyways
       lastDataRead.setToNow();
-      while (count < packetLength + 2)
+      const long maxPktLen = packetLength + 2;
+      while (count < maxPktLen)
       {
-	numRead = myDeviceConn->read(buf + count, packetLength + 2- count, 1);
-	if (numRead > 0)
-	{	
-	  myDeviceConn->debugBytesRead(numRead);
-	  lastDataRead.setToNow();
-	}
-	else
-	{
-	  myDeviceConn->debugBytesRead(0);
-	}
-	if (lastDataRead.mSecTo() < -100)
-	{
-	  myDeviceConn->debugEndPacket(false, -30);
-	  return NULL;
-	}
-	count += numRead;
+        const long len = maxPktLen - count;
+        assert(len >= 0 && len <= UINT_MAX);
+        numRead = myDeviceConn->read(buf + count, (unsigned int)len, 1);
+        if (numRead > 0)
+        {	
+          myDeviceConn->debugBytesRead(numRead);
+          lastDataRead.setToNow();
+        }
+        else
+        {
+          myDeviceConn->debugBytesRead(0);
+        }
+        if (lastDataRead.mSecTo() < -100)
+        {
+          myDeviceConn->debugEndPacket(false, -30);
+          return NULL;
+        }
+        count += numRead;
       }
-      myPacket.dataToBuf(buf, packetLength + 2);
+
+      myPacket.dataToBuf(buf, (size_t) maxPktLen);
       if (myPacket.verifyCRC()) 
       {
-	myPacket.resetRead();
-	myDeviceConn->debugEndPacket(true, myPacket.getID());
-	//printf("Received ");
-	//myPacket.log();
-	if (myAllocatePackets)
-	{
-	  packet = new ArLMS2xxPacket;
-	  packet->duplicatePacket(&myPacket);
-	  return packet;
-	}
-	else
-	  return &myPacket;
+        myPacket.resetRead();
+        myDeviceConn->debugEndPacket(true, myPacket.getID());
+        //printf("Received ");
+        //myPacket.log();
+        if (myAllocatePackets)
+        {
+          packet = new ArLMS2xxPacket;
+          packet->duplicatePacket(&myPacket);
+          return packet;
+        }
+        else
+	        return &myPacket;
       }
       else 
       {
-	ArLog::log(ArLog::Normal, 
-	   "ArLMS2xxPacketReceiver::receivePacket: bad packet, bad checksum");
-	state = STATE_START;
-	//myPacket.log();
-	break;
+        ArLog::log(ArLog::Normal, 
+          "ArLMS2xxPacketReceiver::receivePacket: bad packet, bad checksum");
+        state = STATE_START;
+        //myPacket.log();
+        break;
       }
       break;
+    }
     default:
       break;
     }

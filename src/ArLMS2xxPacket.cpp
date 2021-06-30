@@ -66,20 +66,17 @@ AREXPORT unsigned char ArLMS2xxPacket::getSendingAddress()
 */
 AREXPORT unsigned char ArLMS2xxPacket::getReceivedAddress()
 {
-  int len = myReadLength;
-  unsigned char address;
-  
   // toss it into the second byte of the packet
   myReadLength = 1;
-  address = bufToUByte();
-  myLength = len;
+  const unsigned char address = bufToUByte();
+  myLength = myReadLength;
   return address;
 }
 
 AREXPORT ArTypes::UByte ArLMS2xxPacket::getID()
 {
  if (myLength >= 5)
-    return myBuf[4];
+    return (ArTypes::UByte) myBuf[4];
   else
     return 0;
 }
@@ -91,8 +88,7 @@ AREXPORT void ArLMS2xxPacket::resetRead()
 
 AREXPORT void ArLMS2xxPacket::finalizePacket()
 {
-  int len = myLength;
-  int chkSum;
+  const ArTypes::UByte2 len = myLength;
 
   // put in the start of the packet
   myLength = 0;
@@ -105,9 +101,9 @@ AREXPORT void ArLMS2xxPacket::finalizePacket()
   myLength = len;
 
   // that lovely CRC
-  chkSum = calcCRC();
-  byteToBuf(chkSum & 0xff );
-  byteToBuf((chkSum >> 8) & 0xff );
+  const ArTypes::Byte2 chkSum = calcCRC();
+  byteToBuf((char)(chkSum & 0xff) );
+  byteToBuf((char)((chkSum >> 8) & 0xff));
 
   //printf("Sending ");
   //log();
@@ -143,35 +139,32 @@ AREXPORT ArTypes::Byte2 ArLMS2xxPacket::calcCRC()
     abData[0] = *commData++;
     if (uCrc16 & 0x8000)
     {
-      uCrc16 = (uCrc16 & 0x7fff) << 1;
+      uCrc16 = (unsigned short)((uCrc16 & 0x7fff) << 1);
       uCrc16 ^= 0x8005;
     }
     else
     {
       uCrc16 <<= 1;
     }
-    uCrc16 ^= ((unsigned short) abData[0] | 
-	       ((unsigned short)(abData[1]) << 8));
+    uCrc16 ^= (unsigned short)(abData[0] | (abData[1] << 8));
   }
-  return uCrc16;
+  return (ArTypes::Byte2)uCrc16;
 }
 
 AREXPORT bool ArLMS2xxPacket::verifyCRC() 
 {
-  int readLen = myReadLength;
-  int len = myLength;
-  ArTypes::Byte2 chksum;
-  unsigned char c1, c2;
+  const ArTypes::UByte2 readLen = myReadLength;
+  const ArTypes::UByte2 len = myLength;
 
   myReadLength = myLength - 2;
   
   if (myReadLength < myHeaderLength)
     return false;
 
-  c1 = bufToByte();
-  c2 = bufToByte();
+  const unsigned char c1 = (unsigned char) bufToByte();
+  const unsigned char c2 = (unsigned char) bufToByte();
   myReadLength = readLen;
-  chksum = (c1 & 0xff) | (c2 << 8);
+  const ArTypes::Byte2 chksum = (ArTypes::Byte2) ( (c1 & 0xff) | (c2 << 8) );
 
   myLength = myLength - 2;
   if (chksum == calcCRC()) {

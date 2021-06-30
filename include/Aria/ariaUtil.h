@@ -3069,13 +3069,14 @@ protected:
 };
 #endif // not ARIA_WRAPPER
 
-/// Class for finding robot bounds from the basic measurements
+/// Contains functions for finding robot bounds from the basic measurements
 class ArPoseUtil
 {
 public:
-  AREXPORT static std::list<ArPose> findCornersFromRobotBounds(
+  AREXPORT static std::vector<ArPose> findCornersFromRobotBounds(
 	  double radius, double widthLeft, double widthRight, 
-	  double lengthFront, double lengthRear, bool fastButUnsafe);
+	  double lengthFront, double lengthRear, bool fastButUnsafe = true);
+
   AREXPORT static std::list<ArPose> breakUpDistanceEvenly(ArPose start, ArPose end, 
 						 int resolution);
 };

@@ -29,6 +29,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ArLog.h"
 
+
 AREXPORT ArMD5Calculator::ArMD5Calculator(ArFunctor1<const char*> *secondFunctor) :
   myFunctor(this, &ArMD5Calculator::append),
   mySecondFunctor(secondFunctor),
@@ -153,8 +154,7 @@ AREXPORT bool ArMD5Calculator::calculateChecksum(const char *fileName,
       // log warning
     }
     memset(md5DigestBuffer, 0, md5DigestBufferLen);
-    memcpy(md5DigestBuffer, calculator.getDigest(), 
-          ArUtil::findMin(md5DigestBufferLen, ArMD5Calculator::DIGEST_LENGTH));
+    memcpy(md5DigestBuffer, calculator.getDigest(), std::min(md5DigestBufferLen, (size_t)(ArMD5Calculator::DIGEST_LENGTH)));
   }
 
   const long elapsed = calcTime.mSecSince();
@@ -176,8 +176,10 @@ AREXPORT void ArMD5Calculator::append(const char *str)
     ArLog::log(ArLog::Terse,
                "ArMD5Calculator::append cannot append null string");
   }
-  // YUCK to the cast!
-  md5_append(&myState, (unsigned char *) str, strlen(str));
+
+  const size_t len = strlen(str);
+  assert(len <= INT_MAX);
+  md5_append(&myState, (unsigned char *) str, (int)len);
 
   if (mySecondFunctor != NULL) {
     mySecondFunctor->invoke(str);

@@ -205,12 +205,12 @@ AREXPORT bool ArSimulatedLaser::blockingConnect()
   {
     ArLog::log(ArLog::Verbose, "%s: Sending old SRISim startup commands (36, 37, 38, 35) for compatibility", getName());
     // return true if we could send all the commands
-    if (!failed && !myRobot->comInt(36, ArMath::roundInt(mySimBegin)))
+    if (!failed && !myRobot->comInt(36, (short) ArMath::roundInt(mySimBegin)))
       failed = true;
-    if (!failed && !myRobot->comInt(37, ArMath::roundInt(mySimEnd)))
+    if (!failed && !myRobot->comInt(37, (short) ArMath::roundInt(mySimEnd)))
       failed = true;
     if (!failed && !myRobot->comInt(38, 
-            ArMath::roundInt(mySimIncrement * 100.0)))
+            (short) ArMath::roundInt(mySimIncrement * 100.0)))
       failed = true;
     // Enable sending data, with extended info 
     ///@todo only choose extended info if reflector bits desired, also shorten range.
@@ -379,11 +379,11 @@ AREXPORT void *ArSimulatedLaser::runThread(void *)
     }
 
     if (getConnectionTimeoutSeconds() > 0 && 
-	getLastReadingTime().secSince() > getConnectionTimeoutSeconds())
+	getLastReadingTime().secSinceDouble() > getConnectionTimeoutSeconds())
     {
       ArLog::log(ArLog::Terse, 
 		 "%s:  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(), 
-		 myLastReading.mSecSince()/1000.0, 
+		 (double)(myLastReading.mSecSince())/1000.0, 
 		 getConnectionTimeoutSeconds());
       myIsConnected = false;
       laserDisconnectOnError();
@@ -409,7 +409,7 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
   ArSensorReading *reading;
   std::list<ArSensorReading *>::iterator tempIt;
   unsigned int newReadings;
-  int range;
+  unsigned int range;
   int refl = 0;
   ArPose encoderPose;
   //std::list<double>::iterator ignoreIt;  
@@ -435,8 +435,8 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
     packet->bufToByte2();
     packet->bufToByte2();
   }
-  totalNumReadings = packet->bufToByte2(); // total for this reading
-  readingNumber = packet->bufToByte2(); // which one we're on in this packet
+  totalNumReadings = packet->bufToUByte2(); // total for this reading
+  readingNumber = packet->bufToUByte2(); // which one we're on in this packet
   newReadings = packet->bufToUByte(); // how many are in this packet
   if (readingNumber == 0)
   {

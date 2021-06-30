@@ -204,13 +204,13 @@ public:
   AREXPORT int read(void *buff, size_t len, unsigned int msWait = 0);
 
   /// Send a message (short string) on the socket
-  AREXPORT int sendTo(const void *msg, int len);
+  AREXPORT int sendTo(const void *msg, size_t len);
 
   /// Send a message (short string) on the socket
-  AREXPORT int sendTo(const void *msg, int len, struct sockaddr_in *sin);
+  AREXPORT int sendTo(const void *msg, size_t len, struct sockaddr_in *sin);
 
   /// Receive a message (short string) from the socket
-  AREXPORT int recvFrom(void *msg, int len, sockaddr_in *sin);
+  AREXPORT int recvFrom(void *msg, size_t len, sockaddr_in *sin);
 
   /// Convert a hostname string to an address structure
   AREXPORT static bool hostAddr(const char *host, struct in_addr &addr);
