@@ -74,20 +74,21 @@ AREXPORT void ArForbiddenRangeDevice::processMap()
        it != myMap->getMapObjects()->cend();
        ++it)
   {
-    if (strcmp(it->getType(), "ForbiddenLine") == 0 && it->hasFromTo())
+    const ArMapObject *obj = *it;
+    if (strcmp(obj->getType(), "ForbiddenLine") == 0 && obj->hasFromTo())
     {
-      mySegments.push_back(ArLineSegment(it->getFromPose(), 
-					     it->getToPose()));
+      mySegments.push_back(ArLineSegment(obj->getFromPose(), 
+					     obj->getToPose()));
     }
-    if (strcmp(it->getType(), "ForbiddenArea") == 0 && it->hasFromTo())
+    if (strcmp(obj->getType(), "ForbiddenArea") == 0 && obj->hasFromTo())
     {
-      const double angle = it->getPose().getTh();
+      const double angle = obj->getPose().getTh();
       const double sa = ArMath::sin(angle);
       const double ca = ArMath::cos(angle);
-      const double fx = it->getFromPose().getX();
-      const double fy = it->getFromPose().getY();
-      const double tx = it->getToPose().getX();
-      const double ty = it->getToPose().getY();
+      const double fx = obj->getFromPose().getX();
+      const double fy = obj->getFromPose().getY();
+      const double tx = obj->getToPose().getX();
+      const double ty = obj->getToPose().getY();
       const ArPose P0((fx*ca - fy*sa), (fx*sa + fy*ca));
       const ArPose P1((tx*ca - fy*sa), (tx*sa + fy*ca));
       const ArPose P2((tx*ca - ty*sa), (tx*sa + ty*ca));
