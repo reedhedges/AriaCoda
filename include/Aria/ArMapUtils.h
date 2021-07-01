@@ -159,7 +159,7 @@ public:
                    const char *fileName,
 						       const unsigned char *checksum,
                    size_t checksumLength,
-						       long int size,
+						       size_t size,
 						       const time_t timestamp);
  
   /// Copy constructor
@@ -197,7 +197,7 @@ public:
   AREXPORT const char *getDisplayChecksum() const;
 	
 	/// Returns the number of bytes in the map file
-  AREXPORT long int getSize() const;
+  AREXPORT size_t getSize() const;
   /// Returns the last modified time of the file
 	AREXPORT time_t getTimestamp() const;
 
@@ -217,7 +217,7 @@ public:
 	AREXPORT void setChecksum(const unsigned char *checksum,
 													  size_t checksumLen);
   /// Sets the number of bytes in the map file
-	AREXPORT void setSize(long int size);
+	AREXPORT void setSize(size_t size);
 	/// Sets the last modified time of the map file
 	AREXPORT void setTimestamp(const time_t &timestamp);
 
@@ -268,7 +268,7 @@ protected:
   mutable size_t myDisplayChecksumLength;
   
   /// Number of bytes in the map file
-  long int mySize;
+  size_t mySize;
   /// Last modified time of the map file
   time_t myTimestamp;
 

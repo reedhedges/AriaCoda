@@ -400,7 +400,7 @@ AREXPORT ArPose ArMapScan::getMaxPose(UNUSED const char *scanType)
   return myMax;
 }
 
-AREXPORT int ArMapScan::getNumPoints(UNUSED const char *scanType)
+AREXPORT size_t ArMapScan::getNumPoints(UNUSED const char *scanType)
 {
   return myNumPoints;
 }
@@ -415,7 +415,7 @@ AREXPORT ArPose ArMapScan::getLineMaxPose(UNUSED const char *scanType)
   return myLineMax;
 }
 
-AREXPORT int ArMapScan::getNumLines(UNUSED const char *scanType)
+AREXPORT size_t ArMapScan::getNumLines(UNUSED const char *scanType)
 { 
   return myNumLines;
 }
@@ -498,9 +498,9 @@ AREXPORT void ArMapScan::setPoints(const std::vector<ArPose> *points,
     }
   } // end if track changes
 
-  int origNumPoints = myNumPoints;
-  ArPose origMin = myMin;
-  ArPose origMax = myMax;
+  const size_t origNumPoints = myNumPoints;
+  const ArPose origMin = myMin;
+  const ArPose origMax = myMax;
 
   myTimeChanged.setToNow();
 
@@ -532,7 +532,7 @@ AREXPORT void ArMapScan::setPoints(const std::vector<ArPose> *points,
     } // end for each point
 
     myPoints = *newPoints;  
-    if (myNumPoints != (int) myPoints.size()) {
+    if (myNumPoints != myPoints.size()) {
 
       ArLog::log(ArLog::Normal,
                  "%sArMapScan::setPoints() point count changed from %i to %i",
@@ -670,9 +670,9 @@ AREXPORT void ArMapScan::setLines(const std::vector<ArLineSegment> *lines,
   } // end if track changes
  
 
-  int origNumLines = myNumLines;
-  ArPose origLineMin = myLineMin;
-  ArPose origLineMax = myLineMax;
+  const size_t origNumLines = myNumLines;
+  const ArPose origLineMin = myLineMin;
+  const ArPose origLineMax = myLineMax;
 
   myTimeChanged.setToNow();
 
@@ -715,7 +715,7 @@ AREXPORT void ArMapScan::setLines(const std::vector<ArLineSegment> *lines,
 
     myLines = *newLines;  
    
-    if (myNumLines != (int) myLines.size()) {
+    if (myNumLines != myLines.size()) {
       ArLog::log(ArLog::Normal,
                  "%sArMapScan::setLines() line count changed from %i to %i",
                  myLogPrefix.c_str(),
@@ -835,7 +835,7 @@ AREXPORT void ArMapScan::setResolution(int resolution,
 
 
 AREXPORT void ArMapScan::writePointsToFunctor
-		                         (ArFunctor2<int, std::vector<ArPose> *> *functor,
+		                         (ArFunctor2<size_t, std::vector<ArPose> *> *functor,
                               UNUSED const char *scanType,
                               ArFunctor1<const char *> *keywordFunctor)
 {
@@ -851,7 +851,7 @@ AREXPORT void ArMapScan::writePointsToFunctor
 
 
 AREXPORT void ArMapScan::writeLinesToFunctor
-	                           (ArFunctor2<int, std::vector<ArLineSegment> *> *functor,
+	                           (ArFunctor2<size_t, std::vector<ArLineSegment> *> *functor,
                               UNUSED const char *scanType,
                               ArFunctor1<const char *> *keywordFunctor)
 {
@@ -1139,7 +1139,7 @@ AREXPORT bool ArMapScan::readDataPoint( char *line)
 
   bool isSuccess  = true;
   size_t lineLen  = strlen(line) + 1;
-  int startIndex  = 0;
+  size_t startIndex  = 0;
   size_t parsedCount = 0;
  
   isSuccess = parseNumber(&line[startIndex], lineLen, &parsedCount, &x);
@@ -1204,7 +1204,7 @@ AREXPORT bool ArMapScan::readLineSegment( char *line)
 
   bool isSuccess  = true;
   size_t lineLen     = strlen(line) + 1;
-  int startIndex  = 0;
+  size_t startIndex  = 0;
   size_t parsedCount = 0;
  
   isSuccess = parseNumber(&line[startIndex], lineLen, &parsedCount, &x1);
@@ -1497,7 +1497,7 @@ bool ArMapScan::handleNumPoints(ArArgumentBuilder *arg)
   if (arg->getArgc() >= 1) {
 
     bool ok = false;
-    int numPoints = arg->getArgInt(0, &ok);
+    const size_t numPoints = arg->getArgUInt(0, &ok);
 
     if (ok) {
       
@@ -1542,7 +1542,7 @@ bool ArMapScan::handleIsSortedPoints(ArArgumentBuilder *arg)
 {
   if (arg->getArgc() >= 1) {
     bool ok = true;
-    bool isSorted = arg->getArgBool(0, &ok);
+    const bool isSorted = arg->getArgBool(0, &ok);
     if (ok) {
       myIsSortedPoints = isSorted;
       return true;
@@ -1581,8 +1581,8 @@ bool ArMapScan::parsePose(ArArgumentBuilder *arg,
 
     bool xOk = true;
     bool yOk = true;
-    int x = arg->getArgInt(0, &xOk);
-    int y = arg->getArgInt(1, &yOk);
+    const int x = arg->getArgInt(0, &xOk);
+    const int y = arg->getArgInt(1, &yOk);
 
     if (xOk && yOk) {
       poseOut->setPose(x, y);
@@ -1606,7 +1606,7 @@ bool ArMapScan::handleNumLines(ArArgumentBuilder *arg)
   if (arg->getArgc() >= 1) {
 
     bool ok = false;
-    int numLines = arg->getArgInt(0, &ok);
+    const size_t numLines = arg->getArgUInt(0, &ok);
 
     if (ok) {
 
@@ -1646,7 +1646,7 @@ bool ArMapScan::handleIsSortedLines(ArArgumentBuilder *arg)
 {
   if (arg->getArgc() >= 1) {
     bool ok = true;
-    bool isSorted = arg->getArgBool(0, &ok);
+    const bool isSorted = arg->getArgBool(0, &ok);
     if (ok) {
       myIsSortedLines = isSorted;
       return true;
@@ -1668,7 +1668,7 @@ bool ArMapScan::handleResolution(ArArgumentBuilder *arg)
   if (arg->getArgc() == 1)
   {
     bool ok = true;
-    int res = arg->getArgInt(0, &ok);
+    const int res = arg->getArgInt(0, &ok);
     if (ok) {
       myResolution = res;
       return true;
@@ -1689,7 +1689,7 @@ bool ArMapScan::handleDisplayString(ArArgumentBuilder *arg)
   if (arg->getArgc() >= 1) {
 
     const char *displayArg = arg->getArg(0);
-    int displayBufferLen = strlen(displayArg) + 1;
+    const size_t displayBufferLen = strlen(displayArg) + 1;
     char *displayBuffer = new char[displayBufferLen];
   
      if (ArUtil::stripQuotes(displayBuffer, displayArg, displayBufferLen))
@@ -1736,8 +1736,8 @@ bool ArMapScan::handlePoint(ArArgumentBuilder *arg)
     bool xOk = true;
     bool yOk = true;
 
-    int x = arg->getArgInt(0, &xOk);
-    int y = arg->getArgInt(1, &yOk);
+    const int x = arg->getArgInt(0, &xOk);
+    const int y = arg->getArgInt(1, &yOk);
 
     if (xOk && yOk) {
       loadDataPoint(x, y);
@@ -1764,10 +1764,10 @@ bool ArMapScan::handleLine(ArArgumentBuilder *arg)
     bool x2Ok = true;
     bool y2Ok = true;
 
-    int x1 = arg->getArgInt(0, &x1Ok);
-    int y1 = arg->getArgInt(1, &y1Ok);
-    int x2 = arg->getArgInt(2, &x2Ok);
-    int y2 = arg->getArgInt(3, &y2Ok);
+    const int x1 = arg->getArgInt(0, &x1Ok);
+    const int y1 = arg->getArgInt(1, &y1Ok);
+    const int x2 = arg->getArgInt(2, &x2Ok);
+    const int y2 = arg->getArgInt(3, &y2Ok);
 
     if (x1Ok && y1Ok && x2Ok && y2Ok) {
       loadLineSegment(x1, y1, x2, y2);
@@ -3814,7 +3814,7 @@ AREXPORT void ArMapSimple::updateMapFileInfo(const char *realFileName)
                       myMapId.getFileName(),
                       myChecksumCalculator->getDigest(),
                       ArMD5Calculator::DIGEST_LENGTH,
-                      myReadFileStat.st_size,
+                      (size_t)(myReadFileStat.st_size),
                       myReadFileStat.st_mtime);
 
     // TODO Not entirely sure whether we want to register the entire path name,
@@ -3827,7 +3827,7 @@ AREXPORT void ArMapSimple::updateMapFileInfo(const char *realFileName)
                       myMapId.getFileName(),
                       NULL,
                       0,
-                      myReadFileStat.st_size,
+                      (size_t)(myReadFileStat.st_size),
                       myReadFileStat.st_mtime);
 
   } // end else checksums turned off
@@ -4604,7 +4604,7 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
   updateSummaryScan();
 
 
-  int elapsed = parseTime.mSecSince();
+  long int elapsed = parseTime.mSecSince();
 
   ArLog::log(ArLog::Normal, 
              "ArMapSimple::readFile() %s took %i msecs to read map of %i points",
@@ -4624,7 +4624,7 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
       if (md5DigestBuffer != NULL) {
         memset(md5DigestBuffer, 0, md5DigestBufferLen);
         memcpy(md5DigestBuffer, myChecksumCalculator->getDigest(), 
-              ArUtil::findMin(md5DigestBufferLen, ArMD5Calculator::DIGEST_LENGTH));
+              std::min(md5DigestBufferLen, (size_t)(ArMD5Calculator::DIGEST_LENGTH)));
       }
 
       myLoadingParser->setPreParseFunctor(NULL);
@@ -4748,17 +4748,17 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
 
   invokeCallbackList(&myPreWriteCBList);
 
-	std::string realFileName = createRealFileName(fileName);
+	const std::string realFileName = createRealFileName(fileName);
 	std::string writeFileName;
 
   if (myIsWriteToTempFile) {
 
     char tempFileName[3200];
-    int tempFileNameLen = 3200;
+    const size_t tempFileNameLen = 3200;
 
     tempFileName[0] = '\0';
 
-    int fileNumber = getNextFileNumber();
+    const int fileNumber = getNextFileNumber();
 
 // Hoping that this is highly temporary...
 #ifdef WIN32
@@ -4809,7 +4809,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
 
 
   ArTime writeTime;
-  writeTime.setToNow();
+  //writeTime.setToNow();
 
   ArFunctor1<const char *> *writeFunctor = NULL;
 
@@ -4833,7 +4833,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
 
   writeToFunctor(writeFunctor, "\n");
     
-  int elapsed = writeTime.mSecSince();
+  const long int elapsed = writeTime.mSecSince();
 
   ArLog::log(ArLog::Normal, 
              "ArMapSimple::writeFile() took %i msecs to write map of %i points",
@@ -4848,7 +4848,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
   if (myIsWriteToTempFile) {
 
     char systemBuf[6400];
-    int  systemBufLen = 6400;
+    const size_t  systemBufLen = 6400;
 
 #ifndef _WIN32
     const char *moveCmdName = "mv -f";
@@ -4856,7 +4856,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
     const char *moveCmdName = "move";
 #endif
 
-    int printLen = snprintf(systemBuf, systemBufLen,
+    const int printLen = snprintf(systemBuf, systemBufLen,
                             "%s \"%s\" \"%s\"", 
                             moveCmdName, 
                             writeFileName.c_str(), 
@@ -4865,7 +4865,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
 
     int ret = -1;
 
-    if ((printLen >= 0) && (printLen < systemBufLen)) {
+    if ((printLen >= 0) && ((size_t)printLen < systemBufLen)) {
 
       ret = system(systemBuf);
 
@@ -4918,7 +4918,7 @@ AREXPORT bool ArMapSimple::writeFile(const char *fileName,
       }
       memset(md5DigestBuffer, 0, md5DigestBufferLen);
       memcpy(md5DigestBuffer, myChecksumCalculator->getDigest(), 
-            ArUtil::findMin(md5DigestBufferLen, ArMD5Calculator::DIGEST_LENGTH));
+            std::min(md5DigestBufferLen, (size_t) ArMD5Calculator::DIGEST_LENGTH));
     }
 
     // Reset to NULL before the functor leaves the scope of this method.
@@ -5864,7 +5864,7 @@ AREXPORT ArPose ArMapSimple::getMaxPose(const char *scanType)
 
 } // end method getMaxPose
 
-AREXPORT int ArMapSimple::getNumPoints(const char *scanType)
+AREXPORT size_t ArMapSimple::getNumPoints(const char *scanType)
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5894,7 +5894,7 @@ AREXPORT ArPose ArMapSimple::getLineMaxPose(const char *scanType)
 
 } // end method getLineMaxPose
 
-AREXPORT int ArMapSimple::getNumLines(const char *scanType)
+AREXPORT size_t ArMapSimple::getNumLines(const char *scanType)
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5992,7 +5992,7 @@ AREXPORT void ArMapSimple::writeScanToFunctor(ArFunctor1<const char *> *functor,
 
 
 AREXPORT void ArMapSimple::writePointsToFunctor
-		(ArFunctor2<int, std::vector<ArPose> *> *functor,
+		(ArFunctor2<size_t, std::vector<ArPose> *> *functor,
      const char *scanType,
      ArFunctor1<const char *> *keywordFunctor)
 {
@@ -6004,7 +6004,7 @@ AREXPORT void ArMapSimple::writePointsToFunctor
 } // end method writePointsToFunctor
 
 AREXPORT void ArMapSimple::writeLinesToFunctor
-	(ArFunctor2<int, std::vector<ArLineSegment> *> *functor,
+	(ArFunctor2<size_t, std::vector<ArLineSegment> *> *functor,
    const char *scanType,
    ArFunctor1<const char *> *keywordFunctor)
 { 

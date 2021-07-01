@@ -172,7 +172,7 @@ public:
    * which to return the point count; if ARMAP_SUMMARY_SCAN_TYPE, then the 
    * point count for all scans is returned
   **/
-  AREXPORT virtual int getNumPoints
+  AREXPORT virtual size_t getNumPoints
                            (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
   
 
@@ -252,7 +252,7 @@ public:
    * which to return the line segment count; if ARMAP_SUMMARY_SCAN_TYPE, then the 
    * line segment count for all scans is returned
   **/
-  AREXPORT virtual int getNumLines
+  AREXPORT virtual size_t getNumLines
                            (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
 
   /// Returns whether the line segment vector for the specified scan is sorted
@@ -353,7 +353,7 @@ public:
    * written
   **/
   AREXPORT virtual void writePointsToFunctor
-                         		(ArFunctor2<int, std::vector<ArPose> *> *functor,
+                         		(ArFunctor2<size_t, std::vector<ArPose> *> *functor,
                              const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,
                              ArFunctor1<const char *> *keywordFunctor = NULL) = 0;
 
@@ -371,7 +371,7 @@ public:
    * header is not written
   **/
   AREXPORT virtual void writeLinesToFunctor
- 	                          (ArFunctor2<int, std::vector<ArLineSegment> *> *functor,
+ 	                          (ArFunctor2<size_t, std::vector<ArLineSegment> *> *functor,
                              const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,
                              ArFunctor1<const char *> *keywordFunctor = NULL) = 0;
 

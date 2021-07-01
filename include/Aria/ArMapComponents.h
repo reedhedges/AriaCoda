@@ -153,7 +153,7 @@ public:
 
   AREXPORT virtual ArPose getMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
-  AREXPORT virtual int getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual size_t getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
   AREXPORT virtual bool isSortedPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
@@ -167,7 +167,7 @@ public:
 
   AREXPORT virtual ArPose getLineMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
-  AREXPORT virtual int getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
   AREXPORT virtual bool isSortedLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
@@ -190,12 +190,12 @@ public:
                                 const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
   AREXPORT virtual void writePointsToFunctor
- 		                        (ArFunctor2<int, std::vector<ArPose> *> *functor,
+ 		                        (ArFunctor2<size_t, std::vector<ArPose> *> *functor,
                              const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,
                              ArFunctor1<const char *> *keywordFunctor = NULL);
 
   AREXPORT virtual void writeLinesToFunctor
- 	                          (ArFunctor2<int, std::vector<ArLineSegment> *> *functor,
+ 	                          (ArFunctor2<size_t, std::vector<ArLineSegment> *> *functor,
                              const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,
                              ArFunctor1<const char *> *keywordFunctor = NULL);
 
@@ -366,9 +366,9 @@ protected:
   std::string myDisplayString;
 
   /// Number of data points in the scan.
-  int myNumPoints;
+  size_t myNumPoints;
   /// Number of data lines in the scan.
-  int myNumLines;
+  size_t myNumLines;
   /// Resolution of the data points (in mm).
   int myResolution;
   /// Maximum x/y values of all of the data points in the scan.
@@ -959,7 +959,7 @@ public:
 
   AREXPORT virtual ArPose getMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
   AREXPORT virtual ArPose getMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
-  AREXPORT virtual int getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual size_t getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
   AREXPORT virtual bool isSortedPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setPoints(const std::vector<ArPose> *points,
@@ -973,7 +973,7 @@ public:
 
   AREXPORT virtual ArPose getLineMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
   AREXPORT virtual ArPose getLineMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
-  AREXPORT virtual int getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
   AREXPORT virtual bool isSortedLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setLines(const std::vector<ArLineSegment> *lines,
@@ -995,12 +995,12 @@ public:
                                const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
   AREXPORT virtual void writePointsToFunctor
-                              (ArFunctor2<int, std::vector<ArPose> *> *functor,
+                              (ArFunctor2<size_t, std::vector<ArPose> *> *functor,
                                const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,
                                ArFunctor1<const char *> *keywordFunctor = NULL);
 
   AREXPORT virtual void writeLinesToFunctor
- 	                            (ArFunctor2<int, std::vector<ArLineSegment> *> *functor,
+ 	                            (ArFunctor2<size_t, std::vector<ArLineSegment> *> *functor,
                                const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,
                                ArFunctor1<const char *> *keywordFunctor = NULL);
 

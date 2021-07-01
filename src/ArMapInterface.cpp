@@ -111,7 +111,7 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
   }
   else // non-empty base directory and fileName is not an absolute path
   {
-    int totalLen = strlen(baseDirectory) + strlen(fileName) + 10;
+    const size_t totalLen = strlen(baseDirectory) + strlen(fileName) + 10;
     char *nameBuf = new char[totalLen];
     
     strncpy(nameBuf, baseDirectory, totalLen - 2);

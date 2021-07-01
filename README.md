@@ -91,6 +91,8 @@ Several major changes have been made for AriaCoda since the last release of Aria
   destructors) have been removed. If you derive from any ARIA class and intend
   to override a method, the use of the "override" specifier is encouraged;
   the C++ compiler should then warn if the base class method is not virtual.
+* Some function argument and return types have been changed from `int` to
+  `size_t` or other more specific or appropriate type.
 * Various fixes and changes to improve optimization and
   conformance/correctness.  Due to code removal, various optimizations in the 
   source code (especially in frequently used storage and utility classes such 

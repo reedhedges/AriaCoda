@@ -59,7 +59,7 @@ AREXPORT ArMapId::ArMapId(const char *sourceName,
 						              const char *fileName,
 						              const unsigned char *checksum,
                           size_t checksumLength,
-						              long int size,
+						              size_t size,
 						              const time_t timestamp) :
   mySourceName((sourceName != NULL) ? sourceName : ""),
   myFileName((fileName != NULL) ? fileName : ""),
@@ -195,7 +195,7 @@ AREXPORT const char *ArMapId::getDisplayChecksum() const
   return myDisplayChecksum;
 } 
 
-AREXPORT long int ArMapId::getSize() const
+AREXPORT size_t ArMapId::getSize() const
 {
   return mySize;
 }
@@ -310,7 +310,7 @@ AREXPORT void ArMapId::setChecksum(const unsigned char *checksum,
 
 }
 
-AREXPORT void ArMapId::setSize(long int size)
+AREXPORT void ArMapId::setSize(size_t size)
 {
   mySize = size;
 }
@@ -454,16 +454,16 @@ AREXPORT bool ArMapId::fromPacket(ArBasePacket *packetIn,
 
   ArUtil::fixSlashes(fileNameBuffer, sizeof(fileNameBuffer));
 
-  size_t checksumLength = packetIn->bufToUByte4();
+  const size_t checksumLength = packetIn->bufToUByte4();
  
   unsigned char *checksum = NULL;
   if (checksumLength > 0) {
     checksum = new unsigned char[checksumLength];
-    packetIn->bufToData(checksum, (int) checksumLength);
+    packetIn->bufToData(checksum, checksumLength);
   }
 
-  size_t fileSize = packetIn->bufToUByte4();
-  time_t fileTime = packetIn->bufToByte4();
+  const size_t fileSize = packetIn->bufToUByte4();
+  const time_t fileTime = packetIn->bufToByte4();
 
   IFDEBUG(ArLog::log(ArLog::Normal,
                      "ArMapId::fromPacket() time = %i", 
@@ -509,12 +509,14 @@ AREXPORT bool ArMapId::toPacket(const ArMapId &mapId,
     packetOut->strToBuf("");
   }
 
-  packetOut->uByte4ToBuf(mapId.getChecksumLength());
+  packetOut->uByte4ToBuf((ArTypes::UByte4) mapId.getChecksumLength());
   if (mapId.getChecksumLength() > 0) {
     packetOut->dataToBuf(mapId.getChecksum(), mapId.getChecksumLength()); 
   }
-  packetOut->uByte4ToBuf(mapId.getSize());
-  packetOut->byte4ToBuf(mapId.getTimestamp());
+  assert(mapId.getSize() <= UINT32_MAX);
+  packetOut->uByte4ToBuf((ArTypes::UByte4) mapId.getSize());
+  assert(mapId.getTimestamp() <= INT32_MAX);
+  packetOut->byte4ToBuf((ArTypes::Byte4) mapId.getTimestamp());
   
   IFDEBUG(ArLog::log(ArLog::Normal,
                      "ArMapId::toPacket() time = %i", 
@@ -565,8 +567,9 @@ AREXPORT bool ArMapId::create(const char *mapFileName,
 
   mapIdOut->setFileName(mapFileName);
 	mapIdOut->setChecksum(buffer, sizeof(buffer));
-	mapIdOut->setSize(mapFileStat.st_size);
-	mapIdOut->setTimestamp(mapFileStat.st_mtime);
+  assert(mapFileStat.st_size <= UINT_MAX);
+  mapIdOut->setSize((size_t)mapFileStat.st_size);
+  mapIdOut->setTimestamp(mapFileStat.st_mtime);
 
   return true;
 

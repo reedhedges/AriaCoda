@@ -1289,7 +1289,7 @@ AREXPORT ArPose ArMap::getMaxPose(const char *scanType)
 
 } // end method getMaxPose
 
-AREXPORT int ArMap::getNumPoints(const char *scanType)
+AREXPORT size_t ArMap::getNumPoints(const char *scanType)
 { 
   return myCurrentMap->getNumPoints(scanType);
 
@@ -1307,7 +1307,7 @@ AREXPORT ArPose ArMap::getLineMaxPose(const char *scanType)
 
 } // end method getLineMaxPose
 
-AREXPORT int ArMap::getNumLines(const char *scanType)
+AREXPORT size_t ArMap::getNumLines(const char *scanType)
 { 
   return myCurrentMap->getNumLines(scanType);
 
@@ -1367,7 +1367,7 @@ AREXPORT void ArMap::writeScanToFunctor(ArFunctor1<const char *> *functor,
 
 
 AREXPORT void ArMap::writePointsToFunctor
-		(ArFunctor2<int, std::vector<ArPose> *> *functor,
+		(ArFunctor2<size_t, std::vector<ArPose> *> *functor,
      const char *scanType,
      ArFunctor1<const char *> *keywordFunctor)
 { 
@@ -1376,7 +1376,7 @@ AREXPORT void ArMap::writePointsToFunctor
 } // end method writePointsToFunctor
 
 AREXPORT void ArMap::writeLinesToFunctor
-	   (ArFunctor2<int, std::vector<ArLineSegment> *> *functor,
+	   (ArFunctor2<size_t, std::vector<ArLineSegment> *> *functor,
       const char *scanType,
       ArFunctor1<const char *> *keywordFunctor)
 { 
