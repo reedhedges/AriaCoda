@@ -430,7 +430,7 @@ AREXPORT bool ArLCDMTX::blockingConnect(bool sendTracking, bool recvTracking,
 			continue;
 		}
 
-		unsigned char keepAliveCmd = packet->bufToByte();
+		unsigned char keepAliveCmd = packet->bufToUByte();
 
 		// verify 
 		if (keepAliveCmd != KEEP_ALIVE) {
@@ -579,7 +579,7 @@ AREXPORT void * ArLCDMTX::runThread(void *)
 		if (getRunning() && myIsConnected && checkLostConnection()) {
 			ArLog::log(ArLog::Terse,
 				"%s::runThread()  Lost connection to the MTX lcd because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(),
-				myLastReading.mSecSince() / 1000.0,
+				myLastReading.secSinceFloat(),
 				getConnectionTimeoutSeconds());
 			myIsConnected = false;
 			if (myConnFailOption)
@@ -932,7 +932,7 @@ AREXPORT bool ArLCDMTX::checkLostConnection()
 
 	if ((myRobot == NULL || myRobotRunningAndConnected) &&
 		getConnectionTimeoutSeconds() > 0 &&
-		myLastReading.mSecSince() >  getConnectionTimeoutSeconds() * 1000)
+		myLastReading.secSinceDouble() >  getConnectionTimeoutSeconds())
 		return true;
 
 	if (!myRobotRunningAndConnected && myRobot != NULL &&
@@ -1004,7 +1004,7 @@ AREXPORT bool ArLCDMTX::sendSystemInfo(unsigned char command)
 
 	ArRobotPacket sendPacket(HEADER1, HEADER2);
 	sendPacket.setID(SYSTEM_INFO);
-	sendPacket.byteToBuf(command);
+	sendPacket.uByteToBuf(command);
 
 	if (!mySender->sendPacket(&sendPacket)) {
 		ArLog::log(ArLog::Terse,
@@ -1054,7 +1054,7 @@ AREXPORT bool ArLCDMTX::getTextField(unsigned char textNumber, char *text)
 
 	ArRobotPacket sendPacket(HEADER1, HEADER2);
 	sendPacket.setID(GET_TEXT_FIELD);
-	sendPacket.byteToBuf(textNumber);
+	sendPacket.uByteToBuf(textNumber);
 
 	for (int i = 0; i < 5; i++) {
 
@@ -1280,7 +1280,7 @@ AREXPORT bool ArLCDMTX::setScreenNumber(unsigned char screenNumber)
 
 		ArRobotPacket sendPacket(HEADER1, HEADER2);
 		sendPacket.setID(SET_SCREEN_NUM);
-		sendPacket.byteToBuf(screenNumber);
+		sendPacket.uByteToBuf(screenNumber);
 
 		if (!mySender->sendPacket(&sendPacket)) {
 			ArLog::log(ArLog::Terse,
@@ -1317,7 +1317,7 @@ AREXPORT bool ArLCDMTX::setTextField(unsigned char textNumber, const char *text)
 
 		ArRobotPacket sendPacket(HEADER1, HEADER2);
 		sendPacket.setID(SET_TEXT_FIELD);
-		sendPacket.byteToBuf(textNumber);
+		sendPacket.uByteToBuf(textNumber);
 		sendPacket.strToBuf(text);
 
 		if (!mySender->sendPacket(&sendPacket)) {
@@ -1381,8 +1381,8 @@ AREXPORT bool ArLCDMTX::setSystemMeters(unsigned char battery, unsigned char wif
 
 	ArRobotPacket sendPacket(HEADER1, HEADER2);
 	sendPacket.setID(SET_BATTERY_WIFI);
-	sendPacket.byteToBuf(battery);
-	sendPacket.byteToBuf(wifi);
+	sendPacket.uByteToBuf(battery);
+	sendPacket.uByteToBuf(wifi);
 
 	if (!mySender->sendPacket(&sendPacket)) {
 		ArLog::log(ArLog::Terse,
@@ -1447,7 +1447,7 @@ AREXPORT unsigned char ArLCDMTX::getWifiPercentage()
 #ifndef _WIN32
 	// if the link signal exists - then grab the wifi%
 	if (ArSystemStatus::getMTXWirelessLink() == 1) {
-		return ArSystemStatus::getMTXWirelessQuality();
+		return (unsigned char) ArSystemStatus::getMTXWirelessQuality();
 	}
 	else
 #endif
@@ -1899,7 +1899,7 @@ AREXPORT bool ArLCDMTX::downloadFirmware()
 
 		//ArLog::log(ArLog::Normal,
 		//		"%s::downloadFirmware() %d %c 0x%02x", getName(), data, data, data);
-		if ((myConn->write(data.c_str(), data.size())) == -1) {
+		if ((myConn->write(data.c_str(), (unsigned int) data.size())) == -1) {
 			ArLog::log(ArLog::Normal,
 				"%s::downloadFirmware() Could not send data size(%d) to LCD errno (%d)", getName(), data.length(), errno);
 			return false;
