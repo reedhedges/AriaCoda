@@ -29,6 +29,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArBasePacket.h"
 #include "Aria/ariaUtil.h"
+#include "Aria/ariaInternal.h"
 
 /// Represents the packets sent to the robot as well as those received from it
 /**
@@ -61,6 +62,9 @@ public:
 
   /// returns the ID of the packet 
   AREXPORT ArTypes::UByte getID();
+
+  /// Get string containing packet type name, if known
+  const char *getName() { return Aria::getPacketTypeName(getID()); }
 
   /// Sets the ID of the packet 
   AREXPORT void setID(ArTypes::UByte id);

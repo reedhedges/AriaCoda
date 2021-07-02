@@ -305,8 +305,8 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
 				}
 
 				ArLog::log (ArLog::Normal,
-				            "Recv Packet: %s packet = %s", 
-										myTrackingLogName.c_str(), obuf);
+				            "Recv Packet: %s packet = %s (%s)", 
+										myTrackingLogName.c_str(), obuf, packet->getName());
 
 
 			}  // end tracking		
@@ -320,7 +320,7 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
                packet->printHex();
 	       */
             ArLog::log(ArLog::Normal, 
-                       "ArRobotPacketReceiver::receivePacket: Warning: bad packet, bad checksum (received packet type ID 0x%x)", packet->getID());
+                       "ArRobotPacketReceiver::receivePacket: Warning: bad packet, bad checksum (received packet type ID 0x%x: %s)", packet->getID(), packet->getName());
             state = STATE_SYNC1;
 	    myDeviceConn->debugEndPacket(false, -50);
             break;

@@ -167,9 +167,8 @@ AREXPORT void ArRobotPacket::setTimeReceived(ArTime timeReceived)
 
 AREXPORT void ArRobotPacket::log()
 {
-  int i;
-  ArLog::log(ArLog::Normal, "Robot Packet: (length = %i)", myLength);
-  for (i = 0; i < myLength; i++)
+  ArLog::log(ArLog::Normal, "Robot Packet: length = %i, type = 0x%x %s: ", myLength, getID(), getName());
+  for (int i = 0; i < myLength; ++i)
     ArLog::log(ArLog::Terse, "  [%03i] % 5d\t0x%x\t%c\t%s", i,
         (unsigned char) myBuf[i],
         (unsigned char) myBuf[i],

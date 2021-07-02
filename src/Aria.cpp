@@ -1253,6 +1253,73 @@ AREXPORT void Aria::setIdentifier(const char *identifier)
 }
 
 
+AREXPORT const char* Aria::getPacketTypeName(unsigned char id)
+{
+  switch(id) {
+    case 0x20:
+      return "Robot Config Packet";
+    case 0x32:
+      return "SIP";
+    case 0x33:
+      return "SIP";
+    case 0x60:
+      return "Simulator Laser Packet";
+    case 0x61:
+      return "Simulator Extended Laser Packet";
+    case 0x62:
+      return "Simulator SIMSTAT";
+    case 0x63:
+      return "Simulator SIMINFO";
+    case 0x66:
+      return "Simulator Map Changed";
+    case 0x7B:
+      return "Accelerometer Data";
+    case 0x7C:
+      return "Torque Data";
+    case 0x90:
+      return "Robot Encoders Packet";
+    case 0x95:
+      return "Heading Info";
+    case 0x98:
+      return "Robot Gyro";
+    case 0x9A:
+      return "Seekur IMU Packet";
+    case 0xA0:
+      return "P2 Arm Status";
+    case 0xA1:
+      return "P2 Arm Info";
+    case 0xB0:
+      return "Aux Serial 1";
+    case 0xB8:
+      return "Aux Serial 2";
+    case 0xC0:
+      return "Compass";
+    case 0xC8:
+      return "Aux Serial 3";
+    case 0xD3:
+      return "MARC Debug";
+    case 0xD5:
+      return "Absolute Max Limits";
+    case 0xDA:
+      return "Wheel Info";
+    case 0xE0:
+      return "Gripper Packet";
+    case 0xF0:
+      return "Robot IO Packet";
+    case 0xFA:
+      return "Battery Info Packet";
+    case 0xF8:
+      return "Robot Joystick";
+    case 0xFE:
+      return "Microcontroller Reset Notification";
+    case 0xFF:
+      return "Microcontroller Reset Notification";
+    default:
+      return "(unknown)";
+  }
+}
+
+
 AREXPORT const char* Aria::getVersionID()
 {
 #ifdef ARIA_VCSREV

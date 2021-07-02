@@ -315,6 +315,13 @@ public:
   AREXPORT static void setIdentifier(const char *identifier);
 
 
+
+
+
+
+  /// @return A string containing the name of a standard robot packet type with id @arg id, if known. If unknown, return "(unknown)".
+  AREXPORT static const char *getPacketTypeName(unsigned char id);
+
   /// @return A string containing version ID
   AREXPORT static const char *getVersionID();
 
