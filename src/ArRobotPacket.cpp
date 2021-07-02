@@ -96,18 +96,17 @@ AREXPORT void ArRobotPacket::setID(ArTypes::UByte id)
 
 AREXPORT void ArRobotPacket::finalizePacket()
 {
-  int len = myLength;
-  int chkSum;
+  const ArTypes::UByte2 len = myLength;
 
   myLength = 0;
   uByteToBuf(mySync1);
   uByteToBuf(mySync2);
-  uByteToBuf(len - getHeaderLength() + 3);
+  uByteToBuf((ArTypes::UByte)(len - getHeaderLength() + 3));
   myLength = len;
 
-  chkSum = calcCheckSum();
-  byteToBuf((chkSum >> 8) & 0xff );
-  byteToBuf(chkSum & 0xff );
+  const int chkSum = calcCheckSum();
+  byteToBuf((ArTypes::Byte)((chkSum >> 8) & 0xff));
+  byteToBuf((ArTypes::Byte)(chkSum & 0xff));
   /* Put this in if you want to see the packets being outputted 
      printf("Output(%3d) ", getID());
      printHex();
@@ -118,12 +117,9 @@ AREXPORT void ArRobotPacket::finalizePacket()
 
 AREXPORT ArTypes::Byte2 ArRobotPacket::calcCheckSum()
 {
-  int i;
-  unsigned char n;
-  int c = 0;
-
-  i = 3;
-  n = myBuf[2] - 2;
+  ArTypes::Byte2 c = 0;
+  int i = 3;
+  int n = (int) myBuf[2] - 2;
   while (n > 1) {
     c += ((unsigned char)myBuf[i]<<8) | (unsigned char)myBuf[i+1];
     c = c & 0xffff;
@@ -131,21 +127,18 @@ AREXPORT ArTypes::Byte2 ArRobotPacket::calcCheckSum()
     i += 2;
   }
   if (n > 0) 
-    c = c ^ (int)((unsigned char) myBuf[i]);
+    c = c ^ (ArTypes::Byte2)((unsigned char) myBuf[i]);
   return c;
 }
 
 AREXPORT bool ArRobotPacket::verifyCheckSum() 
 {
-  ArTypes::Byte2 chksum;
-  unsigned char c1, c2;
-
   if (myLength - 2 < myHeaderLength)
     return false;
 
-  c2 = myBuf[myLength - 2];
-  c1 = myBuf[myLength - 1];
-  chksum = (c1 & 0xff) | (c2 << 8);
+  const unsigned char c2 = myBuf[myLength - 2];
+  const unsigned char c1 = myBuf[myLength - 1];
+  const ArTypes::Byte2 chksum = (ArTypes::Byte2) ( (c1 & 0xff) | (c2 << 8) );
 
   if (chksum == calcCheckSum()) {
     return true;
