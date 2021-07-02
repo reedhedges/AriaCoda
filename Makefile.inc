@@ -39,7 +39,7 @@ CXXOPTFLAGS ?= -O2
 endif
 
 BARECXXFLAGS=-std=$(CXXSTD) $(CXXDEBUGFLAGS) $(CXXOPTFLAGS) $(CXXWARNFLAGS) -D_REENTRANT  
-CXXFLAGS+=$(BARECXXFLAGS) $(EXTRA_CXXFLAGS)
+CXXFLAGS+=$(BARECXXFLAGS) -fno-exceptions $(EXTRA_CXXFLAGS)
 CXXINC=-Iinclude # used in all targets
 CXXLINK=-Llib -lAria $(ARIA_CXXLINK) # used for examples, tests etc.
 CXXSTATICLINK=-Llib -Xlinker -Bstatic -lAria -Xlinker -Bdynamic $(ARIA_CXXSTATICLINK)
