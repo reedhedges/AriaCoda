@@ -315,6 +315,9 @@ public:
   AREXPORT static void setIdentifier(const char *identifier);
 
 
+  /// @return A string containing version ID
+  AREXPORT static const char *getVersionID();
+
 protected:
   static bool ourInited;
   static ArGlobalFunctor1<int> ourSignalHandlerCB;

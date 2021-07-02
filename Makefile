@@ -246,6 +246,7 @@ cleanDep:
 DATESTAMP=$(shell date +%Y-%m-%d)
 DATE=$(shell date +'%B %d, %Y')
 GITCOMMIT=$(shell git log --pretty=reference -n 1  | cut -f 1 -d ' ')
+GITLONGCOMMIT=$(shell git log --pretty=oneline -n 1 | cut -f 1 -d ' ')
 
 ifndef DOXYGEN_CONF
 DOXYGEN_CONF=doxygen.conf
@@ -626,6 +627,9 @@ obj/%.o : src/%.c
 
 obj/ArPacketUtil.o: src/ArPacketUtil.cpp
 	$(CXX) -c $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
+
+obj/Aria.o: src/Aria.cpp
+	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD -DARIA_VCSREV=\"$(GITLONGCOMMIT)\" $< -o $@
 
 include/Aria/%.i: include/Aria/%.h 
 	$(CXX) -E $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@

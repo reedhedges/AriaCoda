@@ -182,6 +182,8 @@ AREXPORT void Aria::init(SigHandleMethod method, bool initSockets,
 
   ArLog::init(ArLog::DefaultLogType, ArLog::Normal, NULL, false, false, false);
 
+  ArLog::log(ArLog::Terse, "AriaCoda %s", getVersionID());
+
   if (initSockets)
     ArSocket::init();
 
@@ -212,11 +214,11 @@ AREXPORT void Aria::init(SigHandleMethod method, bool initSockets,
   #endif // WIN32
         if (str.length() > 0)
         {
-    setDirectory(str.c_str());
+          setDirectory(str.c_str());
         }
         else
         {
-    ArLog::log(ArLog::Terse, "NonCritical Error: ARIA could not find where it is located.");
+          ArLog::log(ArLog::Verbose, "Warning: No ARIA data directory is set, using default.");
         }
       }
     }
@@ -570,8 +572,8 @@ AREXPORT void Aria::signalHandlerCB(int sig)
 }
 
 /**
-   This sets the directory that ARIA is located in, so ARIA can find param
-   files and the like.  This can also be controlled by the environment variable
+   This sets the directory that contains ARIA shared data such as robot parameter files
+   This can also be controlled by the environment variable
    ARIA, which this is set to (if it exists) when Aria::init is done.  So 
    for setDirectory to be effective, it must be done after the Aria::init.
    @param directory the directory Aria is located in
@@ -1248,4 +1250,14 @@ AREXPORT void Aria::setIdentifier(const char *identifier)
   // MPL fixing the problem caused by whitespace or bad chars in the
   // identifier (bug 14486).
   ArUtil::fixBadCharacters(&ourIdentifier, true);
+}
+
+
+AREXPORT const char* Aria::getVersionID()
+{
+#ifdef ARIA_VCSREV
+  return ARIA_VCSREV;
+#else
+  return "unknown revision";
+#endif
 }
