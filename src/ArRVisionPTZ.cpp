@@ -78,7 +78,7 @@ AREXPORT void ArRVisionPacket::byte2ToBuf(ArTypes::Byte2 val)
 AREXPORT void ArRVisionPacket::byte2ToBufAtPos(ArTypes::Byte2 val,
 					    ArTypes::UByte2 pos)
 {
-  ArTypes::Byte2 prevLength = myLength;
+  const ArTypes::UByte2 prevLength = myLength;
 
   if ((pos + 4) > myMaxLength)
   {
@@ -217,8 +217,12 @@ AREXPORT bool ArRVisionPTZ::panTilt_i(double degreesPan, double degreesTilt)
     degreesTilt = MIN_TILT;
   myTilt = degreesTilt;
 
-  myPanTiltPacket.byte2ToBufAtPos(ArMath::roundInt((myPan+myPanOffsetInDegrees) * myDegToPan), 6);
-  myPanTiltPacket.byte2ToBufAtPos(ArMath::roundInt((myTilt+myTiltOffsetInDegrees) * myDegToTilt), 10);
+  const int p = ArMath::roundInt((myPan + myPanOffsetInDegrees) * myDegToPan);
+  assert(p <= INT16_MAX);
+  const int t = ArMath::roundInt((myTilt + myTiltOffsetInDegrees) * myDegToTilt);
+  assert(t <= INT16_MAX);
+  myPanTiltPacket.byte2ToBufAtPos(p, 6);
+  myPanTiltPacket.byte2ToBufAtPos(t, 10);
   return sendPacket(&myPanTiltPacket);
 }
 
@@ -255,8 +259,10 @@ AREXPORT bool ArRVisionPTZ::zoom(int zoomValue)
   if (zoomValue < MIN_ZOOM)
     zoomValue = MIN_ZOOM;
   myZoom = zoomValue;
-    
-  myZoomPacket.byte2ToBufAtPos(ArMath::roundInt(myZoom), 4);
+
+  const int z = ArMath::roundInt(myZoom);
+  assert(z <= INT16_MAX);
+  myZoomPacket.byte2ToBufAtPos((ArTypes::Byte2)z, 4);
   return sendPacket(&myZoomPacket);
 }
 
