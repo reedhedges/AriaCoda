@@ -147,7 +147,7 @@ AREXPORT ArMTXIO::ArMTXIO(const char * dev) :
 			myFirmwareRevision = (mtxIO.myData.myVal32 & 0x000000ff);
 			myFirmwareVersion = (mtxIO.myData.myVal32 & 0x0000ff00) >> 8;
 			myCompatibilityCode = (mtxIO.myData.myVal32 & 0x00ff0000) >> 16;
-			myFPGAType = (mtxIO.myData.myVal32 & 0xff000000) >> 24;
+			myFPGAType = (unsigned char)((mtxIO.myData.myVal32 & 0xff000000) >> 24);
 			myEnabled = true;
 
 			//ArLog::log(ArLog::Normal, "ArMTXIO::ArMTXIO: Firmware Revision = 0x%02x", myFirmwareRevision);
@@ -370,7 +370,7 @@ AREXPORT bool ArMTXIO::getRegValue(unsigned short reg, unsigned char *val)
 		return false;
 	}
 
-	*val = req.myData.myVal16;
+	*val = req.myData.myVal8;
 
 	return true;
 }
@@ -623,7 +623,7 @@ AREXPORT bool ArMTXIO::getLPCTimeUSec(ArTypes::UByte4 *timeUSec)
     return false;
   }
 
-  *timeUSec = (time3 << 24) | (time2 << 16) | (time1 << 8) | time0;  
+  *timeUSec = (unsigned int) ((time3 << 24) | (time2 << 16) | (time1 << 8) | time0);  
   
   return true;
 }
@@ -1384,7 +1384,7 @@ MTX_IOREQ req;
 
 }
 
-AREXPORT bool ArMTXIO::getAnalogIOBlock1(unsigned int analog, unsigned short *val)
+AREXPORT bool ArMTXIO::getAnalogIOBlock1(unsigned short analog, unsigned short *val)
 {	
 	MTX_IOREQ req;
 
@@ -1402,7 +1402,7 @@ AREXPORT bool ArMTXIO::getAnalogIOBlock1(unsigned int analog, unsigned short *va
 	}
 
 	// read the value
-	req.myReg = MTX_DPRAM_BLOCK1 + (2 * analog);
+	req.myReg = (unsigned short) ( MTX_DPRAM_BLOCK1 + (2 * analog) );
 	req.mySize = sizeof(unsigned short);
 
 	bool noErr = true;
@@ -1421,7 +1421,7 @@ AREXPORT bool ArMTXIO::getAnalogIOBlock1(unsigned int analog, unsigned short *va
 }
 
 
-AREXPORT bool ArMTXIO::getAnalogIOBlock2(unsigned int analog, unsigned short *val)
+AREXPORT bool ArMTXIO::getAnalogIOBlock2(unsigned short analog, unsigned short *val)
 {	
 	MTX_IOREQ req;
 
@@ -1439,7 +1439,7 @@ AREXPORT bool ArMTXIO::getAnalogIOBlock2(unsigned int analog, unsigned short *va
 	}
 
 	// read the value
-	req.myReg = MTX_DPRAM_BLOCK2 + (2 * analog);
+	req.myReg = (unsigned short) (MTX_DPRAM_BLOCK2 + (2 * analog) );
 	req.mySize = sizeof(unsigned short);
 
 	bool noErr = true;
@@ -1459,7 +1459,7 @@ AREXPORT bool ArMTXIO::getAnalogIOBlock2(unsigned int analog, unsigned short *va
 
 
 
-AREXPORT bool ArMTXIO::setAnalogIOBlock2(unsigned int analog, unsigned short *val)
+AREXPORT bool ArMTXIO::setAnalogIOBlock2(unsigned short analog, unsigned short *val)
 {	
 	MTX_IOREQ req;
 
@@ -1477,7 +1477,7 @@ AREXPORT bool ArMTXIO::setAnalogIOBlock2(unsigned int analog, unsigned short *va
 	}
 
 	// write the value
-	req.myReg = MTX_DPRAM_BLOCK2 + (2 * analog);
+	req.myReg = (unsigned short) (MTX_DPRAM_BLOCK2 + (2 * analog) );
 	req.mySize = sizeof(unsigned short);
 	req.myData.myVal16 = *val;
 

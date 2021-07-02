@@ -292,19 +292,19 @@ public:
   /// 0-10v) 
   /// @param analog Which input to get value from, 0-indexed.
   /// @param val Pointer to value to write value to. Values are in volts * 1000.
-  AREXPORT bool getAnalogIOBlock1(unsigned int analog, unsigned short *val);
+  AREXPORT bool getAnalogIOBlock1(unsigned short analog, unsigned short *val);
 
   /// Get current state of analog outputs in block 2. There are 4 outputs, range
   //0-20v. Values are in volts * 1000.
   /// @param analog Which input to get value from, 0-indexed.
   /// @param val Pointer to value to write value to. Values are in volts * 1000.
-  AREXPORT bool getAnalogIOBlock2(unsigned int analog, unsigned short *val);
+  AREXPORT bool getAnalogIOBlock2(unsigned short analog, unsigned short *val);
 
   /// Set analog output. All analog outputs are in block 2.  There are 4
   //outputs, range 0-20v.   Values are in volts *1000.
   /// @param analog Which input to get value from, 0-indexed.
   /// @param val Pointer to value to write value to. Values are in volts * 1000.
-  AREXPORT bool setAnalogIOBlock2(unsigned int analog, unsigned short *val);
+  AREXPORT bool setAnalogIOBlock2(unsigned short analog, unsigned short *val);
 
 
 protected:
