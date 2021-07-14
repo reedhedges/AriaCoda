@@ -743,11 +743,16 @@ void ArArgumentParser::removeArg(size_t which)
 
 AREXPORT size_t ArArgumentParser::getArgc() const
 {
-  assert(myArgc != NULL && *myArgc >= 0);
-  if (myUsingBuilder)
+  if (myUsingBuilder) 
+  {
+    assert(myBuilder);
     return myBuilder->getArgc();
+  }
   else
+  {
+    assert(myArgc != NULL);
     return (size_t) (*myArgc);
+  }
 }
 
 AREXPORT char** ArArgumentParser::getArgv() const
