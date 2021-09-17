@@ -1,6 +1,9 @@
 
 include Makefile.inc
 
+majorlibver=3
+minorlibver=0.0
+
 ifndef JAVAC
 ifdef JAVA_BIN
 JAVAC:=$(JAVA_BIN)/javac
@@ -40,14 +43,6 @@ STATIC_TARGETS:=lib/libAria.a
 
 # Lots of targets, to build in the everything rule:
 ALL_TARGETS:=lib/libAria.$(sosuffix) utils examples tests docs params swig $(STATIC_TARGETS)
-
-DIST_TARGETS:=lib/libAria.$(sosuffix) params docs CommandLineOptions.txt \
-  examples/demo \
-  examples/demoStatic examples/seekurPower examples/mtxPower
-
-ifndef NO_DIST_WRAPPERS
-DIST_TARGETS:=$(DIST_TARGETS) java python
-endif
 
 CFILES:= \
 	ArAction.cpp \
@@ -216,6 +211,17 @@ SRC_FILES:=$(patsubst %,src/%,$(CFILES))
 HEADER_FILES:=$(shell find include -type f -name \*.h)
 
 
+# Metadata for documentation, installers, and providing version info in Aria.cpp
+DATESTAMP=$(shell date +%Y-%m-%d)
+DATE=$(shell date +'%B %d, %Y')
+GITCOMMIT=$(shell git log --pretty=reference -n 1  | cut -f 1 -d ' ')
+GITLONGCOMMIT=$(shell git log --pretty=oneline -n 1 | cut -f 1 -d ' ')
+GIT_NUM_MODIFIED=$(shell git ls-files -m | wc -l)
+ifeq ($(GIT_NUM_MODIFIED),0)
+ARIACODA_VERSION_STRING=$(GITLONGCOMMIT)
+else
+ARIACODA_VERSION_STRING="$(GITLONGCOMMIT) with $(GIT_NUM_MODIFIED) modified files"
+endif
 
 
 # Default Rule
@@ -243,10 +249,6 @@ cleanDep:
 
 # Rules to generate API documentation for local/personal use (rather than part of a
 # released package; that uses the packaging shell scripts instead)
-DATESTAMP=$(shell date +%Y-%m-%d)
-DATE=$(shell date +'%B %d, %Y')
-GITCOMMIT=$(shell git log --pretty=reference -n 1  | cut -f 1 -d ' ')
-GITLONGCOMMIT=$(shell git log --pretty=oneline -n 1 | cut -f 1 -d ' ')
 
 ifndef DOXYGEN_CONF
 DOXYGEN_CONF=doxygen.conf
@@ -369,7 +371,7 @@ cleanTests:
 	-rm -f $(TESTS) $(TESTS_STATIC)
 
 cleanDoc:
-	-rm -r $(DOXYGEN_OUTDIR)/*.html $(DOXYGEN_OUTDIR)/*.png $(DOXYGEN_OUTDIR)/doxygen.css
+	-rm -r $(DOXYGEN_OUTDIR)/*.html $(DOXYGEN_OUTDIR)/*.png $(DOXYGEN_OUTDIR)/doxygen.css $(DOXYGEN_OUTDIR)/*.js
 
 cleanDocs: cleanDoc
 
@@ -628,8 +630,11 @@ obj/%.o : src/%.c
 obj/ArPacketUtil.o: src/ArPacketUtil.cpp
 	$(CXX) -c $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
 
-obj/Aria.o: src/Aria.cpp
-	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD -DARIA_VCSREV=\"$(GITLONGCOMMIT)\" $< -o $@
+obj/Aria.o: src/Aria.cpp versionstring
+	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD -DARIA_VCSREV=\"$(ARIACODA_VERSION_STRING)\" $< -o $@
+
+versionstring: FORCE
+	if test -f versionstring; then oldver="`cat versionstring`"; else oldver=""; fi;  newver=$(ARIACODA_VERSION_STRING); if test "$$oldver" != "$$newver"; then echo $$newver > versionstring; fi
 
 include/Aria/%.i: include/Aria/%.h 
 	$(CXX) -E $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
@@ -685,6 +690,72 @@ cppclean-headers: FORCE
 	cppclean --include-path=include $(HEADER_FILES)
 
 
+
+
+# If DESTDIR is set, do Debian/Ubuntu system installation in that location.
+# Otherwise, install in /usr/local
+
+ifneq ($(DESTDIR),)
+  libdir=$(DESTDIR)/usr/lib
+  bindir=$(DESTDIR)/usr/bin
+  docdir=$(DESTDIR)/usr/share/doc
+  sharedir=$(DESTDIR)/usr/share
+  ariadir=/usr/share/Aria
+  incdir=$(DESTDIR)/usr/include
+  etcdir=$(DESTDIR)/etc
+  examplesdir=$(DESTDIR)/usr/share/doc/Aria/examples
+else
+  libdir=/usr/local/lib
+  bindir=/usr/local/bin
+  docdir=/usr/local/share/doc
+  sharedir=/usr/local/share
+  incdir=/usr/local/include
+  etcdir=/etc
+  ariadir=/usr/local/share/Aria
+  examplesdir=/usr/local/share/doc/Aria/examples
+endif
+
+install: install-default install-utils install-doc 
+
+install-default: lib/libAria.$(sosuffix) params README.md CommandLineOptions.txt $(HEADER_FILES) 
+	install -D -m 644 lib/libAria.$(sosuffix) $(libdir)/libAria.$(sosuffix).$(majorlibver).$(minorlibver)
+	ln -sf libAria.$(sosuffix).$(majorlibver).$(minorlibver) $(libdir)/libAria.$(sosuffix).$(majorlibver)
+	ln -sf libAria.$(sosuffix).$(majorlibver).$(minorlibver) $(libdir)/libAria.$(sosuffix)
+	install -D -m 644 -t $(docdir)/Aria README.md CommandLineOptions.txt
+	install -D -m 644 -t $(sharedir)/Aria/params params/*
+	install -D -m 644 -t $(incdir)/Aria $(HEADER_FILES)
+	mkdir -p $(etcdir)
+	echo $(ariadir) > $(etcdir)/Aria || echo Warning unable to store location of ARIA shared resources in $(etcdir)/Aria. ARIA will use built in default search order.
+
+uninstall: FORCE
+	rm $(libdir)/libAria.$(sosuffix).$(majorlibver).$(minorlibver)
+	rm $(libdir)/libAria.$(sosuffix).$(majorlibver)
+	rm $(libdir)/libAria.$(sosuffix)
+	rm -d $(docdir)/Aria/README.md $(docdir)/Aria/CommandLineOptions.txt
+	rm -d $(sharedir)/Aria/params/*
+	rm $(etcdir)/Aria
+	rm -r $(incdir)/Aria
+
+install-utils: examples/demo examples/seekurPower examples/mtxPower
+	install -D -m 755 -s examples/demo $(bindir)/ariaDemo
+	install -D -m 755 -s examples/seekurPower $(bindir)/
+	install -D -m 755 -s examples/mtxPower $(bindir)/
+
+install-doc: doc
+	find docs -type f -exec install -D -m 644 \{\} $(docdir)/Aria/\{\} \;
+
+install-docs: install-doc
+
+install-java: java
+
+install-python: python
+
+install-examples:
+	install -D -m 644 -t $(examplesdir) $(EXAMPLES_CPP) examples/README.txt examples/*.wav
+
+
+deb: FORCE
+	dh binary
 
 # Make optimization, tell it what rules aren't files:
 .PHONY: all everything examples modExamples tests utils cleanDep docs doc dirs help info moreinfo clean cleanUtils cleanExamples cleanTests cleanDoc cleanPython dep params python python-doc java cleanJava params swig help info moreinfo py python-doc cleanSwigJava dirs install  distclean ctags csharp cleanCSharp cleanAll tidy cppclean cppcheck clang-tidy debug
