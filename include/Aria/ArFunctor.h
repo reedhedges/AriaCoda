@@ -29,29 +29,23 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <stdarg.h>
 #include <stdio.h>
 
-/// An object which allows storing a generalized reference to a method with an object instance to call later (used for callback functions)
+/// An object which stores (binds) a reference to an object instance, and a
+/// function (method) to call with that object instance, usually used for
+/// callback functions.  
 /**
-  Functors are meant to encapsulate the idea of a pointer to a function
-  which is a member of a class. To use a pointer to a member function,
-  you must have a C style function pointer, 'void(Class::*)()', and a
-  pointer to an instance of the class in which the function is a member
-  of. This is because all non-static member functions must have a 'this'
-  pointer. If they dont and if the member function uses any member data
-  or even other member functions it will not work right and most likely
-  crash. This is because the 'this' pointer is not the correct value
-  and is most likely a random uninitialized value. The virtue of static
-  member functions is that they do not require a 'this' pointer to be run.
-  But the compiler will never let you access any member data or functions
-  from within a static member function.
+  This base class and subclasses implements the idea of a pointer to a function
+  which is a member of a class, bound to a specific instance of this class. 
+  Subclasses are provided for different numbers of
+  function arguments, const and non-const types, and compatible base classes
+  for global functions (not object methods).    
 
-  Because of the design of C++ never allowed for encapsulating these two
-  pointers together into one language supported construct, this has to be
-  done by hand. For conviences sake, there are functors (ArGlobalFunctor,
-  ArGlobalRetFunctor) which take a pure C style function pointer
-  (a non-member function). This is in case you want to use a functor that
-  refers to a global C style function.
+  To call a bound function with no return type, use invoke(). To receive the
+  return type, use invokeR().  
 
-  @note When supplying the function pointer to the callback constructor,
+  ArFunctor does not really 
+  implement a true "ArFunctor", but it's too late to change the name.
+
+  @note When supplying the function pointer to the constructor,
   make sure to pass the function pointer using "&" (pointer reference
   syntax).  When supplying a method, make sure to qualify the method
   name with the class name as well.  For example:
@@ -61,57 +55,56 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
   otherwise you will receive compile errors such as "invalid use of
   member function", or that the function was not declared.
 
-  Aria makes use of functors by using them as callback functions. Since
-  Aria is programmed using the object oriented programming paradigm, all
-  the callback functions need to be tied to an object and a particular
-  instance. Thus the need for functors. Most of the use of callbacks simply
-  take an ArFunctor, which is the base class for all the functors. This
-  class only has the ability to invoke a functor. All the derived
-  functor classes have the ability to invoke the correct function on the correct
+  All the derived
+  ArFunctor classes have the ability to invoke the correct function on the correct
   object.
 
   Because functions have different signatures because they take different
   types of parameters and have different number of parameters, templates
-  were used to create the functors. These are the base classes for the
-  functors. These classes encapsulate everything except for the class
+  were used to create the ArFunctors. These are the base classes for the
+  ArFunctors. These classes encapsulate everything except for the class
   type that the member function is a member of. This allows someone to
-  accept a functor of type ArFunctor1<int> which has one parameter of type
+  accept a ArFunctor of type ArFunctor1<int> which has one parameter of type
   'int'. But they never have to know that the function is a member function
   of class 'SomeUnknownType'. These classes are:
 
   ArFunctor, ArFunctor1, ArFunctor2, ArFunctor3
   ArRetFunctor, ArRetFunctor1, ArRetFunctor2, ArRetFunctor3
 
-  These 8 functors are the only thing a piece of code that wants a functor
+  These 8 ArFunctors are the only thing a piece of code that wants a ArFunctor
   will ever need. But these classes are abstract classes and can not be
   instantiated. On the other side, the piece of code that wants to be
-  called back will need the functor classes that know about the class type.
-  These functors are:
+  called back will need the ArFunctor classes that know about the class type.
+  These ArFunctors are:
 
   ArFunctorC, ArFunctor1C, ArFunctor2C, ArFunctor3C
   ArRetFunctorC, ArRetFunctor1C, ArRetFunctor2C, ArRetFunctor3C
 
-  These functors are meant to be instantiated and passed of to a piece of
+  These ArFunctors are meant to be instantiated and passed of to a piece of
   code that wants to use them. That piece of code should only know the
-  functor as one of the functor classes without the 'C' in it.
+  ArFunctor as one of the ArFunctor classes without the 'C' in it.
 
-  Note that you can create these FunctorC instances with default
-  arguments that are then used when the invoke is called without those
-  arguments...  These are quite useful since if you have a class that
-  expects an ArFunctor you can make an ArFunctor1C with default
-  arguments and pass it as an ArFunctor... and it will get called with
-  that default argument, this is useful for having multiple functors
-  use the same function with different arguments and results (just
-  takes one functor each). 
+  Note that you can create these ArFunctorC instances with default
+  argument values that are then used when invoked is called without those
+  arguments.  
+  For example, if you have an interface that
+  expects an ArFunctor object (no function arguments), you can instead provide
+  an ArFunctor1C instance (since ArFunctor1C derives from ArFunctor), but set a
+  parameter value (via the constructor, or the setP1() method.) 
 
-  Functors now have a getName() method, this is useful as an aid to debugging,
-  allowing you to display the name of some functor being used.
+  ArFunctors now have a getName() method, this is useful as an aid to debugging,
+  allowing you to display the name of some ArFunctor being used.
 
   @javanote You can subclass ArFunctor and override invoke().
 
-  @see @ref functorExample.cpp
+  @see @ref ArFunctorExample.cpp
 
   @todo Missing move constructors/assignments and copy constructors. These would be a pain to add to all variations of ArFunctor. ArFunctor will eventually be deprecated and replaced with more generic and standards based function objects.
+
+  @todo Deprecate ArFunctor and replace all uses with std::function or other
+    standard C++ object for binding a function and instance.  (Or store a
+    std::function or other callable object, with the debugging name and other
+    context.)
 
   @ingroup ImportantClasses
 **/
@@ -122,20 +115,19 @@ public:
   
    ArFunctor() = default;
 
-   /// Destructor
    virtual ~ArFunctor() = default;
   
-   /// Invokes the functor
+   /// Call the function (method) on the object
    virtual void invoke() = 0;
 
-   /// Gets the name of the functor
+   /// Gets a name for this ArFunctor object, for diagnostic purposes
    virtual const char *getName() { return myName.c_str(); }
 
-   /// Sets the name of the functor
+   /// Sets the name
    virtual void setName(const char *name) { myName = name; }
 
 #ifndef SWIG
-  /// Sets the name of the functor with formatting
+  /// Sets the name with formatting
   /** @swigomit use setName() */
   virtual void setNameVar(const char *name, ...) 
     { 
@@ -153,60 +145,33 @@ protected:
   std::string myName;
 };
 
-/// Base class for functors with 1 parameter
-/**
-   This is the base class for functors with 1 parameter. Code that has a
-   reference to a functor that takes 1 parameter should use this class
-   name. This allows the code to know how to invoke the functor without
-   knowing which class the member function is in.
-
-   For an overall description of functors, see ArFunctor.
-*/
+/// Base class for functions with 1 parameter
 template<class P1>
 class ArFunctor1 : public ArFunctor
 {
 public:
-
-  /// Destructor
   virtual ~ArFunctor1()  = default;
-
-  /// Invokes the functor
+  /// The parameter value is default initialized
   virtual void invoke() override = 0;
-
-  /// Invokes the functor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) = 0;
 };
 
-/// Base class for functors with 2 parameters
-/**
-   This is the base class for functors with 2 parameters. Code that has a
-   reference to a functor that takes 2 parameters should use this class
-   name. This allows the code to know how to invoke the functor without
-   knowing which class the member function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// Base class for functions with 2 parameters
 template<class P1, class P2>
 class ArFunctor2 : public ArFunctor1<P1>
 {
 public:
-
-  /// Destructor
   virtual ~ArFunctor2()  = default;
-
-  /// Invokes the functor
+  /// All parameter values are default initialized
   virtual void invoke() override = 0;
-
-  /// Invokes the functor
   /**
+     The second parameter value is default initialized
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override = 0;
-
-  /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -214,176 +179,57 @@ public:
   virtual void invoke(P1 p1, P2 p2) = 0;
 };
 
-/// Base class for functors with 3 parameters
-/**
-   This is the base class for functors with 3 parameters. Code that has a
-   reference to a functor that takes 3 parameters should use this class
-   name. This allows the code to know how to invoke the functor without
-   knowing which class the member function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// Base class for function with 3 parameters
 template<class P1, class P2, class P3>
 class ArFunctor3 : public ArFunctor2<P1, P2>
 {
 public:
-
-  /// Destructor
   virtual ~ArFunctor3()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-  */
   virtual void invoke(P1 p1) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   virtual void invoke(P1 p1, P2 p2) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   virtual void invoke(P1 p1, P2 p2, P3 p3) = 0;
 };
 
 
 
-/// Base class for functors with 4 parameters
-/**
-   This is the base class for functors with 4 parameters. Code that has a
-   reference to a functor that takes 4 parameters should use this class
-   name. This allows the code to know how to invoke the functor without
-   knowing which class the member function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// Base class for functions with 4 parameters
 template<class P1, class P2, class P3, class P4>
 class ArFunctor4 : public ArFunctor3<P1, P2, P3>
 {
 public:
-
-  /// Destructor
   virtual ~ArFunctor4()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-  */
   virtual void invoke(P1 p1) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   virtual void invoke(P1 p1, P2 p2) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-     @param p4 fourth parameter
- */
-    virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
-
+  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
 };
 
 
-/// Base class for functors with 4 parameters
-/**
-   This is the base class for functors with 4 parameters. Code that has a
-   reference to a functor that takes 4 parameters should use this class
-   name. This allows the code to know how to invoke the functor without
-   knowing which class the member function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// Base class for functions with 4 parameters
 template<class P1, class P2, class P3, class P4, class P5>
 class ArFunctor5 : public ArFunctor4<P1, P2, P3, P4>
 {
 public:
-
-  /// Destructor
   virtual ~ArFunctor5()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-  */
   virtual void invoke(P1 p1) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   virtual void invoke(P1 p1, P2 p2) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-     @param p4 fourth parameter
- */
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override = 0;
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-     @param p4 fourth parameter
-     @param p5 fifth parameter
- */
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) = 0;
-
 };
 
 
 
 
-/// Base class for functors with a return value
+/// Base class for functions with a return value
 /**
-   This is the base class for functors with a return value. Code that has a
-   reference to a functor that returns a value should use this class
-   name. This allows the code to know how to invoke the functor without
-   knowing which class the member function is in.
+   Code invoking or storing an ArFunctor with a function that returns a value
+   should use this base class, and call invokeR() to receive the return value.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description, see ArFunctor.
 
    @javanote To create the equivalent of ArRetFunctor<bool>, you can 
       subclass <code>ArRetFunctor_Bool</code> and override <code>invoke(bool)</code>
@@ -393,11 +239,8 @@ template<class Ret>
 class ArRetFunctor : public ArFunctor
 {
 public:
-
-  /// Destructor
   virtual ~ArRetFunctor()  = default;
-
-  /// Invokes the functor, discards any return value
+  /// discards any return value
   virtual void invoke() override {
 #ifdef WIN32
 #pragma warning(push)
@@ -408,229 +251,64 @@ public:
     invokeR();
 #endif
   }
-
-  /// Invokes the functor with return value
   NODISCARD virtual Ret invokeR() = 0;
 };
 
-/// Base class for functors with a return value with 1 parameter
-/**
-   This is the base class for functors with a return value and take 1
-   parameter. Code that has a reference to a functor that returns a value
-   and takes 1 parameter should use this class name. This allows the code
-   to know how to invoke the functor without knowing which class the member
-   function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
 template<class Ret, class P1>
 class ArRetFunctor1 : public ArRetFunctor<Ret>
 {
 public:
-
-  /// Destructor
   virtual ~ArRetFunctor1()  = default;
-
-  /// Invokes the functor with return value
   NODISCARD virtual Ret invokeR() override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1) = 0;
 };
 
-/// Base class for functors with a return value with 2 parameters
-/**
-   This is the base class for functors with a return value and take 2
-   parameters. Code that has a reference to a functor that returns a value
-   and takes 2 parameters should use this class name. This allows the code
-   to know how to invoke the functor without knowing which class the member
-   function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
 template<class Ret, class P1, class P2>
 class ArRetFunctor2 : public ArRetFunctor1<Ret, P1>
 {
 public:
-
-  /// Destructor
   virtual ~ArRetFunctor2()  = default;
-
-  /// Invokes the functor with return value
   NODISCARD virtual Ret invokeR() override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) = 0;
 };
 
-/// Base class for functors with a return value with 3 parameters
-/**
-   This is the base class for functors with a return value and take 3
-   parameters. Code that has a reference to a functor that returns a value
-   and takes 3 parameters should use this class name. This allows the code
-   to know how to invoke the functor without knowing which class the member
-   function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// Base class for ArFunctors with a return value with 3 parameters
 template<class Ret, class P1, class P2, class P3>
 class ArRetFunctor3 : public ArRetFunctor2<Ret, P1, P2>
 {
 public:
-
-  /// Destructor
   virtual ~ArRetFunctor3()  = default;
-
-  /// Invokes the functor with return value
   NODISCARD virtual Ret invokeR() override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
 };
 
 
-/// Base class for functors with a return value with 4 parameters
-/**
-   This is the base class for functors with a return value and take 4
-   parameters. Code that has a reference to a functor that returns a value
-   and takes 4 parameters should use this class name. This allows the code
-   to know how to invoke the functor without knowing which class the member
-   function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
 template<class Ret, class P1, class P2, class P3, class P4>
 class ArRetFunctor4 : public ArRetFunctor3<Ret, P1, P2, P3>
 {
 public:
-
-  /// Destructor
   virtual ~ArRetFunctor4()  = default;
-
-  /// Invokes the functor with return value
   NODISCARD virtual Ret invokeR() override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-     @param p4 fourth parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
 };
 
-/// Base class for functors with a return value with 5 parameters
-/**
-   This is the base class for functors with a return value and take 5
-   parameters. Code that has a reference to a functor that returns a value
-   and takes 5 parameters should use this class name. This allows the code
-   to know how to invoke the functor without knowing which class the member
-   function is in.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// Base class for ArFunctors with a return value with 5 parameters
 template<class Ret, class P1, class P2, class P3, class P4, class P5>
 class ArRetFunctor5 : public ArRetFunctor4<Ret, P1, P2, P3, P4>
 {
 public:
-
-  /// Destructor
   virtual ~ArRetFunctor5()  = default;
-
-  /// Invokes the functor with return value
   NODISCARD virtual Ret invokeR() override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-     @param p4 fourth parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override = 0;
-
-  /// Invokes the functor with return value
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-     @param p4 fourth parameter
-     @param p5 fifth parameter
-  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) = 0;
 };
 
@@ -639,109 +317,51 @@ public:
 
 
 //////
-//////
-//////
-//////
-//////
-//////
 ////// ArFunctors for global functions. C style function pointers.
-//////
-//////
-//////
-//////
-//////
 //////
 
 
 #ifndef SWIG
-/// Functor for a global function with no parameters
+/// ArFunctor for a global function with no parameters
 /**
    This is a class for global functions. This ties a C style function
-   pointer into the functor class hierarchy as a convience. Code that
-   has a reference to this class and treat it as an ArFunctor can use
-   it like any other functor.
+   pointer into the ArFunctor class hierarchy as a convience. 
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctor, see ArFunctor.
 
    @swigomit
 */
 class ArGlobalFunctor : public ArFunctor
 {
 public:
-
-  /// Constructor
-  //ArGlobalFunctor() = default;
-  /// Constructor - supply function pointer
-  /**
-     @param func global function pointer
-  */
   ArGlobalFunctor(void (*func)()) : myFunc(func) {}
-  /// Destructor
   virtual ~ArGlobalFunctor()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override {(*myFunc)();}
 protected:
 
   void (*myFunc)();
 };
 
-/// Functor for a global function with 1 parameter
-/**
-   This is a class for global functions which take 1 parameter. This ties
-   a C style function pointer into the functor class hierarchy as a
-   convience. Code that has a reference to this class and treat it as
-   an ArFunctor can use it like any other functor.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// ArFunctor for a global function with 1 parameter
 template<class P1>
 class ArGlobalFunctor1 : public ArFunctor1<P1>
 {
 public:
-
-  /// Constructor
-  //ArGlobalFunctor1() = default;
-  /// Constructor - supply function pointer
-  /**
-     @param func global function pointer
-  */
   ArGlobalFunctor1(void (*func)(P1)) :
     myFunc(func), myP1() {}
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-  */
   ArGlobalFunctor1(void (*func)(P1), P1 p1) :
     myFunc(func), myP1(p1) {}
-
-  /// Destructor
   virtual ~ArGlobalFunctor1()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override {(*myFunc)(myP1);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-  */
   virtual void invoke(P1 p1) override {(*myFunc)(p1);}
-
-  /// Set the default parameter
-  /**
-     @param p1 default first parameter
-  */
   virtual void setP1(P1 p1) {myP1=p1;}
-
 protected:
-
   void (*myFunc)(P1);
   P1 myP1;
 };
 
 
-/// Functor for a global function with 1 parameter which may be a const type
+/// ArFunctor for a global function with 1 parameter which may be a const type
 template<class P1>
 class ArGlobalFunctor1Const : public ArFunctor1<P1>
 {
@@ -756,183 +376,51 @@ protected:
 };
 
 
-/// Functor for a global function with 2 parameters
-/**
-   This is a class for global functions which take 2 parameters. This ties
-   a C style function pointer into the functor class hierarchy as a
-   convience. Code that has a reference to this class and treat it as
-   an ArFunctor can use it like any other functor.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// ArFunctor for a global function with 2 parameters
 template<class P1, class P2>
 class ArGlobalFunctor2 : public ArFunctor2<P1, P2>
 {
 public:
-
-  /// Constructor
-  //ArGlobalFunctor2() = default;
-
-  /// Constructor - supply function pointer
-  /**
-     @param func global function pointer
-  */
   ArGlobalFunctor2(void (*func)(P1, P2)) :
     myFunc(func), myP1(), myP2() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-  */
   ArGlobalFunctor2(void (*func)(P1, P2), P1 p1) :
     myFunc(func), myP1(p1), myP2() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-  */
   ArGlobalFunctor2(void (*func)(P1, P2), P1 p1, P2 p2) :
     myFunc(func), myP1(p1), myP2(p2) {}
-
-  /// Destructor
   virtual ~ArGlobalFunctor2()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override {(*myFunc)(myP1, myP2);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-  */
   virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2);}
-
-  /// Set the default parameter
-  /**
-     @param p1 default first parameter
-  */
   virtual void setP1(P1 p1) {myP1=p1;}
-
-  /// Set the default 2nd parameter
-  /**
-     @param p2 default second parameter
-  */
   virtual void setP2(P2 p2) {myP2=p2;}
-
 protected:
-
   void (*myFunc)(P1, P2);
   P1 myP1;
   P2 myP2;
 };
 
-/// Functor for a global function with 3 parameters
-/**
-   This is a class for global functions which take 3 parameters. This ties
-   a C style function pointer into the functor class hierarchy as a
-   convience. Code that has a reference to this class and treat it as
-   an ArFunctor can use it like any other functor.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// ArFunctor for a global function with 3 parameters
 template<class P1, class P2, class P3>
 class ArGlobalFunctor3 : public ArFunctor3<P1, P2, P3>
 {
 public:
-
-  /// Constructor
-  //ArGlobalFunctor3() = default;
-
-  /// Constructor - supply function pointer
-  /**
-     @param func global function pointer
-  */
   ArGlobalFunctor3(void (*func)(P1, P2, P3)) :
     myFunc(func), myP1(), myP2(), myP3() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-  */
   ArGlobalFunctor3(void (*func)(P1, P2, P3), P1 p1) :
     myFunc(func), myP1(p1), myP2(), myP3() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-  */
   ArGlobalFunctor3(void (*func)(P1, P2, P3), P1 p1, P2 p2) :
     myFunc(func), myP1(p1), myP2(p2), myP3() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-     @param p3 default third parameter
-  */
   ArGlobalFunctor3(void (*func)(P1, P2, P3), P1 p1, P2 p2, P3 p3) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
-
-  /// Destructor
   virtual ~ArGlobalFunctor3()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override {(*myFunc)(myP1, myP2, myP3);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-  */
   virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3);}
-
-  /// Set the default parameter
-  /**
-     @param p1 default first parameter
-  */
   virtual void setP1(P1 p1) {myP1=p1;}
-
-  /// Set the default 2nd parameter
-  /**
-     @param p2 default second parameter
-  */
   virtual void setP2(P2 p2) {myP2=p2;}
-
-  /// Set the default third parameter
-  /**
-     @param p3 default third parameter
-  */
   virtual void setP3(P3 p3) {myP3=p3;}
-
 protected:
-
   void (*myFunc)(P1, P2, P3);
   P1 myP1;
   P2 myP2;
@@ -941,126 +429,29 @@ protected:
 
 
 
-/// Functor for a global function with 4 parameters
-/**
-   This is a class for global functions which take 4 parameters. This ties
-   a C style function pointer into the functor class hierarchy as a
-   convience. Code that has a reference to this class and treat it as
-   an ArFunctor can use it like any other functor.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// ArFunctor for a global function with 4 parameters
 template<class P1, class P2, class P3, class P4>
 class ArGlobalFunctor4 : public ArFunctor4<P1, P2, P3, P4>
 {
 public:
-
-  /// Constructor
    ArGlobalFunctor4() = default;
-
-   /// Constructor - supply function pointer
-   /**
-     @param func global function pointer
-  */
    ArGlobalFunctor4(void (*func)(P1, P2, P3, P4)) : myFunc(func), myP1(), myP2(), myP3(), myP4() {}
-
-   /// Constructor - supply function pointer, default parameters
-   /**
-     @param func global function pointer
-     @param p1 default first parameter
-  */
    ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1) : myFunc(func), myP1(p1), myP2(), myP3(), myP4() {}
-
-   /// Constructor - supply function pointer, default parameters
-   /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-  */
    ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2) : myFunc(func), myP1(p1), myP2(p2), myP3(), myP4() {}
-
-   /// Constructor - supply function pointer, default parameters
-   /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-     @param p3 default third parameter
-  */
    ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3) : myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4() {}
-
-   /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-     @param p3 default third parameter
-     @param p4 default fourth parameter
- */
  ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3, P4 p4) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
-
-  /// Destructor
   virtual ~ArGlobalFunctor4()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-  */
   virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-  */
   virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-  */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4);}
-
-  /// Invokes the functor
-  /**
-     @param p1 first parameter
-     @param p2 second parameter
-     @param p3 third parameter
-     @param p4 fourth parameter
-  */
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(*myFunc)(p1, p2, p3, p4);}
-
-  /// Set the default parameter
-  /**
-     @param p1 default first parameter
-  */
   virtual void setP1(P1 p1) {myP1=p1;}
-
-  /// Set the default 2nd parameter
-  /**
-     @param p2 default second parameter
-  */
   virtual void setP2(P2 p2) {myP2=p2;}
-
-  /// Set the default third parameter
-  /**
-     @param p3 default third parameter
-  */
   virtual void setP3(P3 p3) {myP3=p3;}
-
-  /// Set the default fourth parameter
-  /**
-     @param p4 default fourth parameter
-  */
   virtual void setP4(P4 p4) {myP4=p4;}
-
 protected:
-
   void (*myFunc)(P1, P2, P3, P4);
   P1 myP1;
   P2 myP2;
@@ -1069,69 +460,22 @@ protected:
 };
 
 
-/// Functor for a global function with 5 parameters
-/**
-   This is a class for global functions which take 5 parameters. This ties
-   a C style function pointer into the functor class hierarchy as a
-   convience. Code that has a reference to this class and treat it as
-   an ArFunctor can use it like any other functor.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// ArFunctor for a global function with 5 parameters
 template<class P1, class P2, class P3, class P4, class P5>
 class ArGlobalFunctor5 : public ArFunctor5<P1, P2, P3, P4, P5>
 {
 public:
-
-  /// Constructor
   ArGlobalFunctor5() = default;
-
-  /// Constructor - supply function pointer
-  /**
-     @param func global function pointer
-  */
   ArGlobalFunctor5(void (*func)(P1, P2, P3, P4, P5)) :
     myFunc(func), myP1(), myP2(), myP3(), myP4(), myP5() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-  */
   ArGlobalFunctor5(void (*func)(P1, P2, P3, P4, P5), P1 p1) :
     myFunc(func), myP1(p1), myP2(), myP3(), myP4(), myP5() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-  */
   ArGlobalFunctor5(void (*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2) :
     myFunc(func), myP1(p1), myP2(p2), myP3(), myP4(), myP5() {}
-
-  /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-     @param p3 default third parameter
-  */
   ArGlobalFunctor5(void (*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(), myP5() {}
-
-   /// Constructor - supply function pointer, default parameters
-  /**
-     @param func global function pointer
-     @param p1 default first parameter
-     @param p2 default second parameter
-     @param p3 default third parameter
-     @param p4 default fourth parameter
- */
   ArGlobalFunctor5(void (*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5() {}
-
-   /// Constructor - supply function pointer, default parameters
   /**
      @param func global function pointer
      @param p1 default first parameter
@@ -1142,35 +486,23 @@ public:
  */
   ArGlobalFunctor5(void (*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
-
-  /// Destructor
   virtual ~ArGlobalFunctor5()  = default;
-
-  /// Invokes the functor
   virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
-
-  /// Invokes the functor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4, myP5);}
-
-  /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4, myP5);}
-
-  /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
      @param p3 third parameter
   */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4, myP5);}
-
-  /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1179,7 +511,6 @@ public:
   */
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(*myFunc)(p1, p2, p3, p4, myP5);}
 
-  /// Invokes the functor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1235,49 +566,34 @@ protected:
 
 
 //////
-//////
-//////
-//////
-//////
-//////
 ////// ArFunctors for global functions, C style function pointers with return
 ////// return values.
-//////
-//////
-//////
-//////
-//////
 //////
 
 #ifndef SWIG
 
-/// Functor for a global function with return value
+/// ArFunctor for a global function with return value
 /**
    This is a class for global functions which return a value. This ties
-   a C style function pointer into the functor class hierarchy as a
+   a C style function pointer into the ArFunctor class hierarchy as a
    convience. Code that has a reference to this class and treat it as
-   an ArFunctor can use it like any other functor.
+   an ArFunctor can use it like any other ArFunctor.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctor, see ArFunctor.
 */
 template<class Ret>
 class ArGlobalRetFunctor : public ArRetFunctor<Ret>
 {
 public:
-
-  /// Constructor
   ArGlobalRetFunctor() = default;
-
-  /// Constructor - supply function pointer
   /**
      @param func global function pointer
   */
   ArGlobalRetFunctor(Ret (*func)()) : myFunc(func) {}
 
-  /// Destructor
   virtual ~ArGlobalRetFunctor()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (*myFunc)();}
 
 protected:
@@ -1286,20 +602,11 @@ protected:
 };
 
 
-/// Functor for a global function with 1 parameter and return value
-/**
-   This is a class for global functions which take 1 parameter and return
-   a value. This ties a C style function pointer into the functor class
-   hierarchy as a convience. Code that has a reference to this class
-   and treat it as an ArFunctor can use it like any other functor.
-   
-   For an overall description of functors, see ArFunctor.
-*/
+/// ArFunctor for a global function with 1 parameter and return value
 template<class Ret, class P1>
 class ArGlobalRetFunctor1 : public ArRetFunctor1<Ret, P1>
 {
 public:
-
   /// Constructor
   ArGlobalRetFunctor1() = default;
 
@@ -1318,13 +625,12 @@ public:
   ArGlobalRetFunctor1(Ret (*func)(P1), P1 p1) :
     myFunc(func), myP1(p1) {}
 
-  /// Destructor
   virtual ~ArGlobalRetFunctor1()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
@@ -1342,14 +648,14 @@ protected:
   P1 myP1;
 };
 
-/// Functor for a global function with 2 parameters and return value
+/// ArFunctor for a global function with 2 parameters and return value
 /**
    This is a class for global functions which take 2 parameters and return
-   a value. This ties a C style function pointer into the functor class
+   a value. This ties a C style function pointer into the ArFunctor class
    hierarchy as a convience. Code that has a reference to this class
-   and treat it as an ArFunctor can use it like any other functor.
+   and treat it as an ArFunctor can use it like any other ArFunctor.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class P1, class P2>
 class ArGlobalRetFunctor2 : public ArRetFunctor2<Ret, P1, P2>
@@ -1386,16 +692,16 @@ public:
   /// Destructor
   virtual ~ArGlobalRetFunctor2()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1421,14 +727,14 @@ protected:
   P2 myP2;
 };
 
-/// Functor for a global function with 2 parameters and return value
+/// ArFunctor for a global function with 2 parameters and return value
 /**
    This is a class for global functions which take 2 parameters and return
-   a value. This ties a C style function pointer into the functor class
+   a value. This ties a C style function pointer into the ArFunctor class
    hierarchy as a convience. Code that has a reference to this class
-   and treat it as an ArFunctor can use it like any other functor.
+   and treat it as an ArFunctor can use it like any other ArFunctor.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class P1, class P2, class P3>
 class ArGlobalRetFunctor3 : public ArRetFunctor3<Ret, P1, P2, P3>
@@ -1475,23 +781,23 @@ public:
   /// Destructor
   virtual ~ArGlobalRetFunctor3()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1529,14 +835,14 @@ protected:
 
 
 
-/// Functor for a global function with 4 parameters and return value
+/// ArFunctor for a global function with 4 parameters and return value
 /**
    This is a class for global functions which take 4 parameters and return
-   a value. This ties a C style function pointer into the functor class
+   a value. This ties a C style function pointer into the ArFunctor class
    hierarchy as a convience. Code that has a reference to this class
-   and treat it as an ArFunctor can use it like any other functor.
+   and treat it as an ArFunctor can use it like any other ArFunctor.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class P1, class P2, class P3, class P4>
 class ArGlobalRetFunctor4 : public ArRetFunctor4<Ret, P1, P2, P3, P4>
@@ -1594,23 +900,23 @@ public:
   /// Destructor
   virtual ~ArGlobalRetFunctor4()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1618,7 +924,7 @@ public:
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1662,14 +968,14 @@ protected:
 };
 
 
-/// Functor for a global function with 4 parameters and return value
+/// ArFunctor for a global function with 4 parameters and return value
 /**
    This is a class for global functions which take 4 parameters and return
-   a value. This ties a C style function pointer into the functor class
+   a value. This ties a C style function pointer into the ArFunctor class
    hierarchy as a convience. Code that has a reference to this class
-   and treat it as an ArFunctor can use it like any other functor.
+   and treat it as an ArFunctor can use it like any other ArFunctor.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class P1, class P2, class P3, class P4, class P5>
 class ArGlobalRetFunctor5 : public ArRetFunctor5<Ret, P1, P2, P3, P4, P5>
@@ -1738,23 +1044,23 @@ public:
   /// Destructor
   virtual ~ArGlobalRetFunctor5()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1762,7 +1068,7 @@ public:
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1771,7 +1077,7 @@ public:
  */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override {return (*myFunc)(p1, p2, p3, p4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -1841,14 +1147,14 @@ protected:
 //////
 
 
-/// Functor for a member function
+/// ArFunctor for a member function
 /**
    This is a class for member functions. This class contains the knowledge
    on how to call a member function on a particular instance of a class.
    This class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class T>
 class ArFunctorC : public ArFunctor
@@ -1886,7 +1192,7 @@ public:
   ArFunctorC(ArFunctorC<T> &&other) = default;
 
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)();}
 
   /// Set the 'this' pointer
@@ -1908,14 +1214,14 @@ protected:
 };
 
 
-/// Functor for a member function with 1 parameter
+/// ArFunctor for a member function with 1 parameter
 /**
    This is a class for member functions which take 1 parameter. This class
    contains the knowledge on how to call a member function on a particular
    instance of a class. This class should be instantiated by code that
-   wishes to pass off a functor to another piece of code.
+   wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class T, class P1>
 class ArFunctor1C : public ArFunctor1<P1>
@@ -1962,10 +1268,10 @@ public:
   /// Destructor
   virtual ~ArFunctor1C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
@@ -1997,16 +1303,16 @@ protected:
 };
 
 
-/// Functor for a member function with 1 parameter, which may be const
+/// ArFunctor for a member function with 1 parameter, which may be const
 /**
    This is a class for member functions which take 1 parameter, which may be a
    const type. This class is like ArFunctor1C, except a default value for P1 
    can't be set. This class
    contains the knowledge on how to call a member function on a particular
    instance of a class. This class should be instantiated by code that
-   wishes to pass off a functor to another piece of code.
+   wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class T, class P1>
 class ArFunctor1CConst : public ArFunctor1<P1>
@@ -2029,14 +1335,14 @@ protected:
 };
 
 
-/// Functor for a member function with 2 parameters
+/// ArFunctor for a member function with 2 parameters
 /**
    This is a class for member functions which take 2 parameters. This class
    contains the knowledge on how to call a member function on a particular
    instance of a class. This class should be instantiated by code that
-   wishes to pass off a functor to another piece of code.
+   wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class T, class P1, class P2>
 class ArFunctor2C : public ArFunctor2<P1, P2>
@@ -2103,16 +1409,16 @@ public:
   /// Destructor
   virtual ~ArFunctor2C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -2150,14 +1456,14 @@ protected:
   P2 myP2;
 };
 
-/// Functor for a member function with 3 parameters
+/// ArFunctor for a member function with 3 parameters
 /**
    This is a class for member functions which take 3 parameters. This class
    contains the knowledge on how to call a member function on a particular
    instance of a class. This class should be instantiated by code that
-   wishes to pass off a functor to another piece of code.
+   wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class T, class P1, class P2, class P3>
 class ArFunctor3C : public ArFunctor3<P1, P2, P3>
@@ -2246,23 +1552,23 @@ public:
   /// Destructor
   virtual ~ArFunctor3C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -2311,14 +1617,14 @@ protected:
 
 
 
-/// Functor for a member function with 4 parameters
+/// ArFunctor for a member function with 4 parameters
 /**
    This is a class for member functions which take 4 parameters. This class
    contains the knowledge on how to call a member function on a particular
    instance of a class. This class should be instantiated by code that
-   wishes to pass off a functor to another piece of code.
+   wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class T, class P1, class P2, class P3, class P4>
 class ArFunctor4C : public ArFunctor4<P1, P2, P3, P4>
@@ -2432,23 +1738,23 @@ public:
   /// Destructor
   virtual ~ArFunctor4C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -2456,7 +1762,7 @@ public:
   */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -2513,14 +1819,14 @@ protected:
 };
 
 
-/// Functor for a member function with 5 parameters
+/// ArFunctor for a member function with 5 parameters
 /**
    This is a class for member functions which take 5 parameters. This class
    contains the knowledge on how to call a member function on a particular
    instance of a class. This class should be instantiated by code that
-   wishes to pass off a functor to another piece of code.
+   wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class T, class P1, class P2, class P3, class P4, class P5>
 class ArFunctor5C : public ArFunctor5<P1, P2, P3, P4, P5>
@@ -2660,23 +1966,23 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
   /// Destructor
   virtual ~ArFunctor5C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -2684,7 +1990,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
   */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -2694,7 +2000,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -2778,14 +2084,14 @@ protected:
 //////
 
 
-/// Functor for a member function with return value
+/// ArFunctor for a member function with return value
 /**
    This is a class for member functions which return a value. This class
    contains the knowledge on how to call a member function on a particular
    instance of a class. This class should be instantiated by code that
-   wishes to pass off a functor to another piece of code.
+   wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class T>
 class ArRetFunctorC : public ArRetFunctor<Ret>
@@ -2812,7 +2118,7 @@ public:
   /// Destructor - supply function pointer
   virtual ~ArRetFunctorC()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
@@ -2833,15 +2139,15 @@ protected:
   T* myObj;
 };
 
-/// Functor for a member function with return value and 1 parameter
+/// ArFunctor for a member function with return value and 1 parameter
 /**
    This is a class for member functions which take 1 parameter and return
    a value. This class contains the knowledge on how to call a member
    function on a particular instance of a class. This class should be
-   instantiated by code that wishes to pass off a functor to another
+   instantiated by code that wishes to pass off a ArFunctor to another
    piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class T, class P1>
 class ArRetFunctor1C : public ArRetFunctor1<Ret, P1>
@@ -2888,10 +2194,10 @@ public:
   /// Destructor
   virtual ~ArRetFunctor1C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
@@ -2921,15 +2227,15 @@ protected:
   P1 myP1;
 };
 
-/// Functor for a member function with return value and 2 parameters
+/// ArFunctor for a member function with return value and 2 parameters
 /**
    This is a class for member functions which take 2 parameters and return
    a value. This class contains the knowledge on how to call a member
    function on a particular instance of a class. This class should be
-   instantiated by code that wishes to pass off a functor to another
+   instantiated by code that wishes to pass off a ArFunctor to another
    piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class T, class P1, class P2>
 class ArRetFunctor2C : public ArRetFunctor2<Ret, P1, P2>
@@ -2996,16 +2302,16 @@ public:
   /// Destructor
   virtual ~ArRetFunctor2C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3044,15 +2350,15 @@ protected:
   P2 myP2;
 };
 
-/// Functor for a member function with return value and 3 parameters
+/// ArFunctor for a member function with return value and 3 parameters
 /**
    This is a class for member functions which take 3 parameters and return
    a value. This class contains the knowledge on how to call a member
    function on a particular instance of a class. This class should be
-   instantiated by code that wishes to pass off a functor to another
+   instantiated by code that wishes to pass off a ArFunctor to another
    piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class T, class P1, class P2, class P3>
 class ArRetFunctor3C : public ArRetFunctor3<Ret, P1, P2, P3>
@@ -3141,23 +2447,23 @@ public:
   /// Destructor
   virtual ~ArRetFunctor3C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3213,15 +2519,15 @@ protected:
 // Start 4
 
 
-/// Functor for a member function with return value and 4 parameters
+/// ArFunctor for a member function with return value and 4 parameters
 /**
    This is a class for member functions which take 4 parameters and return
    a value. This class contains the knowledge on how to call a member
    function on a particular instance of a class. This class should be
-   instantiated by code that wishes to pass off a functor to another
+   instantiated by code that wishes to pass off a ArFunctor to another
    piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class T, class P1, class P2, class P3, class P4>
 class ArRetFunctor4C : public ArRetFunctor4<Ret, P1, P2, P3, P4>
@@ -3336,23 +2642,23 @@ public:
   /// Destructor
   virtual ~ArRetFunctor4C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3361,7 +2667,7 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3419,15 +2725,15 @@ protected:
 
 
 
-/// Functor for a member function with return value and 4 parameters
+/// ArFunctor for a member function with return value and 4 parameters
 /**
    This is a class for member functions which take 4 parameters and return
    a value. This class contains the knowledge on how to call a member
    function on a particular instance of a class. This class should be
-   instantiated by code that wishes to pass off a functor to another
+   instantiated by code that wishes to pass off a ArFunctor to another
    piece of code.
    
-   For an overall description of functors, see ArFunctor.
+   For an overall description of ArFunctors, see ArFunctor.
 */
 template<class Ret, class T, class P1, class P2, class P3, class P4, class P5>
 class ArRetFunctor5C : public ArRetFunctor5<Ret, P1, P2, P3, P4, P5>
@@ -3570,23 +2876,23 @@ public:
   /// Destructor
   virtual ~ArRetFunctor5C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3595,7 +2901,7 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3605,7 +2911,7 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override
     {return (myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3671,7 +2977,7 @@ protected:
 };
 
 
-/// Swig doesn't like the const functors
+/// Swig doesn't like the const ArFunctors
 #ifndef SWIG
 
 //////
@@ -3689,14 +2995,14 @@ protected:
 //////
 
 
-/// Functor for a const member function
+/// ArFunctor for a const member function
 /**
    This is a class for const member functions. This class contains the
    knowledge on how to call a const member function on a particular
    instance of a class.  This class should be instantiated by code
-   that wishes to pass off a functor to another piece of code.
+   that wishes to pass off a ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  
+   For an overall description of ArFunctors, see ArFunctor.  
 
    @swigomit
 */
@@ -3725,7 +3031,7 @@ public:
   /// Destructor
   virtual ~ArConstFunctorC()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)();}
 
   /// Set the 'this' pointer
@@ -3748,15 +3054,15 @@ protected:
 };
 
 
-/// Functor for a const member function with 1 parameter
+/// ArFunctor for a const member function with 1 parameter
 /**
    This is a class for const member functions which take 1
    parameter. This class contains the knowledge on how to call a const
    member function on a particular instance of a class. This class
-   should be instantiated by code that wishes to pass off a functor to
+   should be instantiated by code that wishes to pass off a ArFunctor to
    another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class T, class P1>
 class ArConstFunctor1C : public ArFunctor1<P1>
 {
@@ -3802,10 +3108,10 @@ public:
   /// Destructor
   virtual ~ArConstFunctor1C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
@@ -3836,15 +3142,15 @@ protected:
 };
 
 
-/// Functor for a const member function with 2 parameters
+/// ArFunctor for a const member function with 2 parameters
 /**
    This is a class for const member functions which take 2
    parameters. This class contains the knowledge on how to call a
    const member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class T, class P1, class P2>
 class ArConstFunctor2C : public ArFunctor2<P1, P2>
 {
@@ -3910,16 +3216,16 @@ public:
   /// Destructor
   virtual ~ArConstFunctor2C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -3957,15 +3263,15 @@ protected:
   P2 myP2;
 };
 
-/// Functor for a const member function with 3 parameters
+/// ArFunctor for a const member function with 3 parameters
 /**
    This is a class for const member functions which take 3
    parameters. This class contains the knowledge on how to call a
    const member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class T, class P1, class P2, class P3>
 class ArConstFunctor3C : public ArFunctor3<P1, P2, P3>
 {
@@ -4053,23 +3359,23 @@ public:
   /// Destructor
   virtual ~ArConstFunctor3C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -4116,15 +3422,15 @@ protected:
   P3 myP3;
 };
 
-/// Functor for a const member function with 4 parameters
+/// ArFunctor for a const member function with 4 parameters
 /**
    This is a class for const member functions which take 4
    parameters. This class contains the knowledge on how to call a
    const member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class T, class P1, class P2, class P3, class P4>
 class ArConstFunctor4C : public ArFunctor4<P1, P2, P3, P4>
 {
@@ -4237,23 +3543,23 @@ public:
   /// Destructor
   virtual ~ArConstFunctor4C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -4261,7 +3567,7 @@ public:
   */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -4317,15 +3623,15 @@ protected:
   P4 myP4;
 };
 
-/// Functor for a const member function with 4 parameters
+/// ArFunctor for a const member function with 4 parameters
 /**
    This is a class for const member functions which take 4
    parameters. This class contains the knowledge on how to call a
    const member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class T, class P1, class P2, class P3, class P4, class P5>
 class ArConstFunctor5C : public ArFunctor5<P1, P2, P3, P4, P5>
 {
@@ -4466,23 +3772,23 @@ public:
   /// Destructor
   virtual ~ArConstFunctor5C()  = default;
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -4490,7 +3796,7 @@ public:
   */
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -4499,7 +3805,7 @@ public:
  */
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
-  /// Invokes the functor
+  /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -4583,14 +3889,14 @@ protected:
 //////
 
 
-/// Functor for a const member function with return value
+/// ArFunctor for a const member function with return value
 /**
    Use this when the function you are targetting is a const method.
    For example, use <tt>ArConstRetFunctorC<double, ArRobot>(&robot,
-ArRobot::getX)</tt> to create a functor targetting the ArRobot method
+ArRobot::getX)</tt> to create a ArFunctor targetting the ArRobot method
    declared with: <tt>double getX() const;</tt>.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class Ret, class T>
 class ArConstRetFunctorC : public ArRetFunctor<Ret>
 {
@@ -4616,7 +3922,7 @@ public:
   /// Destructor - supply function pointer
   virtual ~ArConstRetFunctorC()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)();}
 
   /// Set the 'this' pointer
@@ -4637,15 +3943,15 @@ protected:
   T *myObj;
 };
 
-/// Functor for a const member function with return value and 1 parameter
+/// ArFunctor for a const member function with return value and 1 parameter
 /**
    This is a class for const member functions which take 1 parameter
    and return a value. This class contains the knowledge on how to
    call a member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class Ret, class T, class P1>
 class ArConstRetFunctor1C : public ArRetFunctor1<Ret, P1>
 {
@@ -4691,10 +3997,10 @@ public:
   /// Destructor
   virtual ~ArConstRetFunctor1C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
@@ -4725,15 +4031,15 @@ protected:
   P1 myP1;
 };
 
-/// Functor for a const member function with return value and 2 parameters
+/// ArFunctor for a const member function with return value and 2 parameters
 /**
    This is a class for const member functions which take 2 parameters
    and return a value. This class contains the knowledge on how to
    call a member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class Ret, class T, class P1, class P2>
 class ArConstRetFunctor2C : public ArRetFunctor2<Ret, P1, P2>
 {
@@ -4799,16 +4105,16 @@ public:
   /// Destructor
   virtual ~ArConstRetFunctor2C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -4847,15 +4153,15 @@ protected:
   P2 myP2;
 };
 
-/// Functor for a const member function with return value and 3 parameters
+/// ArFunctor for a const member function with return value and 3 parameters
 /**
    This is a class for const member functions which take 3 parameters
    and return a value. This class contains the knowledge on how to
    call a member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class Ret, class T, class P1, class P2, class P3>
 class ArConstRetFunctor3C : public ArRetFunctor3<Ret, P1, P2, P3>
 {
@@ -4943,23 +4249,23 @@ public:
   /// Destructor
   virtual ~ArConstRetFunctor3C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -5013,15 +4319,15 @@ protected:
 // Start 4
 
 
-/// Functor for a const member function with return value and 4 parameters
+/// ArFunctor for a const member function with return value and 4 parameters
 /**
    This is a class for const member functions which take 4 parameters
    and return a value. This class contains the knowledge on how to
    call a member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class Ret, class T, class P1, class P2, class P3, class P4>
 class ArConstRetFunctor4C : public ArRetFunctor4<Ret, P1, P2, P3, P4>
 {
@@ -5135,23 +4441,23 @@ public:
   /// Destructor
   virtual ~ArConstRetFunctor4C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -5160,7 +4466,7 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -5220,15 +4526,15 @@ protected:
 
 
 
-/// Functor for a const member function with return value and 5 parameters
+/// ArFunctor for a const member function with return value and 5 parameters
 /**
    This is a class for const member functions which take 5 parameters
    and return a value. This class contains the knowledge on how to
    call a member function on a particular instance of a class. This
    class should be instantiated by code that wishes to pass off a
-   functor to another piece of code.
+   ArFunctor to another piece of code.
    
-   For an overall description of functors, see ArFunctor.  */
+   For an overall description of ArFunctors, see ArFunctor.  */
 template<class Ret, class T, class P1, class P2, class P3, class P4, class P5>
 class ArConstRetFunctor5C : public ArRetFunctor5<Ret, P1, P2, P3, P4, P5>
 {
@@ -5369,23 +4675,23 @@ public:
   /// Destructor
   virtual ~ArConstRetFunctor5C()  = default;
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -5394,7 +4700,7 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override
     {return (myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -5405,7 +4711,7 @@ public:
     {return (myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
 
-  /// Invokes the functor with return value
+  /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
@@ -5471,7 +4777,7 @@ protected:
 };
 
 
-#endif // omitting Const functors from SWIG
+#endif // omitting Const ArFunctors from SWIG
 
 
 

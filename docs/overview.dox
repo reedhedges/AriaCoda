@@ -673,7 +673,7 @@ processing cycle.
 
 ArRobot provides methods to add your own sensor-interpretation
 and generic user task callbacks. To add a task callback, create an ArFunctor
-function object (see \ref functors) and
+object (see \ref functors) and
 then add it using ArRobot::addSensorInterpTask() or
 ArRobot::addUserTask(). These tasks
 can be removed using ArRobot::remSensorInterpTask() or
@@ -1140,34 +1140,34 @@ unlockDevice() when done.  See \ref threading for more about threading in ARIA.
 
 
 
- \section functors Functors
+ \section functors ArFunctor function objects
 
-Functors are used throughout ARIA.
-Functor is short for function pointer. A Functor lets you call a
-function without knowing the declaration of the function. Instead, the
-compiler and linker figure out how to properly call the function.
-
-Function pointers are fully supported by the C language. C++ treats
-function pointers like C, but to call class methods, an instance object
-is required, as well as type information about the class.
-Therefore, ARIA contains a set of template classes to contain this information.
+ArFunctor objects are used throughout ARIA.
+An ArFunctor object contains a function pointer along with an object instance 
+to use with the function (if the function is a method of that object.)  
+These objects allow you to store the function and object instance together
+(bind them), and to pass, store, and call any function or method reference that 
+matches a required signature or interface.   ArFunctor is the base 
+class for many derived ArFunctor classes used for global functions, 
+class methods (bound to an instance), functions that do and do not return
+values, and template versions for different numbers of arguments.
 
 ARIA makes heavy use of ArFunctors as "callback" functions. 
-To instantiate a functor, you first need to
+To create an ArFunctor object, you first need to
 identify how many arguments the function needs and if it returns a
 value.  Many times a pointer to the abstract ArFunctor base class is used, which
-can be invoked with no arguments and no return value.
+can be easily invoked with no arguments and no return value.
 Subclasses are used for functions with different numbers of arguments 
-and return values. ArFunctor1, ArFunctor2,
+and return values: ArFunctor1, ArFunctor2,
 ArRetFunctor, ArRetFunctor1, and ArRetFunctor2 for example.  When invoked,
 the arguments may be supplied which are passed to the target function or
 method, and a return value may also be given.  The types for the arguments
 and/or return value are given as template arguments.
 
-When creating a functor object, however, you must also provide the type
-and instance of an object to invoke the method of; or explicitly state
-that the function is a class-less global function. Do this by using one
-of the concrete base classes of ArFunctor instead of the abstract classes:
+When creating an ArFunctor object (other than for a global function), you must provide the type
+and instance of an object to invoke the method of.
+Do this by using one
+of the derived classes of ArFunctor ending in "C" (for class):
 ArFunctorC, ArFunctor1C, ArFunctor2C, ArRetFunctorC, ArRetFunctor1C,
 ArRetFunctor2C, ArGlobalFunctor, ArGlobalFunctor1, etc.
 
@@ -1182,44 +1182,62 @@ Example:
     ...
       
     ExampleClass obj;
-    ArFunctor1C<ExampleClass, int> functor(&obj, &ExampleClass::aFunction);
+    ArFunctor1C<ExampleClass, int> f(&obj, &ExampleClass::aFunction);
 
     ...
 
-    functor.invoke(42);
+    f.invoke(42);
 @endcode
 
 <code>ExampleClass</code> is a class which contains a function called
-<code>aFunction()</code>. The functor <code>functor</code> is declared
-as an <code>ArFunctor1C</code>, a functor which invokes a class method
+<code>aFunction()</code>.  <code>f</code> is declared
+as an <code>ArFunctor1C</code>, an ArFunctor subclass which invokes a class method
 and takes one argument. The template parameters specify the type of the
 class (<code>ExampleClass</code>) and the type of the method argument
 (<code>int</code>).  <code>functor</code> is then initialized with
 a pointer to the <code>ExampleClass</code> instance to call the
-method on, and a pointer to the class method to call.  When a functor
-is contained within the class, it is typcially initialized in the
-constructor, giving <code>this</code> as the object instance.
+method on, and a pointer to the class method to call.  
 
-A functor must be initialized with the method to call and, if a "C" functor,
+<code>f</code> can now be
+passed to another function or object that wants a callback. The
+method <code>ExampleClass::aFunction()</code> will be called on the object
+<code>obj</code> when this otherh code invokes <code>f</code>. 
+
+Note: It is important to ensure that if passed to another object by 
+pointer, that neither the ArFunctor object nor any object instance in the
+ArFunctor is destroyed (for example, if 
+the function returns and the object goes out of scope).   The usual
+practice in ARIA is that when ArFunctor objects are provided to other objects
+within the context of a class, that the ArFunctor objects are stored
+in the class along with those objects, and initialized in the constructor,
+such that the lifetimes of both the ArFunctor objects and the containing 
+object (or any other object instance to which the ArFunctors may include
+references to),
+will match that of any object to which those ArFunctor objects 
+were provided (as pointers), or objects are intended to be stored globally,
+or in the program <code>main()</code> function for the lifetime of the program.
+   (Alternatively, in user code, an ArFunctor can be copied or moved to
+another object, or a smart pointer may be used, but for historical
+reasons these techniques were not often used in ARIA itself.)
+
+A functor must be initialized with a method or function to call and, if a "C" functor,
 a class instance. An unitilialized functor will crash at runtime when invoked.
 
-It is also possible to give values for the method arguments in the functor
-initialization, see ArFunctor documentation for details. 
+It is also possible to give default values for the method arguments, which will
+be passed to the target method by the ArFunctor object, rather than the 
+code invoking the functor.  This allows you to adapt a function taking more
+arguments to an ArFunctor class that expects less.
 
-Once the functor object is created in this fashion, it can now be
-passed to another function or object that wants a callback functor. And the
-method <code>ExampleClass::aFunction()</code> will be called on the object
-<code>obj</code> when the functor is invoked.
-
-To invoke a functor, simply call the invoke() function
-on the functor. If it takes arguments, call invoke() with those
-arguments. If the functor has a return value, call invokeR. The
-return value of the function will be passed back through the invokeR()
+To invoke a functor, simply call the <code>invoke()</code> function
+on the functor. If it takes arguments, call <code>invoke()</code> with those
+arguments. If the functor has a return value, call <code>invokeR()</code>. The
+return value of the function will be passed back through the
+<code>invokeR()</code>
 function. If the functor was initialized with argument values,
-and invoke() is called without argument values, the argument values
+and <code>invoke()</code> is called without argument values, the argument values
 provided at initialization are passed.
 
-
+For more discussion, see ArFunctor and the example programs.
 
 
  \section userInput Keyboard and Joystick Input
