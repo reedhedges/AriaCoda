@@ -42,16 +42,40 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 
 
-/// Interfaces to a computer joystick
+/// Interfaces to a joystick or game controller attached to the computer.
 /** 
-  This class is used to read data from a joystick device attached to the computer
-  (usually via USB).
+  Use an object of this class is to read data from a joystick or game controller device attached to the computer
+  (usually via USB).  Any device supported by the operating system should work. 
+  Generic PC game controllers, as well as Playstation, XBox, and other USB game controllers
+  usually work.  
+  On Linux, `/dev/input/js0` is used.  On Windows, the first detected device is used.
   The joystick handler keeps track of the minimum and maximums for both
-  axes, updating them to constantly be better calibrated.  The speeds set 
+  axes, updating them to constantly be better calibrated.  Scaling values set 
   with setSpeed() influence what is returned by getAdjusted() or getDoubles().
+
+  The number of usable buttons is provided by getNumButtons().  To get whether a
+  button is pressed at any moment, use getButton().   
+
+  The position of the
+  joystick or game controller thumb stick is available by calling getAdjusted() or
+  getDoubles().  If the joystick or controller has a
+  separate one-axis sliding "throttle" or Z control in addition to X and Y, this will be the Z
+  component.  The
+  presence of this axis is indicated by hasZAxis().  Note that On some devices, 
+  the Z axis or other additional axis control may also trigger a specific button
+  press as well.
+
+  The number of joystick axes
+  is provided by getNumAxes().  Get the value of a specific axis by calling
+  getAxis(). If a device contains more than one thumbstick or 
+  joystick, then the first stick will provide the axes 1 (X) and 2 (Y)  with
+  values also available by calling getAdjusted() or getDoubles(). If an
+  additional throttle or Z control is provided, it will be axis 3.
+  The second thumb/joy stick inputs will provide axes 3 and 4. Any additional controls would be 5, 6, 7,
+  etc.
     
   The joystick device is not opened until init() is called.  If there was
-	an error connecting to the joystick device, it will return false, and
+	an error connecting to the joystick device, init() will return false, and
 	haveJoystick() will return false. After calling
 	init(), use getAdjusted() or getDoubles()
 	to get values, and getButton() to check whether a button is pressed. setSpeed() may be
@@ -63,12 +87,15 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 	For example, if you want the X axis output to range from -1000 to 1000, and the Y axis
 	output to range from -100 to 100, call <code>setSpeed(1000, 100);</code>.
 
-    The X joystick axis is usually the left-right axis, and Y is forward-back.
+  The X joystick axis is usually the left-right axis, and Y is forward-back.
   If a joystick has a Z axis, it is usually a "throttle" slider or dial on the
   joystick. The usual way to 
 	drive a robot with a joystick is to use the X joystick axis for rotational velocity,
 	and Y for translational velocity (note the robot coordinate system, this is its local
 	X axis), and use the Z axis to adjust the robot's maximum driving speed.
+
+  See joyHandlerExample.cpp or joytest.cpp for an example and run it to test out
+  your game controller or joystick.
 
   @ingroup OptionalClasses
 */

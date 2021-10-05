@@ -1,7 +1,8 @@
 AriaCoda
 ========
 
-[![Build Status](https://travis-ci.com/reedhedges/AriaCoda.svg?branch=master)](https://travis-ci.com/reedhedges/AriaCoda)
+[![Build
+Status](https://travis-ci.com/reedhedges/AriaCoda.svg?branch=master)](https://app.travis-ci.com/github/reedhedges/AriaCoda)
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
 [![Platform: Linux](https://img.shields.io/badge/Platform-Linux-green.svg)](https://img.shields.io/badge/Platform-Linux-green.svg)
 [![Platform: Windows (MSVC 2019)](https://img.shields.io/badge/Platform-Windows%20%28MSVC%202019%29-green.svg)](https://img.shields.io/badge/Platform-Windows%20%28MSVC%202019%29-green.svg)

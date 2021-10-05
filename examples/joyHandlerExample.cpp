@@ -23,9 +23,19 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 */
 #include "Aria/Aria.h"
 
-/*
-  This program just outputs the values from the joystick
+/** 
+@example joyHandlerExample.cpp Example program demonstrating how to read data from a USB game controller or joystick attached to the computer. 
+
+See ArJoyHandler for more information.
+
+Build and run this program to test your controller or other input device.
+Button presses and stick inputs will be displayed.  In addition, buttons 1 and 2
+will set scaling "speed" values in the ArJoyHandler object.
+
+ArAction classes are also available in ARIA to help teleoperate the mobile robot
+using joystick input; see joydriveActionExample.cpp. 
 */
+
 int main()
 {
   Aria::init();
@@ -34,7 +44,7 @@ int main()
   joy.init();
   if (!joy.haveJoystick())
   {
-    printf("Did not definitely detect a joystick, it may not work.\n");
+    printf("Did not definitely detect a device, it may not work.\n");
   }
   printf("Num. Buttons: %d\n", joy.getNumButtons());
   printf("Num. Axes: %d\n", joy.getNumAxes());
@@ -48,7 +58,7 @@ int main()
   while (Aria::getRunning())
   {
     printf("\rButtons");
-    for (auto i = 1; i <= joy.getNumButtons(); i++)
+    for (unsigned int i = 1; i <= joy.getNumButtons(); i++)
       if(joy.getButton(i))
         printf(":%2d", i);
       else
@@ -62,7 +72,7 @@ int main()
     printf(" Axis x:%6.3f y:%6.3f (adj x:%d y:%d)", x, y, xi, yi);
     if (joy.haveZAxis())
       printf(" z:%6.3f (adj %d)", z, zi);
-    for (auto i = 4; i <= joy.getNumAxes(); i++)
+    for (unsigned int i = 4; i <= joy.getNumAxes(); i++)
       printf(" %d:%6.3f", i, joy.getAxis(i));
 
     if(joy.getNumButtons() >= 1 && joy.getButton(1))
