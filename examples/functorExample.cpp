@@ -156,12 +156,13 @@ int main()
   printf("Invoking globalFunctor... ");
   globalFunctor.invoke();
 
-  /* You can also include the values of arguments in an ArFunctor object, if you
+  /* You previously could store the values of arguments in an ArFunctor object, if you
    * want to use the same value in every invocation of the functor.
-   */
+   * but this is now deprecated.
   ArFunctor1C<CallbackContainer, int> functor5(cb, &CallbackContainer::callback2, 42);
   printf("Invoking functor with constant argument... ");
   functor5.invoke();
+   */
 
   /* Functors can be downcast to parent interface classes, as long as their invocation
    * does not require arguments.

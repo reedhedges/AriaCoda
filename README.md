@@ -70,6 +70,10 @@ Several major changes have been made for AriaCoda since the last release of Aria
   the C++ compiler should then warn if the base class method is not virtual.
 * Some function argument and return types have been changed from `int` to
   `size_t` or other more specific or appropriate type.
+* The feature of ArFunctor subclasses to store parameter values and the various
+  invoke() overloads that used them if too few arguments provided, has been
+  deprecated.  Future changes will probably remove this feature (or ArFunctor
+  will be replaced entirely by standard C++ features.)
 * Various fixes and changes to improve optimization and
   conformance/correctness.  Due to code removal, various optimizations in the 
   source code (especially in frequently used storage and utility classes such 

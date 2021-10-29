@@ -352,9 +352,9 @@ public:
   ArGlobalFunctor1(void (*func)(P1), P1 p1) :
     myFunc(func), myP1(p1) {}
   virtual ~ArGlobalFunctor1()  = default;
-  virtual void invoke() override {(*myFunc)(myP1);}
+  [[deprecated]] virtual void invoke() override {(*myFunc)(myP1);}
   virtual void invoke(P1 p1) override {(*myFunc)(p1);}
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 protected:
   void (*myFunc)(P1);
   P1 myP1;
@@ -388,11 +388,11 @@ public:
   ArGlobalFunctor2(void (*func)(P1, P2), P1 p1, P2 p2) :
     myFunc(func), myP1(p1), myP2(p2) {}
   virtual ~ArGlobalFunctor2()  = default;
-  virtual void invoke() override {(*myFunc)(myP1, myP2);}
-  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2);}
+  [[deprecated]] virtual void invoke() override {(*myFunc)(myP1, myP2);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2);}
   virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2);}
-  virtual void setP1(P1 p1) {myP1=p1;}
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 protected:
   void (*myFunc)(P1, P2);
   P1 myP1;
@@ -413,13 +413,13 @@ public:
   ArGlobalFunctor3(void (*func)(P1, P2, P3), P1 p1, P2 p2, P3 p3) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3) {}
   virtual ~ArGlobalFunctor3()  = default;
-  virtual void invoke() override {(*myFunc)(myP1, myP2, myP3);}
-  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3);}
-  virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3);}
+  [[deprecated]] virtual void invoke() override {(*myFunc)(myP1, myP2, myP3);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3);}
   virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3);}
-  virtual void setP1(P1 p1) {myP1=p1;}
-  virtual void setP2(P2 p2) {myP2=p2;}
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 protected:
   void (*myFunc)(P1, P2, P3);
   P1 myP1;
@@ -442,15 +442,15 @@ public:
  ArGlobalFunctor4(void (*func)(P1, P2, P3, P4), P1 p1, P2 p2, P3 p3, P4 p4) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4) {}
   virtual ~ArGlobalFunctor4()  = default;
-  virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4);}
-  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4);}
-  virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4);}
-  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4);}
+  [[deprecated]] virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4);}
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(*myFunc)(p1, p2, p3, p4);}
-  virtual void setP1(P1 p1) {myP1=p1;}
-  virtual void setP2(P2 p2) {myP2=p2;}
-  virtual void setP3(P3 p3) {myP3=p3;}
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 protected:
   void (*myFunc)(P1, P2, P3, P4);
   P1 myP1;
@@ -487,29 +487,29 @@ public:
   ArGlobalFunctor5(void (*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) :
     myFunc(func), myP1(p1), myP2(p2), myP3(p3), myP4(p4), myP5(p5) {}
   virtual ~ArGlobalFunctor5()  = default;
-  virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke() override {(*myFunc)(myP1, myP2, myP3, myP4, myP5);}
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(*myFunc)(p1, myP2, myP3, myP4, myP5);}
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(*myFunc)(p1, p2, myP3, myP4, myP5);}
   /**
      @param p1 first parameter
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3) override {(*myFunc)(p1, p2, p3, myP4, myP5);}
   /**
      @param p1 first parameter
      @param p2 second parameter
      @param p3 third parameter
      @param p4 fourth parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(*myFunc)(p1, p2, p3, p4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(*myFunc)(p1, p2, p3, p4, myP5);}
 
   /**
      @param p1 first parameter
@@ -524,31 +524,31 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
   /// Set the default fifth parameter
   /**
      @param p5 default fifth parameter
   */
-  virtual void setP5(P5 p5) {myP5=p5;}
+  [[deprecated]] virtual void setP5(P5 p5) {myP5=p5;}
 
 protected:
 
@@ -628,7 +628,7 @@ public:
   virtual ~ArGlobalRetFunctor1()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -640,7 +640,7 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
 protected:
 
@@ -693,13 +693,13 @@ public:
   virtual ~ArGlobalRetFunctor2()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -712,13 +712,13 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
 protected:
 
@@ -782,20 +782,20 @@ public:
   virtual ~ArGlobalRetFunctor3()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -809,19 +809,19 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
   
   
 
@@ -901,20 +901,20 @@ public:
   virtual ~ArGlobalRetFunctor4()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -922,7 +922,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -937,26 +937,26 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
   
   
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
 protected:
 
@@ -1045,20 +1045,20 @@ public:
   virtual ~ArGlobalRetFunctor5()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -1066,7 +1066,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override {return (*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -1075,7 +1075,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override {return (*myFunc)(p1, p2, p3, p4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override {return (*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -1091,31 +1091,31 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
   
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
   /// Set the default fifth parameter
   /**
      @param p5 default fifth parameter
   */
-  virtual void setP5(P5 p5) {myP5=p5;}
+  [[deprecated]] virtual void setP5(P5 p5) {myP5=p5;}
 
 protected:
 
@@ -1269,7 +1269,7 @@ public:
   virtual ~ArFunctor1C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1);}
 
   /// Invokes the ArFunctor
   /**
@@ -1293,7 +1293,7 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
 protected:
 
@@ -1410,13 +1410,13 @@ public:
   virtual ~ArFunctor2C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the ArFunctor
   /**
@@ -1441,13 +1441,13 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
 protected:
   void (T::* myFunc)(P1, P2);
@@ -1553,20 +1553,20 @@ public:
   virtual ~ArFunctor3C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the ArFunctor
   /**
@@ -1592,19 +1592,19 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
 protected:
 
@@ -1739,20 +1739,20 @@ public:
   virtual ~ArFunctor4C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the ArFunctor
   /**
@@ -1760,7 +1760,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the ArFunctor
   /**
@@ -1787,25 +1787,25 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
 
 protected:
@@ -1967,20 +1967,20 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
   virtual ~ArFunctor5C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
@@ -1988,7 +1988,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
@@ -1997,7 +1997,7 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
 
   /// Invokes the ArFunctor
@@ -2026,31 +2026,31 @@ ArFunctor5C(T &obj, void (T::*func)(P1, P2, P3, P4, P5), P1 p1, P2 p2, P3 p3, P4
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
   /// Set the default fifth parameter
   /**
      @param p5 default fifth parameter
   */
-  virtual void setP5(P5 p5) {myP5=p5;}
+  [[deprecated]] virtual void setP5(P5 p5) {myP5=p5;}
 
 
 protected:
@@ -2195,7 +2195,7 @@ public:
   virtual ~ArRetFunctor1C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -2219,7 +2219,7 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
 protected:
   Ret(T::* myFunc)(P1);
@@ -2303,13 +2303,13 @@ public:
   virtual ~ArRetFunctor2C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -2334,13 +2334,13 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
 protected:
 
@@ -2448,20 +2448,20 @@ public:
   virtual ~ArRetFunctor3C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -2490,19 +2490,19 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
 protected:
 
@@ -2643,20 +2643,20 @@ public:
   virtual ~ArRetFunctor4C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -2694,25 +2694,25 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
 protected:
   Ret(T::* myFunc)(P1, P2, P3, P4);
@@ -2877,20 +2877,20 @@ public:
   virtual ~ArRetFunctor5C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -2939,31 +2939,31 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
   /// Set the default fifth parameter
   /**
      @param p5 default fifth parameter
   */
-  virtual void setP5(P5 p5) {myP5=p5;}
+  [[deprecated]] virtual void setP5(P5 p5) {myP5=p5;}
 
 protected:
 
@@ -3109,7 +3109,7 @@ public:
   virtual ~ArConstFunctor1C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1);}
 
   /// Invokes the ArFunctor
   /**
@@ -3133,7 +3133,7 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
 protected:
   void (T::* myFunc)(P1) const;
@@ -3217,13 +3217,13 @@ public:
   virtual ~ArConstFunctor2C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the ArFunctor
   /**
@@ -3248,13 +3248,13 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
 protected:
   void (T::* myFunc)(P1, P2) const;
@@ -3360,20 +3360,20 @@ public:
   virtual ~ArConstFunctor3C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the ArFunctor
   /**
@@ -3399,19 +3399,19 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
 protected:
 
@@ -3544,20 +3544,20 @@ public:
   virtual ~ArConstFunctor4C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the ArFunctor
   /**
@@ -3565,7 +3565,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4);}
 
   /// Invokes the ArFunctor
   /**
@@ -3592,25 +3592,25 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
 
 protected:
@@ -3773,20 +3773,20 @@ public:
   virtual ~ArConstFunctor5C()  = default;
 
   /// Invokes the ArFunctor
-  virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke() override {(myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
   */
-  virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1) override {(myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2) override {(myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
@@ -3794,7 +3794,7 @@ public:
      @param p2 second parameter
      @param p3 third parameter
   */
-  virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3) override {(myObj->*myFunc)(p1, p2, p3, myP4, myP5);}
 
   /// Invokes the ArFunctor
   /**
@@ -3803,7 +3803,7 @@ public:
      @param p3 third parameter
      @param p4 fourth parameter
  */
-  virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
+  [[deprecated]] virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override {(myObj->*myFunc)(p1, p2, p3, p4, myP5);}
 
   /// Invokes the ArFunctor
   /**
@@ -3831,31 +3831,31 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
   /// Set the default fifth parameter
   /**
      @param p5 default fifth parameter
   */
-  virtual void setP5(P5 p5) {myP5=p5;}
+  [[deprecated]] virtual void setP5(P5 p5) {myP5=p5;}
 
 
 protected:
@@ -3998,7 +3998,7 @@ public:
   virtual ~ArConstRetFunctor1C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -4022,7 +4022,7 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
 protected:
 
@@ -4106,13 +4106,13 @@ public:
   virtual ~ArConstRetFunctor2C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -4137,13 +4137,13 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
 protected:
 
@@ -4250,20 +4250,20 @@ public:
   virtual ~ArConstRetFunctor3C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -4290,19 +4290,19 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
 protected:
 
@@ -4442,20 +4442,20 @@ public:
   virtual ~ArConstRetFunctor4C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -4493,25 +4493,25 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
 protected:
 
@@ -4676,20 +4676,20 @@ public:
   virtual ~ArConstRetFunctor5C()  = default;
 
   /// Invokes the ArFunctor with return value
-  NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR() override {return (myObj->*myFunc)(myP1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1) override {return (myObj->*myFunc)(p1, myP2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
      @param p1 first parameter
      @param p2 second parameter
   */
-  NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
+  [[deprecated]] NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override {return (myObj->*myFunc)(p1, p2, myP3, myP4, myP5);}
 
   /// Invokes the ArFunctor with return value
   /**
@@ -4739,31 +4739,31 @@ public:
   /**
      @param p1 default first parameter
   */
-  virtual void setP1(P1 p1) {myP1=p1;}
+  [[deprecated]] virtual void setP1(P1 p1) {myP1=p1;}
 
   /// Set the default 2nd parameter
   /**
      @param p2 default second parameter
   */
-  virtual void setP2(P2 p2) {myP2=p2;}
+  [[deprecated]] virtual void setP2(P2 p2) {myP2=p2;}
 
   /// Set the default third parameter
   /**
      @param p3 default third parameter
   */
-  virtual void setP3(P3 p3) {myP3=p3;}
+  [[deprecated]] virtual void setP3(P3 p3) {myP3=p3;}
 
   /// Set the default fourth parameter
   /**
      @param p4 default fourth parameter
   */
-  virtual void setP4(P4 p4) {myP4=p4;}
+  [[deprecated]] virtual void setP4(P4 p4) {myP4=p4;}
 
   /// Set the default fifth parameter
   /**
      @param p5 default fifth parameter
   */
-  virtual void setP5(P5 p5) {myP5=p5;}
+  [[deprecated]] virtual void setP5(P5 p5) {myP5=p5;}
 
 protected:
 

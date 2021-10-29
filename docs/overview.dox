@@ -1145,12 +1145,13 @@ unlockDevice() when done.  See \ref threading for more about threading in ARIA.
 ArFunctor objects are used throughout ARIA.
 An ArFunctor object contains a function pointer along with an object instance 
 to use with the function (if the function is a method of that object.)  
-These objects allow you to store the function and object instance together
-(bind them), and to pass, store, and call any function or method reference that 
-matches a required signature or interface.   ArFunctor is the base 
+These objects allow you to generically store any function and object instance together, and to pass, store, and call any function or method reference that 
+matches a required signature or interface, with any object instance of any
+class.   ArFunctor is the base 
 class for many derived ArFunctor classes used for global functions, 
-class methods (bound to an instance), functions that do and do not return
-values, and template versions for different numbers of arguments.
+class methods (with an instance), for functions that do and do not return
+values, and versions for different numbers of arguments; argument types,
+class types and return types are provided as template parameters.
 
 ARIA makes heavy use of ArFunctors as "callback" functions. 
 To create an ArFunctor object, you first need to
@@ -1194,7 +1195,7 @@ Example:
 as an <code>ArFunctor1C</code>, an ArFunctor subclass which invokes a class method
 and takes one argument. The template parameters specify the type of the
 class (<code>ExampleClass</code>) and the type of the method argument
-(<code>int</code>).  <code>functor</code> is then initialized with
+(<code>int</code>).  <code>f</code> is then initialized with
 a pointer to the <code>ExampleClass</code> instance to call the
 method on, and a pointer to the class method to call.  
 
@@ -1220,22 +1221,16 @@ or in the program <code>main()</code> function for the lifetime of the program.
 another object, or a smart pointer may be used, but for historical
 reasons these techniques were not often used in ARIA itself.)
 
-A functor must be initialized with a method or function to call and, if a "C" functor,
-a class instance. An unitilialized functor will crash at runtime when invoked.
+An ArFunctor must be initialized with a method or function to call and, if a "C"
+ArFunctor,
+a class instance. An unitilialized ArFunctor will crash at runtime when invoked.
 
-It is also possible to give default values for the method arguments, which will
-be passed to the target method by the ArFunctor object, rather than the 
-code invoking the functor.  This allows you to adapt a function taking more
-arguments to an ArFunctor class that expects less.
-
-To invoke a functor, simply call the <code>invoke()</code> function
-on the functor. If it takes arguments, call <code>invoke()</code> with those
-arguments. If the functor has a return value, call <code>invokeR()</code>. The
+To invoke an ArFunctor, simply call the <code>invoke()</code> function
+on the ArFunctor. If it takes arguments, call <code>invoke()</code> with those
+arguments. If the ArFunctor has a return value, call <code>invokeR()</code>. The
 return value of the function will be passed back through the
 <code>invokeR()</code>
-function. If the functor was initialized with argument values,
-and <code>invoke()</code> is called without argument values, the argument values
-provided at initialization are passed.
+function. 
 
 For more discussion, see ArFunctor and the example programs.
 
@@ -1252,7 +1247,7 @@ ArJoyHandler::setSpeeds, and ArJoyHandler::getDoubles.
 ArKeyHandler is a cross-platform interface for recieving single keystroke
 events (instead of buffered lines of text).
 It's key function is ArKeyHandler::addKeyHandler,
-which binds a specific key to a given functor. It contains an enum
+which binds a specific key to a given ArFunctor. It contains an enum
 ArKeyHandler::KEY that contains values for special keys.
 You can also attach a key handler to a robot with ArRobot::attachKeyHandler(),
 which adds some default key handlers, including a handler for Escape that 
@@ -1479,7 +1474,7 @@ ArConfig is a mechanism for storing configuration parameters for different
 independent modules in a text file.  The global Aria class
 maintains a global ArConfig pointer which any program module may access.
 Use ArConfig::addParam to register a new parameter with ArConfig, and use
-ArConfig::addProcessFileCB to register a callback functor called when the 
+ArConfig::addProcessFileCB to register a callback ArFunctor called when the 
 configuration changes (by loading the file with ArConfig::parseFile, or other 
 means such as an update from a remote client via ArNetworking).
 
@@ -1492,7 +1487,7 @@ the ArStringInfoGroup class, of which the global ARIA class contains an instance
 which changes infrequently, by loading a file or by user input.)
 An example of ArStringInfoGroup is the ArServerInfoStrings class contained in 
 the ArNetworking auxiliary library.  At program initialization, a callback 
-functor may be added to the global ArStringInfoGroup object which on invocation immediately passes a 
+ArFunctor may be added to the global ArStringInfoGroup object which on invocation immediately passes a 
 string key/value pair from the ArStringInfoGroup object over to an ArServerInfoStrings
 object, which provides access to this data over the network (e.g. to MobileEyes).  
 Independent components of the program may then change the values in the InfoGroup
