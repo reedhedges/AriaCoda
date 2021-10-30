@@ -309,6 +309,8 @@ typedef std::vector<WrapPair> WrapList;
 int main(int argc, char **argv)
 {
   Aria::init();
+  ArLog::init(ArLog::StdOut, ArLog::Normal); // make sure log output goes to stdout
+
   ArArgumentParser argParser(&argc, argv);
 
   WrapList wrappers;
