@@ -84,7 +84,7 @@ public:
   /// Destructor
   AREXPORT virtual ~ArBasePacket();
 
-  ArBasePacket(ArBasePacket &&old);
+  ArBasePacket(ArBasePacket &&old) noexcept;
 
   ArBasePacket &operator=(ArBasePacket &&other) noexcept;
 

@@ -106,7 +106,7 @@ AREXPORT ArBasePacket &ArBasePacket::operator=(const ArBasePacket &other)
   return *this;
 }
 
-AREXPORT ArBasePacket::ArBasePacket(ArBasePacket &&other)
+AREXPORT ArBasePacket::ArBasePacket(ArBasePacket &&other) noexcept
 {
   // move constructor
   

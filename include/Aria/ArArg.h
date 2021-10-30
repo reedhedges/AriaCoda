@@ -97,7 +97,7 @@ public:
   /// Destructor
   ~ArArg() = default;
 
-  ArArg(ArArg&& old);
+  ArArg(ArArg&& old) noexcept;
 
   ArArg &operator=(ArArg &&other) noexcept;
 

@@ -261,8 +261,15 @@ public:
 	~ArScopedLock() {
 		mtx.unlock();
 	}
-  void lock() { mtx.lock(); }
-  void unlock() { mtx.unlock(); }
+  // probably should avoid copying this object. (Generally ArMutex can be
+  // recursively locked fyi.)
+  ArScopedLock(const ArScopedLock&) = delete;
+  ArScopedLock& operator=(const ArScopedLock&) = delete;
+  ArScopedLock(ArScopedLock&&) = delete;
+  ArScopedLock& operator=(ArScopedLock&&) = delete;
+
+  //void lock() { mtx.lock(); }
+  //void unlock() { mtx.unlock(); }
 };
 
 #endif // ARMUTEX_H

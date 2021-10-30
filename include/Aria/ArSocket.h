@@ -81,19 +81,21 @@ public:
   /// Constructor. You must then use either connect() or open().
   AREXPORT ArSocket();
 
+  /// Don't copy ArSocket objects. (Move is possible.)
   ArSocket(const ArSocket &) = delete;
 
   /// Move constructor. Transfers ownership of underlying system socket to this instance. @sa ArSocket::transferFrom()
-  ArSocket(ArSocket&& other) {
+  ArSocket(ArSocket&& other) noexcept {
     this->transferFrom(&other);
   }
 
   /// Move assignment. Transfers ownership of the underlying system socket to this instance. @sa ArSocket::transferFrom()
-  ArSocket& operator=(ArSocket&& other) {
+  ArSocket& operator=(ArSocket&& other) noexcept {
     this->transferFrom(&other);
     return *this;
   }
 
+  /// Don't assign ArSocket objects unless as a move 
   ArSocket &operator=(const ArSocket &) = delete;
 
 
@@ -140,7 +142,7 @@ public:
   /** transfer() will transfer ownership from @a s to this socket. The other socket (@a s)
       will no longer close the file descriptor when it is destructed. It should generally not be used anymore as an interface to the OS socket, use this instance instead.
   */
-  AREXPORT void transferFrom(ArSocket *s)
+  AREXPORT void transferFrom(ArSocket *s) noexcept
   {
     myFD=s->myFD;
     myDoClose=true;
@@ -358,7 +360,7 @@ public:
   /// Gets the ip number as a string (this can be modified though)
   AREXPORT const char *getIPString() const { return myIPString.c_str(); }
   /// Sets the ip string
-  AREXPORT void setIPString(const char *ipString) 
+  AREXPORT void setIPString(const char *ipString) noexcept
     { if (ipString != NULL) myIPString = ipString; else myIPString = ""; }
   /// Sets the callback for when the socket is closed (nicely or harshly)
   AREXPORT void setCloseCallback(ArFunctor *functor) 

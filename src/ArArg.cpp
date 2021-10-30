@@ -140,7 +140,7 @@ AREXPORT ArArg &ArArg::operator=(const ArArg & arg)
 	return *this;
 }
 
-ArArg::ArArg(ArArg&& arg) {
+ArArg::ArArg(ArArg&& arg) noexcept {
   init(arg);
 }
 
