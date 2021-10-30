@@ -14,7 +14,8 @@ easier to use.  Contact me or discuss on the GitHub page.
   list. [It looks like all uses of myRawReadings etc. are allocating new
   ArSensorReading objects with "new", not borrowing/sharing pointers to existing
   ArSensorReading objects.
-* Fix unnecessary virtual inheritance.  
+* Fix virtual inheritance.  (Remove unneccesary virtual inheritance, make sure
+  done correctly, etc.) (IN PROGRESS)
   * Virtual inheritance must be used for
   interface implementations, i.e. subclasses of:
     * ArRangeDevice
@@ -32,14 +33,18 @@ easier to use.  Contact me or discuss on the GitHub page.
     * ArASyncTask
     * ArPose and other utility classes with extensions (eg.. ArPoseWithTime)
     * ArRobotTypes?
+  * Some base classes of virtual subclasses may need things like copy
+    constructors deleted.  Review.  Make sure copying is disabled (deleted) or
+    implemented correctly.
 * Bug: does not close robot connection when TCP connection write fails because
   remote side (ie sim) closed. (HELP WANTED)
 * Use new laser simulator commands in ArSimulatedLaser instead of old SRISim
   commands (HELP WANTED)
 * Edit (review and improve) README
 * Remove exceptions from ArPacketUtil and re-add -fno-exceptions to build (and
-  disable exceptions on Windows?)
-* Add `[[deprecated]]` attribute (or `DEPRECATED` macro) to deprecated methods
+  disable exceptions on Windows?).  Merge ArPacketUtil functionality into
+  ArBasePacket (without impacting performance of packets)
+* Add `[[deprecated]]` attribute (or `DEPRECATED` macro) to deprecated methods (DONE?)
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and instructions to users to transition existing
   code due to all changes below.
@@ -49,7 +54,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   with `shared_ptr`? Can we replace use of allocated memory that is freed from a
   raw pointer in destructor with `unique_ptr` for automatic deallocation?
 * In all classes with destructors (e.g. virtual classes), set copy/move
-  constructors and assignment operators to delete, default, or implement.
+  constructors and assignment operators to delete, default, or implement. (IN PROGRESS)
 * Replace classes that only contain enums with "enum class".  Fix any non-scoped
   enums as well (I don't think there are any.)
 * Switch to CMake? (HELP WANTED)
@@ -59,7 +64,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   non-unit tests)
 * Use namespace?, remove class prefixes?
 * Change installation locations to match current OS standards (Linux and
-  Windows)
+  Windows) (IN PROGRESS)
 * Change robot parameter file loading to also check user home directory
 * Remove `ArStringInfoGroup` (merge with data logger, let classes
   supply data accessors for data logger or other higher level uses
@@ -85,10 +90,16 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Add explicit "override" specifier to virtual methods that override [IN PRG]
 * overhaul other documentation.  
 * Add more data logger features.
-* Consolidate `src/*.cpp` and `include/*.h` in `aria/` subdirectories? should
-  match header installation directory.  
 * Move `matlab/ariac` to `ariac/`. Update matlab and ariac-rust builds.
 * Remove weird stuff in ArSystemStatus
+* Analyze important areas for performance and improve.
+  * Serial and network IO
+  * ArSyncTask (simplify "task tree" concept?) main loop.  This is really only
+    used by ArRobot, no external uses use ArSyncTask AFAIK.  
+  * ArRobot command and SIP processing
+  * ArAction handling. (e.g. remove unused customizability of action resolver
+    implementation.)
+  * Sensor data processing (Some work already done in ArRangeBuffer)
 * Start adding some real unit testing? (HELP WANTED)
   * use doctest in python examples and tests, or in an examples/tests file?
   * Use unit tests to check against regressions as we do the refactoring in this
@@ -152,14 +163,34 @@ easier to use.  Contact me or discuss on the GitHub page.
       for missing/uninitialized/error.
   * Use std::optional (C++17) for methods that return boolean status flag and return
     a value via a pointer argument.
+  * Use std::array or std::span (C++20) for buffers, arrays, pointer/length pairs.
   * Use standard `<thread>` library for threads rather than our own
-  * Replace ArFunctor usage with std::function.
+  * ArRangeBuffer and other collections should perhaps implement iterator or STL container
+    interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view.
+  * Find more opportunities to use improved STL algorithms including parallel.
+  * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics
+  * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
+  * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
+    std::stod, std::strtod, std::from_chars, etc.  Replace use of sprintf with
+    std::to_chars or sstream with format manipulators, or std::format (coming in
+    C++20, but there is also <https://github.com/fmtlib/fmt>in the mean time)
+  * Use `std::string` and `string_view` more frequently rather than `char*`.
+  * Use std::array instead of C arrays (or known-size vectors, but these seem to
+    not occur or be very rare in ARIA)
+* Simplify and improve ArFunctor
+  * Replace ArFunctor usage with std::function?  
     * Users can provide any bare function, which is converted to std::function
-    * Users can provide a lambda
+    * Users can provide a lambda (note that it must specify a return type if it
+      returns something in order to be safely assigned to a std::function.)
     * Users can provide a callable object with an operator().
     * Users can use `std::bind` with placeholder arguments, or `std::bind_front` (C++20) to provide an object instance
       bound to a member function (bind the method to a class instance),
-    * e.g.:
+    * Can we use a lighter weight callable type rather than std::function? Can
+      we use a more constrained type consisting of just an object pointer and
+      function signature (type)? Proposed function_ref?
+    * Need to make sure it is possible and easy to use a `std::shared_ptr` to
+      store object references (or other smart pointer). 
+    * std::function examples:
 
         ```C++
         class ArRobot {
@@ -171,20 +202,42 @@ easier to use.  Contact me or discuss on the GitHub page.
         robot.addUserTask( []() { cout << "Hello world\n"; } );
 
         // Note: must ensure `myinstance` is not destroyed before lambda and/or
-        // removed as user task from `robot`.
+        // removed as user task from `robot`.  
         auto l = [&myinstance])() { cout << myinstance.mymethod(); } );
         robot.addUserTask(l);
 
         robot.addUserTask(std::bind(&MyClass::mymethod, myinstance, std::placeholders::_1);
 
-        robot.addUserTask(std::bind_front(&MyClass::mymethod, myinstance));
+        // Note: you can either copy myinstance, or pass a pointer, when passing
+        // to bind_front. Maybe you could std::move it also?
+        robot.addUserTask(std::bind_front(&MyClass::mymethod, &myinstance));
         ...
         ```
 
-    * See <https://godbolt.org/z/Ts6nax> for experimenting with std::function and std::bind_front.
-    * Can we bind argument values and store it  for later in the std::function
-      object?  If so can we later change the argument values? These feature of ArFunctor isn't really used much.
-      Classes that need to do this could store a tuple of arguments and use std::apply
+        ```C++
+        class MyClass {
+          std::string myName;
+        public:
+          MyClass(const std::string& name) : myName(name) {};
+          void mymethod() {
+            std::cout << "MyClass::mymethod() called on " << myName << '\n';
+          }
+        };
+
+        void test(ArRobot& robot)
+        {
+          // create a new instance of MyClass in a shared_ptr.
+          std::shared_ptr<MyClass> myptr {std::make_shared<MyClass>("some MyClass instance")};
+          robot.addUserTask( [myptr]() { myptr->mymethod(); } 
+          // when we return, the lambda stores a shared_ptr for the MyClass
+          // instance, so it will not be destroyed. If the user task is removed
+          // from the ArRobot object, will the lambda and smart pointer be
+          // deleted, thus the MyClass instance deleted?
+          return;
+        }
+        ```
+
+    * See <https://godbolt.org/z/Md7WKbzrP> for experimenting with std::function and std::bind_front.
     * Conversion functions can be written to convert deprecated ArFunctor types to std::functions
       in C++20 like this:
 
@@ -215,28 +268,24 @@ easier to use.  Contact me or discuss on the GitHub page.
         using ArGlobalRetFunctor1 = std::function<Ret(Arg)>;
         ```
 
-    * Note, should we be using `std::ref` or `function_ref` for the above? (Or only
+      Maybe ArFunctorC can also be supported via type alias rather than
+      conversion functions?
+
+    * Note, should we be using `std::ref` or the proposed `function_ref` for the above? (Or only
       needed if target is an object with operator(), rather than function
       pointer or lambda?)
-    * The other feature ArFunctor has is a name that can be used for debugging.
+    * One feature ArFunctor has, which std::function does not, is a name that can be used for debugging.
       But maybe we can use some introspection functions to get string
       representations of the function type names and target type name. Or wrap
-      it in a small container class with a subclass containing an optional name.
-    * use `std::mem_fn` for member function pointer, for compatibility with
-     `ArFunctor`.
-  * ArRangeBuffer and other collections should perhaps implement iterator or STL container
-    interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view.
-  * Find more opportunities to use improved STL algorithms including parallel.
-  * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics
-  * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
-  * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
-    std::stod, std::strtod, std::from_chars, etc.  Replace use of sprintf with
-    std::to_chars or sstream with format manipulators, or std::format (coming in
-    C++20, but there is also <https://github.com/fmtlib/fmt>in the mean time)
-  * Use `std::string` and `string_view` more frequently rather than `char*`.
-  * Use std::array instead of C arrays (or known-size vectors, but these seem to
-    not occur or be very rare in ARIA)
-
+      std::function it in a small struct with name or other additional
+      features, and transparently expose the std::function API.
+  * Or, just simplify ArFunctor classes with variadic template types for 
+    function arguments, and/or function signatures as a type, and template
+    deduction to distinguish between function object class for free/global
+    functions, instance member functions, const instance member functions, etc.
+    See <tests/newFunctionObjectTemplates.cpp> for an example of this.
+    It should be renamed to less misleaing name, but we can add type aliases
+    for compatibility with old ArFunctor classes.
 * Mark some very frequently used inline methods noexcept? (because library might (or might not) have been compiled with -fno-exceptions but user applications probably won't be)
 * Javascript (NodeJS) wrapper via SWIG (HELP WANTED)
 * Automated Rust wrapper via ritual or SWIG or other tool (HELP WANTED)
