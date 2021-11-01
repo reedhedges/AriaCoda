@@ -352,11 +352,6 @@ void ArSonarMTX::failedToConnect ()
 void ArSonarMTX::sensorInterp ()
 {
 	//ArSonarMTXPacket *packet;
-	ArRobotPacket *packet;
-
-	int sonarNum;
-	int sonarRange;
-	int sonarRangeConverted;
 
 	while (1) {
 		myPacketsMutex.lock();
@@ -369,7 +364,7 @@ void ArSonarMTX::sensorInterp ()
 		myLastReading.setToNow();
 		internalGotReading();
 
-		packet = myPackets.front();
+		ArRobotPacket *packet = myPackets.front();
 		myPackets.pop_front();
 		myPacketsMutex.unlock();
 
@@ -386,9 +381,9 @@ void ArSonarMTX::sensorInterp ()
 			continue;
 		}
 
-		ArTime time = packet->getTimeReceived();
+		const ArTime time = packet->getTimeReceived();
 
-		sonarNum = (buf[5] << 8) | (buf[4]);
+		const int sonarNum = (buf[5] << 8) | (buf[4]);
 
 		// make sure the sonar number is in range
 
@@ -435,7 +430,7 @@ void ArSonarMTX::sensorInterp ()
 		  continue;
 		}
 
-		int mappedSonarNum = mySonarMap[sonarNum][SONAR_MAPPING];
+		const int mappedSonarNum = mySonarMap[sonarNum][SONAR_MAPPING];
 
 #if 0
 		if ( (buf[7] == 0xff) && (buf[6] == 0xff)) {
@@ -448,9 +443,9 @@ void ArSonarMTX::sensorInterp ()
 #endif
 
 
-		sonarRange = (buf[7] << 8) | (buf[6]);
+		const int sonarRange = (buf[7] << 8) | (buf[6]);
 
-		sonarRangeConverted = ArMath::roundInt (
+		unsigned int sonarRangeConverted = (unsigned int) ArMath::roundInt (
 		                        sonarRange * myRobot->getRobotParams()->getRangeConvFactor());
 
 
@@ -483,7 +478,7 @@ void ArSonarMTX::sensorInterp ()
 
 		//char charSonarNum = (char)sonarNum;
 		//sprintf(charSonarNum, "%d", sonarNum);
-		myRobot->processNewSonar (mappedSonarNum, (int)sonarRangeConverted, time);
+		myRobot->processNewSonar (mappedSonarNum, sonarRangeConverted, time);
 
 		myDeviceMutex.unlock();
 
@@ -1426,7 +1421,8 @@ AREXPORT bool ArSonarMTX::validateGain()
 			continue;
 
 		for (int i = 0; i < 10; i++) {
-			if (!sendGetGain (j)) {
+			assert(j <= UCHAR_MAX);
+			if (!sendGetGain ((unsigned char)j)) {
 				ArLog::log (ArLog::Normal,
 				            "%s::validateGain() Could not send get gain to Sonar", getNameWithBoard());
 				return false;
@@ -1466,7 +1462,7 @@ AREXPORT bool ArSonarMTX::validateGain()
 		gotGain = false;
 
 		assert(gainBuf);
-		unsigned char gain = gainBuf[5];
+		const unsigned char gain = gainBuf[5];
 		IFDEBUG (
 		  ArLog::log (ArLog::Normal,
 		              "%s::validateGain() Sonar_%d has gain of %d", getNameWithBoard(), j+1, gain));
@@ -1476,9 +1472,9 @@ AREXPORT bool ArSonarMTX::validateGain()
 			            "%s::validateGain() Sonar_%d gain %d does not match configured gain %d, setting new gain",
 			            getNameWithBoard(), j+1, gain, mySonarMap[j][SONAR_GAIN]);
 
-      const int gain = mySonarMap[j][SONAR_GAIN];
-      assert(gain >= 0 && gain <= UCHAR_MAX);
-			if (!sendSetGain (j, (unsigned char)gain)) {
+      const int setgain = mySonarMap[j][SONAR_GAIN];
+      assert(setgain >= 0 && setgain <= UCHAR_MAX);
+			if (!sendSetGain ((unsigned char)j, (unsigned char)setgain)) {
 				ArLog::log (ArLog::Normal,
 				            "%s::validateGain() Could not send set gain to Sonar_%d", getNameWithBoard(), j+1);
 				return false;
@@ -1553,7 +1549,7 @@ AREXPORT bool ArSonarMTX::validateDelay()
 		            "%s::validateDelay() delay %d does not match configured delay %d, setting new delay",
 		            getNameWithBoard(), delay, myBoardDelay);
 
-    assert(myBoardDelay >= 0 && myBoardDelay <= UCHAR_MAX);
+    assert(myBoardDelay <= UCHAR_MAX);
 		if (!sendSetDelay ((unsigned char)myBoardDelay)) {
 			ArLog::log (ArLog::Normal,
 			            "%s::validateDelay() Could not send set delay to Sonar", getNameWithBoard());
@@ -1691,7 +1687,8 @@ AREXPORT bool ArSonarMTX::validateMaxRange()
 			continue;
 
 		for (int i = 0; i < 10; i++) {
-			if (!sendGetMaxRange (j)) {
+			assert(j <= UCHAR_MAX);
+			if (!sendGetMaxRange ((unsigned char)j)) {
 				ArLog::log (ArLog::Normal,
 				            "%s::validateMaxRange() Could not send get maxrange echosamplesize to Sonar_%d",
 				            getNameWithBoard(), j+1);
@@ -1735,7 +1732,7 @@ AREXPORT bool ArSonarMTX::validateMaxRange()
 		gotEchoSampleSize = false;
 		//unsigned char echosamplesize = echosamplesizeBuf[4];
 
-		int echoSampleSize = (echosamplesizeBuf[6] << 8) | (echosamplesizeBuf[5]);
+		const int echoSampleSize = (echosamplesizeBuf[6] << 8) | (echosamplesizeBuf[5]);
 
 		IFDEBUG (
 		  ArLog::log (ArLog::Normal,
@@ -1746,7 +1743,7 @@ AREXPORT bool ArSonarMTX::validateMaxRange()
 			            "%s::validateMaxRange() Sonar_%d maxrange echosamplesize %d does not match configured maxrange echosamplesize %d, setting new maxrange echosamplesize",
 			            getNameWithBoard(), j+1, echoSampleSize, mySonarMap[j][SONAR_MAX_RANGE]);
 
-			if (!sendSetMaxRange (j, mySonarMap[j][SONAR_MAX_RANGE])) {
+			if (!sendSetMaxRange ((unsigned char) j, mySonarMap[j][SONAR_MAX_RANGE])) {
 				ArLog::log (ArLog::Normal,
 				            "%s::validateMaxRange() Could not send set maxrange echosamplesize to Sonar_%d", getNameWithBoard(), j+1);
 				return false;
@@ -1771,6 +1768,7 @@ AREXPORT bool ArSonarMTX::validateThresholds()
 	bool gotThresholds = false;
 	unsigned char *thresholdBuf = NULL;
 
+  assert(myNumTransducers <= UCHAR_MAX); // j is converted to unsigned char below to send to sonar as index
 	for (int j = 0; j < myNumTransducers; j++) {
 //	for (int j = 1; j < 2; j++) {
 
@@ -1779,7 +1777,7 @@ AREXPORT bool ArSonarMTX::validateThresholds()
 			continue;
 
 		for (int i = 0; i < 10; i++) {
-			if (!sendGetThresholds (j)) {
+			if (!sendGetThresholds ((unsigned char)j)) {
 				ArLog::log (ArLog::Normal,
 				            "%s::validateThresholds() Could not send get threshold to Sonar_%d",
 				            getNameWithBoard(), j+1);
@@ -1820,7 +1818,7 @@ AREXPORT bool ArSonarMTX::validateThresholds()
 
 		gotThresholds = false;
 
-		int thres = (thresholdBuf[6] << 8) | (thresholdBuf[5]);
+		const int thres = (thresholdBuf[6] << 8) | (thresholdBuf[5]);
 
 		IFDEBUG (
 		  ArLog::log (ArLog::Normal,
@@ -1832,7 +1830,7 @@ AREXPORT bool ArSonarMTX::validateThresholds()
 			            getNameWithBoard(), j+1, thres,
 			            mySonarMap[j][SONAR_DETECTION_THRES]);
 
-			if (!sendSetThresholds (j, mySonarMap[j][SONAR_DETECTION_THRES])) {
+			if (!sendSetThresholds ((unsigned char) j, mySonarMap[j][SONAR_DETECTION_THRES])) {
 				ArLog::log (ArLog::Normal,
 				            "%s::validateThresholds() Could not send set threshold to Sonar_%d", getNameWithBoard(), j+1);
 				return false;
@@ -1929,8 +1927,9 @@ AREXPORT bool ArSonarMTX::sendSetThresholds (unsigned char transducerNumber,
 
 	sendPacket.setID (SET_THRESHOLDS); // set thresholds
 	sendPacket.uByteToBuf (transducerNumber);
-	sendPacket.uByteToBuf (thres & 0xff);
-	sendPacket.uByteToBuf (thres >> 8);
+	assert(thres >= 0);
+	sendPacket.uByteToBuf ((ArTypes::UByte)(thres & 0xff));
+	sendPacket.uByteToBuf ((ArTypes::UByte)(thres >> 8));
 
 	if (!mySender->sendPacket(&sendPacket)) {
 		ArLog::log (ArLog::Terse,
