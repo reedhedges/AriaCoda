@@ -290,6 +290,8 @@ help:
 	@echo "  cleanJava"
 	@echo "  examples/<Some Example>, where examples/<Some Example>.cpp is an example program source file."
 	@echo "  tests/<Some Test>, where tests/<Some Test>.cpp is a test program source file."
+	@echo "  install"
+	@echo "  debian"
 	@echo "Any markdown file (.md) can be converted to RTF, text, PDF or HTML with rules with rtf, txt, pdf, html file suffixes (e.g. 'make README.html'). The 'pandoc' tool is used."
 	@echo 
 	@echo "Set EXTRA_CXXFLAGS to add any additional C++ compilation flags you want (e.g. optimization or profiling flags)."
@@ -299,6 +301,7 @@ help:
 	@echo "Set CXXDEBUGFLAGS to override default debug flags (-g)."
 	@echo "Set CXXSTD to select C++ standard (i.e. value passed to -std).  Default is $(CXXSTD)"
 	@echo "Set CXX to override C++ compiler command. Set AR to override ar static linker command."
+	@echo "Set DESTDIR for installation in a temporary directory (eg for packaging or testing)."
 
 info:
 	@echo ARIA=$(ARIA)
@@ -570,7 +573,8 @@ cleanCSharp:
 
 lib/libAria.$(sosuffix): $(OFILES) 
 	-mkdir lib
-	$(CXX) -shared -o $(@) $(OFILES) $(ARIA_CXXLINK)
+	$(CXX) -shared -Wl,-soname,libAria.$(sosuffix).$(majorlibver) -o $(@) $(OFILES) $(ARIA_CXXLINK)
+	ln -sf libAria.$(sosuffix) lib/libAria.$(sosuffix).$(majorlibver)
 
 lib/libAria.a: $(OFILES) 
 	-mkdir lib
@@ -716,6 +720,13 @@ else
 endif
 
 install: install-default install-utils install-doc 
+	@echo 
+	@echo libAria shared libraries have been installed in $(libdir).
+	@echo Header files have been installed in $(incdir)/Aria.
+	@echo Documentation has been installed in $(docdir)/Aria.
+	@echo Robot parameter files have been installed in $(sharedir)/Aria/params
+	@echo Utility programs \(ariaDemo, seekurPower, mtxPower\) have been installed in $(bindir).	
+	@echo The file $(etcdir)/Aria has been created to help Aria find $(ariadir).
 
 install-default: lib/libAria.$(sosuffix) params README.md CommandLineOptions.txt $(HEADER_FILES) 
 	install -D -m 644 lib/libAria.$(sosuffix) $(libdir)/libAria.$(sosuffix).$(majorlibver).$(minorlibver)
@@ -742,7 +753,7 @@ install-utils: examples/demo examples/seekurPower examples/mtxPower
 	install -D -m 755 -s examples/mtxPower $(bindir)/
 
 install-doc: doc
-	find docs -type f -exec install -D -m 644 \{\} $(docdir)/Aria/\{\} \;
+	find docs -type f -and -not -name .\* -exec install -D -m 644 \{\} $(docdir)/Aria/\{\} \;
 
 install-docs: install-doc
 
@@ -754,8 +765,10 @@ install-examples:
 	install -D -m 644 -t $(examplesdir) $(EXAMPLES_CPP) examples/README.txt examples/*.wav
 
 
-deb: FORCE
-	dh binary
+debian: FORCE
+	fakeroot dh binary
+
+deb: debian
 
 # Make optimization, tell it what rules aren't files:
 .PHONY: all everything examples modExamples tests utils cleanDep docs doc dirs help info moreinfo clean cleanUtils cleanExamples cleanTests cleanDoc cleanPython dep params python python-doc java cleanJava params swig help info moreinfo py python-doc cleanSwigJava dirs install  distclean ctags csharp cleanCSharp cleanAll tidy cppclean cppcheck clang-tidy debug

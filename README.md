@@ -235,7 +235,7 @@ Installation
 ------------
 
 AriaCoda can be installed using Ubuntu/Debian packages or after building the source
-code.
+code (using the `install` rules in the Makefile).
 
 The available Ubuntu/Debian packages are:
 * libaria3
@@ -246,7 +246,16 @@ The available Ubuntu/Debian packages are:
 * python3-aria
 * libaria3-examples
 
-To install AriaCoda from source code, use `make install`.  This installs the
+Use `apt` to install.
+
+`libaria3` installs the shared library into the correct subdirectory
+of `/usr/lib`.  `libaria3-dev` installs additional shared library aliases 
+and the header files in `/usr/include/Aria`.  `libaria3-doc` installs
+documentation in `/usr/share/doc/Aria`.  `libaria3-utils` installs
+`ariaDemo`, `mtxPower`, and `seekurPower` into `/usr/bin`.  `libaria3-examples`
+installs example program source code to `/usr/share/doc/Aria/examples`.
+
+To install AriaCoda from source code, use `sudo make install`.  This installs the
 `libAria.so` shared library (also with versioned files) into `/usr/local/lib`
 and, the header files in `/usr/local/include/Aria`. Robot parameter files
 are installed into `/usr/local/share/Aria/params`.
@@ -257,7 +266,16 @@ to install `demo` (as `ariaDemo`), `mtxPower`, and `seekurPower` into
 `make install-python` to install the Python wrapper files, and `make
 install-java` to install the Java wrapper.   Run `make install-examples` to
 install the example program source code into
-`/usr/local/share/doc/Aria/examples`.
+`/usr/local/share/doc/Aria/examples`.  
+
+To specify an alternate installation
+location, set the `DESTDIR` variable in the environment or when running `make`.
+If `DESTDIR` is set, then the library is installed in `$DESTDIR/usr/lib`,
+header files are installed in `$DESTDIR/usr/include/Aria`, robot parameter files
+are installed in `$DESTDIR/usr/share/Aria/params`, documentation is installed in
+`$DESTDIR/usr/share/doc/Aria`, utility programs are installed 
+into `$DESTDIR/usr/bin`, example program source code is installed in 
+`$DESTDIR/share/doc/Aria/examples`.
 
 Documentation
 -------------

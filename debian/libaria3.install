@@ -1,0 +1,3 @@
+usr/lib/lib*.so.*
+etc/Aria
+usr/share/Aria/params/*
