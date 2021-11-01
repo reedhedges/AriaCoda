@@ -7,14 +7,14 @@ any improvement or change that would make this library more useful for you or
 easier to use.  Contact me or discuss on the GitHub page.
 
 * In packet receivers e.g. ArRobotPacketReceiver, return ArRobotPacket by value
-  as data, with all callers using std::move to move it to temporary or to store it? 
+  as data, with all callers using std::move to move it to temporary or to store it?
 * In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
-  list<ArSensorReading> rather than list<ArSensorReading*> and don't allocate
+  `std::list<ArSensorReading>` rather than `std::list<ArSensorReading*>` and don't allocate
   each one. Use emplace_back when creating a new ArSensorReading objects for the
   list. [It looks like all uses of myRawReadings etc. are allocating new
   ArSensorReading objects with "new", not borrowing/sharing pointers to existing
-  ArSensorReading objects.
-* Fix virtual inheritance.  (Remove unneccesary virtual inheritance, make sure
+  ArSensorReading objects. (DONE?)
+* Fix virtual inheritance.  (Remove unnecessary virtual inheritance, make sure
   done correctly, etc.) (IN PROGRESS)
   * Virtual inheritance must be used for
   interface implementations, i.e. subclasses of:
@@ -74,7 +74,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   old "ArRobotConfig" class but nothing actually ever used it.)
 * Remove barriers to having simpler wrapper libraries (swig and non-swig)
 * Separate into multiple libraries? (with optional full aria build also for
-  compatibilty)?  -- aria-core, aria-devices, aria-actionlib?
+  compatibility)?  -- aria-core, aria-devices, aria-actionlib?
 * Continue to reduce number of classes needed for typical applications.
   Reduce boilerplate needed on new programs. simpleConnect example should be <10
   lines of code.  ArRobot should be able to do default connection behavior
@@ -189,7 +189,7 @@ easier to use.  Contact me or discuss on the GitHub page.
       we use a more constrained type consisting of just an object pointer and
       function signature (type)? Proposed function_ref?
     * Need to make sure it is possible and easy to use a `std::shared_ptr` to
-      store object references (or other smart pointer). 
+      store object references (or other smart pointer).
     * std::function examples:
 
         ```C++
@@ -279,12 +279,12 @@ easier to use.  Contact me or discuss on the GitHub page.
       representations of the function type names and target type name. Or wrap
       std::function it in a small struct with name or other additional
       features, and transparently expose the std::function API.
-  * Or, just simplify ArFunctor classes with variadic template types for 
+  * Or, just simplify ArFunctor classes with variadic template types for
     function arguments, and/or function signatures as a type, and template
     deduction to distinguish between function object class for free/global
     functions, instance member functions, const instance member functions, etc.
     See <tests/newFunctionObjectTemplates.cpp> for an example of this.
-    It should be renamed to less misleaing name, but we can add type aliases
+    It should be renamed to less misleading name, but we can add type aliases
     for compatibility with old ArFunctor classes.
 * Mark some very frequently used inline methods noexcept? (because library might (or might not) have been compiled with -fno-exceptions but user applications probably won't be)
 * Javascript (NodeJS) wrapper via SWIG (HELP WANTED)

@@ -4,6 +4,7 @@
 *.so
 .*.sw?
 *~
+.*.un~
 Makefile.dep
 *.ipch
 *.bin
@@ -32,3 +33,14 @@ checks.json
 docs/Aria.tag
 README.html
 docs/options
+debian/debhelper-build-stamp
+debian/ex
+debian/files
+debian/libaria3
+debian/libaria3-dev
+debian/*.substvars
+debian/libaria3-doc
+debian/libaria-utils
+debian/source
+debian/tmp
+debian/.debhelper
