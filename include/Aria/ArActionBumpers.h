@@ -49,9 +49,9 @@ public:
 			   int turnTime = 3000, bool setMaximums = false);
   //AREXPORT virtual ~ArActionBumpers();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
-  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired() const 
+  AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
   AREXPORT double findDegreesToTurn(int bumpValue, int whichBumper);

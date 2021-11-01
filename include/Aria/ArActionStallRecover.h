@@ -45,10 +45,10 @@ public:
 				bool enabled = true);
   //AREXPORT virtual ~ArActionStallRecover();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
-  AREXPORT virtual ArActionDesired *getDesired() 
+  AREXPORT virtual ArActionDesired *getDesired() override 
     { return &myActionDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired() const 
+  AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                    { return &myActionDesired; }
 #endif
   AREXPORT void addToConfig(ArConfig* config, const char* sectionName, ArPriority::Priority priority = ArPriority::NORMAL);

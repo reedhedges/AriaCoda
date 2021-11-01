@@ -55,9 +55,9 @@ public:
 		     double turnAmount = 15, bool useTableIRIfAvail = true);
   //AREXPORT virtual ~ArActionAvoidFront();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
-  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG
-  virtual const ArActionDesired *getDesired() const 
+  virtual const ArActionDesired *getDesired() const override
                                                         { return &myDesired; }
 #endif
 protected:

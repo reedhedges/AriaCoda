@@ -101,6 +101,9 @@ easier to use.  Contact me or discuss on the GitHub page.
   * ArRobot command and SIP processing
   * ArAction handling. (e.g. remove unused customizability of action resolver
     implementation.)
+  * Reduce ArAction footprint.  Remove little-used features (arguments,
+    getDesired(),  passing currentDesired() in to file() (or make it a const
+    reference.) 
   * Sensor data processing (Some work already done in ArRangeBuffer)
 * Start adding some real unit testing? (HELP WANTED)
   * use doctest in python examples and tests, or in an examples/tests file?

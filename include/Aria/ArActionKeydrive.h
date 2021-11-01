@@ -47,9 +47,9 @@ public:
   AREXPORT void setSpeeds(double transVelMax, double turnAmountMax);
   /// For setting the increment amounts
   AREXPORT void setIncrements(double velIncrement, double turnIncrement);
-  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired() const 
+  AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
   AREXPORT virtual void setRobot(ArRobot *robot);

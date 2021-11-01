@@ -73,9 +73,9 @@ public:
   AREXPORT bool getUseOSCal();
   /// Gets the joyHandler
   AREXPORT ArJoyHandler *getJoyHandler() { return myJoyHandler; }
-  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired() const { return &myDesired; }
+  AREXPORT virtual const ArActionDesired *getDesired() const override { return &myDesired; }
 #endif
 protected:
   bool myUseThrottle;

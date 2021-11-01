@@ -92,15 +92,15 @@ public:
   /// Sets the robot this action is driving
   AREXPORT virtual void setRobot(ArRobot *robot);
   /// Find the number of arguments this action takes
-  AREXPORT virtual int getNumArgs() const;
+  PUBLICDEPRECATED("") AREXPORT virtual int getNumArgs() const;
 #ifndef SWIG
   /** Gets the numbered argument
    * @swignote Not available
    */
-  AREXPORT virtual const ArArg *getArg(int number) const;
+  PUBLICDEPRECATED("") AREXPORT virtual const ArArg *getArg(int number) const;
 #endif // SWIG
   /// Gets the numbered argument
-  AREXPORT virtual ArArg *getArg(int number);
+  PUBLICDEPRECATED("") AREXPORT virtual ArArg *getArg(int number);
   /// Gets the name of the action
   AREXPORT virtual const char *getName() const;
   /// Gets the long description of the action

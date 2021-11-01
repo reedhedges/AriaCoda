@@ -39,9 +39,9 @@ public:
   AREXPORT ArActionStop(const char *name = "stop");
   //AREXPORT virtual ~ArActionStop();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
-  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired() const 
+  AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
 protected:

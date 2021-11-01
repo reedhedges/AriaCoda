@@ -107,9 +107,9 @@ public:
   /// Adds to a section in a config
   AREXPORT void addToConfig(ArConfig *config, const char *section);
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
-  AREXPORT virtual ArActionDesired *getDesired() { return &myDesired; }
+  AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired() const 
+  AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
   AREXPORT virtual void activate();
