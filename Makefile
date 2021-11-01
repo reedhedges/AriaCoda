@@ -362,7 +362,7 @@ markdown_format:=markdown #+multiline_tables #+simple_tables
 
 
 clean: cleanUtils cleanExamples cleanTests 
-	-rm -f lib/libAria.a lib/libAria.$(sosuffix) $(OFILES) 
+	-rm -f lib/libAria.a lib/libAria.$(sosuffix) lib/libAria.$(sosuffix).$(majorlibver) $(OFILES) 
 
 cleanUtils:
 	-rm -f $(UTILS)
