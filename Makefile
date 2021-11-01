@@ -573,7 +573,7 @@ cleanCSharp:
 
 lib/libAria.$(sosuffix): $(OFILES) 
 	-mkdir lib
-	$(CXX) -shared -Wl,-soname,libAria.$(sosuffix).$(majorlibver) -o $(@) $(OFILES) $(ARIA_CXXLINK)
+	$(CXX) -shared $(ARIA_LINKFLAGS) -o $(@) $(OFILES) $(ARIA_CXXLINK)
 	ln -sf libAria.$(sosuffix) lib/libAria.$(sosuffix).$(majorlibver)
 
 lib/libAria.a: $(OFILES) 

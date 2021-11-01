@@ -45,6 +45,8 @@ CXXLINK=-Llib -lAria $(ARIA_CXXLINK) # used for examples, tests etc.
 CXXSTATICLINK=-Llib -Xlinker -Bstatic -lAria -Xlinker -Bdynamic $(ARIA_CXXSTATICLINK)
 # ARIA_CXXLINK and ARIA_CXXSTATICLINK are defined in next section
 
+sonamelinkflag=-Wl,-soname,libAria.$(sosuffix).$(majorlibver)
+
 host:=$(shell uname | cut -d _ -f 1)
 ifeq ($(host),MINGW32)
   $(info Building on MinGW)
@@ -69,6 +71,7 @@ else
     ARIA_CXXLINK+=-lrt
     ARIA_CXXSTATICLINK+=-Xlinker -Bdynamic -lpthread -ldl -lrt -Xlinker -Bstatic -lstdc++ -Xlinker -Bdynamic
     sosuffix:=so
+    ARIA_LINKFLAGS=-Wl,-soname,libAria.so.$(majorlibver)
   endif
 endif
 
