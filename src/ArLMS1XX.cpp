@@ -1859,7 +1859,7 @@ AREXPORT bool ArLMS1XX::blockingConnect()
 	laserPullUnsetParamsFromRobot();
 	laserCheckParams();
 
-	constexpr size_t size = (270 / .25 + 1);
+	const size_t size = (size_t)(270 / .25) + 1;
 	ArLog::log(myInfoLogLevel, "%s::blockingConnect() Setting current buffer size to %lu",
 			getName(), size);
 	setCurrentBufferSize(size);

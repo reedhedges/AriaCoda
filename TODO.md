@@ -38,6 +38,8 @@ easier to use.  Contact me or discuss on the GitHub page.
     implemented correctly.
 * Bug: does not close robot connection when TCP connection write fails because
   remote side (ie sim) closed. (HELP WANTED)
+* Change size parameter to read/write methods in ArDeviceConnection (and
+  subclasses) to `size_t`.
 * Use new laser simulator commands in ArSimulatedLaser instead of old SRISim
   commands (HELP WANTED)
 * Edit (review and improve) README
@@ -138,16 +140,16 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Use more modern portable C++/stdlib features (including tests that new standard library usage is equivalent to older usage)
   * Replace (deprecate) ArTime and ArUtil::getTime(), ArUtil::putCurrentXXXXInString(), ArUtil::parseTime(), ArUtil::localtime(),  with std::chrono etc.
   * Replace/deprecate some ariaTypedefs.h, ArUtil and ArMath functions:
-    * ArTypes::Byte -> int8_t
-    * ArTypes::Byte2 -> int16_t
-    * ArTypes::Byte4 -> int32_t
-    * ArTypes::Byte8 -> int64_t
-    * ArTypes::UByte -> uint8_t
-    * ArTypes::UByte2 -> uint16_t
-    * ArTypes::Ubyte4 -> uint32_t
-    * ArTypes::Ubyte8 -> uint64_t
-    * move ArListPos from ariaTypedefs.h into ariaUtil.h, remove ariaTypedefs.h.
-  * smart pointers (shared_ptr)
+    * `ArTypes::Byte` -> `int8_t`
+    * `ArTypes::Byte2` -> `int16_t`
+    * `ArTypes::Byte4` -> `int32_t`
+    * `ArTypes::Byte8` -> `int64_t`
+    * `ArTypes::UByte` -> `uint8_t`
+    * `ArTypes::UByte2` -> `uint16_t`
+    * `ArTypes::Ubyte4` -> `uint32_t`
+    * `ArTypes::Ubyte8` -> `uint64_t`
+    * move `ArListPos` from `ariaTypedefs.h` into `ariaUtil.h`, remove `ariaTypedefs.h`.
+  * smart pointers (`std::shared_ptr`)
     * Start with various classes that take a pointer to another object in
       constructor, stored for the life of the object. Usually this is an
       ArRobot*, ArRobotConnector*, ArLaserConnector*, etc.
@@ -163,7 +165,10 @@ easier to use.  Contact me or discuss on the GitHub page.
       for missing/uninitialized/error.
   * Use std::optional (C++17) for methods that return boolean status flag and return
     a value via a pointer argument.
-  * Use std::array or std::span (C++20) for buffers, arrays, pointer/length pairs.
+  * Use `std::array`, `std::span` (C++20), or `std::string_view` (c++17) for buffers, arrays, pointer/length pairs.
+  * Use `std::string_view` (C++17) in many places where `char*` are used and
+    passed. Accept `std::string_view` in general as parameter in places where
+    `char*` and `std::string&` are used as function paramemters.
   * Use standard `<thread>` library for threads rather than our own
   * ArRangeBuffer and other collections should perhaps implement iterator or STL container
     interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view.
@@ -171,12 +176,12 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics
   * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
   * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
-    std::stod, std::strtod, std::from_chars, etc.  Replace use of sprintf with
-    std::to_chars or sstream with format manipulators, or std::format (coming in
+    `std::stod`, `std::strtod`, `std::from_chars`, etc.  Replace use of sprintf with
+    `std::to_chars` or `std::to_string` or sstream with format manipulators, or `std::format` (coming after
     C++20, but there is also <https://github.com/fmtlib/fmt>in the mean time)
   * Use `std::string` and `string_view` more frequently rather than `char*`.
-  * Use std::array instead of C arrays (or known-size vectors, but these seem to
-    not occur or be very rare in ARIA)
+  * Use `std::array` instead of C arrays (or known-size vectors, but these seem to
+    not occur or be very rare in ARIA) (PARTLY DONE)
 * Simplify and improve ArFunctor
   * Replace ArFunctor usage with std::function?  
     * Users can provide any bare function, which is converted to std::function
@@ -187,7 +192,7 @@ easier to use.  Contact me or discuss on the GitHub page.
       bound to a member function (bind the method to a class instance),
     * Can we use a lighter weight callable type rather than std::function? Can
       we use a more constrained type consisting of just an object pointer and
-      function signature (type)? Proposed function_ref?
+      function signature (type)? Proposed `function_ref`?
     * Need to make sure it is possible and easy to use a `std::shared_ptr` to
       store object references (or other smart pointer).
     * std::function examples:
@@ -237,9 +242,10 @@ easier to use.  Contact me or discuss on the GitHub page.
         }
         ```
 
-    * See <https://godbolt.org/z/Md7WKbzrP> for experimenting with std::function and std::bind_front.
-    * Conversion functions can be written to convert deprecated ArFunctor types to std::functions
-      in C++20 like this:
+    * See <https://godbolt.org/z/Md7WKbzrP> for experimenting with
+      `std::function` and `std::bind_front`.
+    * Conversion functions can be written to convert deprecated ArFunctor types
+       to `std::function`s in C++20 like this:
 
         ```C++
         template <class CT, typename ArgT>
