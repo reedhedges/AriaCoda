@@ -128,19 +128,19 @@ AREXPORT int ArSerialConnection::internalOpen()
   }    
 
   /* turn off echo, canonical mode, extended processing, signals */
-  tio.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+  tio.c_lflag &= ~ static_cast<tcflag_t>(ECHO | ICANON | IEXTEN | ISIG);
 
   /* turn off break sig, cr->nl, parity off, 8 bit strip, flow control */
-  tio.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+  tio.c_iflag &= ~ static_cast<tcflag_t>(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
 
   /* clear size, turn off parity bit */
-  tio.c_cflag &= ~(CSIZE | PARENB);
+  tio.c_cflag &= ~ static_cast<tcflag_t>(CSIZE | PARENB);
 
   /* set size to 8 bits */
-  tio.c_cflag |= CS8;
+  tio.c_cflag |= static_cast<tcflag_t>(CS8);
 
   /* turn output processing off */
-  tio.c_oflag &= ~(OPOST);
+  tio.c_oflag &= ~ static_cast<tcflag_t>(OPOST);
 
   /* Set time and bytes to read at once */
   tio.c_cc[VTIME] = 0;
@@ -334,13 +334,13 @@ AREXPORT bool ArSerialConnection::setBaud(int rate)
     return false;
   }
   
-  if (cfsetospeed(&tio, baud)) 
+  if (cfsetospeed(&tio, (speed_t)baud)) 
   {
     ArLog::logErrorFromOS(ArLog::Terse, "ArSerialConnection::setBaud (%s): Could not set output baud rate on termios struct.", getPort());
     return false;
   }
        
-  if (cfsetispeed(&tio, baud)) 
+  if (cfsetispeed(&tio, (speed_t)baud)) 
   {
     ArLog::logErrorFromOS(ArLog::Terse, "ArSerialConnection::setBaud (%s): Could not set input baud rate on termios struct.", getPort());
     return false;
@@ -470,7 +470,6 @@ AREXPORT bool ArSerialConnection::getHardwareControl()
 
 AREXPORT int ArSerialConnection::write(const char *data, unsigned int size) 
 {
-  int n;
   /*
   printf("SERIAL_WRITE(%3d): ", size);
   for (int i = 0; i < size; i++)
@@ -488,7 +487,8 @@ AREXPORT int ArSerialConnection::write(const char *data, unsigned int size)
 
   if (myPort >= 0) 
   {
-    n = ::write(myPort, data, size);
+    assert(size <= SIZE_MAX);
+    const ssize_t n = ::write(myPort, data, (size_t)size);
     if (n == -1) 
     {
 #if 0
@@ -502,7 +502,8 @@ AREXPORT int ArSerialConnection::write(const char *data, unsigned int size)
 #endif 
       ArLog::logErrorFromOS(ArLog::Terse, "ArSerialConnection::write (%s): Error on writing.", getPort());
     }
-    return n;
+    assert(n <= INT_MAX); // really should limit 'size' argument to INT_MAX as well probably. We need return to be signed int to return -1 for error. 
+    return (int)n;
   }
   ArLog::log(ArLog::Terse, "ArSerialConnection::write (%s): Connection invalid.", getPort());
   return -1;
@@ -511,53 +512,53 @@ AREXPORT int ArSerialConnection::write(const char *data, unsigned int size)
 AREXPORT int ArSerialConnection::read(const char *data, unsigned int size,
 				      unsigned int msWait) 
 {
-  struct timeval tp;		/* time interval structure for timeout */
-  fd_set fdset;			/* fd set ??? */
-  int n;
-  long timeLeft;
-  unsigned int bytesRead = 0;
-  ArTime timeDone;
-
-  if (myPort >= 0)
+  if (myPort < 0)
   {
-    if (msWait > 0)
-    {
-      timeDone.setToNow();
-      if (!timeDone.addMSec(msWait)) {
-        ArLog::log(ArLog::Normal,
-                   "ArSerialConnection::read() error adding msecs (%i)",
-                   msWait);
-      }
-      while ((timeLeft = timeDone.mSecTo()) >= 0) 
-      {
-	tp.tv_sec = (timeLeft) / 1000;	/* we're polling */
-	tp.tv_usec = (timeLeft % 1000) * 1000;
-	FD_ZERO(&fdset);
-	FD_SET(myPort,&fdset);
-	if (select(myPort+1,&fdset,NULL,NULL,&tp) <= 0) 
-	  return bytesRead;
-	if ((n = ::read(myPort, const_cast<char *>(data)+bytesRead, 
-			size-bytesRead)) == -1)
-	{
-	  ArLog::logErrorFromOS(ArLog::Terse, "ArSerialConnection::read (%s):  Blocking read failed.", getPort());
-	  return bytesRead;
-	}
-	bytesRead += n;
-	if (bytesRead >= size)
-	  return bytesRead;
-      }
-      return bytesRead;
-    }
-    else 
-    {
-      n = ::read(myPort, const_cast<char *>(data), size);
-      if (n == -1)
-	ArLog::logErrorFromOS(ArLog::Terse, "ArSerialConnection::read (%s):  Non-Blocking read failed.", getPort());
-      return n;
-    }
+    ArLog::log(ArLog::Normal, "ArSerialConnection::read (%s):  Connection invalid.", getPort());
+    return -1;
   }
-  ArLog::log(ArLog::Normal, "ArSerialConnection::read (%s):  Connection invalid.", getPort());
-  return -1;
+
+  if (msWait > 0)
+  {
+    ArTime timeDone;
+    if (!timeDone.addMSec(msWait)) {
+      ArLog::log(ArLog::Normal,
+                  "ArSerialConnection::read() error adding msecs (%i)",
+                  msWait);
+    }
+    unsigned int bytesRead = 0;
+    long timeLeft;
+    struct timeval tp;		/* time interval structure for timeout */
+    fd_set fdset;	
+    while ((timeLeft = timeDone.mSecTo()) >= 0) 
+    {
+      tp.tv_sec = (timeLeft) / 1000;	/* we're polling */
+      tp.tv_usec = (timeLeft % 1000) * 1000;
+      FD_ZERO(&fdset);
+      FD_SET(myPort,&fdset);
+      if (select(myPort+1,&fdset,NULL,NULL,&tp) <= 0) 
+        return (int)bytesRead;
+      const ssize_t n = ::read(myPort, const_cast<char *>(data) + bytesRead, size-bytesRead);
+      if (n < 0)
+      {
+        ArLog::logErrorFromOS(ArLog::Terse, "ArSerialConnection::read (%s):  Blocking read failed.", getPort());
+        return (int)bytesRead;
+      }
+      bytesRead += (unsigned int)n;
+      if (bytesRead >= (ssize_t)size || bytesRead >= INT_MAX)
+        return (int)bytesRead;
+    }
+    return (int)bytesRead;
+  }
+  else 
+  {
+    const ssize_t n = ::read(myPort, const_cast<char *>(data), size);
+    if (n == -1)
+      ArLog::logErrorFromOS(ArLog::Terse, "ArSerialConnection::read (%s):  Non-Blocking read failed.", getPort());
+    assert(n <= INT_MAX);
+    return (int)n;
+  }
+
 }
 
 AREXPORT int ArSerialConnection::getStatus()
@@ -580,8 +581,10 @@ AREXPORT ArTime ArSerialConnection::getTimeRead(int index)
     timeStamp.tv_sec = index;
     if (ioctl(myPort, TIOGETTIMESTAMP, &timeStamp) == 0)
     {
-      ret.setSec(timeStamp.tv_sec);
-      ret.setMSec(timeStamp.tv_usec / 1000);
+      if(timeStamp.tv_sec > 0)
+        ret.setSec( (unsigned long) timeStamp.tv_sec );
+      if(timeStamp.tv_usec > 0)
+        ret.setMSec( (unsigned long) (timeStamp.tv_usec / 1000L) );
     }
     else
       ret.setToNow();

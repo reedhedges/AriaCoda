@@ -96,11 +96,11 @@ bool ArSeekurIMU::handleIMUPacket(ArRobotPacket *packet)
     const int rangemode = packet->bufToByte();
     float convert;
     if(rangemode == 1)
-      convert = 0.07326;
+      convert = 0.07326f;
     else if(rangemode == 2)
-      convert = 0.03663;
+      convert = 0.03663f;
     else if(rangemode == 3)
-      convert = 0.01832;
+      convert = 0.01832f;
     else
     {
       ArLog::log(ArLog::Terse, "ArSeekurIMU: Warning: Invalid range mode indicated (%d), ignoring rest of this packet.", rangemode);
@@ -128,7 +128,7 @@ bool ArSeekurIMU::handleIMUPacket(ArRobotPacket *packet)
 
     na = packet->bufToByte();
 
-    convert = 0.002522 * 9806.65; // convert to deg/s/s?
+    convert = 0.002522f * 9806.65f; // convert to deg/s/s?
 
     if (na == 3)
     {
@@ -146,7 +146,7 @@ bool ArSeekurIMU::handleIMUPacket(ArRobotPacket *packet)
 
     na = packet->bufToByte();
 
-    convert = 0.1453; 
+    convert = 0.1453f; 
     const float offset = 25.0;
 
     if(na == 1)

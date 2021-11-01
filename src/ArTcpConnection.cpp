@@ -163,12 +163,10 @@ AREXPORT bool ArTcpConnection::close()
   return mySocket->close();
 }
 
+// XXX TODO why is data const 
 AREXPORT int ArTcpConnection::read(const char *data, unsigned int size, 
 				   unsigned int msWait)
 {
-  ArTime timeDone;
-  unsigned int bytesRead = 0;
-  int n;
 
   if (getStatus() != STATUS_OPEN) 
   {
@@ -178,44 +176,54 @@ AREXPORT int ArTcpConnection::read(const char *data, unsigned int size,
   }
 
 
-  int timeToWait;  
-  timeDone.setToNow();
+  ArTime timeDone;
   if (!timeDone.addMSec(msWait)) {
     ArLog::log(ArLog::Normal,
                "ArTcpConnection::read() error adding msecs (%i)",
                msWait);
   }
 
+  unsigned int bytesRead = 0;
   do 
   {
-    timeToWait = timeDone.mSecTo();
-    if (timeToWait < 0)
-      timeToWait = 0;
+    long int timeToWait = timeDone.mSecTo();
+    if (timeToWait < 0) timeToWait = 0;
+    if (timeToWait > UINT_MAX) timeToWait = UINT_MAX;
+
     // if the sockets empty don't read it, but pause some
     if (mySocket->getFD() < 0)
     {
       ArLog::log(ArLog::Terse, 
 		 "ArTcpConnection::read: Attempt to read port that already closed. (%d)", timeToWait);
       if (timeToWait > 0)
-	ArUtil::sleep(timeToWait);
+        ArUtil::sleep(timeToWait);
       return -1;
     }
 
-    n = mySocket->read(const_cast<char *>(data) + bytesRead, size - bytesRead,
-		       timeToWait);
-    /*if (n == -1) 
+    // TODO why is data const?  
+    const int n = mySocket->read(const_cast<char *>(data) + bytesRead, size - bytesRead,
+		       (unsigned int) timeToWait);
+
+    /*if (n < 0)
+    TODO why is this commented out?
     {
       ArLog::log("ArTcpConnection::read: read failed.");
       return -1;
       } */
     //printf("%ld %d %d\n", timeDone.mSecTo(), n, size);
-    if (n != -1)
-      bytesRead += n;
-    if (bytesRead >= size)
-      return bytesRead;
+
+    myTimeRead.setToNow();
+
+    if (n >= 0)
+      bytesRead += (unsigned int) n;
+    if (bytesRead >= size || bytesRead >= INT_MAX)
+    {
+      if(bytesRead > INT_MAX) bytesRead = INT_MAX;
+      return (int) bytesRead;
+    }
   } while (timeDone.mSecTo() >= 0);
 
-  return bytesRead;
+  return (int) bytesRead;
 }
 
 AREXPORT int ArTcpConnection::write(const char *data, unsigned int size)
@@ -267,7 +275,10 @@ AREXPORT bool ArTcpConnection::isTimeStamping()
 
 AREXPORT ArTime ArTcpConnection::getTimeRead(UNUSED int index)
 {
+  return myTimeRead;
+/*
   ArTime now;
   now.setToNow();
   return now;
+*/
 }

@@ -122,18 +122,18 @@ AREXPORT void ArSonarMTX::setRobot (ArRobot *robot)
 
 	if ((robot != NULL) && (robot->getRobotParams())) {
 
-		myBoardDelay = robot->getRobotParams()->getSonarMTXBoardDelay (myBoardNum);
+		myBoardDelay = (unsigned int) robot->getRobotParams()->getSonarMTXBoardDelay (myBoardNum);
 
 		// The following params can be overridden if they are configured in the units
-		myBoardGain = robot->getRobotParams()->getSonarMTXBoardGain (myBoardNum);
+		myBoardGain = (unsigned int) robot->getRobotParams()->getSonarMTXBoardGain (myBoardNum);
 
-		myBoardDetectionThreshold = robot->getRobotParams()->getSonarMTXBoardDetectionThreshold (myBoardNum);
+		myBoardDetectionThreshold = (unsigned int) robot->getRobotParams()->getSonarMTXBoardDetectionThreshold (myBoardNum);
 
 /* - no longer supported
 		myBoardNoiseDelta = robot->getRobotParams()->getSonarMTXBoardNoiseDelta (myBoardNum);
 */
 
-		myBoardMaxRange = robot->getRobotParams()->getSonarMTXBoardMaxRange (myBoardNum);
+		myBoardMaxRange = (unsigned int) robot->getRobotParams()->getSonarMTXBoardMaxRange (myBoardNum);
 		myBoardMaxRange = myBoardMaxRange/17;
 
 		myBoardUseForAutonomousDriving = robot->getRobotParams()->getSonarMTXBoardUseForAutonomousDriving (myBoardNum);
@@ -205,9 +205,9 @@ AREXPORT void ArSonarMTX::setRobot (ArRobot *robot)
 			}
 
 			if (t > 7)
-				myTransducerMaskMSB = (1 << t) | myTransducerMaskMSB;
+				myTransducerMaskMSB = (unsigned char) ( (1 << t) | myTransducerMaskMSB );
 			else
-				myTransducerMaskLSB = (1 << t) | myTransducerMaskLSB;
+				myTransducerMaskLSB = (unsigned char) ( (1 << t) | myTransducerMaskLSB );
 
 			mySonarMap[t][SONAR_IS_CONFIGURED] = true;
 			mySonarMap[t][SONAR_MAPPING] = i;
@@ -225,17 +225,17 @@ AREXPORT void ArSonarMTX::setRobot (ArRobot *robot)
 			myNumConfiguredTransducers++;
 
 			if (mySonarMap[t][SONAR_GAIN] == 0)
-				mySonarMap[t][SONAR_GAIN] = myBoardGain;
+				mySonarMap[t][SONAR_GAIN] = (int) myBoardGain;
 
 			if (mySonarMap[t][SONAR_DETECTION_THRES] == 0)
-				mySonarMap[t][SONAR_DETECTION_THRES] = myBoardDetectionThreshold;
+				mySonarMap[t][SONAR_DETECTION_THRES] = (int) myBoardDetectionThreshold;
 
 
 			if (mySonarMap[t][SONAR_USE_FOR_AUTONOMOUS_DRIVING]) {
 				if (t > 7) 
-					myAutonomousDrivingTransducerMaskMSB = (1 << t) | myAutonomousDrivingTransducerMaskMSB;
+					myAutonomousDrivingTransducerMaskMSB = (unsigned char) ( (1 << t) | myAutonomousDrivingTransducerMaskMSB );
 				else 
-					myAutonomousDrivingTransducerMaskLSB = (1 << t) | myAutonomousDrivingTransducerMaskLSB;
+					myAutonomousDrivingTransducerMaskLSB = (unsigned char) ( (1 << t) | myAutonomousDrivingTransducerMaskLSB );
 			}
 
 /* - no longer supported
@@ -244,7 +244,10 @@ AREXPORT void ArSonarMTX::setRobot (ArRobot *robot)
 */
 
 			if (mySonarMap[t][SONAR_MAX_RANGE] == 0)
-				mySonarMap[t][SONAR_MAX_RANGE] = myBoardMaxRange;
+      {
+        assert(myBoardMaxRange <= INT_MAX);
+				mySonarMap[t][SONAR_MAX_RANGE] = (int) myBoardMaxRange;
+      }
 
 			ArLog::log (myInfoLogLevel, "%s::setRobot() Sonar_%d params %d %d %d %d %d %d %d %d",
 			            getNameWithBoard(), i+1, mySonarMap[t][SONAR_MAPPING]+1,
@@ -475,11 +478,12 @@ void ArSonarMTX::sensorInterp ()
 }
 #endif
 
-		mySonarMap[sonarNum][SONAR_LAST_READING] = sonarRangeConverted;
+    assert(sonarRangeConverted <= INT_MAX);
+		mySonarMap[sonarNum][SONAR_LAST_READING] = (int) sonarRangeConverted;
 
 		//char charSonarNum = (char)sonarNum;
 		//sprintf(charSonarNum, "%d", sonarNum);
-		myRobot->processNewSonar (mappedSonarNum, sonarRangeConverted, time);
+		myRobot->processNewSonar (mappedSonarNum, (int)sonarRangeConverted, time);
 
 		myDeviceMutex.unlock();
 
@@ -965,7 +969,7 @@ AREXPORT void * ArSonarMTX::runThread (void *)
 
 			  ArLog::log (ArLog::Terse,
 		              "%s::runThread()  Lost connection to the MTX sonar because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getNameWithBoard(),
-		              myLastReading.mSecSince() / 1000.0,
+		              myLastReading.secSince(),
 		              getConnectionTimeoutSeconds() );
 			  myIsConnected = false;
 			  disconnectOnError();
@@ -992,7 +996,7 @@ AREXPORT bool ArSonarMTX::checkLostConnection()
   //puts("checkLostConnection"); fflush(stdout);
   if ((myRobot == NULL || myRobotRunningAndConnected) && 
       getConnectionTimeoutSeconds() > 0 && 
-      myLastReading.mSecSince() >  getConnectionTimeoutSeconds() * 1000)
+      (double)(myLastReading.mSecSince()) >  getConnectionTimeoutSeconds() * 1000.0)
     return true;
 
   if (!myRobotRunningAndConnected && myRobot != NULL && 
@@ -1272,8 +1276,8 @@ AREXPORT bool ArSonarMTX::sendSetMaxRange (unsigned char transducerNumber,
 	sendPacket.setID (SET_ECHO_SAMPLE_SIZE); 
 	sendPacket.uByteToBuf (transducerNumber);
 
-	sendPacket.uByteToBuf (echoSampleSize & 0xff);
-	sendPacket.uByteToBuf (echoSampleSize >> 8);
+	sendPacket.uByteToBuf ((ArTypes::UByte) (echoSampleSize & 0xff));
+	sendPacket.uByteToBuf ((ArTypes::UByte) (echoSampleSize >> 8));
 
 	if (!mySender->sendPacket(&sendPacket)) {
 
@@ -1472,7 +1476,9 @@ AREXPORT bool ArSonarMTX::validateGain()
 			            "%s::validateGain() Sonar_%d gain %d does not match configured gain %d, setting new gain",
 			            getNameWithBoard(), j+1, gain, mySonarMap[j][SONAR_GAIN]);
 
-			if (!sendSetGain (j, mySonarMap[j][SONAR_GAIN])) {
+      const int gain = mySonarMap[j][SONAR_GAIN];
+      assert(gain >= 0 && gain <= UCHAR_MAX);
+			if (!sendSetGain (j, (unsigned char)gain)) {
 				ArLog::log (ArLog::Normal,
 				            "%s::validateGain() Could not send set gain to Sonar_%d", getNameWithBoard(), j+1);
 				return false;
@@ -1547,7 +1553,8 @@ AREXPORT bool ArSonarMTX::validateDelay()
 		            "%s::validateDelay() delay %d does not match configured delay %d, setting new delay",
 		            getNameWithBoard(), delay, myBoardDelay);
 
-		if (!sendSetDelay (myBoardDelay)) {
+    assert(myBoardDelay >= 0 && myBoardDelay <= UCHAR_MAX);
+		if (!sendSetDelay ((unsigned char)myBoardDelay)) {
 			ArLog::log (ArLog::Normal,
 			            "%s::validateDelay() Could not send set delay to Sonar", getNameWithBoard());
 			return false;

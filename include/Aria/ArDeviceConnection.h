@@ -55,7 +55,7 @@ class ArDeviceConnection
   /**
      Reads data from connection
      @param data pointer to a character array to read the data into
-     @param size maximum number of bytes to read
+     @param size maximum number of bytes to read. This is an unsigned int for compatibility and to reduce type conversions, but value should be less than INT_MAX.
      @param msWait read blocks for this many milliseconds (not at all for == 0)
      @return number of bytes read, or -1 for failure
      @see write, writePacket
@@ -77,8 +77,8 @@ class ArDeviceConnection
   /**
      Writes data to connection
      @param data pointer to a character array to write the data from
-     @param size number of bytes to write
-     @return number of bytes read, or -1 for failure
+     @param size number of bytes to write. This is an unsigned int for compatibility and to reduce type conversions, but value should be less than INT_MAX. 
+     @return number of bytes written, or -1 for failure
      @see read, writePacket
   */
   AREXPORT virtual int write(const char *data, unsigned int size) = 0;

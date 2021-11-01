@@ -44,7 +44,7 @@ AREXPORT void ArRVisionPacket::uByteToBuf(ArTypes::UByte val)
     ArLog::log(ArLog::Terse, "ArRVisionPacket::uByteToBuf: Trying to add beyond length of buffer.");
     return;
   }
-  myBuf[myLength] = val;
+  myBuf[myLength] = (char) val;
   ++myLength;
 }
 
@@ -221,8 +221,8 @@ AREXPORT bool ArRVisionPTZ::panTilt_i(double degreesPan, double degreesTilt)
   assert(p <= INT16_MAX);
   const int t = ArMath::roundInt((myTilt + myTiltOffsetInDegrees) * myDegToTilt);
   assert(t <= INT16_MAX);
-  myPanTiltPacket.byte2ToBufAtPos(p, 6);
-  myPanTiltPacket.byte2ToBufAtPos(t, 10);
+  myPanTiltPacket.byte2ToBufAtPos((ArTypes::Byte2) p, 6);
+  myPanTiltPacket.byte2ToBufAtPos((ArTypes::Byte2) t, 10);
   return sendPacket(&myPanTiltPacket);
 }
 

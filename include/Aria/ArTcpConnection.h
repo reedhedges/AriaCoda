@@ -49,6 +49,7 @@ class ArTcpConnection: public ArDeviceConnection
   AREXPORT virtual bool openSimple();  
   AREXPORT virtual int getStatus();
   AREXPORT virtual bool close();
+// XXX TODO why is data const char*?
   AREXPORT virtual int read(const char *data, unsigned int size, 
 			    unsigned int msWait = 0);
   AREXPORT virtual int write(const char *data, unsigned int size);
@@ -91,6 +92,7 @@ protected:
   
   std::string myHostName;
   int myPortNum;
+  ArTime myTimeRead;
 };
 
 #endif //ARTCPCONNECTION_H

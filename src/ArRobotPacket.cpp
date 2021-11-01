@@ -63,7 +63,7 @@ AREXPORT ArRobotPacket &ArRobotPacket::operator=(const ArRobotPacket &other)
 
     if (myMaxLength != other.myMaxLength) {
       if (myOwnMyBuf && myBuf != NULL)
-	delete [] myBuf;
+        delete [] myBuf;
       myOwnMyBuf = true;
       myBuf = NULL;
       if (other.myMaxLength > 0) {
@@ -84,14 +84,14 @@ AREXPORT ArRobotPacket &ArRobotPacket::operator=(const ArRobotPacket &other)
 AREXPORT ArTypes::UByte ArRobotPacket::getID()
 {
   if (myLength >= 4)
-    return myBuf[3];
+    return (ArTypes::UByte) myBuf[3];
   else
     return 0;
 }
 
 AREXPORT void ArRobotPacket::setID(ArTypes::UByte id)
 {
-  myBuf[3] = id;
+  myBuf[3] = (char) id;
 }
 
 AREXPORT void ArRobotPacket::finalizePacket()
@@ -121,8 +121,8 @@ AREXPORT ArTypes::Byte2 ArRobotPacket::calcCheckSum()
   int i = 3;
   int n = (int) myBuf[2] - 2;
   while (n > 1) {
-    c += ((unsigned char)myBuf[i]<<8) | (unsigned char)myBuf[i+1];
-    c = c & 0xffff;
+    c += (ArTypes::Byte2) (((unsigned char)myBuf[i]<<8) | (unsigned char)myBuf[i+1]);
+    c = (ArTypes::Byte2) (c & 0xffff);
     n -= 2;
     i += 2;
   }
@@ -136,8 +136,8 @@ AREXPORT bool ArRobotPacket::verifyCheckSum()
   if (myLength - 2 < myHeaderLength)
     return false;
 
-  const unsigned char c2 = myBuf[myLength - 2];
-  const unsigned char c1 = myBuf[myLength - 1];
+  const unsigned char c2 = (unsigned char) myBuf[myLength - 2];
+  const unsigned char c1 = (unsigned char) myBuf[myLength - 1];
   const ArTypes::Byte2 chksum = (ArTypes::Byte2) ( (c1 & 0xff) | (c2 << 8) );
 
   if (chksum == calcCheckSum()) {
