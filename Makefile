@@ -708,6 +708,7 @@ ifneq ($(DESTDIR),)
   incdir=$(DESTDIR)/usr/include
   etcdir=$(DESTDIR)/etc
   examplesdir=$(DESTDIR)/usr/share/doc/Aria/examples
+  ldconfig=
 else
   libdir=/usr/local/lib
   bindir=/usr/local/bin
@@ -717,35 +718,43 @@ else
   etcdir=/etc
   ariadir=/usr/local/share/Aria
   examplesdir=/usr/local/share/doc/Aria/examples
+  ldconfig=ldconfig
 endif
 
 install: install-default install-utils install-doc 
 	@echo 
-	@echo libAria shared libraries have been installed in $(libdir).
+	@echo libAria.so* shared libraries have been installed in $(libdir).
+	@echo libAria.a static library has been installed in $(libdir).
 	@echo Header files have been installed in $(incdir)/Aria.
 	@echo Documentation has been installed in $(docdir)/Aria.
 	@echo Robot parameter files have been installed in $(sharedir)/Aria/params
 	@echo Utility programs \(ariaDemo, seekurPower, mtxPower\) have been installed in $(bindir).	
 	@echo The file $(etcdir)/Aria has been created to help Aria find $(ariadir).
+	@echo 
+	@echo Use 'make uninstall' to delete installed files.
 
-install-default: lib/libAria.$(sosuffix) params README.md CommandLineOptions.txt $(HEADER_FILES) 
+install-default: lib/libAria.$(sosuffix) lib/libAria.a params README.md CommandLineOptions.txt $(HEADER_FILES) 
 	install -D -m 644 lib/libAria.$(sosuffix) $(libdir)/libAria.$(sosuffix).$(majorlibver).$(minorlibver)
 	ln -sf libAria.$(sosuffix).$(majorlibver).$(minorlibver) $(libdir)/libAria.$(sosuffix).$(majorlibver)
 	ln -sf libAria.$(sosuffix).$(majorlibver).$(minorlibver) $(libdir)/libAria.$(sosuffix)
+	install -D -m 644 lib/libAria.a $(libdir)/libAria.a
 	install -D -m 644 -t $(docdir)/Aria README.md CommandLineOptions.txt
 	install -D -m 644 -t $(sharedir)/Aria/params params/*
 	install -D -m 644 -t $(incdir)/Aria $(HEADER_FILES)
 	mkdir -p $(etcdir)
 	echo $(ariadir) > $(etcdir)/Aria || echo Warning unable to store location of ARIA shared resources in $(etcdir)/Aria. ARIA will use built in default search order.
+	$(ldconfig)
 
 uninstall: FORCE
 	rm $(libdir)/libAria.$(sosuffix).$(majorlibver).$(minorlibver)
 	rm $(libdir)/libAria.$(sosuffix).$(majorlibver)
 	rm $(libdir)/libAria.$(sosuffix)
-	rm -d $(docdir)/Aria/README.md $(docdir)/Aria/CommandLineOptions.txt
-	rm -d $(sharedir)/Aria/params/*
+	rm $(libdir)/libAria.a
+	rm -rd $(docdir)/Aria
+	rm -rd $(sharedir)/Aria
 	rm $(etcdir)/Aria
 	rm -r $(incdir)/Aria
+	rm $(bindir)/ariaDemo $(bindir)/seekurPower $(bindir)/mtxPower
 
 install-utils: examples/demo examples/seekurPower examples/mtxPower
 	install -D -m 755 -s examples/demo $(bindir)/ariaDemo
