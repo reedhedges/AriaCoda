@@ -14,6 +14,7 @@ Section: libdevel
 Architecture: any
 Multi-Arch: same
 Depends: libaria3 (= ${binary:Version}), ${misc:Depends}
+Conflicts: libaria
 Description: Development files (header files etc) for AriaCoda (libaria3) mobile robot interface library
  AriaCoda is a continuation of the ARIA C++ SDK for communicating with Adept/MobileRobots Pioneer-compatible mobile robots
 
@@ -21,6 +22,7 @@ Package: libaria3
 Architecture: any
 Multi-Arch: same
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Conflicts: libaria
 Description: AriaCoda (libaria3) SDK library for Adept/MobileRobots Pioneer-compatible platforms
  AriaCoda is a continuation of the ARIA C++ SDK for communicating with Adept/MobileRobots Pioneer-compatible mobile robots
 
