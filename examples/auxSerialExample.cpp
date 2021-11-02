@@ -23,12 +23,12 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 */
 
 /** @example auxSerialExample.cpp
- * Demonstrates the use of a robot packet handler to recieve data from a device 
- * attached to the robot microcontroller's auxilliary serial port.
+ * Demonstrates the use of a robot packet handler to receive data from a device 
+ * attached to the robot microcontroller's auxillary serial port.
  
-  This example shows how to use the GETAUX command and how to recieve SERAUX
+  This example shows how to use the GETAUX command and how to receive SERAUX
   serial port data.  
-  To use this example, you must have the auxilliary serial port AUX1 on the
+  To use this example, you must have the auxillary serial port AUX1 on the
   microcontroller (inside the robot) connected to a device that is sending text data.
 
   You can connect AUX1 to a computer through an RS-232 cable with a NULL modem adapter, 
@@ -40,10 +40,10 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     No flow control (not hardware, not software)!
   
   This program creates a packet handler function (handleAuxSerialPacket)
-  and adds it to the ArRobot object. All packets recieved from the robot
+  and adds it to the ArRobot object. All packets received from the robot
   are passed to all packet handlers. handleAuxSerialPacket() checks whether the packet
   is an SERAUX packet, and if so, prints out the data contained within the packet.
-  If a newline or carriage return character is recieved, then it sends a command
+  If a newline or carriage return character is received, then it sends a command
   to send data back out through the AUX serial port.  The packet handler then sends 
   a GETAUX command to the robot to request more data.
 */
@@ -62,7 +62,7 @@ const int SerAuxDataChunkSize = 24;
 bool handleAuxSerialPacket(ArRobotPacket *packet)
 {
   // If this is not an aux. serial data packet, then return false to allow other
-  // packet handlers to recieve the packet. The packet type ID numbers are found
+  // packet handlers to receive the packet. The packet type ID numbers are found
   // in the description of the GETAUX commands in the robot manual.
   if (packet->getID() != 0xb0) // 0xB0 is SERAUXpac. SERAUX2pac is 0xB8, SERAUX3pac is 0xC8.
     return false;
@@ -143,7 +143,7 @@ int main(int argc, char **argv)
   robot.comInt(ArCommands::GETAUX, 0);
 
   // Send a GETAUX request every loop:
-  // (Note, If you wanted to recieve information from the second aux. serial port, use
+  // (Note, If you wanted to receive information from the second aux. serial port, use
   // the GETAUX2 command instead; but the packet returned will also have a
   // different type ID.)
   ArLog::log(ArLog::Normal, "auxSerialExample: Sending GETAUX request every robot task loop for %d bytes from aux1 serial port...", SerAuxDataChunkSize);

@@ -52,7 +52,7 @@ private:
 
 template <typename R, typename... Args> ArFunc(R(*)(Args...)) -> ArFunc<void, R, Args...>; // note this deduction guide requires c++17.
 
-// type aliases for compalitibilty with Aria "ArFunctor" types
+// type aliases for compatibility with Aria "ArFunctor" types
 template <class C, typename P1> using ArFunctor1C = ArFunc<C, void, P1>;
 template <typename Ret, class C, typename P1> using ArRetFunctor1C = ArFunc<C, Ret, P1>;
 template <typename P1> using ArFunctor1 = ArFunc<void, P1>;
@@ -74,7 +74,7 @@ class C {
 
 int main()
 {
-  ArFunc f1(&f);
+  ArFunc f1(&f);  
   int x = f1.invoke(23);
   ArFunc f2(&g);
   f2.invoke(42);
@@ -216,7 +216,7 @@ private:
   C* myObj; // todo use shared_ptr?
 };
 
-// compalitibilty
+// compatibility
 template <class C, typename P1> using ArFunctor1C = ArMemFunc<C, void, P1>;
 template <typename Ret, class C, typename P1> using ArRetFunctor1C = ArMemFunc<C, Ret, P1>;
 template <typename P1> using ArFunctor1 = ArFunc<void, P1>;

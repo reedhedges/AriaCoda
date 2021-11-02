@@ -21,6 +21,9 @@ all: ../lib/libAria.so
 %Static: ../lib/libAria.a %.cpp
 	$(MAKE) -C .. tests/$@
 
+newFunctionObjectTemplates: ../lib/libAria.so newFunctionObjectTemplates.cpp
+	$(MAKE) -C .. tests/$@ CXXSTD=c++17
+
 clean: 
 	$(MAKE) -C .. cleanTests
 

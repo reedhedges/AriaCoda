@@ -2710,7 +2710,7 @@ AREXPORT void ArModeIO::userTask()
   int i, j;
   unsigned int value;
   int bit;
-  const int label_size = 256;
+  const int label_size = 12; // size of "fault_flags", the longest label. TODO calculate this automatically
   char label[label_size];
   myOutput[0] = '\0';
 
