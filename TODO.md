@@ -309,9 +309,11 @@ easier to use.  Contact me or discuss on the GitHub page.
   a copy of the previous string value in a new value, or append new formatted
   values to the previous string value, which is a potential bug
   and newer compilers warn about it. Instead a new string should be formatted
-  then appended with strcpy or similar.) Or use std::string/IO streams, or
+  then appended std::string, IO streams, or
   std::format (C++20 feature, not yet implemented in gcc, clang or msvc as of
-  2/21) to build the string.
+  2/21) to build the string.  ("fmt::format" is a 3rd party implementation 
+  generally compatible with future std::format that could be easily included 
+  internally only by demo.)
 * Change ArLog to use c++ io instead of c io.  Use `clog` as output stream
   instead of stderr and fflush.  
 * ArDeviceConnection implementation for session recording/playback with three
