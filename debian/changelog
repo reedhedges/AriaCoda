@@ -1,5 +1,6 @@
-libaria (3.0.0-0ubuntu1) hirsute; urgency=medium
+libaria (3.0.0-0ubuntu1TEST) UNRELEASED; urgency=medium
 
   * Initial Release.
+  * facaa471c3e1b2fe11444d8d8b74cb16f25162d6 with 4 modified files
 
  -- Reed Hedges <reed@interreality.org>  Thu, 16 Sep 2021 11:25:01 -0400
