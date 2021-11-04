@@ -869,9 +869,15 @@ AREXPORT ArMode::ArMode(ArRobot *robot, const char *name, char key,
   myRobot = robot;
   myKey = key;
   myKey2 = key2;
+
+  myActivateCB.setName(myName + " mode activate callback");
+  myDeactivateCB.setName(myName + " mode deactivate callback");
+  myUserTaskCB.setName(myName + " mode user task");
+
   // see if there is already a keyhandler, if not make one for ourselves
   if ((keyHandler = Aria::getKeyHandler()) == NULL)
   {
+    ArLog::log(ArLog::Normal, "ArMode::ArMode: Warning: no key handler yet in program, creating a second one.");
     keyHandler = new ArKeyHandler;
     Aria::setKeyHandler(keyHandler);
     if (myRobot != NULL)
@@ -1143,6 +1149,7 @@ AREXPORT ArModeTeleop::ArModeTeleop(ArRobot *robot, const char *name, char key, 
   myGroup(robot),
   myEnableMotorsCB(robot, &ArRobot::enableMotors)
 {
+  myEnableMotorsCB.setName("teleop mode enable motors key callback -> robot.enableMotors()");
   myGroup.deactivate();
 }
 

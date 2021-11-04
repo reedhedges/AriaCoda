@@ -27,27 +27,27 @@ ArKeyHandler keyHandler;
 
 void up()
 {
-  printf("Up\n");
+  printf("handler for Up\n");
 }
 
 void down()
 {
-  printf("Down\n");
+  printf("handler for Down\n");
 }
 
 void right()
 {
-  printf("Right\n");
+  printf("handler for Right\n");
 }
 
 void left()
 {
-  printf("Left\n");
+  printf("handler for Left\n");
 }
 
 void escape()
 {
-  printf("Escape\n");
+  printf("handler for Escape\n");
   printf("exiting\n");
   keyHandler.restore();
   Aria::shutdown();
@@ -56,12 +56,27 @@ void escape()
 
 void space()
 {
-  printf("Space\n");
+  printf("handler for Space\n");
 }
 
 void a()
 {
-  printf("a\n");
+  printf("handler for a\n");
+}
+
+void b()
+{
+  printf("handler for b\n");
+}
+
+void c()
+{
+  printf("handler for c\n");
+}
+
+void d()
+{
+  printf("handler for d\n");
 }
 
 
@@ -70,17 +85,29 @@ int main()
   Aria::init();
   ArGlobalFunctor upCB(&up);
   ArGlobalFunctor downCB(&down);
+  ArGlobalFunctor leftCB(&left);
+  ArGlobalFunctor rightCB(&right);
   ArGlobalFunctor aCB(&a);
+  ArGlobalFunctor bCB(&b);
+  ArGlobalFunctor cCB(&c);
+  ArGlobalFunctor dCB(&d);
   ArGlobalFunctor escapeCB(&escape);
   ArGlobalFunctor spaceCB(&space);
 
-  puts("Adding key handlers for: up, down, escape (also exits program), space, 'a', 'a' (again; should warn)");
+  puts("Adding key handlers for: up, down, left, right arrows, escape (also exits program), space, 'a', 'b', 'c', 'd', 'a' again (should warn)");
   keyHandler.addKeyHandler(ArKeyHandler::UP, &upCB);
   keyHandler.addKeyHandler(ArKeyHandler::DOWN, &downCB);
+  keyHandler.addKeyHandler(ArKeyHandler::LEFT, &leftCB);
+  keyHandler.addKeyHandler(ArKeyHandler::RIGHT, &rightCB);
   keyHandler.addKeyHandler(ArKeyHandler::ESCAPE, &escapeCB);
   keyHandler.addKeyHandler(ArKeyHandler::SPACE, &spaceCB);
   keyHandler.addKeyHandler('a', &aCB);
+  keyHandler.addKeyHandler('b', &bCB);
+  keyHandler.addKeyHandler('c', &cCB);
+  keyHandler.addKeyHandler('d', &dCB);
   keyHandler.addKeyHandler('a', &aCB);
+
+  puts("OK, checking keys in a loop. press the above keys to test.");
   
 
   while (1)

@@ -125,6 +125,7 @@ public:
 
    /// Sets the name
    virtual void setName(const char *name) { myName = name; }
+   virtual void setName(const std::string& name) { myName = name; }
 
 #ifndef SWIG
   /// Sets the name with formatting

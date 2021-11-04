@@ -35,30 +35,28 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <termios.h>
 #endif
 
+#include <utility>
+
 #include "Aria/ariaInternal.h"
 
 /**
-   @param blocking whether or not to block waiting on keys, default is
-   false, ie not to wait... you probably only want to block if you are
-   using checkKeys yourself like after you start a robot run or in its
-   own thread or something along those lines
-   @param addAriaExitCB true to add an aria exit cb to restore the keys 
-   @param stream the FILE * pointer to use, if this is NULL (the default)
-   then use stdin, otherwise use this...
-   @param takeKeysInConstructor whether to take the keys when created or not
-   (default is true)
+   @param blocking whether checkKeys() or getKey() should block and wait for 
+   input, or be nonblocking, and return -1 immediately if there is no input.
+   Nonblocking input (blocking=false) is recommended for most use cases
+   of ArKeyHandler(), and must be false if attached to ArRobot task cycle
+   with ArRobot::attachKeyHandler().
+   @param addAriaExitCB true to add an Aria exit callback to restore
+   keys (remove callbacks) and reset input state when Aria or program exits.
+   @param stream an alternative input stream to use. if this is NULL (the default)
+   then standard input (stdin) is used.  
+   @param takeKeysInConstructor whether to initialize input terminal state and
+   begin capturing all input during this call to the constructor, or not.  If false, call takeKeys() later.
 **/
 AREXPORT ArKeyHandler::ArKeyHandler(bool blocking,  // default false
             bool addAriaExitCB,                     // default true
 				    FILE *stream,                           // default NULL (will use stdin)
 				    bool takeKeysInConstructor) :           // default true
   myAriaExitCB(this, &ArKeyHandler::restore)
-/*
-#ifdef __MACH__
-  ,
-  ungetCharKeyBufferCounter(0)
-#endif
-*/
 {
   myAriaExitCB.setName("ArKeyHandlerExit");
   if (addAriaExitCB)
@@ -79,6 +77,7 @@ AREXPORT ArKeyHandler::~ArKeyHandler()
 
 AREXPORT void ArKeyHandler::takeKeys(bool blocking)
 {
+  mySavedChar = -1;
   myBlocking = blocking;
 #ifndef _WIN32
   struct termios newTermios;
@@ -137,6 +136,7 @@ AREXPORT void ArKeyHandler::restore()
 #endif
   myRestored = true;
   myTookKeys = false;
+  mySavedChar = -1;
 }
 
 /**
@@ -250,34 +250,26 @@ AREXPORT void ArKeyHandler::checkKeys()
 #ifdef __MACH__
 
 
-/*
-// no ungetchar on OSX, so this replacement stores them in a local buffer. 
-// ArKeyHandler::getChar() will then use chars from that if there are any.
-AREXPORT int ArKeyHandler::ungetChar(int key)
-{
-  if(ungetCharKeyBufferCounter < 10)
-  {
-     ungetCharKeyBuffer[ungetCharKeyBufferCounter] = key;
-     return ungetCharKeyBuffer[ungetCharKeyBufferCounter++];
-  }
-  else return EOF;
-}
-*/
-
 /* getChar() implementation for Mac: */
 
 AREXPORT int ArKeyHandler::getChar()
 {
-	// Check if any chars were added to ungetCharKeyBuffer by ungetChar(), otherwise read from myStream or  stdin.
+  // NOTE uses ::read which is unbuffered, so if we call getChar() immediately
+  // after a first call to getChar() returns the beginning of a control sequence
+  // (27), we may not have the next character yet.  Use waitForChar() to avoid
+  // this, or find a way to use buffered input here.
+
+  
+	// TODO  since the linux implementation is now pretty much the same as this,
+	// use that instead?
+
+  if(mySavedChar != -1)
+  {
+    return std::exchange(mySavedChar, -1);
+  }
+
 	int c = EOF;
 	int fd = -1;
-/*
-	if (ungetCharKeyBufferCounter) 
-	{
-		return ungetCharKeyBuffer[--ungetCharKeyBufferCounter];	
-	}
-	else 
-*/
 	{
 		if(myStream)
 			fd = fileno(myStream);
@@ -294,19 +286,14 @@ AREXPORT int ArKeyHandler::getChar()
 
 #else
 
-
-/*
-AREXPORT int ArKeyHandler::ungetChar(int key)
-{
-	return ::ungetchar(key);
-}
-*/
-
 /* getChar() implementation for Linux: */
 AREXPORT int ArKeyHandler::getChar()
 {
 
-/* getchar() (and getc() and fgetc()) stopped working at some point? */
+/* getchar() (and getc() and fgetc()) stopped working at some point? 
+    note can't use ungetc() if not using getc()/getchar() anymore.
+    use saveChar()/check mySavedChar instead.
+*/
 /*
   if (myStream == NULL)
   {
@@ -317,9 +304,27 @@ AREXPORT int ArKeyHandler::getChar()
     return getc(myStream);
 */
 
-  char c;
-  const ssize_t nr = read(myStream?fileno(myStream):STDIN_FILENO, &c, 1);
-  if(nr < 1) return -1;
+  if(mySavedChar != -1)
+  {
+    return std::exchange(mySavedChar, -1);
+  }
+
+  // NOTE uses ::read which is unbuffered, so if we call getChar() immediately
+  // after a first call to getChar() returns the beginning of a control sequence
+  // (27), we may not have the next character yet.  Use waitForChar() to avoid
+  // this, or find a way to use buffered input here.
+
+  unsigned char c;
+  const ssize_t nr = ::read(myStream?fileno(myStream):STDIN_FILENO, &c, 1);
+  if(nr == 0) return -1; // no input
+  if(nr < 0) {
+    if(errno == EAGAIN || errno == EWOULDBLOCK) {
+      return -1; // no input
+    } else {
+      ArLog::logErrorFromOS(ArLog::Normal, "ArKeyHandler: Error reading input");
+      return -1;
+    }
+  }
   return (int)c;
 
 }
@@ -335,6 +340,8 @@ AREXPORT int ArKeyHandler::getKey()
   */
 
   int k[5] = {-1, -1, -1, -1, -1};   // used to store escape sequences while parsing
+
+  const long NextControlKeyTimeout = 10; // ms to wait for next control key character
 
   // check first key
   int key = getChar();
@@ -352,13 +359,13 @@ AREXPORT int ArKeyHandler::getKey()
     case 8: return BACKSPACE;
     case 127: return BACKSPACE;
 
-    case 27: // Escape key, or Begin special control key sequence, get next key
-      key = getChar();
+    case 27: // Escape key, or Begin special control key sequence, get next byte
+      key = waitForChar(NextControlKeyTimeout);
       switch(key)
       {
         case -1: return ESCAPE;
-        case 79: // first four F keys, check third key
-          key = getChar();
+        case 79: // first four F keys, check third byte
+          key = waitForChar(NextControlKeyTimeout);
           switch(key)
           {
             case 80: return F1;
@@ -377,10 +384,11 @@ AREXPORT int ArKeyHandler::getKey()
           // (optional parameter) bitmask.
           for(short i = 0; key != -1 && key != 27 && i < 5; i++) 
           {
-            k[i] = key = getChar();
+            k[i] = key = waitForChar(NextControlKeyTimeout);
             //printf("ArKeyHandler::getKey: read extended key component %d/%d.\n", k[i], key);
           }
-          ungetc(key, stdin); // put last key back. (Esp. important if it was the beginning of a new control sequence (27).
+          //ungetc(key, stdin); // put last key back. (Esp. important if it was the beginning of a new control sequence (27).
+          saveChar(key); // put last key back. (Esp. important if it was the beginning of a new control sequence (27).
 
           switch(k[0])
           {
@@ -416,7 +424,7 @@ AREXPORT int ArKeyHandler::getKey()
               return k[1];
             default: return -1;
           }
-        default: return -1;
+        default: return -1; // TODO should this be ESCAPE?
       }
 
     default: return key;

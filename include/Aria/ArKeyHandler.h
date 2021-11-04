@@ -26,6 +26,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ArFunctor.h"
+#include "Aria/ariaUtil.h"
+
 #include <map>
 #include <stdio.h>
 
@@ -33,6 +35,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <termios.h>
 #include <unistd.h>
 #endif
+
+#include <assert.h>
 
 
 /// Perform actions in response to keyboard keys in terminal/console input
@@ -68,14 +72,15 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    If you only want to poll keyboard input and not invoke functions, you can
    instead use getKey() to check for one keypress.
 
+    @bug does not handle multi-byte special control sequences (high f keys etc)
+    correctly in blocking mode
+
   @ingroup OptionalClasses
 **/
 
 class ArKeyHandler
 {
 public:
-  /// This object will take over key capture when constructed, and release
-  /// key capture when destroyed.
   AREXPORT ArKeyHandler(bool blocking = false, bool addAriaExitCB = true, 
 			FILE *stream = NULL, 
 			bool takeKeysInConstructor = true);
@@ -142,14 +147,14 @@ public:
   /// @internal
   AREXPORT void checkKeys();
 
-  /// internal, use addKeyHandler instead... Gets a key from the stdin if ones
+  /// Gets a key from the stdin if ones
   /// available, -1 if there aren't any available
   AREXPORT int getKey();
 
 protected:
+
 #ifndef _WIN32
   int getChar();
-  //int ungetChar(int c);
 #endif 
 
   std::map<int, ArFunctor *> myMap;
@@ -163,12 +168,27 @@ protected:
   
   FILE *myStream;
   bool myTookKeys;
-/*
-#ifdef __MACH__
-  char ungetCharKeyBuffer[10];
-  int ungetCharKeyBufferCounter;
-#endif
-*/
+
+  int waitForChar(long timeout)
+  {
+    assert(timeout >= 0);
+    ArTime start;
+    while(start.mSecSince() < timeout)
+    {
+      const int key = getChar();
+      if(key != -1)
+      return key;
+    }
+    return -1;
+  }
+
+
+  int mySavedChar = -1; 
+  void saveChar(int c)
+  {
+    mySavedChar = c;
+  }
+
 };
 
 

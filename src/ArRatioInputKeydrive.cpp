@@ -49,6 +49,10 @@ AREXPORT ArRatioInputKeydrive::ArRatioInputKeydrive(ArRobot *robot,
   myInput->addActivateCallback(&myActivateCB);
   myInput->addDeactivateCallback(&myDeactivateCB);
   myFireCB.setName("Keydrive");
+  myUpCB.setName("keydrive up key callback");
+  myDownCB.setName("keydrive down key callback");
+  myLeftCB.setName("keydrive left key callback");
+  myRightCB.setName("keydrive right key callback");
   myVelIncrement = velIncrement;
   myLatVelIncrement = velIncrement;
   myHaveKeys = false;
