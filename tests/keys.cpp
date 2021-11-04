@@ -39,7 +39,7 @@ int main(int argc, char **argv)
       ArUtil::sleep(100);
       continue;
     }
-    printf("keyHandler.getKey() returned %d.\n", key);
+    //printf("keyHandler.getKey() returned %d.\n", key);
     switch (key) {
     case ArKeyHandler::UP:
       printf("Up\n");

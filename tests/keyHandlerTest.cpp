@@ -65,7 +65,7 @@ void a()
 }
 
 
-int main(int argc, char **argv)
+int main()
 {
   Aria::init();
   ArGlobalFunctor upCB(&up);
@@ -88,4 +88,5 @@ int main(int argc, char **argv)
     keyHandler.checkKeys();
     ArUtil::sleep(100);
   }
+  return 0;
 }

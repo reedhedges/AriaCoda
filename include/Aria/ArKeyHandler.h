@@ -35,27 +35,38 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #endif
 
 
-/// Perform actions when keyboard keys are pressed
+/// Perform actions in response to keyboard keys in terminal/console input
 /**
-   This class is used for handling input from the keyboard.
-   Use addKeyHandler() to associate a functor with a keyboard key.
-   ArKeyHandler will call that functor when the key is pressed.
+   This class is used for handling input from the keyboard (via terminal/console
+   window), and invoking callback functions when specific keys are pressed.
+   Use addKeyHandler() to associate a callback function with a keyboard key.
+   ArKeyHandler will invoke that callback when the key is pressed.
 
-   You should also register the keyhandler with Aria::setKeyHandler(),
+   ArKeyHandler can handle all alphanumeric and punctuation keys (lower and
+   upper case), as well as arrow keys, function keys (F-keys), escape, page up, 
+   page down, delete, and insert.  It does not handle control-keys alt-shifted keys.
+
+   To avoid accidentally creating more than one ArKeyHandler object, you should also 
+   register the keyhandler with Aria::setKeyHandler(),
    and before you create a key handler you should see if one is
    already there with Aria::getKeyHandler().  Only one key handler
    can be created in a program, and this lets independent parts
    of a program use the same key handler.
    
    You can attach a key handler to a robot with
-   ArRobot::attachKeyHandler() which will put a task into the robots
-   list of tasks to check for new keyboard input in each cycle, and which
+   ArRobot::attachKeyHandler() which will create a task
+   list of tasks to automatically check for new keyboard input in each cycle, so
+   you do not need to check for keyboard input elsewhere in the program. This
    will also add a handler to end the robot's task cycle when Escape is pressed
    (you can override this by replacing it with your own handler).
-   If you have multiple ArRobot objects, only create one key handler and attach
-   it to one robot.
+   (If you have multiple ArRobot objects, only create one key handler and attach
+   it to one robot.)
 
-   Alternatively, you can call checkKeys() periodically to check for new key input.
+   Alternatively, you can call checkKeys() periodically to check for new key
+   input, and invoke any associated functions for that key.
+
+   If you only want to poll keyboard input and not invoke functions, you can
+   instead use getKey() to check for one keypress.
 
   @ingroup OptionalClasses
 **/

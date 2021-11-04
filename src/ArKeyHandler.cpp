@@ -32,6 +32,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <termios.h>
 #endif
 
 #include "Aria/ariaInternal.h"
@@ -47,9 +48,10 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    @param takeKeysInConstructor whether to take the keys when created or not
    (default is true)
 **/
-AREXPORT ArKeyHandler::ArKeyHandler(bool blocking, bool addAriaExitCB, 
-				    FILE *stream, 
-				    bool takeKeysInConstructor) :
+AREXPORT ArKeyHandler::ArKeyHandler(bool blocking,  // default false
+            bool addAriaExitCB,                     // default true
+				    FILE *stream,                           // default NULL (will use stdin)
+				    bool takeKeysInConstructor) :           // default true
   myAriaExitCB(this, &ArKeyHandler::restore)
 /*
 #ifdef __MACH__
@@ -105,8 +107,8 @@ AREXPORT void ArKeyHandler::takeKeys(bool blocking)
     // VTIME=0 VMIN=0 means immediate timeout if no character, don't wait for any characters
     newTermios.c_cc[VTIME] = 0;
     newTermios.c_cc[VMIN] = 0;
-    int fd = myStream ? fileno(myStream) : STDIN_FILENO;
-    int flags = fcntl(fd, F_GETFL);
+    const int fd = myStream ? fileno(myStream) : STDIN_FILENO;
+    const int flags = fcntl(fd, F_GETFL);
     fcntl(fd, F_SETFL, flags & O_NONBLOCK);
   }
   newTermios.c_lflag &= (unsigned int) (~ECHO & ~ICANON);
@@ -262,6 +264,8 @@ AREXPORT int ArKeyHandler::ungetChar(int key)
 }
 */
 
+/* getChar() implementation for Mac: */
+
 AREXPORT int ArKeyHandler::getChar()
 {
 	// Check if any chars were added to ungetCharKeyBuffer by ungetChar(), otherwise read from myStream or  stdin.
@@ -298,16 +302,31 @@ AREXPORT int ArKeyHandler::ungetChar(int key)
 }
 */
 
+/* getChar() implementation for Linux: */
 AREXPORT int ArKeyHandler::getChar()
 {
+
+/* getchar() (and getc() and fgetc()) stopped working at some point? */
+/*
   if (myStream == NULL)
-    return getchar();
+  {
+    const int c = getchar();
+    return c;
+  }
   else
     return getc(myStream);
+*/
+
+  char c;
+  const ssize_t nr = read(myStream?fileno(myStream):STDIN_FILENO, &c, 1);
+  if(nr < 1) return -1;
+  return (int)c;
+
 }
 
 #endif
 
+// Linux and Mac:
 AREXPORT int ArKeyHandler::getKey()
 {
  /*
@@ -315,17 +334,17 @@ AREXPORT int ArKeyHandler::getKey()
   * we want to get control keys but don't want to have to use curses.
   */
 
-  int key;
-  int k[5] = {-1, -1, -1, -1, -1};   // used for escape sequences
+  int k[5] = {-1, -1, -1, -1, -1};   // used to store escape sequences while parsing
 
-  key = getChar();
+  // check first key
+  int key = getChar();
   switch(key)
   {
     case -1:
     case 0:
       return -1;
 
-    //case -1: return ESCAPE; //?
+    //case -1: return ESCAPE; //why was this also here?
     case ' ': return SPACE;
     case '\t': return TAB;
     case 10: return ENTER;
@@ -333,12 +352,12 @@ AREXPORT int ArKeyHandler::getKey()
     case 8: return BACKSPACE;
     case 127: return BACKSPACE;
 
-    case 27: // Escape key, or Begin special control key sequence
+    case 27: // Escape key, or Begin special control key sequence, get next key
       key = getChar();
       switch(key)
       {
         case -1: return ESCAPE;
-        case 79: // first four F keys
+        case 79: // first four F keys, check third key
           key = getChar();
           switch(key)
           {
@@ -463,6 +482,8 @@ AREXPORT int ArKeyHandler::getKey()
 
 
 #else // if it is win32
+
+// Windows implementation:
 
 AREXPORT int ArKeyHandler::getKey()
 {
