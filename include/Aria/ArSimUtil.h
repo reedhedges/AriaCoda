@@ -116,8 +116,8 @@ protected:
     if(pkt->getID() != 0x62) return false;
     lock();
     myLastPacketTimeReceived.setToNow();
-    char v = pkt->bufToByte();
-    v = pkt->bufToByte();
+    [[maybe_unused]] char v = pkt->bufToByte();
+    [[maybe_unused]] v = pkt->bufToByte();
     uint32_t flags = pkt->bufToUByte4();
     myHaveGPS = flags & ArUtil::BIT1;
     myHaveOdomError = flags & ArUtil::BIT2;
