@@ -49,9 +49,12 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #include <string>
 #include <list>
+#include <sstream>
+#include <iomanip>
+#include <ios>
 
 
-const size_t OutputBuffLen = 1056;
+//const size_t OutputBuffLen = 1056;
 
 /** @example demo.cpp General purpose testing and demo program, using ArMode
  *    classes to provide keyboard control of various robot functions.
@@ -450,11 +453,13 @@ public:
   AREXPORT virtual void userTask();
   AREXPORT virtual void help();
 protected:
-  bool myExplanationReady;
-  bool myExplained;
+  bool myExplanationReady = false; // flag to build myExplanation (table header) in first call to userTask() only
+  bool myExplained = false;
   ArTime myLastPacketTime;
-  char myExplanation[OutputBuffLen];
-  char myOutput[OutputBuffLen];
+  //char myExplanation[OutputBuffLen];
+  //char myOutput[OutputBuffLen];
+  std::stringstream myExplanation;
+  //std::stringstream myOutput;
   ArFunctorC<ArModeIO> myProcessIOCB;
   void toggleOutput(int output);
   ArFunctor1C<ArModeIO, int> myTog1CB;
@@ -2665,7 +2670,7 @@ AREXPORT void ArModeIO::activate()
   if (myRobot == NULL)
     return;
   myRobot->comInt(ArCommands::IOREQUEST, 2);
-  myOutput[0] = '\0';
+  //myOutput[0] = '\0';
   myLastPacketTime = myRobot->getIOPacketTime();
   addKeyHandler('1', &myTog1CB);
   addKeyHandler('2', &myTog2CB);
@@ -2698,7 +2703,7 @@ AREXPORT void ArModeIO::help()
 {
   ArLog::log(ArLog::Terse, 
 	     "IO mode shows the IO (digin, digout, a/d) from the robot.");
-  myExplanationReady = false;
+  //myExplanationReady = false;
   myExplained = false;
 }
 
@@ -2715,53 +2720,67 @@ AREXPORT void ArModeIO::userTask()
 {
   int num;
   int i, j;
-  unsigned int value;
+  //unsigned int value;
   int bit;
-  const int label_size = 12; // size of "fault_flags", the longest label. TODO calculate this automatically
-  char label[label_size];
-  myOutput[0] = '\0';
+  //const int label_size = 12; // size of "fault_flags", the longest label. TODO calculate this automatically
+  //char label[label_size];
+  //myOutput[0] = '\0';
+  
+  std::stringstream myOutput;
 
   //if (myLastPacketTime.mSecSince(myRobot->getIOPacketTime()) == 0)
   //  return;
 
-  if (!myExplanationReady)
-    myExplanation[0] = '\0';
+  //if (!myExplanationReady)  // flag ensures this is done only on first call to userTask()
+    // reset stringstream with newly constructed temporary:
+    //std::swap(std::stringstream(), myExplanation);
+  //  myExplanation[0] = '\0';
 
-  value = myRobot->getFlags();
+ int value = myRobot->getFlags();
   if (!myExplanationReady)
   {
-    snprintf(label, label_size, "flags");
-    snprintf(myExplanation, OutputBuffLen, "%s%17s  ", myExplanation, label);
+    //snprintf(label, label_size, "flags");
+    //snprintf(myExplanation, OutputBuffLen, "%s%17s  ", myExplanation, label);
+    myExplanation << std::setw(17) << "flags"; // 17 is 8 characters for bits + space + 8 bits
   }
   for (j = 0, bit = 1; j < 16; ++j, bit *= 2)
   {
     if (j == 8)
-      snprintf(myOutput, OutputBuffLen, "%s ", myOutput);
+      myOutput << ' ';
+      //snprintf(myOutput, OutputBuffLen, "%s ", myOutput);
     if (value & bit)
-      snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+      //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+      myOutput << '1';
     else
-      snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+      //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+      myOutput << '0';
   }
-  snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+  //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+  myOutput << "  ";
 
   if (myRobot->hasFaultFlags())
   {
     value = myRobot->getFaultFlags();
     if (!myExplanationReady)
     {
-      snprintf(label, label_size, "fault_flags");
-      snprintf(myExplanation, OutputBuffLen, "%s%17s  ", myExplanation, label);
+      //snprintf(label, label_size, "fault_flags");
+      //snprintf(myExplanation, OutputBuffLen, "%s%17s  ", myExplanation, label);
+      myExplanation << std::setw(19) << "fault_flags"; // 19 is two spaces from previous flags separator + 8 chars for bits + space + 8 bits
     }
     for (j = 0, bit = 1; j < 16; ++j, bit *= 2)
     {
       if (j == 8)
-        snprintf(myOutput, OutputBuffLen, "%s ", myOutput);
+        //snprintf(myOutput, OutputBuffLen, "%s ", myOutput);
+        myOutput << ' ' ;
       if (value & bit)
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        myOutput << '1';
       else
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        myOutput << '0';
     }
-    snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    myOutput << "  ";
   }
 
   num = myRobot->getIODigInSize();
@@ -2770,34 +2789,42 @@ AREXPORT void ArModeIO::userTask()
     value = myRobot->getIODigIn(i);
     if (!myExplanationReady)
     {
-      snprintf(label, label_size, "digin%d", i);
-      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      //snprintf(label, label_size, "digin%d", i);
+      //snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      myExplanation << "  digin" << std::setw(2) << i;
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        myOutput << '1';
       else
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        myOutput << '0';
     }
-    snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    myOutput << "  ";
   }
   if(num == 0) // use default Pioneer IO from SIP only if no IODigIns
   {
     value = myRobot->getDigIn();
     if(!myExplanationReady)
     {
-      snprintf(label, label_size, "digin");
-      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      //snprintf(label, label_size, "digin");
+      //snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      myExplanation << std::setw(10) << "  digin";
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        myOutput << '1';
       else
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        myOutput << '0';
     }
-    snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    myOutput << "  ";
   }
 
 
@@ -2807,34 +2834,42 @@ AREXPORT void ArModeIO::userTask()
     value = myRobot->getIODigOut(i);
     if (!myExplanationReady)
     {
-      snprintf(label, label_size, "digout%d", i);
-      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      //snprintf(label, label_size, "digout%d", i);
+      //snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      myExplanation << std::setw(6) << "  digout" << std::setw(2) << i;
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        myOutput << '1';
       else
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        myOutput << '0';
     }
     //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    //myOutput << "  ";
   }
   if(num == 0) // use default Pioneer IO from SIP only if no IODigIns
   {
     value = myRobot->getDigOut();
     if(!myExplanationReady)
     {
-      snprintf(label, label_size, "digout");
-      snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      //snprintf(label, label_size, "digout");
+      //snprintf(myExplanation, OutputBuffLen, "%s%8s  ", myExplanation, label);
+      myExplanation << std::setw(10) << "  digout";
     }
     for (j = 0, bit = 1; j < 8; ++j, bit *= 2)
     {
       if (value & bit)
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 1);
+        myOutput << '1';
       else
-        snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        //snprintf(myOutput, OutputBuffLen, "%s%d", myOutput, 0);
+        myOutput << '0';
     }
     //snprintf(myOutput, OutputBuffLen, "%s  ", myOutput);
+    // myOutput << "  ";
   }
 
   num = myRobot->getIOAnalogSize();
@@ -2842,8 +2877,9 @@ AREXPORT void ArModeIO::userTask()
   {
     if (!myExplanationReady)
     {
-      snprintf(label, label_size, "a/d%d", i);
-      snprintf(myExplanation, OutputBuffLen, "%s%6s", myExplanation, label);
+      //snprintf(label, label_size, "a/d%d", i);
+      //snprintf(myExplanation, OutputBuffLen, "%s%6s", myExplanation, label);
+      myExplanation << std::setw(0) << "  a/d" << std::setw(3) << i;
     }
     
     /*
@@ -2853,8 +2889,8 @@ AREXPORT void ArModeIO::userTask()
     adVal = ad * .0048828;
     snprintf(myOutput, OutputBuffLen, "%s%6.2f", myOutput,adVal);
     */
-    snprintf(myOutput, OutputBuffLen, "%s%6.2f", myOutput, myRobot->getIOAnalogVoltage(i));
-    
+    //snprintf(myOutput, OutputBuffLen, "%s%6.2f", myOutput, myRobot->getIOAnalogVoltage(i));
+    myOutput << std::setiosflags(std::ios::fixed) << std::setw(6) << std::setprecision(2) << myRobot->getIOAnalogVoltage(i);
   }
 
   if (!myExplained)
@@ -2865,12 +2901,15 @@ AREXPORT void ArModeIO::userTask()
       myRobot->getIOAnalogSize(),
       myRobot->hasFaultFlags() ? "does" : "does not"
     );
-    printf("\n%s\n", myExplanation);
+    std::cout << '\n' << myExplanation.str() << '\n';
+    //printf("\n%s\n", myExplanation);
     myExplained = true;
+    myExplanationReady = true;
   }
 
-  printf("\r%s", myOutput);
-  fflush(stdout);
+  //printf("\r%s", myOutput);
+  std::cout << '\r' << myOutput.str() << std::flush;
+  //fflush(stdout);
 }
 
 AREXPORT ArModeLaser::ArModeLaser(ArRobot *robot, const char *name, 
