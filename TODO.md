@@ -284,10 +284,14 @@ easier to use.  Contact me or discuss on the GitHub page.
       needed if target is an object with operator(), rather than function
       pointer or lambda?)
     * One feature ArFunctor has, which std::function does not, is a name that can be used for debugging.
-      But maybe we can use some introspection functions to get string
-      representations of the function type names and target type name. Or wrap
+      But maybe we can derive a class from std::function or wrap
       std::function it in a small struct with name or other additional
       features, and transparently expose the std::function API.
+      Or just keep a separate map of std::type_index to names with functions to 
+      look them up (std::map<std::type_index, std::string>) -- you can get a std::function's target type with
+      target_type().  E.g.   
+      `names_map.insert(std::type_index(f.target_type()), "name"); 
+      auto it = names_map.find(std::type_index(f.target_type()));`
   * Or, just simplify ArFunctor classes with variadic template types for
     function arguments, and/or function signatures as a type, and template
     deduction to distinguish between function object class for free/global
