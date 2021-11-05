@@ -332,10 +332,11 @@ bool ArUrg_2_0::writeLine(const char *str)
   }
 
   bool ret = true;
-  size_t len = strlen(str);
+  const size_t len = strlen(str);
+  assert(len <= UINT_MAX);
 
   myConnMutex.lock();
-  int r = myConn->write(str, len);
+  const int r = myConn->write(str, (unsigned int)len);
   if ( r < 1 || (size_t)r < len || 
       myConn->write("\n", 1) < 1)
     ret = false;
@@ -403,10 +404,10 @@ bool ArUrg_2_0::readLine(char *buf, unsigned int size,
 
 	  // find the checksum 
 	  for (i = 0; i < iMax; i++)
-	    rawCheckSum += buf[i];
+	    rawCheckSum += (unsigned char) buf[i];
 
 	  // see if it matches onChar - 1, then NULL out onchar -1
-	  checkSum = (rawCheckSum & 0x3f) + 0x30;
+	  checkSum = (char) ((rawCheckSum & 0x3f) + 0x30);
 	  
 	  if ((checkSum) != buf[onChar - 1])
 	  {
@@ -726,9 +727,17 @@ bool ArUrg_2_0::internalConnect()
     if (strncasecmp(buf, "MODL:", strlen("MODL:")) == 0)
       myModel = &buf[5];
     else if (strncasecmp(buf, "DMIN:", strlen("DMIN:")) == 0)
-      myDMin = atoi(&buf[5]);
+    {
+      const int i = atoi(&buf[5]);
+      assert(i >= 0);
+      myDMin = (unsigned int) i;
+    }
     else if (strncasecmp(buf, "DMAX:", strlen("DMAX:")) == 0)
-      myDMax = atoi(&buf[5]);
+    {
+      const int i = atoi(&buf[5]);
+      assert(i >= 0);
+      myDMax = (unsigned int) i;
+    }
     else if (strncasecmp(buf, "ARES:", strlen("ARES:")) == 0)
       myARes = atoi(&buf[5]);
     else if (strncasecmp(buf, "AMIN:", strlen("AMIN:")) == 0)
@@ -869,20 +878,18 @@ void ArUrg_2_0::sensorInterp()
   myDataMutex.lock();
 
   //double angle;
-  int i;
-  int len = reading.size();
+  
+  assert(reading.size() <= UINT_MAX); 
+  unsigned int len = (unsigned int) reading.size();
 
-  int range;
-  int giant;
-  int big; 
-  int little;
+  unsigned int range;
   //int onStep;
 
   std::list<ArSensorReading *>::reverse_iterator it;
   ArSensorReading *sReading;
   
-  int iMax;
-  int iIncr;
+  unsigned int iMax;
+  unsigned int iIncr;
 
   if (myUseThreeDataBytes)
   {
@@ -896,6 +903,7 @@ void ArUrg_2_0::sensorInterp()
   }
 
   bool ignore;
+  size_t i = 0;
   for (it = myRawReadings->rbegin(), i = 0; 
        it != myRawReadings->rend() && i < iMax; //len - 2; 
        it++, i += iIncr) //3)
@@ -904,16 +912,18 @@ void ArUrg_2_0::sensorInterp()
 
     if (myUseThreeDataBytes)
     {
-      giant = reading[i] - 0x30;
-      big = reading[i+1] - 0x30;
-      little = reading[i+2] - 0x30;
-      range = (giant << 12 | big << 6 | little);
+      const int giant = reading[i] - 0x30;
+      const int big = reading[i+1] - 0x30;
+      const int little = reading[i+2] - 0x30;
+      // todo check that result is not < 0
+      range = (unsigned int) (giant << 12 | big << 6 | little);
     }
     else
     {
-      big = reading[i] - 0x30;
-      little = reading[i+1] - 0x30;
-      range = (big << 6 | little);
+      const int big = reading[i] - 0x30;
+      const int little = reading[i+1] - 0x30;
+      // todo check that result is not <0
+      range = (unsigned int) (big << 6 | little);
     }
     
     if (range < myDMin)
@@ -965,7 +975,7 @@ AREXPORT void * ArUrg_2_0::runThread(void *)
     {
       ArLog::log(ArLog::Terse, 
 		 "%s:  Lost connection to the laser because of error.  Nothing received for %g seconds (greater than the timeout of %g).", getName(), 
-		 myLastReading.mSecSince()/1000.0, 
+		 myLastReading.mSecSince()/1000, 
 		 getConnectionTimeoutSeconds());
       myIsConnected = false;
       laserDisconnectOnError();

@@ -30,6 +30,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    functions from Windows DLLs, and added AREXPORT to functions defined below:
 */
 #include "Aria/ArExport.h"
+#include <assert.h>
 
 /*
   Copyright (C) 1999, 2000, 2002 Aladdin Enterprises.  All rights reserved.
@@ -221,7 +222,7 @@ md5_process(md5_state_t *pms, const md5_byte_t *data /*[64]*/)
 #    define xbuf X		/* (static only) */
 #  endif
 	    for (i = 0; i < 16; ++i, xp += 4)
-		xbuf[i] = xp[0] + (xp[1] << 8) + (xp[2] << 16) + (xp[3] << 24);
+		xbuf[i] = (md5_word_t) (xp[0] + (xp[1] << 8) + (xp[2] << 16) + (xp[3] << 24));
 	}
 #endif
     }
@@ -363,7 +364,7 @@ md5_append(md5_state_t *pms, const md5_byte_t *data, int nbytes)
 	return;
 
     /* Update the message length. */
-    pms->count[1] += nbytes >> 29;
+    pms->count[1] += (md5_word_t) (nbytes >> 29);
     pms->count[0] += nbits;
     if (pms->count[0] < nbits)
 	pms->count[1]++;
@@ -372,7 +373,8 @@ md5_append(md5_state_t *pms, const md5_byte_t *data, int nbytes)
     if (offset) {
 	int copy = (offset + nbytes > 64 ? 64 - offset : nbytes);
 
-	memcpy(pms->buf + offset, p, copy);
+    assert(copy > 0);
+    memcpy(pms->buf + offset, p, (size_t) copy);
 	if (offset + copy < 64)
 	    return;
 	p += copy;
@@ -385,8 +387,8 @@ md5_append(md5_state_t *pms, const md5_byte_t *data, int nbytes)
 	md5_process(pms, p);
 
     /* Process a final partial block. */
-    if (left)
-	memcpy(pms->buf, p, left);
+    if (left > 0)
+	     memcpy(pms->buf, p, (size_t) left);
 }
 
 AREXPORT void

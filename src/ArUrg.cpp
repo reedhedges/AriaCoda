@@ -261,10 +261,11 @@ bool ArUrg::writeLine(const char *str)
   }
 
   bool ret = true;
-  size_t len = strlen(str);
+  const size_t len = strlen(str);
+  assert(len <= UINT_MAX);
 
   myConnMutex.lock();
-  int r = myConn->write(str, len);
+  const int r = myConn->write(str, (unsigned int)len);
   if ( r < 0 || (size_t)r < len || 
       myConn->write("\n", 1) < 1)
     ret = false;
@@ -655,13 +656,12 @@ void ArUrg::sensorInterp()
   lockDevice();
   myDataMutex.lock();
 
+
   //double angle;
   size_t i;
   const size_t len = reading.size();
 
-  int range;
-  int big; 
-  int little;
+  unsigned int range;
   //int onStep;
 
   std::list<ArSensorReading *>::reverse_iterator it;
@@ -673,9 +673,9 @@ void ArUrg::sensorInterp()
        it++, i += 2)
   {
     ignore = false;
-    big = reading[i] - 0x30;
-    little = reading[i+1] - 0x30;
-    range = (big << 6 | little);
+    const int big = reading[i] - 0x30;
+    const int little = reading[i+1] - 0x30;
+    range = (unsigned int)(big << 6 | little);
     if (range < 20)
     {
       /* Well that didn't work...

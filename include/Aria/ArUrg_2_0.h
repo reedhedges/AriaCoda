@@ -129,8 +129,8 @@ protected:
   std::string myStat;
 
   std::string myModel;
-  int myDMin;
-  int myDMax;
+  unsigned int myDMin;
+  unsigned int myDMax;
   int myARes;
   int myAMin;
   int myAMax;

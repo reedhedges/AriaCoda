@@ -44,3 +44,4 @@ debian/libaria-utils
 debian/source
 debian/tmp
 debian/.debhelper
+tmp
