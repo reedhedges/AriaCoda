@@ -1451,12 +1451,12 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_A
 
 SWIGEXPORT jlong JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_new_1ArNetPacket_1_1SWIG_10(JNIEnv *jenv, jclass jcls, jint jarg1) {
   jlong jresult = 0 ;
-  ArTypes::UByte2 arg1 ;
+  uint16_t arg1 ;
   ArNetPacket *result = 0 ;
   
   (void)jenv;
   (void)jcls;
-  arg1 = (ArTypes::UByte2)jarg1; 
+  arg1 = (uint16_t)jarg1; 
   result = (ArNetPacket *)new ArNetPacket(arg1);
   *(ArNetPacket **)&jresult = result; 
   return jresult;
@@ -1506,13 +1506,13 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_d
 
 SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArNetPacket_1setCommand(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   ArNetPacket *arg1 = (ArNetPacket *) 0 ;
-  ArTypes::UByte2 arg2 ;
+  uint16_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArNetPacket **)&jarg1; 
-  arg2 = (ArTypes::UByte2)jarg2; 
+  arg2 = (uint16_t)jarg2; 
   (arg1)->setCommand(arg2);
 }
 
@@ -1520,13 +1520,13 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_A
 SWIGEXPORT jint JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArNetPacket_1getCommand(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jint jresult = 0 ;
   ArNetPacket *arg1 = (ArNetPacket *) 0 ;
-  ArTypes::UByte2 result;
+  uint16_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArNetPacket **)&jarg1; 
-  result = (ArTypes::UByte2)(arg1)->getCommand();
+  result = (uint16_t)(arg1)->getCommand();
   jresult = (jint)result; 
   return jresult;
 }
@@ -1685,13 +1685,13 @@ SWIGEXPORT jboolean JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJ
 SWIGEXPORT jshort JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArNetPacket_1calcCheckSum(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jshort jresult = 0 ;
   ArNetPacket *arg1 = (ArNetPacket *) 0 ;
-  ArTypes::Byte2 result;
+  int16_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArNetPacket **)&jarg1; 
-  result = (ArTypes::Byte2)(arg1)->calcCheckSum();
+  result = (int16_t)(arg1)->calcCheckSum();
   jresult = (jshort)result; 
   return jresult;
 }
@@ -4190,13 +4190,13 @@ SWIGEXPORT jboolean JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJ
 
 SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArServerBase_1closeConnectionID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   ArServerBase *arg1 = (ArServerBase *) 0 ;
-  ArTypes::UByte4 arg2 ;
+  uint32_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArServerBase **)&jarg1; 
-  arg2 = (ArTypes::UByte4)jarg2; 
+  arg2 = (uint32_t)jarg2; 
   (arg1)->closeConnectionID(arg2);
 }
 
@@ -6425,7 +6425,7 @@ SWIGEXPORT jboolean JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJ
   jboolean jresult = 0 ;
   ArClientBase *arg1 = (ArClientBase *) 0 ;
   char *arg2 = (char *) 0 ;
-  ArTypes::Byte2 arg3 ;
+  int16_t arg3 ;
   bool result;
   
   (void)jenv;
@@ -6437,7 +6437,7 @@ SWIGEXPORT jboolean JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJ
     arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
     if (!arg2) return 0;
   }
-  arg3 = (ArTypes::Byte2)jarg3; 
+  arg3 = (int16_t)jarg3; 
   result = (bool)(arg1)->requestOnceWithInt16((char const *)arg2,arg3);
   jresult = (jboolean)result; 
   if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
@@ -6449,7 +6449,7 @@ SWIGEXPORT jboolean JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJ
   jboolean jresult = 0 ;
   ArClientBase *arg1 = (ArClientBase *) 0 ;
   char *arg2 = (char *) 0 ;
-  ArTypes::Byte4 arg3 ;
+  int32_t arg3 ;
   bool result;
   
   (void)jenv;
@@ -6461,7 +6461,7 @@ SWIGEXPORT jboolean JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJ
     arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
     if (!arg2) return 0;
   }
-  arg3 = (ArTypes::Byte4)jarg3; 
+  arg3 = (int32_t)jarg3; 
   result = (bool)(arg1)->requestOnceWithInt32((char const *)arg2,arg3);
   jresult = (jboolean)result; 
   if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
@@ -7779,7 +7779,7 @@ SWIGEXPORT jlong JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_
   char *arg1 = (char *) 0 ;
   time_t arg2 ;
   time_t arg3 ;
-  ArTypes::UByte4 arg4 ;
+  uint32_t arg4 ;
   time_t *argp2 ;
   time_t *argp3 ;
   ArClientFileListerItem *result = 0 ;
@@ -7803,7 +7803,7 @@ SWIGEXPORT jlong JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_
     return 0;
   }
   arg3 = *argp3; 
-  arg4 = (ArTypes::UByte4)jarg4; 
+  arg4 = (uint32_t)jarg4; 
   result = (ArClientFileListerItem *)new ArClientFileListerItem((char const *)arg1,arg2,arg3,arg4);
   *(ArClientFileListerItem **)&jresult = result; 
   if (arg1) jenv->ReleaseStringUTFChars(jarg1, (const char *)arg1);
@@ -7888,13 +7888,13 @@ SWIGEXPORT jlong JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_
 SWIGEXPORT jlong JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArClientFileListerItem_1getSize(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   ArClientFileListerItem *arg1 = (ArClientFileListerItem *) 0 ;
-  ArTypes::UByte4 result;
+  uint32_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArClientFileListerItem **)&jarg1; 
-  result = (ArTypes::UByte4)((ArClientFileListerItem const *)arg1)->getSize();
+  result = (uint32_t)((ArClientFileListerItem const *)arg1)->getSize();
   jresult = (jlong)result; 
   return jresult;
 }
@@ -11398,14 +11398,14 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_A
 SWIGEXPORT jint JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArServerClient_1getFrequency(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jint jarg2) {
   jint jresult = 0 ;
   ArServerClient *arg1 = (ArServerClient *) 0 ;
-  ArTypes::UByte2 arg2 ;
+  uint16_t arg2 ;
   long result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArServerClient **)&jarg1; 
-  arg2 = (ArTypes::UByte2)jarg2; 
+  arg2 = (uint16_t)jarg2; 
   result = (long)(arg1)->getFrequency(arg2);
   jresult = (jint)result; 
   return jresult;
@@ -11617,13 +11617,13 @@ SWIGEXPORT jstring JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJN
 
 SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArServerClientIdentifier_1setConnectionID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jlong jarg2) {
   ArServerClientIdentifier *arg1 = (ArServerClientIdentifier *) 0 ;
-  ArTypes::UByte4 arg2 ;
+  uint32_t arg2 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArServerClientIdentifier **)&jarg1; 
-  arg2 = (ArTypes::UByte4)jarg2; 
+  arg2 = (uint32_t)jarg2; 
   (arg1)->setConnectionID(arg2);
 }
 
@@ -11631,13 +11631,13 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_A
 SWIGEXPORT jlong JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArServerClientIdentifier_1getConnectionID(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   ArServerClientIdentifier *arg1 = (ArServerClientIdentifier *) 0 ;
-  ArTypes::UByte4 result;
+  uint32_t result;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArServerClientIdentifier **)&jarg1; 
-  result = (ArTypes::UByte4)(arg1)->getConnectionID();
+  result = (uint32_t)(arg1)->getConnectionID();
   jresult = (jlong)result; 
   return jresult;
 }
@@ -16378,8 +16378,8 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_A
 SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArServerInfoStrings_1addString(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_, jstring jarg2, jint jarg3, jlong jarg4) {
   ArServerInfoStrings *arg1 = (ArServerInfoStrings *) 0 ;
   char *arg2 = (char *) 0 ;
-  ArTypes::UByte2 arg3 ;
-  ArFunctor2< char *,ArTypes::UByte2 > *arg4 = (ArFunctor2< char *,ArTypes::UByte2 > *) 0 ;
+  uint16_t arg3 ;
+  ArFunctor2< char *,uint16_t > *arg4 = (ArFunctor2< char *,uint16_t > *) 0 ;
   
   (void)jenv;
   (void)jcls;
@@ -16390,8 +16390,8 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_A
     arg2 = (char *)jenv->GetStringUTFChars(jarg2, 0);
     if (!arg2) return ;
   }
-  arg3 = (ArTypes::UByte2)jarg3; 
-  arg4 = *(ArFunctor2< char *,ArTypes::UByte2 > **)&jarg4; 
+  arg3 = (uint16_t)jarg3; 
+  arg4 = *(ArFunctor2< char *,uint16_t > **)&jarg4; 
   (arg1)->addString((char const *)arg2,arg3,arg4);
   if (arg2) jenv->ReleaseStringUTFChars(jarg2, (const char *)arg2);
 }
@@ -16400,14 +16400,14 @@ SWIGEXPORT void JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_A
 SWIGEXPORT jlong JNICALL Java_com_mobilerobots_ArNetworking_ArNetworkingJavaJNI_ArServerInfoStrings_1getAddStringFunctor(JNIEnv *jenv, jclass jcls, jlong jarg1, jobject jarg1_) {
   jlong jresult = 0 ;
   ArServerInfoStrings *arg1 = (ArServerInfoStrings *) 0 ;
-  ArFunctor3< char const *,ArTypes::UByte2,ArFunctor2< char *,ArTypes::UByte2 > * > *result = 0 ;
+  ArFunctor3< char const *,uint16_t,ArFunctor2< char *,uint16_t > * > *result = 0 ;
   
   (void)jenv;
   (void)jcls;
   (void)jarg1_;
   arg1 = *(ArServerInfoStrings **)&jarg1; 
-  result = (ArFunctor3< char const *,ArTypes::UByte2,ArFunctor2< char *,ArTypes::UByte2 > * > *)(arg1)->getAddStringFunctor();
-  *(ArFunctor3< char const *,ArTypes::UByte2,ArFunctor2< char *,ArTypes::UByte2 > * > **)&jresult = result; 
+  result = (ArFunctor3< char const *,uint16_t,ArFunctor2< char *,uint16_t > * > *)(arg1)->getAddStringFunctor();
+  *(ArFunctor3< char const *,uint16_t,ArFunctor2< char *,uint16_t > * > **)&jresult = result; 
   return jresult;
 }
 

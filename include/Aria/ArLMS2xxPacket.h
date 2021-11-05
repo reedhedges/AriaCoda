@@ -63,10 +63,10 @@ public:
   AREXPORT bool verifyCRC();
   
   /// returns the ID of the packet (first byte of data)
-  AREXPORT ArTypes::UByte getID();
+  AREXPORT uint8_t getID();
 
   /// returns the crc, probably used only internally
-  AREXPORT ArTypes::Byte2 calcCRC();
+  AREXPORT int16_t calcCRC();
   
   // only call finalizePacket before a send
   AREXPORT virtual void finalizePacket() override;

@@ -116,20 +116,20 @@ void ArLMS1XXPacket::intToBuf(int val)
 }
 
 
-void ArLMS1XXPacket::uByteToBuf(ArTypes::UByte val)
+void ArLMS1XXPacket::uByteToBuf(uint8_t val)
 {
 	char buf[12];
 	sprintf(buf, "%u", val);
 	strToBuf(buf);
 }
 
-void ArLMS1XXPacket::uByte2ToBuf(ArTypes::UByte2 val)
+void ArLMS1XXPacket::uByte2ToBuf(uint16_t val)
 {
-	uByteToBuf((ArTypes::UByte) (val & 0xff));
-	uByteToBuf((ArTypes::UByte) ((val >> 8) & 0xff));
+	uByteToBuf((uint8_t) (val & 0xff));
+	uByteToBuf((uint8_t) ((val >> 8) & 0xff));
 }
 
-void ArLMS1XXPacket::uByte4ToBuf(ArTypes::UByte4 val)
+void ArLMS1XXPacket::uByte4ToBuf(uint32_t val)
 {
 	char buf[12];
 	sprintf(buf, "%u", val);
@@ -152,7 +152,7 @@ void ArLMS1XXPacket::strToBuf(const char *str)
 
   const size_t len = strlen(str);
 	assert(len <= USHRT_MAX);
-	const ArTypes::UByte2 tempLen = (ArTypes::UByte2)len;
+	const uint16_t tempLen = (uint16_t)len;
 
 	if (!hasWriteCapacity(tempLen)) {
 		return;
@@ -162,7 +162,7 @@ void ArLMS1XXPacket::strToBuf(const char *str)
 	myLength += tempLen;
 }
 
-ArTypes::Byte ArLMS1XXPacket::bufToByte()
+int8_t ArLMS1XXPacket::bufToByte()
 {
 
 	if (!isNextGood(1))
@@ -176,14 +176,14 @@ ArTypes::Byte ArLMS1XXPacket::bufToByte()
 
 	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
 	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
-	const ArTypes::Byte ret = (ArTypes::Byte) (n2 << 4 | n1);
+	const int8_t ret = (int8_t) (n2 << 4 | n1);
 
 	myReadLength += 4;
 
 	return ret;
 }
 
-ArTypes::Byte2 ArLMS1XXPacket::bufToByte2()
+int16_t ArLMS1XXPacket::bufToByte2()
 {
 
 	if (!isNextGood(1))
@@ -199,14 +199,14 @@ ArTypes::Byte2 ArLMS1XXPacket::bufToByte2()
 	const unsigned char n3 = (unsigned char) deascii(myBuf[myReadLength+5]);
 	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
 	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
-	const ArTypes::Byte2 ret = (ArTypes::Byte2) (n4 << 12 | n3 << 8 | n2 << 4 | n1);
+	const int16_t ret = (int16_t) (n4 << 12 | n3 << 8 | n2 << 4 | n1);
 
 	myReadLength += 4;
 
 	return ret;
 }
 
-ArTypes::Byte4 ArLMS1XXPacket::bufToByte4()
+int32_t ArLMS1XXPacket::bufToByte4()
 {
 	if (!isNextGood(1))
 		return 0;
@@ -225,14 +225,14 @@ ArTypes::Byte4 ArLMS1XXPacket::bufToByte4()
 	const unsigned char n3 = (unsigned char) deascii(myBuf[myReadLength+5]);
 	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
 	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
-	const ArTypes::Byte4 ret = (ArTypes::Byte4) (n8 << 28 | n7 << 24 | n6 << 20 | n5 << 16 | n4 << 12 | n3 << 8 | n2 << 4 | n1);
+	const int32_t ret = (int32_t) (n8 << 28 | n7 << 24 | n6 << 20 | n5 << 16 | n4 << 12 | n3 << 8 | n2 << 4 | n1);
 
 	myReadLength += 8;
 
 	return ret;
 }
 
-ArTypes::UByte ArLMS1XXPacket::bufToUByte()
+uint8_t ArLMS1XXPacket::bufToUByte()
 {
 	if (!isNextGood(1))
 		return 0;
@@ -250,10 +250,10 @@ ArTypes::UByte ArLMS1XXPacket::bufToUByte()
 
   const long ret = strtol(str.c_str(), NULL, 16);
 	//assert(ret >= 0 && ret <= UCHAR_MAX);
-	return (ArTypes::UByte)ret;
+	return (uint8_t)ret;
 }
 
-ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2()
+uint16_t ArLMS1XXPacket::bufToUByte2()
 {
 	//printf("@ 1\n");
 
@@ -278,10 +278,10 @@ ArTypes::UByte2 ArLMS1XXPacket::bufToUByte2()
 	const long ret = strtol(str.c_str(), NULL, 16);
 
 	//printf("@ 3 %d\n", ret);
-	return (ArTypes::UByte2) ret;
+	return (uint16_t) ret;
 }
 
-ArTypes::UByte4 ArLMS1XXPacket::bufToUByte4()
+uint32_t ArLMS1XXPacket::bufToUByte4()
 {
 	if (!isNextGood(1))
 		return 0;
@@ -300,7 +300,7 @@ ArTypes::UByte4 ArLMS1XXPacket::bufToUByte4()
 
 	const long ret = strtol(str.c_str(), NULL, 16);
 
-	return (ArTypes::UByte4) ret;
+	return (uint32_t) ret;
 }
 
 /** 
@@ -1971,7 +1971,7 @@ AREXPORT bool ArLMS1XX::lms5xxConnect()
 
 		sendPacket.byte2ToBuf(1); // number segments
 
-		sendPacket.byte4ToBuf( (ArTypes::Byte4) (getIncrementChoiceDouble() * 10'000) ); // angle resolution
+		sendPacket.byte4ToBuf( (int32_t) (getIncrementChoiceDouble() * 10'000) ); // angle resolution
 		//sendPacket.byte4ToBuf(.25 * 10000); // angle resolution
 		//ArLog::log(ArLog::Normal,
 		//		"%s::lms5xxConnect() increment = %d", getName(), getIncrementChoiceDouble());
@@ -2054,7 +2054,7 @@ AREXPORT bool ArLMS1XX::lms5xxConnect()
 		sendPacket.empty();
 		sendPacket.strToBuf("sMN");
 		sendPacket.strToBuf("LSPsetdatetime");
-		sendPacket.byte2ToBuf((ArTypes::Byte2)Tm->tm_year+1900);
+		sendPacket.byte2ToBuf((int16_t)Tm->tm_year+1900);
 		sendPacket.byteToBuf((char) Tm->tm_mon+1);
 		sendPacket.byteToBuf((char) Tm->tm_mday);
 		sendPacket.byteToBuf((char) Tm->tm_hour);
@@ -2145,7 +2145,7 @@ AREXPORT bool ArLMS1XX::lms5xxConnect()
 		sendPacket.strToBuf("LMPoutputRange");
 		sendPacket.byte2ToBuf(1); // number segments
 
-		sendPacket.byte4ToBuf((ArTypes::Byte4)(getIncrementChoiceDouble() * 10'000.0)); // angle resolution
+		sendPacket.byte4ToBuf((int32_t)(getIncrementChoiceDouble() * 10'000.0)); // angle resolution
 		//sendPacket.byte4ToBuf(.25 * 10000); // angle resolution
 
 		 sendPacket.byte4ToBuf(-5 * 10000); // can't change starting angle
@@ -2523,9 +2523,9 @@ AREXPORT bool ArLMS1XX::lms1xxConnect()
 		sendPacket.strToBuf("mLMPsetscancfg");
 		sendPacket.byte4ToBuf(5000); // scanning freq
 		sendPacket.byte2ToBuf(1); // number segments
-		sendPacket.byte4ToBuf((ArTypes::Byte4)(getIncrementChoiceDouble() * 10000)); // angle resolution
-		sendPacket.byte4ToBuf((ArTypes::Byte4)((getStartDegrees() + 90) * 10000)); // starting angle
-		sendPacket.byte4ToBuf((ArTypes::Byte4)((getEndDegrees() + 90) * 10000)); // ending angle
+		sendPacket.byte4ToBuf((int32_t)(getIncrementChoiceDouble() * 10000)); // angle resolution
+		sendPacket.byte4ToBuf((int32_t)((getStartDegrees() + 90) * 10000)); // starting angle
+		sendPacket.byte4ToBuf((int32_t)((getEndDegrees() + 90) * 10000)); // ending angle
 
 		sendPacket.finalizePacket();
 

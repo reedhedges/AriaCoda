@@ -81,32 +81,32 @@ AREXPORT ArRobotPacket &ArRobotPacket::operator=(const ArRobotPacket &other)
   return *this;
 }
 
-AREXPORT ArTypes::UByte ArRobotPacket::getID()
+AREXPORT uint8_t ArRobotPacket::getID()
 {
   if (myLength >= 4)
-    return (ArTypes::UByte) myBuf[3];
+    return (uint8_t) myBuf[3];
   else
     return 0;
 }
 
-AREXPORT void ArRobotPacket::setID(ArTypes::UByte id)
+AREXPORT void ArRobotPacket::setID(uint8_t id)
 {
   myBuf[3] = (char) id;
 }
 
 AREXPORT void ArRobotPacket::finalizePacket()
 {
-  const ArTypes::UByte2 len = myLength;
+  const uint16_t len = myLength;
 
   myLength = 0;
   uByteToBuf(mySync1);
   uByteToBuf(mySync2);
-  uByteToBuf((ArTypes::UByte)(len - getHeaderLength() + 3));
+  uByteToBuf((uint8_t)(len - getHeaderLength() + 3));
   myLength = len;
 
   const int chkSum = calcCheckSum();
-  byteToBuf((ArTypes::Byte)((chkSum >> 8) & 0xff));
-  byteToBuf((ArTypes::Byte)(chkSum & 0xff));
+  byteToBuf((int8_t)((chkSum >> 8) & 0xff));
+  byteToBuf((int8_t)(chkSum & 0xff));
   /* Put this in if you want to see the packets being outputted 
      printf("Output(%3d) ", getID());
      printHex();
@@ -115,19 +115,19 @@ AREXPORT void ArRobotPacket::finalizePacket()
   //printf("Output %d\n", getID());
 }
 
-AREXPORT ArTypes::Byte2 ArRobotPacket::calcCheckSum()
+AREXPORT int16_t ArRobotPacket::calcCheckSum()
 {
-  ArTypes::Byte2 c = 0;
+  int16_t c = 0;
   int i = 3;
   int n = (int) myBuf[2] - 2;
   while (n > 1) {
-    c += (ArTypes::Byte2) (((unsigned char)myBuf[i]<<8) | (unsigned char)myBuf[i+1]);
-    c = (ArTypes::Byte2) (c & 0xffff);
+    c += (int16_t) (((unsigned char)myBuf[i]<<8) | (unsigned char)myBuf[i+1]);
+    c = (int16_t) (c & 0xffff);
     n -= 2;
     i += 2;
   }
   if (n > 0) 
-    c = c ^ (ArTypes::Byte2)((unsigned char) myBuf[i]);
+    c = c ^ (int16_t)((unsigned char) myBuf[i]);
   return c;
 }
 
@@ -138,7 +138,7 @@ AREXPORT bool ArRobotPacket::verifyCheckSum()
 
   const unsigned char c2 = (unsigned char) myBuf[myLength - 2];
   const unsigned char c1 = (unsigned char) myBuf[myLength - 1];
-  const ArTypes::Byte2 chksum = (ArTypes::Byte2) ( (c1 & 0xff) | (c2 << 8) );
+  const int16_t chksum = (int16_t) ( (c1 & 0xff) | (c2 << 8) );
 
   if (chksum == calcCheckSum()) {
     return true;

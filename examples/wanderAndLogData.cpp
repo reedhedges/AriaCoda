@@ -59,7 +59,7 @@ std::string ubyte_as_bitstring(unsigned char byte)
 }
 
 /* function to display a 2-byte unsigned int as a string of 16 '1' and '0' characters. */
-std::string uint16_as_bitstring(ArTypes::UByte2 n) 
+std::string uint16_as_bitstring(uint16_t n) 
 {
   char tmp[17];
   int bit;
@@ -94,16 +94,16 @@ std::string charge_state_string(int state)
  * those and save them in some global variables. */
 bool wasLeftMotorStalled = false;
 bool wasRightMotorStalled = false;
-ArTypes::UByte2 cumulativeStallVal = 0;
-ArTypes::UByte2 cumulativeRobotFlags = 0;
+uint16_t  cumulativeStallVal = 0;
+uint16_t cumulativeRobotFlags = 0;
 bool wasLeftIRTriggered = false;
 bool wasRightIRTriggered = false;
 bool wasEStopTriggered = false;
 
 bool cycleCallback(ArRobot* robot)
 {
-  cumulativeStallVal |= (ArTypes::UByte2) robot->getStallValue();
-  cumulativeRobotFlags |= (ArTypes::UByte2) robot->getFlags();
+  cumulativeStallVal |= (uint16_t) robot->getStallValue();
+  cumulativeRobotFlags |= (uint16_t) robot->getFlags();
   wasLeftMotorStalled = wasLeftMotorStalled || robot->isLeftMotorStalled();
   wasRightMotorStalled = wasRightMotorStalled || robot->isRightMotorStalled();
   wasEStopTriggered = wasEStopTriggered || robot->getEstop();
@@ -313,7 +313,7 @@ int main(int argc, char **argv)
 
     // list indices of bumpers flaged in stallval
     // skip the last bit which is a motor stall flag
-    ArTypes::UByte2 bumpmask = ArUtil::BIT15;
+    uint16_t bumpmask = ArUtil::BIT15;
     int bump = 0;
     for(int bit = 16; bit > 0; bit--) 
     {

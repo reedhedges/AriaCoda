@@ -48,7 +48,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #define DEBUG_POS(code) {}
 #endif
 
-AREXPORT ArDPPTUPacket::ArDPPTUPacket(ArTypes::UByte2 bufferSize) :
+AREXPORT ArDPPTUPacket::ArDPPTUPacket(uint16_t bufferSize) :
   ArBasePacket(bufferSize, 0)
 {
 }
@@ -58,7 +58,7 @@ AREXPORT ArDPPTUPacket::ArDPPTUPacket(ArTypes::UByte2 bufferSize) :
 
 } */
 
-AREXPORT void ArDPPTUPacket::byte2ToBuf(ArTypes::Byte2 val)
+AREXPORT void ArDPPTUPacket::byte2ToBuf(int16_t val)
 {
   //ArLog::log(ArLog::Normal, "Putting %d in an DPPTU packet...", val);
   int i;
@@ -305,7 +305,7 @@ AREXPORT bool ArDPPTU::pan_i(double pdeg)
     preparePacket();
     myPacket.byteToBuf('P');
     myPacket.byteToBuf('P');
-    myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(pdeg/myPanConvert));
+    myPacket.byte2ToBuf((int16_t) ArMath::roundInt(pdeg/myPanConvert));
 
     myPanSent = pdeg;
     if(!myCanGetRealPanTilt) myPan = (float) myPanSent;
@@ -330,7 +330,7 @@ AREXPORT bool ArDPPTU::tilt_i(double tdeg)
     preparePacket();
     myPacket.byteToBuf('T');
     myPacket.byteToBuf('P');
-    myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(tdeg/myTiltConvert));
+    myPacket.byte2ToBuf((int16_t) ArMath::roundInt(tdeg/myTiltConvert));
 
     myTiltSent = tdeg;
     if(!myCanGetRealPanTilt) myTilt = (float) myTiltSent;
@@ -352,7 +352,7 @@ AREXPORT bool ArDPPTU::panSlew(double deg)
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf(ArDPPTUCommands::SPEED);
 
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -369,7 +369,7 @@ AREXPORT bool ArDPPTU::tiltSlew(double deg)
   myPacket.byteToBuf('T');// ArDPPTUCommands::TILT);
   myPacket.byteToBuf('S');// ArDPPTUCommands::SPEED);
 
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -520,7 +520,7 @@ AREXPORT bool ArDPPTU::panAccel(double deg)
     preparePacket();
     myPacket.byteToBuf(ArDPPTUCommands::PAN);
     myPacket.byteToBuf(ArDPPTUCommands::ACCEL);
-    myPacket.byte2ToBuf((ArTypes::Byte2)ArMath::roundInt(deg/myPanConvert));
+    myPacket.byte2ToBuf((int16_t)ArMath::roundInt(deg/myPanConvert));
 
     return sendPacket(&myPacket);
   }
@@ -539,7 +539,7 @@ AREXPORT bool ArDPPTU::tiltAccel(double deg)
     preparePacket();
     myPacket.byteToBuf(ArDPPTUCommands::TILT);
     myPacket.byteToBuf(ArDPPTUCommands::ACCEL);
-    myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
+    myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myTiltConvert));
 
     return sendPacket(&myPacket);
   }
@@ -554,7 +554,7 @@ AREXPORT bool ArDPPTU::basePanSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf(ArDPPTUCommands::BASE);
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -566,7 +566,7 @@ AREXPORT bool ArDPPTU::baseTiltSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::TILT);
   myPacket.byteToBuf(ArDPPTUCommands::BASE);
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -576,7 +576,7 @@ AREXPORT bool ArDPPTU::upperPanSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf(ArDPPTUCommands::UPPER);
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -586,7 +586,7 @@ AREXPORT bool ArDPPTU::lowerPanSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::PAN);
   myPacket.byteToBuf('L'); //ArDPPTUCommands::LIMIT);
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myPanConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myPanConvert));
 
   return sendPacket(&myPacket);
 }
@@ -596,7 +596,7 @@ AREXPORT bool ArDPPTU::upperTiltSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::TILT);
   myPacket.byteToBuf(ArDPPTUCommands::UPPER);
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -606,7 +606,7 @@ AREXPORT bool ArDPPTU::lowerTiltSlew(double deg)
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::TILT);
   myPacket.byteToBuf('L'); //ArDPPTUCommands::LIMIT);
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg/myTiltConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -654,13 +654,13 @@ AREXPORT bool ArDPPTU::initMon(double deg1, double deg2,
   preparePacket();
   myPacket.byteToBuf(ArDPPTUCommands::MONITOR);
 
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg1/myPanConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg1/myPanConvert));
   myPacket.byteToBuf(',');
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg2/myPanConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg2/myPanConvert));
   myPacket.byteToBuf(',');
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg3/myTiltConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg3/myTiltConvert));
   myPacket.byteToBuf(',');
-  myPacket.byte2ToBuf((ArTypes::Byte2) ArMath::roundInt(deg4/myTiltConvert));
+  myPacket.byte2ToBuf((int16_t) ArMath::roundInt(deg4/myTiltConvert));
 
   return sendPacket(&myPacket);
 }
@@ -668,18 +668,18 @@ AREXPORT bool ArDPPTU::initMon(double deg1, double deg2,
 AREXPORT bool ArDPPTU::setHoldPower(Axis axis, PowerMode mode)
 {
   preparePacket();
-  myPacket.byteToBuf((ArTypes::Byte)axis);
+  myPacket.byteToBuf((int8_t)axis);
   myPacket.byteToBuf('H');
-  myPacket.byteToBuf((ArTypes::Byte)mode);
+  myPacket.byteToBuf((int8_t)mode);
   return sendPacket(&myPacket);
 }
 
 AREXPORT bool ArDPPTU::setMovePower(Axis axis, PowerMode mode)
 {
   preparePacket();
-  myPacket.byteToBuf((ArTypes::Byte) axis);
+  myPacket.byteToBuf((int8_t) axis);
   myPacket.byteToBuf('M');
-  myPacket.byteToBuf((ArTypes::Byte) mode);
+  myPacket.byteToBuf((int8_t) mode);
   return sendPacket(&myPacket);
 }
 

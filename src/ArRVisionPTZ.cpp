@@ -29,7 +29,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArDeviceConnection.h"
 #include "Aria/ArSerialConnection.h"
 
-AREXPORT ArRVisionPacket::ArRVisionPacket(ArTypes::UByte2 bufferSize) :
+AREXPORT ArRVisionPacket::ArRVisionPacket(uint16_t bufferSize) :
   ArBasePacket(bufferSize)
 {
 
@@ -37,7 +37,7 @@ AREXPORT ArRVisionPacket::ArRVisionPacket(ArTypes::UByte2 bufferSize) :
 
 
 
-AREXPORT void ArRVisionPacket::uByteToBuf(ArTypes::UByte val)
+AREXPORT void ArRVisionPacket::uByteToBuf(uint8_t val)
 {
   if (myLength + 1 > myMaxLength)
   {
@@ -48,7 +48,7 @@ AREXPORT void ArRVisionPacket::uByteToBuf(ArTypes::UByte val)
   ++myLength;
 }
 
-AREXPORT void ArRVisionPacket::byte2ToBuf(ArTypes::Byte2 val)
+AREXPORT void ArRVisionPacket::byte2ToBuf(int16_t val)
 {
   if ((myLength + 4) > myMaxLength)
   {
@@ -75,10 +75,10 @@ AREXPORT void ArRVisionPacket::byte2ToBuf(ArTypes::Byte2 val)
    @param val the Byte2 to put into the packet
    @param pose the position in the packets array to put the value
 */
-AREXPORT void ArRVisionPacket::byte2ToBufAtPos(ArTypes::Byte2 val,
-					    ArTypes::UByte2 pos)
+AREXPORT void ArRVisionPacket::byte2ToBufAtPos(int16_t val,
+					    uint16_t pos)
 {
-  const ArTypes::UByte2 prevLength = myLength;
+  const uint16_t prevLength = myLength;
 
   if ((pos + 4) > myMaxLength)
   {
@@ -221,8 +221,8 @@ AREXPORT bool ArRVisionPTZ::panTilt_i(double degreesPan, double degreesTilt)
   assert(p <= INT16_MAX);
   const int t = ArMath::roundInt((myTilt + myTiltOffsetInDegrees) * myDegToTilt);
   assert(t <= INT16_MAX);
-  myPanTiltPacket.byte2ToBufAtPos((ArTypes::Byte2) p, 6);
-  myPanTiltPacket.byte2ToBufAtPos((ArTypes::Byte2) t, 10);
+  myPanTiltPacket.byte2ToBufAtPos((int16_t) p, 6);
+  myPanTiltPacket.byte2ToBufAtPos((int16_t) t, 10);
   return sendPacket(&myPanTiltPacket);
 }
 
@@ -262,7 +262,7 @@ AREXPORT bool ArRVisionPTZ::zoom(int zoomValue)
 
   const int z = ArMath::roundInt(myZoom);
   assert(z <= INT16_MAX);
-  myZoomPacket.byte2ToBufAtPos((ArTypes::Byte2)z, 4);
+  myZoomPacket.byte2ToBufAtPos((int16_t)z, 4);
   return sendPacket(&myZoomPacket);
 }
 

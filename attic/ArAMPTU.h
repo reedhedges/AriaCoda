@@ -69,15 +69,15 @@ class ArAMPTUPacket: public virtual ArBasePacket
 {
 public:
   /// Constructor
-  ArAMPTUPacket(ArTypes::UByte2 bufferSize = 30);
+  ArAMPTUPacket(uint16_t bufferSize = 30);
 
   /// Gets the unit number this packet is for
   unsigned char getUnitNumber(void);
   /// Sets the unit number htis packet is for
   bool setUnitNumber(unsigned char unitNumber);
   
-  virtual void byteToBuf(ArTypes::Byte val) override;
-  virtual void byte2ToBuf(ArTypes::Byte2 val) override;
+  virtual void byteToBuf(int8_t val) override;
+  virtual void byte2ToBuf(int16_t val) override;
   
   virtual void finalizePacket(void) override;
 

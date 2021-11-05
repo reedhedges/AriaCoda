@@ -800,7 +800,7 @@ public:
 
   /// Adds a callback that'll be used to see the time on the computer side (for an MTX)
   void setMTXTimeUSecCB(ArRetFunctor1<bool, 
-					       ArTypes::UByte4 *> *functor)
+					       uint32_t *> *functor)
     { myMTXTimeUSecCB = functor; }
 
   /// Gets the encoder transform
@@ -1773,7 +1773,7 @@ protected:
   ArTransform myEncoderTransform;
   ArCallbackList mySetEncoderTransformCBList;
 
-  ArRetFunctor1<bool, ArTypes::UByte4 *> *myMTXTimeUSecCB;
+  ArRetFunctor1<bool, uint32_t *> *myMTXTimeUSecCB;
 
   bool myIgnoreNextPacket;
 

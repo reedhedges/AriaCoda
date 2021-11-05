@@ -39,13 +39,13 @@ public:
   AREXPORT P2ArmJoint();
   AREXPORT virtual ~P2ArmJoint();
 
-  ArTypes::UByte myPos;
-  ArTypes::UByte myVel;
-  ArTypes::UByte myHome;
-  ArTypes::UByte myMin;
-  ArTypes::UByte myCenter;
-  ArTypes::UByte myMax;
-  ArTypes::UByte myTicksPer90;
+  uint8_t myPos;
+  uint8_t myVel;
+  uint8_t myHome;
+  uint8_t myMin;
+  uint8_t myCenter;
+  uint8_t myMax;
+  uint8_t myTicksPer90;
 };
 
 /**
@@ -281,8 +281,8 @@ protected:
   ArTime myLastInfoTime;
   std::string myVersion;
   StatusType myStatusRequest;
-  ArTypes::UByte2 myLastStatus;
-  ArTypes::UByte2 myStatus;
+  uint16_t myLastStatus;
+  uint16_t myStatus;
   ArSerialConnection myCon;
   ArRetFunctorC<State, ArP2Arm> myAriaUninitCB;
   ArRetFunctor1C<bool, ArP2Arm, ArRobotPacket*> myArmPacketHandler;

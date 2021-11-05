@@ -29,7 +29,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArDeviceConnection.h"
 
 
-AREXPORT ArVCC4Packet::ArVCC4Packet(ArTypes::UByte2 bufferSize) :
+AREXPORT ArVCC4Packet::ArVCC4Packet(uint16_t bufferSize) :
   ArBasePacket(bufferSize, 0)
 {
 }
@@ -40,7 +40,7 @@ AREXPORT ArVCC4Packet::ArVCC4Packet(ArTypes::UByte2 bufferSize) :
 }
  */
 
-AREXPORT void ArVCC4Packet::byte4ToBuf(ArTypes::Byte4 val)
+AREXPORT void ArVCC4Packet::byte4ToBuf(int32_t val)
 {
   int i;
   char buf[5];
@@ -2090,7 +2090,7 @@ bool ArVCC4::sendDigitalZoom()
   if (myDigitalZoomDesired < 4)
   {
     myPacket.uByteToBuf(0x30);
-    myPacket.uByteToBuf((ArTypes::UByte) (0x30 + (0x1 << myDigitalZoomDesired)));
+    myPacket.uByteToBuf((uint8_t) (0x30 + (0x1 << myDigitalZoomDesired)));
   }
   else
   {

@@ -161,7 +161,7 @@ int main(int argc, char **argv)
   // How to send data to the serial port. See robot manual
   // (but note that TTY2 is for the AUX1 port, TTY3 for AUX2, etc.)
   //robot.comStr(ArCommands::TTY2, "Hello, World!\n\r");
-  //ArTypes::Byte2 n = 23;
+  //int16_t n = 23;
   //robot.comDataN(ArCommands::TTY2, &n, sizeof(n));
 
   // run the robot until disconnect, then shutdown and exit.

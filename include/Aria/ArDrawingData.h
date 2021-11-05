@@ -38,7 +38,7 @@ public:
   ArColor() { myRed = 255, myGreen = 255, myBlue = 255; }
 
   /// Constructs a color from the given RGB value
-  ArColor(ArTypes::Byte4 rgbValue)
+  ArColor(int32_t rgbValue)
   {
     myRed   = (unsigned char) ((rgbValue & 0xFF0000) >> 16);
     myGreen = (unsigned char) ((rgbValue & 0x00FF00) >> 8);
@@ -54,7 +54,7 @@ public:
   /// Gets the blue value (uses full range of 0-255)
   unsigned char getBlue() { return myBlue; }
   /// Gets the color in a byte 4 for putting into a buffer
-  ArTypes::Byte4 colorToByte4() 
+  int32_t colorToByte4() 
     { return ((myRed << 16) | (myGreen << 8) | myBlue); }
 protected:
   unsigned char myRed;

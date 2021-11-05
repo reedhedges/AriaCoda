@@ -728,7 +728,7 @@ bool ArSimulatedGPS::handleSimStatPacket(ArRobotPacket *pkt)
   //puts("SIMSTAT");
   /*char c =*/ pkt->bufToByte(); // skip
   /*c =*/ pkt->bufToByte(); // skip
-  ArTypes::UByte4 flags = pkt->bufToUByte4();
+  uint32_t flags = pkt->bufToUByte4();
   if(flags&ArUtil::BIT1)   // bit 1 is set if map has OriginLLA georeference point, and this packet will contain latitude and longitude.
   {
     myData.timeGotPosition.setToNow();

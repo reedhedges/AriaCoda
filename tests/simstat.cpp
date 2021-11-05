@@ -38,7 +38,7 @@ bool handleSimStatPacket(ArRobotPacket* pkt)
   if(log_simstat) printf("----------- SIMSTAT pkt received: ------------\n");
   char a = pkt->bufToByte();  // unused byte
   char b = pkt->bufToByte();  // unused byte
-  ArTypes::UByte4 flags = pkt->bufToUByte4();
+  uint32_t flags = pkt->bufToUByte4();
   if(log_simstat) printf("\tFlags=0x%x  (Georef? %s, OdomError? %s)\n", flags, (flags&ArUtil::BIT1)?"yes":"no", (flags&ArUtil::BIT2)?"yes":"no");
   simint = pkt->bufToUByte2();
   realint = pkt->bufToUByte2();

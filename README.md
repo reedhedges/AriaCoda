@@ -74,6 +74,11 @@ Several major changes have been made for AriaCoda since the last release of Aria
   invoke() overloads that used them if too few arguments provided, has been
   deprecated.  Future changes will probably remove this feature (or ArFunctor
   will be replaced entirely by standard C++ features.)
+* Fixed width integer types aliased in the ArTypes (ArTypes::Byte, ArTypes::Byte2,
+  ArTypes::Byte4, ArTypes::Byte8, ArTypes::UByte, ArTypes::UByte2, ArTypes::UByte4,
+  ArTypes::Ubyte8) are deprecated.  Use standard C++ fixed width integer types instead
+  (std::int8_t, std::int16_t, std::int32_t, std::int64_t, std::uint8_t, std::uint16_t,
+  std::uint32_t, std::uint64_t).
 * Various fixes and changes to improve optimization and
   conformance/correctness.  Due to code removal, various optimizations in the 
   source code (especially in frequently used storage and utility classes such 

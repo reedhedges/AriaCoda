@@ -28,14 +28,14 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "ArLog.h"
 #include "ArRobot.h"
 
-AREXPORT ArAMPTUPacket::ArAMPTUPacket(ArTypes::UByte2 bufferSize) :
+AREXPORT ArAMPTUPacket::ArAMPTUPacket(uint16_t bufferSize) :
   ArBasePacket(bufferSize, 3)
 {
   myUnitNumber = 0;
 }
 
 
-AREXPORT void ArAMPTUPacket::byteToBuf(ArTypes::Byte val)
+AREXPORT void ArAMPTUPacket::byteToBuf(int8_t val)
 {
   if (myLength + 1 > myMaxLength)
   {
@@ -46,7 +46,7 @@ AREXPORT void ArAMPTUPacket::byteToBuf(ArTypes::Byte val)
   ++myLength;
 }
 
-AREXPORT void ArAMPTUPacket::byte2ToBuf(ArTypes::Byte2 val)
+AREXPORT void ArAMPTUPacket::byte2ToBuf(int16_t val)
 {
   if ((myLength + 2) > myMaxLength)
   {

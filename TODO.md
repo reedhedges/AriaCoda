@@ -142,7 +142,7 @@ easier to use.  Contact me or discuss on the GitHub page.
 
 * Use more modern portable C++/stdlib features (including tests that new standard library usage is equivalent to older usage)
   * Replace (deprecate) ArTime and ArUtil::getTime(), ArUtil::putCurrentXXXXInString(), ArUtil::parseTime(), ArUtil::localtime(),  with std::chrono etc.
-  * Replace/deprecate some ariaTypedefs.h, ArUtil and ArMath functions:
+  * Replace/deprecate some ariaTypedefs.h, ArUtil and ArMath functions: (DONE)
     * `ArTypes::Byte` -> `int8_t`
     * `ArTypes::Byte2` -> `int16_t`
     * `ArTypes::Byte4` -> `int32_t`
@@ -151,7 +151,7 @@ easier to use.  Contact me or discuss on the GitHub page.
     * `ArTypes::UByte2` -> `uint16_t`
     * `ArTypes::Ubyte4` -> `uint32_t`
     * `ArTypes::Ubyte8` -> `uint64_t`
-    * move `ArListPos` from `ariaTypedefs.h` into `ariaUtil.h`, remove `ariaTypedefs.h`.
+    * move `ArListPos` from `ariaTypedefs.h` into `ariaUtil.h`, remove `ariaTypedefs.h`. (NOT DONE)
   * smart pointers (`std::shared_ptr`)
     * Start with various classes that take a pointer to another object in
       constructor, stored for the life of the object. Usually this is an

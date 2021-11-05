@@ -596,7 +596,7 @@ MTX_IOREQ req;
   return true;
 }
 
-AREXPORT bool ArMTXIO::getLPCTimeUSec(ArTypes::UByte4 *timeUSec)
+AREXPORT bool ArMTXIO::getLPCTimeUSec(uint32_t *timeUSec)
 {
   MTX_IOREQ req;
 

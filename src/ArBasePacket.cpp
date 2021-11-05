@@ -37,10 +37,10 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 @param buf buffer packet uses, if NULL, instance will allocate memory
 @param footerLength length of the footer following the data
 */
-AREXPORT ArBasePacket::ArBasePacket(ArTypes::UByte2 bufferSize, 
-                                    ArTypes::UByte2 headerLength,
+AREXPORT ArBasePacket::ArBasePacket(uint16_t bufferSize, 
+                                    uint16_t headerLength,
                                     char * buf,
-                                    ArTypes::UByte2 footerLength) 
+                                    uint16_t footerLength) 
 {
   if (buf == NULL && bufferSize > 0) 
   {
@@ -165,7 +165,7 @@ AREXPORT ArBasePacket::~ArBasePacket()
 }
 
 
-AREXPORT void ArBasePacket::setBuf(char *buf, ArTypes::UByte2 bufferSize)
+AREXPORT void ArBasePacket::setBuf(char *buf, uint16_t bufferSize)
 {
   if (myOwnMyBuf) 
   {
@@ -176,7 +176,7 @@ AREXPORT void ArBasePacket::setBuf(char *buf, ArTypes::UByte2 bufferSize)
   myMaxLength = bufferSize;
 }
 
-AREXPORT void ArBasePacket::setMaxLength(ArTypes::UByte2 bufferSize)
+AREXPORT void ArBasePacket::setMaxLength(uint16_t bufferSize)
 {
   if (myMaxLength >= bufferSize)
     return;
@@ -192,7 +192,7 @@ AREXPORT void ArBasePacket::setMaxLength(ArTypes::UByte2 bufferSize)
   myOwnMyBuf = true;
 }
 
-AREXPORT bool ArBasePacket::setLength(ArTypes::UByte2 length)
+AREXPORT bool ArBasePacket::setLength(uint16_t length)
 {
   if (myOwnMyBuf && length > myMaxLength)
     return false;
@@ -201,12 +201,12 @@ AREXPORT bool ArBasePacket::setLength(ArTypes::UByte2 length)
   return true;
 }
 
-AREXPORT void ArBasePacket::setReadLength(ArTypes::UByte2 readLength)
+AREXPORT void ArBasePacket::setReadLength(uint16_t readLength)
 {
   myReadLength = readLength;
 }
 
-AREXPORT bool ArBasePacket::setHeaderLength(ArTypes::UByte2 length)
+AREXPORT bool ArBasePacket::setHeaderLength(uint16_t length)
 {
   if (myOwnMyBuf && length > myMaxLength)
     return false;
@@ -226,13 +226,13 @@ AREXPORT void ArBasePacket::resetRead()
   resetValid();
 }
 
-ArTypes::UByte2 ArBasePacket::getDataLength() const { 
+uint16_t ArBasePacket::getDataLength() const { 
  
   // KMC 12/20/13 Do not allow negative values to be returned.  (They are basically 
   // converted to an erroneous positive value by the UByte2.)
   int len = myLength - myHeaderLength - myFooterLength; 
   if (len >= 0) {
-    return (ArTypes::UByte2) len;
+    return (uint16_t) len;
   }
   else {
 /****
@@ -324,7 +324,7 @@ AREXPORT char *ArBasePacket::getBuf()
   return myBuf;
 }
 
-AREXPORT void ArBasePacket::byteToBuf(ArTypes::Byte val)
+AREXPORT void ArBasePacket::byteToBuf(int8_t val)
 {
   if (!hasWriteCapacity(1)) {
     return;
@@ -334,7 +334,7 @@ AREXPORT void ArBasePacket::byteToBuf(ArTypes::Byte val)
   myLength += 1;
 }
 
-AREXPORT void ArBasePacket::byte2ToBuf(ArTypes::Byte2 val)
+AREXPORT void ArBasePacket::byte2ToBuf(int16_t val)
 {
   if (!hasWriteCapacity(2)) {
     return;
@@ -348,7 +348,7 @@ AREXPORT void ArBasePacket::byte2ToBuf(ArTypes::Byte2 val)
   myLength += 2;
 }
 
-AREXPORT void ArBasePacket::byte4ToBuf(ArTypes::Byte4 val)
+AREXPORT void ArBasePacket::byte4ToBuf(int32_t val)
 {
   if (!hasWriteCapacity(4)) {
     return;
@@ -366,7 +366,7 @@ AREXPORT void ArBasePacket::byte4ToBuf(ArTypes::Byte4 val)
   myLength += 4;
 }
 
-AREXPORT void ArBasePacket::byte8ToBuf(ArTypes::Byte8 val)
+AREXPORT void ArBasePacket::byte8ToBuf(int64_t val)
 {
   if (!hasWriteCapacity(8)) {
     return;
@@ -394,7 +394,7 @@ AREXPORT void ArBasePacket::byte8ToBuf(ArTypes::Byte8 val)
 
 }
 
-AREXPORT void ArBasePacket::uByteToBuf(ArTypes::UByte val)
+AREXPORT void ArBasePacket::uByteToBuf(uint8_t val)
 {
   if (!hasWriteCapacity(1)) {
     return;
@@ -403,7 +403,7 @@ AREXPORT void ArBasePacket::uByteToBuf(ArTypes::UByte val)
   myLength += 1;
 }
 
-AREXPORT void ArBasePacket::uByte2ToBuf(ArTypes::UByte2 val)
+AREXPORT void ArBasePacket::uByte2ToBuf(uint16_t val)
 {
   if (!hasWriteCapacity(2)) {
     return;
@@ -417,7 +417,7 @@ AREXPORT void ArBasePacket::uByte2ToBuf(ArTypes::UByte2 val)
   myLength += 2;
 }
 
-AREXPORT void ArBasePacket::uByte4ToBuf(ArTypes::UByte4 val)
+AREXPORT void ArBasePacket::uByte4ToBuf(uint32_t val)
 {
   if (!hasWriteCapacity(4)) {
     return;
@@ -445,7 +445,7 @@ AREXPORT void ArBasePacket::uByte4ToBuf(ArTypes::UByte4 val)
   myLength += 4;
 }
 
-AREXPORT void ArBasePacket::uByte8ToBuf(ArTypes::UByte8 val)
+AREXPORT void ArBasePacket::uByte8ToBuf(uint64_t val)
 {
   if (!hasWriteCapacity(8)) {
     return;
@@ -495,7 +495,7 @@ AREXPORT void ArBasePacket::strToBuf(const char *str)
   }
 
   memcpy(myBuf+myLength, str, tempLen);
-  myLength += (ArTypes::UByte2) tempLen;
+  myLength += (uint16_t) tempLen;
 }
 
 /**
@@ -513,7 +513,7 @@ AREXPORT void ArBasePacket::strNToBuf(const char *str, size_t length)
 
   //byte4ToBuf(length); // do this in a different method for length-prefixed strings?
   memcpy(myBuf+myLength, str, length);
-  myLength+=(ArTypes::UByte2)length;
+  myLength+=(uint16_t)length;
 
 }
 
@@ -538,14 +538,14 @@ AREXPORT void ArBasePacket::strToBufPadded(const char *str, size_t length)
   assert(length > 0);
   if (tempLen >= (size_t)length) {
     memcpy(myBuf + myLength, str, length);
-    myLength += (ArTypes::UByte2)length;
+    myLength += (uint16_t)length;
   }
   else // string is smaller than given length
   {
     memcpy(myBuf + myLength, str, tempLen);
-    myLength += (ArTypes::UByte2) tempLen;
+    myLength += (uint16_t) tempLen;
     memset(myBuf + myLength, 0, length - tempLen);
-    myLength += (ArTypes::UByte2)(length - tempLen);
+    myLength += (uint16_t)(length - tempLen);
   }
 }
 
@@ -567,7 +567,7 @@ AREXPORT void ArBasePacket::dataToBuf(const char *data, size_t length)
   }
 
   memcpy(myBuf+myLength, data, length);
-  myLength+=(ArTypes::UByte2)length;
+  myLength+=(uint16_t)length;
 
 }
 
@@ -589,14 +589,14 @@ AREXPORT void ArBasePacket::dataToBuf(const unsigned char *data, size_t length)
   }
 
   memcpy(myBuf+myLength, data, length);
-  myLength+=(ArTypes::UByte2)length;
+  myLength+=(uint16_t)length;
 
 }
 
 
-AREXPORT ArTypes::Byte ArBasePacket::bufToByte()
+AREXPORT int8_t ArBasePacket::bufToByte()
 {
-  ArTypes::Byte ret=0;
+  int8_t ret=0;
 
   if (isNextGood(1))
   {
@@ -607,25 +607,25 @@ AREXPORT ArTypes::Byte ArBasePacket::bufToByte()
   return(ret);
 }
 
-AREXPORT ArTypes::Byte2 ArBasePacket::bufToByte2()
+AREXPORT int16_t ArBasePacket::bufToByte2()
 {
-  ArTypes::Byte2 ret=0;
+  int16_t ret=0;
   unsigned char c1, c2;
 
   if (isNextGood(2))
   {
     memcpy(&c1, myBuf+myReadLength, 1);
     memcpy(&c2, myBuf+myReadLength+1, 1);
-    ret = (ArTypes::Byte2) ((c1 & 0xff) | (c2 << 8));
+    ret = (int16_t) ((c1 & 0xff) | (c2 << 8));
     myReadLength+=2;
   }
 
   return ret;
 }
 
-AREXPORT ArTypes::Byte4 ArBasePacket::bufToByte4()
+AREXPORT int32_t ArBasePacket::bufToByte4()
 {
-  ArTypes::Byte4 ret=0;
+  int32_t ret=0;
   unsigned char c1, c2, c3, c4;
 
   if (isNextGood(4))
@@ -641,9 +641,9 @@ AREXPORT ArTypes::Byte4 ArBasePacket::bufToByte4()
   return ret;
 }
 
-AREXPORT ArTypes::Byte8 ArBasePacket::bufToByte8()
+AREXPORT int64_t ArBasePacket::bufToByte8()
 {
-  ArTypes::Byte8 ret=0;
+  int64_t ret=0;
   unsigned char c1, c2, c3, c4, c5, c6, c7, c8;
 
   if (isNextGood(8))
@@ -656,16 +656,16 @@ AREXPORT ArTypes::Byte8 ArBasePacket::bufToByte8()
     memcpy(&c6, myBuf+myReadLength+5, 1);
     memcpy(&c7, myBuf+myReadLength+6, 1);
     memcpy(&c8, myBuf+myReadLength+7, 1);
-    ret = ((ArTypes::Byte8)c1 & 0xff) | ((ArTypes::Byte8) c2 << 8) | ((ArTypes::Byte8) c3 << 16) | ((ArTypes::Byte8) c4 << 24) | ((ArTypes::Byte8) c5 << 32) | ((ArTypes::Byte8) c6 << 40) | ((ArTypes::Byte8) c7 << 48) | ((ArTypes::Byte8) c8 << 56);
+    ret = ((int64_t)c1 & 0xff) | ((int64_t) c2 << 8) | ((int64_t) c3 << 16) | ((int64_t) c4 << 24) | ((int64_t) c5 << 32) | ((int64_t) c6 << 40) | ((int64_t) c7 << 48) | ((int64_t) c8 << 56);
     myReadLength+=8;
   }
 
   return ret;
 }
 
-AREXPORT ArTypes::UByte ArBasePacket::bufToUByte()
+AREXPORT uint8_t ArBasePacket::bufToUByte()
 {
-  ArTypes::UByte ret=0;
+  uint8_t ret=0;
 
   if (isNextGood(1))
   {
@@ -676,27 +676,27 @@ AREXPORT ArTypes::UByte ArBasePacket::bufToUByte()
   return(ret);
 }
 
-AREXPORT ArTypes::UByte2 ArBasePacket::bufToUByte2()
+AREXPORT uint16_t ArBasePacket::bufToUByte2()
 {
-  ArTypes::UByte2 ret=0;
+  uint16_t ret=0;
   unsigned char c1, c2;
 
   if (isNextGood(2))
   {
     memcpy(&c1, myBuf+myReadLength, 1);
     memcpy(&c2, myBuf+myReadLength+1, 1);
-    ret = (ArTypes::UByte2) ((c1 & 0xff) | (c2 << 8));
+    ret = (uint16_t) ((c1 & 0xff) | (c2 << 8));
     myReadLength+=2;
   }
 
   return ret;
 }
 
-AREXPORT ArTypes::UByte4 ArBasePacket::bufToUByte4()
+AREXPORT uint32_t ArBasePacket::bufToUByte4()
 {
   /// MPL 2013_10_23 this was Byte4 not UByte4
-  //ArTypes::Byte4 ret=0;
-  ArTypes::UByte4 ret=0;
+  //int32_t ret=0;
+  uint32_t ret=0;
   unsigned char c1, c2, c3, c4;
 
   if (isNextGood(4))
@@ -705,16 +705,16 @@ AREXPORT ArTypes::UByte4 ArBasePacket::bufToUByte4()
     memcpy(&c2, myBuf+myReadLength+1, 1);
     memcpy(&c3, myBuf+myReadLength+2, 1);
     memcpy(&c4, myBuf+myReadLength+3, 1);
-    ret = (ArTypes::UByte4) ((c1 & 0xff) | (c2 << 8) | (c3 << 16) | (c4 << 24));
+    ret = (uint32_t) ((c1 & 0xff) | (c2 << 8) | (c3 << 16) | (c4 << 24));
     myReadLength+=4;
   }
 
   return ret;
 }
 
-AREXPORT ArTypes::UByte8 ArBasePacket::bufToUByte8()
+AREXPORT uint64_t ArBasePacket::bufToUByte8()
 {
-  ArTypes::UByte8 ret=0;
+  uint64_t ret=0;
   unsigned char c1, c2, c3, c4, c5, c6, c7, c8;
 
   if (isNextGood(8))
@@ -727,7 +727,7 @@ AREXPORT ArTypes::UByte8 ArBasePacket::bufToUByte8()
     memcpy(&c6, myBuf+myReadLength+5, 1);
     memcpy(&c7, myBuf+myReadLength+6, 1);
     memcpy(&c8, myBuf+myReadLength+7, 1);
-    ret = ((ArTypes::UByte8)c1 & 0xff) | ((ArTypes::UByte8)c2 << 8) | ((ArTypes::UByte8)c3 << 16) | ((ArTypes::UByte8)c4 << 24) | ((ArTypes::UByte8)c5 << 32) | ((ArTypes::UByte8)c6 << 40) | ((ArTypes::UByte8)c7 << 48) | ((ArTypes::UByte8) c8 << 56);
+    ret = ((uint64_t)c1 & 0xff) | ((uint64_t)c2 << 8) | ((uint64_t)c3 << 16) | ((uint64_t)c4 << 24) | ((uint64_t)c5 << 32) | ((uint64_t)c6 << 40) | ((uint64_t)c7 << 48) | ((uint64_t) c8 << 56);
     myReadLength+=8;
   }
 
@@ -831,7 +831,7 @@ AREXPORT void ArBasePacket::bufToData(char *data, size_t length)
   if (isNextGood(length))
   {
     memcpy(data, myBuf+myReadLength, length);
-    myReadLength += (ArTypes::UByte2) length;
+    myReadLength += (uint16_t) length;
   }
 }
 
@@ -854,7 +854,7 @@ AREXPORT void ArBasePacket::bufToData(unsigned char *data, size_t length)
   if (isNextGood(length))
   {
     memcpy(data, myBuf+myReadLength, length);
-    myReadLength += (ArTypes::UByte2) length;
+    myReadLength += (uint16_t) length;
   }
 }
 

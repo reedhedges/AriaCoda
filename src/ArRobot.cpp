@@ -5419,13 +5419,13 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
 
   if (packet->getDataLength() - packet->getDataReadLength() > 0)
   {
-    ArTypes::UByte4 lpcNowUSec = 0;
-    ArTypes::UByte4 lpcUSec = 0;
+    uint32_t lpcNowUSec = 0;
+    uint32_t lpcUSec = 0;
     ArTime now;
     long long mSecSince = -999;
     ArTime recvTime;
 
-    const ArTypes::UByte4 uCUSec = packet->bufToUByte4();
+    const uint32_t uCUSec = packet->bufToUByte4();
     // make sure we get a good value
     if ((myPacketsReceivedTracking || myLogMovementReceived) && 
 	myMTXTimeUSecCB != NULL && myMTXTimeUSecCB->invokeR(&lpcNowUSec))
@@ -5436,7 +5436,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
         sec = UINT_MAX;
       else if(sec < 0)
         sec = 0;
-      lpcUSec = lpcNowUSec - (ArTypes::UByte4)sec;
+      lpcUSec = lpcNowUSec - (uint32_t)sec;
 
       recvTime = packet->getTimeReceived();
       /// MPL adding this so that each place the pose interpolation is

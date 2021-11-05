@@ -51,17 +51,17 @@ public:
 
   virtual void empty() override;
 
-  // not used AREXPORT virtual void byteToBuf(ArTypes::Byte val) override;
+  // not used AREXPORT virtual void byteToBuf(int8_t val) override;
 
-  virtual ArTypes::Byte bufToByte() override;
+  virtual int8_t bufToByte() override;
   
   void setDataLength(int x)
   { myDataLength = x; }
 
-  virtual ArTypes::UByte2 getDataLength() const override
+  virtual uint16_t getDataLength() const override
   { 
     assert(myDataLength <= USHRT_MAX);
-    return (ArTypes::UByte2) myDataLength; 
+    return (uint16_t) myDataLength; 
   }
 
   void setNumReadings(int x)

@@ -229,7 +229,7 @@ AREXPORT bool ArRobotPacketSender::comStr(unsigned char command,
   
   myPacket.setID(command);
   myPacket.uByteToBuf(STRARG);
-  myPacket.uByteToBuf((ArTypes::UByte)size);
+  myPacket.uByteToBuf((uint8_t)size);
   myPacket.strToBuf(argument);
   
   myPacket.finalizePacket();

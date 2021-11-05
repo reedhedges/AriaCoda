@@ -44,7 +44,7 @@ bool handleSimStatPacket(ArRobotPacket* pkt)
   if(log_simstat) printf("----------- SIMSTAT pkt received: ------------\n");
   char a = pkt->bufToByte();  // unused byte
   char b = pkt->bufToByte();  // unused byte
-  ArTypes::UByte4 flags = pkt->bufToUByte4();
+  uint32_t flags = pkt->bufToUByte4();
   if(log_simstat) printf("\tFlags=0x%x  (Georef? %s, OdomError? %s)\n", flags, (flags&ArUtil::BIT1)?"yes":"no", (flags&ArUtil::BIT2)?"yes":"no");
   simint = pkt->bufToUByte2();
   realint = pkt->bufToUByte2();
@@ -523,9 +523,9 @@ int main(int argc, char **argv)
   {
     printf("** GPS request **\n");
     struct gpscmd {
-      ArTypes::Byte enable;
+      int8_t enable;
       char gpsstr[4];
-      ArTypes::UByte2 idx;
+      uint16_t idx;
     };
     gpscmd c;
     c.enable = 1;
@@ -675,8 +675,8 @@ int main(int argc, char **argv)
     else
       printf("** SIM_CTRL 1 (load new map) **\n");
     struct sim_ctrl_map_t {
-      ArTypes::Byte2 code;
-      ArTypes::UByte2 len;
+      int16_t code;
+      uint16_t len;
       char mapfile[128];
     };
     struct sim_ctrl_map_t cmd;
@@ -776,7 +776,7 @@ int main(int argc, char **argv)
   {
     puts("** SIM_CTRL 5 (logstate) **");
     struct {
-      ArTypes::Byte2 sim_ctrl;
+      int16_t sim_ctrl;
       char logmsg[128];
     } cmd;
     cmd.sim_ctrl = 5;

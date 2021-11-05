@@ -151,12 +151,12 @@ class ArVCC4Packet: public virtual ArBasePacket
 {
 public:
   /// Constructor
-  ArVCC4Packet(ArTypes::UByte2 bufferSize = 30);
+  ArVCC4Packet(uint16_t bufferSize = 30);
   //virtual ~ArVCC4Packet();
 
-  virtual void byte4ToBuf(ArTypes::Byte4 val) override;
+  virtual void byte4ToBuf(int32_t val) override;
 
-  void byte2ToBuf(ArTypes::Byte4 val) = delete; ///< previous versions overrode byte2ToBuf() but erroneously used a Byte4 argument type. Disable that; use byte4ToBuf() instead.
+  void byte2ToBuf(int32_t val) = delete; ///< previous versions overrode byte2ToBuf() but erroneously used a Byte4 argument type. Disable that; use byte4ToBuf() instead.
 
 
   virtual void finalizePacket() override;

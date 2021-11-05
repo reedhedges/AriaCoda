@@ -77,13 +77,13 @@ AREXPORT bool ArTrimbleGPS::initDevice()
   // protocols/formats are set up correctly. These commands may not actually
   // have any effect if the messages are selected in the configuration using
   // AgRemote anyway.
-  const ArTypes::UByte4 maskGGA = 0x00000001;
-  const ArTypes::UByte4 maskGSV = 0x00000008;
-  const ArTypes::UByte4 maskGSA = 0x00000010;
-  const ArTypes::UByte4 maskRMC = 0x00000080;
-  const ArTypes::UByte4 maskGST = 0x00000400;
-  const ArTypes::UByte4 maskMSS = 0x00001000;
-  const ArTypes::UByte4 mask = maskGGA|maskGSA|maskRMC|maskGSV|maskMSS|maskGST;
+  const uint32_t maskGGA = 0x00000001;
+  const uint32_t maskGSV = 0x00000008;
+  const uint32_t maskGSA = 0x00000010;
+  const uint32_t maskRMC = 0x00000080;
+  const uint32_t maskGST = 0x00000400;
+  const uint32_t maskMSS = 0x00001000;
+  const uint32_t mask = maskGGA|maskGSA|maskRMC|maskGSV|maskMSS|maskGST;
   const int nmeapktlen = 10;
   cmd[0] = (char)0x10;  // command header
   cmd[1] = (char)0x7A;  // general NMEA command id

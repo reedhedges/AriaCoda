@@ -53,10 +53,10 @@ int main(int argc, char **argv)
   robot.runAsync(true);
 
   struct {
-    ArTypes::UByte pattern;
-    ArTypes::Byte value;
-    ArTypes::UByte flags;
-    ArTypes::UByte flags2;
+    uint8_t pattern;
+    int8_t value;
+    uint8_t flags;
+    uint8_t flags2;
   } lamp;
 
   lamp.value = 0;

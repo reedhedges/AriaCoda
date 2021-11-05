@@ -93,9 +93,9 @@ public:
     ArRobotPacket pkt;
     pkt.setID(ArCommands::SIM_SET_POSE);
     pkt.uByteToBuf(0);
-    pkt.byte4ToBuf((ArTypes::Byte4)pose.getX());
-    pkt.byte4ToBuf((ArTypes::Byte4)pose.getY());
-    pkt.byte4ToBuf((ArTypes::Byte4)pose.getTh());
+    pkt.byte4ToBuf((int32_t)pose.getX());
+    pkt.byte4ToBuf((int32_t)pose.getY());
+    pkt.byte4ToBuf((int32_t)pose.getTh());
     pkt.finalizePacket();
     myRobot->lock();
     int r = myRobot->getDeviceConnection()->write(pkt.getBuf(), pkt.getLength());
@@ -118,7 +118,7 @@ protected:
     myLastPacketTimeReceived.setToNow();
     char v = pkt->bufToByte();
     v = pkt->bufToByte();
-    ArTypes::UByte4 flags = pkt->bufToUByte4();
+    uint32_t flags = pkt->bufToUByte4();
     myHaveGPS = flags & ArUtil::BIT1;
     myHaveOdomError = flags & ArUtil::BIT2;
     mySimInterval = pkt->bufToUByte2();

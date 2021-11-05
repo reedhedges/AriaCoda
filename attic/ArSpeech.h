@@ -85,7 +85,7 @@ public:
    * @param sampleRate if given, temporarily use this sample rate for this
    *    speech, then restore. If 0, use current sample rate.
    */
-  AREXPORT virtual bool speak(const char *str, const char* voiceParams, ArRetFunctor2<bool, ArTypes::Byte2*, int>* audioOutputCB, unsigned short sampleRate = 0) = 0;
+  AREXPORT virtual bool speak(const char *str, const char* voiceParams, ArRetFunctor2<bool, int16_t*, int>* audioOutputCB, unsigned short sampleRate = 0) = 0;
 
   /** Speaks the given text. 
    * @param str The text to speak.
@@ -121,7 +121,7 @@ public:
    *  changed with setAudioSampleRate(). The second parameter is the number
    *  of samples.  The return value from the callback is ignored.
    */
-  AREXPORT void setAudioCallback(ArRetFunctor2<bool, ArTypes::Byte2*, int>* cb);
+  AREXPORT void setAudioCallback(ArRetFunctor2<bool, int16_t*, int>* cb);
 
 
   /** Change audio sample rate (Hz). Normal rate is 16000 Hz.
@@ -152,7 +152,7 @@ protected:
   ArRetFunctor2C<bool, ArSpeechSynth, const char*, const char*> mySpeakCB;
   ArRetFunctorC<bool, ArSpeechSynth> myInitCB;
   ArFunctorC<ArSpeechSynth> myInterruptCB;
-  ArRetFunctor2<bool, ArTypes::Byte2*, int> *myAudioPlaybackCB; ///< If set, send audio to this callback instead of playing it directly
+  ArRetFunctor2<bool, int16_t*, int> *myAudioPlaybackCB; ///< If set, send audio to this callback instead of playing it directly
 private:
   ArRetFunctorC<bool, ArSpeechSynth> myProcessConfigCB;
   char myConfigVoice[32];

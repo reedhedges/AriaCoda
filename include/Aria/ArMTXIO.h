@@ -203,10 +203,10 @@ public:
 
 #ifndef ARIA_WRAPPER
   /// @internal
-  AREXPORT bool getLPCTimeUSec(ArTypes::UByte4 *timeUSec);
+  AREXPORT bool getLPCTimeUSec(uint32_t *timeUSec);
 
   /// @internal
-  AREXPORT ArRetFunctor1<bool, ArTypes::UByte4 *> *getLPCTimeUSecCB()
+  AREXPORT ArRetFunctor1<bool, uint32_t *> *getLPCTimeUSecCB()
     { return &myLPCTimeUSecCB; }
 
   /// gets/sets the Semaphore Registers
@@ -346,7 +346,7 @@ protected:
   unsigned char myDigitalBank4;
 
   ArRetFunctorC<bool, ArMTXIO> myDisconnectCB;
-  ArRetFunctor1C<bool, ArMTXIO, ArTypes::UByte4 *> myLPCTimeUSecCB;
+  ArRetFunctor1C<bool, ArMTXIO, uint32_t *> myLPCTimeUSecCB;
 };
 
 //#endif // SWIG

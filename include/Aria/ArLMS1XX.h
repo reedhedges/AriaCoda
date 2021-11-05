@@ -64,20 +64,20 @@ public:
   virtual void empty() override;
 
   void intToBuf(int val);
-  virtual void byteToBuf(ArTypes::Byte val) override { intToBuf((int)val); }
-  virtual void byte2ToBuf(ArTypes::Byte2 val) override { intToBuf((int)val); }
-  virtual void byte4ToBuf(ArTypes::Byte4 val) override { intToBuf((int)val); }
-  virtual void uByteToBuf(ArTypes::UByte val) override;
-  virtual void uByte2ToBuf(ArTypes::UByte2 val) override;
-  virtual void uByte4ToBuf(ArTypes::UByte4 val) override;
+  virtual void byteToBuf(int8_t val) override { intToBuf((int)val); }
+  virtual void byte2ToBuf(int16_t val) override { intToBuf((int)val); }
+  virtual void byte4ToBuf(int32_t val) override { intToBuf((int)val); }
+  virtual void uByteToBuf(uint8_t val) override;
+  virtual void uByte2ToBuf(uint16_t val) override;
+  virtual void uByte4ToBuf(uint32_t val) override;
   virtual void strToBuf(const char *str) override;
 
-  virtual ArTypes::Byte bufToByte() override;
-  virtual ArTypes::Byte2 bufToByte2() override;
-  virtual ArTypes::Byte4 bufToByte4() override;
-  virtual ArTypes::UByte bufToUByte() override;
-  virtual ArTypes::UByte2 bufToUByte2() override;
-  virtual ArTypes::UByte4 bufToUByte4() override;
+  virtual int8_t bufToByte() override;
+  virtual int16_t bufToByte2() override;
+  virtual int32_t bufToByte4() override;
+  virtual uint8_t bufToUByte() override;
+  virtual uint16_t bufToUByte2() override;
+  virtual uint32_t bufToUByte4() override;
   virtual void bufToStr(char *buf, size_t len) override;
 
   // adds a raw char to the buf

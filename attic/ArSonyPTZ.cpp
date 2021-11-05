@@ -27,14 +27,14 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "ArRobot.h"
 #include "ArCommands.h"
 
-AREXPORT ArSonyPacket::ArSonyPacket(ArTypes::UByte2 bufferSize) :
+AREXPORT ArSonyPacket::ArSonyPacket(uint16_t bufferSize) :
   ArBasePacket(bufferSize)
 {
   
 }
 
 
-AREXPORT void ArSonyPacket::uByteToBuf(ArTypes::UByte val)
+AREXPORT void ArSonyPacket::uByteToBuf(uint8_t val)
 {
   if (myLength + 1 > myMaxLength)
   {
@@ -45,7 +45,7 @@ AREXPORT void ArSonyPacket::uByteToBuf(ArTypes::UByte val)
   ++myLength;
 }
 
-AREXPORT void ArSonyPacket::byte2ToBuf(ArTypes::Byte2 val)
+AREXPORT void ArSonyPacket::byte2ToBuf(int16_t val)
 {
   if ((myLength + 4) > myMaxLength)
   {
@@ -72,10 +72,10 @@ AREXPORT void ArSonyPacket::byte2ToBuf(ArTypes::Byte2 val)
    @param val the Byte2 to put into the packet
    @param pose the position in the packets array to put the value
 */
-AREXPORT void ArSonyPacket::byte2ToBufAtPos(ArTypes::Byte2 val,
-					    ArTypes::UByte2 pose)
+AREXPORT void ArSonyPacket::byte2ToBufAtPos(int16_t val,
+					    uint16_t pose)
 {
-  ArTypes::Byte2 prevLength = myLength;
+  int16_t prevLength = myLength;
 
   if ((pose + 4) > myMaxLength)
   {

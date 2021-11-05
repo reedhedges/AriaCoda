@@ -651,8 +651,8 @@ protected:
   void printFlagsHeader();
 
   //std::string byte_as_bitstring(unsigned char byte);
-  //std::string int16_as_bitstring(ArTypes::Byte2 n);
-  //std::string int32_as_bitstring(ArTypes::Byte4 n);
+  //std::string int16_as_bitstring(int16_t n);
+  //std::string int32_as_bitstring(int32_t n);
 
   bool handleDebugMessage(ArRobotPacket *p);
   bool handleSafetyStatePacket(ArRobotPacket *p);
@@ -1114,7 +1114,7 @@ std::string byte_as_bitstring(unsigned char byte)
 /// bit 0 will be last character in string, bit 15 will be first character.)
 /// @todo separate every 8 bits. 
 /// @todo generalize with others to any number of bits
-std::string int16_as_bitstring(ArTypes::Byte2 n) 
+std::string int16_as_bitstring(int16_t n) 
 {
   char tmp[17];
   int bit;
@@ -1127,7 +1127,7 @@ std::string int16_as_bitstring(ArTypes::Byte2 n)
 
 /// @todo separate every 8 bits. 
 /// @todo generalize with others to any number of bits
-std::string int32_as_bitstring(ArTypes::Byte4 n)
+std::string int32_as_bitstring(int32_t n)
 {
   char tmp[33];
   int bit;
@@ -2705,8 +2705,8 @@ AREXPORT void ArModeIO::help()
 void ArModeIO::toggleOutput(int which)
 {
   printf("toggling output %d. Current output is %s\n", which, byte_as_bitstring(myRobot->getDigOut()).c_str());
-  ArTypes::UByte mask = (1 << (which-1));
-  ArTypes::UByte bits = ~(myRobot->getDigOut());
+  uint8_t mask = (1 << (which-1));
+  uint8_t bits = ~(myRobot->getDigOut());
   printf("-> DIGOUT %s %s\n", byte_as_bitstring(mask).c_str(), byte_as_bitstring(bits).c_str());
   myRobot->com2Bytes(ArCommands::DIGOUT, mask, bits);
 }

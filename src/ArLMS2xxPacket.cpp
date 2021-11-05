@@ -73,10 +73,10 @@ AREXPORT unsigned char ArLMS2xxPacket::getReceivedAddress()
   return address;
 }
 
-AREXPORT ArTypes::UByte ArLMS2xxPacket::getID()
+AREXPORT uint8_t ArLMS2xxPacket::getID()
 {
  if (myLength >= 5)
-    return (ArTypes::UByte) myBuf[4];
+    return (uint8_t) myBuf[4];
   else
     return 0;
 }
@@ -88,7 +88,7 @@ AREXPORT void ArLMS2xxPacket::resetRead()
 
 AREXPORT void ArLMS2xxPacket::finalizePacket()
 {
-  const ArTypes::UByte2 len = myLength;
+  const uint16_t len = myLength;
 
   // put in the start of the packet
   myLength = 0;
@@ -101,7 +101,7 @@ AREXPORT void ArLMS2xxPacket::finalizePacket()
   myLength = len;
 
   // that lovely CRC
-  const ArTypes::Byte2 chkSum = calcCRC();
+  const int16_t chkSum = calcCRC();
   byteToBuf((char)(chkSum & 0xff) );
   byteToBuf((char)((chkSum >> 8) & 0xff));
 
@@ -124,7 +124,7 @@ AREXPORT void ArLMS2xxPacket::duplicatePacket(ArLMS2xxPacket *packet)
   
 }
 
-AREXPORT ArTypes::Byte2 ArLMS2xxPacket::calcCRC()
+AREXPORT int16_t ArLMS2xxPacket::calcCRC()
 {
   unsigned short uCrc16;
   unsigned char abData[2];
@@ -148,13 +148,13 @@ AREXPORT ArTypes::Byte2 ArLMS2xxPacket::calcCRC()
     }
     uCrc16 ^= (unsigned short)(abData[0] | (abData[1] << 8));
   }
-  return (ArTypes::Byte2)uCrc16;
+  return (int16_t)uCrc16;
 }
 
 AREXPORT bool ArLMS2xxPacket::verifyCRC() 
 {
-  const ArTypes::UByte2 readLen = myReadLength;
-  const ArTypes::UByte2 len = myLength;
+  const uint16_t readLen = myReadLength;
+  const uint16_t len = myLength;
 
   myReadLength = myLength - 2;
   
@@ -164,7 +164,7 @@ AREXPORT bool ArLMS2xxPacket::verifyCRC()
   const unsigned char c1 = (unsigned char) bufToByte();
   const unsigned char c2 = (unsigned char) bufToByte();
   myReadLength = readLen;
-  const ArTypes::Byte2 chksum = (ArTypes::Byte2) ( (c1 & 0xff) | (c2 << 8) );
+  const int16_t chksum = (int16_t) ( (c1 & 0xff) | (c2 << 8) );
 
   myLength = myLength - 2;
   if (chksum == calcCRC()) {

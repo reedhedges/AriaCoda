@@ -70,8 +70,8 @@ std::string int_as_bitstring(int16_t n)
  * callback then cleared after being printed. */
 bool wasLeftMotorStalled = false;
 bool wasRightMotorStalled = false;
-ArTypes::UByte2 cumulativeStallVal = 0;
-ArTypes::UByte2 cumulativeRobotFlags = 0;
+uint16_t cumulativeStallVal = 0;
+uint16_t cumulativeRobotFlags = 0;
 bool wasLeftIRTriggered = false;
 bool wasRightIRTriggered = false;
 bool wasEStopTriggered = false;
@@ -187,7 +187,7 @@ int main(int argc, char **argv)
 
       // list indices of bumpers flaged in stallval
       // skip the last bit which is a motor stall flag
-      ArTypes::UByte2 bumpmask = ArUtil::BIT15;
+      uint16_t bumpmask = ArUtil::BIT15;
       int bump = 0;
       for(int bit = 16; bit > 0; bit--) 
       {

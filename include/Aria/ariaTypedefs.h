@@ -115,9 +115,39 @@ public:
 };
 
 /// Contains platform independent sized variable types
-class ArTypes
+/// @deprecated Use standard fixed size integer types instead: int8_t or signed char, uint8_t or unsigned char, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t
+class
+//[[deprecated("Use standard fixed size integer types instead")]]  
+ArTypes
 {
 public:
+  /// A single signed byte
+  [[deprecated("Use standard type std::int8_t instead")]] 
+  typedef std::int8_t Byte;
+  /// Two signed bytes
+  [[deprecated("Use standard type std::int16_t instead")]] 
+  typedef std::int16_t Byte2;
+  /// Four signed bytes
+  [[deprecated("Use standard type std::int32_t instead")]] 
+  typedef std::int32_t Byte4;
+  /// Eight signed bytes
+  [[deprecated("Use standard type std::int64_t instead")]] 
+  typedef std::int64_t Byte8;
+
+  /// A single unsigned byte
+  [[deprecated("Use standard type std::uint8_t instead")]] 
+  typedef std::uint8_t UByte;
+  /// Two unsigned bytes
+  [[deprecated("Use standard type std::uint16_t instead")]] 
+  typedef std::uint16_t UByte2;
+  /// Four unsigned bytes
+  [[deprecated("Use standard type std::uint32_t instead")]] 
+  typedef std::uint32_t UByte4;
+  /// Eight unsigned bytes
+  [[deprecated("Use standard type std::uint64_t instead")]] 
+  typedef std::uint64_t UByte8;
+
+  /*
   /// A single signed byte
   typedef char Byte;
   /// Two signed bytes
@@ -135,6 +165,7 @@ public:
   typedef unsigned int UByte4;
   /// Eight unsigned bytes
   typedef unsigned long long UByte8;
+  */
 };
 
 

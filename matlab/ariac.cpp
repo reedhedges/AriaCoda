@@ -750,8 +750,8 @@ AREXPORT void arrobot_command_2int4(int c, int i1, int i2)
 	ArRobotPacket pkt;
 	pkt.setID(c);
 	pkt.uByteToBuf(0); // argument type: ignored.
-	pkt.byte4ToBuf((ArTypes::Byte4)i1);
-	pkt.byte4ToBuf((ArTypes::Byte4)i2);
+	pkt.byte4ToBuf((int32_t)i1);
+	pkt.byte4ToBuf((int32_t)i2);
 	pkt.finalizePacket();
 	robot->lock();
 	robot->getDeviceConnection()->writePacket(&pkt);
@@ -767,9 +767,9 @@ AREXPORT void arrobot_command_3int4(int c, int i1, int i2, int i3)
 	ArRobotPacket pkt;
 	pkt.setID(c);
 	pkt.uByteToBuf(0); // argument type: ignored.
-	pkt.byte4ToBuf((ArTypes::Byte4)i1);
-	pkt.byte4ToBuf((ArTypes::Byte4)i2);
-	pkt.byte4ToBuf((ArTypes::Byte4)i3);
+	pkt.byte4ToBuf((int32_t)i1);
+	pkt.byte4ToBuf((int32_t)i2);
+	pkt.byte4ToBuf((int32_t)i3);
 	pkt.finalizePacket();
 	robot->lock();   // Omit this if in an ArRobot task callback (e.g. user task or sensor interpretation task)
 	robot->getDeviceConnection()->writePacket(&pkt);

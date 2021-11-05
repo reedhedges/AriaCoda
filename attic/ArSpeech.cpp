@@ -71,7 +71,7 @@ AREXPORT ArFunctorC<ArSpeechSynth>*  ArSpeechSynth::getInterruptCallback()
   return &myInterruptCB;
 }
 
-AREXPORT void ArSpeechSynth::setAudioCallback(ArRetFunctor2<bool, ArTypes::Byte2*, int>* cb)
+AREXPORT void ArSpeechSynth::setAudioCallback(ArRetFunctor2<bool, int16_t*, int>* cb)
 {
   myAudioPlaybackCB = cb;
 }

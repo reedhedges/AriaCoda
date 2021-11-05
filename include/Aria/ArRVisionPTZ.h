@@ -38,14 +38,14 @@ class ArRVisionPacket: public virtual ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArRVisionPacket(ArTypes::UByte2 bufferSize = 15);
+  AREXPORT ArRVisionPacket(uint16_t bufferSize = 15);
   
-  AREXPORT virtual void uByteToBuf(ArTypes::UByte val) override;
-  AREXPORT virtual void byte2ToBuf(ArTypes::Byte2 val) override;
+  AREXPORT virtual void uByteToBuf(uint8_t val) override;
+  AREXPORT virtual void byte2ToBuf(int16_t val) override;
   // todo disable others
   
   /// This is a new function, read the details before you try to use it
-  AREXPORT void byte2ToBufAtPos(ArTypes::Byte2 val, ArTypes::UByte2 pos);
+  AREXPORT void byte2ToBufAtPos(int16_t val, uint16_t pos);
 };
 
 //class ArRobot;

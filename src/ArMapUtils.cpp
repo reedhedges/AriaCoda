@@ -509,14 +509,14 @@ AREXPORT bool ArMapId::toPacket(const ArMapId &mapId,
     packetOut->strToBuf("");
   }
 
-  packetOut->uByte4ToBuf((ArTypes::UByte4) mapId.getChecksumLength());
+  packetOut->uByte4ToBuf((uint32_t) mapId.getChecksumLength());
   if (mapId.getChecksumLength() > 0) {
     packetOut->dataToBuf(mapId.getChecksum(), mapId.getChecksumLength()); 
   }
   assert(mapId.getSize() <= UINT32_MAX);
-  packetOut->uByte4ToBuf((ArTypes::UByte4) mapId.getSize());
+  packetOut->uByte4ToBuf((uint32_t) mapId.getSize());
   assert(mapId.getTimestamp() <= INT32_MAX);
-  packetOut->byte4ToBuf((ArTypes::Byte4) mapId.getTimestamp());
+  packetOut->byte4ToBuf((int32_t) mapId.getTimestamp());
   
   IFDEBUG(ArLog::log(ArLog::Normal,
                      "ArMapId::toPacket() time = %i", 

@@ -1271,8 +1271,8 @@ AREXPORT bool ArSonarMTX::sendSetMaxRange (unsigned char transducerNumber,
 	sendPacket.setID (SET_ECHO_SAMPLE_SIZE); 
 	sendPacket.uByteToBuf (transducerNumber);
 
-	sendPacket.uByteToBuf ((ArTypes::UByte) (echoSampleSize & 0xff));
-	sendPacket.uByteToBuf ((ArTypes::UByte) (echoSampleSize >> 8));
+	sendPacket.uByteToBuf ((uint8_t) (echoSampleSize & 0xff));
+	sendPacket.uByteToBuf ((uint8_t) (echoSampleSize >> 8));
 
 	if (!mySender->sendPacket(&sendPacket)) {
 
@@ -1928,8 +1928,8 @@ AREXPORT bool ArSonarMTX::sendSetThresholds (unsigned char transducerNumber,
 	sendPacket.setID (SET_THRESHOLDS); // set thresholds
 	sendPacket.uByteToBuf (transducerNumber);
 	assert(thres >= 0);
-	sendPacket.uByteToBuf ((ArTypes::UByte)(thres & 0xff));
-	sendPacket.uByteToBuf ((ArTypes::UByte)(thres >> 8));
+	sendPacket.uByteToBuf ((uint8_t)(thres & 0xff));
+	sendPacket.uByteToBuf ((uint8_t)(thres >> 8));
 
 	if (!mySender->sendPacket(&sendPacket)) {
 		ArLog::log (ArLog::Terse,

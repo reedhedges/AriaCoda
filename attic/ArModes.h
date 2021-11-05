@@ -539,8 +539,8 @@ protected:
   void printFlagsHeader();
 
   //std::string byte_as_bitstring(unsigned char byte);
-  //std::string int16_as_bitstring(ArTypes::Byte2 n);
-  //std::string int32_as_bitstring(ArTypes::Byte4 n);
+  //std::string int16_as_bitstring(int16_t n);
+  //std::string int32_as_bitstring(int32_t n);
 
   bool handleDebugMessage(ArRobotPacket *p);
   bool handleSafetyStatePacket(ArRobotPacket *p);

@@ -61,16 +61,16 @@ public:
   AREXPORT bool verifyCheckSum();
 
   /// returns the ID of the packet 
-  AREXPORT ArTypes::UByte getID();
+  AREXPORT uint8_t getID();
 
   /// Get string containing packet type name, if known
   const char *getName() { return Aria::getPacketTypeName(getID()); }
 
   /// Sets the ID of the packet 
-  AREXPORT void setID(ArTypes::UByte id);
+  AREXPORT void setID(uint8_t id);
 
   /// returns the checksum, probably used only internally
-  AREXPORT ArTypes::Byte2 calcCheckSum();
+  AREXPORT int16_t calcCheckSum();
   
   // only call finalizePacket before a send
   AREXPORT virtual void finalizePacket() override;

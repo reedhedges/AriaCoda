@@ -37,15 +37,15 @@ class ArSonyPacket: public virtual ArBasePacket
 {
 public:
   /// Constructor
-  AREXPORT ArSonyPacket(ArTypes::UByte2 bufferSize = 15);
+  AREXPORT ArSonyPacket(uint16_t bufferSize = 15);
   
-  virtual  void uByteToBuf(ArTypes::UByte val);
-  virtual void byte2ToBuf(ArTypes::Byte2 val);
+  virtual  void uByteToBuf(uint8_t val);
+  virtual void byte2ToBuf(int16_t val);
 
   // todo disable others 
   
   /// This is a new function, read the details before you try to use it
-  AREXPORT void byte2ToBufAtPos(ArTypes::Byte2 val, ArTypes::UByte2 pose);
+  AREXPORT void byte2ToBufAtPos(int16_t val, uint16_t pose);
 };
 
 class ArRobot;

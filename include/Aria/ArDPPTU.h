@@ -126,10 +126,10 @@ class ArDPPTUPacket: public ArBasePacket
 {
 public:
   /// Constructor
-  ArDPPTUPacket(ArTypes::UByte2 bufferSize = 30);
+  ArDPPTUPacket(uint16_t bufferSize = 30);
   //virtual ~ArDPPTUPacket();
 
-  virtual void byte2ToBuf(ArTypes::Byte2 val) override;
+  virtual void byte2ToBuf(int16_t val) override;
 
   virtual void finalizePacket() override;
 

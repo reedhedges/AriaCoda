@@ -223,7 +223,7 @@ AREXPORT bool ArLMS2xx::simPacketHandler(ArRobotPacket *packet)
     packet->bufToByte2();
     packet->bufToByte2();
   }
-  ArTypes::Byte2 tempb2 = packet->bufToByte2(); // total for this reading
+  int16_t tempb2 = packet->bufToByte2(); // total for this reading
   assert(tempb2 >= 0);
   totalNumReadings = (unsigned int)tempb2;
   tempb2 = packet->bufToByte2(); // which one we're on in this packet
@@ -508,10 +508,10 @@ AREXPORT int ArLMS2xx::internalConnectHandler()
     myPacket.byteToBuf(0x3b);
     const int off = abs(ArMath::roundInt(myOffsetAmount * 2));
     assert(off >= 0 && off <= USHRT_MAX);
-    myPacket.uByte2ToBuf((ArTypes::UByte2)off);
+    myPacket.uByte2ToBuf((uint16_t)off);
     const int inc = abs(ArMath::roundInt(myIncrement * 100));
     assert(inc >= 0 && inc <= USHRT_MAX);
-    myPacket.uByte2ToBuf((ArTypes::UByte2)inc);
+    myPacket.uByte2ToBuf((uint16_t)inc);
     myPacket.finalizePacket();
     if (myConn->write(myPacket.getBuf(), myPacket.getLength()))
     {

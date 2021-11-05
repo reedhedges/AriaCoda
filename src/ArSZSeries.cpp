@@ -69,7 +69,7 @@ AREXPORT void ArSZSeriesPacket::empty() {
 }
 
 #if 0
-AREXPORT void ArSZSeriesPacket::uByteToBuf(ArTypes::UByte val)
+AREXPORT void ArSZSeriesPacket::uByteToBuf(uint8_t val)
 {
 	char buf[1024];
 	sprintf(buf, "%u", val);
@@ -79,7 +79,7 @@ AREXPORT void ArSZSeriesPacket::uByteToBuf(ArTypes::UByte val)
 
 /*
 not used
-AREXPORT void ArSZSeriesPacket::byteToBuf(ArTypes::Byte val)
+AREXPORT void ArSZSeriesPacket::byteToBuf(int8_t val)
 {
 	char buf[1024];
 	if (val > 0)
@@ -91,7 +91,7 @@ AREXPORT void ArSZSeriesPacket::byteToBuf(ArTypes::Byte val)
 */
 
 
-AREXPORT ArTypes::Byte ArSZSeriesPacket::bufToByte()
+AREXPORT int8_t ArSZSeriesPacket::bufToByte()
 {
 	if (!isNextGood(1))
 		return 0;
@@ -108,7 +108,7 @@ AREXPORT ArTypes::Byte ArSZSeriesPacket::bufToByte()
 
 	myReadLength += 4;
 
-	return (ArTypes::Byte) ret;
+	return (int8_t) ret;
 }
 
 int ArSZSeriesPacket::deascii(char c)
