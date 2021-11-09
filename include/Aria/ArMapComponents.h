@@ -149,11 +149,11 @@ public:
   AREXPORT virtual std::vector<ArLineSegment> *getLines
                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
-  AREXPORT virtual ArPose getMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual ArPose getMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
-  AREXPORT virtual ArPose getMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual ArPose getMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
-  AREXPORT virtual size_t getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual size_t getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual bool isSortedPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
@@ -163,11 +163,11 @@ public:
                                   ArMapChangeDetails *changeDetails = NULL);
 
 
-  AREXPORT virtual ArPose getLineMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual ArPose getLineMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
-  AREXPORT virtual ArPose getLineMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual ArPose getLineMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
-  AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual bool isSortedLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
@@ -177,7 +177,7 @@ public:
                                  ArMapChangeDetails *changeDetails = NULL);
 
 
-  AREXPORT virtual int getResolution(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual int getResolution(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setResolution(int resolution,
                                       const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,
@@ -462,17 +462,31 @@ public :
 
   AREXPORT virtual ArMapObject *findFirstMapObject(const char *name, 
                                                    const char *type,
-                                                   bool isIncludeWithHeading = false);
+                                                   bool isIncludeWithHeading = false) const;
 
   AREXPORT virtual ArMapObject *findMapObject(const char *name, 
  				                                      const char *type = NULL, 
-                                              bool isIncludeWithHeading = false);
+                                              bool isIncludeWithHeading = false) const;
 
   AREXPORT virtual std::list<ArMapObject *> findMapObjectsOfType
                                                     (const char *type,
-                                                     bool isIncludeWithHeading = false);
+                                                     bool isIncludeWithHeading = false) const;
 
-  AREXPORT virtual std::list<ArMapObject *> *getMapObjects();
+  virtual const std::list<ArMapObject *> & getMapObjects() const
+  {
+    /* note that setMapObjects() sorts them.
+    if (!myIsSortedObjects) {
+      std::list<ArMapObject *> sorted(myMapObjects);
+      sortMapObjects(&sorted);
+      myIsSortedObjects = true;
+      return ret;
+    }
+    */
+    return myMapObjects;
+  }
+
+  /// @internal
+  PUBLICDEPRECATED("use getMapObjects() to receive a const reference instead") virtual std::list<ArMapObject*> *getMapObjectsPtr() { return &myMapObjects; }
 
   AREXPORT virtual void setMapObjects(const std::list<ArMapObject *> *mapObjects,
                                       bool isSortedObjects = false,
@@ -504,7 +518,7 @@ protected:
   bool handleMapObject(ArArgumentBuilder *arg);
 
   /// Sorts the given list of map objects in order of increasing object pose.
-  void sortMapObjects(std::list<ArMapObject *> *mapObjects);
+  static void sortMapObjects(std::list<ArMapObject *> *mapObjects);
 
   /// Writes the map objects to the given ArMapFileLineSet.
   void createMultiSet(ArMapFileLineSet *multiSet);
@@ -907,17 +921,19 @@ public:
 
   AREXPORT virtual ArMapObject *findFirstMapObject(const char *name, 
                                                    const char *type,
-                                                   bool isIncludeWithHeading = false);
+                                                   bool isIncludeWithHeading = false) const;
 
   AREXPORT virtual ArMapObject *findMapObject(const char *name, 
  				                                      const char *type = NULL,
-                                              bool isIncludeWithHeading = false);
+                                              bool isIncludeWithHeading = false)const ;
 
   AREXPORT virtual std::list<ArMapObject *> findMapObjectsOfType
                                                     (const char *type,
-                                                     bool isIncludeWithHeading = false);
+                                                     bool isIncludeWithHeading = false) const ;
 
-  AREXPORT virtual std::list<ArMapObject *> *getMapObjects();
+  AREXPORT virtual const std::list<ArMapObject *> &getMapObjects() const;
+
+  AREXPORT PUBLICDEPRECATED("use getMapObjects() to receive a const reference instead") virtual std::list<ArMapObject *> *getMapObjectsPtr();
 
   AREXPORT virtual void setMapObjects(const std::list<ArMapObject *> *mapObjects,
                                       bool isSortedObjects = false,
@@ -954,12 +970,13 @@ public:
   AREXPORT virtual const char *getDisplayString
                                  (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
+  // todo replace with return const ref like  getMapObjects()
   AREXPORT virtual std::vector<ArPose> *getPoints
                                  (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
-  AREXPORT virtual ArPose getMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
-  AREXPORT virtual ArPose getMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
-  AREXPORT virtual size_t getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual ArPose getMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
+  AREXPORT virtual ArPose getMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
+  AREXPORT virtual size_t getNumPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
   AREXPORT virtual bool isSortedPoints(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setPoints(const std::vector<ArPose> *points,
@@ -967,13 +984,13 @@ public:
                                   bool isSortedPoints = false,
                                   ArMapChangeDetails *changeDetails = NULL);
 
-
+  // todo replace with return of const ref like getMapObjects()
   AREXPORT virtual std::vector<ArLineSegment> *getLines
                                  (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
 
-  AREXPORT virtual ArPose getLineMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
-  AREXPORT virtual ArPose getLineMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
-  AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual ArPose getLineMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
+  AREXPORT virtual ArPose getLineMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
+  AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
   AREXPORT virtual bool isSortedLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setLines(const std::vector<ArLineSegment> *lines,
@@ -982,7 +999,7 @@ public:
                                  ArMapChangeDetails *changeDetails = NULL);
 
 
-  AREXPORT virtual int getResolution(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE);
+  AREXPORT virtual int getResolution(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setResolution(int resolution,
                                       const char *scanType = ARMAP_DEFAULT_SCAN_TYPE,

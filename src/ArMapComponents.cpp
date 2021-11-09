@@ -390,37 +390,37 @@ AREXPORT std::vector<ArLineSegment> *ArMapScan::getLines(UNUSED const char *scan
   return &myLines;
 }
 
-AREXPORT ArPose ArMapScan::getMinPose(UNUSED const char *scanType)
+AREXPORT ArPose ArMapScan::getMinPose(UNUSED const char *scanType) const
 {
   return myMin;
 }
 
-AREXPORT ArPose ArMapScan::getMaxPose(UNUSED const char *scanType)
+AREXPORT ArPose ArMapScan::getMaxPose(UNUSED const char *scanType) const
 {
   return myMax;
 }
 
-AREXPORT size_t ArMapScan::getNumPoints(UNUSED const char *scanType)
+AREXPORT size_t ArMapScan::getNumPoints(UNUSED const char *scanType) const
 {
   return myNumPoints;
 }
 
-AREXPORT ArPose ArMapScan::getLineMinPose(UNUSED const char *scanType)
+AREXPORT ArPose ArMapScan::getLineMinPose(UNUSED const char *scanType) const
 {
   return myLineMin;
 }
 
-AREXPORT ArPose ArMapScan::getLineMaxPose(UNUSED const char *scanType)
+AREXPORT ArPose ArMapScan::getLineMaxPose(UNUSED const char *scanType) const
 {
   return myLineMax;
 }
 
-AREXPORT size_t ArMapScan::getNumLines(UNUSED const char *scanType)
+AREXPORT size_t ArMapScan::getNumLines(UNUSED const char *scanType) const
 { 
   return myNumLines;
 }
 
-AREXPORT int ArMapScan::getResolution(UNUSED const char *scanType)
+AREXPORT int ArMapScan::getResolution(UNUSED const char *scanType) const
 {
   return myResolution;
 }
@@ -1958,10 +1958,10 @@ AREXPORT void ArMapObjects::clear()
 
 AREXPORT ArMapObject *ArMapObjects::findFirstMapObject(const char *name, 
 														                           const char *type,
-                                                       bool isIncludeWithHeading)
+                                                       bool isIncludeWithHeading) const
 {
-  for (std::list<ArMapObject *>::iterator objIt = getMapObjects()->begin(); 
-       objIt != getMapObjects()->end(); 
+  for (auto objIt = getMapObjects().begin(); 
+       objIt != getMapObjects().end(); 
        objIt++)
   {
     ArMapObject* obj = (*objIt);
@@ -1986,16 +1986,13 @@ AREXPORT ArMapObject *ArMapObjects::findFirstMapObject(const char *name,
 
 AREXPORT ArMapObject *ArMapObjects::findMapObject(const char *name, 
 				                                          const char *type,
-                                                  bool isIncludeWithHeading)
+                                                  bool isIncludeWithHeading) const
 {
-  std::list<ArMapObject *>::iterator objIt;
-  ArMapObject* obj = NULL;
-
-  for (objIt = getMapObjects()->begin(); 
-       objIt != getMapObjects()->end(); 
+  for (auto objIt = getMapObjects().begin(); 
+       objIt != getMapObjects().end(); 
        objIt++)
   {
-    obj = (*objIt);
+    ArMapObject *obj = (*objIt);
     if(obj == NULL)
       return NULL;
     // if we're searching any type or its the right type then check the name
@@ -2031,11 +2028,11 @@ AREXPORT ArMapObject *ArMapObjects::findMapObject(const char *name,
  **/
 AREXPORT std::list<ArMapObject *> ArMapObjects::findMapObjectsOfType
                                                   (const char *type,
-                                                   bool isIncludeWithHeading)
+                                                   bool isIncludeWithHeading) const
 {
   std::list<ArMapObject *> ret;
 
-  for (std::list<ArMapObject *>::iterator objIt = myMapObjects.begin(); 
+  for (auto objIt = myMapObjects.begin(); 
        objIt != myMapObjects.end(); 
        objIt++)
   {
@@ -2054,16 +2051,7 @@ AREXPORT std::list<ArMapObject *> ArMapObjects::findMapObjectsOfType
   return ret;
 } // end method findMapObjectsOfType
 
-AREXPORT std::list<ArMapObject *> *ArMapObjects::getMapObjects()
-{
-  // Think this should be done in getMapObjects....
-  if (!myIsSortedObjects) {
-    sortMapObjects(&myMapObjects);
-    myIsSortedObjects = true;
-  }
-  return &myMapObjects;
 
-} // end method getMapObjects
 
 
 void ArMapObjects::sortMapObjects(std::list<ArMapObject *> *mapObjects)
@@ -3627,7 +3615,7 @@ AREXPORT bool ArMapSimple::set(ArMapInterface *other)
   //  setInfo(i, other->getInfo(i));
   //} // end for each info type
  
-  setMapObjects(other->getMapObjects());
+  setMapObjects(other->getMapObjectsPtr());
 
   createScans((other->getScanTypes()));
 
@@ -3657,9 +3645,9 @@ AREXPORT bool ArMapSimple::set(ArMapInterface *other)
     setInactiveInfo(infoName, other->getInactiveInfo()->getInfo(infoName));
   }
 
-  setInactiveObjects(other->getInactiveObjects()->getMapObjects());
+  setInactiveObjects(other->getInactiveObjects()->getMapObjectsPtr());
 
-  setChildObjects(other->getChildObjects()->getMapObjects());
+  setChildObjects(other->getChildObjects()->getMapObjectsPtr());
 
   updateSummaryScan();
         
@@ -5670,7 +5658,7 @@ AREXPORT const char *ArMapSimple::getInfoName(int infoType)
 
 AREXPORT ArMapObject *ArMapSimple::findFirstMapObject(const char *name, 
                                                       const char *type,
-                                                      bool isIncludeWithHeading)
+                                                      bool isIncludeWithHeading) const
 { 
   return myMapObjects->findFirstMapObject(name, type, isIncludeWithHeading);
 
@@ -5679,7 +5667,7 @@ AREXPORT ArMapObject *ArMapSimple::findFirstMapObject(const char *name,
 
 AREXPORT ArMapObject *ArMapSimple::findMapObject(const char *name, 
 				                                         const char *type,
-                                                 bool isIncludeWithHeading)
+                                                 bool isIncludeWithHeading) const
 { 
   return myMapObjects->findMapObject(name, type, isIncludeWithHeading);
 
@@ -5687,18 +5675,21 @@ AREXPORT ArMapObject *ArMapSimple::findMapObject(const char *name,
 
 AREXPORT std::list<ArMapObject *> ArMapSimple::findMapObjectsOfType
                                                 (const char *type,
-                                                 bool isIncludeWithHeading)
+                                                 bool isIncludeWithHeading) const
 {
   return myMapObjects->findMapObjectsOfType(type, isIncludeWithHeading);
 }
 
 
-AREXPORT std::list<ArMapObject *> *ArMapSimple::getMapObjects()
+AREXPORT const std::list<ArMapObject *> & ArMapSimple::getMapObjects() const
 { 
   return myMapObjects->getMapObjects();
 
 } // end method getMapObjects
 
+AREXPORT std::list<ArMapObject*> *ArMapSimple::getMapObjectsPtr() {
+  return myMapObjects->getMapObjectsPtr();
+}
 
 AREXPORT void ArMapSimple::setMapObjects
                              (const std::list<ArMapObject *> *mapObjects,
@@ -5844,7 +5835,7 @@ AREXPORT std::vector<ArLineSegment> *ArMapSimple::getLines(const char *scanType)
 } // end method getLines
 
 
-AREXPORT ArPose ArMapSimple::getMinPose(const char *scanType)
+AREXPORT ArPose ArMapSimple::getMinPose(const char *scanType) const
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5854,7 +5845,7 @@ AREXPORT ArPose ArMapSimple::getMinPose(const char *scanType)
 
 } // end method getMinPose
 
-AREXPORT ArPose ArMapSimple::getMaxPose(const char *scanType)
+AREXPORT ArPose ArMapSimple::getMaxPose(const char *scanType) const
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5864,7 +5855,7 @@ AREXPORT ArPose ArMapSimple::getMaxPose(const char *scanType)
 
 } // end method getMaxPose
 
-AREXPORT size_t ArMapSimple::getNumPoints(const char *scanType)
+AREXPORT size_t ArMapSimple::getNumPoints(const char *scanType) const
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5874,7 +5865,7 @@ AREXPORT size_t ArMapSimple::getNumPoints(const char *scanType)
 
 } // end method getNumPoints
 
-AREXPORT ArPose ArMapSimple::getLineMinPose(const char *scanType)
+AREXPORT ArPose ArMapSimple::getLineMinPose(const char *scanType) const
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5884,7 +5875,7 @@ AREXPORT ArPose ArMapSimple::getLineMinPose(const char *scanType)
 
 } // end method getLineMinPose
 
-AREXPORT ArPose ArMapSimple::getLineMaxPose(const char *scanType)
+AREXPORT ArPose ArMapSimple::getLineMaxPose(const char *scanType) const
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5894,7 +5885,7 @@ AREXPORT ArPose ArMapSimple::getLineMaxPose(const char *scanType)
 
 } // end method getLineMaxPose
 
-AREXPORT size_t ArMapSimple::getNumLines(const char *scanType)
+AREXPORT size_t ArMapSimple::getNumLines(const char *scanType) const
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {
@@ -5904,7 +5895,7 @@ AREXPORT size_t ArMapSimple::getNumLines(const char *scanType)
 
 } // end method getNumLines
 
-AREXPORT int ArMapSimple::getResolution(const char *scanType)
+AREXPORT int ArMapSimple::getResolution(const char *scanType) const
 { 
   ArMapScanInterface *mapScan = getScan(scanType);
   if (mapScan != NULL) {

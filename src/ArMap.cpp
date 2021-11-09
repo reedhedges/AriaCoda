@@ -485,6 +485,9 @@ For more information about the use of <code>MapInfo</code> metadata, see the dis
  *
 **/
 
+
+// todo most of the accessors in ArMap can be inlined in header. 
+
 AREXPORT ArMap::ArMap(const char *baseDirectory,
 		                  bool addToGlobalConfig, 
 		                  const char *configSection,
@@ -1154,6 +1157,7 @@ AREXPORT const char *ArMap::getInfoName(int infoType)
 AREXPORT ArMapObject *ArMap::findFirstMapObject(const char *name, 
                                                       const char *type,
                                                       bool isIncludeWithHeading)
+const
 { 
   return myCurrentMap->findFirstMapObject(name, type, isIncludeWithHeading);
 
@@ -1163,6 +1167,7 @@ AREXPORT ArMapObject *ArMap::findFirstMapObject(const char *name,
 AREXPORT ArMapObject *ArMap::findMapObject(const char *name, 
 				                                          const char *type,
                                                   bool isIncludeWithHeading)
+const
 { 
   return myCurrentMap->findFirstMapObject(name, type, isIncludeWithHeading);
 
@@ -1171,11 +1176,12 @@ AREXPORT ArMapObject *ArMap::findMapObject(const char *name,
 AREXPORT std::list<ArMapObject *> ArMap::findMapObjectsOfType
                                                 (const char *type,
                                                  bool isIncludeWithHeading)
+const
 {
   return myCurrentMap->findMapObjectsOfType(type, isIncludeWithHeading);
 }
 
-AREXPORT std::list<ArMapObject *> *ArMap::getMapObjects()
+AREXPORT const std::list<ArMapObject *>& ArMap::getMapObjects() const
 { 
   return myCurrentMap->getMapObjects();
 
@@ -1277,43 +1283,43 @@ AREXPORT std::vector<ArLineSegment> *ArMap::getLines(const char *scanType)
 
 } // end method getLines
 
-AREXPORT ArPose ArMap::getMinPose(const char *scanType)
+AREXPORT ArPose ArMap::getMinPose(const char *scanType) const
 { 
   return myCurrentMap->getMinPose(scanType);
 
 } // end method getMinPose
 
-AREXPORT ArPose ArMap::getMaxPose(const char *scanType)
+AREXPORT ArPose ArMap::getMaxPose(const char *scanType) const
 { 
   return myCurrentMap->getMaxPose(scanType);
 
 } // end method getMaxPose
 
-AREXPORT size_t ArMap::getNumPoints(const char *scanType)
+AREXPORT size_t ArMap::getNumPoints(const char *scanType) const
 { 
   return myCurrentMap->getNumPoints(scanType);
 
 } // end method getNumPoints
 
-AREXPORT ArPose ArMap::getLineMinPose(const char *scanType)
+AREXPORT ArPose ArMap::getLineMinPose(const char *scanType) const
 { 
   return myCurrentMap->getLineMinPose(scanType);
 
 } // end method getLineMinPose
 
-AREXPORT ArPose ArMap::getLineMaxPose(const char *scanType)
+AREXPORT ArPose ArMap::getLineMaxPose(const char *scanType) const
 { 
   return myCurrentMap->getLineMaxPose(scanType);
 
 } // end method getLineMaxPose
 
-AREXPORT size_t ArMap::getNumLines(const char *scanType)
+AREXPORT size_t ArMap::getNumLines(const char *scanType) const
 { 
   return myCurrentMap->getNumLines(scanType);
 
 } // end method getNumLines
 
-AREXPORT int ArMap::getResolution(const char *scanType)
+AREXPORT int ArMap::getResolution(const char *scanType) const
 { 
   return myCurrentMap->getResolution(scanType);
 
@@ -1675,7 +1681,7 @@ AREXPORT void ArMap::offsetMapContents(const ArPose& offset)
     i->newEndPoints(new1, new2);
   }
 
-  std::list<ArMapObject*> *objs = getMapObjects();
+  std::list<ArMapObject*> *objs = getMapObjectsPtr();
   for(std::list<ArMapObject*>::iterator i = objs->begin(); i != objs->end(); ++i)
   {
     ArMapObject *obj = (*i);

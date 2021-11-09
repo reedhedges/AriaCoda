@@ -77,8 +77,14 @@ Several major changes have been made for AriaCoda since the last release of Aria
 * Fixed width integer types aliased in the ArTypes (ArTypes::Byte, ArTypes::Byte2,
   ArTypes::Byte4, ArTypes::Byte8, ArTypes::UByte, ArTypes::UByte2, ArTypes::UByte4,
   ArTypes::Ubyte8) are deprecated.  Use standard C++ fixed width integer types instead
-  (std::int8_t, std::int16_t, std::int32_t, std::int64_t, std::uint8_t, std::uint16_t,
-  std::uint32_t, std::uint64_t).
+  (`std::int8_t`, `std::int16_t`, `std::int32_t`, `std::int64_t`, `std::uint8_t`, 
+  `std::uint16_t`, `std::uint32_t`, `std::uint64_t`).
+* ArMap::getMapObjects() has been changed to return a const reference (`const
+  std::list<ArMapObject*>&`) rather than a pointer. Other accessors in
+  ArMap have been made `const`.  (Note, This may be further changed in the future  
+  to a list of ArMapObject objects or smart pointers rather than pointers.)
+  ArMap::getMapObjectsPtr() has been added for internal use and as an easy 
+  compatibility function, but use outside of the library is deprecated.
 * Various fixes and changes to improve optimization and
   conformance/correctness.  Due to code removal, various optimizations in the 
   source code (especially in frequently used storage and utility classes such 

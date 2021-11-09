@@ -69,9 +69,9 @@ AREXPORT void ArForbiddenRangeDevice::processMap()
   myDataMutex.lock();
 //  ArUtil::deleteSet(mySegments.begin(), mySegments.end());
   mySegments.clear();
-  mySegments.reserve(myMap->getMapObjects()->size() * 4);
-  for (auto it = myMap->getMapObjects()->cbegin();
-       it != myMap->getMapObjects()->cend();
+  mySegments.reserve(myMap->getMapObjects().size() * 4);
+  for (auto it = myMap->getMapObjects().cbegin();
+       it != myMap->getMapObjects().cend();
        ++it)
   {
     const ArMapObject *obj = *it;

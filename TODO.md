@@ -10,7 +10,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   as data, with all callers using std::move to move it to temporary or to store it?
 * In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
   `std::list<ArSensorReading>` rather than `std::list<ArSensorReading*>` and don't allocate
-  each one. Use emplace_back when creating a new ArSensorReading objects for the
+  each one. Use `emplace_back` when creating a new ArSensorReading objects for the
   list. [It looks like all uses of myRawReadings etc. are allocating new
   ArSensorReading objects with "new", not borrowing/sharing pointers to existing
   ArSensorReading objects. (DONE?)
@@ -153,11 +153,20 @@ easier to use.  Contact me or discuss on the GitHub page.
     * `ArTypes::Ubyte8` -> `uint64_t`
     * move `ArListPos` from `ariaTypedefs.h` into `ariaUtil.h`, remove `ariaTypedefs.h`. (NOT DONE)
   * smart pointers (`std::shared_ptr`)
-    * Start with various classes that take a pointer to another object in
+    * Start with various classes that take and store a pointer to another object in
       constructor, stored for the life of the object. Usually this is an
-      ArRobot*, ArRobotConnector*, ArLaserConnector*, etc.
+      `ArRobot*`, `ArRobotConnector*`, `ArLaserConnector*`, etc. Replace with
+      unique_ptr for ownership, `shared_ptr` for shared reference.
+    * If a class allocates and stores an object internally, replace with value
+      rather than pointer, or use `unique_ptr`.  If it provides external access to
+      that, return a const or non const reference (or `unique_ptr`?)
     * Fix accessors that take pointers as arguments but do not store the
-      pointer. Most of these could be references?
+      pointer. Most of these could be references? Or `const unique_ptr &`?
+      If we were consistently following recommended guidelines, all `T*`
+      parameters would be indirect reference for "observation" only, with no storage,
+      but ARIA has lots of `T*` arguments for various purposes.
+    * If a class is going to replace (reseat) an object, pass `unique_ptr<T>&`
+      and document clearly. (I don't think this is ever done in ARIA?)
     * Fix accessors that return pointers to internally stored objects.  
       Use std::optional/nullopt if they only do that so they can return NULL
       for missing/uninitialized/error.

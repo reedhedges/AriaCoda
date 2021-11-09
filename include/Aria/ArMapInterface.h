@@ -155,7 +155,7 @@ public:
    * minimum pose for all scans is returned
   **/
   AREXPORT virtual ArPose getMinPose
-                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
+                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
 
   /// Returns the upper right point (maximum x and y) of the scan's points.
   /**
@@ -164,7 +164,7 @@ public:
    * maximum pose for all scans is returned
   **/
   AREXPORT virtual ArPose getMaxPose
-                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
+                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
 
   /// Returns the number of points in the specified scan.
   /**
@@ -173,7 +173,7 @@ public:
    * point count for all scans is returned
   **/
   AREXPORT virtual size_t getNumPoints
-                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
+                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
   
 
   /// Returns whether the point vector for the specified scan is sorted
@@ -235,7 +235,7 @@ public:
    * then the minimum line segment pose for all scans is returned
   **/  
   AREXPORT virtual ArPose getLineMinPose
-                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
+                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
 
   /// Returns the upper right point (maximum x and y) of the scan's line segments.
   /**
@@ -244,7 +244,7 @@ public:
    * then the maximum line segment pose for all scans is returned
   **/
   AREXPORT virtual ArPose getLineMaxPose
-                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
+                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
   
   /// Returns the number of line segments in the specified scan.
   /**
@@ -253,7 +253,7 @@ public:
    * line segment count for all scans is returned
   **/
   AREXPORT virtual size_t getNumLines
-                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
+                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
 
   /// Returns whether the line segment vector for the specified scan is sorted
   /**
@@ -300,7 +300,7 @@ public:
    * numerical value) of all scans is returned
   **/
   AREXPORT virtual int getResolution
-                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) = 0;
+                           (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
 
   /// Sets the resolution (-1 if none specified)
   /**
@@ -460,7 +460,7 @@ public :
    **/
   AREXPORT virtual ArMapObject *findFirstMapObject(const char *name,
                                                    const char *type,
-                                                   bool isIncludeWithHeading = false) = 0;
+                                                   bool isIncludeWithHeading = false) const = 0;
 
   /// Returns the  map object of given name and type, or NULL if none is found
   /**
@@ -479,7 +479,7 @@ public :
    **/
   AREXPORT virtual ArMapObject *findMapObject(const char *name,
                                               const char *type = NULL,
-                                              bool isIncludeWithHeading = false) = 0;
+                                              bool isIncludeWithHeading = false) const = 0;
 
   /// Returns a list of all map objects of the specified type.
   /**
@@ -498,21 +498,20 @@ public :
     * type
    **/
   AREXPORT virtual std::list<ArMapObject *> findMapObjectsOfType(const char *type,
-                                                                 bool isIncludeWithHeading = false) = 0;
+                                                                 bool isIncludeWithHeading = false) const = 0;
 
-  /// Returns a pointer to the internal list of map objects.
+  /// Returns list of map objects.
   /**
-    * Ideally, callers of this method should not use the pointer to modify
-    * the map objects directly.  It is preferable to modify a copy and then
-    * call setMapObjects.
+    * To modify map objects, modify a copy and
+    * call setMapObjects().
     *
-    * It is not safe to store the returned pointer list because the pointers will 
-    * be deleted when the map is changed.  If the caller needs the map objects at 
-    * a later time, then it should create its own copy of each object in the list.
-    * This method is not thread-safe.   
-    * @return a list of pointers to all of the ArMapObject's in the map
+    * @return list of pointers to all of the ArMapObject's in the map
    **/
-  AREXPORT virtual std::list<ArMapObject *> *getMapObjects() = 0;
+  AREXPORT virtual const std::list<ArMapObject *>& getMapObjects() const = 0;
+
+  /// Return pointer to internal list of map objects, which may be modified.
+  /// @internal
+  AREXPORT PUBLICDEPRECATED("use getMapObjects() to receive a const reference instead") virtual std::list<ArMapObject *> *getMapObjectsPtr() = 0;
 
   /// Sets the map objects (copies those passed in)
   /**
