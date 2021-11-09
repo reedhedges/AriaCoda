@@ -28,6 +28,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <string>
 #include <vector>
 #include <list>
+#include <assert.h>
 #include "Aria/ariaTypedefs.h"
 
 /// Base packet class
@@ -108,69 +109,104 @@ public:
   // Utility functions to write different data types to a buffer. They will
   // increment the length.
 
-  /// Puts int8_t into packets buffer
+  /// Puts int8_t into packets buffer as a single signed byte
   AREXPORT virtual void byteToBuf(int8_t val);
-  /// Puts int16_t into packets buffer
-  AREXPORT virtual void byte2ToBuf(int16_t val);
-  /// Puts int32_t into packets buffer
-  AREXPORT virtual void byte4ToBuf(int32_t val);
-  /// Puts int64_t into packets buffer
-  AREXPORT virtual void byte8ToBuf(int64_t val);
+  void append(int8_t val) { byteToBuf(val); }
 
-  /// Puts uint8_t into packets buffer
+  /// Puts int16_t into packets buffer as two bytes with sign
+  AREXPORT virtual void byte2ToBuf(int16_t val);
+  void append(int16_t val) { byte2ToBuf(val);  }
+
+  /// Puts int32_t into packets buffer as four bytes with sign
+  AREXPORT virtual void byte4ToBuf(int32_t val);
+  void append(int32_t val) { byte4ToBuf(val);  }
+
+  /// Puts int64_t into packets buffer and 8 bytes
+  AREXPORT virtual void byte8ToBuf(int64_t val);
+  void append(int64_t val) { byte8ToBuf(val);  }
+
+  /// Puts uint8_t into packets buffer as single unsigned byte
   AREXPORT virtual void uByteToBuf(uint8_t val);
-  /// Puts uint16_t into packet buffer
+  void append(uint8_t val) { uByteToBuf(val);  }
+
+  /// Puts uint16_t into packet buffer as two bytes
   AREXPORT virtual void uByte2ToBuf(uint16_t val);
-  /// Puts uint32_t into packet buffer
+  void append(uint16_t val) { uByte2ToBuf(val);  }
+
+  /// Puts uint32_t into packet buffer as 4 bytes
   AREXPORT virtual void uByte4ToBuf(uint32_t val);
-  /// Puts uint64_t into packet buffer
+  void append(uint32_t val) { uByte4ToBuf(val);  }
+
+  /// Puts uint64_t into packet buffer as 8 bytes
   AREXPORT virtual void uByte8ToBuf(uint64_t val);
+  void append(uint64_t val) { uByte8ToBuf(val);  }
 
   /// Puts a NULL-terminated string into packet buffer
   AREXPORT virtual void strToBuf(const char *str);
+  void append(const char *str) { strToBuf(str); }
+  void strToBuf(const std::string &str) { strToBuf(str.c_str()); }
+  void append(const std::string &str) { strToBuf(str.c_str());  }
 
   /**
    * @brief Copies the given number of bytes from str into packet buffer
    * @deprecated use strToBufPadded(), strToBuf(), or dataToBuf() instead
   **/
   AREXPORT virtual void strNToBuf(const char *str, size_t length);
+  void strNToBuf(const std::string &str, size_t len) { strNToBuf(str.data(), len); }
   /// Copies length bytes from str, if str ends before length, pads data with 0s
   AREXPORT virtual void strToBufPadded(const char *str, size_t length);
   /// Copies length bytes from data into packet buffer
   AREXPORT virtual void dataToBuf(const char *data, size_t length);
   /// Copies length bytes from data into packet buffer
   AREXPORT virtual void dataToBuf(const unsigned char *data, size_t length);
+  void dataToBuf(const std::string &data, size_t len) { dataToBuf(data.data(), len);  }
 
   // Utility functions to read different data types from a buffer. Each read
   // will increment the myReadLength.
-  /// Gets a int8_t from the buffer
+
+  /// Remove one byte from the packet buffer and return as int8_t
   AREXPORT virtual int8_t bufToByte();
-  /// Gets a int16_t from the buffer
+  /// Remove two bytes from the packet buffer and return as int16_t
   AREXPORT virtual int16_t bufToByte2();
-  /// Gets a int32_t from the buffer
+  /// Remove four bytes from the packet buffer and return as int32_t
   AREXPORT virtual int32_t bufToByte4();
-  /// Gets a int64_t from the buffer
+  /// Remove eight bytes from the packet buffer and return as int64_t
   AREXPORT virtual int64_t bufToByte8();
 
-  /// Gets a uint8_t from the buffer
+  /// Remove one byte from the packet buffer and return as uint8_t
   AREXPORT virtual uint8_t bufToUByte();
-  /// Gets a uint16_t from the buffer
+  /// Remove two bytes from the packet buffer and return as uint16_t
   AREXPORT virtual uint16_t bufToUByte2();
-  /// Gets a uint32_t from the buffer
+  /// Remove four bytes from the packet buffer and return as uint32_t
   AREXPORT virtual uint32_t bufToUByte4();
-  /// Gets a uint64_t from the buffer
+  /// Remove eight bytes from the packet buffer and return as uint64_t
   AREXPORT virtual uint64_t bufToUByte8();
 
-  /// Gets a null-terminated string from the buffer
+  /// Use extract<T>() to get a value of type T from the packet buffer, where T is one of int8_t, int16_t, etc.
+  /// Same as the bufTo...() methods.
+  /// E.g. <code>auto val = packet.extract<uint32_t>();</code>
+  //@{
+  template <typename T> T extract() { assert(false); }
+  template <int8_t> int8_t extract() { return bufToByte();  }
+  template <int16_t> int16_t extract() { return bufToByte2();  }
+  template <int32_t> int32_t extract() { return bufToByte4();  }
+  template <int64_t> int64_t extract() { return bufToByte8();  }
+  template <uint8_t> uint8_t extract() { return bufToUByte();  }
+  template <uint16_t> uint16_t extract() { return bufToUByte2();  }
+  template <uint32_t> uint32_t extract() { return bufToUByte4();  }
+  template <uint64_t> uint64_t extract() { return bufToUByte8();  }
+  //@}
+
+  /// Remove a null-terminated string from the buffer
   AREXPORT virtual void bufToStr(char *buf, size_t maxlen);
-  /// Gets a null-terminated string from the buffer
+  /// Remove a null-terminated string from the buffer
   AREXPORT std::string bufToString();
-  /// Gets a null-terminated string from the buffer
+  /// Remove a null-terminated string from the buffer
   AREXPORT void bufToString(std::string *s);
-  /// Gets length bytes from buffer and puts them into data
-  AREXPORT virtual void bufToData(char * data, size_t length);
-  /// Gets length bytes from buffer and puts them into data
-  AREXPORT virtual void bufToData(unsigned char * data, size_t length);
+  /// Remove number of bytes specified by @a length from buffer and put them into @a data
+  AREXPORT virtual void bufToData(char *data, size_t length);
+  /// Remove number of bytes specified by @a length bytes from buffer and put them into @a data
+  AREXPORT virtual void bufToData(unsigned char *data, size_t length);
 
   /// Restart the reading process
   AREXPORT virtual void resetRead();
@@ -188,7 +224,8 @@ public:
   virtual uint16_t getDataReadLength() const { return myReadLength - myHeaderLength; }
   /// Gets the length of the header
   virtual uint16_t getHeaderLength() const
-  { return myHeaderLength; }
+  {
+    return myHeaderLength; }
   /// Gets the length of the header
   virtual uint16_t getFooterLength() const
   { return myFooterLength; }
