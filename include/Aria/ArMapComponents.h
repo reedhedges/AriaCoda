@@ -169,6 +169,8 @@ public:
 
   AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
+  AREXPORT virtual void getDataBounds(double& minX, double& minY, double& maxX, double& maxY, const char *scanType = ARMAP_DEFAULT_SCAN_TYPE)  const;
+
   AREXPORT virtual bool isSortedLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setLines(const std::vector<ArLineSegment> *lines,
@@ -991,6 +993,7 @@ public:
   AREXPORT virtual ArPose getLineMinPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
   AREXPORT virtual ArPose getLineMaxPose(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
   AREXPORT virtual size_t getNumLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
+  AREXPORT virtual void getDataBounds(double& minX, double& minY, double& maxX, double& maxY, const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
   AREXPORT virtual bool isSortedLines(const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const;
 
   AREXPORT virtual void setLines(const std::vector<ArLineSegment> *lines,

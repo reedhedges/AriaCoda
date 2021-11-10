@@ -670,6 +670,7 @@ AREXPORT bool ArMap::set(ArMapInterface *other)
 
 } // end method set
 
+// TODO move most of these to inline in the header?
 
 AREXPORT void ArMap::clear()
 {
@@ -1082,6 +1083,8 @@ AREXPORT int ArMap::unlock()
 // ArMapInfoInterface
 // ---------------------------------------------------------------------------
 
+// TODO move most of these to inline in the header?
+
 AREXPORT std::list<ArArgumentBuilder *> *ArMap::getInfo(const char *infoName)
 { 
   return myCurrentMap->getInfo(infoName);
@@ -1266,6 +1269,8 @@ AREXPORT void ArMap::writeSupplementToFunctor(ArFunctor1<const char *> *functor,
 // ArMapScanInterface
 // ---------------------------------------------------------------------------
 
+// TODO move most of these to inline in the header?
+
 AREXPORT const char *ArMap::getDisplayString(const char *scanType)
 {
   return myCurrentMap->getDisplayString(scanType);
@@ -1325,6 +1330,10 @@ AREXPORT int ArMap::getResolution(const char *scanType) const
 
 } // end method getResolution
 
+AREXPORT void ArMap::getDataBounds(double& minX, double& minY, double& maxX, double& maxY, const char *scanType) const
+{
+  myCurrentMap->getDataBounds(minX, minY, maxX, maxY, scanType);
+}
 
 AREXPORT bool ArMap::isSortedPoints(const char *scanType) const
 {

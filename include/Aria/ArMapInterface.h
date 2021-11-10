@@ -255,6 +255,10 @@ public:
   AREXPORT virtual size_t getNumLines
                            (const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
 
+
+  /// Determines the maximum and minimum bounds of all map lines and points
+  AREXPORT virtual void getDataBounds(double& minX, double& minY, double& maxX, double& maxY, const char *scanType = ARMAP_DEFAULT_SCAN_TYPE) const = 0;
+
   /// Returns whether the line segment vector for the specified scan is sorted
   /**
    * Note that this method returns the state of the line segment vector when it 

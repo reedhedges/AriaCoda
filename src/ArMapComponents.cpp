@@ -425,6 +425,39 @@ AREXPORT int ArMapScan::getResolution(UNUSED const char *scanType) const
   return myResolution;
 }
 
+  // TODO should there be a "bounds" struct in ariaUtil?
+AREXPORT void ArMapScan::getDataBounds(double& minX, double& minY, double& maxX, double& maxY, UNUSED const char *scanType) const
+{
+  if(getNumPoints() > 0 && getNumLines() > 0)
+  {
+     minX = std::min(getLineMinPose().getX(), getMinPose().getX());
+     minY = std::min(getLineMinPose().getY(), getMinPose().getY());
+     maxX = std::max(getLineMaxPose().getX(), getMaxPose().getX());
+     maxY = std::max(getLineMaxPose().getY(), getMaxPose().getY());
+  }
+  else if(getNumPoints() > 0)
+  {
+    minX = getMinPose().getX();
+    minY = getMinPose().getY();
+    maxX = getMaxPose().getX();
+    maxY = getMaxPose().getY();
+  }
+  else if(getNumLines() > 0)
+  {
+    minX = getLineMinPose().getX();
+    minY = getLineMinPose().getY();
+    maxX = getLineMaxPose().getX();
+    maxY = getLineMaxPose().getY();
+  }
+  else
+  {
+    minX = 0;
+    minY = 0;
+    maxX = 0;
+    maxY = 0;
+  }
+}
+
 AREXPORT bool ArMapScan::isSortedPoints(UNUSED const char *scanType) const
 {
   return myIsSortedPoints;
@@ -5894,6 +5927,22 @@ AREXPORT size_t ArMapSimple::getNumLines(const char *scanType) const
   return 0;
 
 } // end method getNumLines
+
+  // TODO should there be a "bounds" struct in ariaUtil?
+AREXPORT void ArMapSimple::getDataBounds(double& minX, double& minY, double& maxX, double& maxY, const char *scanType) const
+{
+  ArMapScanInterface *mapScan = getScan(scanType);
+  if(mapScan != NULL) {
+    mapScan->getDataBounds(minX, minY, maxX, maxY, scanType);
+  }
+  else
+  {
+    minX = 0;
+    minY = 0;
+    maxX = 0;
+    maxY = 0;
+  }
+}
 
 AREXPORT int ArMapSimple::getResolution(const char *scanType) const
 { 
