@@ -226,11 +226,15 @@ is a pointer to object to be deleted using the 'delete' operator.
 #endif // not ARIA_WRAPPER
 
   /// Returns the minimum of the two values
+  /// @deprecated Suggest using std::min instead
   /// @ingroup easy
+  PUBLICDEPRECATED("Use std::min")
   static int findMin(int first, int second) 
     { if (first < second) return first; else return second; }
   /// Returns the maximum of the two values
+  /// @deprecated Suggest using std::max instead
   /// @ingroup easy
+  PUBLICDEPRECATED("Use std::max")
   static int findMax(int first, int second) 
     { if (first > second) return first; else return second; }
 
