@@ -1444,49 +1444,6 @@ AREXPORT void ArRunningAverage::setUseRootMeanSquare(bool useRootMeanSquare)
   myUseRootMeanSquare = useRootMeanSquare;
 }
 
-AREXPORT ArRootMeanSquareCalculator::ArRootMeanSquareCalculator()
-{
-  clear();
-  myName = "ArRootMeanSquareCalculator";
-}
-
-
-
-AREXPORT double ArRootMeanSquareCalculator::getRootMeanSquare () const
-{
-  if (myNum == 0)
-    return 0;
-  else
-    return sqrt((double) myTotal / (double)myNum);
-}
-
-AREXPORT void ArRootMeanSquareCalculator::add(int val)
-{
-  myTotal += val * val;
-  myNum++;
-  if (myTotal < 0)
-  {
-    ArLog::log(ArLog::Normal, "%s: total wrapped, resetting", myName.c_str());
-    clear();
-    // this isn't a clean fix, but won't let it infinitely loop on a bad value
-    //add(val);
-  }
-}
-
-AREXPORT void ArRootMeanSquareCalculator::clear()
-{
-  myTotal = 0;
-  myNum = 0;
-}
-
-AREXPORT void ArRootMeanSquareCalculator::setName(const char *name)
-{
-  if (name != NULL)
-    myName = name;
-  else
-    myName = "ArRootMeanSquareCalculator";
-}
-
 #ifndef WIN32
 
 AREXPORT ArDaemonizer::ArDaemonizer(int *argc, char **argv, 
@@ -2435,18 +2392,6 @@ AREXPORT int ArUtil::atoi(const char *str, bool *ok, bool forceHex)
 
 } // end method atoi
 
-
-AREXPORT long ArMath::randomInRange(long m, long n)
-{
-    // simple method
-    return m + (random() % (n - m));
-    //return m + random() / (ourRandMax / (n - m + 1) + 1);
-    // alternate method is to use drand48, multiply and round (does Windows have
-    // drand48?), or keep trying numbers until we get one in range.
-}
-
-
-AREXPORT long ArMath::getRandMax() { return ourRandMax; }
 
 
 AREXPORT ArThreadedCallbackList::ArThreadedCallbackList(

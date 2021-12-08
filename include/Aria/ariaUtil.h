@@ -701,7 +701,7 @@ public:
      @see fixAngle 
      @ingroup easy
   */
-  static double addAngle(double ang1, double ang2) 
+  constexpr static double addAngle(double ang1, double ang2) 
     { return fixAngle(ang1 + ang2); }
 
   /// This subtracts one angle from another and fixes the result to (-180,180]
@@ -713,7 +713,7 @@ public:
      @see fixAngle
      @ingroup easy
   */
-  static double subAngle(double ang1, double ang2) 
+  constexpr static double subAngle(double ang1, double ang2) 
     { return fixAngle(ang1 - ang2); }
 
   /// Takes an angle and returns the angle in range (-180,180]. This is the conventional range for many angle values in Aria.
@@ -725,7 +725,7 @@ public:
      @see subAngle
      @ingroup easy
   */
-  static double fixAngle(double angle) 
+  constexpr static double fixAngle(double angle) 
     {
       if (angle >= 360)
 	      angle = angle - 360.0 * (double)((int)angle / 360);
@@ -747,7 +747,7 @@ public:
      @see fixAngle
      @ingroup easy
   */
-  static double fixAngle360(double angle)
+  constexpr static double fixAngle360(double angle)
   {
     if(angle == 0)
       return angle;
@@ -781,6 +781,7 @@ public:
      @return the cos of the angle
      @see sin
      @ingroup easy
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath)
   */
   static double cos(double angle) { return ::cos(ArMath::degToRad(angle)); }
 
@@ -790,6 +791,7 @@ public:
      @return the sin of the angle
      @see cos
      @ingroup easy
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath)
   */
   static double sin(double angle) { return ::sin(ArMath::degToRad(angle)); }
 
@@ -798,6 +800,7 @@ public:
      @param angle angle to find the tan of, in degrees
      @return the tan of the angle
      @ingroup easy
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath)
   */
   static double tan(double angle) { return ::tan(ArMath::degToRad(angle)); }
 
@@ -807,13 +810,14 @@ public:
      @param x the x distance
      @return the angle y and x form, in degrees
      @ingroup easy
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath)
   */
   static double atan2(double y, double x) 
     { return ArMath::radToDeg(::atan2(y, x)); }
 
   /// Finds if one angle is between two other angles
   /// @ingroup easy
-  static bool angleBetween(double angle, double startAngle, double endAngle)
+  constexpr static bool angleBetween(double angle, double startAngle, double endAngle)
     {
       angle = fixAngle(angle);
       startAngle = fixAngle(startAngle);
@@ -840,6 +844,7 @@ public:
      @param val the double to find the nearest integer to
      @return the integer the value is nearest to (also caps it within 
      int bounds)
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath for floor)
   */
   static int roundInt(double val) 
     { 
@@ -857,6 +862,7 @@ public:
      @param val the double to find the nearest short to
      @return the integer the value is nearest to (also caps it within 
      short bounds)
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath for floor)
   */
   static short roundShort(double val) 
     { 
@@ -871,6 +877,7 @@ public:
     
 
   /// Rotates a point around 0 by degrees given
+  ///   @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath for sin and cos)
   static void pointRotate(double *x, double *y, double th)
     {
       double cs, sn, xt, yt;
@@ -894,13 +901,20 @@ public:
     }
   
   /// Maximum of value returned by random()
-  AREXPORT static long getRandMax();
+  constexpr static long getRandMax() { return ourRandMax; }
 
   /** Returns a random number between @a m and @a n. On Windows, rand() is used,
    * on Linux lrand48(). 
    * @ingroup easy
   */
-  AREXPORT static long randomInRange(long m, long n);
+  static long randomInRange(long m, long n)
+  {
+      // simple method
+      return m + (random() % (n - m));
+      //return m + random() / (ourRandMax / (n - m + 1) + 1);
+      // alternate method is to use drand48, multiply and round (does Windows have
+      // drand48?), or keep trying numbers until we get one in range.
+  }
 
   /// Finds the distance between two coordinates
   /**
@@ -909,7 +923,8 @@ public:
      @param x2 the second coords x position
      @param y2 the second coords y position
      @return the distance between (x1, y1) and (x2, y2)
-   * @ingroup easy
+     @ingroup easy
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath)
   **/
   static double distanceBetween(double x1, double y1, double x2, double y2)
     { return sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));  }
@@ -926,7 +941,9 @@ public:
   constexpr static double squaredDistanceBetween(double x1, double y1, double x2, double y2)
     { return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);  }
 
-  /** Base-2 logarithm */
+  /** Base-2 logarithm
+     @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath)
+  */
   static double log2(double x)
   {
     return log10(x) / 0.3010303;  // 0.301... is log10(2.0).
@@ -973,7 +990,7 @@ public:
 
   constexpr static bool compareFloats(double f1, double f2, double epsilon)
   {
-    return (fabs(f2-f1) <= epsilon);
+    return (ArMath::fabs(f2-f1) <= epsilon);
   }
 
   static bool compareFloats(double f1, double f2)
@@ -1010,7 +1027,7 @@ public:
       @param y the double to set the y position to, default of 0
       @param th the double value for the pose's heading (or th), default of 0
   */
-  ArPose(double x = 0, double y = 0, double th = 0) :
+  constexpr ArPose(double x = 0, double y = 0, double th = 0) :
     myX(x),
     myY(y),
     myTh(ArMath::fixAngle(th))
@@ -1032,32 +1049,32 @@ public:
       @param y the position to set the y position to
       @param th the position to set the th position to, default of 0
   */
-  /* virtual */ void setPose(double x, double y, double th = 0) 
+  constexpr void setPose(double x, double y, double th = 0) 
     { setX(x); setY(y); setTh(th); }
   /// Sets the position equal to the given position
   /** @param position the position value this instance should be set to */
-  /* virtual */ void setPose(const ArPose& position)
+  constexpr void setPose(const ArPose& position)
     {
       setX(position.getX());
       setY(position.getY());
       setTh(position.getTh());
     }
   /// Sets the x position
-  void setX(double x) { myX = x; }
+  constexpr void setX(double x) { myX = x; }
   /// Sets the y position
-  void setY(double y) { myY = y; }
+  constexpr void setY(double y) { myY = y; }
   /// Sets the heading
-  void setTh(double th) { myTh = ArMath::fixAngle(th); }
+  constexpr void setTh(double th) { myTh = ArMath::fixAngle(th); }
   /// Sets the heading, using radians
-  void setThRad(double th) { myTh = ArMath::fixAngle(ArMath::radToDeg(th)); }
+  constexpr void setThRad(double th) { myTh = ArMath::fixAngle(ArMath::radToDeg(th)); }
   /// Gets the x position
-  double getX() const { return myX; }
+  constexpr double getX() const { return myX; }
   /// Gets the y position
-  double getY() const { return myY; }
+  constexpr double getY() const { return myY; }
   /// Gets the heading
-  double getTh() const { return myTh; }
+  constexpr double getTh() const { return myTh; }
   /// Gets the heading, in radians
-  double getThRad() const { return ArMath::degToRad(myTh); }
+  constexpr double getThRad() const { return ArMath::degToRad(myTh); }
   /// Gets the whole position in one function call
   /**
      Gets the whole position at once, by giving it 2 or 3 pointers to 
@@ -1069,7 +1086,7 @@ public:
      @param y a pointer to a double to set the y position to
      @param th a pointer to a double to set the heading to, defaults to NULL
    */
-  void getPose(double *x, double *y, double *th = NULL) const
+  constexpr void getPose(double *x, double *y, double *th = NULL) const
     { 
       if (x != NULL) 
 	      *x = myX;
@@ -1082,23 +1099,24 @@ public:
   /**
      @param position the position to find the distance to
      @return the distance to the position from this instance
+     @todo make constexpr if ArMath::distanceBetween() can be constexpr
   */
-  /* virtual */ double findDistanceTo(const ArPose& position) const
+  double findDistanceTo(const ArPose& position) const
     {
       return ArMath::distanceBetween(getX(), getY(), 
 				     position.getX(), 
 				     position.getY());
     }
 
-  /// Finds the square distance from this position to the given position
+  /// Finds the square of the distance from this position to the given position
   /**
-     This is only here for speed, if you aren't doing this thousands
-     of times a second don't use this one use findDistanceTo
+     This avoids calling sqrt(), if this small performance improvement isn't needed,
+     use findDistanceTo() instead.  
 
      @param position the position to find the distance to
      @return the distance to the position from this instance 
   **/
-  /* virtual */ double squaredFindDistanceTo(const ArPose& position) const
+   constexpr double squaredFindDistanceTo(const ArPose& position) const
     {
       return ArMath::squaredDistanceBetween(getX(), getY(), 
 					    position.getX(), 
@@ -1108,18 +1126,19 @@ public:
   /** 
       @param position the position to find the angle to
       @return the angle to the given position from this instance, in degrees
+      @todo make constexpr when we have constexpr cmath (i.e. gcc now or c++23)
   */
-  /* virtual */ double findAngleTo(const ArPose& position) const
-    {
+   double findAngleTo(const ArPose& position) const
+   {
       return ArMath::radToDeg(atan2(position.getY() - getY(),
 				                            position.getX() - getX()));
-    }
+   }
   /// Logs the coordinates using ArLog
   /* virtual */ void log() const
     { ArLog::log(ArLog::Terse, "%.0f %.0f %.1f", myX, myY, myTh); }
 
   /// Add the other pose's X, Y and theta to this pose's X, Y, and theta (sum in theta will be normalized to (-180,180)), and return the result
-  /* virtual */ ArPose operator+(const ArPose& other) const
+  constexpr ArPose operator+(const ArPose& other) const
   {
     return ArPose( myX + other.getX(), 
                    myY + other.getY(), 
@@ -1128,7 +1147,7 @@ public:
 
   /// Substract the other pose's X, Y, and theta from this pose's X, Y, and theta (difference in theta will be normalized to (-180,180)), and return the result
 
-  /* virtual */ ArPose operator-(const ArPose& other) const
+  constexpr ArPose operator-(const ArPose& other) const
   {
     return ArPose( myX - other.getX(), 
                    myY - other.getY(), 
@@ -1138,7 +1157,7 @@ public:
   /** Adds the given pose to this one.
    *  @swigomit
    */
-	ArPose & operator+= ( const ArPose & other)
+	constexpr ArPose & operator+= ( const ArPose & other)
   {
     myX += other.myX;
     myY += other.myY;
@@ -1149,7 +1168,7 @@ public:
 	/** Subtracts the given pose from this one.
      *  @swigomit
      */
-	ArPose & operator-= ( const ArPose & other)
+	constexpr ArPose & operator-= ( const ArPose & other)
   {
     myX -= other.myX;
     myY -= other.myY;
@@ -1158,31 +1177,31 @@ public:
   }
 
   /// Equality operator (for sets)
-  /* virtual */ bool operator==(const ArPose& other) const
+  constexpr bool operator==(const ArPose& other) const
   {
-    return ((fabs(myX - other.myX) < ArMath::epsilon()) &&
-            (fabs(myY - other.myY) < ArMath::epsilon()) &&
-            (fabs(myTh - other.myTh) < ArMath::epsilon()));
+    return ((ArMath::fabs(myX - other.myX) < ArMath::epsilon()) &&
+            (ArMath::fabs(myY - other.myY) < ArMath::epsilon()) &&
+            (ArMath::fabs(myTh - other.myTh) < ArMath::epsilon()));
   }
 
-  /* virtual */ bool operator!=(const ArPose& other) const
+  constexpr bool operator!=(const ArPose& other) const
   {
-    return ((fabs(myX - other.myX) > ArMath::epsilon()) ||
-            (fabs(myY - other.myY) > ArMath::epsilon()) ||
-            (fabs(myTh - other.myTh) > ArMath::epsilon()));
+    return ((ArMath::fabs(myX - other.myX) > ArMath::epsilon()) ||
+            (ArMath::fabs(myY - other.myY) > ArMath::epsilon()) ||
+            (ArMath::fabs(myTh - other.myTh) > ArMath::epsilon()));
   }
 
   /// Less than operator (for sets)
-  /* virtual */ bool operator<(const ArPose& other) const
+  constexpr bool operator<(const ArPose& other) const
   {
 
-    if (fabs(myX - other.myX) > ArMath::epsilon()) {
+    if (ArMath::fabs(myX - other.myX) > ArMath::epsilon()) {
       return myX < other.myX;
     }
-    else if (fabs(myY - other.myY) > ArMath::epsilon()) {
+    else if (ArMath::fabs(myY - other.myY) > ArMath::epsilon()) {
       return myY < other.myY;  
     }
-    else if (fabs(myTh - other.myTh) > ArMath::epsilon()) {
+    else if (ArMath::fabs(myTh - other.myTh) > ArMath::epsilon()) {
       return myTh < other.myTh;
     }
     // Otherwise... x, y, and th are equal
@@ -1190,23 +1209,22 @@ public:
     
   } // end operator <
 
-  /// Finds the distance between two poses (static function, uses no
-  /// data from any instance and shouldn't be able to be called on an
-  /// instance)
+  /// Finds the distance between two poses 
   /**
      @param pose1 the first coords
      @param pose2 the second coords
      @return the distance between the poses
+     @todo make constexpr once ArMath::distanceBetween() is constexpr
   **/
   static double distanceBetween(const ArPose& pose1, const ArPose& pose2)
     { return ArMath::distanceBetween(pose1.getX(), pose1.getY(),
 				     pose2.getX(), pose2.getY()); }
 
   /// Return true if the X value of p1 is less than the X value of p2
-  static bool compareX(const ArPose& p1, const ArPose &p2)
+  constexpr static bool compareX(const ArPose& p1, const ArPose &p2)
     { return (p1.getX() < p2.getX()); } 
   /// Return true if the Y value of p1 is less than the X value of p2
-  static bool compareY(const ArPose& p1, const ArPose &p2)
+  constexpr static bool compareY(const ArPose& p1, const ArPose &p2)
     { return (p1.getY() < p2.getY()); } 
 
   bool isInsidePolygon(const std::vector<ArPose>& vertices) const
@@ -1216,6 +1234,23 @@ public:
     size_t i = 0;
     size_t j = n-1;
     for(; i < n; j = i++)
+    {
+      const double x1 = vertices[i].getX();
+      const double x2 = vertices[j].getX();
+      const double y1 = vertices[i].getY();
+      const double y2 = vertices[j].getY();
+      if((((y1 < getY()) && (getY() < y2)) || ((y2 <= getY()) && (getY() < y1))) && (getX() <= (x2 - x1) * (getY() - y1) / (y2 - y1) + x1))
+        inside = !inside;
+    }
+    return inside;
+  }
+
+  template<size_t N> constexpr bool isInsidePolygon(const std::array<ArPose, N>& vertices) const
+  {
+    bool inside = false;
+    size_t i = 0;
+    size_t j = N-1;
+    for(; i < N; j = i++)
     {
       const double x1 = vertices[i].getX();
       const double x2 = vertices[j].getX();
@@ -1756,26 +1791,34 @@ std::ostream& operator<<(std::ostream& os, const ArSectors<NumSectors>& rhs)
 class ArLine
 {
 public:
-  ///// Empty constructor
-  ArLine() {}
-  /// Constructor with parameters
-  ArLine(double a, double b, double c) { newParameters(a, b, c); }
+  ///// Empty constructor. Line parameters must be set.
+  constexpr ArLine() : myA(0), myB(0), myC(0)
+  {}
+
+  /// Constructor with line parameters
+  constexpr ArLine(double a, double b, double c) :
+    myA(a), myB(b), myC(c)
+  {}
+
   /// Constructor with endpoints
-  ArLine(double x1, double y1, double x2, double y2) 
-  { newParametersFromEndpoints(x1, y1, x2, y2); }
+  constexpr ArLine(double x1, double y1, double x2, double y2) :
+    myA(y1-y2), myB(x2-x1), myC( (x2*y1)-(y2*x1) )
+  { }
 
   /// Sets the line parameters (make it not a segment)
-  void newParameters(double a, double b, double c) 
+  constexpr void newParameters(double a, double b, double c) 
     { myA = a; myB = b; myC = c; }
+
   /// Sets the line parameters from endpoints, but makes it not a segment
-  void newParametersFromEndpoints(double x1, double y1, double x2, double y2)
+  constexpr void newParametersFromEndpoints(double x1, double y1, double x2, double y2)
     { myA = y1 - y2; myB = x2 - x1; myC = (x2*y1) - (y2*x1);}
+
   /// Gets the A line parameter
-  double getA() const { return myA; }
+  constexpr double getA() const { return myA; }
   /// Gets the B line parameter
-  double getB() const { return myB; }
+  constexpr double getB() const { return myB; }
   /// Gets the C line parameter
-  double getC() const { return myC; }
+  constexpr double getC() const { return myC; }
 
   /// @deprecated
   [[deprecated]] bool intersects(const ArLine *line, ArPose *pose) const {
@@ -1787,20 +1830,18 @@ public:
       @param pose if the lines intersect, the pose is set to the location
       @return true if they intersect, false if they do not 
   **/
-  bool intersects(const ArLine& line, ArPose *pose = NULL) const
+  constexpr bool intersects(const ArLine& line, ArPose *pose = NULL) const
     {
-      double x, y;
-      double n;
-      n = (line.getB() * getA()) - (line.getA() * getB());
-      n*=-1;
+      const double n = -1 * ( (line.getB() * getA()) - (line.getA() * getB()) );
+      //n*=-1;
       // if this is 0 the lines are parallel
-      if (fabs(n) < .0000000000001)
+      if (ArMath::fabs(n) < .0000000000001)
       {
-	return false;
+        return false;
       }
       // they weren't parallel so see where the intersection is
-      x = ((line.getC() * getB()) - (line.getA() * getC())) / n;
-      y = ((getC() * line.getA()) - (getA() * line.getC())) / n;
+      const double x = ((line.getC() * getB()) - (line.getA() * getC())) / n;
+      const double y = ((getC() * line.getA()) - (getA() * line.getC())) / n;
       if(pose) pose->setPose(x, y);
       return true;
     }
@@ -1809,14 +1850,14 @@ public:
     makeLinePerp(*pose, line);
   }
   /// Changes the parameters of the given line to be perpendicular to this one through the given pose
-  void makeLinePerp(const ArPose& pose, ArLine *line) const
+  constexpr void makeLinePerp(const ArPose& pose, ArLine *line) const
     {
       assert(line);
       line->newParameters(-getB(), getA(),
 			  (getA() * pose.getY()) - (getB() * pose.getX()));
     }
   /// Return new line perpendicular to this line through the given pose
-  ArLine perpendicularLine(const ArPose& pose) const
+  constexpr ArLine perpendicularLine(const ArPose& pose) const
   {
     return ArLine(-getB(), getA(), (getA() * pose.getY()) - (getB() * pose.getX()));
   }
@@ -1828,6 +1869,7 @@ public:
      @return if the pose does not intersect line it will return < 0
      if the pose intersects the segment it will return the distance to
      the intersection
+    @todo enable constexpr once ArPose::findDistanceTo() is constexpr.
   **/
    double getPerpDist(const ArPose &pose) const
     {
@@ -1844,7 +1886,7 @@ public:
      if the pose intersects the segment it will return the distance to
      the intersection
   **/
-   double getPerpSquaredDist(const ArPose &pose) const
+  constexpr double getPerpSquaredDist(const ArPose &pose) const
     {
       ArPose perpPose;
       if (!intersects(perpendicularLine(pose), &perpPose))
@@ -1858,25 +1900,25 @@ public:
      @param perpPoint The X and Y components of this pose object are set to indicate the intersection point
      @return true if an intersection was found and perpPoint was modified, false otherwise.
   **/
-  bool getPerpPoint(const ArPose &pose, ArPose *perpPoint) const
+  constexpr bool getPerpPoint(const ArPose &pose, ArPose *perpPoint) const
     {
       return intersects(perpendicularLine(pose), perpPoint);
     }
 
   /// Equality operator
-   bool operator==(const ArLine &other) const
+  constexpr bool operator==(const ArLine &other) const
   {
 
-    return ((fabs(myA - other.myA) <= ArMath::epsilon()) &&
-            (fabs(myB - other.myB) <= ArMath::epsilon()) &&
-            (fabs(myC - other.myC) <= ArMath::epsilon()));
+    return ((ArMath::fabs(myA - other.myA) <= ArMath::epsilon()) &&
+            (ArMath::fabs(myB - other.myB) <= ArMath::epsilon()) &&
+            (ArMath::fabs(myC - other.myC) <= ArMath::epsilon()));
   }
   /// Inequality operator
-  bool operator!=(const ArLine &other) const
+  constexpr bool operator!=(const ArLine &other) const
   {
-    return ((fabs(myA - other.myA) > ArMath::epsilon()) ||
-            (fabs(myB - other.myB) > ArMath::epsilon()) ||
-            (fabs(myC - other.myC) > ArMath::epsilon()));
+    return ((ArMath::fabs(myA - other.myA) > ArMath::epsilon()) ||
+            (ArMath::fabs(myB - other.myB) > ArMath::epsilon()) ||
+            (ArMath::fabs(myC - other.myC) > ArMath::epsilon()));
 
   }
 
@@ -1887,6 +1929,7 @@ protected:
 /// Represents a line segment in two-dimensional space.
 /** The segment is defined by the coordinates of each endpoint. 
   @ingroup UtilityClasses
+  @todo constexpr-enable this class
 */
 class ArLineSegment
 {
@@ -2041,7 +2084,7 @@ public:
       ArPose perpPose;
       if (!intersects(myLine.perpendicularLine(pose), &perpPose))
       {
-	      return ArUtil::findMin(
+	      return std::min(
 		                    ArMath::roundInt(getEndPoint1().findDistanceTo(pose)),
 		                    ArMath::roundInt(getEndPoint2().findDistanceTo(pose)));
       }
@@ -2078,7 +2121,7 @@ public:
   double getC() const { return myLine.getC(); }
 
   /// Internal function for seeing if a point on our line is within our segment
-  bool linePointIsInSegment(const ArPose& pose) const
+  constexpr bool linePointIsInSegment(const ArPose& pose) const
     {
       bool isVertical = (ArMath::fabs(myX1 - myX2) < ArMath::epsilon());
       bool isHorizontal = (ArMath::fabs(myY1 - myY2) < ArMath::epsilon());
@@ -2212,23 +2255,45 @@ class ArRootMeanSquareCalculator
 {
 public:
   /// Constructor
-  AREXPORT ArRootMeanSquareCalculator();
+  constexpr ArRootMeanSquareCalculator() : myTotal(0), myNum(0)
+  {}
+
   /// Gets the average
-  AREXPORT double getRootMeanSquare () const;
+  /// @todo make constexpr if we have constexpr cmath (gcc or c++23) (for sqrt)
+  double getRootMeanSquare () const
+  {
+    if (myNum == 0)
+      return 0;
+    else
+      return sqrt((double) myTotal / (double)myNum);
+  }
+
   /// Adds a number
-  AREXPORT void add(int val);
+  constexpr void add(int val)
+  {
+    myTotal += val * val;
+    myNum++;
+    if (myTotal < 0)
+    {
+      //ArLog::log(ArLog::Normal, "%s: total wrapped, resetting", myName.c_str());
+      clear();
+      // this isn't a clean fix, but won't let it infinitely loop on a bad value
+      //add(val);
+    }
+  }
+
   /// Clears the average
-  AREXPORT void clear();
-  /// Sets the name
-  AREXPORT void setName(const char *name);
-  /// Gets the name
-  const char *getName() const { return myName.c_str(); }
+  constexpr void clear() {
+    myTotal = 0;
+    myNum = 0;
+  }
+
   /// Gets the num averaged
   size_t getCurrentNumAveraged() const { return myNum;}
+
 protected:
   long long myTotal;
   size_t myNum;
-  std::string myName;
 };
 
 
@@ -2249,7 +2314,7 @@ public:
 struct ArPoseCmpOp
 {
 public:
-  bool operator() (const ArPose &pose1, const ArPose &pose2) const
+  constexpr bool operator() (const ArPose &pose1, const ArPose &pose2) const
   {
     return (pose1 < pose2);
 
@@ -2937,6 +3002,7 @@ protected:
 // XXX TODO move to another file
 // XXX TODO remove "logPrefix" arguments, they are not used in the creation
 // functions at all (just in Aria::laserCreate() itself)
+// @todo enable constexpr
 class ArLaserCreatorHelper
 {
 public:
