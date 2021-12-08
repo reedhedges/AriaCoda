@@ -6,6 +6,10 @@ If you would like to contribute, consider items below labelled "HELP WANTED", or
 any improvement or change that would make this library more useful for you or
 easier to use.  Contact me or discuss on the GitHub page.
 
+* Build as libariacoda.so instead of libAria, with Debian packages named
+  libariacoda3. (Avoid conflict with existing libaria in Ubuntu). Make a
+  libAria.so symlink to help work with existing builds.
+* Add example of `ExternalProject` for CMake to README.
 * In packet receivers e.g. ArRobotPacketReceiver, return ArRobotPacket by value
   as data, with all callers using std::move to move it to temporary or to store it?
 * In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
@@ -36,6 +40,8 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Some base classes of virtual subclasses may need things like copy
     constructors deleted.  Review.  Make sure copying is disabled (deleted) or
     implemented correctly.
+* There are no exceptions in ARIA.  Mark all functions which do not use possibly
+  exception-throwing library functions as `noexcept`.
 * Bug: does not close robot connection when TCP connection write fails because
   remote side (ie sim) closed. (HELP WANTED)
 * Change size parameter to read/write methods in ArDeviceConnection (and
@@ -94,6 +100,7 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Add more data logger features.
 * Move `matlab/ariac` to `ariac/`. Update matlab and ariac-rust builds.
 * Remove weird stuff in ArSystemStatus
+* Use namespaces instead of classes with only static members.
 * Analyze important areas for performance and improve.
   * Serial and network IO
   * ArSyncTask (simplify "task tree" concept?) main loop.  This is really only
@@ -137,8 +144,6 @@ easier to use.  Contact me or discuss on the GitHub page.
       See more below.
   * Check ArConfig input/output
   * Check potentially tricky API calls for breaking changes/regressions
-* Replace some of the fixed size numeric typedefs with C/C++ standard types
-  (e.g. `UByte` to `uint8_t`, etc.
 
 * Use more modern portable C++/stdlib features (including tests that new standard library usage is equivalent to older usage)
   * Replace (deprecate) ArTime and ArUtil::getTime(), ArUtil::putCurrentXXXXInString(), ArUtil::parseTime(), ArUtil::localtime(),  with std::chrono etc.
@@ -152,6 +157,7 @@ easier to use.  Contact me or discuss on the GitHub page.
     * `ArTypes::Ubyte4` -> `uint32_t`
     * `ArTypes::Ubyte8` -> `uint64_t`
     * move `ArListPos` from `ariaTypedefs.h` into `ariaUtil.h`, remove `ariaTypedefs.h`. (NOT DONE)
+  * Use `std::byte` for ArUtil::BITS types and bit manipulation? (C++17)
   * smart pointers (`std::shared_ptr`)
     * Start with various classes that take and store a pointer to another object in
       constructor, stored for the life of the object. Usually this is an
