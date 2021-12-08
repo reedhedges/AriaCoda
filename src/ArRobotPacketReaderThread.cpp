@@ -78,10 +78,4 @@ AREXPORT void * ArRobotPacketReaderThread::runThread(void *)
   return(0);
 }
 
-AREXPORT const char *ArRobotPacketReaderThread::getThreadActivity()
-{
-  if (myRunning)
-    return "Unknown running";
-  else
-    return "Unknown"; 
-}
+

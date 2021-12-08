@@ -45,7 +45,7 @@ public:
   AREXPORT void stopRunIfNotConnected(bool stopRun);
   AREXPORT virtual void * runThread(void *arg) override;
 
-  AREXPORT virtual const char *getThreadActivity() override;
+  AREXPORT virtual std::string getThreadActivity() override;
 
 
 protected:

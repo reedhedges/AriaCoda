@@ -96,10 +96,6 @@ public:
   */
   AREXPORT void * runInThisThread(void *arg=0);
 
-  /// Gets a string that describes what the thread is doing, or NULL if it
-  /// doesn't know. Override this in your subclass to return a status
-  /// string. This can be used for debugging or UI display.
-  virtual const char *getThreadActivity() override { return NULL; }
 private:
 
   // Hide regular Thread::Create

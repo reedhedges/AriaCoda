@@ -183,9 +183,14 @@ public:
   /// Sets the name of the thread
   AREXPORT virtual void setThreadName(const char *name);
 
-  /// Gets a string that describes what the thread is doing NULL if it
-  /// doesn't know
-  virtual const char *getThreadActivity() { return NULL; }
+  /// Gets a string that describes the thread status.
+  /// (e.g. for debug logging or UI diagnostic display)
+  virtual std::string getThreadActivity() { 
+    if(getRunning())
+      return myName + " (running)";
+    else
+      return myName + " (not running)";
+   }
 
   /// Marks the thread as started and logs useful debugging information.
   /**

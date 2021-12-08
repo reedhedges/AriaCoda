@@ -157,7 +157,7 @@ AREXPORT void * ArSyncLoop::runThread(void *)
   return(0);
 }
 
-AREXPORT const char *ArSyncLoop::getThreadActivity()
+AREXPORT std::string ArSyncLoop::getThreadActivity()
 {
   if (myRunning)
   {
@@ -166,10 +166,10 @@ AREXPORT const char *ArSyncLoop::getThreadActivity()
     ArSyncTask *syncTask;
     syncTask = myRobot->getSyncTaskRoot()->getRunning();
     if (syncTask != NULL)
-      return syncTask->getName().c_str();
+      return syncTask->getName();
     else
-      return "Unknown running";
+      return "Unknown sync task (running)";
   }
   else
-    return "Unknown"; 
+    return "Unknown sync task (not running)"; 
 }
