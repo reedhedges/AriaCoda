@@ -55,7 +55,7 @@ public:
                                                         { return &myDesired; }
 #endif
   AREXPORT double findDegreesToTurn(int bumpValue, int whichBumper);
-  AREXPORT virtual void activate();
+  AREXPORT virtual void activate() override;
 protected:
   ArActionDesired myDesired;
   bool mySetMaximums;

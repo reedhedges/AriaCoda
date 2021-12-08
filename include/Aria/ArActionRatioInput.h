@@ -112,8 +112,8 @@ public:
   AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
-  AREXPORT virtual void activate();
-  AREXPORT virtual void deactivate();
+  AREXPORT virtual void activate() override;
+  AREXPORT virtual void deactivate() override;
 protected:
   std::multimap<int, ArFunctor *> myFireCallbacks;
   std::list<ArFunctor *> myActivateCallbacks;

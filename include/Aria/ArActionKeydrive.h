@@ -52,9 +52,9 @@ public:
   AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
-  AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT virtual void activate();
-  AREXPORT virtual void deactivate();
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
+  AREXPORT virtual void activate() override;
+  AREXPORT virtual void deactivate() override;
   /// Takes the keys this action wants to use to drive
   AREXPORT void takeKeys();
   /// Gives up the keys this action wants to use to drive

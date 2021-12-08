@@ -49,10 +49,10 @@ public:
 		       int turnTime = 3000, bool setMaximums = false);
   //AREXPORT virtual ~ArActionIRs();
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
-  AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
+  virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG
-  AREXPORT virtual const ArActionDesired *getDesired() const override 
+  virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
 protected:

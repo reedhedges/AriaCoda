@@ -163,9 +163,9 @@ public:
   void setLogging(bool logging) { myPrinting = logging; }
   /// Gets whether we're logging the driving or not
   bool setLogging() { return myPrinting; }
-  AREXPORT virtual void activate();
-  AREXPORT virtual void deactivate();
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  AREXPORT virtual void activate() override;
+  AREXPORT virtual void deactivate() override;
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
   AREXPORT virtual ArActionDesired *fire(ArActionDesired currentDesired) override;
   AREXPORT virtual ArActionDesired *getDesired() override { return &myDesired; }
 #ifndef SWIG

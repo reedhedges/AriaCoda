@@ -60,7 +60,7 @@ public:
   AREXPORT virtual const ArActionDesired *getDesired() const override 
                                                         { return &myDesired; }
 #endif
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
 protected:
   AREXPORT bool handleJoystickPacket(ArRobotPacket *packet);
   AREXPORT void connectCallback();

@@ -52,7 +52,7 @@ public:
                                                    { return &myActionDesired; }
 #endif
   AREXPORT void addToConfig(ArConfig* config, const char* sectionName, ArPriority::Priority priority = ArPriority::NORMAL);
-  AREXPORT virtual void activate();
+  AREXPORT virtual void activate() override;
 protected:
   // these are internal things, don't touch unless you know what you are doing
   void doit(); // does whatever should be done
