@@ -301,7 +301,8 @@ help:
 	@echo "Set CXXOPTFLAGS to override default optimization flags (-O2 unless DEBUG is set, then -Og)."
 	@echo "Set CXXDEBUGFLAGS to override default debug flags (-g)."
 	@echo "Set CXXSTD to select C++ standard (i.e. value passed to -std).  Default is $(CXXSTD)"
-	@echo "Set CXX to override C++ compiler command. Set AR to override ar static linker command."
+	@echo "Set CXX to override C++ compiler command.  E.g. \"clang++\", \"ccache c++\", etc.  Default is $(CXX)."
+	@echo "Set AR to override ar static linker command."
 	@echo "Set DESTDIR for installation in a temporary directory (eg for packaging or testing)."
 
 info:

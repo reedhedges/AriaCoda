@@ -178,7 +178,9 @@ available target rules.
 Variables an be set in the shell environment or on the command line when running `make`, 
 e.g.:
 
-    make DEBUG=1 CXX=clang
+    make DEBUG=1 CXX=\"ccache c++\"
+
+Run `make help` for description of variables.
 
 ### Linux
 
