@@ -201,25 +201,6 @@ bool ArAnalogGyro::handleGyroPacket(ArRobotPacket *packet)
 
 double ArAnalogGyro::encoderCorrect(ArPoseWithTime deltaPose)
 {
-  ArPose ret;
-
-  // variables
-  double inertialVariance;
-  double encoderVariance;
-
-  double robotDeltaTh;
-  double inertialDeltaTh;
-  double deltaTh;
-
-  /*
-  ArPose lastPose;
-  double lastTh;
-  ArPose thisPose;
-  double thisTh;
-  */
-  ArPoseWithTime zero(0.0, 0.0, 0.0);
-
-
   // if we didn't get a reading this take what we got at face value
   if (!myReadingThisCycle)
   {
@@ -230,18 +211,16 @@ double ArAnalogGyro::encoderCorrect(ArPoseWithTime deltaPose)
   }
 
   // 6/20/05 MPL added this fix
-  robotDeltaTh = ArMath::fixAngle(myAccumulatedDelta + deltaPose.getTh());
+  const double robotDeltaTh = ArMath::fixAngle(myAccumulatedDelta + deltaPose.getTh());
   //printf("using %f %f %f\n", robotDeltaTh, myAccumulatedDelta, deltaPose.getTh());
 
-  inertialVariance = (myGyroSigma * myGyroSigma * 10);
+  const double inertialDeltaTh = ArMath::subAngle(myHeading, myLastHeading);
+  const double inertialVariance = (myGyroSigma * myGyroSigma * 10) + fabs(inertialDeltaTh) * myInertialVarianceModel;
   // was: deltaPose.getTime().mSecSince(myLastAsked)/10.0);
-
-
   //printf("@ %10f %10f %10f %10f\n", multiplier, ArMath::subAngle(thisTh, lastTh), thisTh, lastTh);
-  inertialDeltaTh = ArMath::subAngle(myHeading, myLastHeading);
 
-  inertialVariance += fabs(inertialDeltaTh) * myInertialVarianceModel;
-  encoderVariance = (fabs(deltaPose.getTh()) * myRotVarianceModel +
+  const ArPoseWithTime zero(0.0, 0.0, 0.0);
+  const double encoderVariance = (fabs(deltaPose.getTh()) * myRotVarianceModel +
 		     deltaPose.findDistanceTo(zero) * myTransVarianceModel);
   
   
@@ -249,7 +228,7 @@ double ArAnalogGyro::encoderCorrect(ArPoseWithTime deltaPose)
   {
     if (fabs(inertialDeltaTh) < 1 && fabs(robotDeltaTh) < 1)
     {
-
+        //?no anomalies?
     }
     else if (fabs(robotDeltaTh) < 1 && fabs(inertialDeltaTh) > 2)
       ArLog::log(ArLog::Normal, "ArAnalogGyro::anomaly: Gyro (%.1f) moved but encoder (%.1f) didn't, using gyro", inertialDeltaTh, robotDeltaTh);
@@ -262,6 +241,7 @@ double ArAnalogGyro::encoderCorrect(ArPoseWithTime deltaPose)
       ArLog::log(ArLog::Normal, "ArAnalogGyro::anomaly: gyro (%.1f) moved less than robot (%.1f)", inertialDeltaTh, robotDeltaTh);
   }
 
+  double deltaTh = 0;
 
   //don't divide by 0, or close to it
   if (fabs(inertialVariance + encoderVariance) < .00000001)
@@ -306,7 +286,7 @@ AREXPORT void ArAnalogGyro::activate()
 AREXPORT void ArAnalogGyro::deactivate()
 { 
   if (myIsActive || myIsGyroOnlyActive)
-    ArLog::log(ArLog::Normal, "Dectivating gyro"); 
+    ArLog::log(ArLog::Normal, "Deactivating gyro"); 
   myIsActive = false; 
   myIsGyroOnlyActive = false;
   if (myGyroType == GYRO_ANALOG_CONTROLLER)

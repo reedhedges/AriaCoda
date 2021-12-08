@@ -487,7 +487,7 @@ AREXPORT int ArSerialConnection::write(const char *data, unsigned int size)
 
   if (myPort >= 0) 
   {
-    assert(size <= SIZE_MAX);
+    //assert(size <= SIZE_MAX);
     const ssize_t n = ::write(myPort, data, (size_t)size);
     if (n == -1) 
     {

@@ -90,7 +90,8 @@ ArSocket::ArSocket(const char *host, int port, Type type) :
   myDoClose(true),
   myFD(-1),
   myNonBlocking(false),
-  mySin()
+  mySin(),
+  myDebug(false)
 {
   internalInit();
   connect(host, port, type);
@@ -103,15 +104,11 @@ ArSocket::ArSocket(int port, bool doClose, Type type) :
   myDoClose(doClose),
   myFD(-1),
   myNonBlocking(false),
-  mySin()
+  mySin(),
+  myDebug(false)
 {
   internalInit();
   open(port, type);
-}
-
-ArSocket::~ArSocket()
-{
-  close();
 }
 
 bool ArSocket::hostAddr(const char *host, struct in_addr &addr)
@@ -140,6 +137,8 @@ bool ArSocket::connect(const char *host, int port, Type type,
   char localhost[MaxHostNameLen];
   myError=NoErr;
   myErrorStr.clear();
+
+  if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): Connecting to %s:%d", myFD, host, port);
   if (!host)
   {
     if (gethostname(localhost, sizeof(localhost)) == 1)
@@ -249,6 +248,8 @@ bool ArSocket::open(int port, Type type, const char *openOnIP)
 {
   int ret;
   char localhost[MaxHostNameLen];
+
+  if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): Opening port %d (local address %s)", myFD, port, openOnIP);
 
   myError=NoErr;
   myErrorStr.clear();
@@ -505,7 +506,7 @@ bool ArSocket::close()
 {
   if (myFD == -1)
     return true;
-  ArLog::log(ArLog::Verbose, "Closing socket");
+  if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): Closing socket", myFD);
   if (myCloseFunctor != NULL)
     myCloseFunctor->invoke();
   if (myDoClose && ::close(myFD))

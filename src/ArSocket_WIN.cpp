@@ -47,7 +47,8 @@ AREXPORT ArSocket::ArSocket() :
   myHost(),
   myPort(-1),
   myNonBlocking(false),
-  mySin()
+  mySin(),
+  myDebug(false)
 {
   internalInit();
 }
@@ -61,7 +62,8 @@ AREXPORT ArSocket::ArSocket(const char *host, int port, Type type) :
   myHost(),
   myPort(-1),
   myNonBlocking(false),
-  mySin()
+  mySin(),
+  myDebug(false)
 {
   internalInit();
   connect(host, port, type);
@@ -76,15 +78,11 @@ AREXPORT ArSocket::ArSocket(int port, bool doClose, Type type) :
   myHost(),
   myPort(-1),
   myNonBlocking(false),
-  mySin()
+  mySin(),
+  myDebug(false)
 {
   internalInit();
   open(port, type);
-}
-
-AREXPORT ArSocket::~ArSocket()
-{
-  close();
 }
 
 /** @return false failure. */
@@ -145,6 +143,8 @@ AREXPORT bool ArSocket::connect(const char *host, int port, Type type,
   char localhost[MAXGETHOSTSTRUCT];
   myError = NoErr;
   myErrorStr.clear();
+
+  if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): Connecting to %s:%d...", myFD, host, port);
 
   init();
 
@@ -249,6 +249,8 @@ AREXPORT bool ArSocket::open(int port, Type type, const char *openOnIP)
   char localhost[MAXGETHOSTSTRUCT];
   myError = NoErr;
   myErrorStr.clear();
+
+  if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): Opening port %d...", myFD, port);
 
   if ((type == TCP) && ((myFD=socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET))
   {
@@ -510,6 +512,8 @@ AREXPORT bool ArSocket::close()
 {
   myError = NoErr;
   myErrorStr.clear();
+
+  if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): Closing...", myFD);
 
   if (myFD != INVALID_SOCKET) {
     if (!myHost.empty() && (myPort != -1)) {

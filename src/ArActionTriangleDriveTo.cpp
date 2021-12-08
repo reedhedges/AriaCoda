@@ -184,6 +184,8 @@ AREXPORT ArPose ArActionTriangleDriveTo::findPoseFromVertex(
 AREXPORT void ArActionTriangleDriveTo::findTriangle(bool initial, 
 						    bool goStraight)
 {
+  // todo optimize a bit
+  
   if (myGotLinesCounter != myRobot->getCounter())
   {
     ArTime now;
@@ -225,7 +227,7 @@ AREXPORT void ArActionTriangleDriveTo::findTriangle(bool initial,
   // the score for our good line
   double goodLineScore = 0.0;
   // my pose for the good vertex
-  ArPose goodVertex;
+  //ArPose goodVertex;
   ArLineSegment vertexLine;
   ArPose adjustedVertex;
 

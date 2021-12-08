@@ -1448,7 +1448,7 @@ AREXPORT const char *ArConfigArg::getString(bool *ok) const
     else if (myData.myStringData.myStringPointer != NULL)
       return myData.myStringData.myStringPointer;
   } else if(myType == CPPSTRING) {
-    return getCppString().c_str();
+    return getCppStringPtr()->c_str();
   }
 
   // KMC 7/9/12 Are we sure we want to return NULL and not ""?

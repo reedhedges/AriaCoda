@@ -6600,14 +6600,16 @@ bool ArMapSimple::remScansFromParser(bool isRemovePointsAndLinesKeywords)
    
     if (isRemovePointsAndLinesKeywords) {
       if (!ArUtil::isStrEmpty(mapScan->getPointsKeyword())) {
-        if (!myLoadingParser->remHandler(mapScan->getPointsKeyword(), 
-                                        &myDataIntroCB)) {
+        if (!myLoadingParser->remHandler(mapScan->getPointsKeyword()))
+                                        //, &myDataIntroCB)) {
+        {
           isRemoved = false;
         }
       }
       if (!ArUtil::isStrEmpty(mapScan->getLinesKeyword())) {
-        if (!myLoadingParser->remHandler(mapScan->getLinesKeyword(), 
-                                        &myDataIntroCB)) {
+        if (!myLoadingParser->remHandler(mapScan->getLinesKeyword()))
+                                        //, &myDataIntroCB)) 
+        {
           isRemoved = false;
         }
       }

@@ -1999,10 +1999,10 @@ bool ArVCC4::setDefaultRange()
   //    units = degrees / 0.1125
 
   // Set min tilt range
-  myPacket.byte4ToBuf(ArMath::roundInt(MIN_TILT/.1125) + 0x8000);
+  myPacket.byte4ToBuf(ArMath::roundInt((double)MIN_TILT/.1125) + 0x8000);
 
   // Set max tilt range
-  myPacket.byte4ToBuf(ArMath::roundInt(MAX_TILT/.1125) + 0x8000);
+  myPacket.byte4ToBuf(ArMath::roundInt((double)MAX_TILT/.1125) + 0x8000);
 
   requestBytes();
   return sendPacket(&myPacket);

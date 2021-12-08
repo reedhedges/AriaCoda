@@ -1496,7 +1496,7 @@ AREXPORT void ArLMS2xx::runOnce(bool lockRobot)
   ArTime time;
   ArTime time2;
   ArPose pose;
-  ArPose pose2;
+  //ArPose pose2;
   ArPose encoderPose;
 
   if (myProcessImmediately && myRobot != NULL)

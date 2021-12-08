@@ -5680,7 +5680,7 @@ void ArRobot::processNewSonar(int number, unsigned int range,
   std::map<int, ArSensorReading *>::iterator it;
   ArSensorReading *sonar;
   ArTransform encoderTrans;
-  ArPose encoderPose;
+  //ArPose encoderPose;
 
   if ((it = mySonars.find(number)) != mySonars.end())
   {

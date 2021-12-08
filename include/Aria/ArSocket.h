@@ -150,6 +150,7 @@ public:
     mySin=s->mySin;
     myType=s->myType;  
     setIPString(s->getIPString()); 
+    myDebug = s->myDebug;
   }
 
   [[deprecated("use transferFrom() instead")]] void transfer(ArSocket *s)
@@ -382,6 +383,8 @@ public:
   /// Sets NODELAY option on TCP socket, which can reduce latency for small packet sizes.
   AREXPORT bool setNoDelay(bool flag);
   bool isOpen() { return myFD > 0; }
+
+  void setDebug(bool d = true) { myDebug = d; }
 protected:
   /// Sets the ip string
   /// internal function that sets the ip string from inAddr
@@ -455,6 +458,8 @@ protected:
 
   // A functor to call when the socket closes
   ArFunctor *myCloseFunctor;
+
+  bool myDebug; // log when connecting, opened, closed, destroyed
 };
 
 

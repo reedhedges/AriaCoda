@@ -36,6 +36,12 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <netdb.h>
 #endif
 
+ArSocket::~ArSocket()
+{
+  if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): object destroyed", myFD);
+  close();
+}
+
 AREXPORT const char *ArSocket::toString(Type t)
 {
   switch (t) {
@@ -73,6 +79,7 @@ void ArSocket::internalInit()
   myStringWrongEndChars = false;
   myErrorTracking = false;
   myFakeWrites = false;
+  myDebug = false;
   resetTracking();
 }
 
