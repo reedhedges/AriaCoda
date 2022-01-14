@@ -297,9 +297,10 @@ help:
 	@echo 
 	@echo "Set EXTRA_CXXFLAGS to add any additional C++ compilation flags you want (e.g. optimization or profiling flags)."
 	@echo "Set CXXWARNFLAGS to override default set of warning flags.  ($(CXXWARNFLAGS)). (Use EXTRA_CXXFLAGS to add more warnings in addition to the defaults.)"
-	@echo "Set DEBUG to use -Og as default for optimization flags instead of -O2, and maybe other debugging friendly compilation flags."
+	@echo "Set DEBUG to use -Og as default for optimization flags instead of -O2, and maybe other debugging friendly compilation flags. (Note, not setting DEBUG does not define the NDEBUG preprocessor symbol [NDEBUG disables assert(), possibly other effects, depending on system library or compiler.] Define NDEBUG manually in EXTRA_CXXFLAGS or CXXOPTFLAGS if desired.)"
 	@echo "Set CXXOPTFLAGS to override default optimization flags (-O2 unless DEBUG is set, then -Og)."
 	@echo "Set CXXDEBUGFLAGS to override default debug flags (-g)."
+	@echo "Set EXTRA_CXXFLAGS_<File> to add additional compilation flag added only when compiling <File>.cpp. E.g. EXTRA_CXXFLAGS_ArRobot"
 	@echo "Set CXXSTD to select C++ standard (i.e. value passed to -std).  Default is $(CXXSTD)"
 	@echo "Set CXX to override C++ compiler command.  E.g. \"clang++\", \"ccache c++\", etc.  Default is $(CXX)."
 	@echo "Set AR to override ar static linker command."
@@ -627,17 +628,17 @@ endif
 
 obj/%.o : src/%.cpp 
 	@mkdir -p obj
-	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
+	$(CXX) -c $(CXXFLAGS) $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD $< -o $@
 
 obj/%.o : src/%.c 
 	@mjdir -p obj
-	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
+	$(CXX) -c $(CXXFLAGS)  $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD $< -o $@
 
 obj/ArPacketUtil.o: src/ArPacketUtil.cpp
-	$(CXX) -c $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS) $(CXXINC) -DARIABUILD $< -o $@
+	$(CXX) -c $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS)  $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD $< -o $@
 
 obj/Aria.o: src/Aria.cpp versionstring
-	$(CXX) -c $(CXXFLAGS) $(CXXINC) -DARIABUILD -DARIA_VCSREV=\"$(ARIACODA_VERSION_STRING)\" $< -o $@
+	$(CXX) -c $(CXXFLAGS) $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD -DARIA_VCSREV=\"$(ARIACODA_VERSION_STRING)\" $< -o $@
 
 versionstring: FORCE
 	if test -f versionstring; then oldver="`cat versionstring`"; else oldver=""; fi;  newver=$(ARIACODA_VERSION_STRING); if test "$$oldver" != "$$newver"; then echo $$newver > versionstring; fi
