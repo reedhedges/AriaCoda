@@ -188,13 +188,7 @@ void ArLaser::laserProcessReadings()
   if (myRawReadings == NULL || myRawReadings->begin() == myRawReadings->end())
     return;
 
-  std::list<ArSensorReading *>::iterator sensIt;
-  ArSensorReading *sReading;
-  double x, y;
-  double lastX = 0.0, lastY = 0.0;
-  //unsigned int i = 0;
-  ArTime len;
-  len.setToNow();
+  //ArTime len;
 
   bool clean;
   if (myCumulativeCleanInterval <= 0 ||
@@ -215,6 +209,9 @@ void ArLaser::laserProcessReadings()
   myCurrentBuffer.beginRedoBuffer();	  
 
   // walk the buffer of all the readings and see if we want to add them
+  ArSensorReading *sReading;
+  double lastX = 0.0, lastY = 0.0;
+  std::list<ArSensorReading *>::iterator sensIt;
   for (sensIt = myRawReadings->begin(); 
        sensIt != myRawReadings->end(); 
        ++sensIt)
@@ -254,8 +251,8 @@ void ArLaser::laserProcessReadings()
     }
 
     // get our coords
-    x = sReading->getX();
-    y = sReading->getY();
+    const double x = sReading->getX();
+    const double y = sReading->getY();
     
     // see if we're checking on the filter near dist... if we are
     // and the reading is a good one we'll check the cumulative
@@ -322,10 +319,10 @@ void ArLaser::internalProcessReading(double x, double y,
 
   //double squaredDist;
 
-  ArLineSegment line;
-  double xTaken = myCurrentBuffer.getPoseTaken().getX();
-  double yTaken = myCurrentBuffer.getPoseTaken().getY();
-  ArPose intersection;
+  //ArLineSegment line;
+  const double xTaken = myCurrentBuffer.getPoseTaken().getX();
+  const double yTaken = myCurrentBuffer.getPoseTaken().getY();
+  //ArPose intersection;
   ArPoseWithTime reading(x, y);
 
   // if we're not cleaning and its further than we're keeping track of
@@ -371,15 +368,16 @@ void ArLaser::internalProcessReading(double x, double y,
     if (clean)
     {
       // set up our line
-      line.newEndPoints(x, y, xTaken, yTaken);
+      const ArLineSegment line(x, y, xTaken, yTaken);
       // see if the cumulative buffer reading perpindicular intersects
       // this line segment, and then see if its too close if it does,
       // but if the intersection is very near the endpoint then leave it
-      if (line.getPerpPoint((*cit), &intersection) &&
-        (intersection.squaredFindDistanceTo(*cit) < 
-        myCumulativeCleanDistSquared) &&
-        (intersection.squaredFindDistanceTo(reading) > 
-        50 * 50))
+      bool found;
+      const ArPose intersection(line.perpendicularPoint(*cit, &found));
+      if (found &&
+        (intersection.squaredFindDistanceTo(*cit) < myCumulativeCleanDistSquared) &&
+        (intersection.squaredFindDistanceTo(reading) >  (50 * 50) )
+      )
       {
         //printf("Found one too close to the line\n");
         myCumulativeBuffer.invalidateReading(cit);
@@ -751,9 +749,10 @@ AREXPORT void ArLaser::laserDisconnectOnError()
 
 AREXPORT void ArLaser::internalGotReading()
 {
-  if (myTimeLastReading != time(NULL)) 
+  const auto t = time(NULL);
+  if (myTimeLastReading != t) 
   {
-    myTimeLastReading = time(NULL);
+    myTimeLastReading = t;
     myReadingCount = myReadingCurrentCount;
     myReadingCurrentCount = 0;
   }
