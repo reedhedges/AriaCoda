@@ -40,8 +40,8 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Some base classes of virtual subclasses may need things like copy
     constructors deleted.  Review.  Make sure copying is disabled (deleted) or
     implemented correctly.
-* There are no exceptions in ARIA.  Mark all functions which do not use possibly
-  exception-throwing library functions as `noexcept`.
+* There are no exceptions in ARIA.  Mark functions where it might matter as
+  noexcept (eg for optimization).
 * Bug: does not close robot connection when TCP connection write fails because
   remote side (ie sim) closed. (HELP WANTED)
 * Change size parameter to read/write methods in ArDeviceConnection (and
@@ -56,7 +56,16 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and instructions to users to transition existing
   code due to all changes below.
-* In often-used container classes, can we remove use of std::string members or
+* Use std::optional in ArGPS and other device classes that may or may not
+  have data available (and/or use expected)
+* Introduce unit types (mm, m, deg, rad, mm/s, deg/s, etc. with custom literals
+  and conversions) (and use std::chrono types) ? Especially useful for time
+  (since we sometimes use seconds, sometimes miliseconds). Include formatted
+  output functions (operator<<).  See
+  <https://www.fluentcpp.com/2016/12/08/strong-types-for-strong-interfaces/>
+  and <https://www.fluentcpp.com/2017/05/26/strong-types-conversions/>
+* In often-used container/utility classes that would be frequently
+  created/destroyed/copied, can we remove use of std::string members or
   other members that make them non-trivial? Can we then use member default
   initialization in declaration rather than a constructor?  Can we replace use of raw pointers
   with `shared_ptr`? Can we replace use of allocated memory that is freed from a
@@ -65,7 +74,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   constructors and assignment operators to delete, default, or implement. (IN PROGRESS)
 * Replace classes that only contain enums with "enum class".  Fix any non-scoped
   enums as well (I don't think there are any.)
-* Switch to CMake? (HELP WANTED)
+* Switch to build2, CMake, or Meson (or other?) (HELP WANTED)
   * use `CMAKE_EXPORT_COMPILE_COMMANDS` to export `compile_commands.json` that analysis tools etc. might use (eg clang-tidy)
 * Move examples and tests Makefile rules into their own Makefiles (with their
   own dependencies)?  (Makes CI builds slightly faster if we skip examples and
@@ -345,6 +354,14 @@ against what was recorded.
 * In several places there are sets of methods that operate with different data
   types. Replace with template functions. ArArgumentParser, ArArgumentBuilder?,
   ArRobotParams, ArConfig
+* Add C++20 contract declarations?  (I.e. [[expects...]], [[ensures...]],
+  [[assert...]])
+    * Would need to wrap in macros with checking for whether the feature is
+      supported by compiler, allows building with C++ standard < 20 or not yet
+      implemented, can also allow manual (selective?) disabling of contract
+      declarations and assertions at compile time or by user code setting flag
+      etc., or replace with clang __builtin_assume/msvc __assume optionally at build, and can 
+      also add additional attributes like [[unlikely]].
 
 Maybe TODO eventually
 ----------

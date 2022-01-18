@@ -176,11 +176,17 @@ Run `make help` for brief descriptions of these variables as well as
 available target rules. 
 
 Variables an be set in the shell environment or on the command line when running `make`, 
-e.g.:
+e.g., `DEBUG` disables some optimizations, and `CXX` overrides the default compiler command:
 
     make DEBUG=1 CXX=\"ccache c++\"
 
-Run `make help` for description of variables.
+`EXTRA_CXXFLAGS` adds additional C++ compilation flags to ARIA's, e.g.:
+
+    make EXTRA_CXXFLAGS="-mcpu=atom -ffast-math"
+
+To optimize for a computer with an Intel Atom processor, and math functions in general.
+
+Other variables are available. Run `make help` for description of all variables.
 
 ### Linux
 
