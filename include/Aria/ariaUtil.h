@@ -1840,11 +1840,33 @@ public:
         return false;
       }
       // they weren't parallel so see where the intersection is
-      const double x = ((line.getC() * getB()) - (line.getA() * getC())) / n;
-      const double y = ((getC() * line.getA()) - (getA() * line.getC())) / n;
-      if(pose) pose->setPose(x, y);
+      if(pose)
+      {
+        const double x = ((line.getC() * getB()) - (line.getA() * getC())) / n;
+        const double y = ((getC() * line.getA()) - (getA() * line.getC())) / n;
+        pose->setPose(x, y);
+      }
       return true;
     }
+
+  ///@P @a valid must not be NULL
+  ArPose intersectingPoint(const ArLine& line, bool *valid) const 
+  {
+      const double n = -1 * ( (line.getB() * getA()) - (line.getA() * getB()) );
+      // if this is 0 the lines are parallel
+      if (ArMath::fabs(n) < .0000000000001)
+      {
+        *valid = false;
+        return ArPose(0, 0);
+      }
+      // they weren't parallel so see where the intersection is
+      *valid = true;
+      const double x = ((line.getC() * getB()) - (line.getA() * getC())) / n;
+      const double y = ((getC() * line.getA()) - (getA() * line.getC())) / n;
+      return ArPose(x, y);
+  }
+
+
   /// @deprecated
   [[deprecated]] void makeLinePerp(const ArPose* pose, ArLine *line) const { 
     makeLinePerp(*pose, line);
@@ -1990,6 +2012,20 @@ public:
       return false;
   }
 
+  ///@P @a valid must not be NULL
+  ArPose intersectingPoint(const ArLine& line, bool *valid) const
+  {
+    // get interesecting point to our infinite line then also check if it's in this segment
+    ArPose p(myLine.intersectingPoint(line, valid));
+    if(*valid == false)
+      return ArPose(0, 0, 0);
+    if(!linePointIsInSegment(p)) {
+      *valid = false;
+      return ArPose(0, 0, 0);
+    }
+    return p;
+  }
+
 #ifndef SWIG
   /// @deprecated
   /// @swigomit
@@ -2027,6 +2063,12 @@ public:
     //myLine.makeLinePerp(&pose, &perpLine);
     //ArLine perpLine = myLine.perpendicularLine(pose);
     return intersects(myLine.perpendicularLine(pose), perpPoint);
+  }
+
+  ///@P @a found must not be NULL.
+  ArPose perpendicularPoint(const ArPose &pose, bool *found) const
+  {
+    return intersectingPoint(myLine.perpendicularLine(pose), found);
   }
 
 #ifndef SWIG
