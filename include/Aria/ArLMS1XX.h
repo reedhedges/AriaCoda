@@ -72,12 +72,36 @@ public:
   virtual void uByte4ToBuf(uint32_t val) override;
   virtual void strToBuf(const char *str) override;
 
-  virtual int8_t bufToByte() override;
-  virtual int16_t bufToByte2() override;
+
+private:
+  // Not sure what the previous versions of these were trying to implement but they are not used
+  virtual int8_t bufToByte() { assert(false);  }
+  virtual int16_t bufToByte2() { assert(false);  }
+
+public:
+  /// Note unlike other accessors, this simply reads next 8 text bytes in which each pair is a digit of the number, combines them bitwise, and returns the number.
   virtual int32_t bufToByte4() override;
-  virtual uint8_t bufToUByte() override;
-  virtual uint16_t bufToUByte2() override;
-  virtual uint32_t bufToUByte4() override;
+
+
+  virtual uint8_t bufToUByte() override
+  {
+    //assert(r >= 0 && r <= UINT8_MAX)
+    return (uint8_t)getNumFromBufHexText();
+  }
+
+  virtual uint16_t bufToUByte2() override
+  {
+    //assert(r >= 0 && r <= UINT16_MAX)
+    return (uint16_t)getNumFromBufHexText();
+  }
+
+  virtual uint32_t bufToUByte4() override
+  {
+    //assert(r >= 0 && r <= UINT32_MAX)
+    return (uint32_t) getNumFromBufHexText();
+  }
+
+
   virtual void bufToStr(char *buf, size_t len) override;
 
   // adds a raw char to the buf
@@ -96,6 +120,9 @@ protected:
 
   char myCommandType[1024]; 
   char myCommandName[1024]; 
+
+  long getNumFromBufHexText();
+
 };
 #endif
 

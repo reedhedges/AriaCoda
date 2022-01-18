@@ -162,6 +162,12 @@ void ArLMS1XXPacket::strToBuf(const char *str)
 	myLength += tempLen;
 }
 
+/* 
+
+These have bugs and are not used
+
+
+/// Read next 8 bytes from packet, take last 2 ascii character digits and combine to one 8-bit number.
 int8_t ArLMS1XXPacket::bufToByte()
 {
 
@@ -171,18 +177,19 @@ int8_t ArLMS1XXPacket::bufToByte()
 	if (myBuf[myReadLength] == ' ')
 		myReadLength++;
 
-	if (!isNextGood(4))
+	if (!isNextGood(2)) // note bug, we read from offset 6 below
 		return 0;
 
 	const unsigned char n2 = (unsigned char) deascii(myBuf[myReadLength+6]);
 	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
 	const int8_t ret = (int8_t) (n2 << 4 | n1);
 
-	myReadLength += 4;
+	myReadLength += 8;
 
 	return ret;
 }
 
+/// Read next 8 bytes from packet, take last 4 ascii character digits and combine to one 16-bit number.
 int16_t ArLMS1XXPacket::bufToByte2()
 {
 
@@ -192,7 +199,7 @@ int16_t ArLMS1XXPacket::bufToByte2()
 	if (myBuf[myReadLength] == ' ')
 		myReadLength++;
 
-	if (!isNextGood(4))
+	if (!isNextGood(4)) // note: bug, we read from offset 4 below
 		return 0;
 
 	const unsigned char n4 = (unsigned char) deascii(myBuf[myReadLength+4]);
@@ -201,18 +208,19 @@ int16_t ArLMS1XXPacket::bufToByte2()
 	const unsigned char n1 = (unsigned char) deascii(myBuf[myReadLength+7]);
 	const int16_t ret = (int16_t) (n4 << 12 | n3 << 8 | n2 << 4 | n1);
 
-	myReadLength += 4;
+	myReadLength += ;
 
 	return ret;
-}
+} */
 
+/// Read next 8 bytes from packet as ascii characters and combine to one 16-bit number. Initial whitespace in the buffer is skipped.
 int32_t ArLMS1XXPacket::bufToByte4()
 {
 	if (!isNextGood(1))
 		return 0;
 
-	if (myBuf[myReadLength] == ' ')
-		myReadLength++;
+	while (isNextGood(1) && myBuf[myReadLength] == ' ')
+		++myReadLength;
 
 	if (!isNextGood(8))
 		return 0;
@@ -232,79 +240,58 @@ int32_t ArLMS1XXPacket::bufToByte4()
 	return ret;
 }
 
-uint8_t ArLMS1XXPacket::bufToUByte()
+long ArLMS1XXPacket::getNumFromBufHexText()
 {
-	if (!isNextGood(1))
+	//printf("getNumFromBufHexText() myReadLength=%d myLength=%d myFooterLength=%d\n", myReadLength, myLength, myFooterLength);
+	assert(isNextGood(1));
+	if (!isNextGood(1)) // at end of read buffer. isValid() will return false.
 		return 0;
 
+	/*
 	if (myBuf[myReadLength] == ' ')
 		myReadLength++;
 
-	std::string str;
+  // read hex number, convert and return.
+	// original version used std::string and appended character by character??
+	// this version uses a char[] instead, but a copy shouldn't be needed, just use strtol on myBuf directly, see below.
+	// std::string str;
+	char s[12];
+	size_t i = 0;
 	while (isNextGood(1) && myBuf[myReadLength] != ' ' &&
-			myBuf[myReadLength] != '\003')
+			myBuf[myReadLength] != '\003' && i < 12)
 	{
-		str += myBuf[myReadLength];
-		myReadLength += 1;
+		// str += myBuf[myReadLength];
+		s[i++] = myBuf[myReadLength++]; 
+		assert(i < 12);
 	}
+	s[8] = '\0';
+	return strtol(s, NULL, 16); 
+	*/
 
-  const long ret = strtol(str.c_str(), NULL, 16);
-	//assert(ret >= 0 && ret <= UCHAR_MAX);
-	return (uint8_t)ret;
+	char *startptr = & myBuf[myReadLength];
+	char *endptr;
+	const long r = strtol(startptr, &endptr, 16);
+	assert(endptr >= startptr);
+	const ptrdiff_t len = endptr - startptr;
+	assert(len <= UINT16_MAX);
+	assert(len >= 0);
+	if(isNextGood((size_t)len))
+		myReadLength += (uint16_t)len;
+		
+  // NOTE that the above code will only advance the buffer index to the  first non-number character after the number, while the previous
+	// version advanced to the next space or '\003' (end of string) character, so the following code does this just in case (e.g. could there by any "punctuation" after
+	// any number that we want to skip before trying to parse the next number??).
+	// TODO this might not be needed, check SICK protocol.
+	while(isNextGood(1) && myBuf[myReadLength] != ' ' && myBuf[myReadLength] != '\003')
+		++myReadLength;
+
+	return r;
 }
 
-uint16_t ArLMS1XXPacket::bufToUByte2()
-{
-	//printf("@ 1\n");
-
-	if (!isNextGood(1))
-		return 0;
-
-	if (myBuf[myReadLength] == ' ')
-		myReadLength++;
-
-	//printf("@ 2 '%c' %d %d %d %d\n", myBuf[myReadLength], isNextGood(1),
-	// myReadLength, myLength, myFooterLength);
-	std::string str;
-	while (isNextGood(1) && myBuf[myReadLength] != ' ' &&
-			myBuf[myReadLength] != '\003')
-	{
-		//printf("%c\n", myBuf[myReadLength]);
-		str += myBuf[myReadLength];
-		myReadLength += 1;
-	}
-
-
-	const long ret = strtol(str.c_str(), NULL, 16);
-
-	//printf("@ 3 %d\n", ret);
-	return (uint16_t) ret;
-}
-
-uint32_t ArLMS1XXPacket::bufToUByte4()
-{
-	if (!isNextGood(1))
-		return 0;
-
-	if (myBuf[myReadLength] == ' ')
-		myReadLength++;
-
-	std::string str;
-	while (isNextGood(1) && myBuf[myReadLength] != ' ' &&
-			myBuf[myReadLength] != '\003')
-	{
-		str += myBuf[myReadLength];
-		myReadLength += 1;
-	}
-
-
-	const long ret = strtol(str.c_str(), NULL, 16);
-
-	return (uint32_t) ret;
-}
 
 /** 
-Copy a string from the packet buffer into the given buffer, stopping when
+Copy a string from the packet buffer 
+into the given buffer, stopping when
 the end of the packet buffer is reached, the given length is reached,
 or a NUL character ('\\0') is reached.  If the given length is not large
 enough, then the remainder of the string is flushed from the packet.
@@ -626,7 +613,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 							myName, myReadCount);
 					myPacket.empty();
 					myPacket.setLength(0);
-					memmove(myReadBuf, &myReadBuf[i], myReadCount + i);
+					memmove(myReadBuf, &myReadBuf[i], myReadCount + i); // TODO use range, index or pointer instead
 					myReadCount -= i;
 					i = 0;
 					continue;
@@ -656,7 +643,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 						   ArLog::log(ArLog::Terse, "%s::receivePacket() read buf (%d %d) %s",
 								   myName, myReadCount, i, myReadBuf);
 
-						memmove(myReadBuf, &myReadBuf[i+1], myReadCount - i);
+						memmove(myReadBuf, &myReadBuf[i+1], myReadCount - i); // TODO use range, index or pointer instead
 						myReadCount = myReadCount - i - 1;
 						myState = REMAINDER;
 						ArLog::log(myInfoLogLevel,
@@ -804,7 +791,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 							myName);
 					myPacket.empty();
 					myPacket.setLength(0);
-					memmove(myReadBuf, &myReadBuf[i], myReadCount + (unsigned int)numRead - i);
+					memmove(myReadBuf, &myReadBuf[i], myReadCount + (unsigned int)numRead - i); // TODO update range/index/pointer instead
 					numRead -= (int)(i - myReadCount);
 					myReadCount -= i;
 					i = 0;
@@ -816,7 +803,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 					myPacket.dataToBuf(myReadBuf, i + 1);
 					myPacket.resetRead();
 					packet = new ArLMS1XXPacket;
-					packet->duplicatePacket(&myPacket);
+					packet->duplicatePacket(&myPacket); // TODO would it be better to avoid this, or is this the best way?
 					myPacket.empty();
 					myPacket.setLength(0);
 
