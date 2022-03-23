@@ -28,6 +28,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArSerialConnection.h"
 #include "Aria/ariaInternal.h"
 #include <time.h>
+#include <cstddef>
 
 //#define TRACE
 #if (defined(TRACE))
@@ -272,7 +273,7 @@ long ArLMS1XXPacket::getNumFromBufHexText()
 	char *endptr;
 	const long r = strtol(startptr, &endptr, 16);
 	assert(endptr >= startptr);
-	const ptrdiff_t len = endptr - startptr;
+	const std::ptrdiff_t len = endptr - startptr;
 	assert(len <= UINT16_MAX);
 	assert(len >= 0);
 	if(isNextGood((size_t)len))
