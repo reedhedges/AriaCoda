@@ -1,0 +1,45 @@
+
+
+// Visual Studio Code devcontainer configuration.  Unfortunately VS COde only allows one
+// devcontainer configuration, you can't select between multiple, except by editing this
+// configuration:  Change the name and the "IMAGE" arg inside "build". 
+// You will then need to rebuild and rerun the container in VS Code.
+//
+// IMAGE can be image name pulled from docker hub, or URL, file etc. It is used as the FROM 
+// parameter in Dockerfile. See Dockerfile for more notes.
+//
+// Note if using "ubuntu:xenial" image or another system with an older gcc/c++ library version, you also
+// need to set EXTRA_CXXFLAGS environment variable to include -DARIA_OMIT_DEPRECATED_MATH_FUNCS "remoteEnv", but
+// remove this if NOT using Xenial or another older OS version.
+//
+
+{
+  "name": "AriaCoda Ubuntu Xenial",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "args": { "IMAGE": "ubuntu:xenial" } // Change this to select OS image
+  },
+
+  //"image": "ubuntu:xenial", //?
+
+  // NOTE only include this environment variable if image is ubuntu:xenial
+  "remoteEnv": {
+    "EXTRA_CXXFLAGS": "-DARIA_OMIT_DEPRECATED_MATH_FUNCS=1"
+  },
+
+  // You can add more docker arguments here
+  //"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined"],
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": {},
+
+	// VS Code extensions you want installed when the container is created.
+	"extensions": [
+		"ms-vscode.cpptools",
+    "spmeesseman.vscode-taskexplorer"
+	],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postStartCommand": "g++ --version; cat /etc/lsb-release"
+}
+
