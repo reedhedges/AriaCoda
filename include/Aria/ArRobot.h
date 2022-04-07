@@ -1557,12 +1557,6 @@ public:
   /// State Reflector, internal
   /// @internal
   void stateReflector();
-  /// Robot locker, internal
-  /// @internal
-  void robotLocker();
-  /// Robot unlocker, internal
-  /// @internal
-  void robotUnlocker();
 
   /// Packet handler, internal, for use in the syncloop when there's no threading
   /// @internal
@@ -1611,8 +1605,8 @@ public:
   ArFunctorC<ArRobot> myPacketHandlerCB;
   ArFunctorC<ArRobot> myActionHandlerCB;
   ArFunctorC<ArRobot> myStateReflectorCB;
-  ArFunctorC<ArRobot> myRobotLockerCB;
-  ArFunctorC<ArRobot> myRobotUnlockerCB;
+  ArRetFunctorC<int, ArRobot> myRobotLockerCB;
+  ArRetFunctorC<int, ArRobot> myRobotUnlockerCB;
   ArFunctorC<ArRobot> myKeyHandlerExitCB;
   ArFunctorC<ArKeyHandler> *myKeyHandlerCB;
 

@@ -83,8 +83,8 @@ AREXPORT ArRobot::ArRobot(const char *name, UNUSED bool unused,
   myPacketHandlerCB(this, &ArRobot::packetHandler),
   myActionHandlerCB(this, &ArRobot::actionHandler),
   myStateReflectorCB(this, &ArRobot::stateReflector),
-  myRobotLockerCB(this, &ArRobot::robotLocker),
-  myRobotUnlockerCB(this, &ArRobot::robotUnlocker),
+  myRobotLockerCB(this, &ArRobot::lock),
+  myRobotUnlockerCB(this, &ArRobot::unlock),
   myKeyHandlerExitCB(this, &ArRobot::keyHandlerExit),
   myGetCycleWarningTimeCB(this, &ArRobot::getCycleWarningTime),
   myGetNoTimeWarningThisCycleCB(this, &ArRobot::getNoTimeWarningThisCycle),
@@ -4625,33 +4625,10 @@ AREXPORT long int ArRobot::getLeftEncoder() const
   return myLeftEncoder;
 }
 
-/** @note You must first start the encoder packet stream by calling
- * requestEncoderPackets() before this function will return encoder values.
- */
 AREXPORT long int ArRobot::getRightEncoder() const
 {
   return myRightEncoder;
 }
-
-
-/**
- * @internal
-   This just locks the robot, so that its locked for all the user tasks
-**/
-void ArRobot::robotLocker()
-{
-  lock();
-}
-
-/**
- * @internal
-   This just unlocks the robot
-**/
-void ArRobot::robotUnlocker()
-{
-  unlock();
-}
-
 
 
 void ArRobot::packetHandler()
