@@ -51,37 +51,3 @@ AREXPORT void ArTransform::doTransform(std::list<ArPoseWithTime *> *poseList)
   }
 
 }
-
-/**
-   @param pose the coord system from which we transform to abs world coords
-*/
-AREXPORT void ArTransform::setTransform(const ArPose& pose) 
-{ 
-  myTh = pose.getTh();
-  myCos = ArMath::cos(-myTh);
-  mySin = ArMath::sin(-myTh);
-  myX = pose.getX();
-  myY = pose.getY();
-}
-
-/**
-   @param pose1 transform this into pose2
-   @param pose2 transform pose1 into this
-*/
-AREXPORT void ArTransform::setTransform(const ArPose& pose1, const ArPose& pose2)
-{
-  myTh = ArMath::subAngle(pose2.getTh(), pose1.getTh());
-  myCos = ArMath::cos(-myTh);
-  mySin = ArMath::sin(-myTh);
-  myX = pose2.getX() - (myCos * pose1.getX() + mySin * pose1.getY());
-  myY = pose2.getY() - (myCos * pose1.getY() - mySin * pose1.getX());
-}
-
-AREXPORT void ArTransform::setTransformLowLevel(double x, double y, double th)
-{
-  myTh = th;
-  myCos = ArMath::cos(-myTh);
-  mySin = ArMath::sin(-myTh);
-  myX = x;
-  myY = y;
-}

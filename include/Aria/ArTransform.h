@@ -34,26 +34,28 @@ class ArTransform
 {
 public:
   /// Constructor
-  ArTransform() : myX(0), myY(0), myTh(0)
-    { 
-      myCos = ArMath::cos(myTh);
-      mySin = ArMath::sin(myTh);
+  ArTransform() : 
+    myX(0),
+    myY(0),
+    myTh(0),
+    myCos(1.0), /* cos(0) == 1 */ 
+    mySin(0.0) /* sin(0) == 0 */
+    {
     }
+
   /// Constructor, Sets the transform so points in this coord system
   /// transform to abs world coords
-
   ArTransform(const ArPose& pose) 
     { 
       setTransform(pose);
     }
+
   /// Constructor, sets the transform so that pose1 will be
   /// transformed to pose2
   ArTransform(const ArPose& pose1, const ArPose& pose2)
     {
       setTransform(pose1, pose2);
     }
-  /// Destructor
-  //virtual ~ArTransform() {}
 
   /// Take the source pose and run the transform on it to put it into abs 
   /// coordinates
@@ -63,11 +65,11 @@ public:
   */
   ArPose doTransform(const ArPose& source) const
   {
-    return ArPose(
+    return {
       (myX + myCos * source.getX() + mySin * source.getY()),
       (myY + myCos * source.getY() - mySin * source.getX()),
       (ArMath::addAngle(source.getTh(),myTh)) 
-    );
+    };
   }
 
   ArPose operator()(const ArPose& source) const
@@ -152,18 +154,46 @@ public:
   /// @deprecated use std::transform(poseList, t)
   /// Take a std::list of sensor readings and do the transform on it
   AREXPORT void doTransform(std::list<ArPoseWithTime *> *poseList);
+  
   /// Sets the transform so points in this coord system transform to abs world coords
-  AREXPORT void setTransform(const ArPose& pose);
+  ///   @param pose the coord system from which we transform to abs world coords
+  AREXPORT void setTransform(const ArPose& pose)
+  { 
+    myTh = pose.getTh();
+    myCos = ArMath::cos(-myTh);
+    mySin = ArMath::sin(-myTh);
+    myX = pose.getX();
+    myY = pose.getY();
+  }
+
   /// Sets the transform so that pose1 will be transformed to pose2
-  AREXPORT void setTransform(const ArPose& pose1, const ArPose& pose2);
+  ///   @param pose1 transform this into pose2
+  ///   @param pose2 transform pose1 into this
+  AREXPORT void setTransform(const ArPose& pose1, const ArPose& pose2)
+  {
+    myTh = ArMath::subAngle(pose2.getTh(), pose1.getTh());
+    myCos = ArMath::cos(-myTh);
+    mySin = ArMath::sin(-myTh);
+    myX = pose2.getX() - (myCos * pose1.getX() + mySin * pose1.getY());
+    myY = pose2.getY() - (myCos * pose1.getY() - mySin * pose1.getX());
+  }
+
   /// Gets the transform x value (mm)
   double getX() const { return myX; } 
   /// Gets the transform y value (mm)
   double getY() const { return myY; }
   /// Gets the transform angle value (degrees)
   double getTh()const  { return myTh; }
+
   /// Internal function for setting the transform from low level data not poses
-  AREXPORT void setTransformLowLevel(double x, double y, double th);
+  AREXPORT void setTransformLowLevel(double x, double y, double th)
+  {
+    myTh = th;
+    myCos = ArMath::cos(-myTh);
+    mySin = ArMath::sin(-myTh);
+    myX = x;
+    myY = y;
+  }
 protected:
   double myX;
   double myY;
