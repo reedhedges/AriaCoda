@@ -1,5 +1,4 @@
-# A simple $(MAKE)file to cause $(MAKE) to go look in the top directory. A simple
-# convenience.
+
 
 all: ../lib/libAria.so
 	$(MAKE) -C .. tests
@@ -26,6 +25,20 @@ newFunctionObjectTemplates: ../lib/libAria.so newFunctionObjectTemplates.cpp
 
 clean: 
 	$(MAKE) -C .. cleanTests
+
+# Run subset of tests that fail on errors, and don't require any special hardware (like robot or sensors):
+RUNNABLE_TESTS = poseTest lineTest arsectors mathTests lms1xxPacket
+
+runTests: $(RUNNABLE_TESTS)
+	for f in $(RUNNABLE_TESTS); do echo; echo ========== ; echo $$f; echo ----------; ./$$f || echo ">>>> Test $$f failed! <<<<" ; done
+
+run_%: %
+	@echo
+	@echo ==========
+	@echo $<
+	@echo ----------
+	./$<
+	@echo "Test $<  ok"
 
 FORCE:
 
