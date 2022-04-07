@@ -18,7 +18,7 @@ CFILEEXT:=cpp
 # -fprofile-arcs to generate profiling information or add optimization flags
 # here during "release" builds, or to add more warnings in addition to the
 # defaults.
-# Set CXXSTD to select C++ version.
+# Set CXXSTD to set value of -std option (to enable a different C++ version).  Default is c++14.
 # Set CXXDEBBUGFLAGS and CXXOPTFLAGS to set debug and optimization flags
 
 CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wpedantic -Wsign-conversion -Wconversion -Woverloaded-virtual 

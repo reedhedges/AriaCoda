@@ -143,8 +143,9 @@ supports C++14.  There are no additional library dependencies.
 On Linux, the GNU C++ compiler (g++/gcc), GNU Make, and standard shell
 tools are required.  On Ubuntu or Debian Linux, run
 `sudo apt install make g++` to install.   (Clang should also work but is not
-as regularly tested.)   The C++ compiler must support at least C++14.  Ubuntu Bionic
-or later is recommended. (See below for older systems.)
+as regularly tested.)   The C++ compiler must support at least C++14;  
+GCC 9 or later is recommended. (Ubuntu Bionic or later is recommended 
+as Linux operating system.) See below for notes on older GCC/OS versions.
 
 On Windows, Visual C++ 2019 is required to use the provided project and
 solution files.  The free "Community" edition can be downloaded
@@ -203,6 +204,8 @@ add the `-DARIA_OMIT_DEPRECATED_MATH_FUNCS` compilation flag to `EXTRA_CXXFLAGS`
 
     make EXTRA_CXXFLAGS=-DARIA_OMIT_DEPRECATED_MATH_FUNCS 
 
+A few optional features (e.g. `constexpr` support) may be omitted from specific parts of the API
+if building with older compilers or standard library versions.
 
 ### Windows
 
@@ -220,7 +223,7 @@ components", and install the latest version of "MSVC C++ x64/x86 build tools",
 "C++ core features", and the latest version of the Windows SDK (Or install the
 complete C++ development environment option).
 
-It may be possible to use older versions of Visual C++ if necessary, but you will
+It may be possible to use older versions of Visual C++, but you will
 need to create new project files for AriaCoda using that version of Visual C++.  
 (Generally, Visual C++ project files are specific to versions of Visual C++, though
 Visual Studio can often upgrade older project files.)

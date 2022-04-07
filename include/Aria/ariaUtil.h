@@ -901,7 +901,13 @@ public:
     }
   
   /// Maximum of value returned by random()
-  constexpr static long getRandMax() { return ourRandMax; }
+  /// @note For GCC prior to version 8, this function cannot be declared constexpr, but for GCC version 8 and later, it is declared with constexpr.  This interface difference means that user code built with GCC version 8 or later may not be able to link to an Aria library built with GCC prior to version 8, and vice-versa.
+#if !defined(__clang__) && defined(__GNUC__) && (__GNUC__ < 8) 
+  // GCC 8 and later and clang allow returning the value ourRandMax from constexpr function, which is initialized in ariaUtil.cpp (outside class declaration).  GCC prior to 8 does not so we omit constexpr here.
+#else
+  constexpr
+#endif
+  static long getRandMax() { return ourRandMax; }
 
   /** Returns a random number between @a m and @a n. On Windows, rand() is used,
    * on Linux lrand48(). 
@@ -1033,14 +1039,6 @@ public:
     myTh(ArMath::fixAngle(th))
   {}
     
-  // Copy Constructor
-  // not neccesary. 
-  //ArPose(const ArPose &pose) : 
-  //  myX(pose.myX), myY(pose.myY), myTh(pose.myTh) {}
-
-    // Note:virtual destructor omitted. Any subclasses of ArPose should also not have one (it would not be invoked if an instance stored as upcasted ArPose is destroyed).
-
-
   /// Sets the position to the given values
   /** 
       Sets the position with the given three values, but the theta does not
@@ -1140,18 +1138,18 @@ public:
   /// Add the other pose's X, Y and theta to this pose's X, Y, and theta (sum in theta will be normalized to (-180,180)), and return the result
   constexpr ArPose operator+(const ArPose& other) const
   {
-    return ArPose( myX + other.getX(), 
-                   myY + other.getY(), 
-                   ArMath::fixAngle(myTh + other.getTh()) );
+    return { myX + other.getX(), 
+             myY + other.getY(), 
+             ArMath::fixAngle(myTh + other.getTh()) };
   }
 
   /// Substract the other pose's X, Y, and theta from this pose's X, Y, and theta (difference in theta will be normalized to (-180,180)), and return the result
 
   constexpr ArPose operator-(const ArPose& other) const
   {
-    return ArPose( myX - other.getX(), 
-                   myY - other.getY(), 
-                   ArMath::fixAngle(myTh - other.getTh()) );
+    return { myX - other.getX(), 
+             myY - other.getY(), 
+             ArMath::fixAngle(myTh - other.getTh()) };
   }
   
   /** Adds the given pose to this one.
@@ -1276,7 +1274,6 @@ public:
   }
 
 protected:
-
   double myX;
   double myY;
   double myTh;
@@ -1290,6 +1287,7 @@ class ArPos2D : public ArPose
 {
 public:
   ArPos2D(double x, double y) : ArPose(x, y, 0) {}
+  ArPos2D() : ArPose(0, 0, 0) {}
   std::ostream& operator<<(std::ostream& os) const
   {
     os << "{x=" << getX() << ", y=" << getY() << "}";
@@ -1850,20 +1848,20 @@ public:
     }
 
   ///@P @a valid must not be NULL
-  ArPose intersectingPoint(const ArLine& line, bool *valid) const 
+  constexpr ArPose intersectingPoint(const ArLine& line, bool *valid) const 
   {
       const double n = -1 * ( (line.getB() * getA()) - (line.getA() * getB()) );
       // if this is 0 the lines are parallel
       if (ArMath::fabs(n) < .0000000000001)
       {
         *valid = false;
-        return ArPose(0, 0);
+        return {0, 0, 0};
       }
       // they weren't parallel so see where the intersection is
       *valid = true;
       const double x = ((line.getC() * getB()) - (line.getA() * getC())) / n;
       const double y = ((getC() * line.getA()) - (getA() * line.getC())) / n;
-      return ArPose(x, y);
+      return {x, y, 0};
   }
 
 
@@ -1881,7 +1879,7 @@ public:
   /// Return new line perpendicular to this line through the given pose
   constexpr ArLine perpendicularLine(const ArPose& pose) const
   {
-    return ArLine(-getB(), getA(), (getA() * pose.getY()) - (getB() * pose.getX()));
+    return { -getB(), getA(), (getA() * pose.getY()) - (getB() * pose.getX()) };
   }
 
    /// Calculate the distance from the given point to (its projection on) this line segment
@@ -1895,10 +1893,11 @@ public:
   **/
    double getPerpDist(const ArPose &pose) const
     {
-      ArPose perpPose;
-      if (!intersects(perpendicularLine(pose), &perpPose))
+      bool found{false};
+      ArPose perpPose{intersectingPoint(perpendicularLine(pose), &found)};
+      if (!found)
 	      return -1;
-      return (perpPose.findDistanceTo(pose));
+      return perpPose.findDistanceTo(pose);
     }
    /// Calculate the squared distance from the given point to (its projection on) this line segment
   /**
@@ -1910,10 +1909,11 @@ public:
   **/
   constexpr double getPerpSquaredDist(const ArPose &pose) const
     {
-      ArPose perpPose;
-      if (!intersects(perpendicularLine(pose), &perpPose))
+      bool found{false};
+      ArPose perpPose{intersectingPoint(perpendicularLine(pose), &found)};
+      if (!found)
 	      return -1;
-      return (perpPose.squaredFindDistanceTo(pose));
+      return perpPose.squaredFindDistanceTo(pose);
     }
   /// Determine the intersection point between this line segment, and a perpendicular line passing through the given pose (i.e. projects the given pose onto this line segment.)
   /**
@@ -2000,10 +2000,10 @@ public:
    **/
   bool intersects(const ArLine& line, ArPose *pose = NULL) const
   {
-    ArPose intersection;
+    bool found{false};
+    const ArPose intersection{intersectingPoint(line, &found)};
     // see if it intersects, then make sure its in the coords of this line
-    if (myLine.intersects(line, &intersection) &&
-      linePointIsInSegment(intersection))
+    if (found && linePointIsInSegment(intersection))
     {
       if(pose) pose->setPose(intersection);
       return true;
@@ -2016,12 +2016,12 @@ public:
   ArPose intersectingPoint(const ArLine& line, bool *valid) const
   {
     // get interesecting point to our infinite line then also check if it's in this segment
-    ArPose p(myLine.intersectingPoint(line, valid));
+    const ArPose p{myLine.intersectingPoint(line, valid)};
     if(*valid == false)
-      return ArPose(0, 0, 0);
+      return {0, 0, 0};
     if(!linePointIsInSegment(p)) {
       *valid = false;
-      return ArPose(0, 0, 0);
+      return {0, 0, 0};
     }
     return p;
   }
@@ -2038,9 +2038,10 @@ public:
   /** @copydoc intersects(const ArLine *line, ArPose *pose) const */
   bool intersects(const ArLineSegment& line, ArPose *pose = NULL) const
   {
-    ArPose intersection;
+    bool found{false};
+    const ArPose intersection{intersectingPoint( *(line.getLine()), &found )};
     // see if it intersects, then make sure its in the coords of this line
-    if (myLine.intersects(*(line.getLine()), &intersection) &&
+    if (found &&
       linePointIsInSegment(intersection) &&
       line.linePointIsInSegment(intersection))
     {
@@ -2082,7 +2083,7 @@ public:
     }
 #endif
 
-   /// Calculate the distance from the given point to (its projection on) this line segment
+  /// Calculate the distance from the given point to (its projection on) this line segment
   /**
      @param pose the the pose to find the perp point of
 
@@ -2090,14 +2091,16 @@ public:
      if the pose intersects the segment it will return the distance to
      the intersection
   **/
-   double getPerpDist(const ArPose &pose) const
-    {
-      ArPose perpPose;
-      if (!intersects(myLine.perpendicularLine(pose), &perpPose))
-	      return -1;
-      return (perpPose.findDistanceTo(pose));
-    }
-   /// Calculate the squared distance from the given point to (its projection on) this line segment
+  double getPerpDist(const ArPose &pose) const
+  {
+    bool found = false;
+    const ArPose perpPose{intersectingPoint(myLine.perpendicularLine(pose), &found)};
+    if (!found)
+      return -1;
+    return perpPose.findDistanceTo(pose);
+  }
+  
+  /// Calculate the squared distance from the given point to (its projection on) this line segment
   /**
      @param pose the the pose to find the perp point of
 
@@ -2105,15 +2108,16 @@ public:
      if the pose intersects the segment it will return the distance to
      the intersection
   **/
-   double getPerpSquaredDist(const ArPose &pose) const
-    {
-      ArPose perpPose;
-      if (!intersects(myLine.perpendicularLine(pose), &perpPose))
-	      return -1;
-      return (perpPose.squaredFindDistanceTo(pose));
-    }
+  double getPerpSquaredDist(const ArPose &pose) const
+  {
+    bool found = false;
+    const ArPose perpPose{intersectingPoint(myLine.perpendicularLine(pose), &found)};
+    if (!found)
+      return -1;
+    return perpPose.squaredFindDistanceTo(pose);
+  }
 
-   /// Gets the distance from this line segment to a point.
+  /// Gets the distance from this line segment to a point.
   /**
    * If the point can be projected onto this line segment (i.e. a
    * perpendicular line can be drawn through the point), then
@@ -2122,16 +2126,17 @@ public:
      @param pose the pointer of the pose to find the distance to
   **/
   double getDistToLine(const ArPose &pose) const
+  {
+    bool found = false;
+    const ArPose perpPose{myLine.intersectingPoint(myLine.perpendicularLine(pose), &found)};
+    if (!found)
     {
-      ArPose perpPose;
-      if (!intersects(myLine.perpendicularLine(pose), &perpPose))
-      {
-	      return std::min(
-		                    ArMath::roundInt(getEndPoint1().findDistanceTo(pose)),
-		                    ArMath::roundInt(getEndPoint2().findDistanceTo(pose)));
-      }
-      return (perpPose.findDistanceTo(pose));
+      return std::min(
+                      ArMath::roundInt(getEndPoint1().findDistanceTo(pose)),
+                      ArMath::roundInt(getEndPoint2().findDistanceTo(pose)));
     }
+    return perpPose.findDistanceTo(pose);
+  }
   
   /// Determines the length of the line segment
   double getLengthOf() const
@@ -2142,8 +2147,9 @@ public:
   /// Determines the mid point of the line segment
   ArPose getMidPoint() const
   {
-    return ArPose(((myX1 + myX2) / 2.0),
-                  ((myY1 + myY2) / 2.0));
+    return { ((myX1 + myX2) / 2.0),
+             ((myY1 + myY2) / 2.0),
+             0 };
   }
 
 
@@ -2163,10 +2169,20 @@ public:
   double getC() const { return myLine.getC(); }
 
   /// Internal function for seeing if a point on our line is within our segment
-  constexpr bool linePointIsInSegment(const ArPose& pose) const
+  /// @note For GCC prior to version 7.2, this function cannot be declared constexpr, but for GCC version 7.2 and later, it is declared with constexpr.  This interface difference means that user code built with GCC version 7.2 or later may not be able to link to an Aria library built with GCC prior to version 7.2, and vice-versa.
+#if !defined(__clang__) && defined(__GNUC__)
+# if (__GNUC__ > 7) || (__GNUC__ == 7 && __GNUC_MINOR__ >= 2) 
+  constexpr // include constexpr for GCC >= 7.2
+#else
+  // omit constexpr for GCC < 7.2
+# endif
+#else
+  constexpr // include constexpr for non-GCC
+#endif
+  bool linePointIsInSegment(const ArPose& pose) const
     {
-      bool isVertical = (ArMath::fabs(myX1 - myX2) < ArMath::epsilon());
-      bool isHorizontal = (ArMath::fabs(myY1 - myY2) < ArMath::epsilon());
+      const bool isVertical = (ArMath::fabs(myX1 - myX2) < ArMath::epsilon());
+      const bool isHorizontal = (ArMath::fabs(myY1 - myY2) < ArMath::epsilon());
 
       if (!isVertical || !isHorizontal) {
 

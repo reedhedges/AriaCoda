@@ -875,7 +875,7 @@ std::string str2 = inStr2;
   /* Unfortunately gcc2 does't support the 5 argument version of std::string::compare()... 
    * (Furthermore, note that it's 3-argument compare has the arguments in the wrong order.)
    */
-#if defined(__GNUC__) && (__GNUC__ <= 2) && (__GNUC_MINOR__ <= 96)
+#if defined(__GNUC__) && (__GNUC__ <= 2) && (__GNUC_MINOR__ <= 96) && !defined(__clang__)
 #warning Using GCC 2.96 or less so must use nonstandard std::string::compare method.
   int cmp = str1.compare(str2.substr(pos2, len2 - 2 * pos2), pos1, len1 - 2 * pos1);
 #else
