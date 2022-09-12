@@ -91,7 +91,7 @@ class ArDPPTUCommands
 {
 public:
 
-  enum {
+  enum  : int8_t {
     DELIM = 0x20, ///<Space - Carriage return delimeter
     INIT = 0x40, ///<Init character
     ACCEL = 0x61, ///<Acceleration, Await position-command completion
@@ -152,7 +152,7 @@ public:
     PANTILT_PTUD46 ///< Force settings for PTU-D46  @since 2.7.5
   };
 
-  enum Axis {
+  enum Axis : int8_t {
     PAN = 'P',
     TILT = 'T'
   };
@@ -266,7 +266,7 @@ public:
 
 ///Enable/disable moving and holding power modes for pan and tilt
 ///@{
-  enum PowerMode {
+  enum PowerMode : int8_t {
     OFF = 'O',
     LOW = 'L',
     NORMAL = 'R',

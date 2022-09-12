@@ -534,6 +534,8 @@ AREXPORT bool ArBatteryMTX::blockingConnect (bool sendTracking, bool recvTrackin
 	//myReceiver->setSync1(HEADER1);
 	//m/yReceiver.setSync2(HEADER2);
 
+  // TODO just make these members rather than allocating
+
 	myReceiver = new ArRobotPacketReceiver(myConn, true, HEADER1, HEADER2, 
 																					myRecvTracking,
 																					"ArBatteryMTX");
@@ -1268,8 +1270,8 @@ AREXPORT void ArBatteryMTX::updateBasicInfo (unsigned char *buf)
 	myCurrentDraw = myRawCurrentDraw / 100.0;
 	myRawPackVoltage = (unsigned short)((uint16_t)buf[6] << 8 | (uint16_t)buf[5]);
 	myPackVoltage = myRawPackVoltage / 1000.0;
-	myStatusFlags = (unsigned short) ((uint16_t)buf[8] << 8 | (uint16_t) buf[7]);
-	myErrorFlags = (unsigned short)((uint16_t) buf[10] << 8 | (uint16_t) buf[9]);
+	myStatusFlags = (uint16_t) ((uint16_t)buf[8] << 8 | (uint16_t) buf[7]);
+	myErrorFlags = (uint16_t)((uint16_t) buf[10] << 8 | (uint16_t) buf[9]);
 }
 
 

@@ -108,7 +108,7 @@ This camera has a digital zoom as well as the optical one.  There is an addition
 class ArVCC4Commands
 {
 public:
-  enum Command {
+  enum Command  : uint8_t {
     DELIM = 0x00, ///<Delimeter character
     DEVICEID = 0x30, ///<Default device ID
     PANSLEW = 0x50, ///<Sets the pan slew
@@ -398,7 +398,7 @@ protected:
   };
 
   // the various error states that the camera can return
-  enum Error
+  enum Error : uint8_t
   {
     CAM_ERROR_NONE = 0x30,   ///<No error
     CAM_ERROR_BUSY = 0x31,   ///<Camera busy, will not execute the command

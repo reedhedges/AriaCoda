@@ -52,7 +52,7 @@ class ArMD5Calculator {
 
 public:
 
-	enum {
+	enum  : size_t {
 		DIGEST_LENGTH = 16U, ///< Number of bytes in the checksum buffer
     DISPLAY_LENGTH = (DIGEST_LENGTH * 2) + 1 ///< Number of characters needed to display the checksum
 	};

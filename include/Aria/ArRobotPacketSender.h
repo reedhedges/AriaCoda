@@ -106,7 +106,7 @@ protected:
   ArFunctor1<ArRobotPacket *> *myPacketSentCallback;
   ArFunctor2<unsigned char, short int> *myCommandMonitorCB;
 
-  enum { INTARG = 0x3B, NINTARG = 0x1B, STRARG = 0x2B };
+  enum : uint8_t { INTARG = 0x3B, NINTARG = 0x1B, STRARG = 0x2B };
 };
 
 

@@ -90,7 +90,7 @@ public:
   AREXPORT ~ArKeyHandler();
 
   /// These are symbols for the non-ascii keys
-  enum KEY {
+  enum KEY : int {
     UP = 256, ///< Up arrow (keypad or 4 key dirs)
     DOWN, ///< Down arrow (keypad or 4 key dirs)
     LEFT, ///< Left arrow (keypad or 4 key dirs)

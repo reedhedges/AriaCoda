@@ -89,8 +89,8 @@ public:
     WAIT_FAIL ///< The wait failed due to an error
   } WaitState;
 
-  enum ChargeState {
-    CHARGING_UNKNOWN = -1,
+  enum ChargeState : uint8_t {
+    CHARGING_UNKNOWN = 255,
     CHARGING_NOT = 0,
     CHARGING_BULK = 1,
     CHARGING_OVERCHARGE = 2,

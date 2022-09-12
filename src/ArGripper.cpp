@@ -33,7 +33,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
      The default, QUERYTYPE, will work with most robot configurations with 
      a recent firmware version.
 */
-AREXPORT ArGripper::ArGripper(ArRobot *robot, int gripperType) :
+AREXPORT ArGripper::ArGripper(ArRobot *robot, ArGripper::Type gripperType) :
   myConnectCB(this, &ArGripper::connectHandler),
   myPacketHandlerCB(this, &ArGripper::packetHandler)
 {
@@ -460,13 +460,11 @@ AREXPORT void ArGripper::logState() const
 
 AREXPORT bool ArGripper::packetHandler(ArRobotPacket *packet)
 {
-  int type;
-  
   if (packet->getID() != 0xE0)
     return false;
 
   myLastDataTime.setToNow();
-  type = packet->bufToUByte();  
+  uint8_t type = packet->bufToUByte();  
   mySwitches = packet->bufToUByte();
   myGraspTime = packet->bufToUByte();
 
@@ -504,18 +502,9 @@ AREXPORT bool ArGripper::packetHandler(ArRobotPacket *packet)
 }
 
 /**
-   @return the gripper type
-   @see Type
-*/
-AREXPORT int ArGripper::getType() const
-{
-  return myType;
-}
-
-/**
    @param type the type of gripper to set it to
 */
-AREXPORT void ArGripper::setType(int type)
+AREXPORT void ArGripper::setType(ArGripper::Type type)
 {
   myType = type;
   if (myRobot != NULL && (myType == GRIPPAC || myType == QUERYTYPE))

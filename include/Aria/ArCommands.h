@@ -33,7 +33,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 class ArCommands
 {
 public:
-  enum Commands { 
+  enum Commands : unsigned char { 
   PULSE = 0, ///< none, keep alive command, so watchdog doesn't trigger
   OPEN = 1, ///< none, sent after connection to initiate connection
   CLOSE = 2, ///< none, sent to close the connection to the robot

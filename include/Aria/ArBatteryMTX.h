@@ -323,7 +323,7 @@ public:
     { myBatteryPoweringOffCancelledCBList.remCallback(functor); }
 
   // myStatusFlags 
-  enum StatusFlags {
+  enum StatusFlags : uint16_t {
     STATUS_ON_CHARGER=0x0001,
     STATUS_CHARGING=0x0002,
     STATUS_BALANCING_ENGAGED=0x0004,
@@ -339,7 +339,7 @@ public:
   };
   
   // myErrorFlags (if this is updated also change the code in interpBasicInfo
-  enum ErrorFlags {
+  enum ErrorFlags : uint16_t {
     ERROR_BATTERY_OVERVOLTAGE=0x0001,
     ERROR_BATTERY_UNDERVOLTAGE=0x0002,
     ERROR_OVERCURRENT=0x0004,
@@ -352,7 +352,7 @@ public:
     ERROR_CHARGER_CIRCUIT_FAULT=0x0200
   };
 
-enum Headers {
+enum Headers : unsigned char {
 	HEADER1=0xfa,
 	HEADER2=0xba
 	};
@@ -414,8 +414,8 @@ protected:
   //ArBatteryMTXPacketReceiver myReceiver;
 
 
-	ArRobotPacketReceiver *myReceiver;
-  ArRobotPacketSender *mySender;
+	ArRobotPacketReceiver *myReceiver; // TODO could just be a member rather than pointer to allocated object
+  ArRobotPacketSender *mySender; // TODO could just be a member rather than pointer to allocated object
 
   ArMutex myPacketsMutex;
   ArMutex myDataMutex;
@@ -424,7 +424,7 @@ protected:
   ArLog::LogLevel myInfoLogLevel;
 	
   //std::list<ArBatteryMTXPacket *> myPackets;
-  std::list<ArRobotPacket *> myPackets;
+  std::list<ArRobotPacket *> myPackets; // TODO could just be a list of ArRobotPacket objects rather than pointers? if ArRobotPacketReceiver::receivePacket() returned a plain ArPacket object that could be moved into list (or we use a static ring buffer and pass a pointer to an unused packet to receivePacket()).
   
   ArTime myPrevBatteryIntTime;
 
@@ -533,15 +533,15 @@ enum Sizes {
   double myCurrentDraw;
 	unsigned short myRawPackVoltage;
   double myPackVoltage;
-	unsigned short myStatusFlags;
-	unsigned short myErrorFlags;
+	uint16_t myStatusFlags;
+	uint16_t myErrorFlags;
 
   bool myHaveSetRTC;
 
   int myLastStatusFlags;
 
   bool myFirstErrorFlagsCheck;
-  unsigned short myLastErrorFlags;
+  uint16_t myLastErrorFlags;
   std::string myErrorString;
   int myErrorCount;
   std::string myLastErrorString;

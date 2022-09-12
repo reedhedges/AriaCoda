@@ -457,7 +457,7 @@ public:
        myReceiver->setTracking(true);
   }
 
-enum Headers {
+enum Headers  : uint8_t {
 	HEADER1=0xfa,
 	HEADER2=0xf5 
 };
@@ -542,11 +542,13 @@ protected:
 		SONAR_LAST_READING
   };
 
+/* unused
 enum Sizes {
 	maxTransducers=16
 	};
+*/
 
-enum Commands {
+enum Commands  : uint8_t {
  ALIVE=0x00,
  START_SCAN=0x01,
  STOP_SCAN=0x02,

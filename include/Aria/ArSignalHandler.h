@@ -77,13 +77,13 @@ class ArSignalHandler : public ArASyncTask
 {
 public:
 
-  typedef enum
+  enum Signal : int
   {
     SigHUP=1, SigINT, SigQUIT, SigILL, SigTRAP, SigABRT, SigBUS, SigFPE, 
     SigKILL, SigUSR1, SigSEGV, SigUSR2, SigPIPE, SigALRM, SigTERM, SigSTKFLT, 
     SigCHLD, SigCONT, SigSTOP, SigTSTP, SigTTIN, SigTTOU, SigURG,
     SigXCPU, SigXFSZ, SigVTALRM, SigPROF, SigWINCH, SigIO, SigPWR
-  } Signal;
+  };
 
   /// Setup the signal handling for a non-threaded program
   AREXPORT static void createHandlerNonThreaded();

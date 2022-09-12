@@ -42,7 +42,7 @@ class ArRobotPacket;
 class ArGripperCommands
 {
 public:
-  enum Commands {
+  enum Commands : unsigned char {
     GRIP_OPEN = 1, ///< open the gripper paddles fully
     GRIP_CLOSE = 2, ///< close the gripper paddles all the way
     GRIP_STOP = 3, ///< stop the gripper paddles where they are
@@ -78,8 +78,16 @@ public:
 class ArGripper
 {
 public:
+  /// These are the types for the gripper
+  enum Type {
+    QUERYTYPE, ///< Finds out what type from the robot, default
+    GENIO, ///< Uses general IO
+    USERIO, ///< Uses the user IO
+    GRIPPAC, ///< Uses a packet requested from the robot
+    NOGRIPPER ///< There isn't a gripper
+  }; 
   /// Constructor
-  explicit AREXPORT ArGripper(ArRobot *robot, int gripperType = QUERYTYPE);
+  explicit AREXPORT ArGripper(ArRobot *robot, ArGripper::Type gripperType = QUERYTYPE);
   //AREXPORT virtual ~ArGripper();
   /// Opens the gripper paddles
   AREXPORT bool gripOpen();
@@ -116,9 +124,9 @@ public:
   /// Returns the state of the lift
   AREXPORT bool isLiftMaxed() const;
   /// Gets the type of the gripper
-  AREXPORT int getType() const;
+  AREXPORT ArGripper::Type getType() const { return myType; }
   /// Sets the type of the gripper
-  AREXPORT void setType(int type);
+  AREXPORT void setType(ArGripper::Type type);
   /// Gets the number of mSec since the last gripper packet
   AREXPORT long getMSecSinceLastPacket() const;
   /// Gets the grasp time
@@ -129,17 +137,9 @@ public:
   AREXPORT bool packetHandler(ArRobotPacket *packet);
   /// The handler for when the robot connects
   AREXPORT void connectHandler();
-  /// These are the types for the gripper
-  enum Type {
-    QUERYTYPE, ///< Finds out what type from the robot, default
-    GENIO, ///< Uses general IO
-    USERIO, ///< Uses the user IO
-    GRIPPAC, ///< Uses a packet requested from the robot
-    NOGRIPPER ///< There isn't a gripper
-  }; 
 protected:
   ArRobot *myRobot;
-  int myType;
+  Type myType;
   unsigned char myState;
   unsigned char mySwitches;
   unsigned char myGraspTime;

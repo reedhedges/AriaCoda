@@ -173,7 +173,7 @@ public:
 	AREXPORT bool setMTXLCDBootScreenText(const char *status);
 
 	// get routines
-	enum Screens {
+	enum Screens  : unsigned char {
 		BOOT_SCREEN = 0x00,
 		STATUS_SCREEN = 0x01
 	};
@@ -288,7 +288,7 @@ protected:
 
 	ArLog::LogLevel myLogLevel;
 
-	enum Headers {
+	enum Headers : unsigned char {
 		HEADER1 = 0xfa,
 		HEADER2 = 0xcd
 
@@ -317,7 +317,7 @@ protected:
 	// Protocol Commands
 
 
-	enum Commands {
+	enum Commands  : unsigned char {
 		KEEP_ALIVE = 0x00,
 		VERSION = 0x01,
 		SYSTEM_INFO = 0x02,
@@ -334,7 +334,7 @@ protected:
 
 
 
-	enum TextNumbers {
+	enum TextNumbers : unsigned char {
 		BOOT_STATUS_TEXT = 0x00,
 		MAIN_STATUS_TEXT = 0x01,
 		MODE_TEXT = 0x02,
@@ -343,7 +343,7 @@ protected:
 	};
 
 
-	enum SYS_INFO {
+	enum SYS_INFO : unsigned char {
 		SYS_INFO_STOP = 0x00,
 		SYS_INFO_ONCE = 0x01,
 		SYS_INFO_CONTINUOUS = 0x02
