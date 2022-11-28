@@ -687,7 +687,7 @@ public:
    
   /** @return a very small number which can be used for comparisons of floating 
    * point values, etc. 
-   * Or use std::numeric_limits<double>::epsilon() instead
+   * @note Same as std::numeric_limits<double>::epsilon(), which could be used directly instead.
    */
   constexpr static double epsilon() { return std::numeric_limits<double>::epsilon(); }
 
@@ -749,9 +749,12 @@ public:
   */
   constexpr static double fixAngle360(double angle)
   {
-    if(angle == 0)
+    if(angle >= 0.0 && angle < 360.0)
       return angle;
-    const double a = fixAngle(angle) + 180.0;
+    double a = fixAngle(angle);
+    if(a >= 0.0 && a < 360.0)
+      return a;
+    a += 360.0;
     assert(a >= 0);
     assert(a <= 360);
     return a;
@@ -994,12 +997,16 @@ public:
   }
 #endif
 
+  /// Compares floating point numbers @a f1 and @a f2 with given @a epsilon ("close enough" value).
+  /// @return true if the difference between f2 and f1 is less than epsilon
   constexpr static bool compareFloats(double f1, double f2, double epsilon)
   {
-    return (ArMath::fabs(f2-f1) <= epsilon);
+    return (ArMath::fabs(f2-f1) <= epsilon || ArMath::fabs(f2-f1) < std::numeric_limits<double>::min());
   }
 
-  static bool compareFloats(double f1, double f2)
+  /// Compares floating point numbers using ArMath::epsilon() as epsilon ("close enough" value).
+  /// @return true if the difference between f2 and f1 is less than ArMath::epsilon(), i.e. the numbers are almost equal, ignoring small floating point error <= epsilon.
+  constexpr static bool compareFloats(double f1, double f2)
   {
     return compareFloats(f1, f2, epsilon());
   }
@@ -1725,21 +1732,23 @@ public:
   {
     clear();
   }
-  /// Clears all quadrants
+  /// Clears all quadrant flags
   void clear() 
   {
     mySectors.fill(false);
   }
-  /// Updates the appropriate quadrant for the given angle
+  /// Sets the appropriate quadrant flag for the given angle to true
   void update(double angle)
   {
-    // TODO why is the angle rounded here? my is mySectorSize int?  change to doubles with final conversion using floor() or similar
-    const int angleInt = (int) floor(ArMath::fixAngle360(angle)); // shift range to [0,360], and ensure positive value
+    // TODO why is the angle rounded here? my is mySectorSize int?  change to doubles with final conversion using floor() or similar?
+    int angleInt = (int) floor(ArMath::fixAngle360(angle)); // shift range to [0,360], and ensure positive value
     assert(angleInt >= 0);
     assert(angleInt <= 360);
-    mySectors[(size_t)angleInt / mySectorSize] = true;
+    size_t s = (size_t)angleInt / mySectorSize;
+    assert(s < NumSectors);
+    mySectors[s] = true;
   }
-  /// Returns true if the all of the quadrants have been gone through
+  /// Returns true if the all of the quadrant flags have been set
   bool didAll() const
   {
     return std::all_of(mySectors.cbegin(), mySectors.cend(), [](bool b) -> bool { return b == true; });
@@ -1761,7 +1770,7 @@ public:
 
 protected:
   std::array<bool, NumSectors> mySectors;
-  const size_t mySectorSize = 360/NumSectors;
+  const size_t mySectorSize = (size_t)(360.0f/(double)NumSectors);
 };
 
   

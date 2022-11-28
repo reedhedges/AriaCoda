@@ -46,6 +46,7 @@ int main()
     int i = 0;
     for(double a = 11.74; a <= 360; a += 22.5)
     {
+      std::cout << a << "; "; fflush(stdout);
       sectors.update(a);
       ++i;
     }
@@ -62,6 +63,7 @@ int main()
     int i = 0;
     for(double a = 22.4; a <= 360; a += 45)
     {
+      std::cout << a << "; "; fflush(stdout);
       sectors.update(a);
       ++i;
     }
@@ -70,7 +72,7 @@ int main()
     assert( ! sectors.didAll());
   }
 
-  puts("----\n8 sectors, update on sector boundaries...");
+  puts("----\n8 sectors, update on and near sector boundaries...");
  
   // hit sector boundaries
   {
@@ -78,9 +80,14 @@ int main()
     int i = 0;
     for(double a = 0; a < 360; a += 45)
     {
-      std::cout << a << "; ";
+      std::cout << a << "; "; fflush(stdout);
       sectors.update(a);
       ++i;
+
+      std::cout << a + 0.0001 << "; "; fflush(stdout);
+      sectors.update(a+0.0001);
+
+  
     }
     std::cout <<  "\n" << sectors << "\n";
     assert(i == 8);

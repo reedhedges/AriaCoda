@@ -38,6 +38,15 @@ void fixTest(double th, double sth)
   }
 }
 
+void testFixAngle360(double in, double expected)
+{
+  double a = ArMath::fixAngle360(in);
+  printf("fixAngle360(%.12f) => %.12f (expected %.12f, fixAngle=>%.12f)... ", in, a, expected, ArMath::fixAngle(in));
+  fflush(stdout);
+  assert(ArMath::compareFloats(a, expected, 0.00000001));
+  puts("ok");
+}
+
 int main()
 {
 
@@ -70,6 +79,33 @@ int main()
   fixTest(-270, 90);
   fixTest(-180, 180);
   fixTest(180, 180);
+
+  printf("epsilon=%0.17f\n", ArMath::epsilon());
+  testFixAngle360(0, 0);
+  testFixAngle360(0.001, 0.001);
+  testFixAngle360(45, 45);
+  testFixAngle360(90, 90);
+  testFixAngle360(180, 180);
+  testFixAngle360(270, 270);
+  testFixAngle360(359, 359);
+  testFixAngle360(360, 0);
+  testFixAngle360(360.0001, 0.0001);
+  testFixAngle360(361, 1);
+  testFixAngle360(360+45, 45);
+  testFixAngle360(360+90, 90);
+  testFixAngle360(360+180, 180);
+  testFixAngle360(360+270, 270);
+  testFixAngle360(360+359, 359);
+  testFixAngle360(360+360, 0);
+  testFixAngle360(360+361, 1);
+  testFixAngle360(-1, 359);
+  testFixAngle360(-90, 270);
+  testFixAngle360(-179, 181);
+  testFixAngle360(-180, 180);
+  testFixAngle360(-181, 179);
+  testFixAngle360(-270, 90);
+  testFixAngle360(-360, 0);
+  testFixAngle360(-361, 359);
   
   printf("\nPassed all tests!!\n");
 }
