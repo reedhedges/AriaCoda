@@ -80,7 +80,7 @@ int main(int argc, char **argv) {
   puts("Testing very long message.");
   char longMessage[256];
   char c = 'a';
-  for(int i = 0; i <= 256; ++i)
+  for(int i = 0; i <= 255; ++i)
   {
     longMessage[i] = c;
     if(c == 'z') c = 'A';
