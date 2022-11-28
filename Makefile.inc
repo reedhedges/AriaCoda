@@ -15,7 +15,7 @@ CFILEEXT:=cpp
 # You can set CXXWARNFLAGS to select specific warnings, if unset a default set
 # of warnings will be used.
 # You can set EXTRA_CXXFLAGS to just add more flags. For example ,add -pg
-# -fprofile-arcs to generate profiling information or add optimization flags
+# -fprofile-arcs to generate profiling information or add extra optimization flags
 # here during "release" builds, or to add more warnings in addition to the
 # defaults.
 # Set CXXSTD to set value of -std option (to enable a different C++ version).  Default is c++14.

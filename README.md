@@ -181,11 +181,24 @@ e.g., `DEBUG` disables some optimizations, and `CXX` overrides the default compi
 
     make DEBUG=1 CXX=\"ccache c++\"
 
-`EXTRA_CXXFLAGS` adds additional C++ compilation flags to ARIA's, e.g.:
+`EXTRA_CXXFLAGS` adds additional C++ compilation flags to ARIA's, e.g.
+to optimize for a computer with an Intel Atom processor (i.e. PioneerLX), 
+and math functions in general, you could do this:
 
-    make EXTRA_CXXFLAGS="-mcpu=atom -ffast-math"
+    make EXTRA_CXXFLAGS="-mcpu=atom -ffast-math" -j4
 
-To optimize for a computer with an Intel Atom processor, and math functions in general.
+To compile with clang and libc++ instead of gcc and libstdc++:
+
+    make CXX=clang++ EXTRA_CXXFLAGS=-stdlib=libc++
+
+To compile with clang and libc++ with some of the LLVM sanitizer options turned on:
+
+    make DEBUG=1 CXX=clang++ EXTRA_CXXFLAGS="-stdlib=libc++ -fsanitize=address,undefined" -j4
+
+However, be aware that files compiled with different C++ compilers, and sometimes
+with different compilation flags (e.g. -stdlib) may not be compatible, resulting
+in linker errors or other errors. (You cannot yet specify custom output directories
+when building AriaCoda -- but contributions to enable this would be welcome; use `make clean` to start with a clean build.)
 
 Other variables are available. Run `make help` for description of all variables.
 

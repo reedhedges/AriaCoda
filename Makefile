@@ -221,7 +221,7 @@ ifeq ($(GIT_NUM_MODIFIED),0)
 ARIACODA_VERSION_STRING=$(GITLONGCOMMIT)
 else
 #ARIACODA_VERSION_STRING="$(GITLONGCOMMIT) with $(GIT_NUM_MODIFIED) modified files"
-ARIACODA_VERSION_STRING="$(GITLONGCOMMIT)+"
+ARIACODA_VERSION_STRING="$(GITLONGCOMMIT)+changes"
 endif
 
 
@@ -632,10 +632,10 @@ obj/%.o : src/%.cpp
 
 obj/%.o : src/%.c 
 	@mjdir -p obj
-	$(CXX) -c $(CXXFLAGS)  $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD $< -o $@
+	$(CXX) -c $(CXXFLAGS) $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD $< -o $@
 
 obj/ArPacketUtil.o: src/ArPacketUtil.cpp
-	$(CXX) -c $(BARECXXFLAGS) -fexceptions $(EXTRA_CXXFLAGS)  $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD $< -o $@
+	$(CXX) -c $(BARECXXFLAGS) $(EXTRA_CXXFLAGS)  -fexceptions $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD $< -o $@
 
 obj/Aria.o: src/Aria.cpp versionstring
 	$(CXX) -c $(CXXFLAGS) $(EXTRA_CXXFLAGS_$(*F)) $(CXXINC) -DARIABUILD -DARIA_VCSREV=\"$(ARIACODA_VERSION_STRING)\" $< -o $@
