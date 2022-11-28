@@ -82,19 +82,19 @@ void testIntersection(ArLineSegment *line1, ArLineSegment *line2,
   if (!line1->intersects(line2, &pose) || fabs(pose.getX() - x) > .001 ||
       fabs(pose.getY() - y) > .001)
   {
-    printf("%s didn't intersect\n", name);
+    printf("%s didn't intersect, but should have\n", name);
     exit(1);
   }
 
   if (line1->intersects(line1, &pose))
   {
-    printf("First line of %s intersected itself\n", name);
+    printf("First line of %s intersected itself unexpectedly!\n", name);
     exit(1);
   }
 
   if (line2->intersects(line2, &pose))
   {
-    printf("Second line of %s intersected itself\n", name);
+    printf("Second line of %s intersected itself, unexpectedly!\n", name);
     exit(1);
   }
 }

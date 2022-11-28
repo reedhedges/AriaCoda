@@ -69,13 +69,12 @@ int main(int argc, char **argv)
   }
   printf("mapTest: Took %ld ms to write file mapTest.map\n", timer.mSecSince());
 
-  std::list<ArMapObject *>::iterator objIt;
-  ArMapObject *obj;
-  for (objIt = testMap.getMapObjects()->begin(); 
-       objIt != testMap.getMapObjects()->end(); 
+  //std::list<ArMapObject *>::iterator objIt;
+  for (auto objIt = testMap.getMapObjects().begin(); 
+       objIt != testMap.getMapObjects().end(); 
        objIt++)
   {
-    obj = (*objIt);
+    ArMapObject *obj = (*objIt);
     printf("mapTest: Map object: %s named \"%s\". Pose: %0.2f,%0.2f,%0.2f. ", obj->getType(), obj->getName(), obj->getPose().getX(), obj->getPose().getY(), obj->getPose().getTh());
     if(obj->hasFromTo())
       printf("mapTest: Extents: From %0.2f,%0.2f to %0.2f,%0.2f.", obj->getFromPose().getX(), obj->getFromPose().getY(), obj->getToPose().getX(), obj->getToPose().getY());

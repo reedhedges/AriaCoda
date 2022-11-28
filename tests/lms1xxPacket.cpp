@@ -44,7 +44,7 @@ int main()
   assert(packet.isValid());
   assert(packet.bufToUByte() == 0);
   auto x0 = packet.bufToUByte();
-  printf("%d\n", x0);
+  //printf("First value in packet payload (sholud be 1) == %d\n", x0);
   assert(packet.isValid());
   assert(x0 == 1);
   assert(packet.bufToUByte() == 2);
@@ -72,6 +72,6 @@ int main()
   assert(packet.bufToUByte4() == 15);
 
 
-
+  puts("ok test sucessful");
   return 0;
 }

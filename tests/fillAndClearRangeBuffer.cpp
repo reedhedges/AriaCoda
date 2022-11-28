@@ -3,7 +3,7 @@
 #include "Aria/ariaUtil.h"
 #include "Aria/ArRangeBuffer.h"
 
-// use this to test ArRangeBuffer data management performance.
+// Bit of a benchmark to test ArRangeBuffer data management performance.
 // this simulates a range sensor that provides lots of data 
 // which will be stored in a buffer of 1000 items (which is a bit larger than normal, but should still result in the buffer filling
 // at items needing to be re-used).  After every 5000 items are added, every other item in the buffer is invalidated.
@@ -29,6 +29,7 @@ unsigned int test()
   ArTime totalTime;
   ArTime clearTime;
   static_assert(500'000 <= std::numeric_limits<unsigned long>::max(), "");
+  puts("Testing 500,000 readings in rangebuffer (with limit 100)...");
   for (unsigned long i = 0; i < 500'000; ++i)
   {
     rangebuffer.addReadingConditional( ArMath::randomInRange(0, 30000), ArMath::randomInRange(0, 30000), 100*100 );
