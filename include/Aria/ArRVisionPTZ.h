@@ -109,16 +109,14 @@ public:
   AREXPORT virtual double getFOVAtMinZoom() override { return 48.8; }
 
   //virtual ArBasePacket* readPacket();
-  enum {
-    MAX_PAN = 180, ///< maximum degrees the unit can pan (clockwise from top)
-    MIN_PAN = -180, ///< minimum degrees the unit can pan (counterclockwise from top)
-    MIN_TILT = -30, ///< minimum degrees the unit can tilt
-    MAX_TILT = 60, ///< maximum degrees the unit can tilt
-    MIN_ZOOM = 0, ///< minimum value for zoom
-    MAX_ZOOM = 32767, ///< maximum value for zoom
-    TILT_OFFSET_IN_DEGREES = 38, ///< offset value to convert internal camera coords to world
-    PAN_OFFSET_IN_DEGREES = 190 ///< offset value to convert internal camera coords to world
-  };
+  constexpr static double MAX_PAN = 180; ///< maximum degrees the unit can pan (clockwise from top)
+  constexpr static double MIN_PAN = -180; ///< minimum degrees the unit can pan (counterclockwise from top)
+  constexpr static double   MIN_TILT = -30; ///< minimum degrees the unit can tilt
+  constexpr static double MAX_TILT = 60; ///< maximum degrees the unit can tilt
+  constexpr static int MIN_ZOOM = 0; ///< minimum value for zoom
+  constexpr static int MAX_ZOOM = 32767; ///< maximum value for zoom
+  constexpr static double TILT_OFFSET_IN_DEGREES = 38; ///< offset value to convert internal camera coords to world
+  constexpr static double PAN_OFFSET_IN_DEGREES = 190; ///< offset value to convert internal camera coords to world
   
   /// called automatically by Aria::init()
   ///@since 2.7.6
