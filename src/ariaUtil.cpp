@@ -913,7 +913,11 @@ AREXPORT void ArUtil::escapeSpaces(char *dest, const char *src, size_t maxLen)
     dest[i+adj] = src[i];
   }
   // make sure its null terminated
-  dest[i+adj] = '\0';
+  if(i+adj >= maxLen) // must truncate to fit smaller buffer
+    dest[maxLen-1] = '\0';
+  else
+    dest[i+adj] = '\0';
+  // TODO should we avoid any trailing "\\" in a truncated result?
 }
 
 /**
@@ -924,26 +928,27 @@ AREXPORT void ArUtil::escapeSpaces(char *dest, const char *src, size_t maxLen)
 AREXPORT void ArUtil::lower(char *dest, const char *src, size_t maxLen)
 {
   size_t i;
-  size_t len;
+  //size_t len;
   
-  len = strlen(src);
-  for (i = 0; i < len && i < maxLen; i++)
+  //len = strlen(src);
+  for (i = 0; src[i] != '\0' && i < maxLen; i++)
     dest[i] = (char)tolower(src[i]);
   dest[i] = '\0';
 
 }
 
 
+/** @a str must only contain letters and numbers (characters for which isalpha() and isdigit() return true); any symbols or punctuation are not permitted including '.', ',', other punctuation, whitespace (space, tab, etc.), nor newlines ('\n' or '\r').  + and - are allowed, however.
+*/ 
 AREXPORT bool ArUtil::isOnlyAlphaNumeric(const char *str)
 {
   size_t ui;
-  size_t len;
+  //size_t len;
   if (str == NULL)
     return true;
-  for (ui = 0, len = strlen(str); ui < len; ui++)
+  for (ui = 0; str[ui] != '\0'; ui++)
   {
-    if (!isalpha(str[ui]) && !isdigit(str[ui]) && str[ui] != '\0' && 
-	str[ui] != '+' && str[ui] != '-')
+    if (!isalpha(str[ui]) && !isdigit(str[ui]) && str[ui] != '+' && str[ui] != '-')
       return false;
   }
   return true;
@@ -953,9 +958,9 @@ AREXPORT bool ArUtil::isOnlyNumeric(const char *str)
 {
   if (str == NULL)
     return true;
-  for (size_t i = 0, len = strlen(str); i < len; i++)
+  for (size_t i = 0; str[i] != 0; i++)
   {
-    if (!isdigit(str[i]) && str[i] != '\0' && str[i] != '+' && str[i] != '-')
+    if (!isdigit(str[i]) && str[i] != '+' && str[i] != '-')
       return false;
   }
   return true;

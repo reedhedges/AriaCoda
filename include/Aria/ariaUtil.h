@@ -362,7 +362,9 @@ is a pointer to object to be deleted using the 'delete' operator.
 
 #endif // not ARIA_WRAPPER
 
-  /// Puts a \ before spaces in src, puts it into dest
+  /// Puts a \ before spaces in src, puts it into dest. If 
+  /// length of src string plus added \ characters is larger than
+  /// maxLen, string in dest will be truncated.
   AREXPORT static void escapeSpaces(char *dest, const char *src, 
 				    size_t maxLen);
 
@@ -384,12 +386,12 @@ is a pointer to object to be deleted using the 'delete' operator.
   /// @swigomit
   AREXPORT static void lower(char *dest, const char *src, 
 			     size_t maxLen);
-  /// Returns true if this string is only alphanumeric (i.e. it contains only leters and numbers), false if it contains any non alphanumeric characters (punctuation, whitespace, control characters, etc.)
+  /// Returns true if this string is only alphanumeric (i.e. it contains only leters and numbers), false if it contains any non alphanumeric characters (punctuation, whitespace, control characters, etc.).   Returns true for an empty string.
   /// @swigomit
   AREXPORT static bool isOnlyAlphaNumeric(const char *str);
 
-  /// Returns true if this string is only numeric (i.e. it contains only numeric
-  /// digits), or it's null, or false if it contains any non nonnumeric characters (alphabetic, punctuation, whitespace, control characters, etc.)
+  /// Returns true if this string is only numeric (i.e. it contains only numeric integer
+  /// digits), or it's null, or false if it contains any non nonnumeric characters (alphabetic, punctuation, whitespace, control characters, etc.). + and - are permitted, but not '.' or ','. Returns true for an empty string.
   /// @swigomit
   AREXPORT static bool isOnlyNumeric(const char *str);
 
@@ -399,6 +401,8 @@ is a pointer to object to be deleted using the 'delete' operator.
 
   /// Determines whether the given text is contained in the given list of strings.
   /// @swigomit
+  /// @deprecated Use standard library algorithms and std::list methods.
+  PUBLICDEPRECATED("Recommend using standard C++ library algorithms and std::list methods instead.")
   AREXPORT static bool isStrInList(const char *str,
                                    const std::list<std::string> &list,
                                    bool isIgnoreCase = false);
