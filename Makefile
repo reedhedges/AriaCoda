@@ -293,6 +293,11 @@ help:
 	@echo "  tests/<Some Test>, where tests/<Some Test>.cpp is a test program source file."
 	@echo "  install"
 	@echo "  debian"
+	@echo "  clang-tidy"
+	@echo "  clang-tidy-headers"
+	@echo "  cppcheck"
+	@echo "  cppcheck-headers"
+	@echo "  tags"
 	@echo "Any markdown file (.md) can be converted to RTF, text, PDF or HTML with rules with rtf, txt, pdf, html file suffixes (e.g. 'make README.html'). The 'pandoc' tool is used."
 	@echo 
 	@echo "Set EXTRA_CXXFLAGS to add any additional C++ compilation flags you want (e.g. optimization or profiling flags)."

@@ -12,14 +12,15 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Add example of `ExternalProject` for CMake to README.
 * In packet receivers e.g. ArRobotPacketReceiver, return ArRobotPacket by value
   as data, with all callers using std::move to move it to temporary or to store it?
-* In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
+* Remove any "commercial" code, remove any "default (noncommercial) behavior" conditions.
+* (DONE) In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
   `std::list<ArSensorReading>` rather than `std::list<ArSensorReading*>` and don't allocate
   each one. Use `emplace_back` when creating a new ArSensorReading objects for the
   list. [It looks like all uses of myRawReadings etc. are allocating new
   ArSensorReading objects with "new", not borrowing/sharing pointers to existing
-  ArSensorReading objects. (DONE)
-* Fix virtual inheritance.  (Remove unnecessary virtual inheritance, make sure
-  done correctly, etc.) (MOSTLY DONE.)
+  ArSensorReading objects.
+* (MOSTLY DONE) Fix virtual inheritance.  (Remove unnecessary virtual inheritance, make sure
+  done correctly, etc.)
   * Virtual inheritance must be used for
   interface implementations, i.e. subclasses of:
     * ArRangeDevice

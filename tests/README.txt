@@ -17,7 +17,9 @@ Any contributions are welcome. If you are investigating or fixing
 a bug, please create a test and add it to RUNNABLE_TESTS in 
 Makefile.
 
-"make runTests" will run these and report failures.
+"make runTests" will run these and report failures. (Note, "make runTest" adds
+`../lib` to `LD_LIBRARY_PATH` before running tests, so `../lib/libAria.so` will be
+used.)
 
 * angleBetweenTest - Tests ArMath::angleBetween
 * angleFixTest - Tests ArMath::angleFix
