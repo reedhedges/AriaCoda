@@ -71,11 +71,9 @@ AREXPORT ArActionIRs::ArActionIRs(const char *name,
 AREXPORT void ArActionIRs::setRobot(ArRobot *robot)
 {
   myRobot = robot;
-  const ArRobotParams *params;
-  params = myRobot->getRobotParams();
-  myParams = *params;
-  
-  for(int i = 0; i < myParams.getNumIR(); i++)
+  myParams = myRobot->getRobotParams();
+  assert(myParams);
+  for(int i = 0; i < myParams->getNumIR(); i++)
     cycleCounters.push_back(1);
 }
 
@@ -113,9 +111,10 @@ AREXPORT ArActionDesired *ArActionIRs::fire(UNUSED ArActionDesired currentDesire
     }
 
 
-  if (myParams.haveTableSensingIR())
+  assert(myParams);
+  if (myParams->haveTableSensingIR())
   {
-    for (size_t i = 0; i < (size_t) myParams.getNumIR(); ++i)
+    for (size_t i = 0; i < (size_t) myParams->getNumIR(); ++i)
     {
       unsigned char bit = 0;
 
@@ -146,12 +145,12 @@ AREXPORT ArActionDesired *ArActionIRs::fire(UNUSED ArActionDesired currentDesire
         bit = ArUtil::BIT7;
         break;
       }
-      if (myParams.haveNewTableSensingIR() && myRobot->getIODigInSize() > 3)
+      if (myParams->haveNewTableSensingIR() && myRobot->getIODigInSize() > 3)
       {
-        if ((myParams.getIRType((int)i) && !(myRobot->getIODigIn(3) & bit)) ||
-          (!myParams.getIRType((int)i) && (myRobot->getIODigIn(3) & bit)))
+        if ((myParams->getIRType((int)i) && !(myRobot->getIODigIn(3) & bit)) ||
+          (!myParams->getIRType((int)i) && (myRobot->getIODigIn(3) & bit)))
         {
-          if (cycleCounters[i] < myParams.getIRCycles((int)i))
+          if (cycleCounters[i] < myParams->getIRCycles((int)i))
           {
             cycleCounters[i] = cycleCounters[i] + 1;
           }
@@ -160,8 +159,8 @@ AREXPORT ArActionDesired *ArActionIRs::fire(UNUSED ArActionDesired currentDesire
             cycleCounters[i] = 1;
 
             ArPose pose;
-            pose.setX(myParams.getIRX((int)i));
-            pose.setY(myParams.getIRY((int)i));
+            pose.setX(myParams->getIRX((int)i));
+            pose.setY(myParams->getIRY((int)i));
             if (pose.getX() > 0)
             {
               ArPose center(0, 0, 0);
@@ -179,7 +178,7 @@ AREXPORT ArActionDesired *ArActionIRs::fire(UNUSED ArActionDesired currentDesire
       {
         if (!(myRobot->getDigIn() & bit))
         {
-          if (cycleCounters[i] < myParams.getIRCycles((int)i))
+          if (cycleCounters[i] < myParams->getIRCycles((int)i))
           {
             cycleCounters[i] = cycleCounters[i] + 1;
           }
@@ -188,8 +187,8 @@ AREXPORT ArActionDesired *ArActionIRs::fire(UNUSED ArActionDesired currentDesire
             cycleCounters[i] = 1;
 
             ArPose pose;
-            pose.setX(myParams.getIRX((int)i));
-            pose.setY(myParams.getIRY((int)i));
+            pose.setX(myParams->getIRX((int)i));
+            pose.setY(myParams->getIRY((int)i));
             if (pose.getX() > 0)
             {
               ArPose center(0, 0, 0);

@@ -67,7 +67,7 @@ protected:
   double myHeading;
   ArTime myStartBack;
   ArTime stoppedSince;
-  ArRobotParams myParams;
+  const ArRobotParams *myParams = nullptr;
   std::vector<int> cycleCounters;
 };
 

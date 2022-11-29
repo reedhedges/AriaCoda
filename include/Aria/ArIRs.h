@@ -52,7 +52,7 @@ public:
 
 protected:
   ArFunctorC<ArIRs> myProcessCB;
-  ArRobotParams myParams;
+  const ArRobotParams *myParams = nullptr;
   std::vector<int> cycleCounters;
 };
 
