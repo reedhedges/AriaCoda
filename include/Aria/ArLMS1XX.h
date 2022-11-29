@@ -29,6 +29,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArLaser.h"   
 #include "Aria/ArFunctor.h"
 
+#include <string>
+
 #ifndef ARIA_WRAPPER
 /** @internal 
   Constructs packets for LMS1xx ASCII protocol. 
@@ -157,8 +159,9 @@ public:
   { myLaserModel = laserModel; }
   void setmyName(const char *name )
   { 
-    strncpy(myName, name, sizeof(myName)); 
-    myName[sizeof(myName)-1] = '\0';
+    myName = name;
+    //strncpy(myName, name, sizeof(myName)); 
+    //myName[sizeof(myName)-1] = '\0';
   }
   void setReadTimeout(unsigned int timeout )
   { myReadTimeout = timeout; }
@@ -175,8 +178,8 @@ protected:
     REMAINDER ///< Have extra data from reading in data
   };
   State myState;
-  char myName[1024];
-  unsigned int myNameLength;
+  std::string myName;
+  //unsigned int myNameLength;
   char myReadBuf[100000];
   unsigned int myReadCount;
 	unsigned int myReadTimeout;

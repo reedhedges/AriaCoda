@@ -421,7 +421,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 	if (!timeDone.addMSec(msWait)) {
 		ArLog::log(ArLog::Terse,
 				"%s::receivePacket() error adding msecs (%i)",
-				myName,msWait);
+				myName.c_str(),msWait);
 	}
 
 	do
@@ -441,7 +441,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 
 				//ArLog::log(ArLog::Terse,
 				//			"%s::receivePacket() Timeout on initial read - read timeout = (%lu)",
-				//					myName, timeToRunFor);
+				//					myName.c_str(), timeToRunFor);
 				return NULL;
 
 			} //printf("%x\n", c);
@@ -463,7 +463,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
           				l = c;
 				ArLog::log(ArLog::Verbose,
 							"%s::receivePacket() Warning: Received invalid char during STARTING, looking for 0x02 got 0x%02x %c. Skipping.",
-									myName, c, l);
+									myName.c_str(), c, l);
 			}
 		}
 		else if (myState == DATA)
@@ -477,13 +477,13 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 				//printf("read failed \n");
 				ArLog::log(ArLog::Normal,
 						"%s::receivePacket() Failed read (%d)",
-						myName,numRead);
+						myName.c_str(),numRead);
 				myState = STARTING;
 				return NULL;
 			}
 			/*
 			ArLog::log(ArLog::Normal, "%s::receivePacket() Read %d bytes",
-					myName,numRead);
+					myName.c_str(),numRead);
 			*/
 
             IFDEBUG(
@@ -516,7 +516,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 				}
 
 					ArLog::log(ArLog::Normal,
-							"%s::receivePacket() Buffer with %d bytes = %s", myName, numRead, x);
+							"%s::receivePacket() Buffer with %d bytes = %s", myName.c_str(), numRead, x);
 			}
              ); // end IFDEBUG
 
@@ -527,7 +527,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 				{
 //					ArLog::log(myInfoLogLevel, "%s::receivePacket() Data found start of new packet...",
 					ArLog::log(myInfoLogLevel, "%s::receivePacket() Data found start of new packet...",
-							myName);
+							myName.c_str());
 					myPacket.empty();
 					myPacket.setLength(0);
 					memmove(myReadBuf, &myReadBuf[i], myReadCount + (unsigned int)numRead - i);
@@ -563,13 +563,13 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 					    myReadCount = myReadCount + (unsigned int)numRead - i - 1;
 					    myState = REMAINDER;
 					    ArLog::log(myInfoLogLevel, "%s::receivePacket() Got remainder, %d bytes beyond one packet ...",
-						       myName,myReadCount);
+						       myName.c_str(),myReadCount);
 					  }
 					  else
 					  {
 					    myState = STARTING;
 					    ArLog::log(myInfoLogLevel, "%s::receivePacket() Got remainder, %d bytes beyond one packet ... ignoring it",
-						       myName,myReadCount);
+						       myName.c_str(),myReadCount);
 					  }
 					}
 					return packet;
@@ -579,7 +579,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 			myReadCount += (unsigned int)numRead;
 			if (numRead != 0)
 				ArLog::log(myInfoLogLevel, "%s::receivePacket() Got %d bytes (but not end char), up to %d",
-						myName, numRead, myReadCount);
+						myName.c_str(), numRead, myReadCount);
 		}
 		else if (myState == REMAINDER)
 		{
@@ -587,7 +587,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 			if (myReadBuf[0] != '\002')
 			{
 				ArLog::log(myInfoLogLevel,
-						"%s::receivePacket() Remainder didn't start with \\002, starting over...",myName);
+						"%s::receivePacket() Remainder didn't start with \\002, starting over...",myName.c_str());
 				myState = STARTING;
 				continue;
 			}
@@ -611,7 +611,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 				if (myReadBuf[i] == '\002' && i != 0)
 				{
 					ArLog::log(myInfoLogLevel, "%s::receivePacket() Remainder found start of new packet...",
-							myName, myReadCount);
+							myName.c_str(), myReadCount);
 					myPacket.empty();
 					myPacket.setLength(0);
 					memmove(myReadBuf, &myReadBuf[i], myReadCount + i); // TODO use range, index or pointer instead
@@ -633,7 +633,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 					{
 						myState = STARTING;
 						ArLog::log(myInfoLogLevel,
-								"%s::receivePacket() Remainder was one packet...",myName);
+								"%s::receivePacket() Remainder was one packet...",myName.c_str());
 					}
 					// if it isn't move the data up and start again
 					else
@@ -642,13 +642,13 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 						if (myReadCount - i < 50)
 							//printf("read buf (%d %d) %s\n", myReadCount, i, myReadBuf);
 						   ArLog::log(ArLog::Terse, "%s::receivePacket() read buf (%d %d) %s",
-								   myName, myReadCount, i, myReadBuf);
+								   myName.c_str(), myReadCount, i, myReadBuf);
 
 						memmove(myReadBuf, &myReadBuf[i+1], myReadCount - i); // TODO use range, index or pointer instead
 						myReadCount = myReadCount - i - 1;
 						myState = REMAINDER;
 						ArLog::log(myInfoLogLevel,
-								"%s::receivePacket() Remainder was more than one packet... (%d %d)", myName, myReadCount, i);
+								"%s::receivePacket() Remainder was more than one packet... (%d %d)", myName.c_str(), myReadCount, i);
 					}
 					return packet;
 				}
@@ -656,14 +656,14 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receivePacket(unsigned int msWait,
 			// if we didn't find the end of the packet, then get the rest of the data
 			myState = DATA;
 			ArLog::log(myInfoLogLevel,
-					"%s::receivePacket() Remainder didn't contain a whole packet...",myName);
+					"%s::receivePacket() Remainder didn't contain a whole packet...",myName.c_str());
 
 			continue;
 		}
 		else
 		{
 			ArLog::log(ArLog::Terse, "%s::receivePacket() Bad state (%d)",
-					myName,myState);
+					myName.c_str(),myState);
 			myState = STARTING;
 		}
 	} while (timeDone.mSecTo() >= 0); // || !myStarting)
@@ -694,7 +694,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 	if (!timeDone.addMSec(msWait)) {
 		ArLog::log(ArLog::Terse,
 				"%s::receiveTiMPacket() error adding msecs (%i)",
-				myName,msWait);
+				myName.c_str(),msWait);
 	}
 
 	do
@@ -726,7 +726,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 			{
 				ArLog::log(ArLog::Terse,
 						"%s::receiveTiMPacket() Failed single char read (%d) %02x %c",
-						myName,numRead, c, c);
+						myName.c_str(),numRead, c, c);
 			}
 		}
 		else if (myState == DATA)
@@ -740,13 +740,13 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 				//printf("read failed \n");
 				ArLog::log(ArLog::Normal,
 						"%s::receivePacket() Failed read (%d)",
-						myName,numRead);
+						myName.c_str(),numRead);
 				myState = STARTING;
 				return NULL;
 			}
 			/*
 			ArLog::log(ArLog::Normal, "%s::receivePacket() Read %d bytes",
-					myName,numRead);
+					myName.c_str(),numRead);
 			*/
 
             IFDEBUG(
@@ -778,7 +778,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 				}
 
 					ArLog::log(ArLog::Normal,
-							"%s::receivePacket() Buffer with %d bytes = %s", myName, numRead, x);
+							"%s::receivePacket() Buffer with %d bytes = %s", myName.c_str(), numRead, x);
 			}
              ); // end IFDEBUG
 
@@ -789,7 +789,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 				{
 //					ArLog::log(myInfoLogLevel, "%s::receivePacket() Data found start of new packet...",
 					ArLog::log(myInfoLogLevel, "%s::receivePacket() Data found start of new packet...",
-							myName);
+							myName.c_str());
 					myPacket.empty();
 					myPacket.setLength(0);
 					memmove(myReadBuf, &myReadBuf[i], myReadCount + (unsigned int)numRead - i); // TODO update range/index/pointer instead
@@ -812,11 +812,11 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 					//printf("i=%d, myReadCount = %d, numRead = %d\n",i, myReadCount, numRead);
 
 					ArLog::log(myInfoLogLevel, "%s::receiveTiMPacket() i=%d, myReadCount = %d, numRead = %d",
-									myName, i, myReadCount, numRead);
+									myName.c_str(), i, myReadCount, numRead);
 
 					if (i == myReadCount + (unsigned int)numRead - 1)
 					{
-						ArLog::log(myInfoLogLevel, "%s::receiveTiMPacket() Starting again", myName);
+						ArLog::log(myInfoLogLevel, "%s::receiveTiMPacket() Starting again", myName.c_str());
 						myState = STARTING;
 					}
 					// if it isn't move the data up and start again
@@ -824,7 +824,7 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 					{
 					    myState = STARTING;
 					    ArLog::log(myInfoLogLevel, "%s::receivePacket() Got remainder, %d bytes beyond one packet ... ignoring it",
-						       myName,myReadCount);
+						       myName.c_str(),myReadCount);
 					}
 					return packet;
 				}
@@ -833,12 +833,12 @@ ArLMS1XXPacket *ArLMS1XXPacketReceiver::receiveTiMPacket(unsigned int msWait,
 			myReadCount += (unsigned int)numRead;
 			if (numRead != 0)
 				ArLog::log(myInfoLogLevel, "%s::receivePacket() Got %d bytes (but not end char), up to %d",
-						myName, numRead, myReadCount);
+						myName.c_str(), numRead, myReadCount);
 		}
 		else
 		{
 			ArLog::log(ArLog::Terse, "%s::receivePacket() Bad state (%d)",
-					myName,myState);
+					myName.c_str(),myState);
 			myState = STARTING;
 		}
 	} while (timeDone.mSecTo() >= 0); // || !myStarting)

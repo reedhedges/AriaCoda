@@ -30,7 +30,6 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <vector>
 #include <map>
 #include <string>
-#include <memory>
 
 #ifndef ARIA_WRAPPER
 
