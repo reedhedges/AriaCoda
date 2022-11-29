@@ -21,34 +21,54 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 
 */
+
+#include <cassert>
+#include <string>
 #include "Aria/Aria.h"
 
-void printIt(const char *printing)
+void test(const char *str, const char *expected)
 {
+  printf("Stripping quotes from input string: %s\n", str);
   char buffer[512];
-  
-  if (ArUtil::stripQuotes(buffer, printing, 512))
-    printf("Old '%s' New '%s'\n", printing, buffer);
-  else
-    printf("String '%s' didn't work\n", printing);
+  bool s = ArUtil::stripQuotes(buffer, str, 512);
+  assert(s);
+  printf("\t...after stripping quotes: %s\n", buffer);
+  assert(strcmp(buffer, expected) == 0);
 }
 
 int main()
 {
-  char buffer[512];
+  test("\"\"", "");
+  test("", "");
+  test("\"", "\"");
+  test("hi", "hi");
+  test("\"hi\"", "hi");
+  test("boy oh boy is this fun!", "boy oh boy is this fun!");
+  test("\"boy oh boy is this fun!\"", "boy oh boy is this fun!");
+  test("boy \"oh boy\" is this fun!\"", "boy \"oh boy\" is this fun!\"");
+
+  // should fail because buffer is too small:
+  puts("Trying to use a buffer that is too small, should refuse...");
+  char smallbuffer[5];
+  bool s = ArUtil::stripQuotes(smallbuffer, "hello world", 5);
+  assert(s == false);
+  puts("\t...ok.");
+
+  std::string str("hello world no quotes");
+  printf("Testing stripping quotes in std::strings in place....\nBefore: %s\n", str.c_str());
+  s = ArUtil::stripQuotes(&str);
+  assert(s);
+  printf("\t...after: %s\n", str.c_str());
+  assert(str == "hello world no quotes");
+
   
-  printIt("\"\"");
+  str = "\"quoted string\"";
+  printf("Before: %s\n", str.c_str());
+  s = ArUtil::stripQuotes(&str);
+  printf("\t...after: %s\n", str.c_str());
+  assert(s);
+  assert(str == "quoted string");
 
-  printIt("");
-
-  printIt("\"");
-
-  printIt("hi");
-
-  printIt("\"hi\"");
-
-  printIt("boy oh boy is this fun!");
-
-  printIt("\"boy oh boy is this fun!\"");
-
+  puts("stripQuoteTest done.");
+  return 0;
 }
