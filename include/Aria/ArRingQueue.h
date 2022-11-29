@@ -45,8 +45,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *  except push(). Use push() to insert new items in the queue and increase
  *  its capacity.  
  *
- *  @todo Ideally, this class would be fully threadsafe (with occasional or no mutex
- *  locking), but it is not currently.
+ *  @todo Ideally, this class would be fully threadsafe/non-locking (or with occasional
+ *  mutex locking in certain cases), but it is not currently. Should be updated to use
+ *  atomic support in modern C++ standard library if possible.
  *  @todo Optionally allocate several future 'slots' instead of just one.
  *
  *  @ingroup UtilityClasses
@@ -57,11 +58,11 @@ public:
   /** @param capacity Initial capacity of the ring queue. 
    *  @param init_value Initial value for new, unused items in the queue. 
    *  */
-  ArRingQueue(int capacity, T init_value)
-    : ring(capacity, init_value), curSize(0), initval(init_value)
+  ArRingQueue(size_t capacity, T init_value)
+    : ring_list(capacity, init_value), curSize(0), initval(init_value)
   {
-    back_it = ring.begin(); 
-    front_it = ring.end();// signals empty state
+    back_it = ring_list.begin(); 
+    front_it = ring_list.end();// signals empty state
   }
 
 
@@ -101,13 +102,13 @@ public:
 
   /** Advance (pop) the front of the queue. 'Used' size will be decremented.  */
   void advance_front() {
-    if(front_it == ring.end())  // initial or  empty state.
-      front_it = ring.begin();
-    else if(++front_it == ring.end()) 
-      front_it = ring.begin();
+    if(front_it == ring_list.end())  // initial or  empty state.
+      front_it = ring_list.begin();
+    else if(++front_it == ring_list.end()) 
+      front_it = ring_list.begin();
     if(front_it == back_it) { // it's now empty (not full)
-      front_it = ring.end();
-      back_it = ring.begin();
+      front_it = ring_list.end();
+      back_it = ring_list.begin();
     }
     curSize--;
   }
@@ -129,10 +130,10 @@ public:
       */
       return;
     }
-    if(++back_it == ring.end())
-      back_it = ring.begin();
-    if(front_it == ring.end())
-      front_it = ring.begin();  // no longer empty.
+    if(++back_it == ring_list.end())
+      back_it = ring_list.begin();
+    if(front_it == ring_list.end())
+      front_it = ring_list.begin();  // no longer empty.
     curSize++;
   }
 
@@ -142,7 +143,7 @@ public:
   void push(const T& item) {
     if(full()) {
       // expand
-      back_it = ring.insert(back_it, item);
+      back_it = ring_list.insert(back_it, item);
     } else {
       // back is unused, use it
       *back_it = item;
@@ -166,10 +167,10 @@ public:
    *  @pynote use printQueue() instead of print() (which is a reserved word in Python)
   */
   void print() {
-    for(typename std::list<T>::const_iterator i = ring.begin(); i != ring.end(); i++) {
+    for(typename std::list<T>::const_iterator i = ring_list.begin(); i != ring_list.end(); i++) {
       if(i == back_it)
         std::cerr << "]";
-      if(i == front_it || (i == ring.begin() && front_it == ring.end()) )
+      if(i == front_it || (i == ring_list.begin() && front_it == ring_list.end()) )
         std::cerr << "[";
       std::cerr << (*i) << "," ;
     }
@@ -183,20 +184,20 @@ public:
 
   /** Get the current capacity of the queue. */
   size_t capacity() {
-    return ring.size();
+    return ring_list.size();
   }
 
   /** Return true if the queue is empty (has no 'used' items), false otherwise.  */
   bool empty() {
-    return (front_it == ring.end());
+    return (front_it == ring_list.end());
   }
 
   /** Logically clear the queue, resetting to initial empty state, but preserving current
    * capacity, and leaving all contents as they are; the contents are not
    * destroyed, but will be when replaced by new data later. */
   void reset() {
-    front_it = ring.end();
-    back_it = ring.begin();
+    front_it = ring_list.end();
+    back_it = ring_list.begin();
     curSize = 0;
   }
 
@@ -208,11 +209,11 @@ public:
   /** Return an iterator representing an invalid item. Compare to the return
    * values of front(), back(), pop(), etc. */
   typename std::list<T>::iterator nil() {
-    return ring.end();
+    return ring_list.end();
   }
 
 protected:
-  std::list<T> ring;
+  std::list<T> ring_list;
   typename std::list<T>::iterator front_it, back_it;   
   // push to back, pop from front; front will point to first item, 
   // back to one past last. 
