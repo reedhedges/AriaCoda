@@ -33,11 +33,11 @@ SLOW_RUNNABLE_TESTS = timeTest
 
 
 runTests: $(RUNNABLE_TESTS)
-	for f in $(RUNNABLE_TESTS); do echo; echo ========== ; echo $$f; echo ----------; LD_LIBRARY_PATH=../lib ./$$f || echo ">>>> Test $$f failed! <<<<" ; done
+	ran=""; failed=""; for f in $(RUNNABLE_TESTS); do echo; echo "\e[1;36m====================" ; echo $$f; echo "--------------------\e[0m"; LD_LIBRARY_PATH=../lib ./$$f || { echo "               \e[1;41m\e[1;30m>>>> Test $$f failed! <<<<\e[0m" ; failed="$$failed $$f"; } ; ran="$$ran $$f"; echo "\e[1;36m====================\e[0m\n"; done; echo "\e[1;36mRan tests: $$ran\e[0m"; if test -n "$$failed"; then echo "\e[1;31mFailed: $$failed\e[0m"; else echo "\e[1;32mAll tests ran successfully.\e[0m"; fi
 
 
 runSlowTests: $(SLOW_RUNNABLE_TESTS)
-	for f in $(SLOW_RUNNABLE_TESTS); do echo; echo ========== ; echo $$f; echo ----------; LD_LIBRARY_PATH=../lib ./$$f || echo ">>>> Test $$f failed! <<<<" ; done
+	for f in $(SLOW_RUNNABLE_TESTS); do echo; echo ========== ; echo $$f; echo ----------; LD_LIBRARY_PATH=../lib ./$$f || echo "               >>>> Test $$f failed! <<<<" ; done
 
 
 runAllTests: runTests runSlowTests
