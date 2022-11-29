@@ -1184,6 +1184,10 @@ const
   return myCurrentMap->findMapObjectsOfType(type, isIncludeWithHeading);
 }
 
+AREXPORT std::list<ArMapObject*>* ArMap::getMapObjectsPtr() {
+  return myCurrentMap->getMapObjectsPtr();
+}
+
 AREXPORT const std::list<ArMapObject *>& ArMap::getMapObjects() const
 { 
   return myCurrentMap->getMapObjects();

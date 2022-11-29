@@ -1243,9 +1243,11 @@ public:
   AREXPORT void logActions(bool logDeactivated = false) const;
 
   /// Gets the resolver the robot is using
+  [[deprecated]]
   AREXPORT ArResolver *getResolver();
 
   /// Sets the resolver the robot is using
+  [[deprecated]]
   AREXPORT void setResolver(ArResolver *resolver);
 
   /// Get last ArActionDesired obtained from running the action resolver
@@ -1463,6 +1465,7 @@ public:
   
   /// This gets the root of the synchronous task tree, only serious 
   /// developers should use it
+  PUBLICDEPRECATED("")
   AREXPORT ArSyncTask *getSyncTaskRoot();
 
   /// This function loops once...  only serious developers should use it
@@ -1791,7 +1794,7 @@ protected:
   bool myPacketsSentTracking;
   ArMutex myMutex;
   ArSyncTask *mySyncTaskRoot;
-  std::list<ArRetFunctor1<bool, ArRobotPacket *> *> myPacketHandlerList;
+  std::list<ArRetFunctor1<bool, ArRobotPacket *> *> myPacketHandlerList; // TODO why is this a list of pointers to functor objects rather than just a vector or list of ArRetFunctor1 objects? 
 
   ArSyncLoop mySyncLoop;
   ArRobotPacketReaderThread myPacketReader;

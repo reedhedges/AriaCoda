@@ -370,7 +370,7 @@ public:
 
    AREXPORT virtual const std::list<ArMapObject *>& getMapObjects() const;
 
-   PUBLICDEPRECATED("use getMapObjects() to receive a const reference instead") virtual std::list<ArMapObject *> *getMapObjectsPtr() { return myCurrentMap->getMapObjectsPtr(); }
+   PUBLICDEPRECATED("use getMapObjects() to receive a const reference instead") virtual std::list<ArMapObject *> *getMapObjectsPtr();
 
    AREXPORT virtual void setMapObjects(const std::list<ArMapObject *> *mapObjects,
                                        bool isSortedObjects = false,

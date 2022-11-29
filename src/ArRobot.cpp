@@ -358,6 +358,7 @@ AREXPORT void ArRobot::stopRunning(bool doDisconnect)
 
 void ArRobot::setUpSyncList()
 {
+  // todo these should just be simple objects contained in ArRobot (initialized in constructor) rather than allocating them all here.
   mySyncTaskRoot = new ArSyncTask("SyncTasks");
   mySyncTaskRoot->setWarningTimeCB(&myGetCycleWarningTimeCB);
   mySyncTaskRoot->setNoTimeWarningCB(&myGetNoTimeWarningThisCycleCB);
