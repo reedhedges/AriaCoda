@@ -144,10 +144,10 @@ AREXPORT ArMTXIO::ArMTXIO(const char * dev) :
 		{
 		      ArLog::log(ArLog::Verbose, "ArMTXIO::ArMTXIO: FPGA version registers = 0x%08x", mtxIO.myData.myVal32);
 
-			myFirmwareRevision = (mtxIO.myData.myVal32 & 0x000000ff);
-			myFirmwareVersion = (mtxIO.myData.myVal32 & 0x0000ff00) >> 8;
-			myCompatibilityCode = (mtxIO.myData.myVal32 & 0x00ff0000) >> 16;
-			myFPGAType = (unsigned char)((mtxIO.myData.myVal32 & 0xff000000) >> 24);
+			myFirmwareRevision = static_cast<unsigned char>(mtxIO.myData.myVal32 & 0x000000ff);
+			myFirmwareVersion = static_cast<unsigned char>((mtxIO.myData.myVal32 & 0x0000ff00) >> 8);
+			myCompatibilityCode = static_cast<unsigned char>((mtxIO.myData.myVal32 & 0x00ff0000) >> 16);
+			myFPGAType = static_cast<unsigned char>((mtxIO.myData.myVal32 & 0xff000000) >> 24);
 			myEnabled = true;
 
 			//ArLog::log(ArLog::Normal, "ArMTXIO::ArMTXIO: Firmware Revision = 0x%02x", myFirmwareRevision);
