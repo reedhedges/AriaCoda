@@ -17,9 +17,9 @@ easier to use.  Contact me or discuss on the GitHub page.
   each one. Use `emplace_back` when creating a new ArSensorReading objects for the
   list. [It looks like all uses of myRawReadings etc. are allocating new
   ArSensorReading objects with "new", not borrowing/sharing pointers to existing
-  ArSensorReading objects. (DONE?)
+  ArSensorReading objects. (DONE)
 * Fix virtual inheritance.  (Remove unnecessary virtual inheritance, make sure
-  done correctly, etc.) (IN PROGRESS)
+  done correctly, etc.) (MOSTLY DONE.)
   * Virtual inheritance must be used for
   interface implementations, i.e. subclasses of:
     * ArRangeDevice
@@ -40,6 +40,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Some base classes of virtual subclasses may need things like copy
     constructors deleted.  Review.  Make sure copying is disabled (deleted) or
     implemented correctly.
+* Apply `final` in some classes with virtual inheritance that users won't inherit (though we have had cases in ARIA where we did additional inheritance to add specific features.)
 * There are no exceptions in ARIA.  Mark functions where it might matter as
   noexcept (eg for optimization).
 * Bug: does not close robot connection when TCP connection write fails because
@@ -49,10 +50,11 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Use new laser simulator commands in ArSimulatedLaser instead of old SRISim
   commands (HELP WANTED)
 * Edit (review and improve) README
-* Remove exceptions from ArPacketUtil and re-add -fno-exceptions to build (and
-  disable exceptions on Windows?).  Merge ArPacketUtil functionality into
+* Remove exceptions from ArPacketUtil? (Use -fno-exceptions to build?)
+  Merge ArPacketUtil functionality into
   ArBasePacket (without impacting performance of packets)
 * Add `[[deprecated]]` attribute (or `DEPRECATED` macro) to deprecated methods (DONE?)
+* Audit raw array indexing, pointer arithmetic, unneccesary new/pointers (need to make sure all classes are correctly copy/move constructable/assignable first; may need to refactor header files if a class just forward declares a class and uses pointers in header file), memset/memcpy/strcpy instead of assignment or construction, and other potential memory errors.  Use gsl::span (or just verify correctness. add tests.)  Make sure container iteration is always within bounds. (HELP WANTED)
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and instructions to users to transition existing
   code due to all changes below.
@@ -110,7 +112,7 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Move `matlab/ariac` to `ariac/`. Update matlab and ariac-rust builds.
 * Remove weird stuff in ArSystemStatus
 * Use namespaces instead of classes with only static members.
-* Analyze important areas for performance and improve.
+* Analyze important areas for optimization/performance and improve; not high priority unless we want to use ARIA on embedded systems or at a much higher performance level (e.g. much higher cycle rate) than currently.
   * Serial and network IO
   * ArSyncTask (simplify "task tree" concept?) main loop.  This is really only
     used by ArRobot, no external uses use ArSyncTask AFAIK.  
@@ -121,7 +123,11 @@ easier to use.  Contact me or discuss on the GitHub page.
     getDesired(),  passing currentDesired() in to file() (or make it a const
     reference.) 
   * Sensor data processing (Some work already done in ArRangeBuffer)
+  * Manage packet reading (e.g. myPacketList in ArRobot) a bit more efficiently (can maybe use value semantics in packet reader/writer rather than allocating and deleting all the time; e.g. move ArRobotPacket objects into a myPacketList as `std::list<ArRobotPacket>`, splicing the list as needed, or just always as a vector or array buffer) 
+  * Many devices (e.g. ArLMS1xx) write data to packets by sprintf'ing to a string, then memcpy'ing that string to the packet buffer.  We should just format the numbers and text into the packet buffer serially without printf/sprintf.
+
 * Start adding some real unit testing? (HELP WANTED)
+  * Begin with existing tests/, move non-automatable tests to separate directory.
   * use doctest in python examples and tests, or in an examples/tests file?
   * Use unit tests to check against regressions as we do the refactoring in this
     list.
@@ -192,6 +198,7 @@ easier to use.  Contact me or discuss on the GitHub page.
       for missing/uninitialized/error.
   * Use std::optional (C++17) for methods that return boolean status flag and return
     a value via a pointer argument.
+  * Use std::optional (C++17) instead of pointers-that-might-be-null. 
   * Use `std::array`, `std::span` (C++20), or `std::string_view` (c++17) for buffers, arrays, pointer/length pairs.
   * Use `std::string_view` (C++17) in many places where `char*` are used and
     passed. Accept `std::string_view` in general as parameter in places where
@@ -205,17 +212,19 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
     `std::stod`, `std::strtod`, `std::from_chars`, etc.  Replace use of sprintf with
     `std::to_chars` or `std::to_string` or sstream with format manipulators, or `std::format` (coming after
-    C++20, but there is also <https://github.com/fmtlib/fmt>in the mean time)
+    C++20, but there is also <https://github.com/fmtlib/fmt>in the mean time), just appending strings, etc.   (Note that sprintf can have performance impacts, even taking a mutex lock!)
   * Use `std::string` and `string_view` more frequently rather than `char*`.
   * Use `std::array` instead of C arrays (or known-size vectors, but these seem to
     not occur or be very rare in ARIA) (PARTLY DONE)
 * Simplify and improve ArFunctor
-  * Replace ArFunctor usage with std::function?  
-    * Users can provide any bare function, which is converted to std::function
-    * Users can provide a lambda (note that it must specify a return type if it
+  * Replace ArFunctor usage with functional objects from C++ standard library:
+    * Could use std::function, or methods can be templates with `requires std::invocable<...>` or `requires std::invokable_r<...>` (Note "requires" is from C++20).
+    * Users should be able to use instead:
+      * any bare function pointer, which is converted to std::function (or similar)
+      * a lambda (note that it must specify a return type if it
       returns something in order to be safely assigned to a std::function.)
-    * Users can provide a callable object with an operator().
-    * Users can use `std::bind` with placeholder arguments, or `std::bind_front` (C++20) to provide an object instance
+      * an object with an operator().
+    * Or, users can use `std::bind` with placeholder arguments, or `std::bind_front` (C++20) to provide an object instance
       bound to a member function (bind the method to a class instance),
     * Can we use a lighter weight callable type rather than std::function? Can
       we use a more constrained type consisting of just an object pointer and
@@ -269,8 +278,8 @@ easier to use.  Contact me or discuss on the GitHub page.
         }
         ```
 
-    * See <https://godbolt.org/z/Md7WKbzrP> for experimenting with
-      `std::function` and `std::bind_front`.
+    * See <https://godbolt.org/z/Md7WKbzrP> and <https://godbolt.org/z/6T9r8jWx6> for experimenting with
+      `std::function`, `requires std::invocable` and `std::bind_front`.
     * Conversion functions can be written to convert deprecated ArFunctor types
        to `std::function`s in C++20 like this:
 
@@ -304,6 +313,15 @@ easier to use.  Contact me or discuss on the GitHub page.
       Maybe ArFunctorC can also be supported via type alias rather than
       conversion functions?
 
+    * Or, replace ArFunctor throughout Aria with std::function, but also make converting between 
+      std::function and ArFunctor possible, e.g. add operator() to ArFunctor,
+      and constructor that takes std::function to store and optionally use instead of virtual 
+      derived class invoke() overload.  Note that most important for compatibility is users providing
+      their own ArFunctor objects to ARIA classes, but there are also a few places in the ARIA API that return
+      ArFunctor objects or pointers that users can store and call.
+
+    * Or, just break the API and require users to switch to std::function or lambda closures. 
+
     * Note, should we be using `std::ref` or the proposed `function_ref` for the above? (Or only
       needed if target is an object with operator(), rather than function
       pointer or lambda?)
@@ -316,13 +334,14 @@ easier to use.  Contact me or discuss on the GitHub page.
       target_type().  E.g.   
       `names_map.insert(std::type_index(f.target_type()), "name"); 
       auto it = names_map.find(std::type_index(f.target_type()));`
-  * Or, just simplify ArFunctor classes with variadic template types for
-    function arguments, and/or function signatures as a type, and template
-    deduction to distinguish between function object class for free/global
-    functions, instance member functions, const instance member functions, etc.
-    See <tests/newFunctionObjectTemplates.cpp> for an example of this.
-    It should be renamed to less misleading name, but we can add type aliases
-    for compatibility with old ArFunctor classes.
+    * Alternative to only improve ArFunctor:, use variadic template types for
+      function arguments, and/or function signatures as a type, and template
+      deduction to distinguish between function object class for free/global
+      functions, instance member functions, const instance member functions, etc.
+      See <tests/newFunctionObjectTemplates.cpp> for an example of this.
+      It should be renamed to less misleading name, but we can add type aliases
+      for compatibility with old ArFunctor classes.
+  * Use std::size() and std::ssize() (that's C++20 though) to get correct size signedness for comparisons.
 * Mark some very frequently used inline methods noexcept? (because library might (or might not) have been compiled with -fno-exceptions but user applications probably won't be)
 * Javascript (NodeJS) wrapper via SWIG (HELP WANTED)
 * Automated Rust wrapper via ritual or SWIG or other tool (HELP WANTED)
@@ -362,10 +381,12 @@ against what was recorded.
       declarations and assertions at compile time or by user code setting flag
       etc., or replace with clang __builtin_assume/msvc __assume optionally at build, and can 
       also add additional attributes like [[unlikely]].
+* ArRobot's private member variables could be reordered to reduce padding, but there is usually only ever one ArRobot instance.  Can some of these be removed or moved into objects that are optionally allocated if they are only very occasionally used?
 
 Maybe TODO eventually
 ----------
 
+* Virtual inheritance is used in Aria to implement an interface for different typyes of hardware (e.g. laser rangefinders).  Usually there is a small handful of these and they will only be instantiated once in the program.  So this could also be done with a template interface specialized for the implementations implementing (non-virtually) similar APIs.  
 * Add "talker" prefix filter to ArNMEAParser and ArGPS. I.e. list of talker IDs
   to accept, ignoring all others.  This would be used on a complex vehicle
   instrument system in which different "talkers" (sources, devices, instruments)
@@ -388,3 +409,6 @@ Maybe TODO eventually
   implementations possible in other libraries or code units, e.g. user custom, ROS, HTTP REST, etc.)
 * Develop logging (ArLog) further. Or replace with spdlog and {fmt}.
 * enums in config items
+* ArRobot's Task tree infrastructure and the ArActionResolver suffer from YAGNI fallacy a bit, it is general and customizable but in practice only pretty fixed task structure is used (with SensorInterpTasks and UserTasks as the only branches since they contain user-supplied tasks) and the default ArPriorityResolver implementation have ever been used. Therefore instead of allocating virtual ArACtionResolver subclass or accepting pointer to user's implementation, just collapse them with the parent "interface" classes and store them directly in ArRobot, and 
+* Use general state machine library for the little state machines than are used in ARIA. (e.g. boost::sml) Should be pretty simple and lightweight.
+* Many instances of `std::map` could be replaced by `std::flat_map`, especially if they are relatively static and/or small. (C++23 feature?)
