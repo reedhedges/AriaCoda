@@ -135,11 +135,6 @@ AREXPORT ArRobotParams::ArRobotParams() :
     internalAddToConfigDefault();
 }
 
-/* AREXPORT ArRobotParams::~ArRobotParams()
-{
-
-} */
-
 
 void ArRobotParams::internalAddToConfigDefault()
 {
@@ -350,8 +345,24 @@ AREXPORT void ArRobotParams::addLaserToConfig(
                      section,
                      "Information about the connection to this laser and its position on the vehicle.");
 
-  LaserData *laserData = new LaserData;
-  myLasers[laserNumber] = laserData;
+  // Prior implementation allocated a new LaserData and stored LaserData* in myLasers (and leaked),
+  // here is a direct replacement using unique_ptr instead of raw pointers:
+  //std::unique_ptr<LaserData> laserData = std::make_unique<LaserData>();
+  //LaserData laserDataObj;
+  //LaserData *laserData = &laserDataObj; // hack to reduce code changes below
+  
+  // But even better is to not allocate at all. We can use emplace to create the LaserData
+  // object in the map as we do here.  (Or we could create a local LaserData object here
+  // and use std::move to move it into the map.)
+
+  auto r = myLasers.emplace(std::make_pair(laserNumber, LaserData()));
+
+  // get stuff from returned pair. in C++17 we can change this to: auto [it, ok] = myLasers.emplace(...);
+  auto new_it = r.first; // iterator to new item, which is pair(laserNumber, LaserData).
+  bool added_new = r.second;
+
+  assert(added_new); // flag that a new item was emplaced
+  LaserData *laserData = &(new_it->second);
 
   strcpy(laserData->mySection, section);
 
@@ -473,71 +484,74 @@ AREXPORT void ArRobotParams::addLaserToConfig(
   config->addParam(ArConfigArg(ArConfigArg::SEPARATOR),
 		   section, ArPriority::FACTORY);
 
-  if (!useDefaultBehavior)
-    return;
+  if (useDefaultBehavior)
+  {
 
-  config->addParam(
-	  ArConfigArg("LaserPowerControlled", 
-		            &laserData->myLaserPowerControlled,
-		            "When enabled (true), this indicates that the power to the laser is controlled by the serial port line."), 
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserMaxRange", (int *)&laserData->myLaserMaxRange, 
-		      "Maximum range (in mm) to use for the laser. This should be specified only when the range needs to be shortened. 0 to use the default range."),
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserCumulativeBufferSize", 
-		      (int *)&laserData->myLaserCumulativeBufferSize, 
-		      "Cumulative buffer size to use for the laser. 0 to use the default."), 
-	  section,
-	  ArPriority::NORMAL);
-  
-  config->addParam(
-	  ArConfigArg("LaserStartDegrees", laserData->myLaserStartDegrees, 
-		            "Start angle (in deg) for the laser. This may be used to constrain the angle. Fractional degrees are permitted. Leave blank to use the default.",
-                sizeof(laserData->myLaserStartDegrees)),
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserEndDegrees", laserData->myLaserEndDegrees, 
-		            "End angle (in deg) for the laser. This may be used to constrain the angle. Fractional degreees are permitted. Leave blank to use the default.",
-                sizeof(laserData->myLaserEndDegrees)),
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserDegreesChoice", laserData->myLaserDegreesChoice, 
-		            "Degrees choice for the laser. This may be used to constrain the range. Leave blank to use the default.",
-                sizeof(laserData->myLaserDegreesChoice)),
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserIncrement", laserData->myLaserIncrement, 
-		            "Increment (in deg) for the laser. Fractional degrees are permitted. Leave blank to use the default.",
-                sizeof(laserData->myLaserIncrement)),
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserIncrementChoice", laserData->myLaserIncrementChoice, 
-		            "Increment choice for the laser. This may be used to increase the increment. Leave blank to use the default.",
-                sizeof(laserData->myLaserIncrementChoice)),
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserUnitsChoice", laserData->myLaserUnitsChoice, 
-		            "Units for the laser. This may be used to increase the size of the units. Leave blank to use the default.",
-                sizeof(laserData->myLaserUnitsChoice)),
-	  section,
-	  ArPriority::NORMAL);
-  config->addParam(
-	  ArConfigArg("LaserReflectorBitsChoice", 
-		            laserData->myLaserReflectorBitsChoice, 
-		            "ReflectorBits for the laser. Leave blank to use the default.",
-                sizeof(laserData->myLaserReflectorBitsChoice)),
-    section,
-	  ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserPowerControlled", 
+                  &laserData->myLaserPowerControlled,
+                  "When enabled (true), this indicates that the power to the laser is controlled by the serial port line."), 
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserMaxRange", (int *)&laserData->myLaserMaxRange, 
+            "Maximum range (in mm) to use for the laser. This should be specified only when the range needs to be shortened. 0 to use the default range."),
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserCumulativeBufferSize", 
+            (int *)&laserData->myLaserCumulativeBufferSize, 
+            "Cumulative buffer size to use for the laser. 0 to use the default."), 
+      section,
+      ArPriority::NORMAL);
+    
+    config->addParam(
+      ArConfigArg("LaserStartDegrees", laserData->myLaserStartDegrees, 
+                  "Start angle (in deg) for the laser. This may be used to constrain the angle. Fractional degrees are permitted. Leave blank to use the default.",
+                  sizeof(laserData->myLaserStartDegrees)),
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserEndDegrees", laserData->myLaserEndDegrees, 
+                  "End angle (in deg) for the laser. This may be used to constrain the angle. Fractional degreees are permitted. Leave blank to use the default.",
+                  sizeof(laserData->myLaserEndDegrees)),
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserDegreesChoice", laserData->myLaserDegreesChoice, 
+                  "Degrees choice for the laser. This may be used to constrain the range. Leave blank to use the default.",
+                  sizeof(laserData->myLaserDegreesChoice)),
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserIncrement", laserData->myLaserIncrement, 
+                  "Increment (in deg) for the laser. Fractional degrees are permitted. Leave blank to use the default.",
+                  sizeof(laserData->myLaserIncrement)),
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserIncrementChoice", laserData->myLaserIncrementChoice, 
+                  "Increment choice for the laser. This may be used to increase the increment. Leave blank to use the default.",
+                  sizeof(laserData->myLaserIncrementChoice)),
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserUnitsChoice", laserData->myLaserUnitsChoice, 
+                  "Units for the laser. This may be used to increase the size of the units. Leave blank to use the default.",
+                  sizeof(laserData->myLaserUnitsChoice)),
+      section,
+      ArPriority::NORMAL);
+    config->addParam(
+      ArConfigArg("LaserReflectorBitsChoice", 
+                  laserData->myLaserReflectorBitsChoice, 
+                  "ReflectorBits for the laser. Leave blank to use the default.",
+                  sizeof(laserData->myLaserReflectorBitsChoice)),
+      section,
+      ArPriority::NORMAL);
+  }
 
+  //myLasers[laserNumber] = std::move(laserData);
+  //myLasers[laserNumber] = std::move(laserDataObj);
 }
 
 AREXPORT void ArRobotParams::addBatteryToConfig(
@@ -561,8 +575,11 @@ AREXPORT void ArRobotParams::addBatteryToConfig(
                      section.c_str(),
                      "Information about the connection to this battery.");
 
-  BatteryMTXBoardData *batteryMTXBoardData = new BatteryMTXBoardData;
-  myBatteryMTXBoards[batteryNumber] = batteryMTXBoardData;
+  auto r = myBatteryMTXBoards.emplace(std::make_pair(batteryNumber, BatteryMTXBoardData()));
+  auto new_it = r.first;
+  bool added_new = r.second;
+  assert(added_new);
+  BatteryMTXBoardData *batteryMTXBoardData = &(new_it->second);
 
   myBatteryMTXBoardCount++;
 
@@ -646,9 +663,12 @@ AREXPORT void ArRobotParams::addLCDToConfig(
                      section.c_str(),
                      "The physical definition of this LCD.");
   
-  LCDMTXBoardData *lcdMTXBoardData = new LCDMTXBoardData;
-  myLCDMTXBoards[lcdNumber] = lcdMTXBoardData;
-
+  auto r = myLCDMTXBoards.emplace(std::make_pair(lcdNumber, LCDMTXBoardData()));
+  auto it = r.first;
+  auto added_new = r.second;
+  assert(added_new);
+  LCDMTXBoardData *lcdMTXBoardData = &(it->second);
+  
   /// MPL TODO what's this for?
   myLCDMTXBoardCount++;
 
@@ -757,9 +777,12 @@ AREXPORT void ArRobotParams::addSonarBoardToConfig(
                      section.c_str(),
                      "Information about the connection to this Sonar Board.");
 
-  SonarMTXBoardData *sonarMTXBoardData = new SonarMTXBoardData;
-  mySonarMTXBoards[sonarBoardNumber] = sonarMTXBoardData;
-
+  auto r = mySonarMTXBoards.emplace(std::make_pair(sonarBoardNumber, SonarMTXBoardData()));
+  auto it = r.first;
+  bool ok = r.second;
+  assert(ok);
+  SonarMTXBoardData *sonarMTXBoardData = &(it->second);
+  
   /// MPL TODO what's this do?
   mySonarMTXBoardCount++;
 

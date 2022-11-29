@@ -28,6 +28,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaInternal.h"
 #include "Aria/ArConfig.h"
 #include <vector>
+#include <map>
+#include <string>
+#include <memory>
 
 #ifndef ARIA_WRAPPER
 
@@ -151,7 +154,6 @@ class ArRobotParams : public ArConfig
 public:
   /// Constructor
   AREXPORT ArRobotParams();
-  //AREXPORT virtual ~ArRobotParams();
   /// Returns the class from the parameter file
   const char *getClassName() const { return myClass; }
   /// Returns the subclass from the parameter file
@@ -1069,7 +1071,6 @@ protected:
 	mySection[0] = '\0';
 	myLaserPowerOutput[0] = '\0';
       }
-    //virtual ~LaserData() {}
   
     char myLaserType[256];
     char myLaserPortType[256];
@@ -1096,25 +1097,30 @@ protected:
     char mySection[256];
     char myLaserPowerOutput[256];
   };
-  std::map<int, LaserData *> myLasers;
+  //std::map<int, std::unique_ptr<LaserData> > myLasers;
+  std::map<int, LaserData> myLasers;
 
   const LaserData *getLaserData(int laserNumber) const
-    {
-      std::map<int, LaserData *>::const_iterator it;
-      if ((it = myLasers.find(laserNumber)) != myLasers.end())
-	return (*it).second;
-      else
-	return NULL;
-    }
+  {
+    //std::map<int, LaserData *>::const_iterator it;
+    auto it = myLasers.find(laserNumber);
+    if (it != myLasers.end())
+      //return it->second.get(); // return LaserData* from unique_ptr
+      return &(it->second);
+    else
+      return nullptr;
+  }
 
   LaserData *getLaserData(int laserNumber) 
-    {
-      std::map<int, LaserData *>::const_iterator it;
-      if ((it = myLasers.find(laserNumber)) != myLasers.end())
-	return (*it).second;
-      else
-	return NULL;
-    }
+  {
+    //std::map<int, LaserData *>::const_iterator it;
+    auto it = myLasers.find(laserNumber);
+    if (it != myLasers.end())
+      //return it->second.get();
+      return &(it->second);
+    else
+      return NULL;
+  }
 
   class BatteryMTXBoardData
   {
@@ -1128,7 +1134,6 @@ protected:
 	myBatteryMTXBoardBaud = 0;
 	myBatteryMTXBoardAutoConn = false;
       }
-    //virtual ~BatteryMTXBoardData() {}
   
     char myBatteryMTXBoardType[256];
     char myBatteryMTXBoardPortType[256];
@@ -1136,26 +1141,25 @@ protected:
     int myBatteryMTXBoardBaud;
     bool myBatteryMTXBoardAutoConn;
   };
-  std::map<int, BatteryMTXBoardData *> myBatteryMTXBoards;
+  std::map<int, BatteryMTXBoardData> myBatteryMTXBoards;
 
   const BatteryMTXBoardData *getBatteryMTXBoardData(int batteryBoardNum) const
-    {
-      std::map<int, BatteryMTXBoardData *>::const_iterator it;
-      if ((it = myBatteryMTXBoards.find(batteryBoardNum)) != myBatteryMTXBoards.end())
-	return (*it).second;
-      else
-	return NULL;
-    }
+  {
+    auto it = myBatteryMTXBoards.find(batteryBoardNum);
+    if (it != myBatteryMTXBoards.end())
+      return &(it->second);
+    else
+      return nullptr;
+  }
 
   BatteryMTXBoardData *getBatteryMTXBoardData(int batteryBoardNum) 
-    {
-      std::map<int, BatteryMTXBoardData *>::const_iterator it;
-      if ((it = myBatteryMTXBoards.find(batteryBoardNum)) != myBatteryMTXBoards.end())
-	return (*it).second;
-      else
-	return NULL;
-    }
-
+  {
+    auto it = myBatteryMTXBoards.find(batteryBoardNum);
+    if (it != myBatteryMTXBoards.end())
+      return &(it->second);
+    else
+      return nullptr;
+  }
 
   class LCDMTXBoardData
   {
@@ -1171,7 +1175,6 @@ protected:
 	myLCDMTXBoardConnFailOption = false;
 	myLCDMTXBoardPowerOutput[0] = '\0';
       }
-    //virtual ~LCDMTXBoardData() {}
   
     char myLCDMTXBoardType[256];
     char myLCDMTXBoardPortType[256];
@@ -1181,26 +1184,25 @@ protected:
     bool myLCDMTXBoardConnFailOption;
     char myLCDMTXBoardPowerOutput[256];
   };
-  std::map<int, LCDMTXBoardData *> myLCDMTXBoards;
+  std::map<int, LCDMTXBoardData> myLCDMTXBoards;
 
   const LCDMTXBoardData *getLCDMTXBoardData(int lcdBoardNum) const
-    {
-      std::map<int, LCDMTXBoardData *>::const_iterator it;
-      if ((it = myLCDMTXBoards.find(lcdBoardNum)) != myLCDMTXBoards.end())
-	return (*it).second;
-      else
-	return NULL;
-    }
+  {
+    auto it = myLCDMTXBoards.find(lcdBoardNum);
+    if (it != myLCDMTXBoards.end())
+      return &(it->second);
+    else
+      return nullptr;
+  }
 
   LCDMTXBoardData *getLCDMTXBoardData(int lcdBoardNum) 
-    {
-      std::map<int, LCDMTXBoardData *>::const_iterator it;
-      if ((it = myLCDMTXBoards.find(lcdBoardNum)) != myLCDMTXBoards.end())
-	return (*it).second;
-      else
-	return NULL;
-    }
-
+  {
+    auto it = myLCDMTXBoards.find(lcdBoardNum);
+    if (it != myLCDMTXBoards.end())
+      return &(it->second);
+    else
+      return nullptr;
+  }
 
   class SonarMTXBoardData
   {
@@ -1224,7 +1226,6 @@ protected:
 			mySonarUseForAutonomousDriving = false;
 			mySonarMTXBoardPowerOutput[0] = '\0';
       }
-    //virtual ~SonarMTXBoardData() {}
   
     char mySonarMTXBoardType[256];
     char mySonarMTXBoardPortType[256];
@@ -1244,25 +1245,25 @@ protected:
 		bool mySonarUseForAutonomousDriving;
     char mySonarMTXBoardPowerOutput[256];
   };
-  std::map<int, SonarMTXBoardData *> mySonarMTXBoards;
+  std::map<int, SonarMTXBoardData> mySonarMTXBoards;
 
   const SonarMTXBoardData *getSonarMTXBoardData(int sonarBoardNum) const
-    {
-		std::map<int, SonarMTXBoardData *>::const_iterator it;
-		if ((it = mySonarMTXBoards.find(sonarBoardNum)) != mySonarMTXBoards.end())
-			return (*it).second;
+  {
+    auto it = mySonarMTXBoards.find(sonarBoardNum);
+		if (it != mySonarMTXBoards.end())
+			return &(it->second);
 		else
-			return NULL;
-    }
+			return nullptr;
+  }
 
   SonarMTXBoardData *getSonarMTXBoardData(int sonarBoardNum) 
-    {
-		std::map<int, SonarMTXBoardData *>::const_iterator it;
-		if ((it = mySonarMTXBoards.find(sonarBoardNum)) != mySonarMTXBoards.end())
-			return (*it).second;
+  {
+    auto it = mySonarMTXBoards.find(sonarBoardNum);
+		if (it != mySonarMTXBoards.end())
+			return &(it->second);
 		else
-			return NULL;
-    }
+			return nullptr;
+  }
 
   bool mySettableVelMaxes;
   int myTransVelMax;
