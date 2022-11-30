@@ -247,7 +247,7 @@ bool ArSocket::connect(const char *host, int port, Type type,
 bool ArSocket::open(int port, Type type, const char *openOnIP)
 {
   int ret;
-  char localhost[MaxHostNameLen];
+  //char localhost[MaxHostNameLen];
 
   if(myDebug) ArLog::log(ArLog::Normal, "ArSocket(%d): Opening port %d (local address %s)", myFD, port, openOnIP);
 
@@ -330,8 +330,9 @@ bool ArSocket::open(int port, Type type, const char *openOnIP)
   {
     myError = NetFail;
     myErrorStr="Failure to bind socket to port ";
-    sprintf(localhost, "%d", port);
-    myErrorStr+=localhost;
+    myErrorStr += std::to_string(port);
+    //sprintf(localhost, "%d", port);
+    //myErrorStr+=localhost;
     ArLog::logErrorFromOS(ArLog::Normal, "ArSocket::open: could not bind");
     ::close(myFD);
     myFD = -1;

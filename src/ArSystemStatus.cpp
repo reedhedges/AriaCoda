@@ -413,8 +413,9 @@ void ArSystemStatus::refreshMTXWireless()
 	ourMTXIp1, ourMTXIp2, ourMTXIp3, ourMTXIp4, ourMTXLinkQuality, ourMTXLinkSignal);
 	*/
 
-	char buf[1024];
-	sprintf(buf, "%d.%d.%d.%d", ourMTXIp1, ourMTXIp2, ourMTXIp3, ourMTXIp4);
+	char buf[16];
+	snprintf(buf, 16, "%d.%d.%d.%d", ourMTXIp1, ourMTXIp2, ourMTXIp3, ourMTXIp4);
+  buf[15] = '\0';
 	ourMTXIpString = buf;
 
 	fclose(fpQuality);

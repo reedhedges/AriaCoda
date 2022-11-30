@@ -210,11 +210,12 @@ AREXPORT bool ArSocket::connect(const char *host, int port, Type type,
   if (::connect(myFD, (struct sockaddr *)&mySin,
 		sizeof(struct sockaddr_in)) < 0)
   {
-    char buff[10];
+    //char buff[10];
     int err=WSAGetLastError();
-    sprintf(buff, "%d", err);
-    myErrorStr="Failure to connect socket";
-    myErrorStr+=buff;
+    //sprintf(buff, "%d", err);
+    myErrorStr="Failure to connect socket: error ";
+    //myErrorStr+=buff;
+    myErrorStr += std::to_string(err);
     switch (err)
     {
     case WSAEADDRNOTAVAIL:
@@ -246,7 +247,7 @@ AREXPORT bool ArSocket::connect(const char *host, int port, Type type,
 AREXPORT bool ArSocket::open(int port, Type type, const char *openOnIP)
 {
   int ret;
-  char localhost[MAXGETHOSTSTRUCT];
+  //char localhost[MAXGETHOSTSTRUCT];
   myError = NoErr;
   myErrorStr.clear();
 
@@ -317,8 +318,9 @@ AREXPORT bool ArSocket::open(int port, Type type, const char *openOnIP)
   if ((ret=bind(myFD, (struct sockaddr *)&mySin, sizeof(mySin))) < 0)
   {
     myErrorStr="Failure to bind socket to port ";
-    sprintf(localhost, "%d", port);
-    myErrorStr+=localhost;
+    myErrorStr += std::to_string(port);
+    //sprintf(localhost, "%d", port);
+    //myErrorStr+=localhost;
     myError = NetFail;
     ArLog::logErrorFromOS(ArLog::Normal, "ArSocket::open: could not bind");
     ::shutdown(myFD, SD_BOTH);

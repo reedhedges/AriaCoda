@@ -41,10 +41,9 @@ AREXPORT ArLaser::ArLaser(
 
   if (appendLaserNumberToName)
   {
-    char buf[1024];
-    snprintf(buf, 1024, "%s_%d", name, myLaserNumber);
-    //sprintf(buf, "%s_%d", buf, myLaserNumber);
-    myName = buf;
+    myName = name;
+    myName += "_";
+    myName += std::to_string(myLaserNumber);
   }
   else
   {
@@ -121,9 +120,7 @@ AREXPORT void ArLaser::laserSetName(const char *name)
   if (ourUseSimpleNaming)
   {
     myName = "Laser_";
-    char buf[1024];
-    sprintf(buf, "%d", myLaserNumber);
-    myName += buf;
+    myName += std::to_string(myLaserNumber);
   }    
   else
   {

@@ -4568,6 +4568,9 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
 
   if (packet->getID() == 0xfe) 
   {
+    std::string message("Losing connection because microcontroller reset with reset data");
+
+/*
     char buf[100000];
     char tmp[100000];
     int bufrem = sizeof(buf);
@@ -4587,8 +4590,16 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
+*/
 
-    dropConnection(buf, "because microcontroller reset");
+    while(packet->getDataLength() - packet->getDataReadLength() > 0)
+    {
+      char hexstr[8];
+      snprintf(hexstr, 8, " 0x%x", packet->bufToUByte()); // todo replace with std::to_chars() if we move to c++17 support
+      message += hexstr;
+    }
+
+    dropConnection(message.c_str(), "because microcontroller reset");
     unlock();
     return false;
   }
@@ -4740,8 +4751,9 @@ void ArRobot::packetHandlerNonThreaded()
   if (myTimeoutTime > 0 && 
       ((-myLastOdometryReceivedTime.mSecTo()) > myTimeoutTime))
   {
-    char buf[10000];
-    sprintf(buf, 
+    constexpr size_t size = 256;
+    char buf[size];
+    snprintf(buf, size, 
 	    "Losing connection because no odometry received from microcontroller in %ld milliseconds (greater than the timeout of %d).", 
 	    (-myLastOdometryReceivedTime.mSecTo()),
 	    myTimeoutTime);
@@ -4757,8 +4769,9 @@ void ArRobot::packetHandlerNonThreaded()
   if (myTimeoutTime > 0 && 
       ((-myLastPacketReceivedTime.mSecTo()) > myTimeoutTime))
   {
-    char buf[10000];
-    sprintf(buf, "Losing connection because nothing received from robot in %ld milliseconds (greater than the timeout of %d).", 
+    constexpr size_t size = 256;
+    char buf[size];
+    snprintf(buf, size, "Losing connection because nothing received from robot in %ld milliseconds (greater than the timeout of %d).", 
 	       (-myLastPacketReceivedTime.mSecTo()),
 	       myTimeoutTime);
     myConnectionTimeoutMutex.unlock();
@@ -4886,8 +4899,9 @@ void ArRobot::packetHandlerThreadedProcessor()
   if (myTimeoutTime > 0 && 
       ((-myLastOdometryReceivedTime.mSecTo()) > myTimeoutTime))
   {
-    char buf[10000];
-    sprintf(buf, 
+    constexpr size_t size = 256;
+    char buf[size];
+    snprintf(buf, size,
 	    "Losing connection because no odometry received from robot in %ld milliseconds (greater than the timeout of %d).", 
 	    (-myLastOdometryReceivedTime.mSecTo()),
 	    myTimeoutTime);
@@ -4903,8 +4917,9 @@ void ArRobot::packetHandlerThreadedProcessor()
   if (myTimeoutTime > 0 && 
       ((-myLastPacketReceivedTime.mSecTo()) > myTimeoutTime))
   {
-    char buf[10000];
-    sprintf(buf, "Losing connection because nothing received from robot in %ld milliseconds (greater than the timeout of %d).", 
+    constexpr size_t size = 256;
+    char buf[size];
+    snprintf(buf, size, "Losing connection because nothing received from robot in %ld milliseconds (greater than the timeout of %d).", 
 	       (-myLastPacketReceivedTime.mSecTo()),
 	       myTimeoutTime);
     myConnectionTimeoutMutex.unlock();
@@ -5421,8 +5436,8 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
       /// used it doesn't have to account for the odometry delay
       recvTime.addMSec(-myOdometryDelay);
 
-      char buf[1024];
-      sprintf(buf, " time: %6lld.%03lld.000 uCTime: %6u.%03u.%.03u",
+      char buf[256];
+      snprintf(buf, 256, " time: %6lld.%03lld.000 uCTime: %6u.%03u.%.03u",
 	      recvTime.getSecLL(), recvTime.getMSecLL(),
 	      uCUSec / 1000000, (uCUSec % 1000000) / 1000, uCUSec % 1000);
       movementReceivedTimingStr = buf;
@@ -5450,8 +5465,8 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
     /// used it doesn't have to account for the odometry delay
     recvTime.addMSec(-myOdometryDelay);
     
-    char buf[1024];
-    sprintf(buf, " time: %6lld.%03lld.000",
+    char buf[256];
+    snprintf(buf, 256, " time: %6lld.%03lld.000",
 	    recvTime.getSecLL(), recvTime.getMSecLL());
     movementReceivedTimingStr = buf;
   }
@@ -6497,38 +6512,31 @@ AREXPORT const char *ArRobot::getName() const
 
 AREXPORT void ArRobot::setName(const char * name)
 {
-	std::list<ArRobot *> *robotList;
-    std::list<ArRobot *>::iterator it;
-    int i;
-    char buf[1024];
- 
- if (name != NULL)
+  if (name != NULL)
   {
     myName = name;
   }
   else
   {
-
-    
-
-    robotList = Aria::getRobotList();
-    for (i = 1, it = robotList->begin(); it != robotList->end(); it++, i++)
+    std::list<ArRobot*> *robotList = Aria::getRobotList();
+    size_t i = 1;
+    for (auto it = robotList->begin(); it != robotList->end(); ++it, ++i)
     {
       if (this == (*it))
       {
-	    if (i == 1)
-			myName = "robot";
-		else
-		{
-			sprintf(buf, "robot%d", i);
-			myName = buf;
-		}
-	    return;
+        if (i == 1)
+          myName = "robot";
+        else
+        {
+          myName = "robot";
+          myName += std::to_string(i);
+        }
+        return;
       }
     }
-    sprintf(buf, "robot%lu", robotList->size());
-    myName = buf;
-   }
+    myName = "robot";
+    myName += std::to_string(robotList->size());
+  }
 }
 
 /**
