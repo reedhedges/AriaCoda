@@ -144,7 +144,8 @@ AREXPORT int16_t ArLMS2xxPacket::calcCRC()
     }
     else
     {
-      uCrc16 <<= 1;
+      //uCrc16 <<= 1;
+      uCrc16 = (unsigned short)(uCrc16 << 1);
     }
     uCrc16 ^= (unsigned short)(abData[0] | (abData[1] << 8));
   }

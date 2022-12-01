@@ -1320,7 +1320,7 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
   std::list<ArFunctor *>::iterator it;  
   unsigned int rawValue;
   unsigned int value;
-  int reflector = 0;
+  unsigned int reflector = 0;
   unsigned int numReadings;
   unsigned int i;
   double atDeg;
@@ -1361,9 +1361,7 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
       multiplier = 100;
     else
     {
-      ArLog::log(ArLog::Terse, 
-		 "%s::processPacket: bad distance configuration in packet",
-		 getName());
+      ArLog::log(ArLog::Terse, "%s::processPacket: bad distance configuration in packet", getName());
       multiplier = 0;
     }
     //printf("%ld ms after last reading.\n", myLastReading.mSecSince());
@@ -1372,27 +1370,24 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
       (bool)(value & ArUtil::BIT15));*/
     while (myAssembleReadings->size() > numReadings)
     {
-      ArLog::log(ArLog::Verbose, "%s::processPacket, too many readings, popping one.",
-		 getName());
+      ArLog::log(ArLog::Verbose, "%s::processPacket, too many readings, popping one.", getName());
       tempIt = myAssembleReadings->begin();
       if (tempIt != myAssembleReadings->end())
-	delete (*tempIt);
+        delete (*tempIt);
       myAssembleReadings->pop_front();
     }
     
     // If we don't have any sensor readings created at all, make 'em all 
     if (myAssembleReadings->size() == 0)
       for (i = 0; i < numReadings; i++)
-	myAssembleReadings->push_back(new ArSensorReading);
+        myAssembleReadings->push_back(new ArSensorReading);
 
     transform.setTransform(pose);
     //deinterlaceDelta = transform.doInvTransform(deinterlacePose);
     // printf("usePose2 %d, th1 %.0f th2 %.0f\n",  usePose2, pose.getTh(), pose2.getTh());
-    for (atDeg = mySensorPose.getTh() - myOffsetAmount, onReading = 0,
-	 myIter = myAssembleReadings->begin();
-	 (onReading < numReadings && 
-	  packet->getReadLength() < packet->getLength() - 4);
-	 myWhichReading++, atDeg += myIncrementAmount, myIter++, onReading++)
+    for (atDeg = mySensorPose.getTh() - myOffsetAmount, onReading = 0, myIter = myAssembleReadings->begin();
+           (onReading < numReadings && packet->getReadLength() < packet->getLength() - 4);
+           myWhichReading++, atDeg += myIncrementAmount, myIter++, onReading++)
     {
       reading = (*myIter);
       //reading->resetSensorPosition(0, 0, 0);
@@ -1403,30 +1398,33 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
       rawValue = packet->bufToUByte2();
       if (myNumReflectorBits == 1)
       {
-	dist = (rawValue & 0x7fff) * multiplier;
-	reflector = ((rawValue & 0x8000) >> 15) << 2;
+        dist = (rawValue & 0x7fff) * multiplier;
+        reflector = ((rawValue & 0x8000) >> 15) << 2;
       }
       else if (myNumReflectorBits == 2)
       {
-	dist = (rawValue & 0x3fff) * multiplier;
-	reflector = ((rawValue & 0xc000) >> 14) << 1 ;
+        dist = (rawValue & 0x3fff) * multiplier;
+        reflector = ((rawValue & 0xc000) >> 14) << 1 ;
       }
       else if (myNumReflectorBits == 3)
       {
-	dist = (rawValue & 0x1fff) * multiplier;
-	reflector = ((rawValue & 0xe000) >> 13);
+        dist = (rawValue & 0x1fff) * multiplier;
+        reflector = ((rawValue & 0xe000) >> 13);
       }
       // just trap for if we don't know what it is, this shouldn't
       // happen though
       else
       {
-	dist = (rawValue & 0x7fff) * multiplier;
-	reflector = 0;
+        dist = (rawValue & 0x7fff) * multiplier;
+        reflector = 0;
       }
       // there are 3 reflector bits (its already been normalized above
       // to that range) so now we need to shift it another 5 so we get
       // 0-255.
       reflector = reflector << 5;
+
+      assert(reflector <= INT_MAX);
+      int sensorReadingExtraInt = static_cast<int>(reflector);
 
       ignore = false;
       /*
@@ -1447,20 +1445,20 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
       */
       if (deinterlace && (onReading % 2) == 0)
       {
-	reading->resetSensorPosition(
-	       ArMath::roundInt(mySensorPose.getX() + deinterlaceDelta.getX()),
-	       ArMath::roundInt(mySensorPose.getY() + deinterlaceDelta.getY()),
-	       ArMath::addAngle(atDeg, deinterlaceDelta.getTh()));
-	reading->newData(dist, pose, encoderPose, transform, counter, 
-			 deinterlaceTime, ignore, reflector);
+        reading->resetSensorPosition(
+          ArMath::roundInt(mySensorPose.getX() + deinterlaceDelta.getX()),
+          ArMath::roundInt(mySensorPose.getY() + deinterlaceDelta.getY()),
+          ArMath::addAngle(atDeg, deinterlaceDelta.getTh()));
+        reading->newData(dist, pose, encoderPose, transform, counter, 
+          deinterlaceTime, ignore, sensorReadingExtraInt);
       }
       else
       {
-	reading->resetSensorPosition(ArMath::roundInt(mySensorPose.getX()),
-				     ArMath::roundInt(mySensorPose.getY()),
-				     atDeg); 
-	reading->newData(dist, pose, encoderPose, transform, counter, 
-			 arTime, ignore, reflector);
+        reading->resetSensorPosition(ArMath::roundInt(mySensorPose.getX()),
+           ArMath::roundInt(mySensorPose.getY()),
+           atDeg); 
+        reading->newData(dist, pose, encoderPose, transform, counter, 
+           arTime, ignore, sensorReadingExtraInt);
       }
       /*
       reading->newData(onReading, 0, 0, 0,
@@ -1469,10 +1467,9 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
       */
       tempIt = myIter;
       tempIt++;
-      if (tempIt == myAssembleReadings->end() && 
-	  onReading + 1 != numReadings)
+      if (tempIt == myAssembleReadings->end() && onReading + 1 != numReadings)
       {
-	myAssembleReadings->push_back(new ArSensorReading);
+        myAssembleReadings->push_back(new ArSensorReading);
       }
     }
     // set ArRangeDevice buffer, switch internal buffers
