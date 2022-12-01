@@ -41,13 +41,11 @@ bool ArSocket::ourInitialized=false;
 AREXPORT ArSocket::ArSocket() :
   myType(Unknown),
   myError(NoErr),
-  myErrorStr(),
-  myDoClose(true),
   myFD(INVALID_SOCKET),
-  myHost(),
   myPort(-1),
-  myNonBlocking(false),
   mySin(),
+  myNonBlocking(false),
+  myDoClose(true),
   myDebug(false)
 {
   internalInit();

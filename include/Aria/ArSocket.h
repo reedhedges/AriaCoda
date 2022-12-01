@@ -420,56 +420,65 @@ protected:
   void separateHost(const char *hostString, int defaultPort, char *hostname, 
 		    size_t hostnameSize, int *port, bool *ok = NULL);
 
-  Type myType;
-  Error myError;
+
+
+
+  size_t myStringPos = 0;
+  size_t myStringPosLast = 0;
+
+  long mySends = 0;
+  long myBytesSent = 0;
+  long myRecvs = 0;
+  long myBytesRecvd = 0;
+
+  // A functor to call when the socket closes
+  ArFunctor *myCloseFunctor = nullptr;
+
+  ArTime myLastStringReadTime;
+
   std::string myErrorStr;
-  bool myDoClose;
+
+  std::string myIPString;
+  //char myRawIPString[128];
+
+  ArMutex myReadStringMutex;
+  ArMutex myWriteStringMutex;
+
+
+
+  Type myType = Unknown;
+  Error myError = NoErr;
 
 #ifdef WIN32
-  SOCKET myFD;
+  SOCKET myFD = INVALID_SOCKET;
   // Using the SOCKET data type mostly because this is what the Win32 methods 
   // return.
   std::string myHost;
-  int myPort;
+  int myPort = -1;
 #else // Windows
-  int myFD;
+  int myFD = -1;
 #endif
 
-  bool myNonBlocking;
   struct sockaddr_in mySin;
 
-  bool myFakeWrites;
-  bool myLogWriteStrings;
-  ArMutex myReadStringMutex;
-  ArMutex myWriteStringMutex;
-  bool myStringAutoEcho;
-  bool myStringEcho;
-  bool myStringIgnoreReturn;
-  bool myStringWrongEndChars;
-  char myStringBuf[5000];
-  size_t myStringPos;
-  char myStringBufEmpty[1];
-  size_t myStringPosLast;
-  std::string myIPString;
-  //char myRawIPString[128];
-  ArTime myLastStringReadTime;
-  bool myStringGotEscapeChars;
-  bool myStringGotComplete;
+  bool myDoClose = false;
+  bool myNonBlocking = false;
+  bool myFakeWrites = false;
+  bool myLogWriteStrings = false;
+  bool myStringAutoEcho = false;
+  bool myStringEcho = false;
+  bool myStringIgnoreReturn = false;
+  bool myStringWrongEndChars = false;
+  bool myStringGotEscapeChars = false;
+  bool myStringGotComplete = false;
   bool myStringHaveEchoed;
+  bool myBadWrite = false;
+  bool myBadRead = false;
+  bool myErrorTracking = false;
+  bool myDebug = false; // log when connecting, opened, closed, destroyed
 
-  long mySends;
-  long myBytesSent;
-  long myRecvs;
-  long myBytesRecvd;
-
-  bool myBadWrite;
-  bool myBadRead;
-  bool myErrorTracking;
-
-  // A functor to call when the socket closes
-  ArFunctor *myCloseFunctor;
-
-  bool myDebug; // log when connecting, opened, closed, destroyed
+  char myStringBufEmpty[1];
+  char myStringBuf[5000];
 };
 
 

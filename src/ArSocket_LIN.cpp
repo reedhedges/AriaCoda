@@ -65,14 +65,7 @@ void ArSocket::shutdown()
 {
 }
 
-ArSocket::ArSocket() :
-  myType(Unknown),
-  myError(NoErr),
-  myErrorStr(),
-  myDoClose(true),
-  myFD(-1),
-  myNonBlocking(false),
-  mySin()
+ArSocket::ArSocket()
 {
   internalInit();
 }
@@ -84,14 +77,7 @@ ArSocket::ArSocket() :
    @param type protocol type to use
 */
 ArSocket::ArSocket(const char *host, int port, Type type) :
-  myType(type),
-  myError(NoErr),
-  myErrorStr(),
-  myDoClose(true),
-  myFD(-1),
-  myNonBlocking(false),
-  mySin(),
-  myDebug(false)
+  myType(type)
 {
   internalInit();
   connect(host, port, type);
@@ -99,13 +85,7 @@ ArSocket::ArSocket(const char *host, int port, Type type) :
 
 ArSocket::ArSocket(int port, bool doClose, Type type) :
   myType(type),
-  myError(NoErr),
-  myErrorStr(),
-  myDoClose(doClose),
-  myFD(-1),
-  myNonBlocking(false),
-  mySin(),
-  myDebug(false)
+  myDoClose(doClose)
 {
   internalInit();
   open(port, type);
