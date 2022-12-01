@@ -128,7 +128,7 @@ public:
   const char *getOpenLogFileName()
   {
     if(myFile)
-      return myOpenedFileName;
+      return myOpenedFileName.c_str();
     else
       return NULL;
   }
@@ -153,8 +153,8 @@ protected:
   FILE *myFile;
   bool myConfigLogging;
   int myConfigLogInterval;
-  char myOpenedFileName[512];
-  char myConfigFileName[512];
+  std::string myOpenedFileName;
+  std::string myConfigFileName;
   std::string myPermanentFileName;
 
   // for what we're logging

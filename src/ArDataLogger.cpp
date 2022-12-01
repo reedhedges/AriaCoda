@@ -73,8 +73,6 @@ AREXPORT ArDataLogger::ArDataLogger(ArRobot *robot, const char *fileName) :
   myAddedToConfig = false;
   myConfigLogging = false;
   myConfigLogInterval = 0;
-  myConfigFileName[0] = '\0';
-  myOpenedFileName[0] = '\0';
   myAnalogCount = 0;
   myAnalogEnabled = NULL;
   myAnalogVoltageCount = 0;
@@ -165,8 +163,7 @@ AREXPORT void ArDataLogger::addToConfig(ArConfig *config)
 
   if (myPermanentFileName.size() == 0)
     myConfig->addParam(
-	    ArConfigArg("DataLogFileName", myConfigFileName, 
-			"File to log data into", sizeof(myConfigFileName)),
+	    ArConfigArg("DataLogFileName", &myConfigFileName, "File to log data into"),
 	    section.c_str(), ArPriority::NORMAL);
 
   ArConfigArg fmtArg("DataLogFormat", &myConfigLogFormat,
@@ -402,18 +399,18 @@ bool ArDataLogger::processFile(char *errorBuffer,
 
   // if our file name is different and we're not using a permanent
   // file name or if we're disabled close the old one
-  if ((strcmp(myOpenedFileName, myConfigFileName) != 0 && myFile != NULL && 
+  if ((myOpenedFileName != myConfigFileName && myFile != NULL && 
        myPermanentFileName.size() == 0) ||
        (myFile != NULL && !myConfigLogging))
   {
-    ArLog::log(ArLog::Normal, "ArDataLogger: Closed data log file '%s'", myOpenedFileName);
+    ArLog::log(ArLog::Normal, "ArDataLogger: Closed data log file '%s'", myOpenedFileName.c_str());
     fclose(myFile);
     myFile = NULL;
   }
   // try to open the file
   if (myConfigLogging && myFile == NULL)
   {
-    if (myPermanentFileName.size() == 0  && strlen(myConfigFileName) == 0)
+    if (myPermanentFileName.size() == 0  && myConfigFileName.size() == 0)
     {
       ArLog::log(ArLog::Verbose, "ArDataLogger: no log file to open");
       myMutex.unlock();
@@ -424,35 +421,31 @@ bool ArDataLogger::processFile(char *errorBuffer,
     {
       if ((myFile = ArUtil::fopen(myPermanentFileName.c_str(), "a")) != NULL)
       {
-	ArLog::log(ArLog::Normal, "ArDataLogger: Opened data log file '%s'", 
-		   myPermanentFileName.c_str());
-        strcpy(myOpenedFileName, myPermanentFileName.c_str());
+        ArLog::log(ArLog::Normal, "ArDataLogger: Opened data log file '%s'", myPermanentFileName.c_str());
+        myOpenedFileName = myPermanentFileName;
       }
       else
       {
-	ArLog::log(ArLog::Normal, "ArDataLogger: Error: Could not open data log file '%s'", 
-		   myPermanentFileName.c_str());
-	myMutex.unlock();
-	return true;
+        ArLog::log(ArLog::Normal, "ArDataLogger: Error: Could not open data log file '%s'", myPermanentFileName.c_str());
+        myMutex.unlock();
+        return true;
       }
     }
     else
     {
       // if we couldn't open it fail
-      if ((myFile = ArUtil::fopen(myConfigFileName, "w")) != NULL)
+      if ((myFile = ArUtil::fopen(myConfigFileName.c_str(), "w")) != NULL)
       {
-	strcpy(myOpenedFileName, myConfigFileName);
-	ArLog::log(ArLog::Normal, "ArDataLogger: Opened data log file '%s'", 
-		   myOpenedFileName);
+        myOpenedFileName = myConfigFileName;
+        ArLog::log(ArLog::Normal, "ArDataLogger: Opened data log file '%s'", myOpenedFileName.c_str());
       }
       else
       {
-	ArLog::log(ArLog::Normal, "ArDataLogger: Error: Could not open data log file '%s'", 
-		   myConfigFileName);
-	myMutex.unlock();
-	if (errorBuffer != NULL)
-	  snprintf(errorBuffer, errorBufferLen, "DataLogFileName of '%s' cannot be opened", myConfigFileName);
-	return false;
+        ArLog::log(ArLog::Normal, "ArDataLogger: Error: Could not open data log file '%s'", myConfigFileName.c_str());
+        myMutex.unlock();
+        if (errorBuffer != NULL)
+          snprintf(errorBuffer, errorBufferLen-1, "DataLogFileName of '%s' cannot be opened", myConfigFileName.c_str());
+        return false;
       }
     }
   }
@@ -882,7 +875,7 @@ AREXPORT void ArDataLogger::writeComment(ArArgumentBuilder *ab)
 AREXPORT void ArDataLogger::clearLog()
 {
   myMutex.lock();
-  if(!myFile || strlen(myOpenedFileName) == 0)
+  if(!myFile || myOpenedFileName == "")
   {
     myMutex.unlock();
     return;
@@ -890,11 +883,11 @@ AREXPORT void ArDataLogger::clearLog()
   ArLog::log(ArLog::Normal, "ArDataLogger: Warning: Clearing log file!");
   //rewind(myFile);
   if(myFile) fclose(myFile);
-  myFile = ArUtil::fopen(myOpenedFileName, "w");
+  myFile = ArUtil::fopen(myOpenedFileName.c_str(), "w");
   if(myFile)
     writeHeader();
   else
-    ArLog::logErrorFromOS(ArLog::Normal, "ArDataLogger: Error reopening log file %s", myOpenedFileName);
+    ArLog::logErrorFromOS(ArLog::Normal, "ArDataLogger: Error reopening log file %s", myOpenedFileName.c_str());
   
   myMutex.unlock();
 }
