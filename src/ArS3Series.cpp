@@ -1174,6 +1174,7 @@ AREXPORT bool ArS3Series::blockingConnect() {
 	if (serConn != NULL)
     	serConn->setBaud(atoi(getStartingBaudChoice()));
 
+  assert(myConn);
 	if (myConn->getStatus() != ArDeviceConnection::STATUS_OPEN
 			&& !myConn->openSimple()) {
 		ArLog::log(

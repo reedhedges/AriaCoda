@@ -123,12 +123,14 @@ AREXPORT void ArPTZ::sensorInterpHandler()
 AREXPORT bool ArPTZ::setDeviceConnection(ArDeviceConnection *connection,
 					 bool driveFromRobotLoop)
 {
+  assert(connection);
   if (myRobot != NULL)
   {
     myRobot->remPacketHandler(&myRobotPacketHandlerCB);
     myRobot->remSensorInterpTask(&mySensorInterpCB);
   }
   myConn = connection;
+  if(!myConn) return false;
   if (driveFromRobotLoop && myRobot != NULL && myConn != NULL)
     myRobot->addSensorInterpTask("ptz", 50, &mySensorInterpCB);
   if (myConn->getStatus() != ArDeviceConnection::STATUS_OPEN)

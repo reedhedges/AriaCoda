@@ -152,7 +152,7 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
   {
     if (myTracking)
       ArLog::log(ArLog::Normal, "%s: receivePacket: connection not open", myTrackingLogName.c_str());
-    myDeviceConn->debugEndPacket(false, -10);
+    if(myDeviceConn) myDeviceConn->debugEndPacket(false, -10);
     if (myAllocatePackets)
       delete packet;
     return NULL;
