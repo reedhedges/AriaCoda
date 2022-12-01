@@ -603,7 +603,8 @@ AREXPORT bool ArLCDConnector::setupLCD (ArLCDMTX *lcd,
 			            lcdNumber, lcd->getName());
 		delete lcdData;
 		myLCDs.erase (lcdNumber);
-		myLCDs[lcdNumber] = new LCDData (lcdNumber, lcd);
+    lcdData = new LCDData (lcdNumber, lcd);
+		myLCDs[lcdNumber] = lcdData;
 	}
 	if (lcdData == NULL && lcd != NULL) {
 		lcdData = new LCDData (lcdNumber, lcd);
