@@ -175,6 +175,7 @@ private:
 	/// Turns on the power for the specific board in the firmware
 	AREXPORT bool turnOnPower(SonarData *sonarData);
 
+  // todo just store SonarData here, not an allocated pointer
   std::map<int, SonarData *> mySonars;
   
   /// Parses the sonar arguments

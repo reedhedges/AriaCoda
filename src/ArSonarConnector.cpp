@@ -589,11 +589,13 @@ AREXPORT bool ArSonarConnector::setupSonar (ArSonarMTX *sonar,
 			            sonarNumber, sonar->getName());
 		delete sonarData;
 		mySonars.erase (sonarNumber);
-		mySonars[sonarNumber] = new SonarData (sonarNumber, sonar);
+		sonarData = new SonarData (sonarNumber, sonar);
+		mySonars[sonarNumber] = sonarData;
 
     // This has been copied from commented out section below:
 		if (myAutoParseArgs && !parseSonarArgs (myParser, sonarData)) {
 			ArLog::log (ArLog::Terse, "ArSonarConnector: Error Auto parsing args for sonar %s (num %d)", sonarData->mySonar->getName(), sonarNumber);
+      // note the SonarData is left in our mySonars list.
 			return false;
 		}
 	}
@@ -613,7 +615,8 @@ AREXPORT bool ArSonarConnector::setupSonar (ArSonarMTX *sonar,
 	// style), or if the sonar passed in doesn't match the one this
 	// class created (I don't know how it'd happen, but...)... and then
 	// configure it
-	if ( (sonarData->mySonar == NULL || sonarData->mySonar != sonar)) {
+  if(!sonarData) return false;
+	if (sonarData->mySonar == nullptr || sonarData->mySonar != sonar) {
 		if (!internalConfigureSonar (sonarData))
 			return false;
 	}
