@@ -66,13 +66,13 @@ AREXPORT ArActionKeydrive::ArActionKeydrive(const char *name,
 
 AREXPORT void ArActionKeydrive::setRobot(ArRobot *robot)
 {
-  ArKeyHandler *keyHandler;
   myRobot = robot;
   if (robot == NULL)
     return;
    
   // see if there is already a keyhandler, if not make one for ourselves
-  if ((keyHandler = Aria::getKeyHandler()) == NULL)
+  ArKeyHandler *keyHandler = Aria::getKeyHandler();
+  if (keyHandler == NULL)
   {
     keyHandler = new ArKeyHandler;
     Aria::setKeyHandler(keyHandler);
@@ -83,36 +83,40 @@ AREXPORT void ArActionKeydrive::setRobot(ArRobot *robot)
 
 AREXPORT void ArActionKeydrive::takeKeys()
 {
-  ArKeyHandler *keyHandler;
-  if ((keyHandler = Aria::getKeyHandler()) == NULL)
+  ArKeyHandler *keyHandler = Aria::getKeyHandler();
+  if (keyHandler == NULL)
   {
     ArLog::log(ArLog::Terse, 
-	       "ArActionKeydrive::takeKeys: There is no key handler, keydrive will not work.");
+	       "ArActionKeydrive::takeKeys: Internal error: There is no key handler, keydrive will not work.");
+    assert(keyHandler);
+    return;
   }
   // now that we have one, add our keys as callbacks, print out big
   // warning messages if they fail
-  if (!keyHandler->addKeyHandler(ArKeyHandler::UP, &myUpCB))
+  if (! keyHandler->addKeyHandler(ArKeyHandler::UP, &myUpCB))
     ArLog::log(ArLog::Terse, "The key handler already has a key for up, keydrive will not work correctly.");
-  if (!keyHandler->addKeyHandler(ArKeyHandler::DOWN, &myDownCB))
+  if (! keyHandler->addKeyHandler(ArKeyHandler::DOWN, &myDownCB))
     ArLog::log(ArLog::Terse, "The key handler already has a key for down, keydrive will not work correctly.");
-  if (!keyHandler->addKeyHandler(ArKeyHandler::LEFT, &myLeftCB))
+  if (! keyHandler->addKeyHandler(ArKeyHandler::LEFT, &myLeftCB))
     ArLog::log(ArLog::Terse,  
 	       "The key handler already has a key for left, keydrive will not work correctly.");
-  if (!keyHandler->addKeyHandler(ArKeyHandler::RIGHT, &myRightCB))
+  if (! keyHandler->addKeyHandler(ArKeyHandler::RIGHT, &myRightCB))
     ArLog::log(ArLog::Terse,  
 	       "The key handler already has a key for right, keydrive will not work correctly.");
-  if (!keyHandler->addKeyHandler(ArKeyHandler::SPACE, &mySpaceCB))
+  if (! keyHandler->addKeyHandler(ArKeyHandler::SPACE, &mySpaceCB))
     ArLog::log(ArLog::Terse,  
 	       "The key handler already has a key for space, keydrive will not work correctly.");
 }
 
 AREXPORT void ArActionKeydrive::giveUpKeys()
 {
-  ArKeyHandler *keyHandler;
-  if ((keyHandler = Aria::getKeyHandler()) == NULL)
+  ArKeyHandler *keyHandler = Aria::getKeyHandler();
+  if (keyHandler == NULL)
   {
     ArLog::log(ArLog::Terse, 
-	       "ArActionKeydrive::giveUpKeys: There is no key handler, something is probably horribly wrong .");
+	       "ArActionKeydrive::giveUpKeys: Internal error: There is no key handler, something is probably horribly wrong .");
+    assert(keyHandler);
+    return;
   }
   // now that we have one, add our keys as callbacks, print out big
   // warning messages if they fail

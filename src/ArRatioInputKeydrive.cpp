@@ -73,11 +73,13 @@ AREXPORT ArRatioInputKeydrive::~ArRatioInputKeydrive()
 AREXPORT void ArRatioInputKeydrive::takeKeys()
 {
   myHaveKeys = true;
-  ArKeyHandler *keyHandler;
-  if ((keyHandler = Aria::getKeyHandler()) == NULL)
+  ArKeyHandler *keyHandler = Aria::getKeyHandler();
+  if (keyHandler == nullptr)
   {
     ArLog::log(ArLog::Terse, 
 	       "ArRatioInputKeydrive::takeKeys: There is no key handler, keydrive will not work.");
+    assert(keyHandler);
+    return;
   }
   // now that we have one, add our keys as callbacks, print out big
   // warning messages if they fail
@@ -113,9 +115,9 @@ AREXPORT void ArRatioInputKeydrive::takeKeys()
 
 AREXPORT void ArRatioInputKeydrive::giveUpKeys()
 {
-  ArKeyHandler *keyHandler;
   myHaveKeys = false;
-  if ((keyHandler = Aria::getKeyHandler()) == NULL)
+  ArKeyHandler *keyHandler = Aria::getKeyHandler();
+  if (keyHandler == nullptr)
   {
     ArLog::log(ArLog::Terse, 
 	       "ArRatioInputKeydrive::giveUpKeys: There is no key handler, something is probably horribly wrong .");
