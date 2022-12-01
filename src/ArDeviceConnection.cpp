@@ -73,7 +73,7 @@ AREXPORT ArDeviceConnection::ArDeviceConnection()
 
 AREXPORT ArDeviceConnection::~ArDeviceConnection()
 {
-  close();
+  close(); // note destructor should be overridden by derived classes if they want to call their own close()
 }
 
 

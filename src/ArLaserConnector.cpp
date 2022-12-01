@@ -1389,6 +1389,8 @@ AREXPORT bool ArLaserConnector::connectLasers(
 	if (laserData->myLaser->canSetPowerControlled())
 	  laserData->myLaser->setPowerControlled(true);
 
+  // XXX XXX TODO is the logic for checking if myTurnOnPowerOutputCB and myTurnOffPowerOutputCBs are NULL correct? 
+  // it uses myTurnOffPowerOutputCB in the else clause of != NULL check!  But it's been this way since ARIA 2.9.4 release so leaving it for now. Must not happen when these callbacks are both supplied or both NULL.
 	if (myTurnOnPowerOutputCB != NULL)
 	{
 	  if (myTurnOffPowerOutputCB != NULL)
