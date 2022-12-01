@@ -167,7 +167,7 @@ AREXPORT ArGPS* ArGPSConnector::createGPS(ArRobot *robot)
   }
 
   // Create gps and connect to serial port or tcp port for device data stream:
-  ArGPS* newGPS = NULL;
+  ArGPS* newGPS = nullptr;
   switch (myDeviceType)
   {
     case Novatel:
@@ -192,6 +192,8 @@ AREXPORT ArGPS* ArGPSConnector::createGPS(ArRobot *robot)
       break;
   }
 
+  assert(newGPS);
+
   if(myDeviceType != Simulator)
   {
     if (myTCPHost == NULL)
@@ -199,11 +201,16 @@ AREXPORT ArGPS* ArGPSConnector::createGPS(ArRobot *robot)
       // Setup serial connection
       ArSerialConnection *serialCon = new ArSerialConnection;
       ArLog::log(ArLog::Normal, "ArGPSConnector: Connecting to GPS on port %s at %d baud...", myPort, myBaud);
-      if (!serialCon->setBaud(myBaud)) { delete serialCon; return NULL; }
+      if (!serialCon->setBaud(myBaud)) { 
+        delete newGPS;
+        delete serialCon; 
+        return nullptr; 
+      }
       if (serialCon->open(myPort) != 0) {
         ArLog::log(ArLog::Terse, "ArGPSConnector: Error: could not open GPS serial port %s.", myPort);
+        delete newGPS;
         delete serialCon;
-        return NULL;
+        return nullptr;
       }
       newGPS->setDeviceConnection(serialCon);
       myDeviceCon = serialCon;
@@ -216,8 +223,9 @@ AREXPORT ArGPS* ArGPSConnector::createGPS(ArRobot *robot)
       int openState = tcpCon->open(myTCPHost, myTCPPort);
       if (openState != 0) {
         ArLog::log(ArLog::Terse, "ArGPSConnector: Error: could not open TCP connection to %s port %d: %s", tcpCon->getOpenMessage(openState));
+        delete newGPS;
         delete tcpCon;
-        return NULL;
+        return nullptr;
       }
       newGPS->setDeviceConnection(tcpCon);
       myDeviceCon = tcpCon;
