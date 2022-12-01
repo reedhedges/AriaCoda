@@ -98,15 +98,16 @@ AREXPORT ArRobotAmigoShTim5xxWibox::ArRobotAmigoShTim5xxWibox()
   : ArRobotAmigoSh()
 {
   sprintf(mySubClass, "amigo-sh-tim3xx");
-  if (getLaserData(1) != NULL)
+  LaserData *ld = getLaserData(1);
+  if (ld != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "tim5XX");
-    sprintf(getLaserData(1)->myLaserPortType, "tcp");
-    sprintf(getLaserData(1)->myLaserPort, "10.0.126.11:8102");
-    getLaserData(1)->myLaserX = 110;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserZ = 200;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(ld->myLaserType, "tim5XX");
+    sprintf(ld->myLaserPortType, "tcp");
+    sprintf(ld->myLaserPort, "10.0.126.11:8102");
+    ld->myLaserX = 110;
+    ld->myLaserY = 0;
+    ld->myLaserZ = 200;
+    ld->myLaserAutoConnect = true;
   }
 }
 
@@ -146,13 +147,14 @@ AREXPORT ArRobotP2AT::ArRobotP2AT()
   internalSetSonar(14, -189, 119, 130);
   internalSetSonar(15, -144, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 160;
-    getLaserData(1)->myLaserY = 7;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 160;
+    laser->myLaserY = 7;
   }
 
 
@@ -203,13 +205,14 @@ AREXPORT ArRobotP2AT8::ArRobotP2AT8()
   internalSetSonar(14, -189, 119, 130);
   internalSetSonar(15, -144, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 160;
-    getLaserData(1)->myLaserY = 7;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 160;
+    laser->myLaserY = 7;
   }
 
 
@@ -263,13 +266,14 @@ AREXPORT ArRobotP2IT::ArRobotP2IT()
   internalSetSonar(14, -189, 119, 130);
   internalSetSonar(15, -144, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 160;
-    getLaserData(1)->myLaserY = 7;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 160;
+    laser->myLaserY = 7;
   }
 
 
@@ -323,13 +327,14 @@ AREXPORT ArRobotP2DX::ArRobotP2DX()
   internalSetSonar(14, -203, 119, 130);
   internalSetSonar(15, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 17;
-    getLaserData(1)->myLaserY = 8;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 17;
+    laser->myLaserY = 8;
   }
 
 
@@ -382,13 +387,14 @@ AREXPORT ArRobotP2DXe::ArRobotP2DXe()
   internalSetSonar(14, -203, 119, 130);
   internalSetSonar(15, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {    
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 17;
-    getLaserData(1)->myLaserY = 8;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 17;
+    laser->myLaserY = 8;
   }
 
 
@@ -441,13 +447,14 @@ AREXPORT ArRobotP2DF::ArRobotP2DF()
   internalSetSonar(14, -203, 119, 130);
   internalSetSonar(15, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 17;
-    getLaserData(1)->myLaserY = 8;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 17;
+    laser->myLaserY = 8;
   }
 
 
@@ -500,13 +507,14 @@ AREXPORT ArRobotP2D8::ArRobotP2D8()
   internalSetSonar(14, -203, 119, 130);
   internalSetSonar(15, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 18;
-    getLaserData(1)->myLaserY = 0;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 18;
+    laser->myLaserY = 0;
   }
 
 
@@ -624,13 +632,14 @@ AREXPORT ArRobotP2PP::ArRobotP2PP()
   internalSetSonar(22, -203, 119, 130);
   internalSetSonar(23, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 16;
-    getLaserData(1)->myLaserY = 1;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 16;
+    laser->myLaserY = 1;
   }
 
 
@@ -692,13 +701,14 @@ AREXPORT ArRobotP2PB::ArRobotP2PB()
   internalSetSonar(22, -203, 119, 130);
   internalSetSonar(23, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 17;
-    getLaserData(1)->myLaserY = 8;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 17;
+    laser->myLaserY = 8;
   }
 
 
@@ -780,13 +790,14 @@ AREXPORT ArRobotPerfPB::ArRobotPerfPB()
   internalSetSonar(30, -237, 119, 130);
   internalSetSonar(31, -191, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 21;
-    getLaserData(1)->myLaserY = 0;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 21;
+    laser->myLaserY = 0;
   }
 
 
@@ -1036,18 +1047,19 @@ AREXPORT ArRobotMapper::ArRobotMapper()
   myNumFrontBumpers = 0;
   myNumRearBumpers = 0;
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 312; // the normal laser low position
-    //getLaserData(1)->myLaserX = 237; // the high laser position
-    getLaserData(1)->myLaserY = 0;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 312; // the normal laser low position
+    //laser->myLaserX = 237; // the high laser position
+    laser->myLaserY = 0;
     
-    getLaserData(1)->myLaserFlipped = false; // the normal configuration
-    //getLaserData(1)->myLaserFlipped = true; // for low-inverted and high configurations
-    getLaserData(1)->myLaserPowerControlled = false;
+    laser->myLaserFlipped = false; // the normal configuration
+    //laser->myLaserFlipped = true; // for low-inverted and high configurations
+    laser->myLaserPowerControlled = false;
   }
 }
 
@@ -1109,14 +1121,15 @@ AREXPORT ArRobotPowerBot::ArRobotPowerBot()
   internalSetSonar(29, -347, 267, 115);
   internalSetSonar(30, -298, 278, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM2");
-    getLaserData(1)->myLaserX = 251;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserFlipped = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM2");
+    laser->myLaserX = 251;
+    laser->myLaserY = 0;
+    laser->myLaserFlipped = true;
   }
 
   sprintf(myGPSPort, "COM3"); // swap laser and hypothetical gps
@@ -1169,13 +1182,14 @@ AREXPORT ArRobotP2D8Plus::ArRobotP2D8Plus()
   internalSetSonar(14, -203, 119, 130);
   internalSetSonar(15, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 18;
-    getLaserData(1)->myLaserY = 0;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 18;
+    laser->myLaserY = 0;
   }
 
 
@@ -1227,13 +1241,14 @@ AREXPORT ArRobotP2AT8Plus::ArRobotP2AT8Plus()
   internalSetSonar(14, -189, 119, 130);
   internalSetSonar(15, -144, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 160;
-    getLaserData(1)->myLaserY = 7;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 160;
+    laser->myLaserY = 7;
   }
 
 
@@ -1284,14 +1299,15 @@ AREXPORT ArRobotP3AT::ArRobotP3AT()
   internalSetSonar(14, -189, 119, 130);
   internalSetSonar(15, -144, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 160;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 160;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
   }
 
   myGPSX = -160;
@@ -1348,14 +1364,15 @@ AREXPORT ArRobotP3DX::ArRobotP3DX()
   internalSetSonar(15, -157, 136, 90);
 
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 18;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 18;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
   }
 
 
@@ -1438,14 +1455,15 @@ AREXPORT ArRobotPerfPBPlus::ArRobotPerfPBPlus()
   internalSetSonar(30, -237, 119, 130);
   internalSetSonar(31, -191, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 21;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 21;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
   }
 
 
@@ -1497,14 +1515,15 @@ AREXPORT ArRobotP3DXSH::ArRobotP3DXSH()
   internalSetSonar(14, -203, 119, 130);
   internalSetSonar(15, -157, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 21;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 21;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
   }
 
   myGPSX = -160;
@@ -1556,14 +1575,15 @@ AREXPORT ArRobotP3ATSH::ArRobotP3ATSH()
   internalSetSonar(14, -189, 119, 130);
   internalSetSonar(15, -144, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 125;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 125;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
   }
   myGPSX = -160;
   myGPSY = 120;
@@ -1615,14 +1635,15 @@ AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH()
   internalSetSonar(14, -189, 119, 130);
   internalSetSonar(15, -144, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 125;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 125;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
   }
 
   myGPSX = -160;
@@ -1680,31 +1701,32 @@ AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH()
   internalSetSonar(14, -169, 202, 125);
   internalSetSonar(15, -83, 229, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *ld = getLaserData(1);
+  if (ld != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 37;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
-    getLaserData(1)->myLaserFlipped = true;
-    getLaserData(1)->myLaserPowerControlled = false;
-    strcpy(getLaserData(1)->myLaserIgnore, 
-	   "-76--72 72-76");
+    sprintf(ld->myLaserType, "lms2xx");
+    sprintf(ld->myLaserPortType, "serial");
+    sprintf(ld->myLaserPort, "COM3");
+    ld->myLaserX = 37;
+    ld->myLaserY = 0;
+    ld->myLaserAutoConnect = true;
+    ld->myLaserFlipped = true;
+    ld->myLaserPowerControlled = false;
+    strcpy(ld->myLaserIgnore, "-76--72 72-76");
   }
 
-  if (getLaserData(2) != NULL)
+  ld = getLaserData(2);
+  if (ld != NULL)
   {
-    sprintf(getLaserData(2)->myLaserType, "urg");
-    sprintf(getLaserData(2)->myLaserPortType, "serial");
-    sprintf(getLaserData(2)->myLaserPort, "COM5");
-    getLaserData(2)->myLaserX = 200;
-    getLaserData(2)->myLaserY = 0;
-    getLaserData(2)->myLaserFlipped = true;
-    sprintf(getLaserData(2)->myLaserStartDegrees, "-55");
-    sprintf(getLaserData(2)->myLaserEndDegrees, "55");
-    sprintf(getLaserData(2)->myLaserIncrement, "1.0");
+    sprintf(ld->myLaserType, "urg");
+    sprintf(ld->myLaserPortType, "serial");
+    sprintf(ld->myLaserPort, "COM5");
+    ld->myLaserX = 200;
+    ld->myLaserY = 0;
+    ld->myLaserFlipped = true;
+    sprintf(ld->myLaserStartDegrees, "-55");
+    sprintf(ld->myLaserEndDegrees, "55");
+    sprintf(ld->myLaserIncrement, "1.0");
   }
 
 
@@ -1787,14 +1809,15 @@ AREXPORT ArRobotPeopleBotSH::ArRobotPeopleBotSH()
   internalSetSonar(30, -237, 119, 130);
   internalSetSonar(31, -191, 136, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 21;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 21;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
   }
 
 
@@ -1867,15 +1890,16 @@ AREXPORT ArRobotPowerBotSH::ArRobotPowerBotSH()
   internalSetSonar(30, -298, 278, 90);
   internalSetSonar(31, 0, 0, -180);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM2");
-    getLaserData(1)->myLaserX = 251;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserFlipped = true;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM2");
+    laser->myLaserX = 251;
+    laser->myLaserY = 0;
+    laser->myLaserFlipped = true;
+    laser->myLaserAutoConnect = true;
   }
 
   sprintf(myGPSPort, "COM3"); // swap laser and hypothetical GPS
@@ -1932,15 +1956,16 @@ AREXPORT ArRobotPowerBotSHuARCS::ArRobotPowerBotSHuARCS()
   internalSetSonar(14, -298, 278, 90);
   internalSetSonar(15, 0, 0, -180);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM2");
-    getLaserData(1)->myLaserX = 251;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserFlipped = true;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM2");
+    laser->myLaserX = 251;
+    laser->myLaserY = 0;
+    laser->myLaserFlipped = true;
+    laser->myLaserAutoConnect = true;
   }
 
   sprintf(myGPSPort, "COM3"); // swap laser and hypothetical GPS
@@ -1965,16 +1990,17 @@ AREXPORT ArRobotWheelchairSH::ArRobotWheelchairSH()
   myNumRearBumpers = 3;
   myNumSonar = 0;
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM2");
-    getLaserData(1)->myLaserX = -418;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserFlipped = true;
-    getLaserData(1)->myLaserPowerControlled = true;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM2");
+    laser->myLaserX = -418;
+    laser->myLaserY = 0;
+    laser->myLaserFlipped = true;
+    laser->myLaserPowerControlled = true;
+    laser->myLaserAutoConnect = true;
   }
 
   mySettableAccsDecs = true;
@@ -2012,16 +2038,17 @@ AREXPORT ArRobotSeekur::ArRobotSeekur()
   myNumRearBumpers = 3;
   myNumSonar = 0;
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 690;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserFlipped = false;
-    getLaserData(1)->myLaserPowerControlled = true;
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 690;
+    laser->myLaserY = 0;
+    laser->myLaserFlipped = false;
+    laser->myLaserPowerControlled = true;
+    laser->myLaserAutoConnect = true;
 
   }
 
@@ -2095,17 +2122,18 @@ AREXPORT ArRobotMT400::ArRobotMT400()
   internalSetSonar(14, -169, 202, 125);
   internalSetSonar(15, -83, 229, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 37;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
-    getLaserData(1)->myLaserFlipped = true;
-    getLaserData(1)->myLaserPowerControlled = false;
-    strcpy(getLaserData(1)->myLaserIgnore, 
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 37;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
+    laser->myLaserFlipped = true;
+    laser->myLaserPowerControlled = false;
+    strcpy(laser->myLaserIgnore, 
 	   "-76--72 72-76");
   }
 
@@ -2175,17 +2203,18 @@ AREXPORT ArRobotResearchPB::ArRobotResearchPB()
   internalSetSonar(14, -169, 202, 125);
   internalSetSonar(15, -83, 229, 90);
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms2xx");
-    sprintf(getLaserData(1)->myLaserPortType, "serial");
-    sprintf(getLaserData(1)->myLaserPort, "COM3");
-    getLaserData(1)->myLaserX = 37;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserAutoConnect = true;
-    getLaserData(1)->myLaserFlipped = true;
-    getLaserData(1)->myLaserPowerControlled = false;
-    strcpy(getLaserData(1)->myLaserIgnore, 
+    sprintf(laser->myLaserType, "lms2xx");
+    sprintf(laser->myLaserPortType, "serial");
+    sprintf(laser->myLaserPort, "COM3");
+    laser->myLaserX = 37;
+    laser->myLaserY = 0;
+    laser->myLaserAutoConnect = true;
+    laser->myLaserFlipped = true;
+    laser->myLaserPowerControlled = false;
+    strcpy(laser->myLaserIgnore, 
 	   "-76--72 72-76");
   }
 
@@ -2238,18 +2267,19 @@ AREXPORT ArRobotSeekurJr::ArRobotSeekurJr()
   myNumRearBumpers = 4;
   myNumSonar = 0;
 
-  if (getLaserData(1) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != NULL)
   {
-    sprintf(getLaserData(1)->myLaserType, "lms1XX");
-    sprintf(getLaserData(1)->myLaserPortType, "tcp");
-    sprintf(getLaserData(1)->myLaserPort, "192.168.0.1");
-    getLaserData(1)->myLaserX = 527;
-    getLaserData(1)->myLaserY = 0;
-    getLaserData(1)->myLaserFlipped = false;
-    getLaserData(1)->myLaserPowerControlled = false;
-    sprintf(getLaserData(1)->myLaserStartDegrees, "-117");
-    sprintf(getLaserData(1)->myLaserEndDegrees, "117");
-    getLaserData(1)->myLaserAutoConnect = true;
+    sprintf(laser->myLaserType, "lms1XX");
+    sprintf(laser->myLaserPortType, "tcp");
+    sprintf(laser->myLaserPort, "192.168.0.1");
+    laser->myLaserX = 527;
+    laser->myLaserY = 0;
+    laser->myLaserFlipped = false;
+    laser->myLaserPowerControlled = false;
+    sprintf(laser->myLaserStartDegrees, "-117");
+    sprintf(laser->myLaserEndDegrees, "117");
+    laser->myLaserAutoConnect = true;
   }
 
   if (getLaserData(2) != NULL)
@@ -2294,7 +2324,8 @@ AREXPORT ArRobotP3DXSH_lms1xx::ArRobotP3DXSH_lms1xx() :
   ArRobotP3DXSH()
 {
   sprintf(mySubClass, "p3dx-sh-lms1xx");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms1XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2307,7 +2338,8 @@ AREXPORT ArRobotP3ATSH_lms1xx::ArRobotP3ATSH_lms1xx() :
   ArRobotP3ATSH()
 {
   sprintf(mySubClass, "p3at-sh-lms1xx");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms1XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2320,7 +2352,8 @@ AREXPORT ArRobotPeopleBotSH_lms1xx::ArRobotPeopleBotSH_lms1xx() :
   ArRobotPeopleBotSH()
 {
   sprintf(mySubClass, "peoplebot-sh-lms1xx");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms1XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2333,7 +2366,8 @@ AREXPORT ArRobotP3DXSH_lms500::ArRobotP3DXSH_lms500() :
   ArRobotP3DXSH()
 {
   sprintf(mySubClass, "p3dx-sh-lms500");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms5XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2347,7 +2381,8 @@ AREXPORT ArRobotP3ATSH_lms500::ArRobotP3ATSH_lms500() :
   ArRobotP3ATSH()
 {
   sprintf(mySubClass, "p3at-sh-lms500");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms5XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2360,7 +2395,8 @@ AREXPORT ArRobotPeopleBotSH_lms500::ArRobotPeopleBotSH_lms500() :
   ArRobotPeopleBotSH()
 {
   sprintf(mySubClass, "peoplebot-sh-lms500");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms5XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2373,7 +2409,8 @@ AREXPORT ArRobotPowerBotSH_lms500::ArRobotPowerBotSH_lms500() :
   ArRobotPowerBotSH()
 {
   sprintf(mySubClass, "powerbot-sh-lms500");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms5XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2386,7 +2423,8 @@ AREXPORT ArRobotResearchPB_lms500::ArRobotResearchPB_lms500() :
   ArRobotResearchPB()
 {
   sprintf(mySubClass, "researchPB-lms500");
-  if(LaserData* ld = getLaserData(1))
+  LaserData *ld = getLaserData(1);
+  if(ld)
   {
     sprintf(ld->myLaserType, "lms5XX");
     sprintf(ld->myLaserPortType, "tcp");
@@ -2428,8 +2466,8 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
 
   myHaveMoveCommand = false;
 
-  LaserData *laser = NULL;
-  if ( (laser = getLaserData(1)) != NULL)
+  LaserData *laser = getLaserData(1);
+  if (laser != nullptr)
   {
     sprintf(laser->myLaserType, "s3series");
     sprintf(laser->myLaserPortType, "serial422");
