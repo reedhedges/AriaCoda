@@ -1971,7 +1971,7 @@ class ArLineSegment
 public:
 #ifndef SWIG
   /** @swigomit */
-  ArLineSegment() {}
+  ArLineSegment() { newEndPoints(0, 0, 0, 0); }
   /** @brief Constructor with endpoints
    *  @swigomit
    */
