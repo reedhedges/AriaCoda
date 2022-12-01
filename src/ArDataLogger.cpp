@@ -293,25 +293,29 @@ AREXPORT void ArDataLogger::addToConfig(ArConfig *config)
 void ArDataLogger::connectCallback()
 {
   ArLog::log(ArLog::Verbose, "ArDataLogger::connectCallback");
+
+  // allocate new arrays with different sizes.
+  // todo make these just vectors, and resize.
+
   // out with the old memory
   if (myAnalogEnabled != NULL)
   {
-    delete myAnalogEnabled;
+    delete[] myAnalogEnabled;
     myAnalogEnabled = NULL;
   }
   if (myAnalogVoltageEnabled != NULL)
   {
-    delete myAnalogVoltageEnabled;
+    delete[] myAnalogVoltageEnabled;
     myAnalogVoltageEnabled = NULL;
   }
   if (myDigInEnabled != NULL)
   {
-    delete myDigInEnabled;
+    delete[] myDigInEnabled;
     myDigInEnabled = NULL;
   }
   if (myDigOutEnabled != NULL)
   {
-    delete myDigOutEnabled;
+    delete[] myDigOutEnabled;
     myDigOutEnabled = NULL;
   }
   /*
@@ -328,6 +332,7 @@ void ArDataLogger::connectCallback()
   myDigOutCount = myRobot->getIODigOutSize();
   //myStringsCount = myStrings.size();
   // make and initialize the new memory
+  // todo change these to just vectors
   if (myAnalogCount > 0)
   {
     myAnalogEnabled = new bool[myAnalogCount];
