@@ -672,13 +672,17 @@ tags: $(SRC_FILES) $(HEADER_FILES)
 ctags: tags
 
 clang-tidy: FORCE
-	clang-tidy --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) $(CXXINC)
+	clang-tidy --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
+
+# clang-tidy but disable some warnings that are probably ok but happen a lot:
+clang-tidy-less: FORCE
+	clang-tidy --checks=-clang-analyzer-valist.Uninitialized,-clang-analyzer-optin.cplusplus.VirtualCall --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
 
 clang-tidy-%: include/Aria/%.h src/%.cpp
-	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) $(CXXINC)
+	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
 
 clang-tidy-%: include/Aria/%.h
-	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) $(CXXINC)
+	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
 
 #tidy:
 #	clang-tidy $(SRC_FILES) -- $(BARECXXFLAGS) $(CXXINC)
