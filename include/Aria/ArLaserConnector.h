@@ -125,93 +125,106 @@ protected:
   class LaserData
   {
   public:
-    LaserData(int number, ArLaser *laser, 
-	      bool laserIsPlaceholder = false, bool ownPlaceholder = false)
-      { 
-	myNumber = number; 
-	myLaser = laser; 
-	myConn = NULL;
-	myLaserIsPlaceholder = laserIsPlaceholder;
-	myOwnPlaceholder = ownPlaceholder;
-	myConnect = false; myConnectReallySet = false;
-	myPort = NULL; 
-	myPortType = NULL;
-	myRemoteTcpPort = 0; myRemoteTcpPortReallySet = false;
-	myFlipped = false; myFlippedReallySet = false; 
-	myDegreesStart = HUGE_VAL; myDegreesStartReallySet = false; 
-	myDegreesEnd = -HUGE_VAL; myDegreesEndReallySet = false; 
-	myDegrees = NULL; 
-	myIncrementByDegrees = -HUGE_VAL; myIncrementByDegreesReallySet = false; 
-	myIncrement = NULL; 
-	myUnits = NULL; 
-	myReflectorBits = NULL;
-	myPowerControlled = true; myPowerControlledReallySet = false; 
-	myStartingBaud = NULL;
-	myAutoBaud = NULL;
-	myMaxRange = UINT_MAX; myMaxRangeReallySet = false; 
-	myAdditionalIgnoreReadings = NULL;
-      }
-    //virtual ~LaserData() {}
-    /// The number of this laser
-    int myNumber;
+    LaserData(int number, ArLaser *laser, bool laserIsPlaceholder = false, bool ownPlaceholder = false) :
+      myLaser(laser),
+      myNumber(number),
+      myLaserIsPlaceholder(laserIsPlaceholder),
+      myOwnPlaceholder(ownPlaceholder)
+    { 
+/* initialized in declarations
+      myNumber = number; 
+      myLaser = laser; 
+      myConn = NULL;
+      myLaserIsPlaceholder = laserIsPlaceholder;
+      myOwnPlaceholder = ownPlaceholder;
+      myConnect = false; 
+      myConnectReallySet = false;
+      myPort = NULL; 
+      myPortType = NULL;
+      myRemoteTcpPort = 0; 
+      myRemoteTcpPortReallySet = false;
+      myFlipped = false; 
+      myFlippedReallySet = false; 
+      myDegreesStart = HUGE_VAL; 
+      myDegreesStartReallySet = false; 
+      myDegreesEnd = -HUGE_VAL; 
+      myDegreesEndReallySet = false; 
+      myDegrees = NULL; 
+      myIncrementByDegrees = -HUGE_VAL; 
+      myIncrementByDegreesReallySet = false; 
+      myIncrement = NULL; 
+      myUnits = NULL; 
+      myReflectorBits = NULL;
+      myPowerControlled = true; 
+      myPowerControlledReallySet = false; 
+      myStartingBaud = NULL;
+      myAutoBaud = NULL;
+      myMaxRange = UINT_MAX; 
+      myMaxRangeReallySet = false; 
+      myAdditionalIgnoreReadings = NULL;
+*/
+    }
+
     /// The actual pointer to this laser
-    ArLaser *myLaser;
+    ArLaser *myLaser = nullptr;
     // our connection
-    ArDeviceConnection *myConn;
-    /// If the laser is a placeholder for parsing
-    bool myLaserIsPlaceholder;
-    /// If we own the placeholder laser
-    bool myOwnPlaceholder;
-    // if we want to connect the laser
-    bool myConnect;
-    // if myConnect was really set
-    bool myConnectReallySet;
+    ArDeviceConnection *myConn = nullptr;
     // the port we want to connect the laser on
-    const char *myPort;
+    const char *myPort = nullptr;
     // the type of port we want to connect to the laser on
-    const char *myPortType;
-    // laser tcp port if we're doing a remote host
-    int myRemoteTcpPort;  
-    // if our remote laser tcp port was really set
-    bool myRemoteTcpPortReallySet;
-    // if we have the laser flipped
-    bool myFlipped;
-    // if our flipped was really set
-    bool myFlippedReallySet;
+    const char *myPortType = nullptr;
     // what degrees to start at 
-    double myDegreesStart;
-    // if our start degrees was really set
-    bool myDegreesStartReallySet;
+    double myDegreesStart = HUGE_VAL;
     // what degrees to end at 
-    double myDegreesEnd;
-    // if our end degrees was really set
-    bool myDegreesEndReallySet;
+    double myDegreesEnd = -HUGE_VAL;
     // the degrees we want wto use
-    const char *myDegrees;
+    const char *myDegrees = nullptr;
     // what increment to use
-    double myIncrementByDegrees;
-    // if our end degrees was really set
-    bool myIncrementByDegreesReallySet;
+    double myIncrementByDegrees = -HUGE_VAL;
     // the increment we want to use
-    const char *myIncrement;
+    const char *myIncrement = nullptr;
     /// the units we want to use 
-    const char *myUnits;
+    const char *myUnits = nullptr;
     /// the reflector bits we want to use 
-    const char *myReflectorBits;
-    // if we are controlling the laser power
-    bool myPowerControlled;
-    // if our flipped was really set
-    bool myPowerControlledReallySet;
+    const char *myReflectorBits = nullptr;
     /// the starting baud we want to use
-    const char *myStartingBaud;
+    const char *myStartingBaud = nullptr;
     /// the auto baud we want to use
-    const char *myAutoBaud;
-    // if we set a new max range from the command line
-    unsigned int myMaxRange;
-    // if our new max range was really set
-    bool myMaxRangeReallySet;
+    const char *myAutoBaud = nullptr;
     /// the additional laser ignore readings
-    const char *myAdditionalIgnoreReadings;
+    const char *myAdditionalIgnoreReadings = nullptr;
+    /// The number of this laser
+    int myNumber = -1;
+    // laser tcp port if we're doing a remote host
+    int myRemoteTcpPort = 0;  
+    // if we set a new max range from the command line
+    unsigned int myMaxRange = UINT_MAX;
+    /// If the laser is a placeholder for parsing
+    bool myLaserIsPlaceholder = false;
+    /// If we own the placeholder laser
+    bool myOwnPlaceholder = false;
+    // if we want to connect the laser
+    bool myConnect = false;
+    // if myConnect was really set
+    bool myConnectReallySet = false;
+    // if our remote laser tcp port was really set
+    bool myRemoteTcpPortReallySet = false;
+    // if we have the laser flipped
+    bool myFlipped = false;
+    // if our flipped was really set
+    bool myFlippedReallySet = false;
+    // if our start degrees was really set
+    bool myDegreesStartReallySet = false;
+    // if our end degrees was really set
+    bool myDegreesEndReallySet = false;
+    // if our end degrees was really set
+    bool myIncrementByDegreesReallySet = false;
+    // if we are controlling the laser power
+    bool myPowerControlled = true;
+    // if our flipped was really set
+    bool myPowerControlledReallySet = false;
+    // if our new max range was really set
+    bool myMaxRangeReallySet = false;
   };
   std::map<int, LaserData *> myLasers;
   
