@@ -33,12 +33,12 @@ AREXPORT ArLaser::ArLaser(
 	int laserNumber, const char *name, 
 	unsigned int absoluteMaxRange, bool locationDependent, 
 	bool appendLaserNumberToName) :
-  ArRangeDeviceThreaded(
-	  361, 200, name, absoluteMaxRange,
-	  0, 0, 0, locationDependent)
+    ArRangeDeviceThreaded(
+      361, 200, name, absoluteMaxRange,
+      0, 0, 0, locationDependent),
+    myLaserNumber(laserNumber),
+    myAbsoluteMaxRange(absoluteMaxRange)
 {
-  myLaserNumber = laserNumber;
-
   if (appendLaserNumberToName)
   {
     myName = name;
@@ -53,13 +53,13 @@ AREXPORT ArLaser::ArLaser(
     myName = name;
   }
 
-
   laserSetName(myName.c_str());
 
-  myAbsoluteMaxRange = absoluteMaxRange;
+  setSensorPosition(0, 0, 0, 0);
+
+  /* These are now initialized in class declaration:
   myMaxRangeSet = false;
 
-  setSensorPosition(0, 0, 0, 0);
   myTimeoutSeconds = 8;
 
   myHaveSensorPose = false;
@@ -105,6 +105,7 @@ AREXPORT ArLaser::ArLaser(
 
   myInfoLogLevel = ArLog::Verbose;
   myRobotRunningAndConnected = false;
+  */
 }
 
 /* AREXPORT ArLaser::~ArLaser()

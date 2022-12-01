@@ -665,96 +665,96 @@ protected:
   // reading was received
   AREXPORT virtual void internalGotReading();
 
-  int myLaserNumber;
+  int myLaserNumber = -1;
 
 
-  ArDeviceConnection *myConn;
+  ArDeviceConnection *myConn = nullptr;
   ArMutex myConnMutex;
 
-  double myTimeoutSeconds;
+  double myTimeoutSeconds = 8;
   
 
   ArPose mySensorPose;
-  double mySensorZ;
-  bool myHaveSensorPose;
+  double mySensorZ = 0.0;
+  bool myHaveSensorPose = false;
 
-  double myCumulativeCleanDist;
-  double myCumulativeCleanDistSquared;
-  int myCumulativeCleanInterval;
-  int myCumulativeCleanOffset;
+  double myCumulativeCleanDist = 0.0;
+  double myCumulativeCleanDistSquared = 0.0;
+  int myCumulativeCleanInterval = 1000;
+  int myCumulativeCleanOffset = 0;
   ArTime myCumulativeLastClean;
   std::set<int> myIgnoreReadings;
 
-  unsigned int myAbsoluteMaxRange;
-  bool myMaxRangeSet;
+  unsigned int myAbsoluteMaxRange = 0;
+  bool myMaxRangeSet = false;
 
-  bool myCumulativeBufferSizeSet;
+  bool myCumulativeBufferSizeSet = false;
 
-  bool myFlippedSet;
-  bool myFlipped;
+  bool myFlippedSet = false;
+  bool myFlipped = false;
   
-  bool myCanSetDegrees; 
-  double myStartDegreesMin;
-  double myStartDegreesMax;
-  bool myStartDegreesSet;
-  double myStartDegrees;
-  double myEndDegreesMin;
-  double myEndDegreesMax;
-  bool myEndDegreesSet;
-  double myEndDegrees;
+  bool myCanSetDegrees = false;
+  double myStartDegreesMin = HUGE_VAL;
+  double myStartDegreesMax = -HUGE_VAL;
+  bool myStartDegreesSet = false;
+  double myStartDegrees = 0;
+  double myEndDegreesMin = HUGE_VAL;
+  double myEndDegreesMax = HUGE_VAL;
+  bool myEndDegreesSet = false;
+  double myEndDegrees = 0;
 
-  bool myCanChooseDegrees;
+  bool myCanChooseDegrees = false;
   std::map<std::string, double> myDegreesChoices; 
   std::list<std::string> myDegreesChoicesList; 
-  bool myDegreesChoiceSet;
+  bool myDegreesChoiceSet = false;
   std::string myDegreesChoicesString; 
   std::string myDegreesChoice;
-  double myDegreesChoiceDouble;
+  double myDegreesChoiceDouble = -HUGE_VAL;
 
 
-  bool myCanSetIncrement; 
-  double myIncrementMin; 
-  double myIncrementMax; 
-  bool myIncrementSet;
-  double myIncrement;
+  bool myCanSetIncrement = false; 
+  double myIncrementMin = HUGE_VAL; 
+  double myIncrementMax = -HUGE_VAL; 
+  bool myIncrementSet = false;
+  double myIncrement = 0;
 
-  bool myCanChooseIncrement; 
+  bool myCanChooseIncrement = false; 
   std::map<std::string, double> myIncrementChoices; 
   std::list<std::string> myIncrementChoicesList; 
   std::string myIncrementChoicesString; 
-  bool myIncrementChoiceSet;
+  bool myIncrementChoiceSet = false;
   std::string myIncrementChoice;
-  double myIncrementChoiceDouble;
+  double myIncrementChoiceDouble = 0;
 
-  bool myCanChooseUnits; 
+  bool myCanChooseUnits = false; 
   std::list<std::string> myUnitsChoices; 
   std::string myUnitsChoicesString; 
-  bool myUnitsChoiceSet;
+  bool myUnitsChoiceSet = false;
   std::string myUnitsChoice;
 
-  bool myCanChooseReflectorBits; 
+  bool myCanChooseReflectorBits = false; 
   std::list<std::string> myReflectorBitsChoices; 
   std::string myReflectorBitsChoicesString; 
-  bool myReflectorBitsChoiceSet;
+  bool myReflectorBitsChoiceSet = false;
   std::string myReflectorBitsChoice;
   
-  bool myCanSetPowerControlled;
-  bool myPowerControlledSet;
-  bool myPowerControlled;
+  bool myCanSetPowerControlled = false;
+  bool myPowerControlledSet = false;
+  bool myPowerControlled = true;
 
-  bool myCanChooseStartingBaud; 
+  bool myCanChooseStartingBaud = false; 
   std::list<std::string> myStartingBaudChoices; 
   std::string myStartingBaudChoicesString; 
-  bool myStartingBaudChoiceSet;
+  bool myStartingBaudChoiceSet = false;
   std::string myStartingBaudChoice;
 
-  bool myCanChooseAutoBaud; 
+  bool myCanChooseAutoBaud = false;  
   std::list<std::string> myAutoBaudChoices; 
   std::string myAutoBaudChoicesString; 
-  bool myAutoBaudChoiceSet;
+  bool myAutoBaudChoiceSet = false;
   std::string myAutoBaudChoice;
 
-  int myDefaultTcpPort;
+  int myDefaultTcpPort = 8102;
   std::string myDefaultPortType;
 
   ArCallbackList myConnectCBList;
@@ -763,14 +763,14 @@ protected:
   ArCallbackList myDisconnectNormallyCBList;
   ArCallbackList myDataCBList;
 
-  ArLog::LogLevel myInfoLogLevel;
+  ArLog::LogLevel myInfoLogLevel = ArLog::Verbose;
 
   ArTime myLastReading;
   // packet count
-  time_t myTimeLastReading;
-  int myReadingCurrentCount;
-  int myReadingCount;
-  bool myRobotRunningAndConnected;
+  time_t myTimeLastReading = 0;
+  int myReadingCurrentCount = 0;
+  int myReadingCount = 0;
+  bool myRobotRunningAndConnected = false;
 
   static bool ourUseSimpleNaming;
 };
