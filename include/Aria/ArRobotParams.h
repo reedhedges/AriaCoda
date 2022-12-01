@@ -1071,18 +1071,15 @@ protected:
 	myLaserPowerOutput[0] = '\0';
       }
   
-    char myLaserType[256];
-    char myLaserPortType[256];
-    char myLaserPort[256];
-    bool myLaserAutoConnect;
-    bool myLaserFlipped;
-    bool myLaserPowerControlled;
     unsigned int myLaserMaxRange;
     unsigned int myLaserCumulativeBufferSize;
     int myLaserX;
     int myLaserY;
-    double myLaserTh;
     int myLaserZ;
+    double myLaserTh;
+    bool myLaserAutoConnect;
+    bool myLaserFlipped;
+    bool myLaserPowerControlled;
     char myLaserIgnore[256];
     char myLaserStartDegrees[256];
     char myLaserEndDegrees[256];
@@ -1095,6 +1092,9 @@ protected:
     char myLaserAutoBaudChoice[256];
     char mySection[256];
     char myLaserPowerOutput[256];
+    char myLaserType[256];
+    char myLaserPortType[256];
+    char myLaserPort[256];
   };
   //std::map<int, std::unique_ptr<LaserData> > myLasers;
   std::map<int, LaserData> myLasers;
@@ -1207,42 +1207,29 @@ protected:
   {
   public:
     SonarMTXBoardData()
-      {
+    {
 			mySonarMTXBoardType[0] = '\0';
 			mySonarMTXBoardPortType[0] = '\0';
 			mySonarMTXBoardPort[0] = '\0';
-			mySonarMTXBoardBaud = 0;
       mySonarMTXBoardBaudString[0] = '\0';
-			mySonarMTXBoardAutoConn = false;
-			myNumSonarTransducers = 0;
-			mySonarDelay = 2;
-			mySonarGain = 10;
-			/*
-			mySonarNoiseDelta = 1250;
-			*/
-			mySonarDetectionThreshold = 25;
-			mySonarMaxRange = 255 * 17;
-			mySonarUseForAutonomousDriving = false;
 			mySonarMTXBoardPowerOutput[0] = '\0';
-      }
+    }
   
+    int mySonarMTXBoardBaud = 0;
+    int myNumSonarTransducers = 0;
+    int mySonarBaud = 0; // XXX TODO what is the correct default value? is this even used anywhere?
+    int mySonarDelay = 2;
+    int mySonarGain = 10;
+    //int mySonarNoiseDelta = 1250;
+    int mySonarDetectionThreshold = 25;
+    int mySonarMaxRange = 255*17;
     char mySonarMTXBoardType[256];
     char mySonarMTXBoardPortType[256];
     char mySonarMTXBoardPort[256];
-    int mySonarMTXBoardBaud;
     char mySonarMTXBoardBaudString[256];
-    bool mySonarMTXBoardAutoConn;
-    int myNumSonarTransducers;
-    int mySonarBaud;
-    int mySonarDelay;
-    int mySonarGain;
-		/*
-    int mySonarNoiseDelta;
-		*/
-    int mySonarDetectionThreshold;
-    int mySonarMaxRange;
-		bool mySonarUseForAutonomousDriving;
     char mySonarMTXBoardPowerOutput[256];
+    bool mySonarMTXBoardAutoConn = false;
+		bool mySonarUseForAutonomousDriving = false;
   };
   std::map<int, SonarMTXBoardData> mySonarMTXBoards;
 
