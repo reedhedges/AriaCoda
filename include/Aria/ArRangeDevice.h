@@ -479,41 +479,53 @@ protected:
     can't use this mechanism.
   **/
   AREXPORT void adjustRawReadings(bool interlaced);
-  std::vector<ArSensorReading> myRawReadingsVector;
-  std::vector<ArSensorReading> myAdjustedRawReadingsVector;
-  std::string myName;
-  ArRobot *myRobot;
-  unsigned int myMaxRange; 
-  ArRangeBuffer myCurrentBuffer;
-  ArRangeBuffer myCumulativeBuffer;
 
-  int myMaxSecondsToKeepCurrent;
-  double myMinDistBetweenCurrent;
-  double myMinDistBetweenCurrentSquared;
 
-  int myMaxSecondsToKeepCumulative;
+
+  ArRobot *myRobot = nullptr;
+
+  double myMinDistBetweenCurrent = 0;
+  double myMinDistBetweenCurrentSquared = 0;
   double myMaxDistToKeepCumulative;
   double myMaxDistToKeepCumulativeSquared;
   double myMinDistBetweenCumulative;
   double myMinDistBetweenCumulativeSquared;
-  double myMaxInsertDistCumulative; 
-  double myMaxInsertDistCumulativeSquared;
+
+  double myMaxInsertDistCumulative = 0; 
+  double myMaxInsertDistCumulativeSquared = 0;
+
+  /// Subclasses may optionally set this pointer to a list of "raw" unprocessed readings. 
+  // XXX TODO change these to list<ArSensorReading> pointers, maybe std::optional instead of allocating.
+  std::list<ArSensorReading *> *myRawReadings = nullptr;
+
+  /// Subclasses may optionally set this pointer to a list of "raw" unprocessed readings (adjusted for robot position)
+  // XXX TODO change these to list<ArSensorReading> pointers, maybe std:optional instead of allocating.
+  std::list<ArSensorReading *> *myAdjustedRawReadings = nullptr;
+
+  ArDrawingData *myCurrentDrawingData = nullptr;
+  ArDrawingData *myCumulativeDrawingData = nullptr;
+
+  std::vector<ArSensorReading> myRawReadingsVector;
+  std::vector<ArSensorReading> myAdjustedRawReadingsVector;
+
   ArPose myMaxInsertDistCumulativePose;
+
+  std::string myName;
 
   ArFunctorC<ArRangeDevice> myFilterCB;
 
-  /// Subclasses may optionally set this pointer to a list of "raw" unprocessed readings. 
-  // XXX TODO change these to list<ArSensorReading> pointers.
-  std::list<ArSensorReading *> *myRawReadings;
-  /// Subclasses may optionally set this pointer to a list of "raw" unprocessed readings (adjusted for robot position)
-  // XXX TODO change these to list<ArSensorReading> pointers.
-  std::list<ArSensorReading *> *myAdjustedRawReadings;
-  ArDrawingData *myCurrentDrawingData;
-  bool myOwnCurrentDrawingData;
-  ArDrawingData *myCumulativeDrawingData;
-  bool myOwnCumulativeDrawingData;
+  ArRangeBuffer myCurrentBuffer;
+  ArRangeBuffer myCumulativeBuffer;
+
   ArMutex myDeviceMutex;
-  bool myIsLocationDependent;
+
+  unsigned int myMaxRange; 
+  int myMaxSecondsToKeepCurrent;
+  int myMaxSecondsToKeepCumulative;
+
+  bool myOwnCurrentDrawingData = false;
+  bool myOwnCumulativeDrawingData = false;
+  bool myIsLocationDependent = false;
 };
 
 #endif // ARRANGEDEVICE_H

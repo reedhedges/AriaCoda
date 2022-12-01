@@ -73,16 +73,19 @@ AREXPORT ArRangeDevice::ArRangeDevice(size_t currentBufferSize,
 				      int maxSecondsToKeepCumulative,
 				      double maxDistToKeepCumulative,
 				      bool locationDependent) :
+  myName(name),
+  myFilterCB(this, &ArRangeDevice::filterCallback),
   myCurrentBuffer(currentBufferSize),
   myCumulativeBuffer(cumulativeBufferSize),
-  myFilterCB(this, &ArRangeDevice::filterCallback)
+  myMaxRange(maxRange),
+  myIsLocationDependent(locationDependent)
 {
   myDeviceMutex.setLogName("ArRangeDevice::myDeviceMutex");
-  myRobot = NULL;
-  myName = name;
-  myMaxRange = maxRange;
-  myRawReadings = NULL;
-  myAdjustedRawReadings = NULL;
+  //myRobot = NULL;
+  //myName = name;
+  //myMaxRange = maxRange;
+  //myRawReadings = NULL;
+  //myAdjustedRawReadings = NULL;
 
   // take out any spaces in the name since that'll break things
   for (size_t i = 0; i < myName.size(); i++)
@@ -98,14 +101,12 @@ AREXPORT ArRangeDevice::ArRangeDevice(size_t currentBufferSize,
   setMinDistBetweenCumulative(0);
   setMaxInsertDistCumulative(0);
 
-  myCurrentDrawingData = NULL;
-  myOwnCurrentDrawingData = false;
-  myCumulativeDrawingData = NULL;
-  myOwnCumulativeDrawingData = false;
-  myIsLocationDependent = locationDependent;
+  //myCurrentDrawingData = NULL;
+  //myOwnCurrentDrawingData = false;
+  //myCumulativeDrawingData = NULL;
+  //myOwnCumulativeDrawingData = false;
+  //myIsLocationDependent = locationDependent;
 
-  //setMinDistBetweenCurrent();
-  //setMinDistBetweenCumulative();
 }
 
 AREXPORT ArRangeDevice::~ArRangeDevice()
