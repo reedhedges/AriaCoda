@@ -55,13 +55,13 @@ AREXPORT void ArRVisionPacket::byte2ToBuf(int16_t val)
     ArLog::log(ArLog::Terse, "ArRVisionPacket::Byte2ToBuf: Trying to add beyond length of buffer.");
     return;
   }
-  myBuf[myLength] = (val & 0xf000) >> 12;
+  myBuf[myLength] = static_cast<char>((val & 0xf000) >> 12);
   ++myLength;
-  myBuf[myLength] = (val & 0x0f00) >> 8;
+  myBuf[myLength] = static_cast<char>((val & 0x0f00) >> 8);
   ++myLength;
-  myBuf[myLength] = (val & 0x00f0) >> 4;
+  myBuf[myLength] = static_cast<char>((val & 0x00f0) >> 4);
   ++myLength;
-  myBuf[myLength] = (val & 0x000f) >> 0;
+  myBuf[myLength] = static_cast<char>((val & 0x000f) >> 0);
   ++myLength;
 }
 
