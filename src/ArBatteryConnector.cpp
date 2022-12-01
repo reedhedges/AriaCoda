@@ -575,7 +575,8 @@ AREXPORT bool ArBatteryConnector::setupBattery (ArBatteryMTX *battery,
 			            batteryNumber, battery->getName());
 		delete batteryData;
 		myBatteries.erase (batteryNumber);
-		myBatteries[batteryNumber] = new BatteryData (batteryNumber, battery);
+    batteryData = new BatteryData (batteryNumber, battery);
+		myBatteries[batteryNumber] = batteryData;
 	}
 	if (batteryData == NULL && battery != NULL) {
 		batteryData = new BatteryData (batteryNumber, battery);
