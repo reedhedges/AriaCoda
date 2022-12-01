@@ -219,8 +219,13 @@ public:
   AREXPORT static bool hostAddr(const char *host, struct in_addr &addr);
 
   /// Convert an address structure to a hostname string
-  AREXPORT static bool addrHost(struct in_addr &addr, char *s, size_t len);
-  [[deprecated("must now supply string length as third argument")]] AREXPORT static bool addrHost(struct in_addr &addr, char *host);
+  AREXPORT static bool addrHost(struct in_addr &addr, char *s, size_t s_size);
+
+  AREXPORT static std::string addrHost(struct in_addr &addr);
+
+  [[deprecated("Use addrHost(struct in_addr&, char*, size_t) or addrHost(struct in_addr&) instead.")]] 
+  AREXPORT static bool addrHost(struct in_addr &addr, char *host);
+
 
   /// Get the localhost address
   AREXPORT static std::string getHostName();
@@ -244,8 +249,13 @@ public:
     return (int)p;
   }
 
-  /// Convert @a addr into string numerical address
+  [[deprecated("Use inToA(struct in_addr*, char*, size_t) with size of string buffer instead.")]] 
   AREXPORT static void inToA(struct in_addr *addr, char *buff);
+
+  /// Convert @a addr into string numerical address
+  AREXPORT static void inToA(struct in_addr *addr, char *buff, size_t buff_size);
+
+  AREXPORT static std::string inToA(struct in_addr& addr);
 
   /// Size of the sockaddr
   static size_t sockAddrLen() {return(sizeof(struct sockaddr_in));}

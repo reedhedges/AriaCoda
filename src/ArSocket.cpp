@@ -577,6 +577,22 @@ void ArSocket::separateHost(const char *rawHost, int rawPort, char *useHost,
 }
 
 
+AREXPORT void ArSocket::inToA(struct in_addr *addr, char *buff)
+{
+  strcpy(buff, inet_ntoa(*addr));
+}
+
+/// Convert @a addr into string numerical address
+AREXPORT void ArSocket::inToA(struct in_addr *addr, char *buff, size_t buff_size)
+{
+  strncpy(buff, inet_ntoa(*addr), buff_size);
+}
+
+AREXPORT std::string ArSocket::inToA(struct in_addr& addr)
+{
+  return inet_ntoa(addr);
+}
+
   
 bool ArSocket::addrHost(struct in_addr &addr, char *host)
 {
@@ -584,18 +600,16 @@ bool ArSocket::addrHost(struct in_addr &addr, char *host)
 
   hp=gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
   if (hp)
-    strcpy(host, hp->h_name);
+    strcpy(host, hp->h_name); // this version of addrHost() is deprecated because we don't know size of 'host'
   else
-    strcpy(host, inet_ntoa(addr));
+    strcpy(host, inet_ntoa(addr)); // this version of addrHost() is deprecated because we don't know size of 'host'
 
   return(true);
 }
 
 AREXPORT bool ArSocket::addrHost(struct in_addr &addr, char *host, size_t len)
 {
-  struct hostent *hp;
-
-  hp=gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
+  struct hostent *hp = gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
   if (hp)
     strncpy(host, hp->h_name, len);
   else
@@ -604,6 +618,14 @@ AREXPORT bool ArSocket::addrHost(struct in_addr &addr, char *host, size_t len)
   return(true);
 }
 
+AREXPORT std::string ArSocket::addrHost(struct in_addr &addr)
+{
+  struct hostent *hp = gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
+  if (hp)
+    return hp->h_name;
+  else
+    return inet_ntoa(addr);
+}
 
 AREXPORT std::string ArSocket::getHostName()
 {

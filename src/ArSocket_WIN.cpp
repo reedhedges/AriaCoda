@@ -728,10 +728,6 @@ AREXPORT bool ArSocket::accept(ArSocket *sock)
   return(true);
 }
 
-AREXPORT void ArSocket::inToA(struct in_addr *addr, char *buff)
-{
-  strcpy(buff, inet_ntoa(*addr));
-}
 
 /** @return false and set error code and description string on failure  */
 AREXPORT bool ArSocket::getSockName()

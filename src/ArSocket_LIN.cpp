@@ -153,7 +153,9 @@ bool ArSocket::connect(const char *host, int port, Type type,
     host=localhost;
   }
 
-  bzero(&mySin, sizeof(mySin));
+  //bzero(&mySin, sizeof(mySin));
+  memset(&mySin, 0, sizeof(mySin));
+  
   // MPL taking out this next code line from the if since it makes
   // everything we can't resolve try to connect to localhost
   // &&  !hostAddr("localhost", mySin.sin_addr))
@@ -281,7 +283,9 @@ bool ArSocket::open(int port, Type type, const char *openOnIP)
     return(false);
   }
   */
-  bzero(&mySin, sizeof(mySin));
+  //bzero(&mySin, sizeof(mySin));
+  memset(&mySin, 0, sizeof(mySin));
+
   /* MPL took this out since it was just overriding it with the
      INADDR_ANY anyways and it could cause slowdowns if a machine wasn't
      configured so lookups are quick
@@ -400,7 +404,8 @@ bool ArSocket::findValidPort(int startPort, const char *openOnIP)
 
   for (int i=0; i+startPort < 65000; ++i)
   {
-    bzero(&mySin, sizeof(mySin));
+    //bzero(&mySin, sizeof(mySin));
+    memset(&mySin, 0, sizeof(mySin));
     /*
     if (!hostAddr(localhost, mySin.sin_addr) && 
 	!hostAddr("localhost", mySin.sin_addr))
@@ -472,7 +477,8 @@ bool ArSocket::connectTo(const char *host, int port)
     return false;
   }
 
-  bzero(&mySin, sizeof(mySin));
+  //bzero(&mySin, sizeof(mySin));
+  memset(&mySin, 0, sizeof(mySin));
   if (!hostAddr(useHost, mySin.sin_addr))
     return(false);
   setIPString(inAddr());
@@ -675,11 +681,6 @@ bool ArSocket::accept(ArSocket *sock)
   }
 
   return(true);
-}
-
-void ArSocket::inToA(struct in_addr *addr, char *buff)
-{
-  strcpy(buff, inet_ntoa(*addr));
 }
 
 bool ArSocket::getSockName()
