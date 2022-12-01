@@ -6,6 +6,19 @@ Note: Tests should not be compiled with -DNDEBUG in EXTRA_CXXFLAGS
 or any other source of compilation flags, since many rely
 on aborting on a failed assert().
 
+Help wanted: We especially need automated unit/regression tests for:
+  * ArArgumentBuilder
+  * Packet parsing, robot packet parsing
+  * RangeDevice data processing (ArRangeDevice, ArRangeBuffer, ArSensorReading)
+  * ArLaserFilter
+  * all of ArMath and ArUtil (a few parts are currently tested)
+  * ArDeviceConnection, ArSerialConnection, ArSocket.
+  * Map loading and parsing (current mapTest just prints stuff out, should use ApprovalTest or just check for known correct data)
+  * ArForbiddenRangeDevice
+  * ArRobotParams, parameter wrangling and parameter file reading
+  * more
+  
+
 Automatic unit/regression tests
 -------------------------------
 
