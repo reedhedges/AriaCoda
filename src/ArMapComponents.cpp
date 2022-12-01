@@ -50,14 +50,14 @@ const char *ArMapScan::EOL_CHARS = "";
 
 AREXPORT ArMapScan::ArMapScan(const char *scanType) :
 
-  myScanType(!ArUtil::isStrEmpty(scanType) ? scanType : ""),
+  myScanType((scanType && !ArUtil::isStrEmpty(scanType)) ? scanType : ""),
   myIsSummaryScan(isSummaryScanType(scanType)),
   myLogPrefix(),
   myKeywordPrefix(),
   myPointsKeyword(),
   myLinesKeyword(),
   myTimeChanged(),
-  myDisplayString(!ArUtil::isStrEmpty(scanType) ? scanType : ""),
+  myDisplayString((scanType && !ArUtil::isStrEmpty(scanType)) ? scanType : ""),
   myNumPoints(0),
   myNumLines(0),
   myResolution(0),
@@ -4340,6 +4340,7 @@ AREXPORT bool ArMapSimple::readFile(const char *fileName,
       snprintf(errorBuffer, errorBufferLen - 1, "Map invalid: %s: truncated before first line (required keyword section)", fileName);
     myIsReadInProgress = false;
     unlock();
+    if(localErrorBuffer) delete[] localErrorBuffer;
     return false;
   }
   line[sizeof(line) - 1] = '\0';
@@ -6717,6 +6718,10 @@ void ArMapSimple::setChildObjects
 
 AREXPORT ArMapScan *ArMapSimple::getScan(const char *scanType) const
 {
+
+  if(scanType == nullptr)
+    return nullptr;
+
   // The summary scan type is a special designation that allows the user
   // to return the total number of points in the map, the bounding box of
   // all the scans, etc.  If there are multiple scan types in the map, then
