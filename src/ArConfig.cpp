@@ -1640,8 +1640,11 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      "%sArConfigArg::parseUnknown() cannot find section %s",
                      myLogPrefix.c_str(),
                      mySection.c_str());
-          if(errorBufferLen > strlen("Cannot find section"))
-            strcpy(errorBuffer, "Cannot find section");
+          if(errorBuffer && errorBufferLen > strlen("Cannot find section"))
+          {
+            strncpy(errorBuffer, "Cannot find section", errorBufferLen-1);
+            errorBuffer[errorBufferLen-1] = '\0';
+          }
           return false;
         }  
         ArConfigArg *parentParam = section->findParam(myParsingListNames, true);

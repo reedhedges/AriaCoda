@@ -1417,7 +1417,8 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
     ArLog::log(ArLog::Normal, "Type: %s", myRobotType.c_str());
     packet->bufToStr(nameBuf, 512);
     myRobotSubType = nameBuf;
-    strcpy(robotSubType, myRobotSubType.c_str());
+    strncpy(robotSubType, myRobotSubType.c_str(), sizeof(robotSubType)-1); // robotSubType is fixed size char array
+    robotSubType[sizeof(robotSubType)-1] = '\0';
     size_t len = strlen(robotSubType);
     for (size_t i = 0; i < len; i++)
       robotSubType[i] = (char)tolower(robotSubType[i]);

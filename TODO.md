@@ -6,7 +6,7 @@ If you would like to contribute, consider items below labelled "HELP WANTED", or
 any improvement or change that would make this library more useful for you or
 easier to use.  Contact me or discuss on the GitHub page.
 
-* Change uses of std::to_string() to std::to_chars(), but that requires C++17. Change remaining instances of sprintf/snprintf to use std::to_string() (C++11) or std::to_chars() (C++17), or std::format() (C++20).
+* Change uses of std::to_string() to std::to_chars(), but that requires C++17. Change remaining instances of sprintf/snprintf to use std::to_string() (C++11) or std::to_chars() (C++17), or std::format() (C++20).  Change use of strncpy, strncat, etc. to use std::string or version of std::string that has an internall char buffer on the stack. 
 * Build as libariacoda.so instead of libAria, with Debian packages named
   libariacoda3. (Avoid conflict with existing libaria in Ubuntu). Make a
   libAria.so symlink to help work with existing builds.

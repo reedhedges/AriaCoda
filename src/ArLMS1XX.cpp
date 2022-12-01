@@ -92,8 +92,8 @@ void ArLMS1XXPacket::duplicatePacket(ArLMS1XXPacket *packet)
 	myReadLength = packet->getReadLength();
 	myTimeReceived = packet->getTimeReceived();
 	myFirstAdd = packet->myFirstAdd;
-	strcpy(myCommandType, packet->myCommandType);
-	strcpy(myCommandName, packet->myCommandName);
+	strncpy(myCommandType, packet->myCommandType, sizeof(myCommandType)); // myCommandType is a fixed size char array
+	strncpy(myCommandName, packet->myCommandName, sizeof(myCommandName)); // myCommandType is a fixed size char array
 	memcpy(myBuf, packet->getBuf(), myLength);
 }
 

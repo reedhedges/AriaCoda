@@ -1771,6 +1771,9 @@ AREXPORT bool ArUtil::localtime(struct tm *result)
 
    @return true if it could find the file, the result is in result,
    false if it couldn't find the file
+
+
+   @todo Return std::string instead of putting result in given char*.
 **/
 AREXPORT bool ArUtil::matchCase(const char *baseDir, 
 					   const char *fileName,
@@ -1864,50 +1867,51 @@ AREXPORT bool ArUtil::matchCase(const char *baseDir,
     // we've found what we were looking for
     if (ArUtil::strcasecmp(ent->d_name, finding) == 0)
     {
-      size_t lenOfResult;
-      lenOfResult = strlen(result);
+      // todo change to std::string
+
+      size_t lenOfResult = strlen(result);
 
       // make sure we can put the filename in
       if (strlen(ent->d_name) > resultLen - lenOfResult - 2)
       {
-	ArLog::log(ArLog::Normal, 
-		   "ArUtil::matchCase: result not long enough");
-	closedir(dir);
-	return false;
+        ArLog::log(ArLog::Normal, "ArUtil::matchCase: result not long enough");
+        closedir(dir);
+        return false;
       }
       //printf("Before %s", result);
+      // add separator characters unless at the beginning of the string:
       if (lenOfResult != 0)
       {
-	result[lenOfResult] = separator;
-	result[lenOfResult+1] = '\0';
+        result[lenOfResult] = separator;
+        result[lenOfResult+1] = '\0';
+        lenOfResult += 2; // new length after adding two characters.
       }
-      // put the filename in
-      strcpy(&result[strlen(result)], ent->d_name);
+      // append the filename:
+      size_t size_remain = resultLen - lenOfResult;
+      strncpy(&result[lenOfResult], ent->d_name, size_remain);
       //printf("after %s\n", result);
       // see if we're at the end
       it++;
       if (it != split.end())
       {
-	//printf("Um.........\n");
-	finding = (*it);
-	std::string wholeDir;
-	wholeDir = baseDir;
-	wholeDir += result;
-	closedir(dir);
-	//printf("'%s' '%s' '%s'\n", baseDir, result, wholeDir.c_str());
-	if ((dir = opendir(wholeDir.c_str())) == NULL)
-	{
-	  ArLog::log(ArLog::Normal, 
-		     "ArUtil::matchCase: Error going into %s", 
-		     result);
-	  return false;
-	}
+        //printf("Um.........\n");
+        finding = (*it);
+        std::string wholeDir;
+        wholeDir = baseDir;
+        wholeDir += result;
+        closedir(dir);
+        //printf("'%s' '%s' '%s'\n", baseDir, result, wholeDir.c_str());
+        if ((dir = opendir(wholeDir.c_str())) == NULL)
+        {
+          ArLog::log(ArLog::Normal, "ArUtil::matchCase: Error going into %s", result);
+          return false;
+        }
       }
       else
       {
-	//printf("\n########## Got it %s\n", result);
-	closedir(dir);
-	return true;
+        //printf("\n########## Got it %s\n", result);
+        closedir(dir);
+        return true;
       }
     }
   }

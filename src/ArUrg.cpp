@@ -273,6 +273,8 @@ bool ArUrg::writeLine(const char *str)
   return ret;
 }
 
+
+// buf size must be > 0
 bool ArUrg::readLine(char *buf, unsigned int size, 
 		     unsigned int msWait)
 {
@@ -291,8 +293,7 @@ bool ArUrg::readLine(char *buf, unsigned int size,
   int ret;
 
   myConnMutex.lock();
-  while ((msWait == 0 || started.mSecSince() < (int)msWait) && 
-	 onChar < size)
+  while ((msWait == 0 || started.mSecSince() < (int)msWait) && onChar < size)
   {
     if ((ret = myConn->read(&buf[onChar], 1, 0)) > 0)
     {

@@ -31,14 +31,20 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <string.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <assert.h>
 
+/* Why do we have our own version of this?
+ @note allocates a new string with the same size (including null byte) as @a str 
 char * cppstrdup(const char *str)
 {
-  char *ret;
-  ret = new char[strlen(str) + 1];
-  strcpy(ret, str);
+  size_t len = strlen(str);
+  char *ret = new char[len + 1];
+  strncpy(ret, str, len);
+  ret[len] = '\0';
   return ret;
 }
+*/
+
 /**
  * @param argvLen the largest number of arguments to parse
  * @param extraSpaceChar if not NULL, then this character will also be 
@@ -79,9 +85,11 @@ AREXPORT ArArgumentBuilder::ArArgumentBuilder(const ArArgumentBuilder & builder)
   myArgvLen = builder.getArgvLen();
   myOrigArgc = myArgc;
   myArgv = new char *[myArgvLen];
-  for (i = 0; i < myArgc; i++)
-    myArgv[i] = cppstrdup(builder.getArg(i));
-  //myArgv[i] = strdup(builder.getArg(i));
+  for (i = 0; i < myArgc; i++) {
+    //myArgv[i] = cppstrdup(builder.getArg(i));
+    myArgv[i] = strdup(builder.getArg(i));
+    assert(myArgv[i]);
+  }
   myIsQuiet = builder.myIsQuiet;
   myExtraSpace = builder.myExtraSpace;
   myIgnoreNormalSpaces = builder.myIgnoreNormalSpaces;
@@ -111,7 +119,9 @@ AREXPORT ArArgumentBuilder &ArArgumentBuilder::operator=(const ArArgumentBuilder
     myOrigArgc = myArgc;
     myArgv = new char *[myArgvLen];
     for (i = 0; i < myArgc; i++) {
-      myArgv[i] = cppstrdup(builder.getArg(i));
+      //myArgv[i] = cppstrdup(builder.getArg(i));
+      myArgv[i] = strdup(builder.getArg(i));
+      assert(myArgv[i]);
     }
     myIsQuiet = builder.myIsQuiet;
     myExtraSpace = builder.myExtraSpace;
@@ -518,9 +528,10 @@ AREXPORT void ArArgumentBuilder::internalAddAsIs(const char *str, int position)
 
   if (addAtEnd)
   {
-    myArgv[myArgc] = new char[strlen(str) + 1];
-    strcpy(myArgv[myArgc], str);
-    myArgv[myArgc][strlen(str)] = '\0';
+    size_t size = strlen(str) + 1;
+    myArgv[myArgc] = new char[size];
+    strncpy(myArgv[myArgc], str, size);
+    myArgv[myArgc][size-1] = '\0';
     
     // add to our full string
     // if its not our first add a space (or whatever our space char is)
@@ -545,9 +556,10 @@ AREXPORT void ArArgumentBuilder::internalAddAsIs(const char *str, int position)
     myArgc++;
     myOrigArgc = myArgc;
     
-    myArgv[position] = new char[strlen(str) + 1];
-    strcpy(myArgv[position], str);
-    myArgv[position][strlen(str)] = '\0';
+    size_t size = strlen(str) + 1;
+    myArgv[position] = new char[size];
+    strncpy(myArgv[position], str, size);
+    myArgv[position][size-1] = '\0';
     
     rebuildFullString();
     myFirstAdd = false;
@@ -939,8 +951,9 @@ AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
       myNewArg[myNewArg.size() - 1] = '\0';
       delete[] myArgv[i];
       // but replacing ourself with the new arg
-      myArgv[i] = cppstrdup(myNewArg.c_str());
-      //myArgv[i] = strdup(myNewArg.c_str());
+      //myArgv[i] = cppstrdup(myNewArg.c_str());
+      myArgv[i] = strdup(myNewArg.c_str());
+      assert(myArgv[i]);
       continue;
     }
     // if this arg begins with a quote but doesn't end with one
@@ -980,8 +993,9 @@ AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
         delete[] myArgv[i];
 
         // but replacing ourself with the new arg
-        myArgv[i] = cppstrdup(myNewArg.c_str());
-	//myArgv[i] = strdup(myNewArg.c_str());
+        //myArgv[i] = cppstrdup(myNewArg.c_str());
+        myArgv[i] = strdup(myNewArg.c_str());
+        assert(myArgv[i]);
       }
     }
   }

@@ -364,7 +364,8 @@ AREXPORT void ArRobotParams::addLaserToConfig(
   assert(added_new); // flag that a new item was emplaced
   LaserData *laserData = &(new_it->second);
 
-  strcpy(laserData->mySection, section);
+  strncpy(laserData->mySection, section, sizeof(laserData->mySection)-1); // LaserData::mySection is a fixed size char array
+  laserData->mySection[sizeof(laserData->mySection)-1] = '\0';
 
   std::string displayHintPlain = "Visible:LaserAutoConnect=true";
   std::string displayHintCheckbox = displayHintPlain + "&&Checkbox";

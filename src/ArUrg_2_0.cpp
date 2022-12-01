@@ -382,8 +382,7 @@ bool ArUrg_2_0::readLine(char *buf, unsigned int size,
   unsigned int iMax;
 
   myConnMutex.lock();
-  while ((msWait == 0 || started.mSecSince() < (int)msWait) && 
-	 onChar < size)
+  while ((msWait == 0 || started.mSecSince() < (int)msWait) && onChar < size)
   {
     if ((ret = myConn->read(&buf[onChar], 1, 0)) > 0)
     {

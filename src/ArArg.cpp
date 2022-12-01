@@ -354,7 +354,7 @@ AREXPORT bool ArArg::setString(const char *str)
     ArLog::log(ArLog::Normal, "ArArg of %s: setString called with argument %d long, when max length is %d.", getName(), len, myMaxStrLen);
     return false;
   }
-  strcpy(myStringPointer, str);
+  strncpy(myStringPointer, str, myMaxStrLen-1);
   return true;
 }
 

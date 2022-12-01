@@ -3770,7 +3770,7 @@ AREXPORT  bool ArConfigArg::parseResourceArgText(const char* argText,
 
   char otherBuf[MAX_RESOURCE_ARG_TEXT_LENGTH];
 
-  strncpy(otherBuf, argText, MAX_RESOURCE_ARG_TEXT_LENGTH);
+  strncpy(otherBuf, argText, MAX_RESOURCE_ARG_TEXT_LENGTH-1);
   otherBuf[MAX_RESOURCE_ARG_TEXT_LENGTH - 1] = '\0';
 
   size_t len = strlen(otherBuf);

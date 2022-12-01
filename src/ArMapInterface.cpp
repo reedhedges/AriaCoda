@@ -91,6 +91,8 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
                                                         bool isIgnoreCase)
 { 
 
+  // todo replace this with easier std::string operations 
+
   if (fileName == NULL) {
     return "";
   }
@@ -148,11 +150,11 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
     //printf("DirectoryRaw %s\n", directoryRaw);
     if (strlen(directoryRaw) == 0 || strcmp(directoryRaw, ".") == 0)
     {
-      strcpy(directory, ".");
+      strncpy(directory, ".", sizeof(directory));
     }
     else if (directoryRaw[0] == '/')
     {
-      strcpy(directory, directoryRaw);
+      strncpy(directory, directoryRaw, sizeof(directory));
     }
     else if (!ArUtil::matchCase(baseDirectory, 
 				                        directoryRaw, 
@@ -168,7 +170,7 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
     char tmpDir[2048];
     tmpDir[0] = '\0';
     //sprintf(tmpDir, "%s", tmpDir, directory);
-    strcpy(tmpDir, directory);
+    strncpy(tmpDir, directory, sizeof(tmpDir));
     ArUtil::appendSlash(tmpDir, sizeof(tmpDir));
     char squashedFileName[2048];
     
