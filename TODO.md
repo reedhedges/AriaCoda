@@ -206,10 +206,11 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Use `std::string_view` (C++17) in many places where `char*` are used and
     passed. Accept `std::string_view` in general as parameter in places where
     `char*` and `std::string&` are used as function paramemters.
-  * Use standard `<thread>` library for threads rather than our own
+  * Use standard `<thread>` library for threads rather than our own. (We genreally don't ever cancel threads in Aria, so that API could be removed from ArThread in the mean time, and use later replaced with std::thread; if we do need to cancel a thread we could use C++20 request_stop or std::jthread instead, but many asynchronous classes in Aria already have their own stop request mechanism.)   Use std::mutex or std::shared_mutex (since in many places class member accessors could do shared_lock() on a shared_mutex instead of exclusive mutex, especially ArRobot and ArRangeDevice) (in some cases maybe a recursive mutex instead.)  Note: pthreads has a rwlock with pthread_rwlock_rdlock() and pthread_rwlock_wrlock() that is similar to a shared_mutex. Or implement our own reader and writer locks on top of mutexes and counters and condition variables or semaphores or similar.   Maybe do some measurement to see if there is reader lock contention in a larger application.  One danger is thta many readers keep locking the shared_mutex, and the writer blocks for a long time, which could slow down e.g. the ArRobot packet processing task, which might be bad. 
+  * Could we make lots of shared data std::atomic (e.g. in ArRobot, ArRangeDevices (most of them are threaded), etc.)?  Is there a cost to having a lot of atomic variables? Are there classes with just a few shared variables?
   * ArRangeBuffer and other collections should perhaps implement iterator or STL container
-    interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view.
-  * Find more opportunities to use improved STL algorithms including parallel.
+    interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view. (Possibly with parallel executors.)
+  * Find more opportunities to use improved STL algorithms including parallel execution. (Parallel execution most useful with larger data sets, and in time cretical sections like robot and sensor data processing, not so much in startup config, etc.)
   * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics
   * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
   * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
