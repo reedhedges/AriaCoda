@@ -42,7 +42,6 @@ class ArStringInfoGroup
 public:
   /// Constructor
   AREXPORT ArStringInfoGroup();
-  //AREXPORT virtual ~ArStringInfoGroup();
   /// Adds a string to the list in the raw format
   AREXPORT bool addString(const char *name, size_t maxLen, 
 			  ArFunctor2<char *, size_t> *functor);

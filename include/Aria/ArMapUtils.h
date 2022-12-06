@@ -911,43 +911,43 @@ class ArMapChangedHelper
    ///  Constructor 
    AREXPORT ArMapChangedHelper();
    /// Destructor
-   AREXPORT virtual ~ArMapChangedHelper();
+   AREXPORT ~ArMapChangedHelper();
    
    /// Function that invokes the map changed callbacks
-   AREXPORT virtual void invokeMapChangedCallbacks(bool invokePathPlanningCB = true,
+   AREXPORT void invokeMapChangedCallbacks(bool invokePathPlanningCB = true,
                                                    bool invokeLocalizationCB = true);
 
    /// Adds a callback to be invoked when the map is changed
-   AREXPORT virtual void addMapChangedCB(ArFunctor *functor, 
+   AREXPORT void addMapChangedCB(ArFunctor *functor, 
 					 int position = 50);
    /// Removes a callback invoked when the map is changed
-   AREXPORT virtual void remMapChangedCB(ArFunctor *functor);
+   AREXPORT void remMapChangedCB(ArFunctor *functor);
    /// Adds a callback to be invoked when the map is changed
 
-   AREXPORT virtual void addMapChangedPathPlanningCB(ArFunctor *functor,
+   AREXPORT void addMapChangedPathPlanningCB(ArFunctor *functor,
                      int position = 50);
    /// Removes a callback invoked when the map is changed
-   AREXPORT virtual void remMapChangedPathPlanningCB(ArFunctor *functor);
+   AREXPORT void remMapChangedPathPlanningCB(ArFunctor *functor);
    /// Adds a callback to be invoked when the map is changed
-   AREXPORT virtual void addMapChangedLocalizationCB(ArFunctor *functor,
+   AREXPORT void addMapChangedLocalizationCB(ArFunctor *functor,
                      int position = 50);
    /// Removes a callback invoked when the map is changed
-   AREXPORT virtual void remMapChangedLocalizationCB(ArFunctor *functor);
+   AREXPORT void remMapChangedLocalizationCB(ArFunctor *functor);
 
    /// Adds a callback called before the map changed callbacks are called
    /**
     * Note that these callbacks are simply invoked before the "normal" map changed
     * callbacks.  They are not 
    **/
-   AREXPORT virtual void addPreMapChangedCB(ArFunctor *functor,
+   AREXPORT void addPreMapChangedCB(ArFunctor *functor,
                                             int position = 50);
    /// Removes a callback called before the map changed callbacks are called
-   AREXPORT virtual void remPreMapChangedCB(ArFunctor *functor);
+   AREXPORT void remPreMapChangedCB(ArFunctor *functor);
  
    /// Sets the level we log our map changed callback at
-   AREXPORT virtual void setMapChangedLogLevel(ArLog::LogLevel level);
+   AREXPORT void setMapChangedLogLevel(ArLog::LogLevel level);
    /// Gets the level we log our map changed callback at
-   AREXPORT virtual ArLog::LogLevel getMapChangedLogLevel();
+   AREXPORT ArLog::LogLevel getMapChangedLogLevel();
    
  private:
  

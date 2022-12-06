@@ -554,12 +554,12 @@ public:
                            bool isQuiet = false,
                            const char *categoryName = NULL);
 
-  AREXPORT virtual ~ArConfigSection();
+  AREXPORT ~ArConfigSection();
   AREXPORT ArConfigSection(const ArConfigSection &section);
   AREXPORT ArConfigSection &operator=(const ArConfigSection &section);
 
   /// Copies the given section to this one, detaching any pointers so they are not shared
-  AREXPORT virtual void copyAndDetach(const ArConfigSection &section);
+  AREXPORT void copyAndDetach(const ArConfigSection &section);
 
   /** @return The name of this section */
   const char *getName() const { return myName.c_str(); }

@@ -67,7 +67,7 @@ public:
 	  ArStrCaseCmpOp> *extraLocationData = NULL,
 	  std::list<ArLaser *> *extraLasers = NULL);
   /// Destructor
-  AREXPORT virtual ~ArLaserLogger();
+  AREXPORT ~ArLaserLogger();
 
 #ifndef SWIG
   /** @brief Adds a string to the log file with a tag at the given moment

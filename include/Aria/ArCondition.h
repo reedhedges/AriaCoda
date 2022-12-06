@@ -65,7 +65,7 @@ public:
   /// Constructor
   AREXPORT ArCondition();
   /// Desctructor
-  AREXPORT virtual ~ArCondition();
+  AREXPORT ~ArCondition();
 
   /// Signal the thread waiting
   AREXPORT int signal();

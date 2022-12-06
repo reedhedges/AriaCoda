@@ -37,10 +37,9 @@ class ArExitErrorSource
 public:
  
   /// Constructor
-  ArExitErrorSource() {}
+  //ArExitErrorSource() = default;
 
-  /// Destructor
-  virtual ~ArExitErrorSource() {}
+  virtual ~ArExitErrorSource()  = default;
 
   /// Returns a textual description of the error source.
   /**

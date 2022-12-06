@@ -22,6 +22,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   ArSensorReading objects.
 * (MOSTLY DONE) Fix virtual inheritance.  (Remove unnecessary virtual inheritance, make sure
   done correctly, etc.)
+  * Some classes may still have unneccesary virtual methods, even if not participating in any virtual inheritance. Should clearly document any classes that are intended for virtual inheritance.   (Uneccesary destructors are commented out in some classes, remove that.) 
   * Virtual inheritance must be used for
   interface implementations, i.e. subclasses of:
     * ArRangeDevice

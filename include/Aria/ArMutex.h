@@ -92,7 +92,7 @@ public:
   /// Constructor
   AREXPORT ArMutex(bool recursive = true);
   /// Destructor
-  AREXPORT virtual ~ArMutex();
+  AREXPORT ~ArMutex();
   /// Copy constructor
   AREXPORT ArMutex(const ArMutex &mutex);
 
@@ -118,7 +118,7 @@ public:
    *  @return ArMutex::STATUS_FAILED_INIT if the platform threading is not 
    *    enabled, initialized, etc.
    */
-  AREXPORT virtual int lock();
+  AREXPORT int lock();
 
   /** Try to lock the mutex, but do not block
    *
@@ -144,13 +144,13 @@ public:
    *  @return ArMutex::STATUS_FAILED_INIT if the platform threading is not 
    *    enabled, initialized, etc.
    */
-  AREXPORT virtual int tryLock();
+  AREXPORT int tryLock();
 
   /// Unlock the mutex, allowing another thread to obtain the lock
-  AREXPORT virtual int unlock();
+  AREXPORT int unlock();
 
   /// Get a human readable error message from an error code
-  AREXPORT virtual const char * getError(int messageNumber) const;
+  AREXPORT const char * getError(int messageNumber) const;
   /** Sets a flag that will log out when we lock and unlock. Use setLogName() to
     set a descriptive name for this mutex, and ArThread::setThreadName() to set a
     descriptive name for a thread.
@@ -164,7 +164,7 @@ public:
   AREXPORT void setLogNameVar(const char *logName, ...);
 #endif
   /// Get a reference to the underlying OS-specific mutex variable
-  AREXPORT virtual MutexType & getMutex() {return(myMutex);}
+  AREXPORT MutexType & getMutex() {return(myMutex);}
   /** Sets the lock warning time (sec). If it takes more than @a lockWarningSeconds to perform the mutex lock in lock(), log a warning.
       @linuxonly
   */
