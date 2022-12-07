@@ -486,7 +486,7 @@ std::string ArLog::logTypeName(ArLog::LogType type)
     case StdErr:
       return "StdErr";
     case File:
-      return std::string("File(") + ourFileName + ")";
+      return std::string{"File("} + ourFileName + ")";
     case None:
       return "None";
   }

@@ -901,7 +901,7 @@ AREXPORT void ArDataLogger::clearLog()
 AREXPORT std::string ArDataLogger::getStatus() 
 {
   if(myConfigLogging && myFile)
-    return std::string("Logging to ") + getOpenLogFileName();
+    return std::string{"Logging to "} + getOpenLogFileName();
   else
     return "Not logging";
 }

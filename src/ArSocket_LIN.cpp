@@ -147,8 +147,8 @@ bool ArSocket::connect(const char *host, int port, Type type,
   if(port < 0 || port > USHRT_MAX)
   {
     myError = InvalidParam;
-    myErrorStr = std::string("Port number (") + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
-    ArLog::log(ArLog::Normal, (std::string("ArSocket::connect: Error: ") + myErrorStr).c_str());
+    myErrorStr = std::string{"Port number ("} + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
+    ArLog::log(ArLog::Normal, (std::string{"ArSocket::connect: Error: "} + myErrorStr).c_str());
     return false;
   }
 
@@ -301,8 +301,8 @@ bool ArSocket::open(int port, Type type, const char *openOnIP)
   if(port < 0 || port > USHRT_MAX)
   {
     myError = InvalidParam;
-    myErrorStr = std::string("Port number (") + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
-    ArLog::log(ArLog::Normal, (std::string("ArSocket::open: Error: ") + myErrorStr).c_str());
+    myErrorStr = std::string{"Port number ("} + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
+    ArLog::log(ArLog::Normal, (std::string{"ArSocket::open: Error: "} + myErrorStr).c_str());
     ::close(myFD);
     myFD = -1;
     return false;
@@ -452,8 +452,8 @@ bool ArSocket::connectTo(const char *host, int port)
   if(port < 0 || port > USHRT_MAX)
   {
     myError = InvalidParam;
-    myErrorStr = std::string("Port number (") + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
-    ArLog::log(ArLog::Normal, (std::string("ArSocket::connectTo: Error: ") + myErrorStr).c_str());
+    myErrorStr = std::string{"Port number ("} + std::to_string(port) + " given) must be > 0 and <= " + std::to_string(USHRT_MAX);
+    ArLog::log(ArLog::Normal, (std::string{"ArSocket::connectTo: Error: "} + myErrorStr).c_str());
     return false;
   }
 

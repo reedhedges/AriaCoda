@@ -219,11 +219,13 @@ AREXPORT std::string ArSystemStatus::getCPUPercentAsString() {
 	refreshCPU();
 	if (ourCPU < 0)
 	{
-		return std::string("n/a");
+		return std::string{"n/a"};
 	}
-	char tmp[32];
-	snprintf(tmp, 31, "%.2f", getCPUPercent());
-	return std::string(tmp);
+  //return std::to_string(getCPUPercent()); // no way to set precision
+  // todo replace with std::to_chars() (C++17) or std::format (C++20):
+	char tmp[8];
+	snprintf(tmp, 7, "%.2f", getCPUPercent());
+	return std::string{tmp};
 }
 
 // Get total system uptime (seconds)
