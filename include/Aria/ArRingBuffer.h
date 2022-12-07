@@ -23,47 +23,50 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 */
 
 
-#ifndef _AR_RING_QUEUE_H_
-#define _AR_RING_QUEUE_H_
+#ifndef _AR_BUFFER_H_
+#define _AR_BUFFER_H_
 
 #include <iostream>
-#include <list>
+#include <array>
 #include "Aria/ariaTypedefs.h"
 
-/** @brief An expanding ring queue. 
- *  @sa ArRingBuffer, which is simpler and more efficient.
+/** @brief A very simple ring buffer in which all memory for data is stored in a fixed size contiguous array (std::array). A maximum size (capacity) is maintained, and 
+ *  memory is reused as items are removed (popped) from the front and added (pushed)
+ *  to the back. If the buffer is full (at capacity), then old items are replaced by new items (via the assignment operator).   If you want a fixed capacity container, this can have better performance than std::list or std::vector, with which items are removed and inserted (causing memory fragmentation and heap allocation in the case of std::list and re-allocation, copying and moving of objects in the case of std::vector).
+ * 
+ *  Items may be added to the back with push(), and
+ *  the oldest item still available can be accessed from the front with pop() or front().  (But most recent item cannot be accessed from the back.)
  *
- *  It is used to keep a queue with a minimum of allocation and freeing of
- *  heap memory.
- *  The ring queue is implemented using std::list.  The queue starts with an 
- *  initial capacity, but those initial items are considered 'unused'.  Items
- *  are "pushed" into the queue at the "back", and "popped" from the queue at
- *  the "front". pop() and advance_front() will move the front of the queue to 
+ *  The buffer starts with a fixed capacity (std::array is used internally), but those initial items are considered 'unused'.  Items
+ *  are "pushed" into the queue at the "back" with push(), and "popped" from the queue at
+ *  the "front". and pop() (and advance_front()) will move the front of the queue to 
  *  the next item, creating a new 'unused slot' for future use; advance_back()
- *  changes the next item in the back to a 'used' slot. push() either uses the
- *  next 'unused' slot, or inserts a new item into the std::list.  
- *  When the capacity of the queue is filled, all operations will fail
- *  except push(). Use push() to insert new items in the queue and increase
- *  its capacity.  
+ *  changes the next item in the back to the next item, which may or may not already be used.
+ *  it can then be replaced via the back() iterator.
+ * 
+ *  If an old item is replaced by a new item by push(), then T's copy or move assignment operator is used to replace the item.   If replaced by emplace(), then the copy or move constructor is used.
+ *
+ *  Note: currently if reset() is called or items are popped(), old items are not 
+ *  destroyed (destructors not called).  Destructors may be called if the item is later replaced by a new item. 
  *
  *  @todo Ideally, this class would be fully threadsafe/non-locking (or with occasional
  *  mutex locking in certain cases), but it is not currently. Should be updated to use
  *  atomic support in modern C++ standard library if possible.
- *  @todo Optionally allocate several future 'slots' instead of just one.
  *
  *  @ingroup UtilityClasses
  */
-template<class T> 
-class ArRingQueue {
+template<class T, size_t Capacity> 
+class ArRingBuffer {
 public:
+
+  using array_type = std::array<T, Capacity>;
+
   /** @param capacity Initial capacity of the ring queue. 
    *  @param init_value Initial value for new, unused items in the queue. 
    *  */
-  ArRingQueue(size_t capacity, T init_value)
-    : ring_list(capacity, init_value), curSize(0), initval(init_value)
+  ArRingBuffer() : curSize(0), front_it(arr.end()), back_it(arr.begin())
+    // note front_it at end indicates empty state
   {
-    back_it = ring_list.begin(); 
-    front_it = ring_list.end();// signals empty state
   }
 
 
@@ -75,7 +78,7 @@ public:
    * making a copy with pop(), first check if the queue is empty(). Then  use this 
    * function to get the data. Then call advance_front(). 
    */
-  typename std::list<T>::iterator front() {
+  typename array_type::iterator front() {
     if(empty())
       return nil();
     return front_it;
@@ -92,24 +95,24 @@ public:
    * next unused 'slot'. Then call advance_back() to advance the back of the queue
    * to your new item. 
    */
-  typename std::list<T>::iterator back() {
+  typename array_type::iterator back() {
     if(front_it == back_it)
     {
-      //std::cerr << "ArRingQueue: back(): 0-capacity or full, returning nil.\n";
+      //std::cerr << "ArRingBuffer: back(): 0-capacity or full, returning nil.\n";
       return nil();
     }
     return back_it;
   }
 
-  /** Advance (pop) the front of the queue. 'Used' size will be decremented.  */
+  /** Advance the front of the queue. 'Used' size will be decremented.  */
   void advance_front() {
-    if(front_it == ring_list.end())  // initial or  empty state.
-      front_it = ring_list.begin();
-    else if(++front_it == ring_list.end()) 
-      front_it = ring_list.begin();
+    if(front_it == arr.end())  // initial or  empty state.
+      front_it = arr.begin();
+    else if(++front_it == arr.end()) 
+      front_it = arr.begin();
     if(front_it == back_it) { // it's now empty (not full)
-      front_it = ring_list.end();
-      back_it = ring_list.begin();
+      front_it = arr.end();
+      back_it = arr.begin();
     }
     curSize--;
   }
@@ -119,109 +122,100 @@ public:
 
   /** Advance the back (an 'empty' push), if the queue is not full.  'Used' size will be incremented.  */
   void advance_back() {
-    if(front_it == back_it) // full or 0-capacity
+    if(front_it == back_it) // full or 0-capacity TODO should we remove this check and just advance the front and discard it
     {
       // debugging:
       /*
       if(empty()) {
-        std::cerr << "ArRingQueue: advance_back(): queue is *empty*, can't advance back.\n";
+        std::cerr << "ArRingBuffer: advance_back(): queue is *empty*, can't advance back.\n";
         return;
       }
-      std::cerr << "ArRingQueue: advance_back(): queue is full, can't advance back.\n";
+      std::cerr << "ArRingBuffer: advance_back(): queue is full, can't advance back.\n";
       */
       return;
     }
-    if(++back_it == ring_list.end())
-      back_it = ring_list.begin();
-    if(front_it == ring_list.end())
-      front_it = ring_list.begin();  // no longer empty.
+    if(++back_it == arr.end())
+      back_it = arr.begin();
+    if(front_it == arr.end())
+      front_it = arr.begin();  // no longer empty.
     curSize++;
   }
 
-  /** Add an item to the back of the ring queue. If the queue is full, the
-   * capacity of the queue will be expanded and the item
-   * will be inserted. */
+  /** Push a new item.  If the buffer is full, then the oldest item is replaced with the new item.
+   */
   void push(const T& item) {
-    if(full()) {
-      // expand
-      back_it = ring_list.insert(back_it, item);
-    } else {
-      // back is unused, use it
-      *back_it = item;
-    }
+    if(full())
+      advance_front(); // throw away the item at the front, when we advance_back(), then back will be pointing to it.
+    *back_it = item;
     advance_back();
   }
 
-  /** Same as push() */
-  void push_back(const T& item) { push(item); }
-
-  /** Push a new item, but preserve capacity: instead of expanding the queue if
-   * full, then the oldest item is replaced and the front is advanced.
-   */
-  void push_without_expanding(const T& item) {
+  /** Take rvalue reference, so item could be moved into buffer. */
+  void push(T&& item) {
     if(full())
       advance_front();
-    push(item);
+    *back_it = item;
+    advance_back();
   }
 
   /** Print the current contents of the queue. 
    *  @pynote use printQueue() instead of print() (which is a reserved word in Python)
   */
-  void print() {
-    for(typename std::list<T>::const_iterator i = ring_list.begin(); i != ring_list.end(); i++) {
+  void print() const {
+    for(typename array_type::const_iterator i = arr.begin(); i != arr.end(); i++) {
       if(i == back_it)
         std::cerr << "]";
-      if(i == front_it || (i == ring_list.begin() && front_it == ring_list.end()) )
+      if(i != arr.begin())
+        std::cerr << ",";
+      if(i == front_it || (i == arr.begin() && front_it == arr.end()) )
         std::cerr << "[";
-      std::cerr << (*i) << "," ;
+      std::cerr << (*i); // << "," ;
     }
     std::cerr << std::endl;
   }
 
   /** Get the number of items currently 'used' in the queue. */
-  size_t size() {
+  size_t size() const {
     return curSize;
   }
 
   /** Get the current capacity of the queue. */
-  size_t capacity() {
-    return ring_list.size();
+  size_t capacity() const {
+    return arr.size();
   }
 
   /** Return true if the queue is empty (has no 'used' items), false otherwise.  */
-  bool empty() {
-    return (front_it == ring_list.end());
+  bool empty() const {
+    return (front_it == arr.end());
   }
 
-  /** Logically clear the queue, resetting to initial empty state, but preserving current
-   * capacity, and leaving all contents as they are; the contents are not
+  /** Logically clear the queue, resetting to initial empty state
+   * The contents are not
    * destroyed, but will be when replaced by new data later. */
   void reset() {
-    front_it = ring_list.end();
-    back_it = ring_list.begin();
+    front_it = arr.end();
+    back_it = arr.begin();
     curSize = 0;
   }
 
   /** Return true if the queue is full, false otherwise. */
-  bool full() {
+  bool full() const {
     return (back_it == front_it);
   }
 
   /** Return an iterator representing an invalid item. Compare to the return
    * values of front(), back(), pop(), etc. */
-  typename std::list<T>::iterator nil() {
-    return ring_list.end();
+  typename array_type::iterator nil() {
+    return arr.end();
   }
 
-protected:
-  std::list<T> ring_list;
-  typename std::list<T>::iterator front_it, back_it;   
+private:
+  size_t curSize;
+  typename array_type::iterator front_it, back_it;   
   // push to back, pop from front; front will point to first item, 
   // back to one past last. 
 
-  size_t curSize;
-  T initval;
-
+  array_type arr;
 };
 
 
