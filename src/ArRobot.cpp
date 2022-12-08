@@ -5655,7 +5655,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   myConnectionTimeoutMutex.unlock();
 
   myInterpolation.addReading(packetTime, myGlobalPose);
-  myEncoderInterpolation.addReading(packetTime, myEncoderPose);
+  myEncoderInterpolation.addReading(myEncoderPose);
 
   return true;
 }
@@ -6470,9 +6470,10 @@ AREXPORT void ArRobot::setEncoderTransform(const ArTransform& transform)
 /**
    @param pose the position to set the dead recon position to
 **/
-AREXPORT void ArRobot::setDeadReconPose(const ArPose& pose)
+AREXPORT void ArRobot::setDeadReconPose(const ArPose& pose, const ArTime t)
 {
   myEncoderPose.setPose(pose);
+  myEncoderPose.setTime(t);
   myEncoderTransform.setTransform(myEncoderPose, myGlobalPose);
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
   mySetEncoderTransformCBList.invoke();

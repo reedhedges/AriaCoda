@@ -16,6 +16,7 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Remove any "commercial" code, remove any "default (noncommercial) behavior" conditions.
 * In many places (ArInterpolation, ArRangeBuffer, ...) a std::list is used to store objects as a buffer, because we want to remove old items from the beginning of the list and add new items to the end.  This could be replaced with ArRingBuffer or other contiguous ring buffer that doesn't need to allocate small objects for list items, but can keep things in contiguous memory space. In the case of ArRangeBuffer, we sometimes want to remove items from the middle. (This could be done in an array or vector if we have an "invalid" flag, and take the number of invalid or bad items into account when checking capacity, and the underlying capacity is not limited to the desired capacity of valid items.)
 * Possible bug: ArRobot is not setting the time component of myEncoderPose or myRawEncoderPose? Ned to investigate.
+* Possible bug: ArInterpolation forward interpolation (future prediction) may not be working correctly.  May just be returning last pose in history, and never returning -1 (too far in future).
 * Many classes provide setters for parameters that only need to be set when the object is constructed, these could be removed and the member variable made const.
 * (DONE) In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
   `std::list<ArSensorReading>` rather than `std::list<ArSensorReading*>` and don't allocate

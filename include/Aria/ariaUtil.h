@@ -1658,10 +1658,13 @@ public:
 
 
   /// Constructor from ArPose. The time component (ArTime) is default constructed.
-  ArPoseWithTime(const ArPose &pose) : ArPose(pose)
+  ArPoseWithTime(ArPose pose) : ArPose(pose)
   {}
 
-  void setTime(const ArTime& newTime) { myTime = newTime; }
+  ArPoseWithTime(ArPose p, ArTime t) : ArPose(p), myTime(t) 
+  {}
+
+  void setTime(ArTime newTime) { myTime = newTime; }
   void setTimeToNow() { myTime.setToNow(); }
   ArTime getTime() const { return myTime; }
 

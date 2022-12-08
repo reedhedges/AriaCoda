@@ -27,6 +27,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaTypedefs.h"
 #include "Aria/ariaUtil.h"
 
+#include <list>
+
 /** 
     Store a buffer of positions (ArPose objects) with associated timestamps, can
     be queried to interpolate (or optionally extrapolate) a pose for any arbitrary
@@ -68,14 +70,18 @@ public:
   AREXPORT ArInterpolation(size_t numberOfReadings = 100);
  
   /// Adds a new reading
-  AREXPORT bool addReading(ArTime timeOfReading, ArPose position);
+  AREXPORT bool addReading(ArPoseWithTime reading);
+  bool addReading(ArTime timeOfReading, ArPose position) {
+    return addReading(ArPoseWithTime(position, timeOfReading));
+  }
+
   /// Finds a position
   AREXPORT int getPose(ArTime timeStamp, ArPose *position, 
 		       ArPoseWithTime *lastData = NULL);
   /// Sets the name
   AREXPORT void setName(const char *name);
   /// Gets the name
-  AREXPORT const char *getName();
+  AREXPORT const char *getName() const;
   /// Sets the allowed milliseconds for prediction
   AREXPORT void setAllowedMSForPrediction(int ms = -1);
   /// Sets the allowed milliseconds for prediction
@@ -94,11 +100,12 @@ public:
   AREXPORT size_t getNumberOfReadings() const;
   /// Empties the interpolated positions
   AREXPORT void reset();
-protected:
+private:
   ArMutex myDataMutex;
   std::string myName;
-  std::list<ArTime> myTimes;
-  std::list<ArPose> myPoses;
+  //std::list<ArTime> myTimes;
+  //std::list<ArPose> myPoses;
+  std::list<ArPoseWithTime> myPoses;
   size_t mySize;
   bool myLogPrediction;
   int myAllowedMSForPrediction;

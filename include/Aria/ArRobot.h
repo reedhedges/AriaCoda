@@ -824,8 +824,8 @@ public:
   /// This applies a transform to all the robot range devices and to the sonar
   AREXPORT void applyTransform(const ArTransform& trans, bool doCumulative = true);
 
-  /// Sets the dead recon position of the robot
-  AREXPORT void setDeadReconPose(const ArPose& pose);
+  /// Sets the dead recon position of the robot (normally set automatically from robot data)
+  AREXPORT void setDeadReconPose(const ArPose& pose, const ArTime t = ArTime());
 
   /// This gets the distance the robot has travelled since the last time resetTripOdometer() was called (mm)
   /// This is a virtual odometer that measures the total linear distance the
