@@ -13,8 +13,9 @@ AriaCoda is a C++ library used to communicate with Pioneer and
 Pioneer-compatible mobile robot controllers, many sensors and other accessory
 devices, and includes various useful tools for mobile robotics applications.
 
-Much of the library is mostly C++03 and C with C++11 and C++14 features
-sometimes used as well.  (In the future it may be further modernized.)
+The C++ code in AriaCoda is mostly C++03 and C with some C++11 and C++14 features
+used as well.  It can be compiled with any C++ compiler supporting
+at least C++14. (In the future it may be updated to C++17 or C++20.)
 
 AriaCoda is based on the prior open-source ARIA library (Copyright 2002, 2003, 2004, 2005
 ActivMedia Robotics, LLC.  Copyright 2006, 2007, 2008, 2009 MobileRobots Inc.,
@@ -85,15 +86,17 @@ Several major changes have been made for AriaCoda since the last release of Aria
   to a list of ArMapObject objects or smart pointers rather than pointers.)
   ArMap::getMapObjectsPtr() has been added for internal use and as an easy 
   compatibility function, but use outside of the library is deprecated.
+* Some methods are no longer virtual.  These classes should have not been
+  used as base classes for virtual inheritance, but if you were doing so,
+  or are creating classes derived from any other classes, please submit
+  a feature request on Github for any changes to the API you need (such as
+  designing virtual methods intended to be overridden.) 
 * Various fixes and changes to improve optimization and
   conformance/correctness.  Due to code removal, various optimizations in the 
   source code (especially in frequently used storage and utility classes such 
   as ArSensorReading, ArRangeBuffer, ArRangeDevice, ArPose, etc), and compilation 
   optimizations turned on by default, the AriaCoda
-  shared library should be a bit more efficient.  (It is slightly larger,
-  probably due to code inlining and loop unrolling during optimization; the
-  `CXXOPTFLAGS` makefile variable can be used to override default opmitization
-  flags, see below for details.)
+  shared library should be slightly more efficient than previous versions of ARIA. 
   Additional warning flags have been enabled during compilation, and some 
   of the potential problems indicated by those warnings have been fixed.
   If any changes have introduced undetected bugs or unintentional changes in behavior,
@@ -186,6 +189,11 @@ to optimize for a computer with an Intel Atom processor (i.e. PioneerLX),
 and math functions in general, you could do this:
 
     make EXTRA_CXXFLAGS="-mcpu=atom -ffast-math" -j4
+
+Or to get additional optimization based on the features of the CPU of the
+build host:
+
+    make EXTRA_CXXFLAGS="-march=native -mtune=native" -j4
 
 To compile with clang and libc++ instead of gcc and libstdc++:
 
