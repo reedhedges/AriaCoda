@@ -86,24 +86,24 @@ class ArDeviceConnection;
 class ArUtil
 {
 public:
-  /// Values for the bits from 0 to 16
+  /// Values with single bits (from 0 to 15) set for use in bitwise comparisons and operations.
   enum BITS { 
-    BIT0 = 0x1, ///< value of BIT0
-    BIT1 = 0x2, ///< value of BIT1
-    BIT2 = 0x4, ///< value of BIT2
-    BIT3 = 0x8, ///< value of BIT3
-    BIT4 = 0x10, ///< value of BIT4
-    BIT5 = 0x20, ///< value of BIT5
-    BIT6 = 0x40, ///< value of BIT6
-    BIT7 = 0x80, ///< value of BIT7
-    BIT8 = 0x100, ///< value of BIT8
-    BIT9 = 0x200, ///< value of BIT9
-    BIT10 = 0x400, ///< value of BIT10
-    BIT11 = 0x800, ///< value of BIT11
-    BIT12 = 0x1000, ///< value of BIT12
-    BIT13 = 0x2000, ///< value of BIT13
-    BIT14 = 0x4000, ///< value of BIT14
-    BIT15 = 0x8000, ///< value of BIT15
+    BIT0 = 0x1, ///< value with bit number 0 set
+    BIT1 = 0x2, ///< value with bit number 1 set
+    BIT2 = 0x4, ///< value with bit number 2 set
+    BIT3 = 0x8, ///< value with bit number 3 set
+    BIT4 = 0x10, ///< value with bit number 4 set
+    BIT5 = 0x20, ///< value with bit number 5 set
+    BIT6 = 0x40, ///< value with bit number 6 set
+    BIT7 = 0x80, ///< value with bit number 7 set
+    BIT8 = 0x100, ///< value with bit number 8 set
+    BIT9 = 0x200, ///< value with bit number 9 set
+    BIT10 = 0x400, ///< value with bit number 10 set
+    BIT11 = 0x800, ///< value with bit number 11 set
+    BIT12 = 0x1000, ///< value with bit number 12 set
+    BIT13 = 0x2000, ///< value with bit number 13 set
+    BIT14 = 0x4000, ///< value with bit number 14 set
+    BIT15 = 0x8000, ///< value with bit number 15 set
   };
 
 #ifdef WIN32
@@ -693,7 +693,11 @@ public:
    * point values, etc. 
    * @note Same as std::numeric_limits<double>::epsilon(), which could be used directly instead.
    */
-  constexpr static double epsilon() { return std::numeric_limits<double>::epsilon(); }
+  constexpr static double epsilon()
+  { 
+    // value in Aria 2.x: return 0.00000001; 
+    return std::numeric_limits<double>::epsilon();
+  }
 
 
   /// This adds two angles together and fixes the result to (-180, 180] 
@@ -854,15 +858,15 @@ public:
      @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath for floor)
   */
   static int roundInt(double val) 
-    { 
-      val += .49;
-      if (val > INT_MAX)
-	return (int) INT_MAX;
-      else if (val < INT_MIN)
-	return (int) INT_MIN;
-      else
-	return((int) floor(val)); 
-    }
+  { 
+    val += .49;
+    if (val > INT_MAX)
+      return (int) INT_MAX;
+    else if (val < INT_MIN)
+      return (int) INT_MIN;
+    else
+      return((int) floor(val)); 
+  }
     
   /// Finds the closest short to double given
   /**
@@ -872,15 +876,15 @@ public:
      @todo Make constexpr if gcc or c++23 (i.e. have constexpr cmath for floor)
   */
   static short roundShort(double val) 
-    { 
-      val += .49;
-      if (val > 32767)
-	return (short) 32767;
-      else if (val < -32768)
-	return (short) -32768;
-      else
-	return((short) floor(val)); 
-    }
+  { 
+    val += .49;
+    if (val > 32767)
+      return (short) 32767;
+    else if (val < -32768)
+      return (short) -32768;
+    else
+      return((short) floor(val)); 
+  }
     
 
   /// Rotates a point around 0 by degrees given
@@ -2705,11 +2709,11 @@ public:
   }
 protected:
   ArMutex myDataMutex;
-  ArLog::LogLevel myLogLevel;
-  std::string myName;
   std::multimap<int, GenericFunctor> myList;
+  ArLog::LogLevel myLogLevel;
   bool mySingleShot;
   bool myLogging;
+  std::string myName;
 };
 
 /** Stores a list of ArFunctor objects together.
