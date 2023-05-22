@@ -121,46 +121,34 @@ protected:
 class LCDData
 {
 	public:
-		LCDData (int number, ArLCDMTX *lcd) {
-			myNumber = number;
-			myLCD = lcd;
-			myConn = NULL;
-			myConnect = false; myConnectReallySet = false;
-			myPort = NULL;
-			myPortType = NULL;
-			myType = NULL;
-			myRemoteTcpPort = 0; myRemoteTcpPortReallySet = false;
-			myBaud = NULL;
-			myAutoConn = NULL;
-			myConnFailOption = NULL;
-		}
+		LCDData (int number, ArLCDMTX *lcd) : myNumber(number), myLCD(lcd) { }
 
 		/// The number of this lcd
-		int myNumber;
+		int myNumber = -1;
 		/// The actual pointer to this lcd
-		ArLCDMTX *myLCD;
+		ArLCDMTX *myLCD = nullptr;
 		// our connection
-		ArDeviceConnection *myConn;
+		ArDeviceConnection *myConn = nullptr;
 		// if we want to connect the lcd
-		bool myConnect;
+		bool myConnect = false;
 		// if myConnect was really set
-		bool myConnectReallySet;
+		bool myConnectReallySet = false;
 		// the port we want to connect the lcd on
-		const char *myPort;
+		const char *myPort = nullptr;
 		// the type of port we want to connect to the lcd on
-		const char *myPortType;
+		const char *myPortType = nullptr;
 		// lcd Type
-		const char *myType;
+		const char *myType = nullptr;
 		// wheather to auto conn
-		const char *myAutoConn;
+		const char *myAutoConn = nullptr;
 		// wheather to disconnect on conn faiure 
-		const char *myConnFailOption;
+		const char *myConnFailOption = nullptr;
 		// lcd tcp port if we're doing a remote host
-		int myRemoteTcpPort;
+		int myRemoteTcpPort = 0;
 		// if our remote lcd tcp port was really set
-		bool myRemoteTcpPortReallySet;
+		bool myRemoteTcpPortReallySet = false;
 		/// the baud we want to use
-		const char *myBaud;
+		const char *myBaud = nullptr;
 };
 
   std::map<int, LCDData *> myLCDs;
