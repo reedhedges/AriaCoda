@@ -73,7 +73,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    signal handling to do anything in Windows. This should not be a problem
    since signals are not used in Windows.
 */
-class ArSignalHandler : public ArASyncTask
+class ArSignalHandler final: public ArASyncTask
 {
 public:
 
@@ -133,12 +133,13 @@ public:
 
   //virtual ~ArSignalHandler();
 
-  AREXPORT virtual void * runThread(void *arg);
-
-  AREXPORT static void signalCB(int sig);
-
   AREXPORT static void logThread();
-protected:
+
+private:
+  virtual void * runThread(void *arg);
+
+  static void signalCB(int sig);
+
 
   ArSignalHandler();
 

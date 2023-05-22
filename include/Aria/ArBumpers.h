@@ -37,7 +37,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
    @ingroup DeviceClasses
 */
-class ArBumpers : public ArRangeDevice
+class ArBumpers final : public ArRangeDevice
 {
 public:
   AREXPORT ArBumpers(size_t currentBufferSize = 30, 
@@ -47,7 +47,7 @@ public:
 		     double angleRange = 135);
   AREXPORT virtual ~ArBumpers();
 
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
   AREXPORT void processReadings();
   AREXPORT void addBumpToBuffer(int bumpValue, int whichBumper);
 

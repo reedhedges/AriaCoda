@@ -122,7 +122,7 @@ public:
     Each ArDPPTUPacket represents a single command.
     The packet is finalized by adding the delimiter (CR"") before being sent.
 */
-class ArDPPTUPacket: public ArBasePacket
+class ArDPPTUPacket final: public ArBasePacket
 {
 public:
   /// Constructor
@@ -143,7 +143,7 @@ private:
 };
 
 /// Driver for the DPPTU
-class ArDPPTU : public ArPTZ
+class ArDPPTU final : public ArPTZ
 {
 public:
   enum DeviceType {
@@ -163,7 +163,7 @@ public:
   AREXPORT virtual ~ArDPPTU();
 
   AREXPORT bool init();
-  AREXPORT virtual const char *getTypeName() { return "dpptu"; }
+  AREXPORT virtual const char *getTypeName() override { return "dpptu"; }
 
   virtual bool canZoom() const { return false; }
   virtual bool canGetRealPanTilt() const { return myCanGetRealPanTilt; }
@@ -202,26 +202,26 @@ public:
 protected:
 ///Move the pan and tilt axes
 //@{
-  virtual bool panTilt_i(double pdeg, double tdeg) 
+  virtual bool panTilt_i(double pdeg, double tdeg) override 
   { 
     return pan(pdeg) && tilt(tdeg); 
   }
 
-  AREXPORT virtual bool pan_i(double deg);
+  AREXPORT virtual bool pan_i(double deg) override;
 
-  virtual bool panRel_i(double deg) 
+  virtual bool panRel_i(double deg) override 
   { 
     return panTilt(myPan+deg, myTilt); 
   }
 
-  AREXPORT virtual bool tilt_i(double deg);
+  AREXPORT virtual bool tilt_i(double deg) override;
 
-  virtual bool tiltRel_i(double deg) 
+  virtual bool tiltRel_i(double deg) override 
   { 
     return panTilt(myPan, myTilt+deg); 
   }
 
-  virtual bool panTiltRel_i(double pdeg, double tdeg) 
+  virtual bool panTiltRel_i(double pdeg, double tdeg) override 
   { 
     return panRel(pdeg) && tiltRel(tdeg);
   }
@@ -254,10 +254,10 @@ public:
 
 
   double getMaxPanSlew() { return myMaxPanSlew; }
-  virtual double getMaxPanSpeed() { return getMaxPanSlew(); }
+  virtual double getMaxPanSpeed() override { return getMaxPanSlew(); }
   double getMinPanSlew() { return myMinPanSlew; }
   double getMaxTiltSlew() { return myMaxTiltSlew; }
-  virtual double getMaxTiltSpeed() { return getMaxTiltSlew(); }
+  virtual double getMaxTiltSpeed() override { return getMaxTiltSlew(); }
   double getMinTiltSlew() { return myMinTiltSlew; }
   double getMaxPanAccel() { return myMaxPanSlew; }
   double getMinPanAccel() { return myMinPanSlew; }

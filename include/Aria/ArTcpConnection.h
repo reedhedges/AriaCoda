@@ -32,7 +32,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 /// For connecting to a device through a TCP network socket
 /// @ingroup UtilityClasses
-class ArTcpConnection: public ArDeviceConnection
+class ArTcpConnection final : public ArDeviceConnection
 {
  public:
   /// Constructor
@@ -40,22 +40,22 @@ class ArTcpConnection: public ArDeviceConnection
   /// Destructor also closes connection
   AREXPORT virtual ~ArTcpConnection();
 
-    // XXX add or delete copy/move constructors/operators
+    // XXX TODO add or delete copy/move constructors/operators
 
   /// Opens a connection to the given host and port
   AREXPORT int open(const char * host = NULL, int port = 8101);
 
   AREXPORT void setPort(const char *host = NULL, int port = 8101);
-  AREXPORT virtual bool openSimple();  
-  AREXPORT virtual int getStatus();
-  AREXPORT virtual bool close();
+  AREXPORT virtual bool openSimple() override;  
+  AREXPORT virtual int getStatus() override;
+  AREXPORT virtual bool close() override;
 // XXX TODO why is data const char*?
   AREXPORT virtual int read(const char *data, unsigned int size, 
-			    unsigned int msWait = 0);
-  AREXPORT virtual int write(const char *data, unsigned int size);
-  AREXPORT virtual const char * getOpenMessage(int messageNumber);
-  AREXPORT virtual ArTime getTimeRead(int index);
-  AREXPORT virtual bool isTimeStamping();
+			    unsigned int msWait = 0) override;
+  AREXPORT virtual int write(const char *data, unsigned int size) override;
+  AREXPORT virtual const char * getOpenMessage(int messageNumber) override;
+  AREXPORT virtual ArTime getTimeRead(int index) override;
+  AREXPORT virtual bool isTimeStamping() override;
 
   /// Gets the name of the host connected to
   AREXPORT std::string getHost();

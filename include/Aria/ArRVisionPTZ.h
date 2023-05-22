@@ -34,7 +34,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *  MUST use thse, if you use anything else your commands won't work.  
  *  @since 2.7.0
 */
-class ArRVisionPacket: public virtual ArBasePacket
+class ArRVisionPacket final : public virtual ArBasePacket
 {
 public:
   /// Constructor
@@ -59,7 +59,7 @@ public:
 	@since 2.7.0
 */
 
-class ArRVisionPTZ : public virtual ArPTZ
+class ArRVisionPTZ final : public virtual ArPTZ
 {
 public:
   AREXPORT explicit ArRVisionPTZ(ArRobot *robot);

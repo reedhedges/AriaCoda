@@ -48,9 +48,9 @@ class ArConfig;
    but that is now obsolete and was replaced by a class that just
    makes its own action group)
 
-   ArActionGroupRatioDrive is better.
+   Note: ArActionGroupRatioDrive is an improved version for teleoperation, and is recommended to be used instead.
 **/
-class ArActionGroupInput : public ArActionGroup
+class ArActionGroupInput final : public ArActionGroup
 {
 public:
   AREXPORT explicit ArActionGroupInput(ArRobot *robot);
@@ -71,7 +71,7 @@ protected:
    you the predefined ArActionGroups in ARIA are made only to be used
    exclusively... they won't combine.
 **/
-class ArActionGroupStop : public ArActionGroup
+class ArActionGroupStop final : public ArActionGroup
 {
 public:
   AREXPORT explicit ArActionGroupStop(ArRobot *robot);
@@ -88,7 +88,7 @@ public:
    predefined ArActionGroups in ARIA are made only to be used
    exclusively... only one can be active at once.
 **/
-class ArActionGroupTeleop : public ArActionGroup
+class ArActionGroupTeleop final : public ArActionGroup
 {
 public:
   AREXPORT explicit ArActionGroupTeleop(ArRobot *robot);
@@ -105,7 +105,7 @@ protected:
    keyboard... Note that you the predefined ArActionGroups in ARIA are
    made only to be used exclusively... only one can be active at once.
 **/
-class ArActionGroupUnguardedTeleop : public ArActionGroup
+class ArActionGroupUnguardedTeleop final : public ArActionGroup
 {
 public:
   AREXPORT explicit ArActionGroupUnguardedTeleop(ArRobot *robot);
@@ -121,7 +121,7 @@ protected:
    you the predefined ArActionGroups in ARIA are made only to be used
    exclusively... only one can be active at once.
 **/
-class ArActionGroupWander : public ArActionGroup
+class ArActionGroupWander final : public ArActionGroup
 {
 public:
   AREXPORT explicit ArActionGroupWander(ArRobot *robot, int forwardVel = 400, int avoidFrontDist = 450, int avoidVel = 200, int avoidTurnAmt = 15);
@@ -135,7 +135,7 @@ public:
    ArActionGroups in ARIA are made only to be used exclusively (one at
    a time)... only one can be active at once.
 **/
-class ArActionGroupRatioDrive : public ArActionGroup
+class ArActionGroupRatioDrive final : public ArActionGroup
 {
 public:
   AREXPORT explicit ArActionGroupRatioDrive(ArRobot *robot);
@@ -162,7 +162,7 @@ protected:
    ArActionGroups in ARIA are made only to be used exclusively (one at
    a time)... only one can be active at once.
 **/
-class ArActionGroupRatioDriveUnsafe : public ArActionGroup
+class ArActionGroupRatioDriveUnsafe final : public ArActionGroup
 {
 public:
   AREXPORT explicit ArActionGroupRatioDriveUnsafe(ArRobot *robot);

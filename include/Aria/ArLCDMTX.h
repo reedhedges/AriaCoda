@@ -51,7 +51,7 @@ passing an index of 1.
 @since 2.8.0
 @ingroup MTX
 */
-class ArLCDMTX : public ArASyncTask
+class ArLCDMTX final: public ArASyncTask
 {
 public:
 	/// Constructor

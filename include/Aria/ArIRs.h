@@ -38,7 +38,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
   @ingroup OptionalClasses  
   @ingroup DeviceClasses
 */
-class ArIRs : public ArRangeDevice
+class ArIRs final : public ArRangeDevice
 {
 public:
   AREXPORT ArIRs(size_t currentBufferSize = 10, 
@@ -47,7 +47,7 @@ public:
 		     int maxSecondsToKeepCurrent = 15);
   AREXPORT virtual ~ArIRs();
 
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
   AREXPORT void processReadings();
 
 protected:

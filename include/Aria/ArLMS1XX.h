@@ -38,7 +38,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 they are written as ascii strings, the protocol is space delimited not fixed
 width values (as in other Packet implementations), so they don't imply number of bytes used in packet output.
 */
-class ArLMS1XXPacket : public ArBasePacket
+class ArLMS1XXPacket final : public ArBasePacket
 {
 public:
   /// Constructor
@@ -200,7 +200,7 @@ protected:
   the appropriate type in program configuration (lms1xx, lms5xx, tim3xx or
   tim510, tim551, tim561, tim571).
 */
-class ArLMS1XX : public ArLaser
+class ArLMS1XX final : public ArLaser
 {
 public:
 

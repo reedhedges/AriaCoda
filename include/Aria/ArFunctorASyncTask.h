@@ -29,16 +29,16 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArFunctor.h"
 
 /// This is like ArASyncTask, but instead of runThread it uses a functor to run
-class ArFunctorASyncTask : public ArASyncTask
+class ArFunctorASyncTask final: public ArASyncTask
 {
 public:
   /// Constructor
   AREXPORT ArFunctorASyncTask(ArRetFunctor1<void *, void *> *functor);
-  /// Destructor
-  AREXPORT virtual ~ArFunctorASyncTask() = default;
+  // Destructor
+  //AREXPORT virtual ~ArFunctorASyncTask() = default;
+private:
   /// Our reimplementation of runThread
-  AREXPORT virtual void *runThread(void *arg) override;
-protected:
+  virtual void *runThread(void *arg) override;
   ArRetFunctor1<void *, void *> *myFunc;
 };
 

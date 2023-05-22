@@ -32,7 +32,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #ifndef ARIA_WRAPPER
 /** @internal */
-class ArSZSeriesPacket : public ArBasePacket
+class ArSZSeriesPacket final : public ArBasePacket
 {
 public:
   /// Constructor
@@ -88,7 +88,7 @@ public:
   void setCrcByte2(unsigned char c)
   { myCrcByte2 = c; }
 
-protected:
+private:
   int deascii(char c);
 
   ArTime myTimeReceived;
@@ -134,7 +134,7 @@ public:
   AREXPORT void setmyName(const char *name )
   { myName.assign(name); }
 
-protected:
+private:
   ArDeviceConnection *myConn;
   ArSZSeriesPacket myPacket;
   
@@ -165,11 +165,11 @@ public:
 		 const char *name = "SZSeries");
   /// Destructor
   AREXPORT virtual ~ArSZSeries();
-  AREXPORT virtual bool blockingConnect();
-  AREXPORT virtual bool asyncConnect();
-  AREXPORT virtual bool disconnect();
-  virtual bool isConnected() { return myIsConnected; }
-  virtual bool isTryingToConnect() 
+  AREXPORT virtual bool blockingConnect() override;
+  AREXPORT virtual bool asyncConnect() override;
+  AREXPORT virtual bool disconnect() override;
+  virtual bool isConnected() override { return myIsConnected; }
+  virtual bool isTryingToConnect() override 
     { 
       if (myStartConnect)
 	return true;
@@ -182,9 +182,9 @@ public:
   /// Logs the information about the sensor
   AREXPORT void log();
 protected:
-  AREXPORT virtual void laserSetName(const char *name);
-  AREXPORT virtual void * runThread(void *arg);
-  AREXPORT virtual void setRobot(ArRobot *robot);
+  AREXPORT virtual void laserSetName(const char *name) override;
+  AREXPORT virtual void * runThread(void *arg) override;
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
   void sensorInterp();
   void failedToConnect();
   void clear();

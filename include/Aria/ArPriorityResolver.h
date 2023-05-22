@@ -31,7 +31,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     This is the default resolver for ArRobot, meaning if you don't do a 
     non-normal init on the robot, or a setResolver, you'll have one these.
 */
-class ArPriorityResolver : public ArResolver
+class ArPriorityResolver final : public ArResolver
 {
 public:
   /// Constructor
@@ -39,7 +39,7 @@ public:
   //AREXPORT virtual ~ArPriorityResolver();
   AREXPORT virtual ArActionDesired *resolve(ArResolver::ActionMap *actions,
 					    ArRobot *robot,
-					    bool logActions = false);
+					    bool logActions = false) override;
 protected:
   ArActionDesired myActionDesired;
 };

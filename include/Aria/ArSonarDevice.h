@@ -46,7 +46,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     @ingroup ImportantClasses
    @ingroup DeviceClasses
 */
-class ArSonarDevice : public ArRangeDevice
+class ArSonarDevice final : public ArRangeDevice
 {
 public:
   /// Constructor

@@ -58,7 +58,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
   @ingroup UtilityClasses
  */ 
 
-class ArSoundsQueue: public ArASyncTask
+class ArSoundsQueue final: public ArASyncTask
 {
 public:
 
@@ -178,7 +178,7 @@ public:
   /** Return true if all initialization callbacks have completed, false
    * otherwise.  
    */
-  AREXPORT bool isInitialized()
+  bool isInitialized()
   {
     return myInitialized;
   }
@@ -236,21 +236,21 @@ public:
 
   /// Create and return a new a functor for pause(), which other modules can use to pause this sounds
   /// queue.
-  AREXPORT ArFunctor* getPauseCallback() 
+  ArFunctor* getPauseCallback() 
   {
     return new ArFunctorC<ArSoundsQueue>(this, &ArSoundsQueue::pause);
   }
 
   /// Create and return a new functor for resume(), which other modules can use to resume this
   ///  sounds queue.
-  AREXPORT ArFunctor* getResumeCallback() 
+  ArFunctor* getResumeCallback() 
   {
     return new ArFunctorC<ArSoundsQueue>(this, &ArSoundsQueue::resume);
   }
 
 
   /// Get the current size of the speech/sound playback queue.
-  AREXPORT size_t getCurrentQueueSize()
+  size_t getCurrentQueueSize()
   {
     size_t size;
     lock();
@@ -260,40 +260,40 @@ public:
   }
 
   /** Add a callback functor to be invoked when playback of one sound or speech utterance starts. */
-  AREXPORT void addSoundStartedCallback(ArFunctor* f)
+  void addSoundStartedCallback(ArFunctor* f)
   {
     myStartPlaybackCBList.push_back(f);
   }
 
   /** Remove a callback functor to be invoked when playback one sound or speech utterance starts. */
-  AREXPORT void remSoundStartedCallback(ArFunctor* f)
+  void remSoundStartedCallback(ArFunctor* f)
   {
     myStartPlaybackCBList.remove(f);
   }
 
   /** Add a callback functor to be invoked when plackback of one sound or speech
    * utterance finishes */
-  AREXPORT void addSoundFinishedCallback(ArFunctor* f)
+  void addSoundFinishedCallback(ArFunctor* f)
   {
     myEndPlaybackCBList.push_back(f);
   }
 
   /** Remove a callback functor to be invoked when plackback of one sound or
    * speech utterance finishes. */
-  AREXPORT void remSoundFinishedCallback(ArFunctor* f)
+  void remSoundFinishedCallback(ArFunctor* f)
   {
     myEndPlaybackCBList.remove(f);
   }
 
   /** Add a callback functor to be invoked when playback of one sound or speech utterance starts. */
-  AREXPORT void addSoundItemStartedCallback(
+  void addSoundItemStartedCallback(
 	  ArFunctor1<ArSoundsQueue::Item> *f)
   {
     myStartItemPlaybackCBList.push_back(f);
   }
 
   /** Remove a callback functor to be invoked when playback one sound or speech utterance starts. */
-  AREXPORT void remSoundItemStartedCallback(
+  void remSoundItemStartedCallback(
 	  ArFunctor1<ArSoundsQueue::Item> *f)
   {
     myStartItemPlaybackCBList.remove(f);
@@ -301,7 +301,7 @@ public:
 
   /** Add a callback functor to be invoked when plackback of one sound or speech
    * utterance finishes */
-  AREXPORT void addSoundItemFinishedCallback(
+  void addSoundItemFinishedCallback(
 	  ArFunctor1<ArSoundsQueue::Item> *f)
   {
     myEndItemPlaybackCBList.push_back(f);
@@ -309,7 +309,7 @@ public:
 
   /** Remove a callback functor to be invoked when plackback of one sound or
    * speech utterance finishes. */
-  AREXPORT void remSoundItemFinishedCallback(
+  void remSoundItemFinishedCallback(
 	  ArFunctor1<ArSoundsQueue::Item> *f)
   {
     myEndItemPlaybackCBList.remove(f);
@@ -318,13 +318,13 @@ public:
   /** Add a callback functor to be invoked when a the sound queue becomes
    * non-empty, that is, when a block of sounds/speech utterances begins.
    */
-  AREXPORT void addQueueNonemptyCallback(ArFunctor* f)
+  void addQueueNonemptyCallback(ArFunctor* f)
   {
     myQueueNonemptyCallbacks.push_back(f);
   }
 
   /** Remove a functor added by addQueueNonemptyCallback(). */
-  AREXPORT void remQueueNonemptyCallback(ArFunctor* f)
+  void remQueueNonemptyCallback(ArFunctor* f)
   {
     myQueueNonemptyCallbacks.remove(f);
   }
@@ -334,13 +334,13 @@ public:
    * that is, when a block of sounds/speech utterances ends. This will not
    * be called when the sound queue first begins running.
    */
-  AREXPORT void addQueueEmptyCallback(ArFunctor* f)
+  void addQueueEmptyCallback(ArFunctor* f)
   {
     myQueueEmptyCallbacks.push_back(f);
   }
 
   /** Remove a functor added by addQueueEmptyCallback() */
-  AREXPORT void remQueueEmptyCallback(ArFunctor* f)
+  void remQueueEmptyCallback(ArFunctor* f)
   {
     myQueueEmptyCallbacks.remove(f);
   }
@@ -392,7 +392,7 @@ public:
    * with those callbacks. 
    * @sa Item
    */
-  AREXPORT void setSpeakCallback(PlayItemFunctor *cb) {
+  void setSpeakCallback(PlayItemFunctor *cb) {
     myDefaultSpeakCB = cb;
   }
 
@@ -400,7 +400,7 @@ public:
    * by speak() 
    * @sa Item
    */
-  AREXPORT void setInterruptSpeechCallback(InterruptItemFunctor *cb) {
+  void setInterruptSpeechCallback(InterruptItemFunctor *cb) {
     myDefaultInterruptSpeechCB = cb;
   }
 
@@ -409,12 +409,12 @@ public:
    * this callback.
    * @sa Item
    */
-  AREXPORT void setPlayFileCallback(PlayItemFunctor *cb) {
+  void setPlayFileCallback(PlayItemFunctor *cb) {
     myDefaultPlayFileCB = cb;
   }
 
   /** @deprecated use setPlayFileCallback() */
-  AREXPORT void setPlayWavFileCallback(PlayItemFunctor* cb) {
+  void setPlayWavFileCallback(PlayItemFunctor* cb) {
     setPlayFileCallback(cb);
   }
 
@@ -422,12 +422,12 @@ public:
    * by the play() convenience method. 
    * @sa Item
    */
-  AREXPORT void setInterruptFileCallback(InterruptItemFunctor *cb) {
+  void setInterruptFileCallback(InterruptItemFunctor *cb) {
     myDefaultInterruptFileCB = cb;
   }
 
   /** @deprecated use setInterruptFileCallback() */
-  AREXPORT void setInterruptWavFileCallback(InterruptItemFunctor* cb) {
+  void setInterruptWavFileCallback(InterruptItemFunctor* cb) {
     setInterruptFileCallback(cb);
   }
   
@@ -494,10 +494,12 @@ public:
     myDefaultPlayConditionCB = f;
   }
   
+private:
+
 #ifndef ARIA_WRAPPPER
   /// main function for thread
   /** @internal */
-  AREXPORT virtual void *runThread(void *arg) override;
+  virtual void *runThread(void *arg) override;
 #endif
 
 private:

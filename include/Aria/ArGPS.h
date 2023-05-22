@@ -589,7 +589,7 @@ class ArRobotPacket;
 class ArRobot;
 
 /// @since Aria 2.7.4
-class ArSimulatedGPS : public virtual ArGPS
+class ArSimulatedGPS final : public virtual ArGPS
 {
   bool myHaveDummyPosition;
   ArRetFunctor1C<bool, ArSimulatedGPS, ArRobotPacket*> mySimStatHandlerCB;

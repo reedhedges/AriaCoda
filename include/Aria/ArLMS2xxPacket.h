@@ -42,7 +42,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
    @internal
 */
 
-class ArLMS2xxPacket: public ArBasePacket
+class ArLMS2xxPacket final : public ArBasePacket
 {
 public:
   /// Constructor

@@ -32,7 +32,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 #ifndef ARIA_WRAPPER
 /** @internal */
-class ArS3SeriesPacket : public ArBasePacket
+class ArS3SeriesPacket final : public ArBasePacket
 {
 public:
   /// Constructor
@@ -121,7 +121,7 @@ public:
   void setProtocolVersionByte2(unsigned char c)
   { myProtocolVersionByte2 = c; }
 
-protected:
+private:
 
   ArTime myTimeReceived;
 
@@ -195,7 +195,7 @@ protected:
   @see ArLaserConnector
   Use ArLaserConnector to connect to a laser, determining type based on robot and program configuration  parameters.
 */
-class ArS3Series : public ArLaser
+class ArS3Series final : public ArLaser
 {
 public:
   /// Constructor
@@ -203,11 +203,11 @@ public:
 		 const char *name = "S3Series");
   /// Destructor
   AREXPORT virtual ~ArS3Series();
-  AREXPORT virtual bool blockingConnect();
-  AREXPORT virtual bool asyncConnect();
-  AREXPORT virtual bool disconnect();
-  virtual bool isConnected() { return myIsConnected; }
-  virtual bool isTryingToConnect() 
+  AREXPORT virtual bool blockingConnect() override;
+  AREXPORT virtual bool asyncConnect() override;
+  AREXPORT virtual bool disconnect() override;
+  virtual bool isConnected() override { return myIsConnected; }
+  virtual bool isTryingToConnect() override 
     { 
       if (myStartConnect)
 	return true;
@@ -232,7 +232,7 @@ public:
 
   /// Logs the information about the sensor
   AREXPORT void log();
-protected:
+private:
   virtual void laserSetName(const char *name);
   virtual void * runThread(void *arg);
   virtual void setRobot(ArRobot *robot);

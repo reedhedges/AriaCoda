@@ -45,7 +45,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 /** 
     @since 2.8.0
 */
-class ArBatteryMTX : public virtual ArASyncTask
+class ArBatteryMTX final : public virtual ArASyncTask
 {
 public:
   /// Constructor

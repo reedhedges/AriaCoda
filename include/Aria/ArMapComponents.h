@@ -113,7 +113,7 @@ class ArMD5Calculator;
  * If the scanType is specified, then it is used as a prefix to the DATA and
  * LINES tags that are contained in the map file.
 **/
-class ArMapScan : public ArMapScanInterface 
+class ArMapScan final : public ArMapScanInterface 
 {
 public:
 
@@ -433,7 +433,7 @@ protected:
  * forbidden areas; and, special data objects that are usually automatically
  * generated during the scanning process.
 **/
-class ArMapObjects : public ArMapObjectsInterface				
+class ArMapObjects final : public ArMapObjectsInterface				
 {
 
 public :
@@ -564,7 +564,7 @@ protected:
  * are defined in ArMapInfoInterface::InfoType, but applications may define 
  * additional types.  (See ArMapInfo::ArMapInfo(int*, char**, size_t))
 **/
-class ArMapInfo : public ArMapInfoInterface
+class ArMapInfo final : public ArMapInfoInterface
 {
 public:
 
@@ -719,7 +719,7 @@ protected:
  * associated with an Aria map but which does not fit neatly into any of the 
  * other components.  
 **/
-class ArMapSupplement : public ArMapSupplementInterface 
+class ArMapSupplement final : public ArMapSupplementInterface 
 {
 public:
 
@@ -836,7 +836,7 @@ typedef std::map<std::string, std::string, ArDataTagCaseCmpOp> ArDataTagToScanTy
  * ArMap should be used instead.  The exception to this rule may be in off-line 
  * authoring tools where error checking can be performed at a higher level.
 **/
-class ArMapSimple : public ArMapInterface
+class ArMapSimple final : public ArMapInterface
 {
 public:
 

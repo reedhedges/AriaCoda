@@ -62,9 +62,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  * @see ArLaser
  * @see ArRangeDevice
  *
- * @since 2.7.0
+ * @since 2.7.0 (previously named ArSick)
 **/
-class ArLMS2xx : public ArLaser
+class ArLMS2xx final : public ArLaser
 {
 public:
   /// Constructor
@@ -76,15 +76,15 @@ public:
   AREXPORT virtual ~ArLMS2xx();
 
   /// Connect to the laser while blocking
-  AREXPORT virtual bool blockingConnect();
+  AREXPORT virtual bool blockingConnect() override;
   /// Connect to the laser asynchronously
   AREXPORT bool asyncConnect();
   /// Disconnect from the laser
-  AREXPORT virtual bool disconnect();
+  AREXPORT virtual bool disconnect() override;
   /// Sees if this is connected to the laser
-  AREXPORT virtual bool isConnected() 
+  AREXPORT virtual bool isConnected() override
     { if (myState == STATE_CONNECTED) return true; else return false; }
-  AREXPORT virtual bool isTryingToConnect() 
+  AREXPORT virtual bool isTryingToConnect() override 
     { 
       if (myState != STATE_CONNECTED && myState != STATE_NONE) 
 	return true; 
@@ -95,54 +95,55 @@ public:
     }
 
   /// Sets the device connection
-  AREXPORT virtual void setDeviceConnection(ArDeviceConnection *conn);
+  AREXPORT virtual void setDeviceConnection(ArDeviceConnection *conn) override;
 
 #ifndef ARIA_WRAPPER
   /** The internal function used by the ArRangeDeviceThreaded
    *  @internal
    */
-  AREXPORT virtual void * runThread(void *arg);
+  AREXPORT virtual void * runThread(void *arg) override;
 #endif
 
-  AREXPORT virtual void setRobot(ArRobot *robot);
-protected:
+  AREXPORT virtual void setRobot(ArRobot *robot) override;
+
+private:
   // The packet handler for when connected to the simulator
-  AREXPORT bool simPacketHandler(ArRobotPacket * packet);
+  bool simPacketHandler(ArRobotPacket * packet);
   // The function called if the laser isn't running in its own thread and isn't simulated
-  AREXPORT void sensorInterpCallback();
+  void sensorInterpCallback();
   // An internal function for connecting to the sim
-  AREXPORT bool internalConnectSim();
+  bool internalConnectSim();
   /// An internal function, single loop event to connect to laser
-  AREXPORT int internalConnectHandler();
+  int internalConnectHandler();
   // The internal function which processes the sickPackets
-  AREXPORT void processPacket(ArLMS2xxPacket *packet, ArPose pose, 
+  void processPacket(ArLMS2xxPacket *packet, ArPose pose, 
 			      ArPose encoderPose, unsigned int counter,
 			      bool deinterlace, ArPose deinterlaceDelta);
   // The internal function that gets does the work
-  AREXPORT void runOnce(bool lockRobot);
+  void runOnce(bool lockRobot);
   // Internal function, shouldn't be used, drops the conn because of error
-  AREXPORT void dropConnection();
+  void dropConnection();
   // Internal function, shouldn't be used, denotes the conn failed
-  AREXPORT void failedConnect();
+  void failedConnect();
   // Internal function, shouldn't be used, does the after conn stuff
-  AREXPORT void madeConnection();
+  void madeConnection();
 
   /// Internal function that gets whether the laser is simulated or not (just for the old ArSick)
-  AREXPORT bool sickGetIsUsingSim();
+  bool sickGetIsUsingSim();
 
   /// Internal function that sets whether the laser is simulated or not (just for the old ArSick)
-  AREXPORT void sickSetIsUsingSim(bool usingSim);
+  void sickSetIsUsingSim(bool usingSim);
 
   /// internal function to runOnRobot so that ArSick can do that while this class won't
-  AREXPORT bool internalRunOnRobot();
+  bool internalRunOnRobot();
 
   /// Finishes getting the unset parameters from the robot then
   /// setting some internal variables that need it
   bool finishParams();
 
-  AREXPORT virtual bool laserCheckParams();
+  virtual bool laserCheckParams() override;
 
-  AREXPORT virtual void laserSetName(const char *name);
+  virtual void laserSetName(const char *name) override;
 
   enum State {
     STATE_NONE, ///< Nothing, haven't tried to connect or anything
@@ -160,7 +161,7 @@ protected:
     STATE_CONNECTED ///< We're connected and getting readings
   };
   /// Internal function for switching states
-  AREXPORT void switchState(State state);
+  void switchState(State state);
   State myState;
   ArTime myStateStart;
   ArFunctorC<ArLMS2xx> myRobotConnectCB;

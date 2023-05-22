@@ -49,19 +49,19 @@ class ArRobotPacket;
    @since 2.7.0
 **/
 
-class ArSimulatedLaser : public ArLaser
+class ArSimulatedLaser final : public ArLaser
 {
 public:
   /// Constructor
   AREXPORT explicit ArSimulatedLaser(ArLaser *laser);
 
 
-  AREXPORT virtual bool blockingConnect();
-  AREXPORT virtual bool asyncConnect();
-  AREXPORT virtual bool disconnect();
+  AREXPORT virtual bool blockingConnect() override;
+  AREXPORT virtual bool asyncConnect() override;
+  AREXPORT virtual bool disconnect() override;
   AREXPORT virtual bool isConnected()
     { return myIsConnected; }
-  AREXPORT virtual bool isTryingToConnect()
+  AREXPORT virtual bool isTryingToConnect() override
     { 
       if (myStartConnect)
 	return true;
@@ -71,11 +71,11 @@ public:
 	return false;
     }  
 
-protected:
-  AREXPORT virtual void * runThread(void *arg);
-  AREXPORT virtual bool laserCheckParams();
-  AREXPORT bool finishParams();
-  AREXPORT bool simPacketHandler(ArRobotPacket *packet);
+private:
+  virtual void * runThread(void *arg) override;
+  virtual bool laserCheckParams() override;
+  bool finishParams();
+  bool simPacketHandler(ArRobotPacket *packet);
   ArLaser *myLaser;
 
   double mySimBegin;

@@ -147,7 +147,7 @@ public:
     must use only byteToBuf(), uByteToBuf(), byte4ToBuf(), and string and 
     data packing methods, no other ArBasePacket methods are implemented for VCC4.
 */
-class ArVCC4Packet: public virtual ArBasePacket
+class ArVCC4Packet final : public virtual ArBasePacket
 {
 public:
   /// Constructor
@@ -170,7 +170,7 @@ private:
   using ArBasePacket::byte8ToBuf;
 };
 
-class ArVCC4 : public virtual ArPTZ
+class ArVCC4 final : public virtual ArPTZ
 {
 public:
   // the states for communication

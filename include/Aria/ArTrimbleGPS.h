@@ -60,7 +60,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *
  *  @since 2.6.0
  */
-class ArTrimbleGPS : public virtual ArGPS {
+class ArTrimbleGPS final : public virtual ArGPS {
 private:
   ArFunctor1C<ArTrimbleGPS, ArNMEAParser::Message> myAuxDataHandler;
   void handlePTNLAG001(ArNMEAParser::Message message);

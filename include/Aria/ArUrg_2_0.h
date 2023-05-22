@@ -47,7 +47,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
     @sa ArLaserConnector
     @sa ArLaser
  */
-class ArUrg_2_0 : public ArLaser
+class ArUrg_2_0 final : public ArLaser
 {
 public:
   /// Constructor
@@ -55,11 +55,11 @@ public:
 		 const char *name = "urg2.0");
   /// Destructor
   AREXPORT virtual ~ArUrg_2_0();
-  AREXPORT virtual bool blockingConnect();
-  AREXPORT virtual bool asyncConnect();
-  AREXPORT virtual bool disconnect();
-  AREXPORT virtual bool isConnected() { return myIsConnected; }
-  AREXPORT virtual bool isTryingToConnect() 
+  AREXPORT virtual bool blockingConnect() override;
+  AREXPORT virtual bool asyncConnect() override;
+  AREXPORT virtual bool disconnect() override;
+  AREXPORT virtual bool isConnected() override { return myIsConnected; }
+  AREXPORT virtual bool isTryingToConnect() override 
     { 
       if (myStartConnect)
 	return true;
@@ -71,16 +71,16 @@ public:
 
   /// Logs the information about the sensor
   AREXPORT void log();
-protected:
+private:
   /// Sets the parameters that control what data you get from the urg
-  AREXPORT bool setParams(
+  bool setParams(
 	  double startingDegrees = -135, double endingDegrees = 135,
 	  double incrementDegrees = 1, bool flipped = false);
   /// Sets the parameters that control what data you get from the urg
-  AREXPORT bool setParamsBySteps(
+  bool setParamsBySteps(
 	  int startingStep = 0, int endingStep = 768, int clusterCount = 3,
 	  bool flipped = false);
-  AREXPORT virtual void * runThread(void *arg);
+  virtual void * runThread(void *arg) override;
   /// internal call to write a string to the urg
   bool writeLine(const char *str);
   /// internal call to read a string from the urg
@@ -94,9 +94,9 @@ protected:
 	  char *status, unsigned int size, unsigned int msWait);
 
   void sensorInterp();
-  AREXPORT virtual void setRobot(ArRobot *robot);
-  AREXPORT virtual bool laserCheckParams();
-  AREXPORT virtual void laserSetName(const char *name);
+  virtual void setRobot(ArRobot *robot) override;
+  virtual bool laserCheckParams() override;
+  virtual void laserSetName(const char *name) override;
   
   void failedToConnect();
   ArMutex myReadingMutex;

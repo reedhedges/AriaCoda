@@ -122,7 +122,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 /// Then, to access sonar data, use ArSonarDevice or ArRobot interfaces.
 /// @sa ArSonarDevice
 /// @since 2.8.0
-class ArSonarMTX : public ArASyncTask
+/// @todo Remove virtual functions (or remove 'virtual') that seem to be copied from ArRangeDevice classes? (but this class does not derive from ArRangeDevice)
+class ArSonarMTX final: public ArASyncTask
 {
 public:
   /// Constructor
@@ -464,7 +465,7 @@ enum Headers  : uint8_t {
 
 
 
-protected:
+private:
   ArDeviceConnection *myConn;
 
   std::string myName;
@@ -489,8 +490,8 @@ protected:
 	ArRobot *myRobot;
   ArFunctorC<ArSonarMTX> myProcessCB;
 
-  AREXPORT virtual void sonarSetName(const char *name);
-  AREXPORT virtual void * runThread(void *arg);
+  virtual void sonarSetName(const char *name);
+  virtual void * runThread(void *arg) override;
 	
   void sensorInterp();
   void failedToConnect();
@@ -524,6 +525,8 @@ protected:
 
 	// first index is transducer reletive to this board
 	// second index is defined below 
+  // TODO why is this a map of maps rather than a map or vector or array of structs?
+  // This map and SonarInfo enum is also duplicated in ArRobotParams, but the enums are different. Is this done this way so there are no dependencies between ArSonarMTX and ArRobotParams in the header files?
   std::map<int, std::map<int, int> > mySonarMap;
   enum SonarInfo 
   { 

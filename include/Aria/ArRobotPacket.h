@@ -41,7 +41,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  
    @internal
  */
-class ArRobotPacket: public ArBasePacket
+class ArRobotPacket final : public ArBasePacket
 {
 public:
   /// Constructor
@@ -55,7 +55,7 @@ public:
   AREXPORT ArRobotPacket &operator=(const ArRobotPacket &other);
 
 
-  // XXX should also include move constructor and  move assignment operator
+  // XXX TODO should also include move constructor and  move assignment operator?
 
   /// returns true if the checksum matches what it should be
   AREXPORT bool verifyCheckSum();
