@@ -426,7 +426,8 @@ AREXPORT void Aria::addExitCallback(ArFunctor *functor, int position)
   ArLog::log(ourExitCallbacksLogLevel,
 	"Aria::addExitCallback: Adding callback at position %d with name '%s'",
 	     position, functor->getName());
-  ourExitCallbacks.insert(std::pair<int, ArFunctor *>(position, functor));
+  //ourExitCallbacks.insert(std::pair<int, ArFunctor *>(position, functor));
+  ourExitCallbacks.insert(ExitCallbacksType::value_type{position, functor});
   ourExitCallbacksMutex.unlock();
 }
 
@@ -797,8 +798,8 @@ AREXPORT void Aria::logOptions()
 AREXPORT void Aria::addParseArgsCB(ArRetFunctor<bool> *functor, 
 					  int position)
 {
-  ourParseArgCBs.insert(std::pair<int, ArRetFunctor<bool> *>(position, 
-							     functor));
+  //ourParseArgCBs.insert(std::pair<int, ArRetFunctor<bool> *>(position, functor));
+  ourParseArgCBs.insert(ParseArgCBsType::value_type{position, functor});
 }
 
 AREXPORT void Aria::setParseArgLogLevel(ArLog::LogLevel level)
@@ -808,7 +809,8 @@ AREXPORT void Aria::setParseArgLogLevel(ArLog::LogLevel level)
 
 AREXPORT void Aria::addLogOptionsCB(ArFunctor *functor, int position)
 {
-  ourLogOptionsCBs.insert(std::pair<int, ArFunctor *>(position, functor));
+  //ourLogOptionsCBs.insert(std::pair<int, ArFunctor *>(position, functor));
+  ourLogOptionsCBs.insert(LogOptionsCBsType::value_type{position, functor});
 }
 
 AREXPORT void Aria::setExitCallbacksLogLevel(ArLog::LogLevel level)

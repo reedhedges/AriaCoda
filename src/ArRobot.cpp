@@ -26,6 +26,9 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <time.h>
 #include <ctype.h>
 #include <limits.h>
+#include <list>
+#include <vector>
+#include <algorithm>
 
 #include "Aria/ArRobot.h"
 #include "Aria/ArLog.h"
@@ -1041,19 +1044,18 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
 
   if (myAsyncConnectState >= 3)
   {
-    bool handled;
-    std::list<ArRetFunctor1<bool, ArRobotPacket *> *>::iterator it;
+    bool handled = false;
+    //std::list<ArRetFunctor1<bool, ArRobotPacket *> *>::iterator it;
     while ((packet = myReceiver.receivePacket(0)) != NULL)
     {
       //printf("0x%x\n", packet->getID());
-      for (handled = false, it = myPacketHandlerList.begin(); 
-	   it != myPacketHandlerList.end() && handled == false; 
-	   it++)
+      handled = false;
+      for (auto it = myPacketHandlerList.begin(); it != myPacketHandlerList.end() && handled == false; it++)
       {
-	if ((*it) != NULL && (*it)->invokeR(packet)) 
-	  handled = true;
-	else
-	  packet->resetRead();
+        if ((*it) != NULL && (*it)->invokeR(packet)) 
+          handled = true;
+        else
+          packet->resetRead();
       }
     }
   }
@@ -1816,11 +1818,11 @@ AREXPORT bool ArRobot::haveRequestedIOPackets()
 
 void ArRobot::startStabilization()
 {
-  std::list<ArFunctor *>::iterator it;
+  //std::list<ArFunctor *>::iterator it;
   myIsStabilizing = true;
   myStartedStabilizing.setToNow();
 
-  for (it = myStabilizingCBList.begin(); 
+  for (auto it = myStabilizingCBList.begin(); 
       it != myStabilizingCBList.end(); 
       it++)
     (*it)->invoke();
@@ -1829,7 +1831,7 @@ void ArRobot::startStabilization()
 
 void ArRobot::finishedConnection()
 {
-  std::list<ArFunctor *>::iterator it;
+  //std::list<ArFunctor *>::iterator it;
 
   myIsStabilizing = false;
   myIsConnected = true;
@@ -1837,7 +1839,7 @@ void ArRobot::finishedConnection()
   myBlockingConnectRun = false;
   resetTripOdometer();
 
-  for (it = myConnectCBList.begin(); it != myConnectCBList.end(); it++)
+  for (auto it = myConnectCBList.begin(); it != myConnectCBList.end(); it++)
     (*it)->invoke();
 
   myConnectionTimeoutMutex.lock();
@@ -1850,13 +1852,13 @@ void ArRobot::finishedConnection()
 
 void ArRobot::failedConnect()
 {
-  std::list<ArFunctor *>::iterator it;  
+  //std::list<ArFunctor *>::iterator it;  
 
   myAsyncConnectFlag = false;
   myBlockingConnectRun = false;
   ArLog::log(ArLog::Terse, "Failed to connect to robot.");
   myIsConnected = false;
-  for (it = myFailedConnectCBList.begin(); 
+  for (auto it = myFailedConnectCBList.begin(); 
       it != myFailedConnectCBList.end(); 
       it++)
     (*it)->invoke();
@@ -1881,7 +1883,7 @@ void ArRobot::failedConnect()
 
 AREXPORT bool ArRobot::disconnect()
 {
-  std::list<ArFunctor *>::iterator it;  
+  //std::list<ArFunctor *>::iterator it;  
   bool ret;
   ArSerialConnection *serConn;
 
@@ -1891,7 +1893,7 @@ AREXPORT bool ArRobot::disconnect()
   ArLog::log(ArLog::Terse, "Disconnecting from robot.");
   if (myIsConnected)
   {
-    for (it = myDisconnectNormallyCBList.begin(); 
+    for (auto it = myDisconnectNormallyCBList.begin(); 
         it != myDisconnectNormallyCBList.end(); 
         it++)
       (*it)->invoke();
@@ -1923,7 +1925,7 @@ AREXPORT bool ArRobot::disconnect()
 void ArRobot::dropConnection(const char *technicalReason,
 				      const char *userReason)
 {
-  std::list<ArFunctor *>::iterator it;  
+  //std::list<ArFunctor *>::iterator it;  
 
   if (!myIsConnected)
     return;
@@ -1940,7 +1942,7 @@ void ArRobot::dropConnection(const char *technicalReason,
 
   ArLog::log(ArLog::Terse, myDropConnectionReason.c_str());
   myIsConnected = false;
-  for (it = myDisconnectOnErrorCBList.begin(); 
+  for (auto it = myDisconnectOnErrorCBList.begin(); 
       it != myDisconnectOnErrorCBList.end(); 
       it++)
     (*it)->invoke();
@@ -2709,7 +2711,8 @@ AREXPORT void ArRobot::addPacketHandler(
 	ArListPos::Pos position) 
 {
   if (position == ArListPos::FIRST)
-    myPacketHandlerList.push_front(functor);
+    //myPacketHandlerList.push_front(functor);
+    myPacketHandlerList.insert(myPacketHandlerList.begin(), functor);
   else if (position == ArListPos::LAST)
     myPacketHandlerList.push_back(functor);
   else
@@ -2724,7 +2727,9 @@ AREXPORT void ArRobot::addPacketHandler(
 AREXPORT void ArRobot::remPacketHandler(
 	ArRetFunctor1<bool, ArRobotPacket *> *functor)
 {
-  myPacketHandlerList.remove(functor);
+  auto f = std::find(myPacketHandlerList.begin(), myPacketHandlerList.end(), functor);
+  if(f != myPacketHandlerList.end())
+    myPacketHandlerList.erase(f);
 }
 
 /**
@@ -2741,7 +2746,8 @@ AREXPORT void ArRobot::addConnectCB(ArFunctor *functor,
 				    ArListPos::Pos position)
 {
   if (position == ArListPos::FIRST)
-    myConnectCBList.push_front(functor);
+    //myConnectCBList.push_front(functor);
+    myConnectCBList.insert(myConnectCBList.begin(), functor);
   else if (position == ArListPos::LAST)
     myConnectCBList.push_back(functor);
   else
@@ -2755,7 +2761,9 @@ AREXPORT void ArRobot::addConnectCB(ArFunctor *functor,
 **/
 AREXPORT void ArRobot::remConnectCB(ArFunctor *functor)
 {
-  myConnectCBList.remove(functor);
+  auto f = std::find(myConnectCBList.begin(), myConnectCBList.end(), functor);
+  if(f != myConnectCBList.end())
+    myConnectCBList.erase(f);
 }
 
 
@@ -2776,7 +2784,8 @@ AREXPORT void ArRobot::addFailedConnectCB(ArFunctor *functor,
 					  ArListPos::Pos position)
 {
   if (position == ArListPos::FIRST)
-    myFailedConnectCBList.push_front(functor);
+    //myFailedConnectCBList.push_front(functor);
+    myFailedConnectCBList.insert(myFailedConnectCBList.begin(), functor);
   else if (position == ArListPos::LAST)
     myFailedConnectCBList.push_back(functor);
   else
@@ -2790,7 +2799,9 @@ AREXPORT void ArRobot::addFailedConnectCB(ArFunctor *functor,
 **/
 AREXPORT void ArRobot::remFailedConnectCB(ArFunctor *functor)
 {
-  myFailedConnectCBList.remove(functor);
+  auto f = std::find(myFailedConnectCBList.begin(), myFailedConnectCBList.end(), functor);
+  if(f != myFailedConnectCBList.end())
+    myFailedConnectCBList.erase(f);
 }
 
 /** Adds a disconnect normally callback,which is an ArFunctor, created as an 
@@ -2808,7 +2819,8 @@ AREXPORT void ArRobot::addDisconnectNormallyCB(ArFunctor *functor,
 					       ArListPos::Pos position)
 {
   if (position == ArListPos::FIRST)
-    myDisconnectNormallyCBList.push_front(functor);
+    //myDisconnectNormallyCBList.push_front(functor);
+    myDisconnectNormallyCBList.insert(myDisconnectNormallyCBList.begin(), functor);
   else if (position == ArListPos::LAST)
     myDisconnectNormallyCBList.push_back(functor);
   else
@@ -2822,7 +2834,9 @@ AREXPORT void ArRobot::addDisconnectNormallyCB(ArFunctor *functor,
 **/
 AREXPORT void ArRobot::remDisconnectNormallyCB(ArFunctor *functor)
 {
-  myDisconnectNormallyCBList.remove(functor);
+  auto f = std::find(myDisconnectNormallyCBList.begin(), myDisconnectNormallyCBList.end(), functor);
+  if(f != myDisconnectNormallyCBList.end())
+    myDisconnectNormallyCBList.erase(f);
 }
 
 /** Adds a disconnect on error callback, which is an ArFunctor, created as an 
@@ -2845,7 +2859,8 @@ AREXPORT void ArRobot::addDisconnectOnErrorCB(ArFunctor *functor,
 					      ArListPos::Pos position)
 {
   if (position == ArListPos::FIRST)
-    myDisconnectOnErrorCBList.push_front(functor);
+    //myDisconnectOnErrorCBList.push_front(functor);
+    myDisconnectOnErrorCBList.insert(myDisconnectOnErrorCBList.begin(), functor);
   else if (position == ArListPos::LAST)
     myDisconnectOnErrorCBList.push_back(functor);
   else
@@ -2859,7 +2874,9 @@ AREXPORT void ArRobot::addDisconnectOnErrorCB(ArFunctor *functor,
 **/
 AREXPORT void ArRobot::remDisconnectOnErrorCB(ArFunctor *functor)
 {
-  myDisconnectOnErrorCBList.remove(functor);
+  auto f = std::find(myDisconnectOnErrorCBList.begin(), myDisconnectOnErrorCBList.end(), functor);
+  if(f != myDisconnectOnErrorCBList.end())
+    myDisconnectOnErrorCBList.erase(f);
 }
 
 /**
@@ -2877,7 +2894,8 @@ AREXPORT void ArRobot::addRunExitCB(ArFunctor *functor,
 				    ArListPos::Pos position)
 {
   if (position == ArListPos::FIRST)
-    myRunExitCBList.push_front(functor);
+    //myRunExitCBList.push_front(functor);
+    myRunExitCBList.insert(myRunExitCBList.begin(), functor);
   else if (position == ArListPos::LAST)
     myRunExitCBList.push_back(functor);
   else
@@ -2890,7 +2908,9 @@ AREXPORT void ArRobot::addRunExitCB(ArFunctor *functor,
 **/
 AREXPORT void ArRobot::remRunExitCB(ArFunctor *functor)
 {
-  myRunExitCBList.remove(functor);
+  auto f = std::find(myRunExitCBList.begin(), myRunExitCBList.end(), functor);
+  if(f != myRunExitCBList.end())
+    myRunExitCBList.erase(f);
 }
 
 /**
@@ -2909,7 +2929,8 @@ AREXPORT void ArRobot::addStabilizingCB(ArFunctor *functor,
 				       ArListPos::Pos position)
 {
   if (position == ArListPos::FIRST)
-    myStabilizingCBList.push_front(functor);
+    //myStabilizingCBList.push_front(functor);
+    myStabilizingCBList.insert(myStabilizingCBList.begin(), functor);
   else if (position == ArListPos::LAST)
     myStabilizingCBList.push_back(functor);
   else
@@ -2923,14 +2944,11 @@ AREXPORT void ArRobot::addStabilizingCB(ArFunctor *functor,
 **/
 AREXPORT void ArRobot::remStabilizingCB(ArFunctor *functor)
 {
-  myStabilizingCBList.remove(functor);
+  auto f = std::find(myStabilizingCBList.begin(), myStabilizingCBList.end(), functor);
+  if(f == myStabilizingCBList.end()) return;
+  myStabilizingCBList.erase(f);
 }
 
-
-std::list<ArFunctor *> * ArRobot::getRunExitListCopy()
-{
-  return(new std::list<ArFunctor *>(myRunExitCBList));
-}
 
 /**
    This will suspend the calling thread until the ArRobot's run loop has
@@ -3386,7 +3404,8 @@ AREXPORT bool ArRobot::addAction(ArAction *action, int priority)
   }
   
   action->setRobot(this);
-  myActions.insert(std::pair<int, ArAction *>(priority, action));
+  //myActions.insert(std::pair<int, ArAction *>(priority, action));
+  myActions.insert(ArResolver::ActionMap::value_type{priority, action});
   return true;
 }
 
@@ -4533,8 +4552,8 @@ void ArRobot::stateReflector()
 
 bool ArRobot::handlePacket(ArRobotPacket *packet)
 {
-  std::list<ArRetFunctor1<bool, ArRobotPacket *> *>::iterator it;
-  bool handled;
+  //std::list<ArRetFunctor1<bool, ArRobotPacket *> *>::iterator it;
+  //bool handled;
 
   lock();
 
@@ -4605,15 +4624,15 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
     return false;
   }
 
-  for (handled = false, it = myPacketHandlerList.begin(); 
+  bool handled = false;
+  for (auto it = myPacketHandlerList.begin(); 
        it != myPacketHandlerList.end() && handled == false; 
        it++)
   {
     if ((*it) != NULL && (*it)->invokeR(packet)) 
     {
       if (myPacketsReceivedTracking)
-	ArLog::log(ArLog::Normal, "Handled by %s",
-		   (*it)->getName());
+	      ArLog::log(ArLog::Normal, "Handled by %s", (*it)->getName());
       handled = true;
     }
     else
@@ -5242,9 +5261,9 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   }
   myMotorPacCurrentCount++;
 
-  const int x = (packet->bufToUByte2() & 0x7fff);
-  const int y = (packet->bufToUByte2() & 0x7fff);
-  const int th = packet->bufToByte2();
+  int x = (packet->bufToUByte2() & 0x7fff);
+  int y = (packet->bufToUByte2() & 0x7fff);
+  int th = packet->bufToByte2();
 
   if (myFakeFirstEncoderPose)
   {
@@ -5306,7 +5325,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   myRightVel = myParams->getVelConvFactor() * packet->bufToByte2();
   myVel = (myLeftVel + myRightVel)/2.0;
 
-  const double batteryVoltage = packet->bufToUByte() * .1;
+  double batteryVoltage = packet->bufToUByte() * .1;
   if (!myIgnoreMicroControllerBatteryInfo)
   {
     myBatteryVoltage = batteryVoltage;
@@ -5330,8 +5349,8 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
   int numReadings;
   for (numReadings = packet->bufToByte(); numReadings > 0; numReadings--)
   {
-    const int sonarNum = packet->bufToByte();
-    const int sonarRange = ArMath::roundInt(
+    int sonarNum = packet->bufToByte();
+    int sonarRange = ArMath::roundInt(
 	    (double)packet->bufToUByte2() * myParams->getRangeConvFactor());
     assert(sonarRange >= 0);
     processNewSonar(sonarNum, (unsigned int) sonarRange, packet->getTimeReceived());
@@ -5402,7 +5421,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
     {
       myStateOfCharge = stateOfCharge;
       if (!myHaveStateOfCharge && myStateOfCharge > 0)
-	myHaveStateOfCharge = true;
+	      myHaveStateOfCharge = true;
       myStateOfChargeSetTime.setToNow();
     }
   }
@@ -5419,7 +5438,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
     long long mSecSince = -999;
     ArTime recvTime;
 
-    const uint32_t uCUSec = packet->bufToUByte4();
+    uint32_t uCUSec = packet->bufToUByte4();
     // make sure we get a good value
     if ((myPacketsReceivedTracking || myLogMovementReceived) && 
 	myMTXTimeUSecCB != NULL && myMTXTimeUSecCB->invokeR(&lpcNowUSec))
@@ -5573,8 +5592,8 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
 
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
 
-  const double degreesTravelled = fabs(deltaTh);
-  const double distTravelled = sqrt(fabs(deltaX * deltaX + deltaY * deltaY));
+  double degreesTravelled = fabs(deltaTh);
+  double distTravelled = sqrt(fabs(deltaX * deltaX + deltaY * deltaY));
 
   myOdometerDegrees += degreesTravelled;
   myOdometerDistance += distTravelled;
@@ -5944,7 +5963,8 @@ AREXPORT int ArRobot::getClosestSonarNumber(double startAngle, double endAngle) 
 AREXPORT void ArRobot::addRangeDevice(ArRangeDevice *device)
 {
   device->setRobot(this);
-  myRangeDeviceList.push_front(device);
+  myRangeDeviceVector.push_back(device);
+  myRangeDeviceList.push_front(device); // why push front?
 }
 
 /**
@@ -5952,13 +5972,26 @@ AREXPORT void ArRobot::addRangeDevice(ArRangeDevice *device)
 **/
 AREXPORT void ArRobot::remRangeDevice(const char *name)
 {
-  std::list<ArRangeDevice *>::iterator it;
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  // c++20 only: std::erase_if(myRangeDeviceVector, [name](ArRangeDevice* dev)->bool{ return strcmp(name, dev->getName()) == 0); } );
+  // pre c++20: myRangeDeviceVector.erase( std::remove_if(myRangeDeviceVector.begin(), myRangeDeviceVector.end(), [name](ArRangeDevice* dev){ return strcmp(name, dev->getName()) == 0); } );
+  
+  // original code:
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
+  {
+    if (strcmp(name, (*it)->getName()) == 0)
+    {
+      myRangeDeviceVector.erase(it);
+      // note: it, begin, end iterators invalidated by erase
+      break;
+    }
+  }
+  for (auto it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
   {
     if (strcmp(name, (*it)->getName()) == 0)
     {
       myRangeDeviceList.erase(it);
-      return;
+      // note: it, begin, end iterators invalidated by erase
+      break;
     }
   }
 }
@@ -5968,15 +6001,30 @@ AREXPORT void ArRobot::remRangeDevice(const char *name)
 **/
 AREXPORT void ArRobot::remRangeDevice(ArRangeDevice *device)
 {
-  std::list<ArRangeDevice *>::iterator it;
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  // maybe better:
+  // c++20 only: std::erase(myRangeDeviceVector, device);
+  // pre c++20: myRangeDeviceVector.erase( std::remove(myRangeDeviceVector.begin(), myRangeDeviceVector.end(), device) );
+
+  // original code:
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
+  {
+    if ((*it) == device)
+    {
+      myRangeDeviceVector.erase(it);
+      // note: it, begin, end iterators invalidated by erase
+      break;
+    }
+  }
+  for (auto it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
   {
     if ((*it) == device)
     {
       myRangeDeviceList.erase(it);
-      return;
+      // note: it, begin, end iterators invalidated by erase
+      break;
     }
   }
+
 }
 
 /**
@@ -5984,17 +6032,12 @@ AREXPORT void ArRobot::remRangeDevice(ArRangeDevice *device)
    @param ignoreCase true to ignore case, false to pay attention to it
    @return if found, a range device with the given name, if not found NULL
 **/
-AREXPORT ArRangeDevice *ArRobot::findRangeDevice(const char *name, 
-						 bool ignoreCase)
+AREXPORT ArRangeDevice *ArRobot::findRangeDevice(const char *name, bool ignoreCase)
 {
-  std::list<ArRangeDevice *>::iterator it;
-  ArRangeDevice *device;
-
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
-    device = (*it);
-    if ((ignoreCase && strcasecmp(name, device->getName()) == 0) || 
-	(!ignoreCase && strcmp(name, device->getName()) == 0))
+    ArRangeDevice *device = (*it);
+    if ((ignoreCase && strcasecmp(name, device->getName()) == 0) || (!ignoreCase && strcmp(name, device->getName()) == 0))
     {
       return device;
     }
@@ -6007,17 +6050,13 @@ AREXPORT ArRangeDevice *ArRobot::findRangeDevice(const char *name,
    @param ignoreCase true to ignore case, false to pay attention to it
    @return if found, a range device with the given name, if not found NULL
 **/
-AREXPORT const ArRangeDevice *ArRobot::findRangeDevice(const char *name,
-						       bool ignoreCase) const
+AREXPORT const ArRangeDevice *ArRobot::findRangeDevice(const char *name, bool ignoreCase) const
 {
-  std::list<ArRangeDevice *>::const_iterator it;
-  ArRangeDevice *device;
-
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  // just const version of above
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
-    device = (*it);
-    if ((ignoreCase && strcasecmp(name, device->getName()) == 0) || 
-	(!ignoreCase && strcmp(name, device->getName()) == 0))
+    ArRangeDevice *device = (*it);
+    if ((ignoreCase && strcasecmp(name, device->getName()) == 0) || (!ignoreCase && strcmp(name, device->getName()) == 0))
     {
       return device;
     }
@@ -6025,24 +6064,14 @@ AREXPORT const ArRangeDevice *ArRobot::findRangeDevice(const char *name,
   return NULL;
 }
 
-/** 
-    This gets the list of range devices attached to this robot, do NOT
-    manipulate this list directly.  If you want to manipulate use the 
-    appropriate addRangeDevice, or remRangeDevice
-    @return the list of range dvices attached to this robot
-**/
-AREXPORT std::list<ArRangeDevice *> *ArRobot::getRangeDeviceList()
-{
-  return &myRangeDeviceList;
-}
 
 /**
    @param device the device to check for
 **/
 AREXPORT bool ArRobot::hasRangeDevice(ArRangeDevice *device) const
 {
-  std::list<ArRangeDevice *>::const_iterator it;
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  //std::list<ArRangeDevice *>::const_iterator it;
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
     if ((*it) == device)
       return true;
@@ -6072,12 +6101,12 @@ AREXPORT double ArRobot::checkRangeDevicesCurrentPolar(
 {
   double closest = 32000;
   double closeAngle, tempDist, tempAngle;
-  std::list<ArRangeDevice *>::const_iterator it;
+  //std::list<ArRangeDevice *>::const_iterator it;
   ArRangeDevice *device;
   bool foundOne = false;
   const ArRangeDevice *closestRangeDevice = NULL;
 
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
     device = (*it);
     device->lockDevice();
@@ -6137,12 +6166,12 @@ AREXPORT double ArRobot::checkRangeDevicesCumulativePolar(
 {
   double closest = 32000;
   double closeAngle, tempDist, tempAngle;
-  std::list<ArRangeDevice *>::const_iterator it;
+  //std::list<ArRangeDevice *>::const_iterator it;
   ArRangeDevice *device;
   bool foundOne = false;
   const ArRangeDevice *closestRangeDevice = NULL;
 
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
     device = (*it);
     device->lockDevice();
@@ -6209,12 +6238,12 @@ AREXPORT double ArRobot::checkRangeDevicesCurrentBox(
   double closest = 32000;
   double tempDist;
   ArPose closestPos, tempPos;
-  std::list<ArRangeDevice *>::const_iterator it;
+  //std::list<ArRangeDevice *>::const_iterator it;
   ArRangeDevice *device;
   bool foundOne = false;
   const ArRangeDevice *closestRangeDevice = NULL;
 
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
     device = (*it);
     device->lockDevice();
@@ -6279,12 +6308,12 @@ AREXPORT double ArRobot::checkRangeDevicesCumulativeBox(
   double closest = 32000;
   double tempDist;
   ArPose closestPos, tempPos;
-  std::list<ArRangeDevice *>::const_iterator it;
+  //std::list<ArRangeDevice *>::const_iterator it;
   ArRangeDevice *device;
   bool foundOne = false;
   const ArRangeDevice *closestRangeDevice = NULL;
 
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); ++it)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
     device = (*it);
     device->lockDevice();
@@ -6334,7 +6363,7 @@ AREXPORT double ArRobot::checkRangeDevicesCumulativeBox(
 **/
 AREXPORT void ArRobot::moveTo(ArPose pose, bool doCumulative)
 {
-  std::list<ArRangeDevice *>::iterator it;
+  //std::list<ArRangeDevice *>::iterator it;
   ArSensorReading *son;
   int i;
 
@@ -6347,7 +6376,7 @@ AREXPORT void ArRobot::moveTo(ArPose pose, bool doCumulative)
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
   mySetEncoderTransformCBList.invoke();
 
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); it++)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); it++)
   {
     (*it)->lockDevice();
     (*it)->applyTransform(localTransform, doCumulative);
@@ -6386,7 +6415,7 @@ AREXPORT void ArRobot::moveTo(ArPose pose, bool doCumulative)
 AREXPORT void ArRobot::moveTo(ArPose poseTo, ArPose poseFrom,
 			      bool doCumulative)
 {
-  std::list<ArRangeDevice *>::iterator it;
+  //std::list<ArRangeDevice *>::iterator it;
   ArSensorReading *son;
   int i;
 
@@ -6401,7 +6430,7 @@ AREXPORT void ArRobot::moveTo(ArPose poseTo, ArPose poseFrom,
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
   mySetEncoderTransformCBList.invoke();
 
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); it++)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); it++)
   {
     (*it)->lockDevice();
     (*it)->applyTransform(localTransform, doCumulative);
@@ -6488,20 +6517,16 @@ AREXPORT void ArRobot::setDeadReconPose(const ArPose& pose, const ArTime t)
 **/    
 AREXPORT void ArRobot::applyTransform(const ArTransform& trans, bool doCumulative)
 {
-  std::list<ArRangeDevice *>::iterator it;
-  ArSensorReading *son;
-  int i;
-  
-  for (it = myRangeDeviceList.begin(); it != myRangeDeviceList.end(); it++)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); it++)
   {
       (*it)->lockDevice();
       (*it)->applyTransform(trans, doCumulative);
       (*it)->unlockDevice();
   }
 
-  for (i = 0; i < getNumSonar(); i++)
+  for (int i = 0; i < getNumSonar(); i++)
   {
-    son = getSonarReading(i);
+    ArSensorReading *son = getSonarReading(i);
     if (son != NULL)
       son->applyTransform(trans);
   }

@@ -58,8 +58,6 @@ AREXPORT void * ArSyncLoop::runThread(void *)
 
   long timeToSleep;
   ArTime loopEndTime;
-  std::list<ArFunctor *> *runList;
-  std::list<ArFunctor *>::iterator iter;
   ArTime lastLoop;
   bool firstLoop = true;
   bool warned = false;
@@ -145,13 +143,12 @@ AREXPORT void * ArSyncLoop::runThread(void *)
   myRobot->wakeAllRunExitWaitingThreads();
   myRobot->unlock();
 
+  // get a copy to invoke functors with myRobot unlocked
   myRobot->lock();
-  runList=myRobot->getRunExitListCopy();
+  std::vector<ArFunctor*> runList = myRobot->getRunExitListCopy();
   myRobot->unlock();
-  for (iter=runList->begin();
-       iter != runList->end(); ++iter)
+  for (auto iter=runList.begin(); iter != runList.end(); ++iter)
     (*iter)->invoke();
-  delete runList;
 
   threadFinished();
   return(0);

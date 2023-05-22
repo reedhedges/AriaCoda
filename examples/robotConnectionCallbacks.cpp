@@ -76,10 +76,10 @@ ConnHandler::ConnHandler(ArRobot *robot) :
   myRobot = robot;
 
   // add the callbacks to the robot
-  myRobot->addConnectCB(&myConnectedCB, ArListPos::FIRST);
-  myRobot->addFailedConnectCB(&myConnFailCB, ArListPos::FIRST);
-  myRobot->addDisconnectNormallyCB(&myDisconnectedCB, ArListPos::FIRST);
-  myRobot->addDisconnectOnErrorCB(&myDisconnectedCB, ArListPos::FIRST);
+  myRobot->addConnectCB(&myConnectedCB);
+  myRobot->addFailedConnectCB(&myConnFailCB);
+  myRobot->addDisconnectNormallyCB(&myDisconnectedCB);
+  myRobot->addDisconnectOnErrorCB(&myDisconnectedCB);
 }
 
 // just exit if the connection failed

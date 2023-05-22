@@ -41,6 +41,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArInterpolation.h"
 #include "Aria/ArKeyHandler.h"
 #include <list>
+#include <vector>
 
 class ArAction;
 class ArRobotConfigPacketReader;
@@ -911,8 +912,10 @@ public:
   AREXPORT ArRangeDevice *findRangeDevice(const char *name, 
 					  bool ignoreCase = false);
 
-  /// Gets the range device list
-  AREXPORT std::list<ArRangeDevice *> *getRangeDeviceList();
+  [[deprecated]] std::list<ArRangeDevice *> *getRangeDeviceList() { return &myRangeDeviceList; }
+  std::vector<ArRangeDevice*>& getRangeDevices() { return myRangeDeviceVector; }
+  std::vector<ArRangeDevice*>::const_iterator getRangeDevicesBegin() { return myRangeDeviceVector.cbegin(); }
+  std::vector<ArRangeDevice*>::const_iterator getRangeDevicesEnd() { return myRangeDeviceVector.cend(); }
 
   /// Finds whether a particular range device is attached to this robot or not
   AREXPORT bool hasRangeDevice(ArRangeDevice *device) const;
@@ -1655,7 +1658,7 @@ public:
 
 #endif // SWIG
 
-  AREXPORT std::list<ArFunctor *> * getRunExitListCopy();
+  std::vector<ArFunctor*> getRunExitListCopy() { return myRunExitCBList; }
   friend class ArSyncLoop; ///< Needs to call getRunExitListCopy()
 
 #ifndef ARIA_WRAPPER
@@ -1794,7 +1797,7 @@ protected:
   bool myPacketsSentTracking;
   ArMutex myMutex;
   ArSyncTask *mySyncTaskRoot;
-  std::list<ArRetFunctor1<bool, ArRobotPacket *> *> myPacketHandlerList; // TODO why is this a list of pointers to functor objects rather than just a vector or list of ArRetFunctor1 objects? 
+  std::vector<ArRetFunctor1<bool, ArRobotPacket *>*> myPacketHandlerList; 
 
   ArSyncLoop mySyncLoop;
   ArRobotPacketReaderThread myPacketReader;
@@ -1806,15 +1809,17 @@ protected:
   bool myRunningNonThreaded;
 
 
-  std::list<ArFunctor *> myStabilizingCBList;
-  std::list<ArFunctor *> myConnectCBList;
-  std::list<ArFunctor *> myFailedConnectCBList;
-  std::list<ArFunctor *> myDisconnectNormallyCBList;
-  std::list<ArFunctor *> myDisconnectOnErrorCBList;
-  std::list<ArFunctor *> myRunExitCBList;
+  // TODO replace these with ArCallbackList (or simplified ArCallbackList with no indices)
+  std::vector<ArFunctor*> myStabilizingCBList;
+  std::vector<ArFunctor*> myConnectCBList;
+  std::vector<ArFunctor*> myFailedConnectCBList;
+  std::vector<ArFunctor*> myDisconnectNormallyCBList;
+  std::vector<ArFunctor*> myDisconnectOnErrorCBList;
+  std::vector<ArFunctor*> myRunExitCBList;
 
   ArRetFunctor1<double, ArPoseWithTime> *myEncoderCorrectionCB;
-  std::list<ArRangeDevice *> myRangeDeviceList;
+  std::list<ArRangeDevice *> myRangeDeviceList; // to support old getRangeDeviceList() accessor
+  std::vector<ArRangeDevice *> myRangeDeviceVector;
   std::map<int, ArLaser *> myLaserMap;
 
   std::map<int, ArBatteryMTX *> myBatteryMap;

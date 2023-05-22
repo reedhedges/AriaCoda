@@ -170,13 +170,13 @@ ConnHandler::ConnHandler(ArRobot *robot, Joydrive *jd)
 
   // now create the functor callbacks, then set them on the robot
   myConnectedCB = new ArFunctorC<ConnHandler>(this, &ConnHandler::connected);
-  myRobot->addConnectCB(myConnectedCB, ArListPos::FIRST);
+  myRobot->addConnectCB(myConnectedCB);
   myConnFailCB = new ArFunctorC<ConnHandler>(this, &ConnHandler::connFail);
-  myRobot->addFailedConnectCB(myConnFailCB, ArListPos::FIRST);
+  myRobot->addFailedConnectCB(myConnFailCB);
   myDisconnectedCB = new ArFunctorC<ConnHandler>(this, 
 						 &ConnHandler::disconnected);
-  myRobot->addDisconnectNormallyCB(myDisconnectedCB, ArListPos::FIRST);
-  myRobot->addDisconnectOnErrorCB(myDisconnectedCB, ArListPos::FIRST);
+  myRobot->addDisconnectNormallyCB(myDisconnectedCB);
+  myRobot->addDisconnectOnErrorCB(myDisconnectedCB);
 }
 
 // when we connect turn off the sonar, turn on the motors, and disable amigobot

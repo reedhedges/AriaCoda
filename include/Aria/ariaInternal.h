@@ -358,11 +358,14 @@ protected:
   static std::string ourSonarTypes;
   static std::string ourSonarChoices;
   static ArMutex ourExitCallbacksMutex;
-  static std::multimap<int, ArFunctor *> ourExitCallbacks;
+  using ExitCallbacksType = std::multimap<int, ArFunctor*>;
+  static ExitCallbacksType ourExitCallbacks;
   static bool ourSigHandleExitNotShutdown;
-  static std::multimap<int, ArRetFunctor<bool> *> ourParseArgCBs;
+  using ParseArgCBsType = std::multimap<int, ArRetFunctor<bool>*>;
+  static ParseArgCBsType ourParseArgCBs;
   static ArLog::LogLevel ourParseArgsLogLevel;
-  static std::multimap<int, ArFunctor *> ourLogOptionsCBs;
+  using LogOptionsCBsType = std::multimap<int, ArFunctor*>;
+  static LogOptionsCBsType ourLogOptionsCBs;
   static ArLog::LogLevel ourExitCallbacksLogLevel;
   static std::map<std::string, ArRetFunctor3<ArDeviceConnection *, const char *, const char *, const char *> *, ArStrCaseCmpOp> ourDeviceConnectionCreatorMap;
   static std::string ourDeviceConnectionTypes;
