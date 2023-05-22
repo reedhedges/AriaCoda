@@ -32,6 +32,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 //#endif
 
 #include <string>
+// c++17: #include <string_view>
+
 // #define _XOPEN_SOURCE 500
 #include <list>
 #include <map>
@@ -303,6 +305,62 @@ is a pointer to object to be deleted using the 'delete' operator.
 				      const char *baseDir, 
 				      const char *insideDir);
 
+  /** Copy null-terminated string from @a src into @a destbuf (possibly truncating the string).
+      At most @a n characters are copied.
+      The destination buffer is always null-terminated. (If the length of @a src is n, the last character will be replaced with the null character.)
+  */
+  static constexpr void copy_string_to_buffer(char *destbuf, const char *src, size_t n)
+  {
+      strncpy(destbuf, src, n);
+      destbuf[n-1] = '\0';
+  }
+
+#if 0
+      // requires c++17:
+
+  /* * Copy null-terminated string from @a src into @a destbuf buffer with size @a destsize (possibly truncating the string).
+      Either all of @a src will be copied, or @a destlen-1 if smaller than length of @a src, and a null character is added.
+      If @a destlen <= @a srclen, the string will be truncated.
+      The destination buffer is always null-terminated. (If the length of @a src is equal to destsize, the last character will be replaced with the null character.)
+      
+      @example:
+      char buf[256];
+      std::string_view s{"hello, world"};
+      copy_string_to_buffer(buf, 256, s);
+  */
+  constexpr size_t copy_string_to_buffer(char *destbuf, size_t destsize, std::string_view src)
+  {
+      size_t n = std::min(destsize, src.length());
+      strncpy(destbuf, src.data(), n);
+      if(n == destsize)  // Need to truncate and replace last character
+          destbuf[destsize-1] = '\0';
+      else
+          destbuf[n] = '\0';
+      return n;
+  }
+#endif
+
+  /** Copy null-terminated string from @a src (with length @a srclen, i.e. number of characters excluding terminating null) into @a destbuf buffer with size @a destsize (possibly truncating the string).
+      Either all of @a src will be copied, or @a destlen-1 if smaller than length of @a src, and a null character is added.
+      If @a destlen <= @a srclen, the string will be truncated.
+      The destination buffer is always null-terminated. (If the length of @a src is equal to destsize, the last character will be replaced with the null character.)
+      
+      @example:
+      char buf[256];
+      std::string_view s{"hello, world"};
+      copy_string_to_buffer(buf, 256, s);
+  */
+  static constexpr size_t copy_string_to_buffer(char *destbuf, size_t destsize, const char *src, size_t srclen)
+  {
+      //return copy_string_to_buffer(destbuf, destsize, std::string_view(src, srclen));
+      size_t n = std::min(destsize, srclen);
+      strncpy(destbuf, src, n);
+      if(n == destsize)  // Need to truncate and replace last character
+          destbuf[destsize-1] = '\0';
+      else
+          destbuf[n] = '\0';
+      return n;
+  }
 
 
 
