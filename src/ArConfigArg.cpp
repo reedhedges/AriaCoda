@@ -1487,7 +1487,10 @@ AREXPORT bool ArConfigArg::setString(const char *str, char *errorBuffer,
   {
     ArLog::log(ArLog::Normal, "ArConfigArg of %s: setString called with NULL pointer.", getName());
     if (errorBuffer != NULL)
+    {
       snprintf(errorBuffer, errorBufferLen, "%s pointer is NULL.", getName());
+      errorBuffer[errorBufferLen-1] = '\0';
+    }
     return false;
   }
   // this is >= so that if it wouldn't have room with NULL that's
@@ -1496,11 +1499,19 @@ AREXPORT bool ArConfigArg::setString(const char *str, char *errorBuffer,
   {
     ArLog::log(ArLog::Normal, "ArConfigArg of %s: setString called with argument %d long, when max length is %d.", getName(), len, myData.myStringData.myMaxStrLen);
     if (errorBuffer != NULL)
+    {
       snprintf(errorBuffer, errorBufferLen, "%s string is %lu long when max length is %lu.", getName(), (unsigned long)len, (unsigned long) myData.myStringData.myMaxStrLen);
+      errorBuffer[errorBufferLen-1] = '\0';
+    }
     return false;
   }
   if (!doNotSet)
-    strcpy(myData.myStringData.myStringPointer, str);
+  {
+    //strcpy(myData.myStringData.myStringPointer, str);
+    strncpy(myData.myStringData.myStringPointer, str, myData.myStringData.myMaxStrLen);
+    myData.myStringData.myStringPointer[myData.myStringData.myMaxStrLen-1] = '\0';
+  }
+    
   return true;
 }
 

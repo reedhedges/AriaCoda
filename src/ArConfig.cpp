@@ -1640,9 +1640,9 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      "%sArConfigArg::parseUnknown() cannot find section %s",
                      myLogPrefix.c_str(),
                      mySection.c_str());
-          if(errorBuffer && errorBufferLen > strlen("Cannot find section"))
+          if(errorBuffer != nullptr && errorBufferLen > strlen("Cannot find section"))
           {
-            strncpy(errorBuffer, "Cannot find section", errorBufferLen-1);
+            strncpy(errorBuffer, "Cannot find section", errorBufferLen);
             errorBuffer[errorBufferLen-1] = '\0';
           }
           return false;
@@ -1654,8 +1654,11 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      myLogPrefix.c_str(),
                      myParsingListNames.front().c_str(),
                      arg->getArg(0));
-          if(errorBufferLen > strlen("Error parsing parameter"))
-            strcpy(errorBuffer, "Error parsing paramemter");
+          if(errorBuffer != nullptr && errorBufferLen > strlen("Error parsing parameter"))
+          {
+            strncpy(errorBuffer, "Error parsing paramemter", errorBufferLen);
+            errorBuffer[errorBufferLen-1] = '\0';
+          }
           return false;
         }
         parentParam->addArg(ArConfigArg(arg->getArg(0), ""));
@@ -1693,8 +1696,11 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      "%sArConfigArg::parseUnknown() cannot find section %s",
                      myLogPrefix.c_str(),
                      mySection.c_str());
-          if(errorBufferLen > strlen("Cannot find section"))
-            strcpy(errorBuffer, "Cannot find section");
+          if(errorBuffer != nullptr  && errorBufferLen > strlen("Cannot find section"))
+          {
+            strncpy(errorBuffer, "Cannot find section", errorBufferLen);
+            errorBuffer[errorBufferLen-1] = '\0';
+          }
           return false;
         }  
         ArConfigArg *parentParam = section->findParam(myParsingListNames, true);
@@ -1704,8 +1710,11 @@ AREXPORT bool ArConfig::parseUnknown(ArArgumentBuilder *arg,
                      myLogPrefix.c_str(),
                      myParsingListNames.front().c_str(),
                      arg->getArg(0));
-          if(errorBufferLen > strlen("Error parsing parameter"))
-            strcpy(errorBuffer, "Error parsing paramemter");
+          if(errorBuffer != nullptr && errorBufferLen > strlen("Error parsing parameter"))
+          {
+            strncpy(errorBuffer, "Error parsing paramemter", errorBufferLen);
+            errorBuffer[errorBufferLen-1] = '\0';
+          }
           return false;
         }
        
