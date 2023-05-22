@@ -106,7 +106,8 @@ AREXPORT ArArgumentBuilder &ArArgumentBuilder::operator=(const ArArgumentBuilder
     if (myOrigArgc > 0)
     {
       for (i = 0; i < myOrigArgc; ++i)
-        delete[] myArgv[i];
+        //delete[] myArgv[i];
+        free(myArgv[i]); // allocated by strdup()
     }
     delete[] myArgv;
 
@@ -137,7 +138,8 @@ AREXPORT ArArgumentBuilder::~ArArgumentBuilder()
   if (myOrigArgc > 0)
   {
     for (i = 0; i < myOrigArgc; ++i)
-      delete[] myArgv[i];
+      //delete[] myArgv[i];
+      free(myArgv[i]); //allocated by strdup()
   }
   delete[] myArgv;
 }
@@ -949,7 +951,8 @@ AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
     {
       myNewArg = &myArgv[i][1];
       myNewArg[myNewArg.size() - 1] = '\0';
-      delete[] myArgv[i];
+      //delete[] myArgv[i];
+      free(myArgv[i]); // allocated by strdup()
       // but replacing ourself with the new arg
       //myArgv[i] = cppstrdup(myNewArg.c_str());
       myArgv[i] = strdup(myNewArg.c_str());
@@ -990,7 +993,8 @@ AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
         // removing those next args
         removeArg(i+1);
         // and ourself
-        delete[] myArgv[i];
+        //delete[] myArgv[i];
+        free(myArgv[i]); // allocated by strdup()
 
         // but replacing ourself with the new arg
         //myArgv[i] = cppstrdup(myNewArg.c_str());
