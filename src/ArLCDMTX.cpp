@@ -1764,7 +1764,8 @@ AREXPORT bool ArLCDMTX::verifyFwVersion()
 AREXPORT bool ArLCDMTX::downloadFirmware()
 {
 
-
+	assert(myConn);
+	if(!myConn) return false;
 
 	// now connect to the serial port
 

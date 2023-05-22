@@ -42,6 +42,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #endif
 
 #include <ctype.h>
+#include <cassert>
 
 /** @warning do not delete @a parser during the lifetime of this
  ArLCDConnector, which may need to access its contents later.
@@ -838,7 +839,8 @@ AREXPORT bool ArLCDConnector::turnOffPower (LCDData *lcd)
 AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 
 {
-
+	assert(lcd);
+	if(!lcd) return false;
 
 	// first we need to turn off the power, then turn it back on
 	if (!turnOffPower(lcd))
@@ -852,6 +854,11 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 
 
 	// now connect to the serial port
+	assert(lcd->myConn);
+	if(!lcd->myConn) {
+			ArLog::log(ArLog::Normal, "ArLCDConnector::verifyFirmware: Internal Error: Could not connect (%d) because LCDData object has null connection pointer", lcd->myNumber);
+		return false;
+	}
 
 	ArSerialConnection *serConn = NULL;
 	serConn = dynamic_cast<ArSerialConnection *> (lcd->myConn);

@@ -1037,6 +1037,8 @@ AREXPORT bool ArLMS2xx::disconnect()
   bool ret;
   ArSerialConnection *conn;
 
+  if(!myConn) return false;
+
   myStateMutex.lock();
   if (myState == STATE_NONE)
   {

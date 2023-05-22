@@ -121,6 +121,7 @@ AREXPORT void ArRatioInputKeydrive::giveUpKeys()
   {
     ArLog::log(ArLog::Terse, 
 	       "ArRatioInputKeydrive::giveUpKeys: There is no key handler, something is probably horribly wrong .");
+    // will intentionally crash below
   }
   // now that we have one, add our keys as callbacks, print out big
   // warning messages if they fail
@@ -238,10 +239,10 @@ AREXPORT void ArRatioInputKeydrive::fireCallback()
 
   if (myHaveKeys)
     return;
-  ArKeyHandler *keyHandler;
    
   // see if there is already a keyhandler, if not make one for ourselves
-  if ((keyHandler = Aria::getKeyHandler()) == NULL)
+  ArKeyHandler *keyHandler = Aria::getKeyHandler();
+  if (keyHandler == nullptr)
   {
     keyHandler = new ArKeyHandler;
     Aria::setKeyHandler(keyHandler);

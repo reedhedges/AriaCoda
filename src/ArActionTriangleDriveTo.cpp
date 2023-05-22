@@ -28,6 +28,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArLaser.h"
 #include "Aria/ariaInternal.h"
 
+#include <cassert>
+
 AREXPORT ArActionTriangleDriveTo::ArActionTriangleDriveTo(
 	const char *name, double finalDistFromVertex,  
 	double approachDistFromVertex, double speed,
@@ -112,6 +114,9 @@ AREXPORT void ArActionTriangleDriveTo::activate()
   // in case we made things so early we didn't have sensors
   if (myLineFinder == NULL && myRobot != NULL)
     setRobot(myRobot);
+
+  assert(myRobot);
+  if(!myRobot) return;
   
   myOriginalAngle = myRobot->getTh();
   if (myLineFinder != NULL)
