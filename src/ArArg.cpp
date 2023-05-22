@@ -299,6 +299,7 @@ AREXPORT bool ArArg::setInt(int val)
   if (myIntPointer == NULL)
   {
     ArLog::log(ArLog::Normal, "ArArg of %s: setInt called with NULL int pointer.", getName());
+    return false;
   }
   // if we got to here we're good
   *myIntPointer = val;
