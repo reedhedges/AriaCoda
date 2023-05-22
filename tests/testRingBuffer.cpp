@@ -1,10 +1,11 @@
 
 #include "Aria/ariaUtil.h"
-#include "Aria/ArFixedBuffer.h"
+#include "Aria/ArRingBuffer.h"
+#include <array>
 
 int main()
 {
-  ArFixedBuffer<int, 10> buf;
+  ArRingBuffer<int, 10, std::array<int, 10>> buf;
   printf("Empty: ");
   buf.print();
   assert(buf.empty());

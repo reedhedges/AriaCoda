@@ -29,6 +29,51 @@ void test_escape_space(const char *str, const char *expected)
   assert(strcmp(buffer, expected) == 0);
 }
 
+void printbuf(char *buf1)
+{
+    printf("buf=%x('%c') %x('%c') %x('%c') %x('%c') %x('%c')\n", buf1[0], buf1[0], buf1[1], buf1[1], buf1[2], buf1[2], buf1[3], buf1[3], buf1[4], buf1[4]);
+}
+
+void testCopyStringToBuffer()
+{
+    char buf1[5];
+    memset(buf1, ' ', 5);
+
+    char buf2[5];
+    buf2[0] = 'A';
+    buf2[1] = 'B';
+    buf2[2] = 'C';
+    buf2[3] = 'D';
+    buf2[4] = '\0';
+
+    ArUtil::copy_string_to_buffer(buf1, 5, buf2, 5);
+    printbuf(buf1);
+    assert(strcmp(buf1, "ABCD") == 0);
+
+    memset(buf1, ' ', 5);
+    ArUtil::copy_string_to_buffer(buf1, 5, buf2, 3);
+    printbuf(buf1);
+    assert(strcmp(buf1, "ABC") == 0);
+
+    memset(buf1, ' ', 5);
+    ArUtil::copy_string_to_buffer(buf1, 5, buf2, 8);
+    printbuf(buf1);
+    assert(strcmp(buf1, "ABCD") == 0);
+
+    memset(buf1, ' ', 5);
+    ArUtil::copy_string_to_buffer(buf1, buf2, 5);
+    printbuf(buf1);
+    assert(strcmp(buf1, "ABCD") == 0);
+
+    memset(buf1, ' ', 5);
+    ArUtil::copy_string_to_buffer(buf1, buf2, 3); // assume destbuf has size 3. last char buf1[2] should be set to null.
+    printbuf(buf1);
+    assert(buf1[2] == '\0');
+    assert(strcmp(buf1, "AB") == 0);
+
+}
+
+
 int main()
 {
   test_escape_space("", "");
@@ -111,6 +156,11 @@ int main()
   assert(strcmp(ArUtil::convertBool(0), "false") == 0);
 
   puts("\t...ok\n");
+
+
+  testCopyStringToBuffer();
+
+
 
   puts("moreStringTests done.");
   return 0;
