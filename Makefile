@@ -302,8 +302,8 @@ help:
 	@echo 
 	@echo "Set EXTRA_CXXFLAGS to add any additional C++ compilation flags you want (e.g. optimization or profiling flags)."
 	@echo "Set CXXWARNFLAGS to override default set of warning flags.  ($(CXXWARNFLAGS)). (Use EXTRA_CXXFLAGS to add more warnings in addition to the defaults.)"
-	@echo "Set DEBUG to use -Og as default for optimization flags instead of -O2, and maybe other debugging friendly compilation flags. (Note, not setting DEBUG does not define the NDEBUG preprocessor symbol [NDEBUG disables assert(), possibly other effects, depending on system library or compiler.] Define NDEBUG manually in EXTRA_CXXFLAGS or CXXOPTFLAGS if desired.)"
-	@echo "Set CXXOPTFLAGS to override default optimization flags (-O2 unless DEBUG is set, then -Og)."
+	@echo "Set DEBUG to use -Og as default for optimization flags instead of -O3, and maybe other debugging friendly compilation flags. (Note, not setting DEBUG does not define the NDEBUG preprocessor symbol [NDEBUG disables assert(), possibly other effects, depending on system library or compiler.] Define NDEBUG manually in EXTRA_CXXFLAGS or CXXOPTFLAGS if desired.)"
+	@echo "Set CXXOPTFLAGS to override default optimization flags (-O3 unless DEBUG is set, then -Og)."
 	@echo "Set CXXDEBUGFLAGS to override default debug flags (-g)."
 	@echo "Set EXTRA_CXXFLAGS_<File> to add additional compilation flag added only when compiling <File>.cpp. E.g. EXTRA_CXXFLAGS_ArRobot"
 	@echo "Set CXXSTD to select C++ standard (i.e. value passed to -std).  Default is $(CXXSTD)"
@@ -484,13 +484,13 @@ python/AriaPy_wrap.cpp python/AriaPy.py: include/Aria/wrapper.i include/Aria/*.h
 
 python/_AriaPy.$(sosuffix): obj/AriaPy_wrap.o lib/libAria.$(sosuffix)
 	if ! test -f $(PYTHON_INCLUDE)/Python.h; then echo "Error: $(PYTHON_INCLUDE)/Python.h not found. Is the Python development package (python2.7-dev) installed on this system?"; exit 1; fi
-	$(CXX) -O2 -shared -o $(@) obj/AriaPy_wrap.o -Llib -lAria -lpthread -ldl -lrt
+	$(CXX) -O3 -shared -o $(@) obj/AriaPy_wrap.o -Llib -lAria -lpthread -ldl -lrt
 
 obj/AriaPy_wrap.o: python/AriaPy_wrap.cpp
 	mkdir -p obj
 	@ if test -z "$(PYTHON_INCLUDE)"; then echo "*** Error: PYTHON_INCLUDE is not set, cannot build ARIA python wrapper"; fi
 	if ! test -f $(PYTHON_INCLUDE)/Python.h; then echo "Error: $(PYTHON_INCLUDE)/Python.h not found. Is the Python development package (python2.7-dev) installed on this system? Is PYTHON_INCLUDE set correctly?"; exit 1; fi
-	$(CXX) -O2 -c $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER $(PYTHON_INCLUDE_FLAGS) $< -o $@
+	$(CXX) -O3 -c $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER $(PYTHON_INCLUDE_FLAGS) $< -o $@
 
 
 ### Java Wrapper: ###
@@ -516,7 +516,7 @@ cleanSwigJava:
 	-rm -r java/Aria.jar java/com/mobilerobots/Aria
 
 lib/libAriaJava.$(sosuffix): obj/AriaJava_wrap.o lib/libAria.$(sosuffix) 
-	$(CXX) -O2 -fPIC -shared -o $(@) obj/AriaJava_wrap.o -lpthread -ldl -lrt -Llib -lAria
+	$(CXX) -O3 -fPIC -shared -o $(@) obj/AriaJava_wrap.o -lpthread -ldl -lrt -Llib -lAria
 
 obj/AriaJava_wrap.o: java/AriaJava_wrap.cpp
 	@ if test -z "$(JAVA_INCLUDE)"; then echo "Error: JAVA_INCLUDE is not set, compiling AriaJava_wrap.cpp will fail!"; fi
@@ -524,7 +524,7 @@ obj/AriaJava_wrap.o: java/AriaJava_wrap.cpp
 	@ if test \! -d "$(JAVA_INCLUDE)"; then echo "Error: JAVA_INCLUDE directory $(JAVA_INCLUDE) does not exist, compiling AriaJava_wrap.cpp will fail!"; fi
 	@ test -d "$(JAVA_INCLUDE)" 
 	mkdir -p obj
-	$(CXX) -O2 -c $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux $< -o $@
+	$(CXX) -O3 -c $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux $< -o $@
 
 # When running swig, -DARIA_WRAPPER omits non-public API that is not needed.
 # -DAREXPORT forces a definition of the AREXPORT macro to empty. The SWIG
@@ -552,7 +552,7 @@ java/com/mobilerobots/Aria/ArRobot.class: java/com/mobilerobots/Aria/ArRobot.jav
 csharp: csharp/libAriaCS.$(sosuffix) csharp/AriaCS.dll
 
 csharp/libAriaCS.$(sosuffix): csharp/AriaCS_wrap.cpp lib/libAria.$(sosuffix)
-	$(CXX) -O2 $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER -fPIC -shared -o $@ csharp/AriaCS_wrap.cpp -lpthread -ldl -lrt -Llib -lAria
+	$(CXX) -O3 $(BARECXXFLAGS) $(CXXINC) -DARIA_WRAPPER -fPIC -shared -o $@ csharp/AriaCS_wrap.cpp -lpthread -ldl -lrt -Llib -lAria
 
 # When running swig, -DARIA_WRAPPER omits non-public API that is not needed.
 # -DAREXPORT forces a definition of the AREXPORT macro to empty. The SWIG
@@ -671,27 +671,27 @@ tags: $(SRC_FILES) $(HEADER_FILES)
 
 ctags: tags
 
+CLANG_TIDY_CHECKS:=-fuchsia-*,-google-*,-zircon-*,-android-*,-abseil-*,-altera-*,-boost-*,-linuxkernel-*,-llvm-*,-llvmlibc-*
+
 clang-tidy: FORCE
-	clang-tidy --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
+	clang-tidy --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) --checks='$(CLANG_TIDY_CHECKS)' -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
+
 
 # clang-tidy but disable some warnings that are probably ok but happen a lot:
 clang-tidy-less: FORCE
-	clang-tidy --checks=-clang-analyzer-valist.Uninitialized,-clang-analyzer-optin.cplusplus.VirtualCall --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
+	clang-tidy --checks='-clang-analyzer-valist.Uninitialized,-clang-analyzer-optin.cplusplus.VirtualCall,$(CLANG_TIDY_CHECKS)' --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
 
 clang-tidy-%: include/Aria/%.h src/%.cpp
-	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
+	clang-tidy --header-filter=$< $^ --checks='$(CLANG_TIDY_CHECKS)' -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
 
 clang-tidy-%: include/Aria/%.h
-	clang-tidy --header-filter=$< $^ -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
-
-#tidy:
-#	clang-tidy $(SRC_FILES) -- $(BARECXXFLAGS) $(CXXINC)
+	clang-tidy --header-filter=$< $^ --checks='$(CLANG_TIDY_CHECKS)' -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
 
 clang-tidy-headers: FORCE
-	clang-tidy --header-filter=include/Aria/.* $(HEADER_FILES) -- -x c++ $(CXXFLAGS) $(CXXINC) 
+	clang-tidy --header-filter=include/Aria/.* $(HEADER_FILES) --checks='$(CLANG_TIDY_CHECKS)' -- -x c++ $(CXXFLAGS) $(CXXINC) 
 
 clang-tidy-examples: FORCE
-	clang-tidy --header-filter=include/Aria/.* $(EXAMPLES_CPP) -- -x c++ $(CXXFLAGS) $(CXXINC) 
+	clang-tidy --header-filter=include/Aria/.* $(EXAMPLES_CPP) --checks='$(CLANG_TIDY_CHECKS)' -- -x c++ $(CXXFLAGS) $(CXXINC) 
 
 cppcheck: FORCE
 	cppcheck --enable=all --language=c++ --std=$(CXXSTD) $(CXXINC) -j 4 -DAREXPORT $(SOURCE_FILES) $(HEADER_FILES)

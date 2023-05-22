@@ -35,11 +35,11 @@ CXXDEBUGFLAGS ?= -g
 ifdef DEBUG
 CXXOPTFLAGS ?= -Og
 else
-CXXOPTFLAGS ?= -O2
+CXXOPTFLAGS ?= -O3
 endif
 
 BARECXXFLAGS=-std=$(CXXSTD) $(CXXDEBUGFLAGS) $(CXXOPTFLAGS) $(CXXWARNFLAGS) -D_REENTRANT  
-CXXFLAGS+=$(BARECXXFLAGS) -fno-exceptions $(EXTRA_CXXFLAGS)
+CXXFLAGS+=$(BARECXXFLAGS) $(EXTRA_CXXFLAGS)
 CXXINC=-Iinclude # used in all targets
 CXXLINK=-Llib -lAria $(ARIA_CXXLINK) # used for examples, tests etc.
 CXXSTATICLINK=-Llib -Xlinker -Bstatic -lAria -Xlinker -Bdynamic $(ARIA_CXXSTATICLINK)
