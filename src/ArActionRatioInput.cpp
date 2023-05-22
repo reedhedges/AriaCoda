@@ -251,7 +251,8 @@ AREXPORT void ArActionRatioInput::setParameters(double fullThrottleForwards,
 AREXPORT void ArActionRatioInput::addFireCallback(int priority, 
 						  ArFunctor *functor)
 {
-  myFireCallbacks.insert(std::pair<int, ArFunctor *>(priority, functor));
+  //myFireCallbacks.insert(std::pair<int, ArFunctor *>(priority, functor));
+  myFireCallbacks.insert(decltype(myFireCallbacks)::value_type{priority, functor});
 }
 
 AREXPORT void ArActionRatioInput::remFireCallback(ArFunctor *functor)
