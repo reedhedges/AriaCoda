@@ -51,6 +51,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *  atomic support in modern C++ standard library if possible.
  *  @todo Optionally allocate several future 'slots' instead of just one.
  *
+ *  @todo because it's a list, we could provide API to insert, remove and splice from the middle of the list.
+ *
  *  @ingroup UtilityClasses
  */
 template<class T> 
