@@ -1,0 +1,27 @@
+name: Test Build CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build_ubuntu_gcc:
+    name: Build with g++ on ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make CXX=g++ -j
+  build_ubuntu_clang:
+    name: Build with clang++ on ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make CXX=clang++ -j
+  build_macosx:
+    name: Build on macos-latest
+    runs-on: macos-latest
+      steps:
+        - uses: actions/checkout@v3
+        - run: make -j
