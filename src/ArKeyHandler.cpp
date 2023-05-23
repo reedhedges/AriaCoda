@@ -77,9 +77,9 @@ AREXPORT ArKeyHandler::~ArKeyHandler()
 
 AREXPORT void ArKeyHandler::takeKeys(bool blocking)
 {
-  mySavedChar = -1;
   myBlocking = blocking;
 #ifndef _WIN32
+  mySavedChar = -1;
   struct termios newTermios;
 
   if (myStream == NULL)
@@ -133,10 +133,10 @@ AREXPORT void ArKeyHandler::restore()
   else
     tcsetattr(fileno(myStream), TCSANOW, &myOriginalTermios);
 
+  mySavedChar = -1;
 #endif
   myRestored = true;
   myTookKeys = false;
-  mySavedChar = -1;
 }
 
 /**
