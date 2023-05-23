@@ -1,0 +1,39 @@
+name: Test Build CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build_ubuntu_gcc:
+    name: Build with g++ on ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make -s CXX=g++ CXXOPTFLAGS=-O0 CXXDEBUGFLAGS= -j
+  build_ubuntu_clang:
+    name: Build with clang++ on ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make -s CXX=clang++ CXXOPTFLAGS=-O0 CXXDEBUGFLAGS= -j
+  build_macosx:
+    name: Build on macos-latest
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: make -s CXXOPTFLAGS=-O0 CXXDEBUGFLAGS= -j
+  build_windows:
+    name: Build on windows-latest
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up MSBuild
+        uses: microsoft/setup-msbuild@v1
+        with:
+          msbuild-architecture: x64
+      - name: Build
+        run: MSBuild visualc\AriaCoda.sln -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
