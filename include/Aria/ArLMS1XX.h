@@ -77,8 +77,8 @@ public:
 
 private:
   // Not sure what the previous versions of these were trying to implement but they are not used
-  virtual int8_t bufToByte() override { assert(false);  }
-  virtual int16_t bufToByte2() override { assert(false);  }
+  virtual int8_t bufToByte() override { assert(false); return 0; }
+  virtual int16_t bufToByte2() override { assert(false); return 0; }
 
 public:
   /// Note unlike other accessors, this simply reads next 8 text bytes in which each pair is a digit of the number, combines them bitwise, and returns the number.
