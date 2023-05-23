@@ -350,7 +350,7 @@ is a pointer to object to be deleted using the 'delete' operator.
       std::string_view s{"hello, world"};
       copy_string_to_buffer(buf, 256, s);
   */
-  static constexpr size_t copy_string_to_buffer(char *destbuf, size_t destsize, const char *src, size_t srclen)
+  static size_t copy_string_to_buffer(char *destbuf, size_t destsize, const char *src, size_t srclen)
   {
       //return copy_string_to_buffer(destbuf, destsize, std::string_view(src, srclen));
       size_t n = std::min(destsize, srclen);
