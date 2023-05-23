@@ -309,7 +309,7 @@ is a pointer to object to be deleted using the 'delete' operator.
       At most @a n characters are copied.
       The destination buffer is always null-terminated. (If the length of @a src is n, the last character will be replaced with the null character.)
   */
-  static constexpr void copy_string_to_buffer(char *destbuf, const char *src, size_t n)
+  static void copy_string_to_buffer(char *destbuf, const char *src, size_t n)
   {
       strncpy(destbuf, src, n);
       destbuf[n-1] = '\0';
