@@ -22,6 +22,6 @@ jobs:
   build_macosx:
     name: Build on macos-latest
     runs-on: macos-latest
-      steps:
-        - uses: actions/checkout@v3
-        - run: make -j
+    steps:
+      - uses: actions/checkout@v3
+      - run: make -j
