@@ -36,4 +36,4 @@ jobs:
         with:
           msbuild-architecture: x64
       - name: Build
-        run: MSBuild visualc\AriaCoda.sln -verbosity:detailed -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
+        run: MSBuild visualc\AriaCoda.sln -p:Configuration=Debug -p:Platform=x64 -maxCpuCount
