@@ -153,9 +153,6 @@ public:
 
 protected:
 
-#ifndef _WIN32
-  int getChar();
-#endif 
 
   std::map<int, ArFunctor *> myMap;
   bool myBlocking;
@@ -169,6 +166,8 @@ protected:
   FILE *myStream;
   bool myTookKeys;
 
+#ifndef WIN32
+  int getChar();
   int waitForChar(long timeout)
   {
     assert(timeout >= 0);
@@ -188,6 +187,7 @@ protected:
   {
     mySavedChar = c;
   }
+#endif
 
 };
 
