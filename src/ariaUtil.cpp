@@ -3114,3 +3114,12 @@ AREXPORT unsigned long ArUtil::availableDiskSpaceKB(const char *path, bool *ok)
   return ULONG_MAX;
 }
 
+long ArMath::randomInRange(long m, long n)
+{
+    // simple method
+    return m + (random() % (n - m));
+    //return m + random() / (ourRandMax / (n - m + 1) + 1);
+    // alternate method is to use drand48, multiply and round (does Windows have
+    // drand48?), or keep trying numbers until we get one in range.
+}
+

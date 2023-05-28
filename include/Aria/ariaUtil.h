@@ -959,7 +959,10 @@ public:
     }
   
   /** Returns a random number between 0 and RAND_MAX on Windows, 2^31 on Linux
-   * (see ArUtil::getRandMax()). On Windows, rand() is used, on Linux, lrand48(). */
+   * (see ArUtil::getRandMax()). On Windows, rand() is used, on Linux, lrand48(). 
+   * @deprecated use C++11 standard random number generation library instead: <https://en.cppreference.com/w/cpp/numeric/random>
+   */
+  PUBLICDEPRECATED("use C++11 standard random number generation library instead: <https://en.cppreference.com/w/cpp/numeric/random>")
   static long random()
     {
 #ifdef WIN32
@@ -970,7 +973,9 @@ public:
     }
   
   /// Maximum of value returned by random()
+  /// @deprecated use C++11 standard random number generation library instead: <https://en.cppreference.com/w/cpp/numeric/random>
   /// @note For GCC prior to version 8, this function cannot be declared constexpr, but for GCC version 8 and later, it is declared with constexpr.  This interface difference means that user code built with GCC version 8 or later may not be able to link to an Aria library built with GCC prior to version 8, and vice-versa.
+  PUBLICDEPRECATED("use C++11 standard random number generation library instead: <https://en.cppreference.com/w/cpp/numeric/random>")
 #if !defined(__clang__) && defined(__GNUC__) && (__GNUC__ < 8) 
   // GCC 8 and later and clang allow returning the value ourRandMax from constexpr function, which is initialized in ariaUtil.cpp (outside class declaration).  GCC prior to 8 does not so we omit constexpr here.
 #else
@@ -980,16 +985,10 @@ public:
 
   /** Returns a random number between @a m and @a n. On Windows, rand() is used,
    * on Linux lrand48(). 
-   * @ingroup easy
+   * @deprecated use C++11 standard random number generation library instead: <https://en.cppreference.com/w/cpp/numeric/random>
   */
-  static long randomInRange(long m, long n)
-  {
-      // simple method
-      return m + (random() % (n - m));
-      //return m + random() / (ourRandMax / (n - m + 1) + 1);
-      // alternate method is to use drand48, multiply and round (does Windows have
-      // drand48?), or keep trying numbers until we get one in range.
-  }
+  PUBLICDEPRECATED("use C++11 standard random number generation library instead: <https://en.cppreference.com/w/cpp/numeric/random>")
+  static long randomInRange(long m, long n);
 
   /// Finds the distance between two coordinates
   /**
