@@ -1,9 +1,10 @@
 AriaCoda
 ========
 
-[![Build
-Status](https://travis-ci.com/reedhedges/AriaCoda.svg?branch=master)](https://app.travis-ci.com/github/reedhedges/AriaCoda)
+[![Build Status](https://github.com/reedhedges/AriaCoda/actions/workflows/builds.yml/badge.svg)](https://github.com/reedhedges/AriaCoda/actions/workflows/builds.yml)
+
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
+
 [![Platform: Linux](https://img.shields.io/badge/Platform-Linux-green.svg)](https://img.shields.io/badge/Platform-Linux-green.svg)
 [![Platform: Windows (MSVC 2019)](https://img.shields.io/badge/Platform-Windows%20%28MSVC%202019%29-green.svg)](https://img.shields.io/badge/Platform-Windows%20%28MSVC%202019%29-green.svg)
 [![Platform: Windows (MinGW)](https://img.shields.io/badge/Platform-Windows%20%28MinGW%29-green.svg)](https://img.shields.io/badge/Platform-Windows%20%28MinGW%29-green.svg)
@@ -188,12 +189,16 @@ e.g., `DEBUG` disables some optimizations, and `CXX` overrides the default compi
 to optimize for a computer with an Intel Atom processor (i.e. PioneerLX), 
 and math functions in general, you could do this:
 
-    make EXTRA_CXXFLAGS="-mcpu=atom -ffast-math" -j4
+    make EXTRA_CXXFLAGS="-mcpu=atom -ffast-math" -j6
+
+Or to optimize for Intel CPUs, supporting Core2 and later:
+
+    make EXTRA_CXXFLAGS="-march=core2 -mtune=intel" -j6
 
 Or to get additional optimization based on the features of the CPU of the
 build host:
 
-    make EXTRA_CXXFLAGS="-march=native -mtune=native" -j4
+    make EXTRA_CXXFLAGS="-march=native -mtune=native" -j6
 
 To compile with clang and libc++ instead of gcc and libstdc++:
 
@@ -201,7 +206,7 @@ To compile with clang and libc++ instead of gcc and libstdc++:
 
 To compile with clang and libc++ with some of the LLVM sanitizer options turned on:
 
-    make DEBUG=1 CXX=clang++ EXTRA_CXXFLAGS="-stdlib=libc++ -fsanitize=address,undefined" -j4
+    make DEBUG=1 CXX=clang++ EXTRA_CXXFLAGS="-stdlib=libc++ -fsanitize=address,undefined" -j6
 
 However, be aware that files compiled with different C++ compilers, and sometimes
 with different compilation flags (e.g. -stdlib) may not be compatible, resulting
@@ -215,8 +220,8 @@ Other variables are available. Run `make help` for description of all variables.
 On Linux enter the AriaCoda source directory in a terminal,
 and run `make`.
 
-Use `make -j4` to build targets in parallel with a maximum of 4 jobs.
-(Use `make -j2` for 2 jobs, etc.)
+Use `make -j6` to build faster by building in parallel with a maximum of 6 jobs
+(`-j4` for 4 jobs, `-j2` for 2 jobs, etc.), or `make -j` to run all jobs in parallel.
 
 Run `make help` for information on more make rules and parameters.
 
