@@ -70,6 +70,8 @@ Several major changes have been made for AriaCoda since the last release of Aria
   destructors) have been removed. If you derive from any ARIA class and intend
   to override a method, the use of the "override" specifier is encouraged;
   the C++ compiler should then warn if the base class method is not virtual.
+  If you encounter problems using AriaCoda because of this change, please submit
+  a bug report in Github issues.
 * Some function argument and return types have been changed from `int` to
   `size_t` or other more specific or appropriate type.
 * The feature of ArFunctor subclasses to store parameter values and the various
@@ -87,11 +89,6 @@ Several major changes have been made for AriaCoda since the last release of Aria
   to a list of ArMapObject objects or smart pointers rather than pointers.)
   ArMap::getMapObjectsPtr() has been added for internal use and as an easy 
   compatibility function, but use outside of the library is deprecated.
-* Some methods are no longer virtual.  These classes should have not been
-  used as base classes for virtual inheritance, but if you were doing so,
-  or are creating classes derived from any other classes, please submit
-  a feature request on Github for any changes to the API you need (such as
-  designing virtual methods intended to be overridden.) 
 * Various fixes and changes to improve optimization and
   conformance/correctness.  Due to code removal, various optimizations in the 
   source code (especially in frequently used storage and utility classes such 
@@ -117,7 +114,7 @@ interfaces. The biggest changes will likely be to replace ArFunctor, ArTime, and
 threading and other OS portability wrappers with newer C++ standards, and possibly
 requiring use of smart pointers especially when objects or references are passed
 into or out of the ARIA API, as well as more consistent use of e.g. `std::string`
-rather than `char *`, use of standard types rather than types defined by ARIA,
+or `std::string_view` rather than `char *`, use of standard types rather than types defined by ARIA,
 etc.  See [TODO.md](TODO.md) for details.
 
 Support and Contributing
@@ -130,7 +127,8 @@ There are many ways to help continued improvement and maintenance of AriaCoda:
 is incorrect or difficult to understand?  Would you like to see example code
 for a particular feature?  Is there a bug or problem with AriaCoda?
 [Report the issue here.](https://github.com/reedhedges/AriaCoda/issues)
-* Contribute code.  See [TODO.md](TODO.md) for ideas.  Changes
+* Contribute improvements, bug fixes, tests, documentaton fixes, updated Visual C++ project files, etc.  
+See [TODO.md](TODO.md) for ideas.  Changes
 can be discussed on [GitHub Issues](https://github.com/reedhedges/AriaCoda/issues).
 * Financial sponsorship of the primary developer through
 [GitHub Sponsorship](https://github.com/sponsors/reedhedges) or through
@@ -146,8 +144,8 @@ supports C++14.  There are no additional library dependencies.
 
 On Linux, the GNU C++ compiler (g++/gcc), GNU Make, and standard shell
 tools are required.  On Ubuntu or Debian Linux, run
-`sudo apt install make g++` to install.   (Clang should also work but is not
-as regularly tested.)   The C++ compiler must support at least C++14;  
+`sudo apt install make g++` to install.   (Clang can be used as well.)
+The C++ compiler must support at least C++14;  
 GCC 9 or later is recommended. (Ubuntu Bionic or later is recommended 
 as Linux operating system.) See below for notes on older GCC/OS versions.
 
