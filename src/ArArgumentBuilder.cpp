@@ -33,17 +33,20 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <limits.h>
 #include <assert.h>
 
-/* Why do we have our own version of this?
- @note allocates a new string with the same size (including null byte) as @a str 
+/** Like standard strdup() but allocates memory with new[]. Use delete[] to free memory.
+    This lets us use delete[] to free memory allocated either by this function, or directly allocated with new[],
+    avoiding the problem of using free() after new[] or delete[] after standard strdup()/malloc/etc..
+    Allocates a new string with the same size (including null byte) as @a str 
+    @a str must be null-terminated.
+*/
 char * cppstrdup(const char *str)
 {
   size_t len = strlen(str);
   char *ret = new char[len + 1];
-  strncpy(ret, str, len);
+  strncpy(ret, str, len+1);
   ret[len] = '\0';
   return ret;
 }
-*/
 
 /**
  * @param argvLen the largest number of arguments to parse
@@ -86,8 +89,7 @@ AREXPORT ArArgumentBuilder::ArArgumentBuilder(const ArArgumentBuilder & builder)
   myOrigArgc = myArgc;
   myArgv = new char *[myArgvLen];
   for (i = 0; i < myArgc; i++) {
-    //myArgv[i] = cppstrdup(builder.getArg(i));
-    myArgv[i] = strdup(builder.getArg(i));
+    myArgv[i] = cppstrdup(builder.getArg(i));
     assert(myArgv[i]);
   }
   myIsQuiet = builder.myIsQuiet;
@@ -120,8 +122,7 @@ AREXPORT ArArgumentBuilder &ArArgumentBuilder::operator=(const ArArgumentBuilder
     myOrigArgc = myArgc;
     myArgv = new char *[myArgvLen];
     for (i = 0; i < myArgc; i++) {
-      //myArgv[i] = cppstrdup(builder.getArg(i));
-      myArgv[i] = strdup(builder.getArg(i));
+      myArgv[i] = cppstrdup(builder.getArg(i));
       assert(myArgv[i]);
     }
     myIsQuiet = builder.myIsQuiet;
@@ -138,8 +139,7 @@ AREXPORT ArArgumentBuilder::~ArArgumentBuilder()
   if (myOrigArgc > 0)
   {
     for (i = 0; i < myOrigArgc; ++i)
-      //delete[] myArgv[i];
-      free(myArgv[i]); //allocated by strdup()
+      delete[] myArgv[i]; // allocated either by new[] or cppstrdup() which uses new[].
   }
   delete[] myArgv;
 }
@@ -939,23 +939,18 @@ AREXPORT double ArArgumentBuilder::getArgDouble(size_t whichArg,
 
 AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
 {
-  size_t argLen;
-  size_t i;
+
   std::string myNewArg;
 
-  for (i = 0; i < myArgc; i++)
+  for (size_t i = 0; i < myArgc; i++)
   {
-    argLen = strlen(myArgv[i]);
-    if (stripQuotationMarks && argLen >= 2 && 
-	myArgv[i][0] == '"' && myArgv[i][argLen - 1] == '"')
+    size_t argLen = strlen(myArgv[i]);
+    if (stripQuotationMarks && argLen >= 2 && myArgv[i][0] == '"' && myArgv[i][argLen - 1] == '"')
     {
       myNewArg = &myArgv[i][1];
       myNewArg[myNewArg.size() - 1] = '\0';
-      //delete[] myArgv[i];
-      free(myArgv[i]); // allocated by strdup()
-      // but replacing ourself with the new arg
-      //myArgv[i] = cppstrdup(myNewArg.c_str());
-      myArgv[i] = strdup(myNewArg.c_str());
+      delete[] myArgv[i]; 
+      myArgv[i] = cppstrdup(myNewArg.c_str());
       assert(myArgv[i]);
       continue;
     }
@@ -965,9 +960,9 @@ AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
       // start the new value for this arg, if stripping quotations
       // then start after the quote
       if (stripQuotationMarks)
-	myNewArg = &myArgv[i][1];
+	      myNewArg = &myArgv[i][1];
       else
-	myNewArg = myArgv[i];
+	      myNewArg = myArgv[i];
 
       bool isEndQuoteFound = false;
 
@@ -978,27 +973,27 @@ AREXPORT void ArArgumentBuilder::compressQuoted(bool stripQuotationMarks)
         size_t nextArgLen = strlen(myArgv[i+1]);
 
         // Check whether the next arg contains the ending quote...
-        if ((nextArgLen > 0) &&
-	    (myArgv[i+1][nextArgLen - 1] == '"')) 
-	{
-	      isEndQuoteFound = true;
+        if ((nextArgLen > 0) && (myArgv[i+1][nextArgLen - 1] == '"')) 
+	      {
+	        isEndQuoteFound = true;
         }
     
         // Concatenate the next arg to this one...
         myNewArg += " ";
         myNewArg += myArgv[i+1];
-	// if we are striping quotes off then replace the quote
-	if (stripQuotationMarks && myNewArg.size() > 0 && isEndQuoteFound)
-	  myNewArg[myNewArg.size() - 1] = '\0';
+
+        // if we are striping quotes off then replace the quote
+        if (stripQuotationMarks && myNewArg.size() > 0 && isEndQuoteFound)
+          myNewArg[myNewArg.size() - 1] = '\0';
+
         // removing those next args
         removeArg(i+1);
+
         // and ourself
-        //delete[] myArgv[i];
-        free(myArgv[i]); // allocated by strdup()
+        delete[] myArgv[i];
 
         // but replacing ourself with the new arg
-        //myArgv[i] = cppstrdup(myNewArg.c_str());
-        myArgv[i] = strdup(myNewArg.c_str());
+        myArgv[i] = cppstrdup(myNewArg.c_str());
         assert(myArgv[i]);
       }
     }
