@@ -854,6 +854,7 @@ AREXPORT bool ArSZSeries::blockingConnect() {
 	//laserPullUnsetParamsFromRobot();
 	//laserCheckParams();
 
+	// TODO after roundInt() becomes constexpr: constexpr size_t size = (size_t) ArMath::roundInt((270/.3) + 1);
 	const size_t size = (size_t) ArMath::roundInt((270/.3) + 1);
 	ArLog::log(myInfoLogLevel,
 			"%s::blockingConnect() Setting current buffer size to %lu",

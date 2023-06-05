@@ -149,9 +149,9 @@ public:
 
 
   /// Take a std::list of sensor readings and do the transform on it
-  /// @deprecated use std::transform(poseList, t)
+  /// @deprecated use std::transform(poseList, t) where t is an ArTransform object or a lambda or function that captures an ArTransform object and makes the desired call to transform and replace the desired pose in the list. 
   AREXPORT void doTransform(std::list<ArPose *> *poseList);
-  /// @deprecated use std::transform(poseList, t)
+  /// @deprecated use std::transform(poseList, t) where t is an ArTransform object or a lambda or function that captures an ArTransform object and makes the desired call to transform and replace the desired pose in the list. 
   /// Take a std::list of sensor readings and do the transform on it
   AREXPORT void doTransform(std::list<ArPoseWithTime *> *poseList);
   

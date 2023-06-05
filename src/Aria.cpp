@@ -145,7 +145,7 @@ AREXPORT void Aria::init(SigHandleMethod method, bool initSockets,
 
   ourRunning = true;
 #ifndef _WIN32
-  srand48(time(NULL));
+  srand48(time(NULL)); // TODO better seed value, or remove? does anything in the ARIA library itself use random numbers? If so we could be using C++11 standard library functions instead?
 #endif
 
   ArThread::init();
