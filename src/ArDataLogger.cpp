@@ -335,28 +335,28 @@ void ArDataLogger::connectCallback()
   // todo change these to just vectors
   if (myAnalogCount > 0)
   {
-    myAnalogEnabled = new bool[myAnalogCount];
-    for (int i = 0; i < myAnalogCount; ++i)
+    myAnalogEnabled = new bool[(size_t)myAnalogCount];
+    for (size_t i = 0; i < (size_t)myAnalogCount; ++i)
     {
       myAnalogEnabled[i] = false;
     }
   }
   if (myAnalogVoltageCount > 0)
   {
-    myAnalogVoltageEnabled = new bool[myAnalogVoltageCount];
-    for (int i = 0; i < myAnalogVoltageCount; ++i)
+    myAnalogVoltageEnabled = new bool[(size_t)myAnalogVoltageCount];
+    for (size_t i = 0; i < (size_t)myAnalogVoltageCount; ++i)
       myAnalogVoltageEnabled[i] = false;
   }
   if (myDigInCount > 0)
   {
-    myDigInEnabled = new bool[myDigInCount];
-    for (int i = 0; i < myDigInCount; ++i)
+    myDigInEnabled = new bool[(size_t)myDigInCount];
+    for (size_t i = 0; i < (size_t)myDigInCount; ++i)
       myDigInEnabled[i] = false;
   }
   if (myDigOutCount > 0)
   {
-    myDigOutEnabled = new bool[myDigOutCount];
-    for (int i = 0; i < myDigOutCount; ++i)
+    myDigOutEnabled = new bool[(size_t)myDigOutCount];
+    for (size_t i = 0; i < (size_t)myDigOutCount; ++i)
       myDigOutEnabled[i] = false;
   }
 
