@@ -306,6 +306,7 @@ help:
 	@echo "Set CXXOPTFLAGS to override default optimization flags (-O3 unless DEBUG is set, then -Og)."
 	@echo "Set CXXDEBUGFLAGS to override default debug flags (-g)."
 	@echo "Set EXTRA_CXXFLAGS_<File> to add additional compilation flag added only when compiling <File>.cpp. E.g. EXTRA_CXXFLAGS_ArRobot"
+	@echo "Set EXTRA_LFLAGS to add additional link flags (not used for static link of the library)"
 	@echo "Set CXXSTD to select C++ standard (i.e. value passed to -std).  Default is $(CXXSTD)"
 	@echo "Set CXX to override C++ compiler command.  E.g. \"clang++\", \"ccache c++\", etc.  Default is $(CXX)."
 	@echo "Set AR to override ar static linker command."
@@ -581,13 +582,13 @@ cleanCSharp:
 
 lib/libAria.$(sosuffix): $(OFILES) 
 	-mkdir lib
-	$(CXX) -shared $(ARIA_LINKFLAGS) -o $(@) $(OFILES) $(ARIA_CXXLINK)
+	$(CXX) -shared $(ARIA_LINKFLAGS) -o $(@) $(OFILES) $(ARIA_CXXLINK) $(EXTRA_LINKFLAGS)
 	ln -sf libAria.$(sosuffix) lib/libAria.$(sosuffix).$(majorlibver)
 
 lib/libAria.a: $(OFILES) 
 	-mkdir lib
 	$(AR) -cr $(@) $(OFILES)
-	ranlib $(@)
+	$(RANLIB) $(@)
 
 examples/%.$(sosuffix): examples/%.$(CFILEEXT) lib/libAria.$(sosuffix) 
 	$(CXX) $(CXXFLAGS) $(CXXINC) -shared $< -o $@

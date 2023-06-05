@@ -7,6 +7,14 @@ ifndef CXX
 CXX:=g++
 endif
 
+ifndef AR
+AR:=ar
+endif
+
+ifndef RANLIB
+RANLIB:=ranlib
+endif
+
 CFILEEXT:=cpp
 
 # BARECXXFLAGS is used when compiling python and java wrapper code
@@ -21,7 +29,8 @@ CFILEEXT:=cpp
 # Set CXXSTD to set value of -std option (to enable a different C++ version).  Default is c++14.
 # Set CXXDEBBUGFLAGS and CXXOPTFLAGS to set debug and optimization flags
 
-CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wpedantic -Wsign-conversion -Wconversion -Woverloaded-virtual 
+CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wsign-conversion -Wconversion -Woverloaded-virtual
+# -Wpedantic -Wno-deprecated-declarations
 # -Wfloat-conversion (Note one of the flags above appears to turn this on with clang on MacOSX)
 # -Wnon-virtual-dtor
 # -Wduplicated-cond -Wduplicated-branches -Wlogical-op
@@ -41,7 +50,7 @@ endif
 BARECXXFLAGS=-std=$(CXXSTD) $(CXXDEBUGFLAGS) $(CXXOPTFLAGS) $(CXXWARNFLAGS) -D_REENTRANT  
 CXXFLAGS+=$(BARECXXFLAGS) $(EXTRA_CXXFLAGS)
 CXXINC=-Iinclude # used in all targets
-CXXLINK=-Llib -lAria $(ARIA_CXXLINK) # used for examples, tests etc.
+CXXLINK=-Llib -lAria $(ARIA_CXXLINK) $(EXTRA_LFLAGS) # used for examples, tests etc.
 CXXSTATICLINK=-Llib -Xlinker -Bstatic -lAria -Xlinker -Bdynamic $(ARIA_CXXSTATICLINK)
 # ARIA_CXXLINK and ARIA_CXXSTATICLINK are defined in next section
 
