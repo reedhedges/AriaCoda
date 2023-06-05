@@ -601,7 +601,7 @@ AREXPORT bool ArSonarMTX::blockingConnect (bool sendTracking, bool recvTracking 
 
 				IFDEBUG(ArLog::log(ArLog::Normal, "%s::blockingConnect() Alive message received from sonar", getNameWithBoard());)
 
-        const int cmdDelay = 100;
+        		const int cmdDelay = 100;
 
 				ArUtil::sleep(cmdDelay);
 

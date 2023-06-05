@@ -96,15 +96,15 @@ AREXPORT std::string ArSyncTask::getName()
 */
 AREXPORT ArSyncTask *ArSyncTask::find(ArFunctor *functor)
 {
-  ArSyncTask *proc;
-  std::multimap<int, ArSyncTask *>::iterator it;
+  //ArSyncTask *proc;
+  //std::multimap<int, ArSyncTask *>::iterator it;
   
   if (myFunctor == functor)
     return this;
 
-  for (it = myMultiMap.begin(); it != myMultiMap.end(); ++it)
+  for (auto it = myMultiMap.cbegin(); it != myMultiMap.cend(); ++it)
   {
-    proc = (*it).second;
+    ArSyncTask *proc = (*it).second;
     if (proc->find(functor) != NULL)
       return proc;
   }
@@ -119,15 +119,15 @@ AREXPORT ArSyncTask *ArSyncTask::find(ArFunctor *functor)
 */
 AREXPORT ArSyncTask *ArSyncTask::find(const char *name)
 {
-  ArSyncTask *proc;
-  std::multimap<int, ArSyncTask *>::iterator it;
+  //ArSyncTask *proc;
+  //std::multimap<int, ArSyncTask *>::iterator it;
   
   if (strcmp(myName.c_str(), name) == 0)
     return this;
 
-  for (it = myMultiMap.begin(); it != myMultiMap.end(); ++it)
+  for (auto it = myMultiMap.cbegin(); it != myMultiMap.cend(); ++it)
   {
-    proc = (*it).second;
+    ArSyncTask *proc = (*it).second;
     if (proc->find(name) != NULL)
       return proc;
   }
@@ -142,12 +142,12 @@ AREXPORT ArSyncTask *ArSyncTask::find(const char *name)
 */
 AREXPORT ArSyncTask *ArSyncTask::findNonRecursive(const char * name)
 {
-  ArSyncTask *proc;
-  std::multimap<int, ArSyncTask *>::iterator it;
+  //ArSyncTask *proc;
+  //std::multimap<int, ArSyncTask *>::iterator it;
   
-  for (it = myMultiMap.begin(); it != myMultiMap.end(); ++it)
+  for (auto it = myMultiMap.cbegin(); it != myMultiMap.cend(); ++it)
   {
-    proc = (*it).second;
+    ArSyncTask *proc = (*it).second;
     if (strcmp(proc->getName().c_str(), name) == 0)  
       return proc;
   }
@@ -161,12 +161,12 @@ AREXPORT ArSyncTask *ArSyncTask::findNonRecursive(const char * name)
 */
 AREXPORT ArSyncTask *ArSyncTask::findNonRecursive(ArFunctor *functor)
 {
-  ArSyncTask *proc;
-  std::multimap<int, ArSyncTask *>::iterator it;
+  //ArSyncTask *proc;
+  //std::multimap<int, ArSyncTask *>::iterator it;
   
-  for (it = myMultiMap.begin(); it != myMultiMap.end(); ++it)
+  for (auto it = myMultiMap.cbegin(); it != myMultiMap.cend(); ++it)
   {
-    proc = (*it).second;
+    ArSyncTask *proc = (*it).second;
     if (proc->getFunctor() == functor)
       return proc;
   }
@@ -187,7 +187,10 @@ AREXPORT void ArSyncTask::addNewBranch(const char *nameOfNew, int position,
 				       ArTaskState::State *state)
 {
   ArSyncTask *proc = new ArSyncTask(nameOfNew, NULL, state, this);
-  myMultiMap.insert(std::pair<int, ArSyncTask *>(position, proc));
+  //myMultiMap.insert(std::pair<int, ArSyncTask *>(position, proc));
+  using map_type = decltype(myMultiMap);
+  using map_entry_type = map_type::value_type;
+  myMultiMap.insert(map_entry_type{position, proc});
 }
 
 /**
@@ -208,7 +211,10 @@ AREXPORT void ArSyncTask::addNewLeaf(const char *nameOfNew, int position,
 				     ArTaskState::State *state)
 {
   ArSyncTask *proc = new ArSyncTask(nameOfNew, functor, state, this);
-  myMultiMap.insert(std::pair<int, ArSyncTask *>(position, proc));
+  //myMultiMap.insert(std::pair<int, ArSyncTask *>(position, proc));
+  using map_type = decltype(myMultiMap);
+  using map_entry_type = map_type::value_type;
+  myMultiMap.insert(map_entry_type{position, proc});
 }
 
 AREXPORT void ArSyncTask::remove(ArSyncTask *proc)
@@ -244,9 +250,7 @@ AREXPORT void ArSyncTask::run()
 {
   myRunning = true;
 
-  const ArTaskState::State state = getState();
-
-  switch (state) 
+  switch (getState()) 
   {
   case ArTaskState::SUSPEND:
   case ArTaskState::SUCCESS:
@@ -264,7 +268,7 @@ AREXPORT void ArSyncTask::run()
   ArTime runTime;
   if (myFunctor != NULL)
     myFunctor->invoke();
-  const long took = runTime.mSecSince();
+  long took = runTime.mSecSince();
   assert(took >= 0);
   long warningTime = 0;
   if (myNoTimeWarningCB != NULL && !myNoTimeWarningCB->invokeR() && 
@@ -335,16 +339,12 @@ AREXPORT ArRetFunctor<bool> *ArSyncTask::getNoTimeWarningCB()
 */
 AREXPORT void ArSyncTask::log(int depth)
 {
-  int i;
-  std::multimap<int, ArSyncTask *>::reverse_iterator it;
   std::string str = "";
-  ArTaskState::State state;
-  
-  for (i = 0; i < depth; i++)
+  for (int i = 0; i < depth; i++)
     str += "\t";
   str += myName.c_str();
   str += " (";
-  state = getState();
+  ArTaskState::State state = getState();
   switch (state) 
   {
   case ArTaskState::INIT:
@@ -371,7 +371,8 @@ AREXPORT void ArSyncTask::log(int depth)
     break;
   }
   ArLog::log(ArLog::Terse, const_cast<char *>(str.c_str()));
-  for (it = myMultiMap.rbegin(); it != myMultiMap.rend(); it++)
+  //std::multimap<int, ArSyncTask *>::reverse_iterator it;
+  for (auto it = myMultiMap.rbegin(); it != myMultiMap.rend(); it++)
     (*it).second->log(depth + 1);
   
 }

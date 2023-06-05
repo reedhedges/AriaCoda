@@ -33,6 +33,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <sys/socket.h>
 #include <netinet/ip.h>
 #include <netinet/tcp.h>
+#include <cassert>
 
 /// We're always initialized in Linux
 bool ArSocket::ourInitialized=true;
@@ -141,8 +142,9 @@ bool ArSocket::connect(const char *host, int port, Type type,
   // &&  !hostAddr("localhost", mySin.sin_addr))
 
   char useHost[1024];
-  int usePort;
+  int usePort = -1;
   separateHost(host, port, useHost, sizeof(useHost), &usePort);
+  assert(usePort != -1);
 
   if(port < 0 || port > USHRT_MAX)
   {

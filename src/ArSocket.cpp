@@ -593,16 +593,16 @@ AREXPORT std::string ArSocket::inToA(struct in_addr& addr)
   return inet_ntoa(addr);
 }
 
-  
+// Note: this version of addrHost() is deprecated because we don't know size of 'host', so have to use strcpy instead of strncpy
 bool ArSocket::addrHost(struct in_addr &addr, char *host)
 {
   struct hostent *hp;
 
   hp=gethostbyaddr((char*)&addr.s_addr, sizeof(addr.s_addr), AF_INET);
   if (hp)
-    strcpy(host, hp->h_name); // this version of addrHost() is deprecated because we don't know size of 'host'
+    strcpy(host, hp->h_name);
   else
-    strcpy(host, inet_ntoa(addr)); // this version of addrHost() is deprecated because we don't know size of 'host'
+    strcpy(host, inet_ntoa(addr)); 
 
   return(true);
 }

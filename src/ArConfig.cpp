@@ -2838,6 +2838,12 @@ AREXPORT bool ArConfig::callProcessFileCallBacks(bool continueOnErrors,
        ++it)
   {
     callback = (*it).second;
+    if(callback == nullptr)
+    {
+      ArLog::log(ArLog::Terse, "ArConfig: Encountered a null callback (%d)", -(it->first));
+      ret = false;
+      break;  
+    }
     if (callback->getName() != NULL && callback->getName()[0] != '\0')
       ArLog::log(level, "%sProcessing functor '%s' (%d)", 
                  myLogPrefix.c_str(),
@@ -2854,26 +2860,24 @@ AREXPORT bool ArConfig::callProcessFileCallBacks(bool continueOnErrors,
       // pointer to it
       if (errorBuffer != NULL && errorBuffer[0] != '\0')
       {
-	errorBuffer = NULL;
-	errorBufferLen = 0;
+        errorBuffer = NULL;
+        errorBufferLen = 0;
       }
       ret = false;
       if (!continueOnErrors)
       {
-	if (callback->getName() != NULL && callback->getName()[0] != '\0')
-	  ArLog::log(ArLog::Normal, "ArConfig: Failed, stopping because the '%s' process file callback failed", 
-		     callback->getName());
-	else
-	  ArLog::log(ArLog::Normal, "ArConfig: Failed, stopping because unnamed process file callback failed");
-	break;
+        if (callback->getName() != NULL && callback->getName()[0] != '\0')
+          ArLog::log(ArLog::Normal, "ArConfig: Failed, stopping because the '%s' process file callback failed", callback->getName());
+        else
+          ArLog::log(ArLog::Normal, "ArConfig: Failed, stopping because unnamed process file callback failed");
+        break;
       }
       else
       {
-	if (callback->getName() != NULL && callback->getName()[0] != '\0')
-	  ArLog::log(ArLog::Normal, "ArConfig: Failed but continuing, the '%s' process file callback failed", 
-		     callback->getName());
-	else
-	  ArLog::log(ArLog::Normal, "ArConfig: Failed but continuing, an unnamed process file callback failed");
+        if (callback->getName() != NULL && callback->getName()[0] != '\0')
+          ArLog::log(ArLog::Normal, "ArConfig: Failed but continuing, the '%s' process file callback failed", callback->getName());
+        else
+          ArLog::log(ArLog::Normal, "ArConfig: Failed but continuing, an unnamed process file callback failed");
       }
 
     }

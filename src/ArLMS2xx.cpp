@@ -1102,9 +1102,10 @@ AREXPORT bool ArLMS2xx::disconnect()
     {
       ArUtil::sleep(20);
       if ((conn = dynamic_cast<ArSerialConnection *>(myConn)))
-	  conn->setBaud(9600);
-    } else
+        conn->setBaud(9600);
+    } else {
       ret = false;
+    }
     ret = ret && myConn->close();
     myConnMutex.unlock();
     ArUtil::sleep(300);
@@ -1490,7 +1491,7 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
 AREXPORT void ArLMS2xx::runOnce(bool lockRobot)
 {
   ArLMS2xxPacket *packet;
-  unsigned int counter;
+  //unsigned int counter;
   int ret;
   ArTime time;
   ArTime time2;
@@ -1503,7 +1504,7 @@ AREXPORT void ArLMS2xx::runOnce(bool lockRobot)
     if (lockRobot)
       myRobot->lock();
     pose = myRobot->getPose();
-    counter = myRobot->getCounter();
+    //counter = myRobot->getCounter();
     if (lockRobot)
       myRobot->unlock();
   }
@@ -1548,7 +1549,7 @@ AREXPORT void ArLMS2xx::runOnce(bool lockRobot)
 	      packet->getTimeReceived(), &encoderPose)) < 0)
 	encoderPose = myRobot->getEncoderTransform().doInvTransform(pose);
 
-      counter = myRobot->getCounter();
+      unsigned int counter = myRobot->getCounter();
 
       if (lockRobot && myInterpolation)
 	myRobot->unlock();

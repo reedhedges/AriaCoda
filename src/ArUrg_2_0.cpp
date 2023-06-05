@@ -901,13 +901,11 @@ void ArUrg_2_0::sensorInterp()
     iIncr = 2;
   }
 
-  bool ignore;
   size_t i = 0;
   for (it = myRawReadings->rbegin(), i = 0; 
        it != myRawReadings->rend() && i < iMax; //len - 2; 
        it++, i += iIncr) //3)
   {
-    ignore = false;
 
     if (myUseThreeDataBytes)
     {
@@ -929,6 +927,7 @@ void ArUrg_2_0::sensorInterp()
       range = myDMax+1;
 
     sReading = (*it);
+    constexpr bool ignore = false;
     sReading->newData(range, pose, encoderPose, transform, counter, 
 		      time, ignore, 0);
   }
