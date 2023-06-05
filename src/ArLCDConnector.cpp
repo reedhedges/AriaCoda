@@ -893,6 +893,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 	}
 
 	unsigned char helloResp[4];
+    memset(helloResp, ' ', 4);
 	bool gotResponse= false;
 	int hmiVersion = 0;
 	int hmiRevision = 0;
@@ -906,13 +907,14 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 			return false;
 		}
 
-		if ((lcd->myConn->read((char *) &helloResp[0], 4, 500)) > 0) {
-
+		int r = lcd->myConn->read((char *) &helloResp[0], 4, 500);
+		if (r > 0) 
+		{
 			ArLog::log(ArLog::Normal,
-					"ArLCDConnector::verifyFirmware(%d) received hello response 0x%02x 0x%02x 0x%02x 0x%02x",
-					lcd->myNumber, helloResp[0],  helloResp[1],  helloResp[2],  helloResp[3] );
+					"ArLCDConnector::verifyFirmware(%d) received %d bytes hello response: 0x%02x 0x%02x 0x%02x 0x%02x",
+					lcd->myNumber, r, helloResp[0],  helloResp[1],  helloResp[2],  helloResp[3] );
 
-			if ((helloResp[0] == 0xc0) && (helloResp[3] == 0x4b)) {
+			if (r >= 4  && (helloResp[0] == 0xc0) && (helloResp[3] == 0x4b)) {
 				ArLog::log(ArLog::Normal,
 					"ArLCDConnector::verifyFirmware(%d) received hello response",
 					lcd->myNumber);
@@ -922,15 +924,12 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 				hmiRevision = helloResp[2];
 
 				break;
-
 			}
-
 		}
 		else {
 			ArLog::log(ArLog::Normal,
 					"ArLCDConnector::verifyFirmware(%d) read failed",
 					lcd->myNumber);
-
 		}
 	}
 
