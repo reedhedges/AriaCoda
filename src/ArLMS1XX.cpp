@@ -151,7 +151,7 @@ void ArLMS1XXPacket::strToBuf(const char *str)
 
 	myFirstAdd = false;
 
-  const size_t len = strlen(str);
+    const size_t len = strlen(str);
 	assert(len <= USHRT_MAX);
 	const uint16_t tempLen = (uint16_t)len;
 
@@ -1308,17 +1308,17 @@ void ArLMS1XX::sensorInterp ()
 
 		// TiM scan freq is 0 in TiM packet - use measurementfreq
 
-    // XXX TODO check that this is correct
-    int freq = 0;
+		// XXX TODO check that this is correct
+		int freq = 0;
 		if (myLaserModelFamily == TiM)
-    {
+		{
 			myScanningFreq = myMeasurementFreq;
-      freq = 0;
-    }
-    else
-    {
-      freq = (int)(1000.0/ ((double)myScanningFreq/100.0));
-    }
+			freq = 0;
+		}
+		else
+		{
+			freq = (int)(1000.0/ ((double)myScanningFreq/100.0));
+		}
 
 		//ArLog::log(ArLog::Normal,
 		//	"%s::sensorInterp() freq = %d inputted freq = %d",getName(),freq,myScanningFreq);
@@ -1847,7 +1847,7 @@ AREXPORT bool ArLMS1XX::blockingConnect()
 	laserPullUnsetParamsFromRobot();
 	laserCheckParams();
 
-	const size_t size = (size_t)(270 / .25) + 1;
+	constexpr size_t size = (size_t)(270 / .25) + 1;
 	ArLog::log(myInfoLogLevel, "%s::blockingConnect() Setting current buffer size to %lu",
 			getName(), size);
 	setCurrentBufferSize(size);
