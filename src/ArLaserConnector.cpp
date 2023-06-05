@@ -585,7 +585,7 @@ bool ArLaserConnector::internalConfigureLaser(
    //   ArLog::log(ArLog::Normal, "Using new style simulated laser for %s", 
 		// laser->getName());
       laserData->myLaser = new ArSimulatedLaser(laser);
-      laser = laserData->myLaser;
+      //laser = laserData->myLaser;
     //}
     // return here, since the rest is just dealing with how to connect
     // to the laser, but if its a simulated laser then we don't even
@@ -1097,9 +1097,10 @@ AREXPORT bool ArLaserConnector::setupLaser(ArLaser *laser,
       ArLog::log(ArLog::Terse, "ArLaserConnector::setupLaser: Already have laser for number #%d but a replacement laser (%s) was passed in, this will replace all of the command line arguments for that laser", 
 		 laserNumber, laser->getName());
       
-    delete laserData;
     myLasers.erase(laserNumber);
-    myLasers[laserNumber] = new LaserData(laserNumber, laser);
+    delete laserData;
+    laserData = new LaserData(laserNumber, laser); // todo use placement new instead of deleting
+    myLasers[laserNumber] = laserData;
   }
 
   if (laserData == NULL && laser != NULL)
@@ -1410,44 +1411,48 @@ AREXPORT bool ArLaserConnector::connectLasers(
 	  }
 	  else
 	  {
-	    if (myTurnOffPowerOutputCB->invokeR(
-			myRobot->getRobotParams()->getLaserPowerOutput(
-				laserData->myNumber)))
-	    {
-	      ArLog::log(myInfoLogLevel, 
-			 "ArLaserConnector::connectLasers: Cycled off power output %s for %s",
-			 myRobot->getRobotParams()->getLaserPowerOutput(
-				 laserData->myNumber),
-			 laserData->myLaser->getName());
+      if(myTurnOffPowerOutputCB)
+      {
+        if (myTurnOffPowerOutputCB->invokeR(myRobot->getRobotParams()->getLaserPowerOutput(laserData->myNumber)))
+        {
+          ArLog::log(myInfoLogLevel, 
+         "ArLaserConnector::connectLasers: Cycled off power output %s for %s",
+         myRobot->getRobotParams()->getLaserPowerOutput(
+           laserData->myNumber),
+         laserData->myLaser->getName());
+        }
+        else
+        {
+          ArLog::log(ArLog::Normal, 
+         "ArLaserConnector::connectLasers: Could not cycle off power output %s for %s",
+         myRobot->getRobotParams()->getLaserPowerOutput(
+           laserData->myNumber),
+         laserData->myLaser->getName());
+        }
+        if(!myTurnOnPowerOutputCB)
+          ArLog::log(ArLog::Normal, "ArLaserConnector::conectLasers: Warning: turned off laser power but have no function to turn back on!");
+        ArUtil::sleep(1000);
 	    }
-	    else
-	    {
-	      ArLog::log(ArLog::Normal, 
-			 "ArLaserConnector::connectLasers: Could not cycle off power output %s for %s",
-			 myRobot->getRobotParams()->getLaserPowerOutput(
-				 laserData->myNumber),
-			 laserData->myLaser->getName());
-	    }
-	    ArUtil::sleep(1000);
-	    if (myTurnOnPowerOutputCB->invokeR(
-			myRobot->getRobotParams()->getLaserPowerOutput(
-				laserData->myNumber)))
-	    {
-	      ArLog::log(myInfoLogLevel, 
-			 "ArLaserConnector::connectLasers: Cycled on power output %s for %s",
-			 myRobot->getRobotParams()->getLaserPowerOutput(
-				 laserData->myNumber),
-			 laserData->myLaser->getName());
-	    }
-	    else
-	    {
-	      ArLog::log(ArLog::Normal, 
-			 "ArLaserConnector::connectLasers: Could not cycle on power output %s for %s",
-			 myRobot->getRobotParams()->getLaserPowerOutput(
-				 laserData->myNumber),
-			 laserData->myLaser->getName());
-	    }
-	  }
+      if(myTurnOnPowerOutputCB)
+      {
+        if (myTurnOnPowerOutputCB->invokeR(myRobot->getRobotParams()->getLaserPowerOutput(laserData->myNumber)))
+        {
+          ArLog::log(myInfoLogLevel, 
+         "ArLaserConnector::connectLasers: Cycled on power output %s for %s",
+         myRobot->getRobotParams()->getLaserPowerOutput(
+           laserData->myNumber),
+         laserData->myLaser->getName());
+        }
+        else
+        {
+          ArLog::log(ArLog::Normal, 
+         "ArLaserConnector::connectLasers: Could not cycle on power output %s for %s",
+         myRobot->getRobotParams()->getLaserPowerOutput(
+           laserData->myNumber),
+         laserData->myLaser->getName());
+        }
+      }
+    }
 	  ArUtil::sleep(1000);
 	  connected = laserData->myLaser->blockingConnect();
 	}
