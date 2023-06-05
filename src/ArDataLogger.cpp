@@ -633,7 +633,7 @@ void ArDataLogger::userTask()
       fprintf(myFile, formatBuf, s.c_str());
     }
   }
-  delete buf;
+  delete[] buf;
 
   if (myLogVoltage)
     fprintf(myFile, (myLogFormat != Fixed)?"%c%.2f":"%c%-.2f", myLogSep, myRobot->getRealBatteryVoltageNow());
