@@ -339,240 +339,221 @@ public:
 
   /// What type of laser this is
   const char *getLaserType(int laserNumber = 1) const 
-    { 
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserType; 
-      else
-	return NULL;
-    }
+  { 
+    auto ld = getLaserData(laserNumber);
+    if (ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserType; 
+  }
   /// What type of port the laser is on
   const char *getLaserPortType(int laserNumber = 1) const 
-    { 
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserPortType; 
-      else
-	return NULL;
-    }
+  { 
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserPortType;
+  }
   /// What port the laser is on
   const char *getLaserPort(int laserNumber = 1) const 
-    { 
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserPort; 
-      else
-	return NULL;
-    }
+  { 
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserPort;
+  }
   /// If the laser should be auto connected
   bool getConnectLaser(int laserNumber = 1) const 
-    {       
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserAutoConnect; 
-      else
-	return false;
-    }
+  {       
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return false; // TODO [[unlikely]]
+    return ld->myLaserAutoConnect;
+  }
   /// If the laser is flipped on the robot
   bool getLaserFlipped(int laserNumber = 1) const 
-    { 
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserFlipped; 
-      else
-	return false;
-    }
+  { 
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return false; // TODO [[unlikely]]
+    return ld->myLaserFlipped;
+  }
   /// If the laser power is controlled by the serial port lines
   bool getLaserPowerControlled(int laserNumber = 1) const 
-    {       
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserPowerControlled; 
-      else
-	return false;
-    }
+  {       
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return false; // TODO [[unlikely]]
+    return ld->myLaserPowerControlled;
+  }
   /// The max range to use the laser
   unsigned int getLaserMaxRange(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserMaxRange; 
-      else
-	return 0;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return 0; // TODO [[unlikely]]
+    return ld->myLaserMaxRange;
+  }
   /// The cumulative buffer size to use for the laser
   unsigned int getLaserCumulativeBufferSize(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserCumulativeBufferSize; 
-      else
-	return 0;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return 0; // TODO [[unlikely]]
+    return ld->myLaserCumulativeBufferSize;
+  }
   /// The X location of the laser
   int getLaserX(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserX; 
-      else
-	return 0;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return 0; // TODO [[unlikely]]
+    return ld->myLaserX;
+  }
 
 
   /// The Y location of the laser 
   int getLaserY(int laserNumber = 1) const 
-    { 
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserY; 
-      else
-	return 0;
-    }
+  { 
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return 0; // TODO [[unlikely]]
+    return ld->myLaserY;
+  }
   /// The rotation of the laser on the robot
   double getLaserTh(int laserNumber = 1) const 
-    { 
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserTh; 
-      else
-	return 0;
-    }
+  { 
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return 0; // TODO [[unlikely]]
+    return ld->myLaserTh;
+  }
   /// The height of the laser off of the ground (0 means unknown)
   int getLaserZ(int laserNumber = 1) const 
-    { 
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserZ; 
-      else
-	return 0;
-    }
+  { 
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return 0; // TODO [[unlikely]]
+    return ld->myLaserZ;
+  }
   /// Gets the string that is the readings the laser should ignore
   const char *getLaserIgnore(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserIgnore; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserIgnore;
+  }
   /// Gets the string that is the degrees the laser should start on
   const char *getLaserStartDegrees(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserStartDegrees; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserStartDegrees;
+  }
   /// Gets the string that is the degrees the laser should end on
   const char *getLaserEndDegrees(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserEndDegrees; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserEndDegrees;
+  }
   /// Gets the string that is choice for the number of degrees the laser should use
   const char *getLaserDegreesChoice(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserDegreesChoice; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserDegreesChoice;
+  }
   /// Gets the string that is choice for the increment the laser should use
   const char *getLaserIncrement(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserIncrement; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserIncrement;
+  }
   /// Gets the string that is choice for increment the laser should use
   const char *getLaserIncrementChoice(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserIncrementChoice; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserIncrementChoice;
+  }
   /// Gets the string that is choice for units the laser should use
   const char *getLaserUnitsChoice(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserUnitsChoice; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserUnitsChoice;
+  }
   /// Gets the string that is choice for reflectorBits the laser should use
   const char *getLaserReflectorBitsChoice(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserReflectorBitsChoice; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserReflectorBitsChoice;
+  }
   /// Gets the string that is choice for starting baud the laser should use
   const char *getLaserStartingBaudChoice(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserStartingBaudChoice; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserStartingBaudChoice;
+  }
   /// Gets the string that is choice for auto baud the laser should use
   const char *getLaserAutoBaudChoice(int laserNumber = 1) const 
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserAutoBaudChoice; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserAutoBaudChoice;
+  }
 
   /// Gets the name of the section the laser information is in (this
   /// mostly doesn't mean anything except for commercial)
   const char *getLaserSection(int laserNumber = 1) const
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->mySection; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->mySection;
+  }
 
   /// Gets which power output that turns the laser on/off 
   const char *getLaserPowerOutput(int laserNumber = 1) const
-    {
-      if (getLaserData(laserNumber) != NULL)
-	return getLaserData(laserNumber)->myLaserPowerOutput; 
-      else
-	return NULL;
-    }
+  {
+    auto ld = getLaserData(laserNumber);
+    if(ld == NULL) return NULL; // TODO [[unlikely]]
+    return ld->myLaserPowerOutput;
+  }
 
 	/// PS 8/21/12 - new code to support BatteryMTX
 	/// What type of battery this is
 	const char *getBatteryMTXBoardType (int batteryNumber = 1) const
 	{
-		if (getBatteryMTXBoardData (batteryNumber) != NULL)
-			return getBatteryMTXBoardData (batteryNumber)->myBatteryMTXBoardType;
+    auto bd = getBatteryMTXBoardData(batteryNumber);
+		if (bd != NULL)
+			return bd->myBatteryMTXBoardType;
 		else
 			return NULL;
 	}
 	/// What type of port the battery is on
 	const char *getBatteryMTXBoardPortType (int batteryNumber = 1) const
 	{
-		if (getBatteryMTXBoardData (batteryNumber) != NULL)
-			return getBatteryMTXBoardData (batteryNumber)->myBatteryMTXBoardPortType;
+    auto bd = getBatteryMTXBoardData(batteryNumber);
+		if (bd != NULL)
+			return bd->myBatteryMTXBoardPortType;
 		else
 			return NULL;
 	}
 	/// What port the battery is on
 	const char *getBatteryMTXBoardPort (int batteryNumber = 1) const
 	{
-		if (getBatteryMTXBoardData (batteryNumber) != NULL)
-			return getBatteryMTXBoardData (batteryNumber)->myBatteryMTXBoardPort;
+    auto bd = getBatteryMTXBoardData(batteryNumber);
+		if (bd != NULL)
+			return bd->myBatteryMTXBoardPort;
 		else
 			return NULL;
 	}
 	/// Gets the int that is the baud for the battery
 	int getBatteryMTXBoardBaud (int batteryNumber = 1) const
 	{
-		if (getBatteryMTXBoardData (batteryNumber) != NULL)
-			return getBatteryMTXBoardData (batteryNumber)->myBatteryMTXBoardBaud;
+    auto bd = getBatteryMTXBoardData(batteryNumber);
+		if (bd != NULL)
+			return bd->myBatteryMTXBoardBaud;
 		else
 			return 0;
 	}
 	/// Gets a bool that specifies weather to auto connect or not
 	bool getBatteryMTXBoardAutoConn (int batteryNumber = 1) const
 	{
-		if (getBatteryMTXBoardData (batteryNumber) != NULL)
-			return getBatteryMTXBoardData (batteryNumber)->myBatteryMTXBoardAutoConn;
+    auto bd = getBatteryMTXBoardData(batteryNumber);
+		if (bd != NULL)
+			return bd->myBatteryMTXBoardAutoConn;
 		else
 			return false;
 	}
@@ -582,48 +563,54 @@ public:
 	/// What type of LCD this is
 	const char *getLCDMTXBoardType (int lcdNumber = 1) const
 	{
-		if (getLCDMTXBoardData (lcdNumber) != NULL)
-			return getLCDMTXBoardData (lcdNumber)->myLCDMTXBoardType;
+    auto data = getLCDMTXBoardData(lcdNumber);
+		if (data != NULL)
+			return data->myLCDMTXBoardType;
 		else
 			return NULL;
 	}
 	/// What type of port the lcd is on
 	const char *getLCDMTXBoardPortType (int lcdNumber = 1) const
 	{
-		if (getLCDMTXBoardData (lcdNumber) != NULL)
-			return getLCDMTXBoardData (lcdNumber)->myLCDMTXBoardPortType;
+    auto data = getLCDMTXBoardData(lcdNumber);
+		if (data != NULL)
+			return data->myLCDMTXBoardPortType;
 		else
 			return NULL;
 	}
 	/// What port the lcd is on
 	const char *getLCDMTXBoardPort (int lcdNumber = 1) const
 	{
-		if (getLCDMTXBoardData (lcdNumber) != NULL)
-			return getLCDMTXBoardData (lcdNumber)->myLCDMTXBoardPort;
+    auto data = getLCDMTXBoardData(lcdNumber);
+		if (data != NULL)
+			return data->myLCDMTXBoardPort;
 		else
 			return NULL;
 	}
 	/// Gets the int that is the baud for the lcd
 	int getLCDMTXBoardBaud (int lcdNumber = 1) const
 	{
-		if (getLCDMTXBoardData (lcdNumber) != NULL)
-			return getLCDMTXBoardData (lcdNumber)->myLCDMTXBoardBaud;
+    auto data = getLCDMTXBoardData(lcdNumber);
+		if (data != NULL)
+			return data->myLCDMTXBoardBaud;
 		else
 			return 0;
 	}
 	/// Gets a bool that specifies weather to auto connect or not
 	bool getLCDMTXBoardAutoConn (int lcdNumber = 1) const
 	{
-		if (getLCDMTXBoardData (lcdNumber) != NULL)
-			return getLCDMTXBoardData (lcdNumber)->myLCDMTXBoardAutoConn;
+    auto data = getLCDMTXBoardData(lcdNumber);
+		if (data != NULL)
+			return data->myLCDMTXBoardAutoConn;
 		else
 			return false;
 	}
 	/// Gets a bool that specifies weather to disconnect on conn failure or not
 	bool getLCDMTXBoardConnFailOption (int lcdNumber = 1) const
 	{
-		if (getLCDMTXBoardData (lcdNumber) != NULL)
-			return getLCDMTXBoardData (lcdNumber)->myLCDMTXBoardConnFailOption;
+    auto data = getLCDMTXBoardData(lcdNumber);
+		if (data != NULL)
+			return data->myLCDMTXBoardConnFailOption;
 		else
 			return false;
 	}
@@ -631,8 +618,9 @@ public:
 	/// Gets which power controls this LCD
 	const char * getLCDMTXBoardPowerOutput (int lcdNumber = 1) const
 	{
-		if (getLCDMTXBoardData (lcdNumber) != NULL)
-		  return getLCDMTXBoardData (lcdNumber)->myLCDMTXBoardPowerOutput;
+    auto data = getLCDMTXBoardData(lcdNumber);
+		if (data != NULL)
+		  return data->myLCDMTXBoardPowerOutput;
 		else
 		  return NULL;
 	}
@@ -643,40 +631,45 @@ public:
 	/// What type of sonar this is
 	const char *getSonarMTXBoardType (int sonarNumber = 1) const
 	{
-		if (getSonarMTXBoardData (sonarNumber) != NULL)
-			return getSonarMTXBoardData (sonarNumber)->mySonarMTXBoardType;
+    auto sbd = getSonarMTXBoardData(sonarNumber);
+		if (sbd != NULL)
+			return sbd->mySonarMTXBoardType;
 		else
 			return NULL;
 	}
 	/// What type of port the sonar is on
 	const char *getSonarMTXBoardPortType (int sonarNumber = 1) const
 	{
-		if (getSonarMTXBoardData (sonarNumber) != NULL)
-			return getSonarMTXBoardData (sonarNumber)->mySonarMTXBoardPortType;
+    auto sbd = getSonarMTXBoardData(sonarNumber);
+		if (sbd != NULL)
+			return sbd->mySonarMTXBoardPortType;
 		else
 			return NULL;
 	}
 	/// What port the sonar is on
 	const char *getSonarMTXBoardPort (int sonarNumber = 1) const
 	{
-		if (getSonarMTXBoardData (sonarNumber) != NULL)
-			return getSonarMTXBoardData (sonarNumber)->mySonarMTXBoardPort;
+    auto sbd = getSonarMTXBoardData(sonarNumber);
+		if (sbd != NULL)
+			return sbd->mySonarMTXBoardPort;
 		else
 			return NULL;
 	}
 	/// Gets the int that is the baud for the sonar
 	int getSonarMTXBoardBaud (int sonarNumber = 1) const
 	{
-		if (getSonarMTXBoardData (sonarNumber) != NULL)
-			return getSonarMTXBoardData (sonarNumber)->mySonarMTXBoardBaud;
+    auto sbd = getSonarMTXBoardData(sonarNumber);
+		if (sbd != NULL)
+			return sbd->mySonarMTXBoardBaud;
 		else
 			return 0;
 	}
 	/// Gets a bool that specifies weather to auto connect or not
 	bool getSonarMTXBoardAutoConn (int sonarNumber = 1) const
 	{
-		if (getSonarMTXBoardData (sonarNumber) != NULL)
-			return getSonarMTXBoardData (sonarNumber)->mySonarMTXBoardAutoConn;
+    auto sbd = getSonarMTXBoardData(sonarNumber);
+		if (sbd != NULL)
+			return sbd->mySonarMTXBoardAutoConn;
 		else
 			return false;
 	}
@@ -684,8 +677,9 @@ public:
   /// What delay the sonar board has
   int getSonarMTXBoardDelay(int sonarBoardNum = 1) const 
     { 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->mySonarDelay; 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
+      if (sbd != NULL)
+	return sbd->mySonarDelay; 
       else
 	return 0;
     }
@@ -693,8 +687,9 @@ public:
   /// What default gain the sonar board has
   int getSonarMTXBoardGain(int sonarBoardNum = 1) const 
     { 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->mySonarGain; 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
+      if (sbd != NULL)
+	return sbd->mySonarGain; 
       else
 	return 0;
     }
@@ -703,8 +698,9 @@ public:
   /// What delay the sonar has
   int getSonarMTXBoardNoiseDelta(int sonarBoardNum = 1) const 
     { 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->mySonarGain; 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
+      if (sbd != NULL)
+	return sbd->mySonarGain; 
       else
 	return 0;
     }
@@ -713,8 +709,9 @@ public:
   /// What delay the sonar has
   int getSonarMTXBoardDetectionThreshold(int sonarBoardNum = 1) const 
     { 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->mySonarDetectionThreshold; 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
+      if (sbd != NULL)
+	return sbd->mySonarDetectionThreshold; 
       else
 	return 0;
     }
@@ -722,8 +719,9 @@ public:
   /// What max range the sonar has
   int getSonarMTXBoardMaxRange(int sonarBoardNum = 1) const 
     { 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->mySonarMaxRange; 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
+      if (sbd != NULL)
+	return sbd->mySonarMaxRange; 
       else
 	return 0;
     }
@@ -731,8 +729,9 @@ public:
   /// What autonomous driving flage the sonar has
   int getSonarMTXBoardUseForAutonomousDriving(int sonarBoardNum = 1) const 
     { 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->mySonarUseForAutonomousDriving; 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
+      if (sbd != NULL)
+	return sbd->mySonarUseForAutonomousDriving; 
       else
 	return 0;
     }
@@ -740,8 +739,9 @@ public:
   /// Gets which power output turns the sonar board on or off
   const char *getSonarMTXBoardPowerOutput(int sonarBoardNum = 1) const 
     { 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->mySonarMTXBoardPowerOutput; 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
+      if (sbd != NULL)
+	return sbd->mySonarMTXBoardPowerOutput; 
       else
 	return NULL;
     }
@@ -749,9 +749,10 @@ public:
   /// get number of units (ie transducers) configured on a specific board 
   int getNumSonarOnMTXBoard(int sonarBoardNum = 1) const 
     { 
+      auto sbd = getSonarMTXBoardData(sonarBoardNum);
 
-      if (getSonarMTXBoardData(sonarBoardNum) != NULL)
-	return getSonarMTXBoardData(sonarBoardNum)->myNumSonarTransducers; 
+      if (sbd != NULL)
+	return sbd->myNumSonarTransducers; 
       else
 	return 0;
     }
@@ -1110,7 +1111,7 @@ protected:
       return nullptr;
   }
 
-  LaserData *getLaserData(int laserNumber) 
+  LaserData *getLaserData(int laserNumber)
   {
     //std::map<int, LaserData *>::const_iterator it;
     auto it = myLasers.find(laserNumber);
@@ -1271,7 +1272,7 @@ protected:
   int mySonarBoardCount;
   int myNumSonarUnits;
   int myNumSonar;
-  std::map<int, std::map<int, int> > mySonarMap;
+  std::map<int, std::map<int, int> > mySonarMap; // why is this a map of maps rather than a map or vector or array of structs. This map and the SonarInfo enum is copy pasted from ArSonarMTX.  Is this done this way so there are no dependencies between ArSonarMTX and ArRobotParams in the header files?
   enum SonarInfo 
   { 
     SONAR_X, 
