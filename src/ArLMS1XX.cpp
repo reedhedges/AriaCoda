@@ -1378,10 +1378,10 @@ void ArLMS1XX::sensorInterp ()
 		size_t eachNumberData = 0;
 		std::list<ArSensorReading *>::iterator it;
 		double atDeg = 0; // angle of reading transformed according to sensorPoseTh parameter
-    double atDegLocal = 0; // angle of reading local to laser
+    	double atDegLocal = 0; // angle of reading local to laser
 		size_t onReading;
 		double start = 0;
-    double startLocal = 0;
+    	double startLocal = 0;
 		double increment = 0;
 		bool startedProcessing = false;
 
@@ -1396,11 +1396,15 @@ void ArLMS1XX::sensorInterp ()
 				measuringReflectance = true;
 			// if this isn't the data we want then skip it
 			if (!measuringDistance && !measuringReflectance) {
+
+        /* ???:
 				delete packet;
 				unlockDevice();
 				myDataMutex.unlock();
+        */
+
 				ArLog::log (ArLog::Normal,
-				            "%s::sensorInterp(): Could not process channel %s",
+				            "%s::sensorInterp(): Unrecognized channel id %s in packet",
 				            getName(), eachChanMeasured);
 				continue;
 			}
@@ -1444,7 +1448,7 @@ void ArLMS1XX::sensorInterp ()
 				delete packet;
 				unlockDevice();
 				myDataMutex.unlock();
-				continue;
+				return;
 			}
 
       // TODO? Move some of the logic below regarding projecting from rays to
