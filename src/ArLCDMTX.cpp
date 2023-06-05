@@ -39,6 +39,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #endif
 #include <ctype.h>
 
+#include <cassert>
 
 #define ARLCDMTXDEBUG
 #if (defined(ARLCDMTXDEBUG))
@@ -58,7 +59,7 @@ AREXPORT ArLCDMTX::ArLCDMTX(int lcdBoardNum, const char *name,
 	myConnFailOption(false),
 	myBoardNum(lcdBoardNum),
 	myFirmwareVersion(""),
-  mySensorInterpTask(this, &ArLCDMTX::sensorInterp),
+    mySensorInterpTask(this, &ArLCDMTX::sensorInterp),
 	myAriaExitCB(this, &ArLCDMTX::disconnect)
 {
 
@@ -2087,9 +2088,10 @@ AREXPORT std::string ArLCDMTX::searchForFile(
 AREXPORT bool ArLCDMTX::setMTXLCDMainScreenText(const char *status)
 {
 
-	if (strlen(status) < 248) {
+	if (strlen(status) < sizeof(myChangedStatusText)) {
 		myMainScreenStatusChanged = true;
-		strcpy(myChangedStatusText, status);
+		strncpy(myChangedStatusText, status, sizeof(myChangedStatusText)-1);
+    	myChangedStatusText[sizeof(myChangedStatusText)-1] = '\0';
 		return true;
 	}
 
@@ -2124,9 +2126,10 @@ AREXPORT bool ArLCDMTX::setMTXLCDBootScreenText(const char *status)
 {
 
 
-	if (strlen(status) < 248) {
+	if (strlen(status) < sizeof(myChangedBootText)) {
 		myBootTextChanged = true;
-		strcpy(myChangedBootText, status);
+		strncpy(myChangedBootText, status, sizeof(myChangedBootText)-1);
+    	myChangedBootText[sizeof(myChangedBootText)-1] = '\0';
 		return true;
 	}
 
