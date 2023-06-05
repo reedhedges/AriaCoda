@@ -306,13 +306,13 @@ is a pointer to object to be deleted using the 'delete' operator.
 				      const char *insideDir);
 
   /** Copy null-terminated string from @a src into @a destbuf (possibly truncating the string).
-      At most @a n characters are copied.
+      @a n should be the capacity of @a destbuf. At most @a n-1 characters are copied.
       The destination buffer is always null-terminated. (If the length of @a src is n, the last character will be replaced with the null character.)
   */
-  static void copy_string_to_buffer(char *destbuf, const char *src, size_t n)
+  static void copy_string_to_buffer(char *destbuf, const char *src, size_t destbufsize)
   {
-      strncpy(destbuf, src, n);
-      destbuf[n-1] = '\0';
+      strncpy(destbuf, src, destbufsize);
+      destbuf[destbufsize] = '\0';
   }
 
 #if 0
@@ -332,11 +332,18 @@ is a pointer to object to be deleted using the 'delete' operator.
   {
       size_t n = std::min(destsize, src.length());
       strncpy(destbuf, src.data(), n);
-      if(n == destsize)  // Need to truncate and replace last character
-          destbuf[destsize-1] = '\0';
-      else
-          destbuf[n] = '\0';
+      destbuf[n] = '\0';
       return n;
+  }
+
+
+      // or, use std::span to refer to destination buffer of some size, requires C++20:
+  constexpr size_t copy_string_to_buffer(std::span<char>& dest, std::string_view src)
+  {
+    size_t n = std::min(dest.size(), src.length());
+    strncpy(dest.data(), src.data(), n);
+    dest[n] = '\0';
+    return n;
   }
 #endif
 
@@ -355,10 +362,7 @@ is a pointer to object to be deleted using the 'delete' operator.
       //return copy_string_to_buffer(destbuf, destsize, std::string_view(src, srclen));
       size_t n = std::min(destsize, srclen);
       strncpy(destbuf, src, n);
-      if(n == destsize)  // Need to truncate and replace last character
-          destbuf[destsize-1] = '\0';
-      else
-          destbuf[n] = '\0';
+      destbuf[n] = '\0';
       return n;
   }
 
