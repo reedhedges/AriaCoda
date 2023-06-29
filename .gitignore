@@ -47,3 +47,8 @@ debian/source
 debian/tmp
 debian/.debhelper
 tmp
+versionstring
+.vscode
+!.vscode/tasks.json
+utils/genCommandLineOptionDocs
+utils/makeParams
