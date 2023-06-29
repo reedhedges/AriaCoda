@@ -376,19 +376,26 @@ is a pointer to object to be deleted using the 'delete' operator.
 
 
 #ifndef ARIA_WRAPPER
-  /// Finds out if two strings are equal
+  /// Compares contents of two std::strings using strcmp.
   /// @swigomit
+  /// @deprecated Prefer std::string comparison operators or std::string::compare instead.
+  PUBLICDEPRECATED("Use std::string comparison operators or std::string::compare()")
   AREXPORT static int strcmp(const std::string &str, const std::string &str2);
 
-  /// Finds out if two strings are equal
+  /// Compares contents of two std::strings using strcmp.
   /// @swigomit
+  /// @deprecated Prefer std::string comparison operators or std::string::compare instead.
+  PUBLICDEPRECATED("Use std::string comparison operators or std::string::compare()")
   AREXPORT static int strcmp(const std::string &str, const char *str2);
 
-  /// Finds out if two strings are equal
+  /// Compares contents of C string and std::string using strcmp.
   /// @swigomit
+  /// @deprecated Prefer std::string comparison operators or std::string::compare instead (and also check for NULL char*).
+  PUBLICDEPRECATED("Use std::string comparison operators or std::string::compare()")
   AREXPORT static int strcmp(const char *str, const std::string &str2);
 
   /// Finds out if two strings are equal
+  /// This is the same as std::strcmp() but with checks for null pointers.
   /// @swigomit
   AREXPORT static int strcmp(const char *str, const char *str2);
 
