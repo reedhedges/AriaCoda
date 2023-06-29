@@ -19,6 +19,8 @@
 #include <cassert>
 #include "Aria/Aria.h"
 
+
+
 void test_escape_space(const char *str, const char *expected)
 {
   printf("Escaping spaces from input string: \"%s\"\n", str);
@@ -29,9 +31,21 @@ void test_escape_space(const char *str, const char *expected)
   assert(strcmp(buffer, expected) == 0);
 }
 
-void printbuf(char *buf1)
+void check_copy_result(char *buf1, const char *expected)
 {
     printf("buf=%x('%c') %x('%c') %x('%c') %x('%c') %x('%c')\n", buf1[0], buf1[0], buf1[1], buf1[1], buf1[2], buf1[2], buf1[3], buf1[3], buf1[4], buf1[4]);
+    printf("expected=%s\n", expected);
+    assert(strcmp(buf1, expected) == 0);
+    printf("\t...ok.\n\n"); 
+}
+
+
+void copy_check_for_failure(char *buf1, size_t buf1size, const char *src)
+{
+    ArAssertContinue = true;
+    ArUtil::copy_string_to_buffer(buf1, buf1size, src);
+    assert(ArAssertFailed == true);
+    puts("\t...ok");
 }
 
 void testCopyStringToBuffer()
@@ -39,37 +53,77 @@ void testCopyStringToBuffer()
     char buf1[5];
     memset(buf1, ' ', 5);
 
-    char buf2[5];
+    char buf2[10];
     buf2[0] = 'A';
     buf2[1] = 'B';
     buf2[2] = 'C';
     buf2[3] = 'D';
-    buf2[4] = '\0';
+    buf2[4] = 'E';
+    buf2[5] = 'F';
+    buf2[6] = 'G';
+    buf2[7] = 'H';
+    buf2[8] = 'I';
+    buf2[9] = '\0';
 
-    ArUtil::copy_string_to_buffer(buf1, 5, buf2, 5);
-    printbuf(buf1);
-    assert(strcmp(buf1, "ABCD") == 0);
+    // Only copy 5 characters from buf2.
+    // Should be no warnings about strncpy truncating the string.
+    ArUtil::copy_string_to_buffer(buf1, 5, buf2, 4);
+    assert(buf1[4] == 0);
+    check_copy_result(buf1, "ABCD");
 
-    memset(buf1, ' ', 5);
+    // Only copy 3 characters from buf2.
+    // Should be no warnings about strncpy truncating the string.
+    memset(buf1, 'x', 5);
     ArUtil::copy_string_to_buffer(buf1, 5, buf2, 3);
-    printbuf(buf1);
-    assert(strcmp(buf1, "ABC") == 0);
+    assert(buf1[3] == '\0');
+    check_copy_result(buf1, "ABC");
 
-    memset(buf1, ' ', 5);
+    // Only 4 characters from buf2 should be copied, plus null, since we give the capacity of buf1 as 5:
+    // The compiler may warn about strncpy truncating the string here, that's ok.
+    memset(buf1, 'x', 5);
     ArUtil::copy_string_to_buffer(buf1, 5, buf2, 8);
-    printbuf(buf1);
-    assert(strcmp(buf1, "ABCD") == 0);
+    assert(buf1[4] == '\0');
+    check_copy_result(buf1, "ABCD");
 
-    memset(buf1, ' ', 5);
-    ArUtil::copy_string_to_buffer(buf1, buf2, 5);
-    printbuf(buf1);
-    assert(strcmp(buf1, "ABCD") == 0);
+    // Only 4 characters from buf2 should be copied, plus null, since we give the capacity of buf1 as 5.
+    // The compiler may warn about strncpy truncating the string here, that's ok.
+    memset(buf1, 'x', 5);
+    ArUtil::copy_string_to_buffer(buf1, 5, buf2);
+    assert(buf1[4] == '\0');
+    check_copy_result(buf1, "ABCD");
 
-    memset(buf1, ' ', 5);
-    ArUtil::copy_string_to_buffer(buf1, buf2, 3); // assume destbuf has size 3. last char buf1[2] should be set to null.
-    printbuf(buf1);
+    // Only 2 characters sholud be copied, plus null, since we give the capacity of buf1 as 3:
+    // The compiler may warn about strncpy truncating the string here, that's ok.
+    memset(buf1, 'x', 5);
+    ArUtil::copy_string_to_buffer(buf1, 3, buf2); // assume destbuf has size 3. last char buf1[2] should be set to null.
     assert(buf1[2] == '\0');
-    assert(strcmp(buf1, "AB") == 0);
+    check_copy_result(buf1, "AB");
+
+    // Should fail with an assertion, we check that the assertion happened
+    memset(buf1, 'x', 5);
+    puts("Calling copy_string_to_buffer() with 0-sized destination buffer, exepect failed assertion...");
+    copy_check_for_failure(buf1, 0, buf2);
+
+    // Should fail with an assertion, we check that the assertion happened
+    memset(buf1, 'x', 5);
+    puts("Calling copy_string_to_buffer() with NULL destination buffer, exepect failed assertion...");
+    copy_check_for_failure(NULL, 5, buf2);
+
+    // Should fail with an assertion
+    puts("Calling copy_string_to_buffer() with NULL source string, exepect failed assertion...");
+    copy_check_for_failure(buf1, 5, NULL);
+
+    // Should just write a null into buf1[0]
+    memset(buf1, 'x', 5);
+    ArUtil::copy_string_to_buffer(buf1, 1, buf2);
+    assert(buf1[0] == '\0');
+    check_copy_result(buf1, "");
+
+    // Should copy nothing, buf1[0] should be null
+    memset(buf1, 'x', 5);
+    ArUtil::copy_string_to_buffer(buf1, 10, buf2, 0);
+    assert(buf1[0] == '\0');
+    check_copy_result(buf1, "");
 
 }
 
