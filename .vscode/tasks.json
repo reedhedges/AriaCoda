@@ -17,11 +17,11 @@
         "problemMatcher": ["$msCompile"]
       },
       "linux": {
-        "options": { "statusbar": { "tooltip": "make -j4" } },
+        "options": { "statusbar": { "tooltip": "make -j6" } },
         "command": "make",
         "type": "shell",
         "args": [
-          "-j4"
+          "-j6"
         ],
         "problemMatcher": [
           "$gcc"
@@ -48,12 +48,12 @@
         "problemMatcher": ["$msCompile"]
       },
       "linux": {
-        "options": { "statusbar": { "tooltip": "make debug -j4" } },
+        "options": { "statusbar": { "tooltip": "make debug -j6" } },
         "command": "make",
         "type": "shell",
         "args": [
           "debug",
-          "-j4"
+          "-j6"
         ],
         "problemMatcher": [
           "$gcc"
