@@ -70,6 +70,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaOSDef.h"
 #include "Aria/ArASyncTask.h"
 
+#include <cassert>
+
 class ArLaser;
 
 class ArBatteryMTX;
@@ -3426,6 +3428,40 @@ public:
     // can't do anything
   }
 };
+
+
+//< Use this in places where unit tests need to test for expected assertions. If true, ArAssert() checks the expression, and prints a message and sets ArAssertFailed if failed, and just calls return. If the expression is true, then set ArAssertFailed to true and continue with no output. If false, just call standard C assert() (which can still be disabled by defining NDEBUG.) 
+extern bool ArAssertContinue; // defined in ariaUtil.cpp
+extern bool ArAssertFailed; // defined in ariaUtil.cpp
+
+#ifdef __FILE_NAME__
+#define AR__FILE_NAME __FILE_NAME__
+#else
+#define AR__FILE_NAME __FILE__
+#endif
+
+#ifdef __GNUC__       // GCC or Clang
+#define AR__FUNCTION __PRETTY_FUNCTION__
+#elif defined(_WIN32) // VC++
+#define AR__FUNCTION __FUNCSIG__
+#else
+#define AR__FUNCTION __func__
+#endif
+
+//< Normally a wrapper around standard `assert(expr);`, unless ArAssertContinue is true. If ArAssertContinue is true and @a expr fails, then a message is printed to stderr (including @a msg string), the ArAssertFailed flag is set and @a failexpr is evaluated (e.g. `return;` or `return false;` to return from a  function.) 
+#define ArAssert(expr, message, failexpr) { \
+  if(ArAssertContinue) [[unlikely]] { \
+    if(expr) { \
+      ArAssertFailed = false; \
+    } else { \
+	    fprintf(stderr, "%s:%d: %s: Assertion '%s' failed. %s\n", AR__FILE_NAME, __LINE__, AR__FUNCTION, #expr, message); \
+      ArAssertFailed = true; \
+      failexpr; \
+    } \
+  } else { \
+    assert(expr); \
+  } \
+}
 
 #endif // ARIAUTIL_H
 

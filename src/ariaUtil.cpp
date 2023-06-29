@@ -3123,3 +3123,7 @@ long ArMath::randomInRange(long m, long n)
     // drand48?), or keep trying numbers until we get one in range.
 }
 
+
+bool ArAssertContinue = false; // declared extern in ariaUtil.h
+bool ArAssertFailed = false; // declared extern in ariaUtil.h
+
