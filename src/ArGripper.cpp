@@ -27,6 +27,8 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ArGripper.h"
 #include "Aria/ArCommands.h"
 
+#include <cstring>
+
 /**
    @param robot The robot this gripper is attached to
    @param gripperType How to communicate with the gripper: see ArGripper::Type. 
@@ -404,11 +406,12 @@ AREXPORT bool ArGripper::isLiftMaxed() const
 
 AREXPORT void ArGripper::logState() const
 {
-  char paddleBuf[128];
-  char liftBuf[128];
-  char breakBeamBuf[128];
-  char buf[1024];
-  int state;
+  const size_t paddleBufSize = 128, liftBufSize = 128, breakBeamBufSize = 128;
+  const size_t finalBufSize = 1024;
+  char paddleBuf[paddleBufSize];
+  char liftBuf[liftBufSize];
+  char breakBeamBuf[breakBeamBufSize];
+  char buf[finalBufSize];
 
   if (myType == NOGRIPPER)
   {
@@ -421,39 +424,40 @@ AREXPORT void ArGripper::logState() const
     return;
   }
   
-  if (isLiftMaxed())
-    sprintf(liftBuf, "maxed");
+  const bool moving = isLiftMoving();
+  const bool liftmax = isLiftMaxed();
+
+  if (liftmax && moving)
+    ArUtil::copy_string_to_buffer(liftBuf, "maxed_moving", liftBufSize);
+  else if(liftmax && !moving)
+    ArUtil::copy_string_to_buffer(liftBuf, "maxed", liftBufSize);
+  else if(!liftmax && moving)
+    ArUtil::copy_string_to_buffer(liftBuf, "between_moving", liftBufSize);
   else
-    sprintf(liftBuf, "between");
+    ArUtil::copy_string_to_buffer(liftBuf, "between", liftBufSize);
 
-  if (isLiftMoving())
-    strcat(liftBuf, "_moving");
-
-  state = getGripState();
+  int state = getGripState();
   if (state == 1)
-    sprintf(paddleBuf, "open");
+    snprintf(paddleBuf, paddleBufSize, "%s%s", "open", moving ? "_moving" : "");
   else if (state == 2)
-    sprintf(paddleBuf, "closed");
+    snprintf(paddleBuf, paddleBufSize, "%s%s", "closed", moving ? "_moving" : "");
   else
-    sprintf(paddleBuf, "between");
-
-  if (isGripMoving())
-    strcat(paddleBuf, "_moving");
+    snprintf(paddleBuf, paddleBufSize, "%s%s", "between", moving ? "_moving" : "");
 
   state = getBreakBeamState();
   if (state == 0)
-    sprintf(breakBeamBuf, "none");
+    ArUtil::copy_string_to_buffer(breakBeamBuf, "none", breakBeamBufSize);
   else if (state == 1)
-    sprintf(breakBeamBuf, "inner");
+    ArUtil::copy_string_to_buffer(breakBeamBuf, "inner", breakBeamBufSize);
   else if (state == 2)
-    sprintf(breakBeamBuf, "outter");
+    ArUtil::copy_string_to_buffer(breakBeamBuf, "outter", breakBeamBufSize);
   else if (state == 3)
-    sprintf(breakBeamBuf, "both");
+    ArUtil::copy_string_to_buffer(breakBeamBuf, "both", breakBeamBufSize);
   
   if (myType == GRIPPAC)
-    sprintf(buf, "Lift: %15s  Grip: %15s  BreakBeam: %10s TimeSince: %ld", liftBuf, paddleBuf, breakBeamBuf, getMSecSinceLastPacket());
+    snprintf(buf, finalBufSize, "Lift: %15s  Grip: %15s  BreakBeam: %10s TimeSince: %ld", liftBuf, paddleBuf, breakBeamBuf, getMSecSinceLastPacket());
   else
-    sprintf(buf, "Lift: %15s  Grip: %15s  BreakBeam: %10s", liftBuf, paddleBuf, breakBeamBuf);
+    snprintf(buf, finalBufSize, "Lift: %15s  Grip: %15s  BreakBeam: %10s", liftBuf, paddleBuf, breakBeamBuf);
   ArLog::log(ArLog::Terse, buf);
   
 }
