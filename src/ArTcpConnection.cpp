@@ -80,8 +80,7 @@ AREXPORT void ArTcpConnection::setPort(const char *host, int port)
   char portBuf[1024];
   sprintf(portBuf, "%d", port); 
   
-  std::string portName;
-  portName = myHostName;
+  std::string portName = myHostName;
   portName += ":";
   portName += portBuf;
   setPortName(portName.c_str());

@@ -141,8 +141,7 @@ void ArRobotParams::internalAddToConfigDefault()
   addComment("Robot parameter file");
 //  addComment("");
   //addComment("General settings");
-  std::string section;
-  section = "General settings";
+  std::string section = "General settings";
   addParam(ArConfigArg("Class", myClass, "general type of robot", 
 		 sizeof(myClass)), section.c_str(), ArPriority::TRIVIAL);
   addParam(ArConfigArg("Subclass", mySubClass, "specific type of robot", 
@@ -370,14 +369,13 @@ AREXPORT void ArRobotParams::addLaserToConfig(
   std::string displayHintPlain = "Visible:LaserAutoConnect=true";
   std::string displayHintCheckbox = displayHintPlain + "&&Checkbox";
 
-  std::string displayHintCustom;
+  std::string displayHintCustom= "Checkbox";
 
   char tempDescBuf[512];
   snprintf(tempDescBuf, sizeof(tempDescBuf),
            "Laser_%d exists and should be automatically connected at startup.",
            laserNumber);
        
-  displayHintCustom = "Checkbox";
 
   config->addParam(
 	  ArConfigArg("LaserAutoConnect", &laserData->myLaserAutoConnect,
@@ -676,11 +674,10 @@ AREXPORT void ArRobotParams::addLCDToConfig(
   std::string displayHintPlain = "Visible:LCDAutoConnect=true";
   std::string displayHintCheckbox = displayHintPlain + "&&Checkbox";
 
-  std::string displayHintCustom;
-
   /// MPL TODO remove, this is already set in the constructor
   //lcdMTXBoardData->myLCDMTXBoardAutoConn = false;
-  displayHintCustom = "Checkbox&&Visible:Generation!=Legacy";
+
+  std::string displayHintCustom = "Checkbox&&Visible:Generation!=Legacy";
 
   char tempDescBuf[512];
   snprintf(tempDescBuf, sizeof(tempDescBuf),
@@ -772,8 +769,8 @@ AREXPORT void ArRobotParams::addSonarBoardToConfig(
 
   std::string displayHintPlain = "Visible:SonarAutoConnect=true";
 
-  std::string displayHintCustom;
-  
+  std::string displayHintCustom = "Checkbox&&Visible:Generation!=Legacy";
+
   config->addSection(ArConfig::CATEGORY_ROBOT_PHYSICAL,
                      section.c_str(),
                      "Information about the connection to this Sonar Board.");
@@ -789,7 +786,7 @@ AREXPORT void ArRobotParams::addSonarBoardToConfig(
 
   /// MPL TODO remove this next line (it's in the constructor
   //sonarMTXBoardData->mySonarMTXBoardAutoConn = false;
-  displayHintCustom = "Checkbox&&Visible:Generation!=Legacy";
+
 
   char tempDescBuf[512];
   snprintf(tempDescBuf, sizeof(tempDescBuf),

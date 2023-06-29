@@ -616,8 +616,6 @@ AREXPORT bool ArUrg::disconnect()
 
 void ArUrg::sensorInterp()
 {
-  ArTime readingRequested;
-  std::string reading;
   myReadingMutex.lock();
   if (myReading.empty())
   {
@@ -625,15 +623,14 @@ void ArUrg::sensorInterp()
     return;
   }
 
-  readingRequested = myReadingRequested;
-  reading = myReading;
+  const ArTime readingRequested = myReadingRequested;
+  const std::string reading = myReading;
   myReading = "";
   myReadingMutex.unlock();
 
-  ArTime time = readingRequested;
+  const ArTime time = readingRequested;
   ArPose pose;
   ArPose encoderPose;
-
   //time.addMSec(-13);
   if (myRobot == NULL || !myRobot->isConnected())
   {
@@ -657,26 +654,20 @@ void ArUrg::sensorInterp()
   lockDevice();
   myDataMutex.lock();
 
-
   //double angle;
-  size_t i;
-  const size_t len = reading.size();
-
-  unsigned int range;
   //int onStep;
 
+  const size_t len = reading.size();
   std::list<ArSensorReading *>::reverse_iterator it;
-  ArSensorReading *sReading;
-
-  bool ignore;
+  size_t i;
   for (it = myRawReadings->rbegin(), i = 0; 
        it != myRawReadings->rend() && i < len - 1; 
        it++, i += 2)
   {
-    ignore = false;
-    const int big = reading[i] - 0x30;
-    const int little = reading[i+1] - 0x30;
-    range = (unsigned int)(big << 6 | little);
+    const bool ignore = false;
+    int big = reading[i] - 0x30;
+    int little = reading[i+1] - 0x30;
+    unsigned int range = (unsigned int)(big << 6 | little);
     if (range < 20)
     {
       /* Well that didn't work...
@@ -688,7 +679,7 @@ void ArUrg::sensorInterp()
       */
       range = 4096;
     }
-    sReading = (*it);
+    ArSensorReading *sReading = (*it);
     sReading->newData(range, pose, encoderPose, transform, counter, 
 		      time, ignore, 0);
   }
@@ -750,10 +741,9 @@ AREXPORT void * ArUrg::runThread(void *)
 bool ArUrg::internalGetReading()
 {
   ArTime readingRequested;
-  std::string reading;
+  std::string reading = "";
   char buf[1024];
 
-  reading = "";
   readingRequested.setToNow();
   if (!writeLine(myRequestString))
   {

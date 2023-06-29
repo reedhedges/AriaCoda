@@ -117,35 +117,26 @@ AREXPORT void ArAction::deactivate()
 
 AREXPORT void ArAction::log(bool verbose) const
 {
-  int i;
-  std::string str;
-  const ArArg *arg;
-  const ArActionDesired *desired;
-
   ArLog::log(ArLog::Terse, "Action %s isActive %d", getName(), myIsActive);
+  const ArActionDesired *desired;
   if (myIsActive && (desired = getDesired()) != NULL)
     desired->log();
   if (!verbose)
     return;
   if (strlen(getDescription()) != 0)
-    ArLog::log(ArLog::Terse, "Action %s is described as: %s", 
-	       getName(), getDescription());
+    ArLog::log(ArLog::Terse, "Action %s is described as: %s", getName(), getDescription());
   else
-    ArLog::log(ArLog::Terse, "Action %s has no description.", 
-	       getName());
+    ArLog::log(ArLog::Terse, "Action %s has no description.", getName());
   if (getNumArgs() == 0)
-    ArLog::log(ArLog::Terse, "Action %s has no arguments.\n", 
-	       getName());
+    ArLog::log(ArLog::Terse, "Action %s has no arguments.\n", getName());
   else
   {
-    ArLog::log(ArLog::Terse, "Action %s has %d arguments, of type(s):", 
-	       (getName()), getNumArgs());
+    ArLog::log(ArLog::Terse, "Action %s has %d arguments, of type(s):", getName(), getNumArgs());
 
-    for (i = 0; i < getNumArgs(); i++) 
+    for (int i = 0; i < getNumArgs(); i++) 
     {
-      arg = getArg(i);
-      if (arg == NULL)
-	continue;
+      const ArArg *arg = getArg(i);
+      if (arg == NULL) continue;
       arg->log();
     }
     ArLog::log(ArLog::Terse, "");

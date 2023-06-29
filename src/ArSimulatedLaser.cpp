@@ -37,8 +37,7 @@ AREXPORT ArSimulatedLaser::ArSimulatedLaser(ArLaser *laser) :
 {
   myLaser = laser;
   
-  std::string name;
-  name = "sim_";
+  std::string name = "sim_";
   name += getName();
   laserSetName(name.c_str());
 

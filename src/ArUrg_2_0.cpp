@@ -835,8 +835,6 @@ AREXPORT bool ArUrg_2_0::disconnect()
 
 void ArUrg_2_0::sensorInterp()
 {
-  ArTime readingRequested;
-  std::string reading;
   myReadingMutex.lock();
   if (myReading.empty())
   {
@@ -844,12 +842,12 @@ void ArUrg_2_0::sensorInterp()
     return;
   }
 
-  readingRequested = myReadingRequested;
-  reading = myReading;
+  const ArTime readingRequested = myReadingRequested;
+  const std::string reading = myReading;
   myReading = "";
   myReadingMutex.unlock();
 
-  ArTime time = readingRequested;
+  const ArTime time = readingRequested;
   ArPose pose;
   ArPose encoderPose;
 
@@ -879,17 +877,13 @@ void ArUrg_2_0::sensorInterp()
   //double angle;
   
   assert(reading.size() <= UINT_MAX); 
-  unsigned int len = (unsigned int) reading.size();
+  const unsigned int len = (unsigned int) reading.size();
 
-  unsigned int range;
   //int onStep;
 
-  std::list<ArSensorReading *>::reverse_iterator it;
-  ArSensorReading *sReading;
   
   unsigned int iMax;
   unsigned int iIncr;
-
   if (myUseThreeDataBytes)
   {
     iMax = len - 2;
@@ -901,12 +895,13 @@ void ArUrg_2_0::sensorInterp()
     iIncr = 2;
   }
 
+  std::list<ArSensorReading *>::reverse_iterator it;
   size_t i = 0;
   for (it = myRawReadings->rbegin(), i = 0; 
        it != myRawReadings->rend() && i < iMax; //len - 2; 
        it++, i += iIncr) //3)
   {
-
+    unsigned int range;
     if (myUseThreeDataBytes)
     {
       const int giant = reading[i] - 0x30;
@@ -926,7 +921,7 @@ void ArUrg_2_0::sensorInterp()
     if (range < myDMin)
       range = myDMax+1;
 
-    sReading = (*it);
+    ArSensorReading *sReading = (*it);
     constexpr bool ignore = false;
     sReading->newData(range, pose, encoderPose, transform, counter, 
 		      time, ignore, 0);
@@ -990,10 +985,9 @@ AREXPORT void * ArUrg_2_0::runThread(void *)
 bool ArUrg_2_0::internalGetReading()
 {
   ArTime readingRequested;
-  std::string reading;
+  std::string reading = "";
   char buf[1024];
 
-  reading = "";
   /*
   if (!writeLine(myRequestString))
   {

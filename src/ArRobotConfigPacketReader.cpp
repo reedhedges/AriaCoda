@@ -200,15 +200,13 @@ AREXPORT bool ArRobotConfigPacketReader::packetHandler(ArRobotPacket *packet)
   
 AREXPORT void ArRobotConfigPacketReader::log() const
 {
-  std::string str;
-  str = buildString();
+  std::string str = buildString();
   ArLog::log(ArLog::Terse, str.c_str());
 }
 
 AREXPORT void ArRobotConfigPacketReader::logMovement() const
 {
-  std::string str;
-  str = buildStringMovement();
+  std::string str = buildStringMovement();
   ArLog::log(ArLog::Terse, str.c_str());
 }
 
