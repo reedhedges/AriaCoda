@@ -654,6 +654,43 @@ AREXPORT void ArUtil::addDirectories(char *dest, size_t destLength,
   fixSlashes(dest, destLength);
 }
 
+AREXPORT void ArUtil::copy_string_to_buffer(char *destbuf, size_t destbufsize, const char *src)
+{
+    // use of ArAssert lets test check for expected failures
+    ArAssert(destbuf != NULL, "destbuf must not be null.", return);
+    ArAssert(src != NULL, "src char* must not be null.", return);
+    ArAssert(destbufsize >= 1, "destbufsize must be >= 1", return);
+    // GCC will normally issue a compilation warning if it detects that the resulting string copied from src may be truncated if the actual string length of src is larger than destbufsize - 1, but we always add the null byte afterwards.
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wstringop-truncation"
+    strncpy(destbuf, src, destbufsize-1);
+    #pragma GCC diagnostic pop
+    destbuf[destbufsize-1] = '\0';
+}
+
+AREXPORT size_t ArUtil::copy_string_to_buffer(char *destbuf, size_t destsize, const char *src, size_t srclen)
+{
+    // use of ArAssert lets test check for expected failures
+    ArAssert(destbuf != NULL, "destbuf must not be null.", return 0);
+    ArAssert(src != NULL, "src char* must not be null.", return 0);
+    ArAssert(destsize >= 1, "destbufsize must be >= 1.", return 0);
+    //return copy_string_to_buffer(destbuf, destsize, std::string_view(src, srclen));
+    //const size_t n = std::min(destsize-1, srclen);
+    if(srclen < destsize-1)
+    {
+      memcpy(destbuf, src, srclen);
+      destbuf[srclen] = '\0';
+      return srclen;
+    }
+    else
+    {
+      memcpy(destbuf, src, destsize-1);
+      destbuf[destsize-1] = '\0';
+      return destsize - 1;
+    }
+    //return 0;
+}
+
 /** 
     This compares two strings, it returns an integer less than, equal to, 
     or greater than zero  if @a str  is  found, respectively, to be less than, to
@@ -716,6 +753,8 @@ AREXPORT int ArUtil::strcmp(const char *str, const std::string &str2)
     This compares two strings, it returns an integer less than, equal to, 
     or greater than zero  if  str  is  found, respectively, to be less than, to
     match, or be greater than str2.
+    If str1 is NULL, it is compared as less than str2 (-1 is returned). If str2 is NULL, it is compared as less than str1 (1 is returned).
+    If both str1 and str2 are NULL ,they are compares as equal (0 is returned). 
     @param str the string to compare
     @param str2 the second string to compare
     @return an integer less than, equal to, or greater than zero if str is 

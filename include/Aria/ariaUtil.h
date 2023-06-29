@@ -310,20 +310,27 @@ is a pointer to object to be deleted using the 'delete' operator.
   /** Copy null-terminated string from @a src into @a destbuf (possibly truncating the string).
       @a n should be the capacity of @a destbuf. At most @a n-1 characters are copied.
       The destination buffer is always null-terminated. (If the length of @a src is n, the last character will be replaced with the null character.)
+      @note Similar to strcpy_s(), which is unfortunately not available with GCC.
+      @todo Use strcpy_s() if available in our C standard library.
+      @note If you know the length of @a src, use copy_string_to_buffer(char *, size_t, char*, size_t) instead.
   */
-  static void copy_string_to_buffer(char *destbuf, const char *src, size_t destbufsize)
+  AREXPORT static void copy_string_to_buffer(char *destbuf, size_t destbufsize, const char *src);
+
+  [[deprecated("use copy_string_to_buffer(char *, size_t, const char *) instead")]]
+  static void copy_string_to_buffer(char *destbuf, const char *src, size_t destbufsize) 
   {
-      strncpy(destbuf, src, destbufsize);
-      destbuf[destbufsize] = '\0';
+    ArUtil::copy_string_to_buffer(destbuf, destbufsize, src);
   }
 
 #if 0
-      // requires c++17:
+      // string_view version, requires c++17 for std::string_view:
 
   /* * Copy null-terminated string from @a src into @a destbuf buffer with size @a destsize (possibly truncating the string).
       Either all of @a src will be copied, or @a destlen-1 if smaller than length of @a src, and a null character is added.
       If @a destlen <= @a srclen, the string will be truncated.
       The destination buffer is always null-terminated. (If the length of @a src is equal to destsize, the last character will be replaced with the null character.)
+      @note Similar to strcpy_s(), which is unfortunately not available with GCC.
+      @todo Use strcpy_s() if available in our C standard library.
       
       @example:
       char buf[256];
@@ -353,21 +360,19 @@ is a pointer to object to be deleted using the 'delete' operator.
       Either all of @a src will be copied, or @a destlen-1 if smaller than length of @a src, and a null character is added.
       If @a destlen <= @a srclen, the string will be truncated.
       The destination buffer is always null-terminated. (If the length of @a src is equal to destsize, the last character will be replaced with the null character.)
+      @note Similar to strncpy_s(), which is unfortunately not available with GCC.
+      @todo Use strncpy_s() if available in our C standard library.
       
       @example:
-      char buf[256];
-      std::string_view s{"hello, world"};
-      copy_string_to_buffer(buf, 256, s);
+      const size_t slen = 12;
+      const size_t sbufsize = slen + 1; // add one for null terminator character
+      char sbuf[sbufsize];
+      copy_string_to_buffer(s, sbufsize, "hello, world");
+      const size_t otherbufsize = 256;
+      char otherbuf[otherbufsize];
+      copy_string_to_buffer(otherbuf, otherbufsize, s, slen);
   */
-  static size_t copy_string_to_buffer(char *destbuf, size_t destsize, const char *src, size_t srclen)
-  {
-      //return copy_string_to_buffer(destbuf, destsize, std::string_view(src, srclen));
-      size_t n = std::min(destsize, srclen);
-      strncpy(destbuf, src, n);
-      destbuf[n] = '\0';
-      return n;
-  }
-
+  AREXPORT static size_t copy_string_to_buffer(char *destbuf, size_t destsize, const char *src, size_t srclen);
 
 
 #ifndef ARIA_WRAPPER
