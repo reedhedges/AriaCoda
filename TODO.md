@@ -8,6 +8,9 @@ easier to use.  Contact me or discuss on the GitHub page.
 
 * Change .github/worklows/builds.yml to only do a test build if source code or build files (Makefiles etc.) change.
 * Change uses of std::to_string() to std::to_chars(), but that requires C++17. Change remaining instances of sprintf/snprintf to use std::to_string() (C++11) or std::to_chars() (C++17), or std::format() (C++20).  Change use of strncpy, strncat, etc. to use std::string or version of std::string that has an internall char buffer on the stack. (In Progress)
+* Replace use of strncpy() with strncpy_s() and memcpy() with memcpy_s().
+* Use rsize_t and RSIZE_MAX in utility functions or other functions that do array bounds checking.
+* Use more standard math functions instead of doing our own checked arithmetic e.g. fdim(), isless()/isgreater()/etc., fma(), etc., with error checking. 
 * ? Build as libariacoda.so instead of libAria.so, with Debian packages named
   libariacoda3. (Avoid conflict with existing libaria in Ubuntu). Make a
   libAria.so symlink to help work with existing builds.
@@ -23,6 +26,7 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Possible bug: ArRobot is not setting the time component of myEncoderPose or myRawEncoderPose? Ned to investigate.
 * Possible bug: ArInterpolation forward interpolation (future prediction) may not be working correctly.  May just be returning last pose in history, and never returning -1 (too far in future).
 * Many classes provide setters for parameters that only need to be set when the object is constructed, these could be removed and the member variable made const.
+* Classes like ArUtil and ArMath that act like namespaces (they only contain static functions) should just be changed to namespaces.
 * (DONE) In ArRangeDevice, store myRawReadings and myAdjustedRawReadings as
   `std::list<ArSensorReading>` rather than `std::list<ArSensorReading*>` and don't allocate
   each one. Use `emplace_back` when creating a new ArSensorReading objects for the
@@ -412,6 +416,7 @@ against what was recorded.
       also add additional attributes like [[unlikely]].
 * ArRobot's private member variables could be reordered to reduce padding, but there is usually only ever one ArRobot instance.  Can some of these be removed or moved into objects that are optionally allocated if they are only very occasionally used?
 * Add methods to ArThread to set affinity and priority (Linux: pthread_set_affinity, pthread_setschedprio; Windows: SetThreadAffinityMask, SetThreadPriority). Simplify for common use case.
+* Test with different locales. Fix file name handling, ArDataLogger, etc. when given non-ASCII compatible strings.  (ArDataLogger should also have consistent number formatting regardless of locale.)   (Note that on Windows, printf()/fprintf() may do weird conversions of strings depending on the locale setting or some other character set setting in Windows or whatever terminal emulator is displaying text.) 
 
 Maybe TODO eventually
 ----------
