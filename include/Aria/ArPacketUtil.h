@@ -35,6 +35,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 /** 
   Contains utility functions for adding and reading fields to and from packets (e.g. ArBasePacket, ArNetPacket, etc.) 
   @since ARIA 2.9.3 
+  @todo all or most of the methods could be inlined in this header? Is there a reason they are kept in separate ArPacketUtil.cpp file? Compiler or SWIG compatability?
 */
 class ArPacketUtil
 {

@@ -88,7 +88,8 @@ public:
     std::string params;
     int priority = 0;
 
-    // TODO these should probably not be pointers
+    // TODO determine if there is a better container for these (e.g. std::vector, or small array or similar. When is more than one callback for an item used? Could we just only ever have one?). (Changes ArSoundsQueue API however.)
+    // TODO these should not be pointers. (requires changing ArSoundsQueue API, however?) (Part of overall migration in Aria API away from pointers-to-ArFunctors and instead copy ArFunctor objects [to eventually be replaced by std::function or similar, however.])
     std::list<InterruptItemFunctor*> interruptCallbacks;
     std::list<PlayItemFunctor*> playCallbacks;
     std::list<ArFunctor*> doneCallbacks;
