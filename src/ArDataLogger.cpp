@@ -941,6 +941,7 @@ AREXPORT void ArDataLogger::saveCopyAs(const char *name_s)
       filename.insert(dotpos, timesuffix);
   }
   myMutex.lock();
+  // TODO maybe sanitize filenames further (e.g. remove \", nonprintable characters, other special characters...
   ArLog::log(ArLog::Normal, "ArDataLogger: Making copy of log file \"%s\" as \"%s\" on system...", getOpenLogFileName(), filename.c_str());
   char cmd[512];
 #ifdef WIN32

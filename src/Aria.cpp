@@ -21,6 +21,11 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 
 
 */
+
+
+// Note this source file corresponds to the ariaInternal.h header, plus a few global variables from ariaTypedefs.h
+
+
 #include "Aria/ArExport.h"
 #include "Aria/Aria.h"
 #include "Aria/ArSocket.h"
