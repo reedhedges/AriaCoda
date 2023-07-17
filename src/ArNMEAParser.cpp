@@ -189,7 +189,7 @@ AREXPORT int ArNMEAParser::parse(const char *buf, size_t n)
         
 
         // ok:
-        Message msg{.message = &currentMessage, .timeParseStarted = currentMessageStarted, .id = currentMessage[0].substr(2), .prefix = currentMessage[0].substr(0, 2)};
+        Message msg{ /*.message =*/ &currentMessage, /*.timeParseStarted =*/ currentMessageStarted, /*.id =*/ currentMessage[0].substr(2), /*.prefix =*/ currentMessage[0].substr(0, 2)};
         // TODO should we check for an accepted set of prefixes? (e.g. GP, GN,
         // GL, GB, BD, HC, PG, etc.)
 #ifdef DEBUG_ARNMEAPARSER
