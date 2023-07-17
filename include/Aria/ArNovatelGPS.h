@@ -76,7 +76,7 @@ protected:
 */
 class ArNovatelSPAN : public virtual ArNovatelGPS {
 protected:
-  /** overrides ArNovatelGPS::handleGPRMC(), and keeps results of parsing the
+  /** replaces ArNovatelGPS::handleGPRMC(), and keeps results of parsing the
   * message in this class rather than ArGPS. */
   void handleGPRMC(ArNMEAParser::Message msg);
   void handleINGLL(ArNMEAParser::Message msg);

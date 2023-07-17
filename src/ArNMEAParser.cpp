@@ -189,17 +189,13 @@ AREXPORT int ArNMEAParser::parse(const char *buf, size_t n)
         
 
         // ok:
-        Message msg;
-        msg.message = &currentMessage;
-        msg.timeParseStarted = currentMessageStarted;
-        msg.prefix = currentMessage[0].substr(0, 2);
+        Message msg{.message = &currentMessage, .timeParseStarted = currentMessageStarted, .id = currentMessage[0].substr(2), .prefix = currentMessage[0].substr(0, 2)};
         // TODO should we check for an accepted set of prefixes? (e.g. GP, GN,
         // GL, GB, BD, HC, PG, etc.)
-        msg.id = currentMessage[0].substr(2);
 #ifdef DEBUG_ARNMEAPARSER
         fprintf(stderr, "\t[ArNMEAPArser: Input message has system prefix %s with message ID %s]\n", msg.prefix.c_str(), msg.id.c_str());
 #endif
-        std::string lastprefix = myLastPrefix[msg.id];
+        const std::string& lastprefix = myLastPrefix[msg.id];
         if(lastprefix != "" && lastprefix != msg.prefix)
         {
           const char *id = msg.id.c_str();
@@ -215,7 +211,7 @@ AREXPORT int ArNMEAParser::parse(const char *buf, size_t n)
 #endif
           if(h->second)
           {
-            h->second->invoke(msg);
+            h->second->invoke(std::move(msg));
             result |= ParseUpdated;
           }
           else

@@ -37,7 +37,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
  *
  *  Parses NMEA input data and calls callbacks for certain messages with message
  *  parts.   NMEA is a standard output data protocol used by GPS devices and
- *  others (e.g. compass, altimeter, etc.)   This class is used internally by ArNMEAParser and
+ *  others (e.g. compass, altimeter, etc.)   This class is used internally by ArGPS and
  *  subclasses, and by ArTCMCompassDirect.
  */
 class ArNMEAParser {
@@ -63,13 +63,19 @@ public:
      * skip messages with incorrect checksums, and log a warning mesage) */
     AREXPORT void setIgnoreChecksum(bool ignore) { ignoreChecksum = ignore; }
 
-    /** NMEA message, divided into parts.  */
+    /** NMEA message, divided into parts. (TODO one possible performance improvement is that this is a vector of std::string_view's on a character buffer provided by the device connection, but we are probably only reading data from the GPS a few times a second, if even that fast, so not critical here.)    */
     typedef std::vector<std::string> MessageVector;
 
-    /** Message data passed to handlers */
-    typedef struct {
+    /** Message wrapper passed to handlers. It provides a pointer to the parts of the most recently parsed message and some useful metadata. 
+     * This Message object is only valid during the parsing of each message (each message read and parsed by parse().) 
+     * Do not store a copy (you can copy the original message data strings if neccesary via dereferencing the pointer (`*message`).)
+    */
+    struct Message {
       /** The parts of the message, including initial message ID (but excluding
-       * checksum) */
+       * checksum). This is a pointer to a MesageVector in NMEAParser instance which is re-used 
+       * for each message parsed. This is only valid during the parsing of each message. A message handler should not store 
+       * this pointer. If you need to copy the whole message contents, make a copy of the vector `*message`.   
+       */
       ArNMEAParser::MessageVector* message;
       /** Timestamp when the beginning of this message was received and parsing
        * began. */
@@ -78,7 +84,8 @@ public:
       std::string id;
       /// Talker-ID prefix, may indicate type of receiver or what kind of GPS system is in use
       std::string prefix;
-    } Message;
+
+    };
       
 
     /** NMEA message handler type.  */
@@ -117,7 +124,9 @@ public:
      
     
 public:
-    /** Map of message identifiers (without "GP" prefix) to handler functors 
+    /** Map of message identifiers (without "GP" prefix) to handler functors.
+        (Note, since keys are NMEA message names without GP prefix, key objects (std::string objects) should
+        be very small (3 characters) and opmtimized with fast copies and comparisons.) 
         @sa getHandlersRef()
      */
     typedef std::map<std::string, ArNMEAParser::Handler*> HandlerMap;

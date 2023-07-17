@@ -33,15 +33,13 @@ AREXPORT ArNovatelGPS::ArNovatelGPS() :
   myNovatelGPGGAHandler(this, &ArNovatelGPS::handleNovatelGPGGA)
 {
   // override normal GPGGA handler:
-  addNMEAHandler("GGA", &myNovatelGPGGAHandler);
+  replaceNMEAHandler("GGA", &myNovatelGPGGAHandler);
 }
 
 AREXPORT bool ArNovatelGPS::initDevice()
 {
   if (!ArGPS::initDevice()) return false;
 
-  char cmd[40];
-  memset(cmd, 0, 40);
 
   myDevice->write("\r\n", 2); // prod the connection and end any previous commands it was waiting for, errors OK 
 
@@ -58,6 +56,8 @@ AREXPORT bool ArNovatelGPS::initDevice()
     float interval = 1;
     if( (*i).first == "RMC") interval = 0.25;  //special case, make this come faster
     ArLog::log(ArLog::Verbose, "ArNovatelGPS: Requesting GP%s at %g sec interval", (*i).first.c_str(), interval);
+    char cmd[40];
+    memset(cmd, 0, 40);
     snprintf(cmd, 40, "log thisport GP%s ontime %g\r\n", (*i).first.c_str(), interval);
         // XXX TODO don't just insert "GP" prefix here, store the expected
         // prefix, or, the expected prefixes for different GPS receiver types,
@@ -65,7 +65,8 @@ AREXPORT bool ArNovatelGPS::initDevice()
     //ArLog::log(ArLog::Verbose, "ArNovatelGPS: sending command: %s", cmd);
     size_t cmdlen = strlen(cmd);
     assert(cmdlen <= INT_MAX);
-    if (myDevice->write(cmd, (unsigned int)cmdlen) != (int)cmdlen) return false;
+    if (myDevice->write(cmd, (unsigned int)cmdlen) != (int)cmdlen) 
+      return false;
   }
 
   return true;
