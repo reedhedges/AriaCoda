@@ -32,6 +32,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include <string>
 #include <map>
 #include <list>
+#include <cstdint>
 
 #ifdef _WIN32
 
