@@ -1069,8 +1069,8 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
     }
     // if we've gotten our config packet or if we've timed out then
     // set our vel and acc/decel params and skip to the next part
-    if (myOrigRobotConfig->hasPacketArrived() || 
-	myAsyncStartedConnection.mSecSince() > 1000)
+    if (myOrigRobotConfig->hasPacketArrived() ||
+    	myAsyncStartedConnection.mSecSince() > 1000)
     {
       bool gotConfig;
       // if we have data from the robot use that
@@ -1120,6 +1120,7 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
       {
 	gotConfig = false;
 	setAbsoluteMaxTransVel(myParams->getAbsoluteMaxVelocity());
+	setAbsoluteMaxTransNegVel(-myParams->getAbsoluteMaxVelocity());
 	setAbsoluteMaxTransAccel(1000);
 	setAbsoluteMaxTransDecel(1000);
 	setAbsoluteMaxRotVel(myParams->getAbsoluteMaxRotVelocity());
