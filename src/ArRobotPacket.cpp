@@ -119,7 +119,7 @@ AREXPORT int16_t ArRobotPacket::calcCheckSum()
 {
   int16_t c = 0;
   int i = 3;
-  int n = (int) myBuf[2] - 2;
+  unsigned char n = myBuf[2] - 2;
   while (n > 1) {
     c += (int16_t) (((unsigned char)myBuf[i]<<8) | (unsigned char)myBuf[i+1]);
     c = (int16_t) (c & 0xffff);
