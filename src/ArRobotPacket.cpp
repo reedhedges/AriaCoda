@@ -115,11 +115,13 @@ AREXPORT void ArRobotPacket::finalizePacket()
   //printf("Output %d\n", getID());
 }
 
+// Calculate and return checksum for packet data currently in myBuf. 
+// Assumes that packet length value in myBuf[2] is valid.
 AREXPORT int16_t ArRobotPacket::calcCheckSum()
 {
   int16_t c = 0;
   int i = 3;
-  unsigned char n = myBuf[2] - 2;
+  unsigned char n = (unsigned char) myBuf[2] - 2; // packet data contents bytes: given length minus the two checksum bytes.
   while (n > 1) {
     c += (int16_t) (((unsigned char)myBuf[i]<<8) | (unsigned char)myBuf[i+1]);
     c = (int16_t) (c & 0xffff);
