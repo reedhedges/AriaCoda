@@ -20,11 +20,12 @@ easier to use.  Contact me or discuss on the GitHub page.
   as data, with all callers using std::move to move it to temporary or to store it?
 * (DONE?) Remove any "commercial" code (note, code is  still GPL, but only relevant to "commercial" use), remove any "default (noncommercial) behavior" conditions. 
 * Add build option to specify custom output dir/prefixes (for obj, lib, etc.)
-* In many places (ArInterpolation, ArRangeBuffer, laser implementations...) a std::list is used to store objects as a buffer, because we want to remove old items from the beginning of the list and add new items to the end.  This could be replaced with std::deque, or ArRingBuffer or other contiguous ring buffer that doesn't need to allocate small objects for list items, but can keep things in contiguous memory space. In the case of ArRangeBuffer, we sometimes want to remove items from the middle. (This could be done in an array or vector if we have an "invalid" flag, and take the number of invalid or bad items into account when checking capacity, and the underlying capacity is not limited to the desired capacity of valid items. We want to keep the list/vector in order by time so that removing old elements, which is done more often, is fast.  In places other than ArRangeBuffer if the list/vector does not need to be in order, just move the last vector element on top of the element to be deleted,then `pop_back()`.) 
+* Fix/improve overuse of std::list, and optimize data structure  for each use (IN PROGRESS):
+  * In many places (ArInterpolation, ArRangeBuffer, laser implementations...) a std::list is used to store objects as a buffer, because we want to remove old items from the beginning of the list and add new items to the end.  This could be replaced with some other data structure which is a bit more memory efficient to iterate and read from and reduces frequent allocation/deallocation on the heap, eg something based on std::deque, or ArRingBuffer or other contiguous ring buffer that doesn't need to allocate small objects for list items, but can keep things in contiguous memory space. In the case of ArRangeBuffer, we sometimes want to remove items from the middle. Could this be done in an array or vector if we have an "invalid" flag (and overwrite these items when they are at the end), and take the number of invalid or bad items into account when checking capacity? Also the underlying capacity must not be limited to the desired capacity of valid items. We want to keep the list/vector in order by time so that removing old elements, which is done more often, is fast.  In places other than ArRangeBuffer if the list/vector does not need to be in order, just move the last vector element on top of the element to be deleted,then `pop_back()`.  Another consideration is to understand how these are most frequently read/processed: should the order of data stored in the data structure be related to the sensor readings general proximity in space, or closeness to the robot (source), or by time, or...?
   * Laser implementations (ArLMS1xx, ArLMS2xx, ArSZSeriel, ArS3Series, etc.) still use a std::list for a queue of packets (myPackets), but have a hack that throws away old packets and only parses the most recent packet. So just store one Packet object in the class.  Is there a reason not to do this? Does the ArLaser or ArRangeDevice interface require it?  If we do need a queue, use std::deque or a circular/ring buffer.
   * In lots of places std::list is used as a container, when another container might be better. They are often small lists storing 5-20 items, usually only ever appended to or built at startup only, or only modified infrequently. Could be replaced with std::vector or std::deque.  Or a few places may benefit from still storing a std::list, or in other cases std::forward_list, or std::set, unordered set, multiset, etc.  Some of these are actually lists of pointers to manually allocated objects (with new), which makes even less sense, we should just store objects in the list. (Note that forward_list has no pointer or reference to its back, so can only push/pop on the front, but it does have insert_after and splice_after, or can be a stack by using push_front and pop_front.)  (IN PROGRESS for places where performance might matter a bit, like range sensor reading buffers)
   * In some places a std::map is used to map numeric indices or IDs to objects. This could probably be a vector instead.  std::map is used elsewhere to map things like string names or other identifiers to objects; most of these are probably relatively small and work well with a std::map, but if there is a case where an std::unordered_map could be better, replace it.  Maybe also std::flat_map?
-* Possible bug: ArRobot is not setting the time component of myEncoderPose or myRawEncoderPose? Ned to investigate.
+* Possible bug: ArRobot is not setting the time component of myEncoderPose or myRawEncoderPose? Need to investigate.
 * Possible bug: ArInterpolation forward interpolation (future prediction) may not be working correctly.  May just be returning last pose in history, and never returning -1 (too far in future).
 * Many classes provide setters for parameters that only need to be set when the object is constructed, these could be removed and the member variable made const.
 * Classes like ArUtil and ArMath that act like namespaces (they only contain static functions) should just be changed to namespaces.
@@ -58,7 +59,7 @@ easier to use.  Contact me or discuss on the GitHub page.
     constructors deleted.  Review.  Make sure copying is disabled (deleted) or
     implemented correctly.
 * Apply `final` in some classes with virtual inheritance that users won't inherit (though we have had cases in ARIA where we did additional inheritance to add specific features.)
-* Add noexcept to methods whoose only standard library calls are themselves noexcept, or which calls have try/catch clause. 
+* Add noexcept to methods whose only standard library calls are themselves noexcept, or which calls have try/catch clause. 
 * Find any const methods that are private or only used internally. consider replacing them with static functions in the .cpp file, and add `__attribute__((const))` if compiling with gcc (or clang?). (Is there an equivalent in MSVC?)
 * There are no exceptions in ARIA.  Mark functions where it might matter as
   noexcept (eg for optimization).
@@ -76,7 +77,7 @@ easier to use.  Contact me or discuss on the GitHub page.
 * Audit raw array indexing, pointer arithmetic, unneccesary new/pointers (need to make sure all classes are correctly copy/move constructable/assignable first; may need to refactor header files if a class just forward declares a class and uses pointers in header file), memset/memcpy/strcpy instead of assignment or construction, and other potential memory errors.  Use gsl::span (or just verify correctness. add tests.)  Make sure container iteration is always within bounds. (HELP WANTED)
 * Update tests to remove use of ArSimpleConnector and fix C++ errors/warnings.  (HELP WANTED)
 * Provide refactoring tips and instructions to users to transition existing
-  code due to all changes below.
+  code due to all changes listed here (and already done)
 * Use std::optional in ArGPS and other device classes that may or may not
   have data available (and/or use expected)
 * Introduce unit types (mm, m, deg, rad, mm/s, deg/s, etc. with custom literals
@@ -141,17 +142,17 @@ easier to use.  Contact me or discuss on the GitHub page.
     * Alignment of int = 4, alignment of float = , alignment of double = , alignment of bool = 1.
   * Serial and network IO
   * ArSyncTask (simplify "task tree" concept?) main loop.  This is really only
-    used by ArRobot, no external uses use ArSyncTask AFAIK.  
+    used by ArRobot, no programs using ARIA actually use ArSyncTask AFAIK.  
   * ArRobot command and SIP processing
   * ArAction handling. (e.g. remove unused customizability of action resolver
     implementation.)
   * Reduce ArAction footprint.  Remove little-used features (arguments,
-    getDesired(),  passing currentDesired() in to file() (or make it a const
+    getDesired(),  passing currentDesired() in to fire() (or make it a const
     reference.) 
   * Sensor data processing (Some work already done in ArRangeBuffer)
   * Change some std::string members to std::string_view, if they are always (or could be always) set from constant string literals.  (Eg debugging names.) 
   * Change `const std::string&` and `const char*` function arguments to `std::string_view`.  (And change calls that convert from `std::string` using `c_str()` to just pass the `std::string` directly to the `std::string_view` argument). 
-  * Manage packet reading (e.g. myPacketList in ArRobot) a bit more efficiently (can maybe use value semantics in packet reader/writer rather than allocating and deleting all the time; e.g. move ArRobotPacket objects into a myPacketList as `std::list<ArRobotPacket>`, splicing the list as needed, or just always as a vector or array buffer, perhaps ArRingBuffer) 
+  * Manage packet reading (e.g. myPacketList in ArRobot) a bit more efficiently (can maybe use value and move semantics in packet reader/writer rather than allocating and deleting all the time; e.g. move ArRobotPacket objects into a myPacketList as `std::list<ArRobotPacket>`, splicing the list as needed, or just always as a vector or array buffer, perhaps ArRingBuffer) 
   * Many devices (e.g. ArLMS1xx) write data to packets by sprintf'ing to a string, then memcpy'ing that string to the packet buffer.  We should just format the numbers and text into the packet buffer serially without printf/sprintf. (Partially improved)
   * We can reduce mutex contention by using std::shared_mutex, or finding most frequently used data and (carefully) using std::atomic.
   * Some classe have arbitrary member order, some have the reordered to reduce padding.  But we could also try to co-locate data that will be used together in frequently run (hot) code.
@@ -191,7 +192,7 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Check ArConfig input/output
   * Check potentially tricky API calls for breaking changes/regressions
 
-* Use more modern portable C++/stdlib features (including tests that new standard library usage is equivalent to older usage)
+* Use more modern portable C++/stdlib features (including tests that new standard library usage is equivalent to older usage). (Note that this may make AriaCoda not usable on older or rarer platforms, including with mingw for certain things, which will impact AMRISim.) 
   * Replace (deprecate) ArTime and ArUtil::getTime(), ArUtil::putCurrentXXXXInString(), ArUtil::parseTime(), ArUtil::localtime(),  with std::chrono etc.
   * Replace/deprecate some ariaTypedefs.h, ArUtil and ArMath functions: (DONE)
     * `ArTypes::Byte` -> `int8_t`
@@ -240,7 +241,8 @@ easier to use.  Contact me or discuss on the GitHub page.
     interface or provide more access to underlying standard containers/iterators. This makes them directly usable with standard algorithms and C++20 range/view. (Possibly with parallel executors.)
   * Find more opportunities to use improved STL algorithms including parallel execution. (Parallel execution most useful with larger data sets, and in time cretical sections like robot and sensor data processing, not so much in startup config, etc.)
   * Verify that frequently used storage types like ArPose, RangeBuffer, etc. are compatible with move semantics. Most of these should just contain trivial members but some might contain mutex objects, or pointers to self-allocated memory, or other members that need special handling.   Implement correct move for ArMutex perhaps.
-  * Use C++17 filesystem library. Remove file/directory functions from ArUtil.  
+  * Add options to Makefile that enable sanitizers (address sanitizer, thread sanitizer, type sanitizer, built in compiler analysis, etc. depending on compiler [gcc or clang]).  
+  * Use C++17 filesystem library? (And remove file/directory functions from ArUtil.).  Or, borrow some interface components from filesystem like std::path, update and improve ArUtil file/directory functions.  (Or require use of some other file system library e.g. boost, asio, ned14's implementation of llfio proposed for c++26, etc.)
   * Replace use of scanf, atof, atoi etc. (and ArUtil wrappers) with
     `std::stod`, `std::strtod`, `std::from_chars`, etc.  Replace use of sprintf with
     `std::to_chars` or `std::to_string` or sstream with format manipulators, or `std::format` (coming after
@@ -248,10 +250,139 @@ easier to use.  Contact me or discuss on the GitHub page.
   * Use `std::string` and `string_view` more frequently rather than `char*`.
   * Use `std::array` instead of C arrays (or known-size vectors, but these seem to
     not occur or be very rare in ARIA) (PARTLY DONE)
-* Simplify and improve ArFunctor
+* Simplify and improve ArFunctor. Or remove and replace with modern C++ features like std::function, std::function_ref, etc.
+  * Use variadic template parameters in ArFunctor rather than multiple classes for each number of arguments, e.g.:
+    ```
+#include <cstdio>
+#include <vector>
+#include <cassert>
+
+template<typename Ret = void, typename... Params>
+struct F
+{
+    Ret (*funcPtr)(Params...) = nullptr;
+
+    explicit F(Ret (*f_)(Params...)) : funcPtr(f_) {}
+
+    Ret invoke(Params... args) {
+        puts("invoked");
+        assert(funcPtr != nullptr);
+        return (*funcPtr)(args...);
+    }
+    Ret invoke(Params... args) const {
+        puts("invoked const");
+        assert(funcPtr != nullptr);
+        return (*funcPtr)(args...);
+    }
+
+    Ret operator()(Params... args) {
+        return invoke(args...);
+    }
+    Ret operator()(Params... args) const {
+        return invoke(args...);
+    }
+};
+
+template<typename C, typename Ret = void, typename... Params>
+struct FC
+{
+    C* obj = nullptr;
+    Ret (C::*funcPtr)(Params...) = nullptr;
+
+    FC(C* o_, Ret (C::*f_)(Params...)) : obj(o_), funcPtr(f_) {}
+
+    Ret invoke(Params... args) {
+        puts("invoked");
+        assert(obj != nullptr);
+        assert(funcPtr != nullptr);
+        return (obj->*funcPtr)(args...);
+    }
+    Ret invoke(Params... args) const {
+        puts("invoked const");
+        assert(obj != nullptr);
+        assert(funcPtr != nullptr);
+        return (obj->*funcPtr)(args...);
+    }
+
+    Ret operator()(Params... args) {
+        return invoke(args...);
+    }
+    Ret operator()(Params... args) const {
+        return invoke(args...);
+    }
+};
+
+
+
+template<typename Iter>
+void invoke_all(Iter begin, Iter end) {
+    for(Iter i = begin; i != end; ++i)
+        (*i)();
+}
+
+void testfunc1() {
+    puts("testfunc1");
+}
+
+int testfunc2() {
+    puts("testfunc2");
+    return 42;
+}
+
+int testfunc3(char c) {
+    printf("testfunc3: %c\n", c);
+    return 23;
+}
+
+
+struct Classy {
+    void foo() {
+        puts("Class foo");
+    }
+    int bar() {
+        puts("Class bar");
+        return 42;
+    }
+    void foo(char c) {
+        printf("Class foo with %c\n", c);
+    }
+    int bar(char c) {
+        printf("Class bar with %c\n", c);
+        return 23;
+    }
+};
+
+int main()
+{
+
+    std::vector<F<>> v;
+    v.push_back(F<>{&testfunc1});
+    v.push_back(F<>{&testfunc1});
+    invoke_all(v.cbegin(), v.cend());
+
+    F<int> f1{&testfunc2};
+    int x = f1();
+    assert(x == 42);
+
+    F<int, char> f2{&testfunc3};
+    int y = f2('a');
+    assert(y == 23);
+
+    Classy c;
+    FC<Classy> fc{&c, &Classy::foo};
+    fc();
+    FC<Classy, int> fc2{&c, &Classy::bar};
+    int z = fc2();
+    assert(z == 42);
+
+    FC<Classy, int, char> fc3(&c, &Classy::bar);
+    int zz = fc3('z');
+    assert(zz == 23);
+}
+```
   * Replace ArFunctor usage with functional objects from C++ standard library, or something else:
-    * Could use std::function or std::move_only_function, or methods accepting function callbacks can be templates with `T&&` (convert to std::function to store?) and `requires std::invocable<...>` or `requires std::invokable_r<...>` (Note "requires" is from C++20).
-    * Users should be able to use instead:
+    * Could use std::function or std::function_ref or something that allows user/caller to supply either (or std::move_only_function??).  (methods accepting function callbacks can be templates with `T&&` (convert to std::function to store?) and `requires std::invocable<...>` or `requires std::invokable_r<...>` (Note "requires" is from C++20) ??)
+    * Users should idealy be able to instead use their choice of some or all of:
       * any bare function pointer, which is converted to std::function (or similar)
       * a lambda (note that it must specify a return type if it
       returns something in order to be safely assigned to a std::function.)
@@ -346,14 +477,12 @@ easier to use.  Contact me or discuss on the GitHub page.
 
       Maybe ArFunctorC can also be supported via type alias rather than
       conversion functions?
-
     * Or, replace ArFunctor throughout Aria with std::function, but also make converting between 
       std::function and ArFunctor possible, e.g. add operator() to ArFunctor,
       and constructor that takes std::function to store and optionally use instead of virtual 
       derived class invoke() overload.  Note that most important for compatibility is users providing
       their own ArFunctor objects to ARIA classes, but there are also a few places in the ARIA API that return
       ArFunctor objects or pointers that users can store and call.
-
     * Or, just break the API and require users to switch to std::function or lambda closures. 
 
     * Note, should we be using `std::ref` or the proposed `function_ref` for the above? (Or only

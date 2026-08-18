@@ -672,7 +672,9 @@ tags: $(SRC_FILES) $(HEADER_FILES)
 
 ctags: tags
 
-CLANG_TIDY_CHECKS:=-fuchsia-*,-google-*,-zircon-*,-android-*,-abseil-*,-altera-*,-boost-*,-linuxkernel-*,-llvm-*,-llvmlibc-*
+# Disable various groups of checks (patterns starting with '-' get disabled) and enable
+# a couple additional checks (patterns not starting with '-' are enabled).
+CLANG_TIDY_CHECKS:=-fuchsia-*,-google-*,-zircon-*,-android-*,-abseil-*,-altera-*,-boost-*,-linuxkernel-*,-llvm-*,-llvmlibc-*,bugprone*,modernize*,-modernize-use-trailing-return-type
 
 clang-tidy: FORCE
 	clang-tidy --header-filter=include/Aria/.* $(SRC_FILES) $(HEADER_FILES) --checks='$(CLANG_TIDY_CHECKS)' -- -x c++ $(CXXFLAGS) -DARIABUILD $(CXXINC)
