@@ -2611,7 +2611,7 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
     std::list<ArArgumentBuilder *>::const_iterator argIt;
     const std::list<ArArgumentBuilder *> *argList = getArgsWithFunctor();
     if (argList != NULL) {
-      for (argIt = argList->begin(); argIt != argList->end(); argIt++)
+      for (argIt = argList->begin(); argIt != argList->end(); ++argIt)
       {
         // if there's a space in the name then quote the param name
         if (strchr(getName(), ' ') != NULL || 
@@ -2839,7 +2839,7 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
     if (myData.myListData.myChildArgList != NULL) {
       for (std::list<ArConfigArg>::const_iterator cIter = myData.myListData.myChildArgList->begin();
             cIter != myData.myListData.myChildArgList->end();
-            cIter++) {
+            ++cIter) {
 
         (*cIter).writeArguments(file,
                                 lineBuf,

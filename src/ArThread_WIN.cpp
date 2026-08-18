@@ -83,7 +83,7 @@ AREXPORT void ArThread::shutdown()
 
   for (MapType::iterator mapIter = ourThreads.begin(); 
        mapIter != ourThreads.end();
-       mapIter++) {
+       ++mapIter) {
     if (mapIter->second != NULL) {
       threadList.push_back(mapIter->second);
     }

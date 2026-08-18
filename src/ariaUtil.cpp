@@ -1027,7 +1027,7 @@ AREXPORT bool ArUtil::isStrInList(const char *str,
   }
   for (std::list<std::string>::const_iterator aIter = list.begin();
        aIter != list.end();
-       aIter++) {
+       ++aIter) {
     if (!isIgnoreCase) {
       if (strcmp((*aIter).c_str(), str) == 0) {
         return true;
@@ -1476,7 +1476,7 @@ AREXPORT void ArRunningAverage::setUseRootMeanSquare(bool useRootMeanSquare)
   {
     myTotal = 0;
     std::list<double>::iterator it;
-    for (it = myVals.begin(); it != myVals.end(); it++)
+    for (it = myVals.begin(); it != myVals.end(); ++it)
     {
       if (useRootMeanSquare)
 	myTotal += ((*it) * (*it));
@@ -1844,7 +1844,7 @@ AREXPORT bool ArUtil::matchCase(const char *baseDir,
   std::string finding = (*it);
 
   /*
-  for (it = split.begin(); it != split.end(); it++)
+  for (it = split.begin(); it != split.end(); ++it)
   {
     printf("@@@@@@@@ %s\n", (*it).c_str());
   }
@@ -1866,7 +1866,7 @@ AREXPORT bool ArUtil::matchCase(const char *baseDir,
 
   if (finding == ".")
   {
-    it++;
+    ++it;
     if (it != split.end())
     {
       finding = (*it);
@@ -1930,7 +1930,7 @@ AREXPORT bool ArUtil::matchCase(const char *baseDir,
       strncpy(&result[lenOfResult], ent->d_name, size_remain);
       //printf("after %s\n", result);
       // see if we're at the end
-      it++;
+      ++it;
       if (it != split.end())
       {
         //printf("Um.........\n");
@@ -2003,6 +2003,7 @@ AREXPORT bool ArUtil::getDirectory(const char *fileName,
   }
 }
 
+// @deprecated
 AREXPORT bool ArUtil::getFileName(const char *fileName, 
 					 char *result, size_t resultLen)
 {
@@ -2023,8 +2024,9 @@ AREXPORT bool ArUtil::getFileName(const char *fileName,
   size_t fileNameLen = strlen(fileName);
   str = new char[fileNameLen+1];
   //printf("0 %s\n", fileName);
-  // just play in the result buffer
-  strncpy(str, fileName, fileNameLen-1);
+  // just play in the result buffer, strcpy is ok because we allocated str using strlen(filename) plus null character.
+  //strcpy(str, fileName);
+  memcpy(str, fileName, fileNameLen+1);
   // make sure its nulled
   str[fileNameLen] = '\0';
   //printf("1 %s\n", str);

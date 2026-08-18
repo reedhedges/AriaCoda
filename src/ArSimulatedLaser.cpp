@@ -476,13 +476,13 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
     for (i = 0, myIter = myAssembleReadings->begin(); i < readingNumber; i++)
     {
       tempIt = myIter;
-      tempIt++;
+      ++tempIt;
       if (tempIt == myAssembleReadings->end() && (i + 1 != myTotalNumReadings))
       {
         myAssembleReadings->push_back(new ArSensorReading);
         //printf("@\n");
       }
-      myIter++;
+      ++myIter;
     }
   }
   else
@@ -545,13 +545,13 @@ AREXPORT bool ArSimulatedLaser::simPacketHandler(ArRobotPacket *packet)
     
     //addReading(reading->getX(), reading->getY());
     tempIt = myIter;
-    tempIt++;
+    ++tempIt;
     if (tempIt == myAssembleReadings->end() && myWhichReading + 1 != myTotalNumReadings)
     {
       printf("!\n");
       myAssembleReadings->push_back(new ArSensorReading);
     }
-    myIter++;
+    ++myIter;
   }
 
   // check if the sensor set is complete

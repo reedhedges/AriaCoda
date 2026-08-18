@@ -150,11 +150,6 @@ AREXPORT bool ArRobotPacket::verifyCheckSum()
   
 }
 
-AREXPORT ArTime ArRobotPacket::getTimeReceived()
-{
-  return myTimeReceived;
-}
-
 AREXPORT void ArRobotPacket::setTimeReceived(ArTime timeReceived)
 {
   myTimeReceived = timeReceived;

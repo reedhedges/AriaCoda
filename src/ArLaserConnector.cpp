@@ -276,7 +276,7 @@ AREXPORT bool ArLaserConnector::parseArgs (ArArgumentParser *parser)
 		}
 	}
 	// now go through and parse the args for any laser that we have
-	for (it = myLasers.begin(); it != myLasers.end(); it++) {
+	for (it = myLasers.begin(); it != myLasers.end(); ++it) {
 		laserData = (*it).second;
 		if (!parseLaserArgs (parser, laserData)) {
 			parser->setWasReallySetOnlyTrue (wasReallySetOnlyTrue);
@@ -762,7 +762,7 @@ AREXPORT void ArLaserConnector::logOptions() const
   std::map<int, LaserData *>::const_iterator it;
   LaserData *laserData;
 
-  for (it = myLasers.begin(); it != myLasers.end(); it++)
+  for (it = myLasers.begin(); it != myLasers.end(); ++it)
   {
     laserData = (*it).second;
     logLaserOptions(laserData);
@@ -1241,7 +1241,7 @@ AREXPORT bool ArLaserConnector::connectLasers(
   {
     if (myRobot != NULL)
     {
-      for (it = myLasers.begin(); it != myLasers.end(); it++)
+      for (it = myLasers.begin(); it != myLasers.end(); ++it)
       {
 	laserData = (*it).second;
 	myRobot->addLaser(laserData->myLaser, laserData->myNumber);
@@ -1260,7 +1260,7 @@ AREXPORT bool ArLaserConnector::connectLasers(
     }
   }
 
-  for (it = myLasers.begin(); it != myLasers.end(); it++)
+  for (it = myLasers.begin(); it != myLasers.end(); ++it)
   {
     laserData = (*it).second;
     if (laserData->myLaserIsPlaceholder)

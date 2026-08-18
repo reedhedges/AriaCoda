@@ -731,7 +731,7 @@ AREXPORT bool  ArConfig::addSection(const char *categoryName,
       if (origSectionList != NULL) {
         for (std::list<std::string>::iterator remIter = origSectionList->begin();
              remIter != origSectionList->end();
-             remIter++) {
+             ++remIter) {
           if (ArUtil::strcasecmp(sectionName, *remIter) == 0) {
             origSectionList->erase(remIter);
             break;
@@ -941,7 +941,7 @@ AREXPORT bool ArConfig::addParam(const ArConfigArg &arg,
   
   for (sectionIt = mySections.begin(); 
        sectionIt != mySections.end(); 
-       sectionIt++)
+       ++sectionIt)
   {
     ArConfigSection *curSection = *sectionIt;
 
@@ -1089,7 +1089,7 @@ AREXPORT bool ArConfig::parseSection(ArArgumentBuilder *arg,
     errorBuffer[0] = '\0';
   for (sectionIt = mySections.begin(); 
     sectionIt != mySections.end(); 
-    sectionIt++)
+    ++sectionIt)
   {
     section = (*sectionIt);
     if (ArUtil::strcasecmp(section->getName(), arg->getFullString()) == 0)
@@ -1099,7 +1099,7 @@ AREXPORT bool ArConfig::parseSection(ArArgumentBuilder *arg,
         isParseSection = false;
         for (std::list<std::string>::iterator sIter = mySectionsToParse->begin();
           sIter != mySectionsToParse->end();
-          sIter++) {
+          ++sIter) {
             std::string sp = *sIter;
             if (ArUtil::strcasecmp(section->getName(), sp.c_str()) == 0) {
               isParseSection = true;
@@ -1403,7 +1403,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
 
   //for (std::list<ArConfigSection *>::iterator sectionIt = mySections.begin(); 
   //     sectionIt != mySections.end(); 
-  //     sectionIt++)
+  //     ++sectionIt)
   //{
   //  section = (*sectionIt);
 
@@ -1426,7 +1426,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
 
       for (std::list<ArConfigArg>::iterator pIter = paramList->begin();
            pIter != paramList->end();
-           pIter++) {
+           ++pIter) {
     
         ArConfigArg *param = &(*pIter);
         //ArConfigArg *parseParam = NULL;
@@ -1444,7 +1444,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
             continue;
           }
           std::list<std::string>::iterator listIter = myParsingListNames.begin();
-          listIter++; // skip the one already parsed
+          ++listIter; // skip the one already parsed
 
           std::list<ArConfigArg*> matchParamList;
           matchParamList.push_back(param);
@@ -1455,7 +1455,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
 
             for (std::list<ArConfigArg*>::iterator mIter = matchParamList.begin();
                  mIter != matchParamList.end();
-                 mIter++) {
+                 ++mIter) {
               ArConfigArg *matchParam = *mIter;
               if (matchParam == NULL) {
                 continue;
@@ -1477,13 +1477,13 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
             matchParamList = tempParamList;
             tempParamList.clear();
 
-            listIter++;
+            ++listIter;
 
           } // end for each list level
           
           for (std::list<ArConfigArg*>::iterator matchIter = matchParamList.begin();
                matchIter != matchParamList.end();
-               matchIter++) {
+               ++matchIter) {
 
              ArConfigArg *matchParam = *matchIter;
              if (matchParam == NULL) {
@@ -1507,7 +1507,7 @@ AREXPORT bool ArConfig::parseArgument(ArArgumentBuilder *arg,
 
         for (std::list<ArConfigArg*>::iterator parseIter = parseParamList.begin();
              parseIter != parseParamList.end();
-             parseIter++) {
+             ++parseIter) {
 
           ArConfigArg *parseParam = *parseIter;
           if (parseParam == NULL) {
@@ -1949,7 +1949,7 @@ AREXPORT bool ArConfig::writeFile(const char *fileName,
   // then write out the rest (skip the generic section if we have one)
   for (sectionIt = mySections.begin(); 
        sectionIt != mySections.end(); 
-       sectionIt++)
+       ++sectionIt)
   {
     section = (*sectionIt);
     if (strcmp(section->getName(), "") == 0)
@@ -1959,7 +1959,7 @@ AREXPORT bool ArConfig::writeFile(const char *fileName,
       bool isSectionFound = false;
       for (std::list<std::string>::iterator swIter = sectionsToWrite->begin();
            swIter != sectionsToWrite->end();
-           swIter++) {
+           ++swIter) {
         std::string sp = *swIter;
         if (ArUtil::strcasecmp(section->getName(), sp.c_str()) == 0) {
           isSectionFound = true;
@@ -2410,7 +2410,7 @@ AREXPORT bool ArConfig::writeResourceFile(const char *fileName,
   // then write out the rest (skip the generic section if we have one)
   for (std::list<ArConfigSection *>::iterator sectionIt = mySections.begin(); 
        sectionIt != mySections.end(); 
-       sectionIt++)
+       ++sectionIt)
   {
     section = (*sectionIt);
     if (strcmp(section->getName(), "") == 0)
@@ -2420,7 +2420,7 @@ AREXPORT bool ArConfig::writeResourceFile(const char *fileName,
       bool isSectionFound = false;
       for (std::list<std::string>::iterator swIter = sectionsToWrite->begin();
            swIter != sectionsToWrite->end();
-           swIter++) {
+           ++swIter) {
         std::string sp = *swIter;
         if (ArUtil::strcasecmp(section->getName(), sp.c_str()) == 0) {
           isSectionFound = true;
@@ -2510,7 +2510,7 @@ AREXPORT void ArConfig::writeSection(ArConfigSection *section,
 
   for (std::list<ArConfigArg>::iterator paramIt = params->begin(); 
        paramIt != params->end(); 
-       paramIt++)
+       ++paramIt)
   {
     //commented = false;
     
@@ -2595,7 +2595,7 @@ AREXPORT void ArConfig::writeSectionResource(ArConfigSection *section,
 
   for (std::list<ArConfigArg>::iterator paramIt = params->begin(); 
        paramIt != params->end(); 
-       paramIt++)
+       ++paramIt)
   {
     
     ArConfigArg *param = &(*paramIt);
@@ -2933,7 +2933,7 @@ AREXPORT std::list<std::string> ArConfig::getSectionNamesInCategory
    
     for (std::list<ArConfigSection *>::const_iterator sIter = mySections.begin(); 
          sIter != mySections.end();
-         sIter++) {
+         ++sIter) {
                            
       const ArConfigSection *section = *sIter;
       if ((section != NULL) &&
@@ -2956,7 +2956,7 @@ AREXPORT std::list<std::string> ArConfig::getSectionNames() const
 
    for (std::list<ArConfigSection *>::const_iterator sIter = mySections.begin(); 
         sIter != mySections.end();
-        sIter++) {
+        ++sIter) {
                            
     const ArConfigSection *section = *sIter;
     if ((section != NULL) &&
@@ -3036,12 +3036,12 @@ AREXPORT bool ArConfig::parseArgumentParser(ArArgumentParser *parser,
     //printf("normal %s undash %s\n", strArg.c_str(), strUndashArg.c_str());
     for (sectionIt = mySections.begin(); 
          sectionIt != mySections.end(); 
-         sectionIt++)
+         ++sectionIt)
     {
       section = (*sectionIt);
       params = section->getParams();
 
-      for (paramIt = params->begin(); paramIt != params->end(); paramIt++)
+      for (paramIt = params->begin(); paramIt != params->end(); ++paramIt)
       {
         param = &(*paramIt);
         /*
@@ -3118,7 +3118,7 @@ AREXPORT ArConfigSection *ArConfig::findSection(const char *sectionName) const
 
   for (std::list<ArConfigSection *>::const_iterator sectionIt = mySections.begin(); 
        sectionIt != mySections.end(); 
-       sectionIt++)
+       ++sectionIt)
   {
     tempSection = (*sectionIt);
     if (tempSection == NULL) {
@@ -3153,7 +3153,7 @@ void ArConfig::copySectionsToParse(std::list<std::string> *from)
     mySectionsToParse = new std::list<std::string>();
     for (std::list<std::string>::const_iterator spIter = from->begin();
          spIter != from->end();
-         spIter++) {
+         ++spIter) {
       sections += "'";
       sections += (*spIter);
       sections += "' ";
@@ -3198,11 +3198,11 @@ AREXPORT void ArConfig::clearAllValueSet()
   sections = getSections();
   for (sectionIt = sections->begin(); 
        sectionIt != sections->end(); 
-       sectionIt++)
+       ++sectionIt)
   {
     section = (*sectionIt);
     params = section->getParams();
-    for (paramIt = params->begin(); paramIt != params->end(); paramIt++)
+    for (paramIt = params->begin(); paramIt != params->end(); ++paramIt)
     {
       param = &(*paramIt);
       param->clearValueSet();
@@ -3237,11 +3237,11 @@ AREXPORT void ArConfig::removeAllUnsetValues(bool isRemovingUnsetSectionsOnly)
   sections = getSections();
   for (sectionIt = sections->begin(); 
        sectionIt != sections->end(); 
-       sectionIt++)
+       ++sectionIt)
   {
     section = (*sectionIt);
     params = section->getParams();
-    for (paramIt = params->begin(); paramIt != params->end(); paramIt++)
+    for (paramIt = params->begin(); paramIt != params->end(); ++paramIt)
     {
       param = &(*paramIt);
       if (param->getType() != ArConfigArg::SEPARATOR && 
@@ -3440,7 +3440,7 @@ AREXPORT ArConfigArg *ArConfigSection::findParam(const char *paramName,
 
   for (std::list<ArConfigArg>::iterator pIter = myParams.begin(); 
        pIter != myParams.end(); 
-       pIter++)
+       ++pIter)
   {
     tempParam = &(*pIter);
     // ignore string holders 
@@ -3596,7 +3596,7 @@ AREXPORT bool ArConfigSection::remStringHolder(const char *paramName)
   
   for (std::list<ArConfigArg>::iterator pIter = myParams.begin(); 
        pIter != myParams.end(); 
-       pIter++)
+       ++pIter)
   {
     tempParam = &(*pIter);
     

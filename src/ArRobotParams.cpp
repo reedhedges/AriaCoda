@@ -1000,7 +1000,7 @@ AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getSonarUnits()
   int num, x, y, th;
   ArArgumentBuilder *builder;
 
-  for (it = mySonarMap.begin(); it != mySonarMap.end(); it++)
+  for (it = mySonarMap.begin(); it != mySonarMap.end(); ++it)
   {
     num = (*it).first;
     x = (*it).second[SONAR_X];
@@ -1180,7 +1180,7 @@ AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getSonarUnits()
 	bool useForAutonomousDriving;
   ArArgumentBuilder *builder;
 
-  for (it = mySonarMap.begin(); it != mySonarMap.end(); it++)
+  for (it = mySonarMap.begin(); it != mySonarMap.end(); ++it)
   {
     unitNum = (*it).first;
     x = (*it).second[SONAR_X];
@@ -1235,7 +1235,7 @@ AREXPORT const std::list<ArArgumentBuilder *> *ArRobotParams::getIRUnits()
   int num, type, cycles,  x, y;
   ArArgumentBuilder *builder;
 
-  for (it = myIRMap.begin(); it != myIRMap.end(); it++)
+  for (it = myIRMap.begin(); it != myIRMap.end(); ++it)
   {
     num = (*it).first;
     type = (*it).second[IR_TYPE];

@@ -316,7 +316,7 @@ is a pointer to object to be deleted using the 'delete' operator.
   */
   AREXPORT static void copy_string_to_buffer(char *destbuf, size_t destbufsize, const char *src);
 
-  [[deprecated("use copy_string_to_buffer(char *, size_t, const char *) instead")]]
+  PUBLICDEPRECATED("use copy_string_to_buffer(char *, size_t, const char *) instead")
   static void copy_string_to_buffer(char *destbuf, const char *src, size_t destbufsize) 
   {
     ArUtil::copy_string_to_buffer(destbuf, destbufsize, src);
@@ -649,9 +649,11 @@ is a pointer to object to be deleted using the 'delete' operator.
 			   char * result, size_t resultLen);
 #endif 
   /// Pulls the directory out of a file name
+  PUBLICDEPRECATED("Use std::filesystem::path instead")
   AREXPORT static bool getDirectory(const char *fileName, 
 				     char * result, size_t resultLen);
   /// Pulls the filename out of the file name
+  PUBLICDEPRECATED("Use std::filesystem::path instead")
   AREXPORT static bool getFileName(const char *fileName, 
 				     char * result, size_t resultLen);
   
@@ -729,6 +731,42 @@ is a pointer to object to be deleted using the 'delete' operator.
     const unsigned long kb = availableDiskSpaceKB(path, ok);
     if(kb == ULONG_MAX) return ULONG_MAX;
     return kb/1024;
+  }
+
+  /// Invoke operator() on all objects in the iterator range from begin until end, with no arguments, where each iterator refers to an object that has operator() defined (E.g. ArFunctor).
+  /// @todo if updated to C++17 or later, use std::invoke() 
+  template<typename IterT>
+  static void invokeAll(IterT begin, IterT end)
+  {
+    for(IterT i = begin; i != end; ++i)
+      (*i)();
+  }
+
+  /// Invoke operator() on all objects in the iterator range from begin until end, with no arguments, where each iterator refers to a pointer to an object that has operator() defined (E.g. `ArFunctor*`).
+  /// @todo if updated to C++17 or later, use std::invoke()
+  template<typename IterT>
+  static void invokeAllPointers(IterT begin, IterT end)
+  {
+    for(IterT i = begin; i != end; ++i)
+      if(*i) (**i)();
+  }
+
+  /// Call operator(p1) on objects in the iterator range from begin until end, with one parameter, where each iterator refers to an object with operator(p1) defined (e.g. ArFunctor*).
+  /// @todo if updated to C++17 or later, use std::invoke()
+  template<typename IterT, typename P1>
+  static void invokeAll(IterT begin, IterT end, P1 p1)
+  {
+    for(IterT i = begin; i != end; ++i)
+      (*i)(p1);
+  }
+
+  /// Call operator(p1) on objects in the iterator range from begin until end, with one parameter, where each iterator refers to a pointer to an object with operator(p1) defined (e.g. ArFunctor1*).
+  /// @todo if updated to C++17 or later, use std::invoke()
+  template<typename IterT, typename P1>
+  static void invokeAllPointers(IterT begin, IterT end, P1 p1)
+  {
+    for(IterT i = begin; i != end; ++i)
+      if(*i) (**i)(p1);
   }
   
 protected:
@@ -2424,8 +2462,8 @@ public:
   /// Adds a number
   constexpr void add(int val)
   {
-    myTotal += val * val;
-    myNum++;
+    myTotal += (long long)val * (long long)val;
+    ++myNum;
     if (myTotal < 0)
     {
       //ArLog::log(ArLog::Normal, "%s: total wrapped, resetting", myName.c_str());

@@ -1071,9 +1071,9 @@ void ArS3Series::sensorInterp() {
 				onReading < eachNumberData;
 
 				atDeg += increment,
-				it++,
-				readingIndex++,
-				onReading++)
+				++it,
+				++readingIndex,
+				++onReading)
 		{
 
 

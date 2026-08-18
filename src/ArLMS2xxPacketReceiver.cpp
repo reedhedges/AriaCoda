@@ -105,11 +105,15 @@ AREXPORT ArLMS2xxPacket *ArLMS2xxPacketReceiver::receivePacket(
   int numRead;
 
 
-  if (myDeviceConn == NULL || 
-      myDeviceConn->getStatus() != ArDeviceConnection::STATUS_OPEN)
+  if (myDeviceConn == nullptr)
+  {
+    return nullptr;
+  }
+
+  if(myDeviceConn->getStatus() != ArDeviceConnection::STATUS_OPEN)
   {
     myDeviceConn->debugEndPacket(false, -10);
-    return NULL;
+    return nullptr;
   }
   
   timeDone.setToNow();

@@ -1050,7 +1050,7 @@ int ArRobot::asyncConnectHandler(bool tryHarderToConnect)
     {
       //printf("0x%x\n", packet->getID());
       handled = false;
-      for (auto it = myPacketHandlerList.begin(); it != myPacketHandlerList.end() && handled == false; it++)
+      for (auto it = myPacketHandlerList.begin(); it != myPacketHandlerList.end() && handled == false; ++it)
       {
         if ((*it) != NULL && (*it)->invokeR(packet)) 
           handled = true;
@@ -1825,7 +1825,7 @@ void ArRobot::startStabilization()
 
   for (auto it = myStabilizingCBList.begin(); 
       it != myStabilizingCBList.end(); 
-      it++)
+      ++it)
     (*it)->invoke();
 
 }
@@ -1840,7 +1840,7 @@ void ArRobot::finishedConnection()
   myBlockingConnectRun = false;
   resetTripOdometer();
 
-  for (auto it = myConnectCBList.begin(); it != myConnectCBList.end(); it++)
+  for (auto it = myConnectCBList.begin(); it != myConnectCBList.end(); ++it)
     (*it)->invoke();
 
   myConnectionTimeoutMutex.lock();
@@ -1861,7 +1861,7 @@ void ArRobot::failedConnect()
   myIsConnected = false;
   for (auto it = myFailedConnectCBList.begin(); 
       it != myFailedConnectCBList.end(); 
-      it++)
+      ++it)
     (*it)->invoke();
 
   if (myConn != NULL)
@@ -1896,7 +1896,7 @@ AREXPORT bool ArRobot::disconnect()
   {
     for (auto it = myDisconnectNormallyCBList.begin(); 
         it != myDisconnectNormallyCBList.end(); 
-        it++)
+        ++it)
       (*it)->invoke();
   }
   myNoTimeWarningThisCycle = true;
@@ -1945,7 +1945,7 @@ void ArRobot::dropConnection(const char *technicalReason,
   myIsConnected = false;
   for (auto it = myDisconnectOnErrorCBList.begin(); 
       it != myDisconnectOnErrorCBList.end(); 
-      it++)
+      ++it)
     (*it)->invoke();
 
   if (myConn != NULL)
@@ -2651,7 +2651,7 @@ AREXPORT unsigned char ArRobot::getIODigIn(int num) const
  */
 AREXPORT unsigned char  ArRobot::getIODigOut(int num) const
 {
-  if (num <= getIODigOutSize())
+  if (num <= getIODigOutSize() && num <= ourIODigArrayMax)
     return myIODigOut[num];
   else
     return (unsigned char) 0;
@@ -3521,7 +3521,7 @@ AREXPORT void ArRobot::deactivateActions()
             "ArRobot::deactivateActions: NULL action map... failed.");
     return;
   }
-  for (amit = am->begin(); amit != am->end(); amit++)
+  for (amit = am->begin(); amit != am->end(); ++amit)
     (*amit).second->deactivate();
   
 
@@ -4628,7 +4628,7 @@ bool ArRobot::handlePacket(ArRobotPacket *packet)
   bool handled = false;
   for (auto it = myPacketHandlerList.begin(); 
        it != myPacketHandlerList.end() && handled == false; 
-       it++)
+       ++it)
   {
     if ((*it) != NULL && (*it)->invokeR(packet)) 
     {
@@ -4847,7 +4847,7 @@ void ArRobot::packetHandlerThreadedProcessor()
       // through the list
       for (it = myPacketList.begin(); 
 	   !anotherSip && it != myPacketList.end(); 
-	   it++)
+	   ++it)
       {
 	if (((*it)->getID() & 0xf0) == 0x30)
 	  anotherSip = true;
@@ -5565,8 +5565,11 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
     doesn't matter how we switch around the callback.
     
   **/
+  
+  const ArTime packetTimeReceived = packet->getTimeReceived();
 
   myRawEncoderPose.setPose(myRawEncoderPose.getX() + deltaX, myRawEncoderPose.getY() + deltaY, myRawEncoderPose.getTh() + deltaTh);
+  myRawEncoderPose.setTime(packetTimeReceived);
 
   // check if there is a correction callback, if there is get the new
   // heading out of it instead of using the raw encoder heading
@@ -5586,7 +5589,7 @@ bool ArRobot::processMotorPacket(ArRobotPacket *packet)
     deltaY = rotatedDelta.getY();
   }
 
-  myEncoderPose.setTime(packet->getTimeReceived());
+  myEncoderPose.setTime(packetTimeReceived);
   myEncoderPose.setX(myEncoderPose.getX() + deltaX);
   myEncoderPose.setY(myEncoderPose.getY() + deltaY);
   myEncoderPose.setTh(ArMath::addAngle(myEncoderPose.getTh(), deltaTh));
@@ -5730,28 +5733,26 @@ bool ArRobot::processEncoderPacket(ArRobotPacket *packet)
 
 bool ArRobot::processIOPacket(ArRobotPacket *packet)
 {
-  int i, num;
-
   if (packet->getID() != 0xf0)
     return false;
 
   myLastIOPacketReceivedTime = packet->getTimeReceived();
 
   // number of DigIn bytes
-  num = packet->bufToUByte();
-  for (i = 0; i < num; ++i)
+  int num = std::min((int)(packet->bufToUByte()), ourIODigArrayMax);
+  for (int i = 0; i < num; ++i)
     myIODigIn[i] = packet->bufToUByte();
   myIODigInSize = num;
 
   // number of DigOut bytes
-  num = packet->bufToUByte();
-  for (i = 0; i < num; ++i)
+  num = std::min((int)(packet->bufToUByte()), ourIODigArrayMax);
+  for (int i = 0; i < num; ++i)
     myIODigOut[i] = packet->bufToUByte();
   myIODigOutSize = num;
 
   // number of A/D bytes
-  num = packet->bufToUByte();
-  for (i = 0; i < num; ++i)
+  num = std::min((int)(packet->bufToUByte()), ourIOAnalogArrayMax);
+  for (int i = 0; i < num; ++i)
     myIOAnalog[i] = packet->bufToUByte2();
   myIOAnalogSize = num;
 
@@ -5889,8 +5890,10 @@ AREXPORT bool ArRobot::comStrN(unsigned char command, const char *str,
   if (myPacketsSentTracking)
   {
     char strBuf[512];
-    strncpy(strBuf, str, size);
-    strBuf[size] = '\0';
+    size_t n = size;
+    if(n > 512) n = 511;
+    strncpy(strBuf, str, n);
+    strBuf[n > 0 ? n-1 : 0] = '\0'; // "str" argument may not be a null terminated string
     ArLog::log(ArLog::Normal, "Sent: comStrN(%d, '%s') (size %lu)",
 	       command, strBuf, size);
   }
@@ -6377,7 +6380,7 @@ AREXPORT void ArRobot::moveTo(ArPose pose, bool doCumulative)
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
   mySetEncoderTransformCBList.invoke();
 
-  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); it++)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
     (*it)->lockDevice();
     (*it)->applyTransform(localTransform, doCumulative);
@@ -6431,7 +6434,7 @@ AREXPORT void ArRobot::moveTo(ArPose poseTo, ArPose poseFrom,
   myGlobalPose = myEncoderTransform.doTransform(myEncoderPose);
   mySetEncoderTransformCBList.invoke();
 
-  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); it++)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
     (*it)->lockDevice();
     (*it)->applyTransform(localTransform, doCumulative);
@@ -6518,7 +6521,7 @@ AREXPORT void ArRobot::setDeadReconPose(const ArPose& pose, const ArTime t)
 **/    
 AREXPORT void ArRobot::applyTransform(const ArTransform& trans, bool doCumulative)
 {
-  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); it++)
+  for (auto it = myRangeDeviceVector.begin(); it != myRangeDeviceVector.end(); ++it)
   {
       (*it)->lockDevice();
       (*it)->applyTransform(trans, doCumulative);

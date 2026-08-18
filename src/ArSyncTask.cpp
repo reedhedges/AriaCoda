@@ -221,7 +221,7 @@ AREXPORT void ArSyncTask::remove(ArSyncTask *proc)
 {
   std::multimap<int, ArSyncTask *>::iterator it;
   
-  for (it = myMultiMap.begin(); it != myMultiMap.end(); it++)
+  for (it = myMultiMap.begin(); it != myMultiMap.end(); ++it)
   {
     if ((*it).second == proc)
     {
@@ -297,7 +297,7 @@ AREXPORT void ArSyncTask::setWarningTimeCB(ArRetFunctor<unsigned int> *functor)
 {
   std::multimap<int, ArSyncTask *>::reverse_iterator it;
   myWarningTimeCB = functor;
-  for (it = myMultiMap.rbegin(); it != myMultiMap.rend(); it++)
+  for (it = myMultiMap.rbegin(); it != myMultiMap.rend(); ++it)
     (*it).second->setWarningTimeCB(functor);
 }
 
@@ -319,7 +319,7 @@ AREXPORT void ArSyncTask::setNoTimeWarningCB(ArRetFunctor<bool> *functor)
 {
   std::multimap<int, ArSyncTask *>::reverse_iterator it;
   myNoTimeWarningCB = functor;
-  for (it = myMultiMap.rbegin(); it != myMultiMap.rend(); it++)
+  for (it = myMultiMap.rbegin(); it != myMultiMap.rend(); ++it)
     (*it).second->setNoTimeWarningCB(functor);
 }
 
@@ -372,7 +372,7 @@ AREXPORT void ArSyncTask::log(int depth)
   }
   ArLog::log(ArLog::Terse, const_cast<char *>(str.c_str()));
   //std::multimap<int, ArSyncTask *>::reverse_iterator it;
-  for (auto it = myMultiMap.rbegin(); it != myMultiMap.rend(); it++)
+  for (auto it = myMultiMap.rbegin(); it != myMultiMap.rend(); ++it)
     (*it).second->log(depth + 1);
   
 }

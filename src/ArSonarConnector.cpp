@@ -220,7 +220,7 @@ AREXPORT bool ArSonarConnector::parseArgs (ArArgumentParser *parser)
 	// now go through and parse the args for any sonar that we have
 
 
-	for (auto it = mySonars.begin(); it != mySonars.end(); it++) {
+	for (auto it = mySonars.begin(); it != mySonars.end(); ++it) {
 		SonarData *sonarData = (*it).second;
 		if (!parseSonarArgs (parser, sonarData)) {
 			parser->setWasReallySetOnlyTrue (wasReallySetOnlyTrue);
@@ -455,7 +455,7 @@ AREXPORT void ArSonarConnector::logOptions () const
 	ArLog::log (ArLog::Terse, "\nSee docs for details.");
 	std::map<int, SonarData *>::const_iterator it;
 	SonarData *sonarData;
-	for (it = mySonars.begin(); it != mySonars.end(); it++) {
+	for (it = mySonars.begin(); it != mySonars.end(); ++it) {
 		sonarData = (*it).second;
 		logSonarOptions (sonarData);
 	}
@@ -687,7 +687,7 @@ AREXPORT bool ArSonarConnector::connectSonars (
 		ArLog::log (myInfoLogLevel,
 		            "ArSonarConnector::connectSonars() addAllSonarsToRobot");
 		if (myRobot != NULL) {
-			for (it = mySonars.begin(); it != mySonars.end(); it++) {
+			for (it = mySonars.begin(); it != mySonars.end(); ++it) {
 				sonarData = (*it).second;
 				myRobot->addSonar (sonarData->mySonar, sonarData->myNumber);
 				ArLog::log (ArLog::Verbose,
@@ -701,7 +701,7 @@ AREXPORT bool ArSonarConnector::connectSonars (
 	}
 
   ArLog::log(myInfoLogLevel, "ArSonarConnector::connectSonars(), finally connecting to each sonar...");
-	for (it = mySonars.begin(); it != mySonars.end(); it++) {
+	for (it = mySonars.begin(); it != mySonars.end(); ++it) {
 		sonarData = (*it).second;
 		if ( (sonarData == NULL) || (myRobot == NULL))
 			continue;
@@ -850,7 +850,7 @@ AREXPORT bool ArSonarConnector::connectReplaySonars(
 
 		if (myRobot != NULL) {
 
-			for (it = mySonars.begin(); it != mySonars.end(); it++) {
+			for (it = mySonars.begin(); it != mySonars.end(); ++it) {
 				sonarData = (*it).second;
 				myRobot->addSonar (sonarData->mySonar, sonarData->myNumber);
 				ArLog::log (ArLog::Verbose,
@@ -862,7 +862,7 @@ AREXPORT bool ArSonarConnector::connectReplaySonars(
 			return false;
 		}
 	}
-	for (it = mySonars.begin(); it != mySonars.end(); it++) {
+	for (it = mySonars.begin(); it != mySonars.end(); ++it) {
 
 		sonarData = (*it).second;
 

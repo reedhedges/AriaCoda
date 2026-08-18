@@ -48,7 +48,7 @@ using namespace std;
 
 void ArSoundsQueue::Item::play()
 {
-  for(std::list<PlayItemFunctor*>::const_iterator i = playCallbacks.begin(); i != playCallbacks.end(); i++) 
+  for(std::list<PlayItemFunctor*>::const_iterator i = playCallbacks.begin(); i != playCallbacks.end(); ++i) 
   {
     if(*i) {
       UNUSED bool r = 
@@ -59,14 +59,14 @@ void ArSoundsQueue::Item::play()
 
 void ArSoundsQueue::Item::interrupt()
 {
-  for(std::list<ArFunctor*>::const_iterator i = interruptCallbacks.begin(); i != interruptCallbacks.end(); i++) 
+  for(std::list<ArFunctor*>::const_iterator i = interruptCallbacks.begin(); i != interruptCallbacks.end(); ++i) 
     if(*i) (*i)->invoke();
 }
 
 
 void ArSoundsQueue::Item::done()
 {
-  for(std::list<ArFunctor*>::const_iterator i = doneCallbacks.begin(); i != doneCallbacks.end(); i++) 
+  for(std::list<ArFunctor*>::const_iterator i = doneCallbacks.begin(); i != doneCallbacks.end(); ++i) 
     if(*i) {
       (*i)->invoke();
     }
@@ -74,7 +74,7 @@ void ArSoundsQueue::Item::done()
 
 /** @cond INTERNAL_CLASSES */
 
-/** STL list comparator function object base class
+/** STL list comparator function object base class (After C++11/14 we could use lambda instead but these are not used in ARIA)
  * @internal
  * @todo replace usage of these with lambdas or local functions.
  */
@@ -229,7 +229,7 @@ AREXPORT ArSoundsQueue::ArSoundsQueue(ArSpeechSynth* speechSynth,
 
 void ArSoundsQueue::invokeCallbacks(const std::list<ArFunctor*>& lst)
 {
-  for(std::list<ArFunctor*>::const_iterator i = lst.begin(); i != lst.end(); i++)
+  for(std::list<ArFunctor*>::const_iterator i = lst.begin(); i != lst.end(); ++i)
   {
     if(*i) (*i)->invoke();
     else ArLog::log(ArLog::Verbose, "ArSoundsQueue: warning: skipped NULL callback (simple functor).");
@@ -238,7 +238,7 @@ void ArSoundsQueue::invokeCallbacks(const std::list<ArFunctor*>& lst)
 
 void ArSoundsQueue::invokeCallbacks(const std::list<ArRetFunctor<bool>*>& lst)
 {
-  for(std::list<ArRetFunctor<bool>*>::const_iterator i = lst.begin(); i != lst.end(); i++)
+  for(std::list<ArRetFunctor<bool>*>::const_iterator i = lst.begin(); i != lst.end(); ++i)
   {
     if(*i) (*i)->invoke();
     else ArLog::log(ArLog::Verbose, "ArSoundsQueue: warning: skipped NULL callback (bool ret. funct.).");
@@ -466,19 +466,17 @@ AREXPORT void *ArSoundsQueue::runThread(void *)
 
       // Call some callbacks to tell them that play is about to begin
       invokeCallbacks(myStartPlaybackCBList);
-      std::list<ArFunctor1<ArSoundsQueue::Item> *>::iterator lIt;
-      for (lIt = myStartItemPlaybackCBList.begin(); 
-	   lIt != myStartItemPlaybackCBList.end(); 
-	   lIt++)
+      //std::list<ArFunctor1<ArSoundsQueue::Item> *>::iterator lIt;
+      for (auto lIt = myStartItemPlaybackCBList.begin(); lIt != myStartItemPlaybackCBList.end(); ++lIt)
       {
-	(*lIt)->invoke(myLastItem);
+        (*lIt)->invoke(myLastItem);
       }
 
 
       // Abort if any conditions return false
       bool doPlayback = true;
       for(std::list<PlaybackConditionFunctor*>::const_iterator i = myLastItem.playbackConditionCallbacks.begin(); 
-          i != myLastItem.playbackConditionCallbacks.end(); i++)
+          i != myLastItem.playbackConditionCallbacks.end(); ++i)
       {
         if( (*i) && (*i)->invokeR() == false) {
           if( (*i)->getName() && strlen((*i)->getName()) > 0 )
@@ -521,11 +519,9 @@ AREXPORT void *ArSoundsQueue::runThread(void *)
       unlock();
       myLastItem.done();
       invokeCallbacks(myEndPlaybackCBList);
-      for (lIt = myEndItemPlaybackCBList.begin(); 
-	   lIt != myEndItemPlaybackCBList.end(); 
-	   lIt++)
+      for (auto lIt = myEndItemPlaybackCBList.begin(); lIt != myEndItemPlaybackCBList.end(); ++lIt)
       {
-	(*lIt)->invoke(myLastItem);
+        (*lIt)->invoke(myLastItem);
       }
       lock();
 
@@ -609,7 +605,7 @@ AREXPORT set<int> ArSoundsQueue::findPendingItems(const char* item)
   lock();
   set<int> found;
   int pos = 0;
-  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); i++)
+  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); ++i)
   {
     if((*i).data == item)
       found.insert(pos);
@@ -685,7 +681,7 @@ AREXPORT void ArSoundsQueue::removeItems(Item item)
 AREXPORT string ArSoundsQueue::nextItem(ItemType type)
 {
   lock();
-  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); i++)
+  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); ++i)
   {
     if(type == (*i).type) {
       string found = (*i).data;
@@ -700,7 +696,7 @@ AREXPORT string ArSoundsQueue::nextItem(ItemType type)
 AREXPORT string ArSoundsQueue::nextItem(int priority)
 {
   lock();
-  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); i++)
+  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); ++i)
   {
     if((*i).priority >= priority) {
       string found = (*i).data;
@@ -715,7 +711,7 @@ AREXPORT string ArSoundsQueue::nextItem(int priority)
 AREXPORT string ArSoundsQueue::nextItem(ItemType type, int priority)
 {
   lock();
-  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); i++)
+  for(list<Item>::const_iterator i = myQueue.begin(); i != myQueue.end(); ++i)
   {
     if(type == (*i).type && (*i).priority >= priority) {
       string found = (*i).data;

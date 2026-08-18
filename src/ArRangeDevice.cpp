@@ -464,7 +464,7 @@ AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getRawReadingsAsVectorPtr(
   if (myRawReadings == NULL)
     return &myRawReadingsVector;
   myRawReadingsVector.reserve(myRawReadings->size());
-  for (it = myRawReadings->begin(); it != myRawReadings->end(); it++)
+  for (it = myRawReadings->begin(); it != myRawReadings->end(); ++it)
     myRawReadingsVector.insert(myRawReadingsVector.begin(), *(*it));
   return &myRawReadingsVector;
 }
@@ -480,11 +480,11 @@ AREXPORT std::vector<ArSensorReading> *ArRangeDevice::getAdjustedRawReadingsAsVe
   myAdjustedRawReadingsVector.clear();
   // if we don't have any return an empty list
   if (myAdjustedRawReadings == NULL)
-    return &myRawReadingsVector;
-  myAdjustedRawReadingsVector.reserve(myRawReadings->size());
+    return &myAdjustedRawReadingsVector;
+  myAdjustedRawReadingsVector.reserve(myAdjustedRawReadings->size());
   for (it = myAdjustedRawReadings->begin(); 
        it != myAdjustedRawReadings->end(); 
-       it++)
+       ++it)
     myAdjustedRawReadingsVector.insert(myAdjustedRawReadingsVector.begin(), 
 				       *(*it));
   return &myAdjustedRawReadingsVector;

@@ -600,11 +600,12 @@ AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
 
   
   // put our time in if we want it
+  size_t timeLen = 0;
   if (ourLoggingTime)
   {
     const time_t now = time(NULL);
     char *timeStr = ctime(&now);
-    size_t timeLen = 20; // this is a value based on the standard length of ctime return
+    timeLen = 20; // this is a value based on the standard length of ctime return
     // get take just the portion of the time we want
     strncpy(buf, timeStr, timeLen);
     buf[timeLen] = '\0';
@@ -613,12 +614,13 @@ AREXPORT void ArLog::logNoLock(LogLevel level, const char *str, ...)
   else
   {
     bufPtr = buf;
-    //timeLen = 0;
+    timeLen = 0;
   }
   va_list ptr;
   va_start(ptr, str);
-  //vsnprintf(bufPtr, sizeof(buf) - timeLen - 1, str, ptr);
-  vsprintf(bufPtr, str, ptr);
+  vsnprintf(bufPtr, sizeof(buf) - timeLen - 2, str, ptr);
+  bufPtr[sizeof(buf) - timeLen - 1] = '\0';
+  //vsprintf(bufPtr, str, ptr);
   // can do whatever you want with the buf now
   if (ourFP)
   {

@@ -31,7 +31,7 @@ AREXPORT void ArTransform::doTransform(std::list<ArPose *> *poseList)
   std::list<ArPose *>::iterator it;
   ArPose *pose;
   
-  for (it = poseList->begin(); it != poseList->end(); it++)
+  for (it = poseList->begin(); it != poseList->end(); ++it)
   {
     pose = (*it);
     *pose = doTransform(*pose);
@@ -44,7 +44,7 @@ AREXPORT void ArTransform::doTransform(std::list<ArPoseWithTime *> *poseList)
   std::list<ArPoseWithTime *>::iterator it;
   ArPoseWithTime *pose;
   
-  for (it = poseList->begin(); it != poseList->end(); it++)
+  for (it = poseList->begin(); it != poseList->end(); ++it)
   {
     pose = (*it);
     *pose = doTransform(*pose);

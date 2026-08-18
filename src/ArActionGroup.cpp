@@ -88,7 +88,7 @@ AREXPORT void ArActionGroup::activate()
             "ArActionGroup::activate: NULL robot pointer... failed.");
     return;
   }
-  for (it = myActions.begin(); it != myActions.end(); it++)
+  for (it = myActions.begin(); it != myActions.end(); ++it)
     (*it)->activate();
 }
 
@@ -103,7 +103,7 @@ AREXPORT void ArActionGroup::activateExclusive()
     return;
   }
   myRobot->deactivateActions();
-  for (it = myActions.begin(); it != myActions.end(); it++)
+  for (it = myActions.begin(); it != myActions.end(); ++it)
     (*it)->activate();
 }
 
@@ -120,7 +120,7 @@ AREXPORT void ArActionGroup::deactivate()
   // the robot in deactivate...
 
   //myRobot->deactivateActions();
-  for (it = myActions.begin(); it != myActions.end(); it++)
+  for (it = myActions.begin(); it != myActions.end(); ++it)
     (*it)->deactivate();
 }
 

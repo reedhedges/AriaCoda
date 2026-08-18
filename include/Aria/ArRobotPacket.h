@@ -76,7 +76,7 @@ public:
   AREXPORT virtual void finalizePacket() override;
   
   /// Gets the time the packet was received at
-  AREXPORT ArTime getTimeReceived();
+  ArTime getTimeReceived() { return myTimeReceived; }
   /// Sets the time the packet was received at
   AREXPORT void setTimeReceived(ArTime timeReceived);
 

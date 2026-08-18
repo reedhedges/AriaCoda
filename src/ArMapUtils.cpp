@@ -616,7 +616,7 @@ AREXPORT void ArMapFileLineSet::log(const char *prefix)
   ArMapFileLineSet::iterator mIter = begin();
 
   for (;((mIter != end()) && (i < 100));
-       mIter++, i++) {
+       ++mIter, i++) {
     ArMapFileLineGroup &group = *mIter;
     group.log();
   }

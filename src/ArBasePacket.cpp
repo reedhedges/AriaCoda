@@ -261,13 +261,24 @@ AREXPORT bool ArBasePacket::isNextGood(size_t bytes)
 /*   if (bytes <= 0)
     return false;
  */
+
   // make sure it comes in before the header
+
+  if(myLength < myFooterLength) 
+  {
+    myIsValid = false;
+    return false;
+  }
+
   if ((size_t)myReadLength + bytes <= (size_t)myLength - (size_t)myFooterLength)
+  {
     return true;
-
-  myIsValid = false;
-
-  return false;
+  }
+  else
+  {
+    myIsValid = false;
+    return false;
+  }
 }
 
 
@@ -634,7 +645,7 @@ AREXPORT int32_t ArBasePacket::bufToByte4()
     memcpy(&c2, myBuf+myReadLength+1, 1);
     memcpy(&c3, myBuf+myReadLength+2, 1);
     memcpy(&c4, myBuf+myReadLength+3, 1);
-    ret = (c1 & 0xff) | (c2 << 8) | (c3 << 16) | (c4 << 24);
+    ret = (int32_t)((int32_t)c1 & 0xff) | ((int32_t)c2 << 8) | ((int32_t)c3 << 16) | ((int32_t)c4 << 24);
     myReadLength+=4;
   }
 
@@ -705,7 +716,7 @@ AREXPORT uint32_t ArBasePacket::bufToUByte4()
     memcpy(&c2, myBuf+myReadLength+1, 1);
     memcpy(&c3, myBuf+myReadLength+2, 1);
     memcpy(&c4, myBuf+myReadLength+3, 1);
-    ret = (uint32_t) ((c1 & 0xff) | (c2 << 8) | (c3 << 16) | (c4 << 24));
+    ret = (uint32_t) (((uint32_t)c1 & 0xff) | ((uint32_t)c2 << 8) | ((uint32_t)c3 << 16) | ((uint32_t)c4 << 24));
     myReadLength+=4;
   }
 
@@ -777,10 +788,9 @@ AREXPORT void ArBasePacket::bufToStr(char *buf, size_t len)
 
       // This is a bit redundant with the code below, but wanted to log the  
       // string for debugging
-      myBuf[len - 1] = '\0';
-
+      buf[len - 1] = '\0';
       ArLog::log(ArLog::Normal, "ArBasePacket::bufToStr(buf, %d) output buf is not large enough for packet string %s",
-                 len, myBuf);
+                 len, buf);
 
       while (isNextGood(1) && (myBuf[myReadLength] != '\0')) {
         myReadLength++;

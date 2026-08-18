@@ -126,6 +126,7 @@ AREXPORT int ArInterpolation::getPose(ArTime timeStamp, ArPose *position, ArPose
 
   
   // this is for forecasting (for the brave)
+  // TODO test that this is correct
   if ((/*tit == myTimes.begin() ||*/ pit == myPoses.begin()) && 
       !timeStamp.isAt(thisPose.getTime()))
   {
@@ -134,7 +135,7 @@ AREXPORT int ArInterpolation::getPose(ArTime timeStamp, ArPose *position, ArPose
     //thisTime = (*tit);
     //thisPose = (*pit);
     //tit++;
-    pit++;  
+    ++pit;  
     if (/*tit == myTimes.end() ||*/ pit == myPoses.end())
     {
       //printf("Not enough data\n");
@@ -196,12 +197,74 @@ AREXPORT int ArInterpolation::getPose(ArTime timeStamp, ArPose *position, ArPose
 
     return 0;
   }
+
+/*
+  old code? mangled merge? TODO check whether this or the next else block is correct
   else
   {
 
     // this is the actual interpolation
 
     //printf("Woo hoo!\n");
+
+    // no longer using myPoses list or any other class data that might be expected to be locked:
+    myDataMutex.unlock();
+
+    // MPL don't use nowtime, use the time stamp that was passed in...
+    //nowTime.setToNow();
+    long total = thisPose.getTime().mSecSince(lastPose.getTime());
+    if (total == 0)
+      total = 100;
+    // MPL don't use nowtime, use the time stamp that was passed in...
+    //toStamp = nowTime.mSecSince(thisTime);
+    long toStamp = timeStamp.mSecSince(thisPose.getTime());
+    double percentage = (double)toStamp/(double)total;
+    //if (percentage > 50)
+    if (allowedPercent >= 0 && percentage * 100 > allowedPercent)
+    {
+      if (logPrediction)
+	      ArLog::log(ArLog::Normal, "%s: returningPercentage Total time %d, to stamp %d, percentage %.2f (allowed %d)", getName(), total, toStamp, percentage * 100, allowedPercent);
+      
+      //myDataMutex.unlock();
+      return -1;
+    }
+
+    if (allowedMSForPredict >= 0 && abs(toStamp) > allowedMSForPredict)
+    {
+      if (myLogPrediction)
+        ArLog::log(ArLog::Normal, "%s: returningMS Total time %d, to stamp %d, percentage %.2f (allowed %d)", getName(), total, toStamp, percentage * 100, allowedMSForPredict);
+      //myDataMutex.unlock();
+      return -1;
+    }
+
+    if (logPrediction)
+      ArLog::log(ArLog::Normal, "%s: Total time %d, to stamp %d, percentage %.2f (allowed %d)", getName(), total, toStamp, percentage * 100, allowedPercent);
+
+
+    ArPose &retPose = *position;
+    retPose.setX(thisPose.getX() + (thisPose.getX() - lastPose.getX()) * percentage);
+    retPose.setY(thisPose.getY() + (thisPose.getY() - lastPose.getY()) * percentage);
+    retPose.setTh(ArMath::addAngle(
+           thisPose.getTh(),
+           ArMath::subAngle(thisPose.getTh(), lastPose.getTh()) * percentage));
+
+    if (retPose.findDistanceTo(thisPose) > 1000)
+      ArLog::log(ArLog::Normal, "%s: finaldist %.0f thislastdist %.0f Total time %d, to stamp %d, percentage %.2f", getName(), 
+     retPose.findDistanceTo(thisPose), thisPose.findDistanceTo(lastPose), total, toStamp, percentage * 100);
+
+    return 0;
+  }
+*/
+
+  else
+  {
+
+    // this is the actual interpolation
+
+    //printf("Woo hoo!\n");
+
+    // no longer using myPoses list or any other class data that might be expected to be locked:
+    myDataMutex.unlock();
 
     long total = thisPose.getTime().mSecSince(lastPose.getTime());
     long toStamp = thisPose.getTime().mSecSince(timeStamp);
@@ -219,20 +282,17 @@ AREXPORT int ArInterpolation::getPose(ArTime timeStamp, ArPose *position, ArPose
     retPose.setTh(ArMath::addAngle(
            thisPose.getTh(),
            ArMath::subAngle(lastPose.getTh(), thisPose.getTh()) * percentage));
-  /*
-    printf("original:");
-    thisPose.log();
-    printf("After:");
-    lastPose.log();
-    printf("ret:");
-    retPose.log();
-  */
+  //  printf("original:");
+  //  thisPose.log();
+  //  printf("After:");
+  //  lastPose.log();
+  //  printf("ret:");
+  //  retPose.log();
 
-    //*position = retPose;
+    // *position = retPose;
     //myDataMutex.unlock();
 
     return 1;
-
   }
   
 }
@@ -334,4 +394,109 @@ AREXPORT bool ArInterpolation::getLogPrediction()
   myDataMutex.unlock();
   return ret;
 }
+
+
+#if 0
+
+// where did the following c9ome from? bad merge?
+
+AREXPORT size_t ArInterpolation::getNumberOfReadings() const
+{
+  return mySize;
+}
+
+AREXPORT void ArInterpolation::setNumberOfReadings(size_t numberOfReadings)
+{
+  myDataMutex.lock();
+  myPoses.resize(numberOfReadings);
+  /*
+  while (myPoses.size() > numberOfReadings)
+  {
+    //myTimes.pop_back();
+    myPoses.pop_back();
+  }
+  */
+  mySize = numberOfReadings;  
+  myDataMutex.unlock();
+}
+
+AREXPORT void ArInterpolation::reset()
+{
+  myDataMutex.lock();
+  //while (myTimes.size() > 0)
+  //  myTimes.pop_back();
+  myPoses.clear();
+  /*
+  while (myPoses.size() > 0)
+    myPoses.pop_back();
+  */
+  // Note, mySize remains at previous value, which represents the capacity of the buffer.
+  myDataMutex.unlock();
+}
+
+AREXPORT void ArInterpolation::setName(const char *name)
+{
+  myDataMutex.lock();
+  myName = name;
+  std::string mutexLogName;
+  mutexLogName = myName;
+  mutexLogName += "::DataMutex";
+  myDataMutex.setLogName(mutexLogName.c_str());
+  myDataMutex.unlock();
+}
+
+AREXPORT const char * ArInterpolation::getName() const
+{
+  return myName.c_str();
+}
+
+AREXPORT void ArInterpolation::setAllowedMSForPrediction(int ms)
+{
+  myDataMutex.lock();
+  myAllowedMSForPrediction = ms;
+  myDataMutex.unlock();
+}
+
+AREXPORT int ArInterpolation::getAllowedMSForPrediction()
+{
+  int ret;
+  myDataMutex.lock();
+  ret = myAllowedMSForPrediction;
+  myDataMutex.unlock();
+  return ret;
+}
+
+AREXPORT void ArInterpolation::setAllowedPercentageForPrediction(int percentage)
+{
+  myDataMutex.lock();
+  myAllowedPercentageForPrediction = percentage;
+  myDataMutex.unlock();
+}
+
+AREXPORT int ArInterpolation::getAllowedPercentageForPrediction()
+{
+  int ret;
+  myDataMutex.lock();
+  ret = myAllowedPercentageForPrediction;
+  myDataMutex.unlock();
+  return ret;
+}
+
+AREXPORT void ArInterpolation::setLogPrediction(bool logPrediction)
+{
+  myDataMutex.lock();
+  myLogPrediction = logPrediction;
+  myDataMutex.unlock();
+}
+
+AREXPORT bool ArInterpolation::getLogPrediction()
+{
+  bool ret;
+  myDataMutex.lock();
+  ret = myLogPrediction;
+  myDataMutex.unlock();
+  return ret;
+}
+
+#endif
 

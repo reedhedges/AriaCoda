@@ -843,7 +843,7 @@ AREXPORT void ArArgumentParser::loadDefaultArguments(int position)
   for (it = ourDefaultArgumentLocs.begin(), 
         bIt = ourDefaultArgumentLocIsFile.begin();
        it != ourDefaultArgumentLocs.end(); 
-       it++, bIt++)
+       ++it, ++bIt)
   {
     str = (*it).c_str();
     // see if its an environmental variable
@@ -912,7 +912,7 @@ AREXPORT void ArArgumentParser::logDefaultArgumentLocations()
   for (it = ourDefaultArgumentLocs.begin(), 
         bIt = ourDefaultArgumentLocIsFile.begin();
        it != ourDefaultArgumentLocs.end(); 
-       it++, bIt++)
+       ++it, ++bIt)
   {
     if (*bIt)
       ArLog::log(ArLog::Normal, "%10s%-10s%s", "", "file", (*it).c_str());

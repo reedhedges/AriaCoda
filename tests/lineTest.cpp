@@ -25,99 +25,99 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaUtil.h"
 
 void testIntersection(ArLine *line1, ArLine *line2, double x, double y,
-		      char *name)
+		      const char *name)
 {
   ArPose pose;
 
   if (!line1->intersects(line2, &pose) || fabs(pose.getX() - x) > .001 ||
       fabs(pose.getY() - y) > .001)
   {
-    printf("%s didn't intersect\n", name);
+    printf("Error: %s didn't intersect\n", name);
     exit(1);
   }
 
   if (line1->intersects(line1, &pose))
   {
-    printf("First line of %s intersected itself\n", name);
+    printf("Error: First line of %s intersected itself\n", name);
     exit(1);
   }
 
   if (line2->intersects(line2, &pose))
   {
-    printf("Second line of %s intersected itself\n", name);
+    printf("Error: Second line of %s intersected itself\n", name);
     exit(1);
   }
 }
 
 void testIntersection(ArLineSegment *line1, ArLine *line2, double x, double y,
-		      char *name)
+		      const char *name)
 {
   ArPose pose;
 
   if (!line1->intersects(line2, &pose) || fabs(pose.getX() - x) > .001 ||
       fabs(pose.getY() - y) > .001)
   {
-    printf("%s didn't intersect\n", name);
+    printf("Error: %s didn't intersect\n", name);
     exit(1);
   }
 
   if (line1->intersects(line1, &pose))
   {
-    printf("First line of %s intersected itself\n", name);
+    printf("Error: First line of %s intersected itself\n", name);
     exit(1);
   }
 
   if (line2->intersects(line2, &pose))
   {
-    printf("Second line of %s intersected itself\n", name);
+    printf("Error: Second line of %s intersected itself\n", name);
     exit(1);
   }
 }
 
 void testIntersection(ArLineSegment *line1, ArLineSegment *line2, 
-		      double x, double y, char *name)
+		      double x, double y, const char *name)
 {
   ArPose pose;
 
   if (!line1->intersects(line2, &pose) || fabs(pose.getX() - x) > .001 ||
       fabs(pose.getY() - y) > .001)
   {
-    printf("%s didn't intersect, but should have\n", name);
+    printf("Error: %s didn't intersect, but should have\n", name);
     exit(1);
   }
 
   if (line1->intersects(line1, &pose))
   {
-    printf("First line of %s intersected itself unexpectedly!\n", name);
+    printf("Error: First line of %s intersected itself unexpectedly!\n", name);
     exit(1);
   }
 
   if (line2->intersects(line2, &pose))
   {
-    printf("Second line of %s intersected itself, unexpectedly!\n", name);
+    printf("Error: Second line of %s intersected itself, unexpectedly!\n", name);
     exit(1);
   }
 }
 
 void testPerp(ArLineSegment *segment, ArPose perp, ArPose perpPoint, 
-	      char *name)
+	      const char *name)
 {
   ArPose pose;
   if (!segment->getPerpPoint(perp, &pose) || 
       fabs(pose.getX() - perpPoint.getX()) > .001 ||
       fabs(pose.getY() - perpPoint.getY()) > .001)
   {
-    printf("%s wasn't perp but should have been\n", name);
+    printf("Error: %s wasn't perp but should have been\n", name);
     exit(1);
   }
 }
 
-void testNotPerp(ArLineSegment *segment, ArPose perp, char *name)
+void testNotPerp(ArLineSegment *segment, ArPose perp, const char *name)
 {
   ArPose pose;
   if (segment->getPerpPoint(perp, &pose))
   {
-    printf("%s was perp but shouldn't have been, at %.0f %.0f\n", name,
+    printf("Error: %s was perp but shouldn't have been, at %.0f %.0f\n", name,
 	   pose.getX(), pose.getY());
     exit(1);
   }

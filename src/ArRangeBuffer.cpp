@@ -265,7 +265,7 @@ AREXPORT void ArRangeBuffer::redoReading(double x, double y)
   {
     myRedoIt->setPose(x, y);
     // TODO sholud we update timestamp?
-    myRedoIt++;
+    ++myRedoIt;
   }
   // We re-used as many items in myBuffer as we could, we have reached the end of myBuffer. Just append them now.
   else
@@ -273,7 +273,7 @@ AREXPORT void ArRangeBuffer::redoReading(double x, double y)
     addReading(x,y);
     myHitEnd = true;
   }
-  myNumRedone++;
+  ++myNumRedone;
 }
 
 /**
@@ -289,7 +289,7 @@ AREXPORT void ArRangeBuffer::endRedoBuffer()
     while (myRedoIt != myBuffer.end())
     {
       invalidateReading(myRedoIt);
-      myRedoIt++;
+      ++myRedoIt;
     }
     endInvalidationSweep();
   } 

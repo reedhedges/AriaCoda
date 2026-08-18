@@ -101,8 +101,10 @@ AREXPORT std::string ArMapInterface::createRealFileName(const char *baseDirector
   // If there is no base directory or the filename part is an absolute path, use the filename directly without the base directory
   if ((fileName[0] == '/') || 
       (fileName[0] == '\\') ||
-      (strlen(baseDirectory) == 0) ||
-      (baseDirectory == NULL)
+      (baseDirectory == NULL) ||
+      (
+        strlen(baseDirectory) == 0
+      )
 #ifdef WIN32
 	  ||
 	  ( fileName[1] == ':' && (fileName[2] == '\\' || fileName[2] == '/') && isalpha(fileName[0]) )

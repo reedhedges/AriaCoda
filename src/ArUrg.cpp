@@ -662,7 +662,7 @@ void ArUrg::sensorInterp()
   size_t i;
   for (it = myRawReadings->rbegin(), i = 0; 
        it != myRawReadings->rend() && i < len - 1; 
-       it++, i += 2)
+       ++it, i += 2)
   {
     const bool ignore = false;
     int big = reading[i] - 0x30;

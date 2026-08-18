@@ -899,7 +899,7 @@ void ArUrg_2_0::sensorInterp()
   size_t i = 0;
   for (it = myRawReadings->rbegin(), i = 0; 
        it != myRawReadings->rend() && i < iMax; //len - 2; 
-       it++, i += iIncr) //3)
+       ++it, i += iIncr) //3)
   {
     unsigned int range;
     if (myUseThreeDataBytes)

@@ -1958,7 +1958,7 @@ void ArVCC4::throwError()
 
   for (it = myErrorCBList.begin();
       it != myErrorCBList.end();
-      it++)
+      ++it)
     (*it)->invoke();
 
 }

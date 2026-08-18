@@ -45,7 +45,7 @@ public:
   bool retFunction();
   bool retFunction_bool_invoked = false;
 
-  char * retFunction(int arg1);
+  const char * retFunction(int arg1);
   bool retFunction_charp_int_invoked = false;
 
   double retFunction(bool arg1, std::string arg2);
@@ -78,9 +78,9 @@ bool TestClass::retFunction()
   return(true);
 }
 
-char * TestClass::retFunction(int arg1)
+const char * TestClass::retFunction(int arg1)
 {
-  printf("char * TestClass::retFunction(int arg1=%d)\n", arg1);
+  printf("const char * TestClass::retFunction(int arg1=%d)\n", arg1);
   retFunction_charp_int_invoked = true;
   return("Hello");
 }
@@ -129,9 +129,9 @@ bool retFunction()
 }
 
 bool global_retFunction_charp_int_invoked = false;
-char * retFunction(int arg1)
+const char * retFunction(int arg1)
 {
-  printf("global char* retFunction(int arg1=%d) (returning \"Hello\")\n", arg1);
+  printf("global const char* retFunction(int arg1=%d) (returning \"Hello\")\n", arg1);
   global_retFunction_charp_int_invoked = true;
   return("Hello");
 }
@@ -263,7 +263,7 @@ void setIntFunctorPtr(ArFunctor1<int> *f)
 // examples here only, no tests:
 void testDowncast()
 {
-  ArRetFunctor1C<char*, TestClass, int> f;
+  ArRetFunctor1C<const char*, TestClass, int> f;
   ArFunctor* y = &f;
   setFunctorPtr(&f);
   setFunctorPtr(y);
@@ -281,12 +281,12 @@ void testReturnDirect()
 {
   TestClass test;
   ArRetFunctorC<bool, TestClass> functor(test, &TestClass::retFunction);
-  ArRetFunctor1C<char*, TestClass, int>
+  ArRetFunctor1C<const char*, TestClass, int>
     functor1(test, &TestClass::retFunction, 1);
   ArRetFunctor2C<double, TestClass, bool, std::string>
     functor2(test, &TestClass::retFunction, false, "default arg");
   bool bret;
-  char *cret;
+  const char *cret;
   double dret;
 
   //bret=test.retFunction();
@@ -318,15 +318,15 @@ void testReturnBase()
 {
   TestClass test;
   ArRetFunctorC<bool, TestClass> functor(test, &TestClass::retFunction);
-  ArRetFunctor1C<char*, TestClass, int>
+  ArRetFunctor1C<const char*, TestClass, int>
     functor1(test, &TestClass::retFunction, 1);
   ArRetFunctor2C<double, TestClass, bool, std::string>
     functor2(test, &TestClass::retFunction, false, "default arg");
   ArRetFunctor<bool> *fBoolPtr;
-  ArRetFunctor<char*> *fCharPtr;
+  ArRetFunctor<const char*> *fCharPtr;
   ArRetFunctor<double> *fDoublePtr;
   bool bret = false;
-  char *cret;
+  const char *cret;
   double dret;
 
   printf("\n****** Testing base invocation with return\n");
@@ -356,15 +356,15 @@ void testReturnParams()
 {
   TestClass test;
   ArRetFunctorC<bool, TestClass> functor(test, &TestClass::retFunction);
-  ArRetFunctor1C<char*, TestClass, int>
+  ArRetFunctor1C<const char*, TestClass, int>
     functor1(test, &TestClass::retFunction, 1);
   ArRetFunctor2C<double, TestClass, bool, std::string>
     functor2(test, &TestClass::retFunction, false, "default arg");
   ArRetFunctor<bool> *fBoolPtr;
-  ArRetFunctor1<char*, int> *fCharPtr;
+  ArRetFunctor1<const char*, int> *fCharPtr;
   ArRetFunctor2<double, bool, std::string> *fDoublePtr;
   bool bret;
-  char *cret;
+  const char *cret;
   double dret;
 
   printf("\n****** Testing pointer invocation with return\n");
@@ -482,11 +482,11 @@ void testGlobalParams()
 void testGlobalReturnDirect()
 {
   ArGlobalRetFunctor<bool> functor(&retFunction);
-  ArGlobalRetFunctor1<char*, int> functor1(&retFunction, 1);
+  ArGlobalRetFunctor1<const char*, int> functor1(&retFunction, 1);
   ArGlobalRetFunctor2<double, bool, std::string>
     functor2(&retFunction, false, "default arg");
   bool bret;
-  char *cret;
+  const char *cret;
   double dret;
 
   global_retFunction_bool_invoked = global_retFunction_charp_int_invoked = global_retFunction_double_bool_string_invoked = false;
@@ -497,7 +497,7 @@ void testGlobalReturnDirect()
   printf("Returned: %d\n", bret);
   assert(global_retFunction_bool_invoked);
 
-  puts("> char* retFunction(5) should return \"Hello\"...");
+  puts("> const char* retFunction(5) should return \"Hello\"...");
   cret=functor1.invokeR(5);
   printf("Returned: %s\n", cret);
   assert(global_retFunction_charp_int_invoked);
@@ -518,14 +518,14 @@ void testGlobalReturnDirect()
 void testGlobalReturnBase()
 {
   ArGlobalRetFunctor<bool> functor(retFunction);
-  ArGlobalRetFunctor1<char*, int> functor1(retFunction, 1);
+  ArGlobalRetFunctor1<const char*, int> functor1(retFunction, 1);
   ArGlobalRetFunctor2<double, bool, std::string>
     functor2(retFunction, false, "default arg");
   ArRetFunctor<bool> *fBoolPtr;
-  ArRetFunctor<char*> *fCharPtr;
+  ArRetFunctor<const char*> *fCharPtr;
   ArRetFunctor<double> *fDoublePtr;
   bool bret;
-  char *cret;
+  const char *cret;
   double dret;
   global_retFunction_bool_invoked = global_retFunction_charp_int_invoked = global_retFunction_double_bool_string_invoked = false;
 
@@ -537,7 +537,7 @@ void testGlobalReturnBase()
   assert(global_retFunction_bool_invoked);
 
   fCharPtr=&functor1;
-  puts("> char* retFunction(1) should return \"Hello\"...");
+  puts("> const char* retFunction(1) should return \"Hello\"...");
   cret=fCharPtr->invokeR();
   printf("Returned: %s\n", cret);
   assert(global_retFunction_charp_int_invoked);
@@ -558,14 +558,14 @@ void testGlobalReturnBase()
 void testGlobalReturnParams()
 {
   ArGlobalRetFunctor<bool> functor(retFunction);
-  ArGlobalRetFunctor1<char*, int> functor1(retFunction, 1);
+  ArGlobalRetFunctor1<const char*, int> functor1(retFunction, 1);
   ArGlobalRetFunctor2<double, bool, std::string>
     functor2(retFunction, false, "default arg");
   ArRetFunctor<bool> *fBoolPtr;
-  ArRetFunctor1<char*, int> *fCharPtr;
+  ArRetFunctor1<const char*, int> *fCharPtr;
   ArRetFunctor2<double, bool, std::string> *fDoublePtr;
   bool bret;
-  char *cret;
+  const char *cret;
   double dret;
   global_retFunction_bool_invoked = global_retFunction_charp_int_invoked = global_retFunction_double_bool_string_invoked = false;
 
@@ -577,7 +577,7 @@ void testGlobalReturnParams()
   assert(global_retFunction_bool_invoked);
 
   fCharPtr=&functor1;
-  puts("> char* retFunction(7) should return \"Hello\"...");
+  puts("> const char* retFunction(7) should return \"Hello\"...");
   cret=fCharPtr->invokeR(7);
   printf("Returned: %s\n", cret);
   assert(global_retFunction_charp_int_invoked);
@@ -644,6 +644,25 @@ void testCopy()
 }
 
 
+void testInvokeAll()
+{
+  std::vector<ArFunctorC<TestClass>> functors;
+  TestClass test;
+  functors.push_back(ArFunctorC<TestClass>(&test, &TestClass::function));
+  functors.push_back(ArFunctorC<TestClass>(&test, &TestClass::function));
+  ArUtil::invokeAll(std::begin(functors), std::end(functors));
+}
+
+void testInvokeAllPtrs()
+{
+  std::vector<ArFunctor*> functors;
+  TestClass test;
+  ArFunctorC<TestClass> f(&test, &TestClass::function);
+  functors.push_back(&f);
+  functors.push_back(&f);
+  ArUtil::invokeAllPointers(std::begin(functors), std::end(functors));
+}
+
 // main(). Drives this example by creating an instance of the TestClass and
 // instances of functors. Then the functors are invoked.
 int main()
@@ -668,6 +687,9 @@ int main()
   assert(global_function_bool_string_invoked);
 
   testCopy();
+
+  testInvokeAll();
+  testInvokeAllPtrs();
 
   return(0);
 }

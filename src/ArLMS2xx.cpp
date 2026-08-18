@@ -265,10 +265,10 @@ AREXPORT bool ArLMS2xx::simPacketHandler(ArRobotPacket *packet)
     for (i = 0, myIter = myAssembleReadings->begin(); i < readingNumber; i++)
     {
       tempIt = myIter;
-      tempIt++;
+      ++tempIt;
       if (tempIt == myAssembleReadings->end() && (i + 1 != myTotalNumReadings))
 	myAssembleReadings->push_back(new ArSensorReading);
-      myIter++;
+      ++myIter;
     }
   }
   else
@@ -329,13 +329,13 @@ AREXPORT bool ArLMS2xx::simPacketHandler(ArRobotPacket *packet)
 
     //addReading(reading->getX(), reading->getY());
     tempIt = myIter;
-    tempIt++;
+    ++tempIt;
     if (tempIt == myAssembleReadings->end() && 
 	myWhichReading + 1 != myTotalNumReadings)
     {
       myAssembleReadings->push_back(new ArSensorReading);
     }
-    myIter++;
+    ++myIter;
   }
   
   // check if the sensor set is complete
@@ -1390,7 +1390,7 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
     // printf("usePose2 %d, th1 %.0f th2 %.0f\n",  usePose2, pose.getTh(), pose2.getTh());
     for (atDeg = mySensorPose.getTh() - myOffsetAmount, onReading = 0, myIter = myAssembleReadings->begin();
            (onReading < numReadings && packet->getReadLength() < packet->getLength() - 4);
-           myWhichReading++, atDeg += myIncrementAmount, myIter++, onReading++)
+           myWhichReading++, atDeg += myIncrementAmount, ++myIter, onReading++)
     {
       reading = (*myIter);
       //reading->resetSensorPosition(0, 0, 0);
@@ -1469,7 +1469,7 @@ AREXPORT void ArLMS2xx::processPacket(ArLMS2xxPacket *packet, ArPose pose,
 		       packet->getTimeReceived());
       */
       tempIt = myIter;
-      tempIt++;
+      ++tempIt;
       if (tempIt == myAssembleReadings->end() && onReading + 1 != numReadings)
       {
         myAssembleReadings->push_back(new ArSensorReading);

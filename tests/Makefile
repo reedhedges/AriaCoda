@@ -27,7 +27,7 @@ clean:
 	$(MAKE) -C .. cleanTests
 
 # Run subset of tests that automatically test for and fail on errors, and don't require any special hardware (like robot or sensors):
-RUNNABLE_TESTS = poseTest lineTest arsectors mathTests lms1xxPacket angleFixTest angleTest angleBetweenTest configTest configSectionTest fileParserTest nmeaParser functorTest getValuesFromCharBuf gpsCoordsTest interpolationTest transformTest stripQuoteTest moreStringTests testRingBuffer
+RUNNABLE_TESTS = poseTest lineTest arsectors mathTests lms1xxPacket angleFixTest angleTest angleBetweenTest configTest configSectionTest fileParserTest nmeaParser gpsInternals functorTest getValuesFromCharBuf gpsCoordsTest interpolationTest transformTest stripQuoteTest moreStringTests testRingBuffer miscUtils basePacketTests robotPacketTests arutilTests
 
 SLOW_RUNNABLE_TESTS = timeTest
 

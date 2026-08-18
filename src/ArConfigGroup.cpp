@@ -50,13 +50,15 @@ AREXPORT void ArConfigGroup::remConfig(ArConfig *config)
   myConfigs.remove(config);
 }
 
+/// Copies contents of @a fileName to myLastFile unless null
 AREXPORT bool ArConfigGroup::parseFile(const char *fileName, 
 				       bool continueOnError)
 {
   std::list<ArConfig *>::iterator it;
   bool ret = true;
 
-  myLastFile = fileName;
+  if(fileName != nullptr)
+    myLastFile = fileName;
   // go through all the configs and set the base directory (we don't
   // do it when we're parsing just so that whether it suceeds or fails
   // its the same behavior in this base directory regard)
@@ -83,7 +85,8 @@ AREXPORT bool ArConfigGroup::parseFile(const char *fileName,
 
 AREXPORT bool ArConfigGroup::reloadFile(bool continueOnError)
 {
-  return parseFile(myLastFile.c_str(), continueOnError);
+  std::string filename{myLastFile}; // use temporary copy because parseFile() will overwrite myLastFile.
+  return parseFile(filename.c_str(), continueOnError);
 }
 
 AREXPORT bool ArConfigGroup::writeFile(const char *fileName)

@@ -438,8 +438,14 @@ AREXPORT void ArArg::log() const
       ArLog::log(ArLog::Terse, "\t\tDescription: %s",
 		 getDescription());
     ArLog::log(ArLog::Terse, "\t\tValues:");
-    argList = myGetFunctor->invokeR();
-    for (it = argList->begin(); it != argList->end(); it++)
+    //argList = myGetFunctor->invokeR();
+    argList = getArgsWithFunctor();
+    if(argList == nullptr)
+    {
+      ArLog::log(ArLog::Terse, "\t\t\tInternal error: NULL functor or error using functor to get args list");
+      break;
+    }
+    for (it = argList->begin(); it != argList->end(); ++it)
       ArLog::log(ArLog::Terse, "\t\t\t%s", (*it)->getFullString());
     break;
   case ArArg::DESCRIPTION_HOLDER:

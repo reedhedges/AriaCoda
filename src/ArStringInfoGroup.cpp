@@ -60,7 +60,7 @@ AREXPORT bool ArStringInfoGroup::addString(
   ArFunctor2<char *, size_t> *> *>::iterator it;
   ArLog::log(ArLog::Verbose, "ArStringInfoGroups: Adding info '%s'", name);
   myAddedStrings.insert(name);
-  for (it = myAddStringCBList.begin(); it != myAddStringCBList.end(); it++)
+  for (it = myAddStringCBList.begin(); it != myAddStringCBList.end(); ++it)
   {
     (*it)->invoke(name, maxLength, functor);
   }

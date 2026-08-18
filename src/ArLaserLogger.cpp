@@ -257,7 +257,7 @@ AREXPORT ArLaserLogger::ArLaserLogger(
     std::list<ArLaser *>::iterator laserIt;
     for (laserIt = extraLasers->begin(); 
          laserIt != extraLasers->end(); 
-         laserIt++)
+         ++laserIt)
       myLasers.push_back((*laserIt));
   }
       
@@ -270,7 +270,7 @@ AREXPORT ArLaserLogger::ArLaserLogger(
     fprintf(myFile, "version: 4\n");
 
     std::list<ArLaser *>::iterator laserIt;
-    for (laserIt = myLasers.begin(); laserIt != myLasers.end(); laserIt++)
+    for (laserIt = myLasers.begin(); laserIt != myLasers.end(); ++laserIt)
     {
       if ((*laserIt) == myLaser)
 	internalPrintLaserPoseAndConf((*laserIt), 1);
@@ -472,7 +472,7 @@ AREXPORT void ArLaserLogger::addTagToLog(const char *str, ...)
   char buf[2048];
   va_list ptr;
   va_start(ptr, str);
-  vsprintf(buf, str, ptr);
+  vsnprintf(buf, sizeof(buf), str, ptr);
   addTagToLogPlain(buf);
   va_end(ptr);
 }
@@ -504,7 +504,7 @@ AREXPORT void ArLaserLogger::addInfoToLog(const char *str, ...)
   char buf[2048];
   va_list ptr;
   va_start(ptr, str);
-  vsprintf(buf, str, ptr);
+  vsnprintf(buf, sizeof(buf), str, ptr);
   addInfoToLogPlain(buf);
   va_end(ptr);
 }
@@ -630,7 +630,7 @@ void ArLaserLogger::internalTakeReading()
     std::multimap<ArTime, ArLaser *>::reverse_iterator lasersToLogIt;
     ArLaser * laser;
     
-    for (laserIt = myLasers.begin(); laserIt != myLasers.end(); laserIt++)
+    for (laserIt = myLasers.begin(); laserIt != myLasers.end(); ++laserIt)
     {
       laser = (*laserIt);
       laser->lockDevice();
@@ -645,7 +645,7 @@ void ArLaserLogger::internalTakeReading()
     // have to go in reverse for the times to be increasing
     for (lasersToLogIt = lasersToLog.rbegin();
 	 lasersToLogIt != lasersToLog.rend();
-	 lasersToLogIt++)
+	 ++lasersToLogIt)
     {
       laser = (*lasersToLogIt).second;
       if (laser == myLaser)
@@ -654,7 +654,7 @@ void ArLaserLogger::internalTakeReading()
 	internalTakeLaserReading(laser, laser->getLaserNumber());
     }
 
-    for (laserIt = myLasers.begin(); laserIt != myLasers.end(); laserIt++)
+    for (laserIt = myLasers.begin(); laserIt != myLasers.end(); ++laserIt)
     {
       laser = (*laserIt);
       laser->unlockDevice();
