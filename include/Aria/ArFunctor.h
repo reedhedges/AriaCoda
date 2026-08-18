@@ -120,6 +120,9 @@ public:
    /// Call the function (method) on the object
    virtual void invoke() = 0;
 
+   /// Calls invoke()
+   void operator()() { invoke(); }
+
    /// Gets a name for this ArFunctor object, for diagnostic purposes
    virtual const char *getName() { return myName.c_str(); }
 
@@ -158,6 +161,10 @@ public:
      @param p1 first parameter
   */
   virtual void invoke(P1 p1) = 0;
+
+  /// Calls invoke(p1)
+  void operator()(P1 p1) { invoke(p1); }
+  void operator()() = delete;
 };
 
 /// Base class for functions with 2 parameters
@@ -178,6 +185,10 @@ public:
      @param p2 second parameter
   */
   virtual void invoke(P1 p1, P2 p2) = 0;
+
+  /// Calls invoke(p1, p2)
+  void operator()(P1 p1, P2 p2) { invoke(p1, p2); }
+  void operator()(P1 p1) = delete;
 };
 
 /// Base class for function with 3 parameters
@@ -190,6 +201,8 @@ public:
   virtual void invoke(P1 p1) override = 0;
   virtual void invoke(P1 p1, P2 p2) override = 0;
   virtual void invoke(P1 p1, P2 p2, P3 p3) = 0;
+  void operator()(P1 p1, P2 p2, P3 p3) { invoke(p1, p2, p3); }
+  void operator()(P1 p1, P2 p2) = delete;
 };
 
 
@@ -205,6 +218,8 @@ public:
   virtual void invoke(P1 p1, P2 p2) override = 0;
   virtual void invoke(P1 p1, P2 p2, P3 p3) override = 0;
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
+  void operator()(P1 p1, P2 p2, P3 p3, P4 p4) { invoke(p1, p2, p3, p4); }
+  void operator()(P1 p1, P2 p2, P3 p3) = delete;
 };
 
 
@@ -220,6 +235,8 @@ public:
   virtual void invoke(P1 p1, P2 p2, P3 p3) override = 0;
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4) override = 0;
   virtual void invoke(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) = 0;
+  void operator()(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) { invoke(p1, p2, p3, p4, p5); }
+  void operator()(P1 p1, P2 p2, P3 p3, P4 p4) = delete;
 };
 
 
@@ -253,6 +270,7 @@ public:
 #endif
   }
   NODISCARD virtual Ret invokeR() = 0;
+  NODISCARD Ret operator()() { return invokeR(); }
 };
 
 template<class Ret, class P1>
@@ -262,6 +280,8 @@ public:
   virtual ~ArRetFunctor1()  = default;
   NODISCARD virtual Ret invokeR() override = 0;
   NODISCARD virtual Ret invokeR(P1 p1) = 0;
+  NODISCARD Ret operator()(P1 p1) { return invokeR(p1); }
+  Ret operator()() = delete;
 };
 
 template<class Ret, class P1, class P2>
@@ -272,6 +292,8 @@ public:
   NODISCARD virtual Ret invokeR() override = 0;
   NODISCARD virtual Ret invokeR(P1 p1) override = 0;
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) = 0;
+  NODISCARD Ret operator()(P1 p1, P2 p2) { return invokeR(p1, p2); }
+  Ret operator()(P1 p1) = delete;
 };
 
 /// Base class for ArFunctors with a return value with 3 parameters
@@ -284,6 +306,8 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1) override = 0;
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) = 0;
+  NODISCARD Ret operator()(P1 p1, P2 p2, P3 p3) { return invokeR(p1, p2, p3); }
+  Ret operator()(P1 p1, P2 p2) = delete;
 };
 
 
@@ -297,6 +321,8 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2) override = 0;
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override = 0;
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) = 0;
+  NODISCARD Ret operator()(P1 p1, P2 p2, P3 p3, P4 p4) { return invokeR(p1, p2, p3, p4); }
+  Ret operator()(P1 p1, P2 p2, P3 p3) = delete;
 };
 
 /// Base class for ArFunctors with a return value with 5 parameters
@@ -311,6 +337,8 @@ public:
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3) override = 0;
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4) override = 0;
   NODISCARD virtual Ret invokeR(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) = 0;
+  NODISCARD Ret operator()(P1 p1, P2 p2, P3 p3, P4 p4, P5 p5) { return invokeR(p1, p2, p3, p4, p5); }
+  Ret operator()(P1 p1, P2 p2, P3 p3, P4 p4) = delete;
 };
 
 
