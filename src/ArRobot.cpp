@@ -2651,7 +2651,7 @@ AREXPORT unsigned char ArRobot::getIODigIn(int num) const
  */
 AREXPORT unsigned char  ArRobot::getIODigOut(int num) const
 {
-  if (num <= getIODigOutSize() && num <= ourIODigArrayMax)
+  if (num <= getIODigOutSize() && num <= sizeof(myIODigOut))
     return myIODigOut[num];
   else
     return (unsigned char) 0;
@@ -5739,22 +5739,23 @@ bool ArRobot::processIOPacket(ArRobotPacket *packet)
   myLastIOPacketReceivedTime = packet->getTimeReceived();
 
   // number of DigIn bytes
-  int num = std::min((int)(packet->bufToUByte()), ourIODigArrayMax);
-  for (int i = 0; i < num; ++i)
+  size_t num = std::min( (size_t) packet->bufToUByte(), sizeof(myIODigIn)); // sizeof() -> size_t
+  for (size_t i = 0; i < num; ++i)
     myIODigIn[i] = packet->bufToUByte();
-  myIODigInSize = num;
+  //assert(num <= INT_MAX); // not needed? already determined num to be <= sizeof(myIODigIn) which is 128
+  myIODigInSize = (int) num; 
 
   // number of DigOut bytes
-  num = std::min((int)(packet->bufToUByte()), ourIODigArrayMax);
-  for (int i = 0; i < num; ++i)
+  num = std::min( (size_t) packet->bufToUByte(), sizeof(myIODigOut));
+  for (size_t i = 0; i < num; ++i)
     myIODigOut[i] = packet->bufToUByte();
-  myIODigOutSize = num;
+  myIODigOutSize = (int) num;
 
   // number of A/D bytes
-  num = std::min((int)(packet->bufToUByte()), ourIOAnalogArrayMax);
-  for (int i = 0; i < num; ++i)
+  num = std::min( (size_t) packet->bufToUByte(), sizeof(myIOAnalog));
+  for (size_t i = 0; i < num; ++i)
     myIOAnalog[i] = packet->bufToUByte2();
-  myIOAnalogSize = num;
+  myIOAnalogSize = (int) num;
 
   return true;
 }

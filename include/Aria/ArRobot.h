@@ -2012,11 +2012,9 @@ protected:
   unsigned char myAnalog;
   unsigned char myDigIn;
   unsigned char myDigOut;
-  static const int ourIOAnalogArrayMax = 128;
-  int myIOAnalog[ourIOAnalogArrayMax];
-  static const int ourIODigArrayMax = 255;
-  unsigned char myIODigIn[ourIODigArrayMax];
-  unsigned char myIODigOut[ourIODigArrayMax];
+  int myIOAnalog[128];
+  unsigned char myIODigIn[255];
+  unsigned char myIODigOut[255];
   int myIOAnalogSize; // actual number of readings provided by robot in packet
   int myIODigInSize; // actual number of readings provided in packet
   int myIODigOutSize; // actual number of readings provided in packet
