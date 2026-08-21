@@ -145,8 +145,6 @@ private:
 
   static void initSigMap();
 
-  bool ourIgnoreQUIT;
-
   static ArSignalHandler *ourSignalHandler;
   static ArStrMap ourSigMap;
 #ifdef WIN32

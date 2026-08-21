@@ -235,8 +235,7 @@ AREXPORT void ArSignalHandler::blockAllThisThread()
 }
 
 
-ArSignalHandler::ArSignalHandler() :
-  ourIgnoreQUIT(false)
+ArSignalHandler::ArSignalHandler()
 {
   setThreadName("ArSignalHandler");
   initSigMap();

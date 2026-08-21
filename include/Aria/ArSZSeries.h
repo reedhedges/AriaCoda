@@ -139,7 +139,6 @@ private:
   ArSZSeriesPacket myPacket;
   
   std::string myName;
-  unsigned int myNameLength;
   unsigned char myReadBuf[100000];
   int myReadCount;
   bool myIsSZ00;
