@@ -50,7 +50,7 @@ AREXPORT ArLaserFilter::ArLaserFilter(
   myRawReadings = new std::list<ArSensorReading *>;
 
   char buf[1024];
-  sprintf(buf, "%sProcessCB", getName());
+  snprintf(buf, sizeof(buf), "%sProcessCB", getName());
   myProcessCB.setName(buf);
 
   myAngleToCheck = 1;

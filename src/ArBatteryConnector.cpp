@@ -115,7 +115,7 @@ AREXPORT bool ArBatteryConnector::parseArgs (ArArgumentParser *parser)
 		if (i == 1)
 			buf[0] = '\0';
 		else
-			sprintf (buf, "%d", i);
+			snprintf(buf, sizeof(buf), "%d", i);
 		typeReallySet = false;
 		// see if the battery is being added from the command line
 		if (!parser->checkParameterArgumentStringVar (&typeReallySet, &type,
@@ -243,7 +243,7 @@ AREXPORT bool ArBatteryConnector::parseBatteryArgs (ArArgumentParser *parser,
 	if (batteryData->myNumber == 1)
 		buf[0] = '\0';
 	else
-		sprintf (buf, "%d", batteryData->myNumber);
+		snprintf(buf, sizeof(buf), "%d", batteryData->myNumber);
 
 #if 0
 	// see if we want to connect to the battery automatically
@@ -463,7 +463,7 @@ AREXPORT void ArBatteryConnector::logBatteryOptions (
 	if (batteryData->myNumber == 1)
 		buf[0] = '\0';
 	else
-		sprintf (buf, "%d", batteryData->myNumber);
+		snprintf(buf, sizeof(buf), "%d", batteryData->myNumber);
 	if (header) {
 		ArLog::log (ArLog::Terse, "");
 		ArLog::log (ArLog::Terse, "Battery%s: (\"%s\")", buf, battery->getName());

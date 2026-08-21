@@ -2054,7 +2054,7 @@ bool ArVCC4::sendZoom()
   myPacket.empty();
   preparePacket();
   myPacket.uByteToBuf(ArVCC4Commands::ZOOM);
-  sprintf(buf, "%4X", myZoomDesired);
+  snprintf(buf, sizeof(buf), "%4X", myZoomDesired);
 
   for (i=0;i<3;i++)
     if (buf[i] == ' ')
@@ -2151,7 +2151,7 @@ bool ArVCC4::sendPanSlew()
     preparePacket();
     myPacket.uByteToBuf(ArVCC4Commands::PANSLEW);
 
-    sprintf(buf,"%3X", ArMath::roundInt(myPanSlewDesired/.1125));
+    snprintf(buf, sizeof(buf), "%3X", ArMath::roundInt(myPanSlewDesired/.1125));
 
     if (buf[0] < '0')
       buf[0] = '0';
@@ -2190,7 +2190,7 @@ bool ArVCC4::sendTiltSlew()
     preparePacket();
     myPacket.uByteToBuf(ArVCC4Commands::TILTSLEW);
 
-    sprintf(buf,"%3X", ArMath::roundInt(myTiltSlewDesired/.1125));
+    snprintf(buf, sizeof(buf), "%3X", ArMath::roundInt(myTiltSlewDesired/.1125));
 
     if (buf[0] == ' ')
       buf[0] = '0';

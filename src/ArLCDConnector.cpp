@@ -143,7 +143,7 @@ AREXPORT bool ArLCDConnector::parseArgs (ArArgumentParser *parser)
 		if (i == 1)
 			buf[0] = '\0';
 		else
-			sprintf (buf, "%d", i);
+			snprintf(buf, sizeof(buf), "%d", i);
 		typeReallySet = false;
 		// see if the lcd is being added from the command line
 		if (!parser->checkParameterArgumentStringVar (&typeReallySet, &type,
@@ -271,7 +271,7 @@ AREXPORT bool ArLCDConnector::parseLCDArgs (ArArgumentParser *parser,
 	if (lcdData->myNumber == 1)
 		buf[0] = '\0';
 	else
-		sprintf (buf, "%d", lcdData->myNumber);
+		snprintf(buf, sizeof(buf), "%d", lcdData->myNumber);
 
 #if 0
 	// see if we want to connect to the lcd automatically
@@ -492,7 +492,7 @@ AREXPORT void ArLCDConnector::logLCDOptions (
 	if (lcdData->myNumber == 1)
 		buf[0] = '\0';
 	else
-		sprintf (buf, "%d", lcdData->myNumber);
+		snprintf(buf, sizeof(buf), "%d", lcdData->myNumber);
 	if (header) {
 		ArLog::log (ArLog::Terse, "");
 		ArLog::log (ArLog::Terse, "LCD%s: (\"%s\")", buf, lcd->getName());
@@ -967,7 +967,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 	else {
 		// validate that the file dosn't match the current version
 
-		sprintf(hmiFileOut,"AdeptHmi%02x%02x.ds", 
+		snprintf(hmiFileOut, sizeof(hmiFileOut), "AdeptHmi%02x%02x.ds",
 							hmiVersion, hmiRevision);
 				
 		if (strcmp(hmiFile.c_str(), hmiFileOut) != 0) { 

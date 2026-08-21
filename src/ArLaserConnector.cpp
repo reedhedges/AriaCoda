@@ -172,7 +172,7 @@ AREXPORT bool ArLaserConnector::parseArgs (ArArgumentParser *parser)
 		if (i == 1)
 			buf[0] = '\0';
 		else
-			sprintf (buf, "%d", i);
+			snprintf(buf, sizeof(buf), "%d", i);
 		typeReallySet = false;
 		// see if the laser is being added from the command line
 		if (!parser->checkParameterArgumentStringVar (&typeReallySet, &type,
@@ -313,7 +313,7 @@ AREXPORT bool ArLaserConnector::parseLaserArgs(ArArgumentParser *parser,
   if (laserData->myNumber == 1)
     buf[0] = '\0';
   else
-    sprintf(buf, "%d", laserData->myNumber);
+    snprintf(buf, sizeof(buf), "%d", laserData->myNumber);
 
   // see if we want to connect to the laser automatically
   if (parser->checkArgumentVar("-connectLaser%s", buf) || 
@@ -555,7 +555,7 @@ bool ArLaserConnector::internalConfigureLaser(
     ArLog::log(ArLog::Terse, "ArLaserConnector: There is no laser, cannot connect");
     return false;
   }
-  sprintf(portBuf, "%d", laserData->myLaser->getDefaultTcpPort());
+  snprintf(portBuf, sizeof(portBuf), "%d", laserData->myLaser->getDefaultTcpPort());
 
   if (myRobotConnector == NULL)
   {
@@ -795,7 +795,7 @@ AREXPORT void ArLaserConnector::logLaserOptions(
   if (laserData->myNumber == 1)
     buf[0] = '\0';
   else
-    sprintf(buf, "%d", laserData->myNumber);
+    snprintf(buf, sizeof(buf), "%d", laserData->myNumber);
   
   if(header)
   {

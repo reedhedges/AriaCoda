@@ -219,31 +219,31 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
   std::string ret;
 
   char line[32000];
-  sprintf(line, "General information:\n");
+  snprintf(line, sizeof(line), "General information:\n");
   ret += line;
-  sprintf(line, "Robot is type '%s' subtype '%s'\n",
+  snprintf(line, sizeof(line), "Robot is type '%s' subtype '%s'\n",
 	     getType(), getSubType());
   ret += line;
-  sprintf(line, "serial number '%s' name '%s'\n", 
+  snprintf(line, sizeof(line), "serial number '%s' name '%s'\n", 
 	     getSerialNumber(), getName());
   ret += line;
-  sprintf(line, "firmware version '%s'\n",
+  snprintf(line, sizeof(line), "firmware version '%s'\n",
 	  getFirmwareVersion());
   ret += line;
-  sprintf(line, "firmware bootloader version '%s'\n",
+  snprintf(line, sizeof(line), "firmware bootloader version '%s'\n",
 	  getFirmwareBootloaderVersion());
   ret += line;
 
-   sprintf(line, "gyro firmware version %d\n",
+   snprintf(line, sizeof(line), "gyro firmware version %d\n",
 	  getGyroFWVersion());
 
   ret += line;
   const unsigned int flags = getConfigFlags();
   
-  sprintf(line, "configFlags 0x%08x\n", flags);
+  snprintf(line, sizeof(line), "configFlags 0x%08x\n", flags);
   ret += line;
 
-  sprintf(line, "\t(IsBootloader=%d, CanDownloadMTXFirmware=%d, CanDownloadMTXBootloader=%d, NotLegacyGyro=%d, MTXConfigSystem=%d)\n",
+  snprintf(line, sizeof(line), "\t(IsBootloader=%d, CanDownloadMTXFirmware=%d, CanDownloadMTXBootloader=%d, NotLegacyGyro=%d, MTXConfigSystem=%d)\n",
     (flags & ArUtil::BIT0), 
     (flags & ArUtil::BIT1), 
     (flags & ArUtil::BIT2), 
@@ -252,40 +252,40 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
   );
   ret += line;
 
-  sprintf(line, "Intrinsic properties and unsettable maxes:\n");
+  snprintf(line, sizeof(line), "Intrinsic properties and unsettable maxes:\n");
   ret += line;
-  sprintf(line, "TransVelTop %d TransAccelTop %d\n", 
+  snprintf(line, sizeof(line), "TransVelTop %d TransAccelTop %d\n", 
 	     getTransVelTop(), getTransAccelTop());
   ret += line;
-  sprintf(line, "RotVelTop %d RotAccelTop %d\n", 
+  snprintf(line, sizeof(line), "RotVelTop %d RotAccelTop %d\n", 
 	     getRotVelTop(), getRotAccelTop());
   ret += line;
   if (myRobot->hasLatVel())
   {
-    sprintf(line, "LatVelTop %d LatAccelTop %d\n", 
+    snprintf(line, sizeof(line), "LatVelTop %d LatAccelTop %d\n", 
 	    getLatVelTop(), getLatAccelTop());
     ret += line;
   }
-  sprintf(line, "PWMMax %d ResetBaud %s\n", getPwmMax(),
+  snprintf(line, sizeof(line), "PWMMax %d ResetBaud %s\n", getPwmMax(),
 	     ArUtil::convertBool(getResetBaud()));
   ret += line;
-  sprintf(line, "Current values:\n");
+  snprintf(line, sizeof(line), "Current values:\n");
   ret += line;
-  sprintf(line, "TransVelMax %d TransAccel %d TransDecel %d\n", 
+  snprintf(line, sizeof(line), "TransVelMax %d TransAccel %d TransDecel %d\n", 
 	     getTransVelMax(), getTransAccel(), getTransDecel());
   ret += line;  
-  sprintf(line, "RotVelMax %d RotAccel %d RotDecel %d\n", 
+  snprintf(line, sizeof(line), "RotVelMax %d RotAccel %d RotDecel %d\n", 
 	     getRotVelMax(), getRotAccel(), getRotDecel());
   ret += line;
   if (myRobot->hasLatVel())
   {
-    sprintf(line, "LatVelMax %d LatAccel %d LatDecel %d\n", 
+    snprintf(line, sizeof(line), "LatVelMax %d LatAccel %d LatDecel %d\n", 
 	    getLatVelMax(), getLatAccel(), getLatDecel());
     ret += line;  
   }
-  sprintf(line, "Accessories:\n");
+  snprintf(line, sizeof(line), "Accessories:\n");
   ret += line;  
-  sprintf(line, 
+  snprintf(line, sizeof(line), 
 	  "Gripper %s FrontSonar %s RearSonar %s Charger %d GyroType %d\n", 
 	  ArUtil::convertBool(getHasGripper()), 
 	  ArUtil::convertBool(getFrontSonar()), 
@@ -293,47 +293,47 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
 	  getHasCharger(),
 	  getGyroType());
   ret += line;  
-  sprintf(line, "FrontBumps %d RearBumps %d\n", 
+  snprintf(line, sizeof(line), "FrontBumps %d RearBumps %d\n", 
 	     getFrontBumps(), getRearBumps());
   ret += line;  
-  sprintf(line, "Settings:\n");
+  snprintf(line, sizeof(line), "Settings:\n");
   ret += line;  
-  sprintf(line, "SipCycle %d SonarCycle %d HostBaud %d Aux1Baud %d\n", getSipCycleTime(), getSonarCycle(), getHostBaud(), getAux1Baud());
+  snprintf(line, sizeof(line), "SipCycle %d SonarCycle %d HostBaud %d Aux1Baud %d\n", getSipCycleTime(), getSonarCycle(), getHostBaud(), getAux1Baud());
   ret += line;  
-  sprintf(line, "StallVal %d StallCount %d RevCount %d Watchdog %d\n",
+  snprintf(line, sizeof(line), "StallVal %d StallCount %d RevCount %d Watchdog %d\n",
 	     getStallVal(), getStallCount(), getRevCount(), getWatchdog());
   ret += line;  
-  sprintf(line, "GyroRateLimit %d\n",
+  snprintf(line, sizeof(line), "GyroRateLimit %d\n",
 	  getGyroRateLimit());
   ret += line;  
-  sprintf(line, "JoyVel %d JoyRVel %d NormalMotorPackets %s\n", getJoyVel(), getJoyRotVel(), ArUtil::convertBool(getNormalMPacs()));
+  snprintf(line, sizeof(line), "JoyVel %d JoyRVel %d NormalMotorPackets %s\n", getJoyVel(), getJoyRotVel(), ArUtil::convertBool(getNormalMPacs()));
   ret += line;  
-  sprintf(line, "PID Settings:\n");
+  snprintf(line, sizeof(line), "PID Settings:\n");
   ret += line;  
-  sprintf(line, "Trans kp %d kv %d ki %d\n", getTransKP(), 
+  snprintf(line, sizeof(line), "Trans kp %d kv %d ki %d\n", getTransKP(), 
 	     getTransKV(), getTransKI());
   ret += line;  
-  sprintf(line, "Rot kp %d kv %d ki %d\n", getRotKP(), getRotKV(),
+  snprintf(line, sizeof(line), "Rot kp %d kv %d ki %d\n", getRotKP(), getRotKV(),
 	     getRotKI());
   ret += line;  
-  sprintf(line, "Other:\n");
+  snprintf(line, sizeof(line), "Other:\n");
   ret += line;  
-  sprintf(line, "DriftFactor %d KinematicsDelay %d\n", getDriftFactor(),
+  snprintf(line, sizeof(line), "DriftFactor %d KinematicsDelay %d\n", getDriftFactor(),
 	  getKinematicsDelay());
   ret += line;  
-  sprintf(line, "Aux2Baud setting %d Aux3Baud setting %d\n", getAux2Baud(), getAux3Baud());
+  snprintf(line, sizeof(line), "Aux2Baud setting %d Aux3Baud setting %d\n", getAux2Baud(), getAux3Baud());
   ret += line;  
-  sprintf(line, "PDBPort setting %d BatteryType %d\n", getPDBPort(), 
+  snprintf(line, sizeof(line), "PDBPort setting %d BatteryType %d\n", getPDBPort(), 
 	  getBatteryType());
   ret += line;  
-  sprintf(line, "TicksMM %d GyroCW %d GyroCCW %d\n", getTicksMM(),
+  snprintf(line, sizeof(line), "TicksMM %d GyroCW %d GyroCCW %d\n", getTicksMM(),
 	  getGyroCW(), getGyroCCW());
   ret += line;  
-  sprintf(line, 
+  snprintf(line, sizeof(line), 
 	  "LowBattery %d ShutdownVoltage %d PowerbotChargeThreshold %d\n", 
 	  getLowBattery(), getShutdownVoltage(), getPowerbotChargeThreshold());
   ret += line;  
-  sprintf(line, 
+  snprintf(line, sizeof(line), 
 	  "LowStateOfCharge %d ShutdownStateOfCharge %d\n", 
 	  getStateOfChargeLow(), getStateOfChargeShutdown());
   ret += line;
@@ -362,7 +362,7 @@ AREXPORT std::string ArRobotConfigPacketReader::buildString() const
     }
   }
 
-  sprintf(line, "HighTempShutdown %d PowerBits %s\n",
+  snprintf(line, sizeof(line), "HighTempShutdown %d PowerBits %s\n",
 	  getHighTemperatureShutdown(), buf);
   ret += line;  
 
@@ -379,15 +379,15 @@ AREXPORT std::string ArRobotConfigPacketReader::buildStringMovement() const
   std::string ret;
 
   char line[32000];
-  sprintf(line, "TransVelMax %d TransAccel %d TransDecel %d\n", 
+  snprintf(line, sizeof(line), "TransVelMax %d TransAccel %d TransDecel %d\n", 
 	     getTransVelMax(), getTransAccel(), getTransDecel());
   ret += line;  
-  sprintf(line, "RotVelMax %d RotAccel %d RotDecel %d\n", 
+  snprintf(line, sizeof(line), "RotVelMax %d RotAccel %d RotDecel %d\n", 
 	     getRotVelMax(), getRotAccel(), getRotDecel());
   ret += line;
   if (myRobot->hasLatVel())
   {
-    sprintf(line, "LatVelMax %d LatAccel %d LatDecel %d\n", 
+    snprintf(line, sizeof(line), "LatVelMax %d LatAccel %d LatDecel %d\n", 
 	    getLatVelMax(), getLatAccel(), getLatDecel());
     ret += line;  
   }

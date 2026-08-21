@@ -137,7 +137,7 @@ AREXPORT const char * ArRangeDevice::getName() const
 AREXPORT void ArRangeDevice::setRobot(ArRobot *robot) 
 { 
   char buf[512];
-  sprintf(buf, "filter %s", getName());
+  snprintf(buf, sizeof(buf), "filter %s", getName());
 
   if (myRobot != NULL)
     myRobot->remSensorInterpTask(&myFilterCB);

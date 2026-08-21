@@ -110,9 +110,9 @@ void ArLMS1XXPacket::intToBuf(int val)
 {
 	char buf[12];
 	if (val > 0)
-		sprintf(buf, "+%d", val);
+		snprintf(buf, sizeof(buf), "+%d", val);
 	else
-		sprintf(buf, "%d", val);
+		snprintf(buf, sizeof(buf), "%d", val);
 	strToBuf(buf);
 }
 
@@ -120,7 +120,7 @@ void ArLMS1XXPacket::intToBuf(int val)
 void ArLMS1XXPacket::uByteToBuf(uint8_t val)
 {
 	char buf[12];
-	sprintf(buf, "%u", val);
+	snprintf(buf, sizeof(buf), "%u", val);
 	strToBuf(buf);
 }
 
@@ -133,7 +133,7 @@ void ArLMS1XXPacket::uByte2ToBuf(uint16_t val)
 void ArLMS1XXPacket::uByte4ToBuf(uint32_t val)
 {
 	char buf[12];
-	sprintf(buf, "%u", val);
+	snprintf(buf, sizeof(buf), "%u", val);
 	strToBuf(buf);
 }
 

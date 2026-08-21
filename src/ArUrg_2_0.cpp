@@ -197,7 +197,7 @@ AREXPORT bool ArUrg_2_0::setParamsBySteps(int startingStep, int endingStep,
   if (myMaxRange > 4095 && (baudRate == 0 || baudRate > 57600))
   {
     myUseThreeDataBytes = true;
-    sprintf(myRequestString, "MD%04d%04d%02d%01d%02d", 
+    snprintf(myRequestString, sizeof(myRequestString), "MD%04d%04d%02d%01d%02d", 
 	    myStartingStep, myEndingStep, myClusterCount, 
 	    0, // scan interval
 	    0 // number of scans to send (forever)
@@ -208,7 +208,7 @@ AREXPORT bool ArUrg_2_0::setParamsBySteps(int startingStep, int endingStep,
     myUseThreeDataBytes = false;
     if (myMaxRange > 4094) 
       myMaxRange = 4094;
-    sprintf(myRequestString, "MS%04d%04d%02d%01d%02d", 
+    snprintf(myRequestString, sizeof(myRequestString), "MS%04d%04d%02d%01d%02d", 
 	    myStartingStep, myEndingStep, myClusterCount, 
 	    0, // scan interval
 	    0 // number of scans to send (forever)
@@ -649,7 +649,7 @@ bool ArUrg_2_0::internalConnect()
     while (readLine(buf, sizeof(buf), 100, true, false));
 
     // now change the baud...
-    sprintf(buf, "SS%06d", atoi(getAutoBaudChoice()));
+    snprintf(buf, sizeof(buf), "SS%06d", atoi(getAutoBaudChoice()));
     if (!writeLine(buf))
       return false;
 
@@ -824,7 +824,7 @@ AREXPORT bool ArUrg_2_0::disconnect()
   ret = writeLine("RS");
 
   char buf[2048];
-  sprintf(buf, "SS%06d", atoi(getStartingBaudChoice()));
+  snprintf(buf, sizeof(buf), "SS%06d", atoi(getStartingBaudChoice()));
   ret = (ret & writeLine(buf));
 
   laserDisconnectNormally();

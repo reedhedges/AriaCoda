@@ -45,7 +45,7 @@ bool ArJoyHandler::init()
   {
     for (i = 0; i < 32; i++)
     {
-      sprintf(myJoyNameTemp, "/dev/input/js%d", i);
+      snprintf(myJoyNameTemp, sizeof(myJoyNameTemp), "/dev/input/js%d", i);
       if ((myJoyDesc = ArUtil::open(myJoyNameTemp, O_RDONLY | O_NONBLOCK)) > 0)
       {
         ArLog::log(ArLog::Verbose, "ArJoyHandler: Opened %s", myJoyNameTemp);
@@ -134,7 +134,7 @@ void ArJoyHandler::getNewData()
   {
     int tempDesc;
     myLastOpenTry.setToNow();
-    sprintf(myJoyNameTemp, "/dev/input/js%d", myJoyNumber + 1);
+    snprintf(myJoyNameTemp, sizeof(myJoyNameTemp), "/dev/input/js%d", myJoyNumber + 1);
     if ((tempDesc = ArUtil::open(myJoyNameTemp, O_RDWR | O_NONBLOCK)) > 0)
     {
       ArLog::log(ArLog::Verbose, "ArJoyHandler: Opened next joydev %s", myJoyNameTemp);

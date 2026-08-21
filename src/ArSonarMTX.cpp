@@ -74,7 +74,7 @@ AREXPORT ArSonarMTX::ArSonarMTX (int sonarBoardNum,
 	setRobot (robot);
 	sonarSetName(name);
 
-	sprintf(myNameWithBoard, "%s%d", name, sonarBoardNum);
+	snprintf(myNameWithBoard, sizeof(myNameWithBoard), "%s%d", name, sonarBoardNum);
 
 	ArLog::log (myInfoLogLevel, "%s::ArSonarMTX initializing",
 		            getNameWithBoard());

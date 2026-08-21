@@ -301,7 +301,7 @@ void ArRobotParams::internalAddToConfigDefault()
     else
     {
       char buf[1024];
-      sprintf(buf, "Laser %d parameters", i);
+      snprintf(buf, sizeof(buf), "Laser %d parameters", i);
       section = buf;
     }
 
@@ -566,7 +566,7 @@ AREXPORT void ArRobotParams::addBatteryToConfig(
     restartLevel = ArConfigArg::RESTART_SOFTWARE;
 
   char buf[1024];
-  sprintf(buf, "Battery_%d", batteryNumber);
+  snprintf(buf, sizeof(buf), "Battery_%d", batteryNumber);
   std::string section = buf;
   std::string batteryName = buf;
  
@@ -654,7 +654,7 @@ AREXPORT void ArRobotParams::addLCDToConfig(
     restartLevel = ArConfigArg::RESTART_SOFTWARE;
 
   char buf[1024];
-  sprintf(buf, "LCD_%d", lcdNumber);
+  snprintf(buf, sizeof(buf), "LCD_%d", lcdNumber);
   std::string section = buf;
   std::string lcdName = buf;
 
@@ -763,7 +763,7 @@ AREXPORT void ArRobotParams::addSonarBoardToConfig(
     restartLevel = ArConfigArg::RESTART_SOFTWARE;
 
   char buf[1024];
-  sprintf(buf, "SonarBoard_%d", sonarBoardNumber);
+  snprintf(buf, sizeof(buf), "SonarBoard_%d", sonarBoardNumber);
   std::string section = buf;
   std::string sonarBoardName = buf;
 

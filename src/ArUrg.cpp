@@ -171,7 +171,7 @@ AREXPORT bool ArUrg::setParamsBySteps(int startingStep, int endingStep,
   myEndingStep = endingStep;
   myClusterCount = clusterCount;
   myFlipped = flipped;
-  sprintf(myRequestString, "G%03d%03d%02d", myStartingStep, endingStep,
+  snprintf(myRequestString, sizeof(myRequestString), "G%03d%03d%02d", myStartingStep, endingStep,
 	  clusterCount);
   myClusterMiddleAngle = 0;
   if (myClusterCount > 1)
@@ -491,7 +491,7 @@ bool ArUrg::internalConnect()
     while (readLine(buf, sizeof(buf), 100));
 
     // now change the baud...
-    sprintf(buf, "S%06d7654321", atoi(getAutoBaudChoice()));
+    snprintf(buf, sizeof(buf), "S%06d7654321", atoi(getAutoBaudChoice()));
     if (!writeLine(buf))
       return false;
 
@@ -607,7 +607,7 @@ AREXPORT bool ArUrg::disconnect()
   bool ret;
 
   char buf[2048];
-  sprintf(buf, "S%06d7654321", atoi(getStartingBaudChoice()));
+  snprintf(buf, sizeof(buf), "S%06d7654321", atoi(getStartingBaudChoice()));
   ret = writeLine(buf);
   laserDisconnectNormally();
   return ret;

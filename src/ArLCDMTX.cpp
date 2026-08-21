@@ -1461,7 +1461,7 @@ AREXPORT void ArLCDMTX::getIpAddress()
   myIpAddress = "unknown";
 #else
 	char ip[1000];
-	sprintf(ip, "%d.%d.%d.%d",
+	snprintf(ip, sizeof(ip), "%d.%d.%d.%d",
 		ArSystemStatus::getMTXWirelessIpAddress1(),
 		ArSystemStatus::getMTXWirelessIpAddress2(),
 		ArSystemStatus::getMTXWirelessIpAddress3(),
@@ -1475,7 +1475,7 @@ AREXPORT bool ArLCDMTX::hasIpAddressChanged()
 {
 #ifndef _WIN32
 	char ip[1000];
-	sprintf(ip, "%d.%d.%d.%d",
+	snprintf(ip, sizeof(ip), "%d.%d.%d.%d",
 		ArSystemStatus::getMTXWirelessIpAddress1(),
 		ArSystemStatus::getMTXWirelessIpAddress2(),
 		ArSystemStatus::getMTXWirelessIpAddress3(),
@@ -1740,7 +1740,7 @@ AREXPORT bool ArLCDMTX::verifyFwVersion()
 	else {
 		// validate that the file dosn't match the current version
 
-		sprintf(hmiFileOut, "AdeptHmi_%s.ds",
+		snprintf(hmiFileOut, sizeof(hmiFileOut), "AdeptHmi_%s.ds",
 			myFirmwareVersion.c_str());
 
 		if (strcmp(hmiFile.c_str(), hmiFileOut) != 0) {

@@ -29,7 +29,12 @@ CFILEEXT:=cpp
 # Set CXXSTD to set value of -std option (to enable a different C++ version).  Default is c++14.
 # Set CXXDEBBUGFLAGS and CXXOPTFLAGS to set debug and optimization flags
 
-CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wsign-conversion -Wconversion -Woverloaded-virtual -Wno-unnecessary-virtual-specifier
+CXXWARNFLAGS ?= -Wall -Wextra -Wshadow -Wsign-conversion -Wconversion -Woverloaded-virtual 
+
+# 0 if clang, 1 if not clang:
+#is_clang:=$(shell $CXX --version | grep -m 1 -F clang)
+
+# TODO disable this warning on platforms/compiler versions that support it (e.g. clang++ on macosx): -Wno-unnecessary-virtual-specifier
 # -Wpedantic -Wno-deprecated-declarations
 # -Wfloat-conversion (Note one of the flags above appears to turn this on with clang on MacOSX)
 # -Wnon-virtual-dtor
