@@ -360,16 +360,16 @@ AREXPORT bool ArFileParser::parseLine(char *line,
     }
   }
   
-  int chopCount = 0;
+  //int chopCount = 0;
 
   // chop out the new line if its there
   if ((choppingPos = strstr(line, "\n")) != NULL) {
-    chopCount++;
+    //chopCount++;
     line[choppingPos-line] = '\0';
   }
   // chop out the windows new line if its there
   while ((choppingPos = strstr(line, "\r")) != NULL) {
-    chopCount++;
+    //chopCount++;
     memmove(choppingPos, choppingPos + 1, strlen(line));
   }
 
