@@ -53,3 +53,7 @@ versionstring
 !.vscode/tasks.json
 utils/genCommandLineOptionDocs
 utils/makeParams
+lib/
+tests/configAfter.txt
+tests/configBefore.txt
+*.bak
