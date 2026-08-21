@@ -27,6 +27,7 @@ Copyright (C) 2016-2018 Omron Adept Technologies, Inc.
 #include "Aria/ariaOSDef.h"
 #include "Aria/ArRobotParams.h"
 #include "Aria/ariaInternal.h"
+#include "Aria/ariaUtil.h"
 #include <sstream>
 
 bool ArRobotParams::ourUseDefaultBehavior = true;
@@ -56,7 +57,7 @@ AREXPORT ArRobotParams::ArRobotParams() :
   myIRUnitGetFunctor(this, &ArRobotParams::getIRUnits),
   myIRUnitSetFunctor(this, &ArRobotParams::parseIRUnit)
 {
-  sprintf(myClass, "Pioneer");
+  ArUtil::copy_string_to_buffer(myClass, sizeof(myClass), "Pioneer");
   mySubClass[0] = '\0';
   myRobotRadius = 250;
   myRobotDiagonal = 120;

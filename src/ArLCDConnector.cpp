@@ -950,7 +950,7 @@ AREXPORT bool ArLCDConnector::verifyFirmware (LCDData *lcd)
 	std::string baseDir = "/usr/local/apps/marcDownload/";
 
 			
-	sprintf(hmiFilePrefix,"AdeptHmi");
+	ArUtil::copy_string_to_buffer(hmiFilePrefix, sizeof(hmiFilePrefix), "AdeptHmi");
 
 
 	hmiFile = searchForFile(baseDir.c_str(), hmiFilePrefix, ".ds");

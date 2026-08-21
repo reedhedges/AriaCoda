@@ -1724,7 +1724,7 @@ AREXPORT bool ArLCDMTX::verifyFwVersion()
 	hmiFilePrefix[0] = '\0';
 
 
-	sprintf(hmiFilePrefix, "AdeptHmi");
+	ArUtil::copy_string_to_buffer(hmiFilePrefix, sizeof(hmiFilePrefix), "AdeptHmi");
 
 	hmiFile = searchForFile(ourFirmwareBaseDir.c_str(), hmiFilePrefix, ".ds");
 

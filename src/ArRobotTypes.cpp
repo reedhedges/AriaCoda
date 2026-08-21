@@ -38,7 +38,7 @@ AREXPORT ArRobotGeneric::ArRobotGeneric()
 
 AREXPORT ArRobotAmigo::ArRobotAmigo()
 {
-  sprintf(mySubClass, "amigo");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "amigo");
   myRobotRadius = 180;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -68,7 +68,7 @@ AREXPORT ArRobotAmigo::ArRobotAmigo()
 
 AREXPORT ArRobotAmigoSh::ArRobotAmigoSh()
 {
-  sprintf(mySubClass, "amigo-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "amigo-sh");
   myRobotRadius = 180;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -97,13 +97,13 @@ AREXPORT ArRobotAmigoSh::ArRobotAmigoSh()
 AREXPORT ArRobotAmigoShTim5xxWibox::ArRobotAmigoShTim5xxWibox()
   : ArRobotAmigoSh()
 {
-  sprintf(mySubClass, "amigo-sh-tim3xx");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "amigo-sh-tim3xx");
   LaserData *ld = getLaserData(1);
   if (ld != NULL)
   {
-    sprintf(ld->myLaserType, "tim5XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "10.0.126.11:8102");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "tim5XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "10.0.126.11:8102");
     ld->myLaserX = 110;
     ld->myLaserY = 0;
     ld->myLaserZ = 200;
@@ -115,7 +115,7 @@ AREXPORT ArRobotAmigoShTim5xxWibox::ArRobotAmigoShTim5xxWibox()
 
 AREXPORT ArRobotP2AT::ArRobotP2AT()
 {
-  sprintf(mySubClass, "p2at");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2at");
   myRobotRadius = 500;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300; 
@@ -150,9 +150,9 @@ AREXPORT ArRobotP2AT::ArRobotP2AT()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 160;
     laser->myLaserY = 7;
   }
@@ -173,7 +173,7 @@ AREXPORT ArRobotP2AT::ArRobotP2AT()
 
 AREXPORT ArRobotP2AT8::ArRobotP2AT8()
 {
-  sprintf(mySubClass, "p2at8");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2at8");
   myRobotRadius = 500;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -208,9 +208,9 @@ AREXPORT ArRobotP2AT8::ArRobotP2AT8()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 160;
     laser->myLaserY = 7;
   }
@@ -234,7 +234,7 @@ AREXPORT ArRobotP2AT8::ArRobotP2AT8()
 
 AREXPORT ArRobotP2IT::ArRobotP2IT()
 {
-  sprintf(mySubClass, "p2it");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2it");
   myRobotRadius = 500;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -269,9 +269,9 @@ AREXPORT ArRobotP2IT::ArRobotP2IT()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 160;
     laser->myLaserY = 7;
   }
@@ -295,7 +295,7 @@ AREXPORT ArRobotP2IT::ArRobotP2IT()
 
 AREXPORT ArRobotP2DX::ArRobotP2DX()
 {
-  sprintf(mySubClass, "p2dx");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2dx");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -330,9 +330,9 @@ AREXPORT ArRobotP2DX::ArRobotP2DX()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 17;
     laser->myLaserY = 8;
   }
@@ -355,7 +355,7 @@ AREXPORT ArRobotP2DX::ArRobotP2DX()
 
 AREXPORT ArRobotP2DXe::ArRobotP2DXe()
 {
-  sprintf(mySubClass, "p2de");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2de");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -390,9 +390,9 @@ AREXPORT ArRobotP2DXe::ArRobotP2DXe()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {    
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 17;
     laser->myLaserY = 8;
   }
@@ -415,7 +415,7 @@ AREXPORT ArRobotP2DXe::ArRobotP2DXe()
 
 AREXPORT ArRobotP2DF::ArRobotP2DF()
 {
-  sprintf(mySubClass, "p2df");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2df");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -450,9 +450,9 @@ AREXPORT ArRobotP2DF::ArRobotP2DF()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 17;
     laser->myLaserY = 8;
   }
@@ -475,7 +475,7 @@ AREXPORT ArRobotP2DF::ArRobotP2DF()
 
 AREXPORT ArRobotP2D8::ArRobotP2D8()
 {
-  sprintf(mySubClass, "p2d8");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2d8");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -510,9 +510,9 @@ AREXPORT ArRobotP2D8::ArRobotP2D8()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 18;
     laser->myLaserY = 0;
   }
@@ -537,7 +537,7 @@ AREXPORT ArRobotP2D8::ArRobotP2D8()
 
 AREXPORT ArRobotP2CE::ArRobotP2CE()
 {
-  sprintf(mySubClass, "p2ce");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2ce");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -588,7 +588,7 @@ AREXPORT ArRobotP2CE::ArRobotP2CE()
 
 AREXPORT ArRobotP2PP::ArRobotP2PP()
 {
-  sprintf(mySubClass, "p2pp");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2pp");
   myRobotRadius = 300;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -635,9 +635,9 @@ AREXPORT ArRobotP2PP::ArRobotP2PP()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 16;
     laser->myLaserY = 1;
   }
@@ -660,7 +660,7 @@ AREXPORT ArRobotP2PP::ArRobotP2PP()
 
 AREXPORT ArRobotP2PB::ArRobotP2PB()
 {
-  sprintf(mySubClass, "p2pb");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2pb");
   myRobotRadius = 300;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -704,9 +704,9 @@ AREXPORT ArRobotP2PB::ArRobotP2PB()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 17;
     laser->myLaserY = 8;
   }
@@ -729,7 +729,7 @@ AREXPORT ArRobotP2PB::ArRobotP2PB()
 
 AREXPORT ArRobotPerfPB::ArRobotPerfPB()
 {
-  sprintf(mySubClass, "perfpb");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "perfpb");
   myRobotRadius = 340;
   myRobotDiagonal = 120; 
   myAbsoluteMaxRVelocity = 500;
@@ -793,9 +793,9 @@ AREXPORT ArRobotPerfPB::ArRobotPerfPB()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 21;
     laser->myLaserY = 0;
   }
@@ -818,7 +818,7 @@ AREXPORT ArRobotPerfPB::ArRobotPerfPB()
 
 AREXPORT ArRobotPion1M::ArRobotPion1M()
 {
-  sprintf(mySubClass, "pion1m");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "pion1m");
   myRobotRadius = 220;
   myRobotDiagonal = 90;
   myAbsoluteMaxRVelocity = 100;
@@ -852,7 +852,7 @@ AREXPORT ArRobotPion1M::ArRobotPion1M()
 
 AREXPORT ArRobotPsos1M::ArRobotPsos1M()
 {
-  sprintf(mySubClass, "psos1m");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "psos1m");
   myRobotRadius = 220;
   myRobotDiagonal = 90;
   myAbsoluteMaxRVelocity = 100;
@@ -886,7 +886,7 @@ AREXPORT ArRobotPsos1M::ArRobotPsos1M()
 
 AREXPORT ArRobotPsos43M::ArRobotPsos43M()
 {
-  sprintf(mySubClass, "psos43m");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "psos43m");
   myRobotRadius = 220;
   myRobotDiagonal = 90;
   myAbsoluteMaxRVelocity = 100;
@@ -923,7 +923,7 @@ AREXPORT ArRobotPsos43M::ArRobotPsos43M()
 
 AREXPORT ArRobotPionAT::ArRobotPionAT()
 {
-  sprintf(mySubClass, "pionat");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "pionat");
   myRobotRadius = 330;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 100;
@@ -958,7 +958,7 @@ AREXPORT ArRobotPionAT::ArRobotPionAT()
 
 AREXPORT ArRobotPion1X::ArRobotPion1X()
 {
-  sprintf(mySubClass, "pion1x");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "pion1x");
   myRobotRadius = 220;
   myRobotDiagonal = 90;
   myAbsoluteMaxRVelocity = 100;
@@ -992,7 +992,7 @@ AREXPORT ArRobotPion1X::ArRobotPion1X()
 
 AREXPORT ArRobotPsos1X::ArRobotPsos1X()
 {
-  sprintf(mySubClass, "psos1x");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "psos1x");
   myRobotRadius = 220;
   myRobotDiagonal = 90;
   myAbsoluteMaxRVelocity = 100;
@@ -1027,7 +1027,7 @@ AREXPORT ArRobotPsos1X::ArRobotPsos1X()
 
 AREXPORT ArRobotMapper::ArRobotMapper()
 {
-  sprintf(mySubClass, "mappr");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "mappr");
   myRobotRadius = 180;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 0;
@@ -1050,9 +1050,9 @@ AREXPORT ArRobotMapper::ArRobotMapper()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 312; // the normal laser low position
     //laser->myLaserX = 237; // the high laser position
     laser->myLaserY = 0;
@@ -1068,7 +1068,7 @@ AREXPORT ArRobotMapper::ArRobotMapper()
 AREXPORT ArRobotPowerBot::ArRobotPowerBot()
 {
 
-  sprintf(mySubClass, "powerbot");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "powerbot");
   myRobotRadius = 550;
   myRobotDiagonal = 240; 
   myAbsoluteMaxRVelocity = 360;
@@ -1124,15 +1124,15 @@ AREXPORT ArRobotPowerBot::ArRobotPowerBot()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM2");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM2");
     laser->myLaserX = 251;
     laser->myLaserY = 0;
     laser->myLaserFlipped = true;
   }
 
-  sprintf(myGPSPort, "COM3"); // swap laser and hypothetical gps
+  ArUtil::copy_string_to_buffer(myGPSPort, sizeof(myGPSPort), "COM3"); // swap laser and hypothetical gps
 
 
 
@@ -1150,7 +1150,7 @@ AREXPORT ArRobotPowerBot::ArRobotPowerBot()
 
 AREXPORT ArRobotP2D8Plus::ArRobotP2D8Plus()
 {
-  sprintf(mySubClass, "p2d8+");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2d8+");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -1185,9 +1185,9 @@ AREXPORT ArRobotP2D8Plus::ArRobotP2D8Plus()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 18;
     laser->myLaserY = 0;
   }
@@ -1209,7 +1209,7 @@ AREXPORT ArRobotP2D8Plus::ArRobotP2D8Plus()
 
 AREXPORT ArRobotP2AT8Plus::ArRobotP2AT8Plus()
 {
-  sprintf(mySubClass, "p2at8+");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p2at8+");
   myRobotRadius = 500;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -1244,9 +1244,9 @@ AREXPORT ArRobotP2AT8Plus::ArRobotP2AT8Plus()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 160;
     laser->myLaserY = 7;
   }
@@ -1267,7 +1267,7 @@ AREXPORT ArRobotP2AT8Plus::ArRobotP2AT8Plus()
 
 AREXPORT ArRobotP3AT::ArRobotP3AT()
 {
-  sprintf(mySubClass, "p3at");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3at");
   myRobotRadius = 500;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -1302,9 +1302,9 @@ AREXPORT ArRobotP3AT::ArRobotP3AT()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 160;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -1312,7 +1312,7 @@ AREXPORT ArRobotP3AT::ArRobotP3AT()
 
   myGPSX = -160;
   myGPSY = 120;
-  sprintf(myGPSType, "novatel");
+  ArUtil::copy_string_to_buffer(myGPSType, sizeof(myGPSType), "novatel");
 
 
 
@@ -1331,7 +1331,7 @@ AREXPORT ArRobotP3AT::ArRobotP3AT()
 
 AREXPORT ArRobotP3DX::ArRobotP3DX()
 {
-  sprintf(mySubClass, "p3dx");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3dx");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -1367,9 +1367,9 @@ AREXPORT ArRobotP3DX::ArRobotP3DX()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 18;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -1392,7 +1392,7 @@ AREXPORT ArRobotP3DX::ArRobotP3DX()
 
 AREXPORT ArRobotPerfPBPlus::ArRobotPerfPBPlus()
 {
-  sprintf(mySubClass, "perfpb+");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "perfpb+");
   myRobotRadius = 340;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -1458,9 +1458,9 @@ AREXPORT ArRobotPerfPBPlus::ArRobotPerfPBPlus()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 21;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -1483,7 +1483,7 @@ AREXPORT ArRobotPerfPBPlus::ArRobotPerfPBPlus()
 
 AREXPORT ArRobotP3DXSH::ArRobotP3DXSH()
 {
-  sprintf(mySubClass, "p3dx-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3dx-sh");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -1518,9 +1518,9 @@ AREXPORT ArRobotP3DXSH::ArRobotP3DXSH()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 21;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -1528,7 +1528,7 @@ AREXPORT ArRobotP3DXSH::ArRobotP3DXSH()
 
   myGPSX = -160;
   myGPSY = 120;
-  sprintf(myGPSType, "novatel");
+  ArUtil::copy_string_to_buffer(myGPSType, sizeof(myGPSType), "novatel");
 
 
 
@@ -1543,7 +1543,7 @@ AREXPORT ArRobotP3DXSH::ArRobotP3DXSH()
 
 AREXPORT ArRobotP3ATSH::ArRobotP3ATSH()
 {
-  sprintf(mySubClass, "p3at-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3at-sh");
   myRobotRadius = 500;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -1578,16 +1578,16 @@ AREXPORT ArRobotP3ATSH::ArRobotP3ATSH()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 125;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
   }
   myGPSX = -160;
   myGPSY = 120;
-  sprintf(myGPSType, "novatel");
+  ArUtil::copy_string_to_buffer(myGPSType, sizeof(myGPSType), "novatel");
 
 
 
@@ -1603,7 +1603,7 @@ AREXPORT ArRobotP3ATSH::ArRobotP3ATSH()
 
 AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH()
 {
-  sprintf(mySubClass, "p3atiw-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3atiw-sh");
   myRobotRadius = 500;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 300;
@@ -1638,9 +1638,9 @@ AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 125;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -1648,7 +1648,7 @@ AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH()
 
   myGPSX = -160;
   myGPSY = 120;
-  sprintf(myGPSType, "novatel");
+  ArUtil::copy_string_to_buffer(myGPSType, sizeof(myGPSType), "novatel");
 
 
 
@@ -1664,7 +1664,7 @@ AREXPORT ArRobotP3ATIWSH::ArRobotP3ATIWSH()
 
 AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH()
 {
-  sprintf(mySubClass, "patrolbot-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "patrolbot-sh");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -1704,9 +1704,9 @@ AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH()
   LaserData *ld = getLaserData(1);
   if (ld != NULL)
   {
-    sprintf(ld->myLaserType, "lms2xx");
-    sprintf(ld->myLaserPortType, "serial");
-    sprintf(ld->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "COM3");
     ld->myLaserX = 37;
     ld->myLaserY = 0;
     ld->myLaserAutoConnect = true;
@@ -1718,15 +1718,15 @@ AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH()
   ld = getLaserData(2);
   if (ld != NULL)
   {
-    sprintf(ld->myLaserType, "urg");
-    sprintf(ld->myLaserPortType, "serial");
-    sprintf(ld->myLaserPort, "COM5");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "urg");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "COM5");
     ld->myLaserX = 200;
     ld->myLaserY = 0;
     ld->myLaserFlipped = true;
-    sprintf(ld->myLaserStartDegrees, "-55");
-    sprintf(ld->myLaserEndDegrees, "55");
-    sprintf(ld->myLaserIncrement, "1.0");
+    ArUtil::copy_string_to_buffer(ld->myLaserStartDegrees, sizeof(ld->myLaserStartDegrees), "-55");
+    ArUtil::copy_string_to_buffer(ld->myLaserEndDegrees, sizeof(ld->myLaserEndDegrees), "55");
+    ArUtil::copy_string_to_buffer(ld->myLaserIncrement, sizeof(ld->myLaserIncrement), "1.0");
   }
 
 
@@ -1748,7 +1748,7 @@ AREXPORT ArRobotPatrolBotSH::ArRobotPatrolBotSH()
 
 AREXPORT ArRobotPeopleBotSH::ArRobotPeopleBotSH()
 {
-  sprintf(mySubClass, "peoplebot-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "peoplebot-sh");
   myRobotRadius = 340;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -1812,9 +1812,9 @@ AREXPORT ArRobotPeopleBotSH::ArRobotPeopleBotSH()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 21;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -1836,7 +1836,7 @@ AREXPORT ArRobotPeopleBotSH::ArRobotPeopleBotSH()
 AREXPORT ArRobotPowerBotSH::ArRobotPowerBotSH()
 {
 
-  sprintf(mySubClass, "powerbot-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "powerbot-sh");
   myRobotRadius = 550;
   myRobotDiagonal = 240; 
   myAbsoluteMaxRVelocity = 360;
@@ -1893,16 +1893,16 @@ AREXPORT ArRobotPowerBotSH::ArRobotPowerBotSH()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM2");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM2");
     laser->myLaserX = 251;
     laser->myLaserY = 0;
     laser->myLaserFlipped = true;
     laser->myLaserAutoConnect = true;
   }
 
-  sprintf(myGPSPort, "COM3"); // swap laser and hypothetical GPS
+  ArUtil::copy_string_to_buffer(myGPSPort, sizeof(myGPSPort), "COM3"); // swap laser and hypothetical GPS
 
 
 
@@ -1919,7 +1919,7 @@ AREXPORT ArRobotPowerBotSH::ArRobotPowerBotSH()
 AREXPORT ArRobotPowerBotSHuARCS::ArRobotPowerBotSHuARCS()
 {
 
-  sprintf(mySubClass, "powerbot-sh-uarcs");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "powerbot-sh-uarcs");
   myRobotRadius = 550;
   myRobotDiagonal = 240; 
   myAbsoluteMaxRVelocity = 360;
@@ -1959,21 +1959,21 @@ AREXPORT ArRobotPowerBotSHuARCS::ArRobotPowerBotSHuARCS()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM2");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM2");
     laser->myLaserX = 251;
     laser->myLaserY = 0;
     laser->myLaserFlipped = true;
     laser->myLaserAutoConnect = true;
   }
 
-  sprintf(myGPSPort, "COM3"); // swap laser and hypothetical GPS
+  ArUtil::copy_string_to_buffer(myGPSPort, sizeof(myGPSPort), "COM3"); // swap laser and hypothetical GPS
 }
 
 AREXPORT ArRobotWheelchairSH::ArRobotWheelchairSH()
 {
-  sprintf(mySubClass, "wheelchair-sh");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "wheelchair-sh");
   myRobotRadius = 550;
   myRobotDiagonal = 300; 
   myAbsoluteMaxRVelocity = 360;
@@ -1993,9 +1993,9 @@ AREXPORT ArRobotWheelchairSH::ArRobotWheelchairSH()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM2");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM2");
     laser->myLaserX = -418;
     laser->myLaserY = 0;
     laser->myLaserFlipped = true;
@@ -2012,12 +2012,12 @@ AREXPORT ArRobotWheelchairSH::ArRobotWheelchairSH()
   myRotAccel = 0;
   myRotDecel = 0;
 
-  sprintf(myGPSPort, "COM3"); // swap laser and hypothetical GPS
+  ArUtil::copy_string_to_buffer(myGPSPort, sizeof(myGPSPort), "COM3"); // swap laser and hypothetical GPS
 }
 
 AREXPORT ArRobotSeekur::ArRobotSeekur()
 {
-  sprintf(mySubClass, "seekur");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "seekur");
   myRobotRadius = 833;
   myRobotDiagonal = 400; 
   myAbsoluteMaxRVelocity = 190;
@@ -2041,9 +2041,9 @@ AREXPORT ArRobotSeekur::ArRobotSeekur()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 690;
     laser->myLaserY = 0;
     laser->myLaserFlipped = false;
@@ -2064,8 +2064,8 @@ AREXPORT ArRobotSeekur::ArRobotSeekur()
 
   myGPSX = -200;
   myGPSY = 0;
-  sprintf(myGPSPort, "COM2"); 
-  sprintf(myGPSType, "trimble");
+  ArUtil::copy_string_to_buffer(myGPSPort, sizeof(myGPSPort), "COM2"); 
+  ArUtil::copy_string_to_buffer(myGPSType, sizeof(myGPSType), "trimble");
   myGPSBaud = 38400;
 
 
@@ -2085,7 +2085,7 @@ AREXPORT ArRobotSeekur::ArRobotSeekur()
 
 AREXPORT ArRobotMT400::ArRobotMT400()
 {
-  sprintf(mySubClass, "mt400");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "mt400");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -2125,9 +2125,9 @@ AREXPORT ArRobotMT400::ArRobotMT400()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 37;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -2139,15 +2139,15 @@ AREXPORT ArRobotMT400::ArRobotMT400()
 
   if (getLaserData(2) != NULL)
   {
-    sprintf(getLaserData(2)->myLaserType, "urg");
-    sprintf(getLaserData(2)->myLaserPortType, "serial");
-    sprintf(getLaserData(2)->myLaserPort, "COM5");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserType, sizeof(getLaserData(2)->myLaserType), "urg");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserPortType, sizeof(getLaserData(2)->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserPort, sizeof(getLaserData(2)->myLaserPort), "COM5");
     getLaserData(2)->myLaserX = 200;
     getLaserData(2)->myLaserY = 0;
     getLaserData(2)->myLaserFlipped = true;
-    sprintf(getLaserData(2)->myLaserStartDegrees, "-120");
-    sprintf(getLaserData(2)->myLaserEndDegrees, "120");
-    sprintf(getLaserData(2)->myLaserIncrement, "1.0");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserStartDegrees, sizeof(getLaserData(2)->myLaserStartDegrees), "-120");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserEndDegrees, sizeof(getLaserData(2)->myLaserEndDegrees), "120");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserIncrement, sizeof(getLaserData(2)->myLaserIncrement), "1.0");
   }
 
 
@@ -2166,7 +2166,7 @@ AREXPORT ArRobotMT400::ArRobotMT400()
 
 AREXPORT ArRobotResearchPB::ArRobotResearchPB()
 {
-  sprintf(mySubClass, "researchPB");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "researchPB");
   myRobotRadius = 250;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 500;
@@ -2206,9 +2206,9 @@ AREXPORT ArRobotResearchPB::ArRobotResearchPB()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms2xx");
-    sprintf(laser->myLaserPortType, "serial");
-    sprintf(laser->myLaserPort, "COM3");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms2xx");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "COM3");
     laser->myLaserX = 37;
     laser->myLaserY = 0;
     laser->myLaserAutoConnect = true;
@@ -2220,15 +2220,15 @@ AREXPORT ArRobotResearchPB::ArRobotResearchPB()
 
   if (getLaserData(2) != NULL)
   {
-    sprintf(getLaserData(2)->myLaserType, "urg");
-    sprintf(getLaserData(2)->myLaserPortType, "serial");
-    sprintf(getLaserData(2)->myLaserPort, "COM5");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserType, sizeof(getLaserData(2)->myLaserType), "urg");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserPortType, sizeof(getLaserData(2)->myLaserPortType), "serial");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserPort, sizeof(getLaserData(2)->myLaserPort), "COM5");
     getLaserData(2)->myLaserX = 200;
     getLaserData(2)->myLaserY = 0;
     getLaserData(2)->myLaserFlipped = true;
-    sprintf(getLaserData(2)->myLaserStartDegrees, "-55");
-    sprintf(getLaserData(2)->myLaserEndDegrees, "55");
-    sprintf(getLaserData(2)->myLaserIncrement, "1.0");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserStartDegrees, sizeof(getLaserData(2)->myLaserStartDegrees), "-55");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserEndDegrees, sizeof(getLaserData(2)->myLaserEndDegrees), "55");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserIncrement, sizeof(getLaserData(2)->myLaserIncrement), "1.0");
   }
 
 
@@ -2247,7 +2247,7 @@ AREXPORT ArRobotResearchPB::ArRobotResearchPB()
 
 AREXPORT ArRobotSeekurJr::ArRobotSeekurJr()
 {
-  sprintf(mySubClass, "seekurjr");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "seekurjr");
   myRobotRadius = 600;
   myRobotDiagonal = 600; 
   myAbsoluteMaxRVelocity = 80;
@@ -2270,29 +2270,29 @@ AREXPORT ArRobotSeekurJr::ArRobotSeekurJr()
   LaserData *laser = getLaserData(1);
   if (laser != NULL)
   {
-    sprintf(laser->myLaserType, "lms1XX");
-    sprintf(laser->myLaserPortType, "tcp");
-    sprintf(laser->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "lms1XX");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "192.168.0.1");
     laser->myLaserX = 527;
     laser->myLaserY = 0;
     laser->myLaserFlipped = false;
     laser->myLaserPowerControlled = false;
-    sprintf(laser->myLaserStartDegrees, "-117");
-    sprintf(laser->myLaserEndDegrees, "117");
+    ArUtil::copy_string_to_buffer(laser->myLaserStartDegrees, sizeof(laser->myLaserStartDegrees), "-117");
+    ArUtil::copy_string_to_buffer(laser->myLaserEndDegrees, sizeof(laser->myLaserEndDegrees), "117");
     laser->myLaserAutoConnect = true;
   }
 
   if (getLaserData(2) != NULL)
   {
-    sprintf(getLaserData(2)->myLaserType, "lms1XX");
-    sprintf(getLaserData(2)->myLaserPortType, "tcp");
-    sprintf(getLaserData(2)->myLaserPort, "192.168.0.2");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserType, sizeof(getLaserData(2)->myLaserType), "lms1XX");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserPortType, sizeof(getLaserData(2)->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserPort, sizeof(getLaserData(2)->myLaserPort), "192.168.0.2");
     getLaserData(2)->myLaserX = -527;
     getLaserData(2)->myLaserY = 0;
     getLaserData(2)->myLaserFlipped = false;
     getLaserData(2)->myLaserPowerControlled = false;
-    sprintf(getLaserData(2)->myLaserStartDegrees, "-117");
-    sprintf(getLaserData(2)->myLaserEndDegrees, "117");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserStartDegrees, sizeof(getLaserData(2)->myLaserStartDegrees), "-117");
+    ArUtil::copy_string_to_buffer(getLaserData(2)->myLaserEndDegrees, sizeof(getLaserData(2)->myLaserEndDegrees), "117");
   }
 
   mySettableAccsDecs = true;
@@ -2305,8 +2305,8 @@ AREXPORT ArRobotSeekurJr::ArRobotSeekurJr()
 
   myGPSX = 0;
   myGPSY = 0;
-  sprintf(myGPSPort, "COM2"); 
-  sprintf(myGPSType, "trimble");
+  ArUtil::copy_string_to_buffer(myGPSPort, sizeof(myGPSPort), "COM2"); 
+  ArUtil::copy_string_to_buffer(myGPSType, sizeof(myGPSType), "trimble");
   myGPSBaud = 38400;
 
   myPTZParams[0].setType("rvision");
@@ -2323,13 +2323,13 @@ AREXPORT ArRobotSeekurJr::ArRobotSeekurJr()
 AREXPORT ArRobotP3DXSH_lms1xx::ArRobotP3DXSH_lms1xx() :
   ArRobotP3DXSH()
 {
-  sprintf(mySubClass, "p3dx-sh-lms1xx");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3dx-sh-lms1xx");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms1XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms1XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 55;
   }
 }
@@ -2337,13 +2337,13 @@ AREXPORT ArRobotP3DXSH_lms1xx::ArRobotP3DXSH_lms1xx() :
 AREXPORT ArRobotP3ATSH_lms1xx::ArRobotP3ATSH_lms1xx() :
   ArRobotP3ATSH()
 {
-  sprintf(mySubClass, "p3at-sh-lms1xx");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3at-sh-lms1xx");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms1XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms1XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 197;
   }
 }
@@ -2351,13 +2351,13 @@ AREXPORT ArRobotP3ATSH_lms1xx::ArRobotP3ATSH_lms1xx() :
 AREXPORT ArRobotPeopleBotSH_lms1xx::ArRobotPeopleBotSH_lms1xx() :
   ArRobotPeopleBotSH()
 {
-  sprintf(mySubClass, "peoplebot-sh-lms1xx");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "peoplebot-sh-lms1xx");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms1XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms1XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 55;
   }
 }
@@ -2365,13 +2365,13 @@ AREXPORT ArRobotPeopleBotSH_lms1xx::ArRobotPeopleBotSH_lms1xx() :
 AREXPORT ArRobotP3DXSH_lms500::ArRobotP3DXSH_lms500() :
   ArRobotP3DXSH()
 {
-  sprintf(mySubClass, "p3dx-sh-lms500");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3dx-sh-lms500");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms5XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms5XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 21;
     ld->myLaserAutoConnect = true;
   }
@@ -2380,13 +2380,13 @@ AREXPORT ArRobotP3DXSH_lms500::ArRobotP3DXSH_lms500() :
 AREXPORT ArRobotP3ATSH_lms500::ArRobotP3ATSH_lms500() :
   ArRobotP3ATSH()
 {
-  sprintf(mySubClass, "p3at-sh-lms500");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "p3at-sh-lms500");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms5XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms5XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 125;
   }
 }
@@ -2394,13 +2394,13 @@ AREXPORT ArRobotP3ATSH_lms500::ArRobotP3ATSH_lms500() :
 AREXPORT ArRobotPeopleBotSH_lms500::ArRobotPeopleBotSH_lms500() :
   ArRobotPeopleBotSH()
 {
-  sprintf(mySubClass, "peoplebot-sh-lms500");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "peoplebot-sh-lms500");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms5XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms5XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 21;
   }
 }
@@ -2408,13 +2408,13 @@ AREXPORT ArRobotPeopleBotSH_lms500::ArRobotPeopleBotSH_lms500() :
 AREXPORT ArRobotPowerBotSH_lms500::ArRobotPowerBotSH_lms500() :
   ArRobotPowerBotSH()
 {
-  sprintf(mySubClass, "powerbot-sh-lms500");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "powerbot-sh-lms500");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms5XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms5XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 251;
   }
 }
@@ -2422,21 +2422,21 @@ AREXPORT ArRobotPowerBotSH_lms500::ArRobotPowerBotSH_lms500() :
 AREXPORT ArRobotResearchPB_lms500::ArRobotResearchPB_lms500() :
   ArRobotResearchPB()
 {
-  sprintf(mySubClass, "researchPB-lms500");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "researchPB-lms500");
   LaserData *ld = getLaserData(1);
   if(ld)
   {
-    sprintf(ld->myLaserType, "lms5XX");
-    sprintf(ld->myLaserPortType, "tcp");
-    sprintf(ld->myLaserPort, "192.168.0.1");
+    ArUtil::copy_string_to_buffer(ld->myLaserType, sizeof(ld->myLaserType), "lms5XX");
+    ArUtil::copy_string_to_buffer(ld->myLaserPortType, sizeof(ld->myLaserPortType), "tcp");
+    ArUtil::copy_string_to_buffer(ld->myLaserPort, sizeof(ld->myLaserPort), "192.168.0.1");
     ld->myLaserX = 37;
   }
 }
 
 AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
 {
-  sprintf(myClass, "MTX");
-  sprintf(mySubClass, "pioneer-lx");
+  ArUtil::copy_string_to_buffer(myClass, sizeof(myClass), "MTX");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "pioneer-lx");
   myRobotRadius = 348;
   myRobotDiagonal = 120;
   myAbsoluteMaxRVelocity = 180;
@@ -2469,14 +2469,14 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
   LaserData *laser = getLaserData(1);
   if (laser != nullptr)
   {
-    sprintf(laser->myLaserType, "s3series");
-    sprintf(laser->myLaserPortType, "serial422");
+    ArUtil::copy_string_to_buffer(laser->myLaserType, sizeof(laser->myLaserType), "s3series");
+    ArUtil::copy_string_to_buffer(laser->myLaserPortType, sizeof(laser->myLaserPortType), "serial422");
 #ifdef WIN32
-	sprintf(laser->myLaserPort, ArUtil::COM7);
+	ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), ArUtil::COM7);
 #else
-	sprintf(laser->myLaserPort, "/dev/ttyUSB4");
+	ArUtil::copy_string_to_buffer(laser->myLaserPort, sizeof(laser->myLaserPort), "/dev/ttyUSB4");
 #endif
-    sprintf(laser->myLaserStartingBaudChoice, "230400");
+    ArUtil::copy_string_to_buffer(laser->myLaserStartingBaudChoice, sizeof(laser->myLaserStartingBaudChoice), "230400");
     laser->myLaserX = 267;
     laser->myLaserY = 0;
     laser->myLaserZ = 190;
@@ -2489,12 +2489,12 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
  
   if(LCDMTXBoardData *lcd = getLCDMTXBoardData(1))
   {
-    sprintf(lcd->myLCDMTXBoardType, "mtx");
-    sprintf(lcd->myLCDMTXBoardPortType, "serial422");
+    ArUtil::copy_string_to_buffer(lcd->myLCDMTXBoardType, sizeof(lcd->myLCDMTXBoardType), "mtx");
+    ArUtil::copy_string_to_buffer(lcd->myLCDMTXBoardPortType, sizeof(lcd->myLCDMTXBoardPortType), "serial422");
 #ifdef WIN32
-	sprintf(lcd->myLCDMTXBoardPort, ArUtil::COM11);
+	ArUtil::copy_string_to_buffer(lcd->myLCDMTXBoardPort, sizeof(lcd->myLCDMTXBoardPort), ArUtil::COM11);
 #else
-    sprintf(lcd->myLCDMTXBoardPort, "/dev/ttyUSB8");
+    ArUtil::copy_string_to_buffer(lcd->myLCDMTXBoardPort, sizeof(lcd->myLCDMTXBoardPort), "/dev/ttyUSB8");
 #endif
     lcd->myLCDMTXBoardBaud = 115200;
     lcd->myLCDMTXBoardAutoConn = true;
@@ -2502,12 +2502,12 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
  
   if(SonarMTXBoardData *sonar = getSonarMTXBoardData(1))
   {
-    sprintf(sonar->mySonarMTXBoardType, "mtx");
-    sprintf(sonar->mySonarMTXBoardPortType, "serial422");
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardType, sizeof(sonar->mySonarMTXBoardType), "mtx");
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardPortType, sizeof(sonar->mySonarMTXBoardPortType), "serial422");
 #ifdef WIN32
-	  sprintf(sonar->mySonarMTXBoardPort, ArUtil::COM5);
+	  ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardPort, sizeof(sonar->mySonarMTXBoardPort), ArUtil::COM5);
 #else
-    sprintf(sonar->mySonarMTXBoardPort, "/dev/ttyUSB2");
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardPort, sizeof(sonar->mySonarMTXBoardPort), "/dev/ttyUSB2");
 #endif
     sonar->mySonarMTXBoardBaud = 115200;
     sonar->mySonarMTXBoardAutoConn = true;
@@ -2516,18 +2516,18 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
     sonar->mySonarGain = 10;
     sonar->mySonarDetectionThreshold = 25;
     sonar->mySonarMaxRange = 4335;
-    sprintf(sonar->mySonarMTXBoardPowerOutput, "Sonar_1_Power");
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardPowerOutput, sizeof(sonar->mySonarMTXBoardPowerOutput), "Sonar_1_Power");
   }
  
   /*
   if(SonarMTXBoardData *sonar = getSonarMTXBoardData(2))
   {
-    sprintf(sonar->mySonarMTXBoardType, "mtx");
-    sprintf(sonar->mySonarMTXBoardPortType, "serial422");
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardType, sizeof(sonar->mySonarMTXBoardType), "mtx");
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardPortType, sizeof(sonar->mySonarMTXBoardPortType), "serial422");
 #ifdef WIN32
-    sprintf(sonar->mySonarMTXBoardPort, ArUtil::COM6);
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardPort, sizeof(sonar->mySonarMTXBoardPort), ArUtil::COM6);
 #else
-    sprintf(sonar->mySonarMTXBoardPort, "/dev/ttyUSB3");
+    ArUtil::copy_string_to_buffer(sonar->mySonarMTXBoardPort, sizeof(sonar->mySonarMTXBoardPort), "/dev/ttyUSB3");
 #endif
     sonar->mySonarMTXBoardBaud = 115200;
     sonar->mySonarMTXBoardAutoConn = false; 
@@ -2547,12 +2547,12 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
 
   if(BatteryMTXBoardData *bat = getBatteryMTXBoardData(1))
   {
-    sprintf(bat->myBatteryMTXBoardType, "mtx");
-    sprintf(bat->myBatteryMTXBoardPortType, "serial");
+    ArUtil::copy_string_to_buffer(bat->myBatteryMTXBoardType, sizeof(bat->myBatteryMTXBoardType), "mtx");
+    ArUtil::copy_string_to_buffer(bat->myBatteryMTXBoardPortType, sizeof(bat->myBatteryMTXBoardPortType), "serial");
 #ifdef WIN32
-	sprintf(bat->myBatteryMTXBoardPort, ArUtil::COM4);
+	ArUtil::copy_string_to_buffer(bat->myBatteryMTXBoardPort, sizeof(bat->myBatteryMTXBoardPort), ArUtil::COM4);
 #else
-    sprintf(bat->myBatteryMTXBoardPort, "/dev/ttyUSB1");
+    ArUtil::copy_string_to_buffer(bat->myBatteryMTXBoardPort, sizeof(bat->myBatteryMTXBoardPort), "/dev/ttyUSB1");
 #endif
     bat->myBatteryMTXBoardBaud = 115200;
     bat->myBatteryMTXBoardAutoConn = true;
@@ -2574,24 +2574,24 @@ AREXPORT ArRobotPioneerLX::ArRobotPioneerLX()
 AREXPORT ArRobotPioneerLX_LD::ArRobotPioneerLX_LD() :
   ArRobotPioneerLX()
 {
-  sprintf(mySubClass, "pioneer-lx-ld");
+  ArUtil::copy_string_to_buffer(mySubClass, sizeof(mySubClass), "pioneer-lx-ld");
   if(LaserData *l = getLaserData(2))
   {
     l->myLaserAutoConnect = true;
-    sprintf(l->myLaserType, "tim510");
-    sprintf(l->myLaserPortType, "serial");
+    ArUtil::copy_string_to_buffer(l->myLaserType, sizeof(l->myLaserType), "tim510");
+    ArUtil::copy_string_to_buffer(l->myLaserPortType, sizeof(l->myLaserPortType), "serial");
 #ifdef WIN32
-    sprintf(l->myLaserPort, ArUtil::COM10);
+    ArUtil::copy_string_to_buffer(l->myLaserPort, sizeof(l->myLaserPort), ArUtil::COM10);
 #else
-    sprintf(l->myLaserPort, "/dev/ttyUSB7");
+    ArUtil::copy_string_to_buffer(l->myLaserPort, sizeof(l->myLaserPort), "/dev/ttyUSB7");
 #endif
     l->myLaserX = 267;
     l->myLaserY = 0;
     l->myLaserZ = 58;
     l->myLaserFlipped = true;
     l->myLaserPowerControlled = false;
-    sprintf(l->myLaserStartDegrees, "-61");
-    sprintf(l->myLaserEndDegrees, "61");
+    ArUtil::copy_string_to_buffer(l->myLaserStartDegrees, sizeof(l->myLaserStartDegrees), "-61");
+    ArUtil::copy_string_to_buffer(l->myLaserEndDegrees, sizeof(l->myLaserEndDegrees), "61");
   }
 
   internalSetSonarUseFlag(0, false);
