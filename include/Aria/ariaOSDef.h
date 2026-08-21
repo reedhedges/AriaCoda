@@ -72,8 +72,12 @@ inline int strcasecmp(const char *s1, const char *s2)
 inline int strncasecmp(const char *s1, const char *s2, size_t n) 
                     {return _strnicmp(s1, s2, n);}
 
+// old versions of MSVC may not have snprintf. newer versions have correct snprintf implementations.
+#if defined(_MSC_VER) && (_MSC_VER < 1900)
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
+#endif
+
 #endif
 
 
