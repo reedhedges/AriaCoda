@@ -398,7 +398,10 @@ void ArLaserFilter::processReadings()
       }
       */
 #ifdef DEBUGRANGEFILTER
-      sprintf(buf, "%s %6d", buf, readingMap[j]->getRange());
+      //sprintf(buf, "%s %6d", buf, readingMap[j]->getRange());
+      // append value to buf:
+      const size_t n = strlen(buf);
+      snprintf(buf+n, sizeof(buf) - n, " %6d", readingMap[j]->getRange());
 #endif
       if (myAllFactor > 0 && 
 	  !checkRanges(reading->getRange(), 
@@ -417,7 +420,7 @@ void ArLaserFilter::processReadings()
     }
 #ifdef DEBUGRANGEFILTER
     buf[0] = '\0';
-    sprintf(buf, "%s %6d*", buf, reading->getRange());
+    snprintf(buf, sizeof(buf), "%6d*", buf, reading->getRange());
 #endif 
     for (j = i + 1; 
 	 (j < numReadings && //good &&
