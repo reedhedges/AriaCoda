@@ -660,11 +660,16 @@ AREXPORT void ArUtil::copy_string_to_buffer(char *destbuf, size_t destbufsize, c
     ArAssert(destbuf != NULL, "destbuf must not be null.", return);
     ArAssert(src != NULL, "src char* must not be null.", return);
     ArAssert(destbufsize >= 1, "destbufsize must be >= 1", return);
-    // GCC will normally issue a compilation warning if it detects that the resulting string copied from src may be truncated if the actual string length of src is larger than destbufsize - 1, but we always add the null byte afterwards.
-    #pragma GCC diagnostic push
-    #pragma GCC diagnostic ignored "-Wstringop-truncation"
+    // GCC will normally issue a compilation warning if it detects that the resulting string copied from src may be truncated if the actual string length of src is larger than destbufsize - 1, but we always add the null byte afterwards. (only relevant to GCC)
+    #if defined(__GNUC__) && !defined(__clang__)
+    # pragma GCC diagnostic push
+    # pragma GCC diagnostic ignored "-Wstringop-truncation"
+    #endif
     strncpy(destbuf, src, destbufsize-1);
-    #pragma GCC diagnostic pop
+    // or use memcpy instead?
+    #if defined(__GNUC__) && !defined(__clang__)
+    # pragma GCC diagnostic pop
+    #endif
     destbuf[destbufsize-1] = '\0';
 }
 
