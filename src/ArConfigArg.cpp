@@ -2871,17 +2871,17 @@ AREXPORT bool ArConfigArg::writeArguments(FILE *file,
   // if they have a config priority put that on its own line
   if (isWriteExtra)
   {
-    sprintf(lineBuf, startLine, "");
+    snprintf(lineBuf, lineBufSize, startLine, "");
     fprintf(file, "%s Priority: %s\n", lineBuf,
       ArPriority::getPriorityName(getConfigPriority()));
     lineBuf[0] = '\0';
 
-    sprintf(lineBuf, startLine, "");
+    snprintf(lineBuf, lineBufSize, startLine, "");
     fprintf(file, "%s DisplayHint: %s\n", lineBuf, getDisplayHint());
 
     lineBuf[0] = '\0';
 
-    sprintf(lineBuf, startLine, "");
+    snprintf(lineBuf, lineBufSize, startLine, "");
     fprintf(file, "%s RestartLevel: %d\n", lineBuf, getRestartLevel());
 
     lineBuf[0] = '\0';
