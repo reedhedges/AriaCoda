@@ -233,9 +233,9 @@ public:
   /// Logs the information about the sensor
   AREXPORT void log();
 private:
-  virtual void laserSetName(const char *name);
-  virtual void * runThread(void *arg);
-  virtual void setRobot(ArRobot *robot);
+  virtual void laserSetName(const char *name) override;
+  virtual void * runThread(void *arg) override;
+  virtual void setRobot(ArRobot *robot) override;
   void sensorInterp();
   void failedToConnect();
   void clear();

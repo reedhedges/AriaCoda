@@ -59,7 +59,7 @@ public:
   AREXPORT virtual bool blockingConnect() override;
   AREXPORT virtual bool asyncConnect() override;
   AREXPORT virtual bool disconnect() override;
-  AREXPORT virtual bool isConnected()
+  AREXPORT virtual bool isConnected() override
     { return myIsConnected; }
   AREXPORT virtual bool isTryingToConnect() override
     { 

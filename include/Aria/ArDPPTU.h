@@ -162,11 +162,11 @@ public:
   /// Destructor
   AREXPORT virtual ~ArDPPTU();
 
-  AREXPORT bool init();
+  AREXPORT virtual bool init() override;
   AREXPORT virtual const char *getTypeName() override { return "dpptu"; }
 
-  virtual bool canZoom() const { return false; }
-  virtual bool canGetRealPanTilt() const { return myCanGetRealPanTilt; }
+  virtual bool canZoom() const override { return false; }
+  virtual bool canGetRealPanTilt() const override { return myCanGetRealPanTilt; }
 
   /// Sends a delimiter only
   AREXPORT bool blank();
@@ -339,10 +339,10 @@ public:
   AREXPORT bool velMove();
 
   /// Sets the rate that the unit pans at
-  AREXPORT bool panSlew(double deg);
+  AREXPORT virtual bool panSlew(double deg) override;
   /// Sets the rate the unit tilts at 
-  AREXPORT bool tiltSlew(double deg);
-  bool canPanTiltSlew() { return true; }
+  AREXPORT virtual bool tiltSlew(double deg) override;
+  virtual bool canPanTiltSlew() override { return true; }
   
 
   /// Sets the rate that the unit pans at, relative to current slew
@@ -361,11 +361,11 @@ protected:
 /// Get current pan/tilt position, if receiving from device, otherwise return
 /// last position request sent to the device. @see canGetRealPanTilt()
 //@{
-  virtual double getPan_i() const 
+  virtual double getPan_i() const override
   { 
     return myPan;
   }
-  virtual double getTilt_i() const 
+  virtual double getTilt_i() const override
   { 
     return myTilt;
   }
@@ -435,7 +435,7 @@ protected:
 
   bool myInit;
   //AREXPORT virtual bool packetHandler(ArBasePacket *pkt);
-  AREXPORT virtual ArBasePacket *readPacket();
+  AREXPORT virtual ArBasePacket *readPacket() override;
   ArFunctorC<ArDPPTU> myQueryCB;
   char *myDataBuf;
   

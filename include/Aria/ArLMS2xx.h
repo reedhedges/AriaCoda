@@ -78,7 +78,7 @@ public:
   /// Connect to the laser while blocking
   AREXPORT virtual bool blockingConnect() override;
   /// Connect to the laser asynchronously
-  AREXPORT bool asyncConnect();
+  AREXPORT virtual bool asyncConnect() override;
   /// Disconnect from the laser
   AREXPORT virtual bool disconnect() override;
   /// Sees if this is connected to the laser
