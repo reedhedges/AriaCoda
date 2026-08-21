@@ -30,6 +30,7 @@ docs/*.html
 docs/*.js
 docs/*.css
 docs/*.png
+docs/*.svg
 docs/search
 checks.json
 docs/Aria.tag
