@@ -3654,11 +3654,10 @@ void ArRobot::stateReflector()
 	ArMath::fabs(myLastSentTransDecel - myTransDecel) >= 1)
     {
       comInt(ArCommands::SETA,
-	     -ArMath::roundShort(myTransDecel));
+	    ArMath::roundShort(-myTransDecel));
       myLastSentTransDecel = myTransDecel;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "Non-action trans decel of %d", 
-		   -ArMath::roundShort(myTransDecel));
+        ArLog::log(ArLog::Normal, "Non-action trans decel of %d", ArMath::roundShort(-myTransDecel));
     }
 
     if (myTransType == TRANS_VEL)
@@ -3822,23 +3821,20 @@ void ArRobot::stateReflector()
       if (hasSettableAccsDecs() && ArMath::fabs(transDecel) > 1 &&
 	  ArMath::fabs(myLastSentTransDecel - transDecel) >= 1)
       {
-	comInt(ArCommands::SETA,
-	       -ArMath::roundShort(transDecel));
-	myLastSentTransDecel = transDecel;
-	if (myLogMovementSent)
-	  ArLog::log(ArLog::Normal, "Action trans decel of %d", 
-		     -ArMath::roundShort(transDecel));
+        comInt(ArCommands::SETA, ArMath::roundShort(-transDecel));
+        myLastSentTransDecel = transDecel;
+        if (myLogMovementSent)
+          ArLog::log(ArLog::Normal, "Action trans decel of %d", ArMath::roundShort(-transDecel));
       }
     }
     else if (hasSettableAccsDecs() && ArMath::fabs(myTransDecel) > 1 &&
 	ArMath::fabs(myLastSentTransDecel - myTransDecel) >= 1)
     {
       comInt(ArCommands::SETA,
-	     -ArMath::roundShort(myTransDecel));
+	    ArMath::roundShort(-myTransDecel));
       myLastSentTransDecel = myTransDecel;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "Action-but-robot trans decel of %d", 
-		   -ArMath::roundShort(myTransDecel));
+        ArLog::log(ArLog::Normal, "Action-but-robot trans decel of %d", ArMath::roundShort(-myTransDecel));
     }
 
     if (myActionDesired.getMaxVelStrength() >= ArActionDesired::MIN_STRENGTH)
@@ -3913,8 +3909,7 @@ void ArRobot::stateReflector()
       myLastSentRotVelPosMax = -1;
       myLastSentRotVelNegMax = -1;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "%25sNon-action rot vel max of %d", "",
-		   ArMath::roundShort(myRotVelMax));      
+        ArLog::log(ArLog::Normal, "%25sNon-action rot vel max of %d", "", ArMath::roundShort(myRotVelMax));      
 
     }
     if (hasSettableAccsDecs() && ArMath::fabs(myRotAccel) > 1 &&
@@ -3924,18 +3919,16 @@ void ArRobot::stateReflector()
 	     ArMath::roundShort(myRotAccel));
       myLastSentRotAccel = myRotAccel;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "%25sNon-action rot accel of %d", "",
-		   ArMath::roundShort(myRotAccel));      
+        ArLog::log(ArLog::Normal, "%25sNon-action rot accel of %d", "", ArMath::roundShort(myRotAccel));      
     }
     if (hasSettableAccsDecs() && ArMath::fabs(myRotDecel) > 1 &&
 	ArMath::fabs(myLastSentRotDecel - myRotDecel) >= 1)
     {
       comInt(ArCommands::SETRA,
-	     -ArMath::roundShort(myRotDecel));
+	    ArMath::roundShort(-myRotDecel));
       myLastSentRotDecel = myRotDecel;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "%25sNon-action rot decel of %d", "",
-		   -ArMath::roundShort(myRotDecel));      
+        ArLog::log(ArLog::Normal, "%25sNon-action rot decel of %d", "", ArMath::roundShort(-myRotDecel));      
     }
 
     myActionRotSet = false;
@@ -4065,35 +4058,29 @@ void ArRobot::stateReflector()
       if (ArMath::fabs(myLastSentRotVelPosMax - maxRotVelPos) >= 1 ||
 	  ArMath::fabs(myLastSentRotVelNegMax - maxRotVelNeg) >= 1)
       {
-	myLastSentRotVelMax = -1;
-	myLastSentRotVelPosMax = maxRotVelPos;
-	myLastSentRotVelNegMax = maxRotVelNeg;
-	
-	// this command doesn't exist just yet...
-	comInt(ArCommands::SETRVDIR, 
-	       ArMath::roundShort(maxRotVelPos));
-	comInt(ArCommands::SETRVDIR, 
-	       ArMath::roundShort(-maxRotVelNeg));
-	if (myLogMovementSent)
-	{
-	  ArLog::log(ArLog::Normal, "%25sAction rot vel pos max of %d", "",
-		     ArMath::roundShort(maxRotVelPos));
-	  ArLog::log(ArLog::Normal, "%25sAction rot vel neg max of %d", "",
-		     ArMath::roundShort(-maxRotVelNeg));
-	}
+        myLastSentRotVelMax = -1;
+        myLastSentRotVelPosMax = maxRotVelPos;
+        myLastSentRotVelNegMax = maxRotVelNeg;
+    
+        // this command doesn't exist just yet...
+        comInt(ArCommands::SETRVDIR, ArMath::roundShort(maxRotVelPos));
+        comInt(ArCommands::SETRVDIR, ArMath::roundShort(-maxRotVelNeg));
+        if (myLogMovementSent)
+        {
+          ArLog::log(ArLog::Normal, "%25sAction rot vel pos max of %d", "", ArMath::roundShort(maxRotVelPos));
+          ArLog::log(ArLog::Normal, "%25sAction rot vel neg max of %d", "", ArMath::roundShort(-maxRotVelNeg));
+        }
+
       }
     }
-    else if (hasSettableVelMaxes() && 
-	     ArMath::fabs(myLastSentRotVelMax - myRotVelMax) >= 1)
+    else if (hasSettableVelMaxes() && ArMath::fabs(myLastSentRotVelMax - myRotVelMax) >= 1)
     {
       //comInt(ArCommands::SETRVDIR, 0);
       comInt(ArCommands::SETRV,
-	     ArMath::roundShort(myRotVelMax));
+      ArMath::roundShort(myRotVelMax));
       myLastSentRotVelMax = myRotVelMax;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, 
-		   "%25sAction-but-robot rot vel max of %d", 
-		   "",  ArMath::roundShort(myRotVelMax));      
+        ArLog::log(ArLog::Normal, "%25sAction-but-robot rot vel max of %d", "",  ArMath::roundShort(myRotVelMax));      
     }
 
     if (myActionDesired.getRotAccelStrength() >= ArActionDesired::MIN_STRENGTH)
@@ -4101,16 +4088,13 @@ void ArRobot::stateReflector()
       rotAccel = ArMath::roundShort(myActionDesired.getRotAccel());
       if (ArMath::fabs(myLastSentRotAccel - rotAccel) >= 1)
       {
-	comInt(ArCommands::SETRA,
-	       ArMath::roundShort(rotAccel));
-	myLastSentRotAccel = rotAccel;
-	if (myLogMovementSent)
-	  ArLog::log(ArLog::Normal, "%25sAction rot accel of %d", "",
-		     ArMath::roundShort(rotAccel));
+        comInt(ArCommands::SETRA, ArMath::roundShort(rotAccel));
+        myLastSentRotAccel = rotAccel;
+        if (myLogMovementSent)
+          ArLog::log(ArLog::Normal, "%25sAction rot accel of %d", "", ArMath::roundShort(rotAccel));
       }
     }
-    else if (hasSettableAccsDecs() && ArMath::fabs(myRotAccel) > 1 &&
-	ArMath::fabs(myLastSentRotAccel - myRotAccel) >= 1)
+    else if (hasSettableAccsDecs() && ArMath::fabs(myRotAccel) > 1 && ArMath::fabs(myLastSentRotAccel - myRotAccel) >= 1)
     {
       comInt(ArCommands::SETRA,
 	     ArMath::roundShort(myRotAccel));
@@ -4125,108 +4109,98 @@ void ArRobot::stateReflector()
       rotDecel = ArMath::roundShort(myActionDesired.getRotDecel());
       if (ArMath::fabs(myLastSentRotDecel - rotDecel) >= 1)
       {
-	comInt(ArCommands::SETRA,
-	       -ArMath::roundShort(rotDecel));
-	myLastSentRotDecel = rotDecel;
-	if (myLogMovementSent)
-	  ArLog::log(ArLog::Normal, "%25sAction rot decel of %d", "",
-		     -ArMath::roundShort(rotDecel));
+        comInt(ArCommands::SETRA, ArMath::roundShort(-rotDecel));
+        myLastSentRotDecel = rotDecel;
+        if (myLogMovementSent)
+          ArLog::log(ArLog::Normal, "%25sAction rot decel of %d", "", ArMath::roundShort(-rotDecel));
       }
     }
-    else if (hasSettableAccsDecs() && ArMath::fabs(myRotDecel) > 1 &&
-	ArMath::fabs(myLastSentRotDecel - myRotDecel) >= 1)
+    else if (hasSettableAccsDecs() && ArMath::fabs(myRotDecel) > 1 && ArMath::fabs(myLastSentRotDecel - myRotDecel) >= 1)
     {
       comInt(ArCommands::SETRA,
-	     -ArMath::roundShort(myRotDecel));
+	     ArMath::roundShort(-myRotDecel));
       myLastSentRotDecel = myRotDecel;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "%25sAction-but-robot rot decel of %d", 
-		   "", -ArMath::roundShort(myRotDecel));      
+        ArLog::log(ArLog::Normal, "%25sAction-but-robot rot decel of %d", "", ArMath::roundShort(-myRotDecel));      
     }
 
 
 
-    if (myActionDesired.getDeltaHeadingStrength() >=
-	ArActionDesired::MIN_STRENGTH)
+    if (myActionDesired.getDeltaHeadingStrength() >= ArActionDesired::MIN_STRENGTH)
     {
       if (ArMath::roundShort(myActionDesired.getDeltaHeading()) == 0)
       {
-	rotStopped = true;
-	rotVal = 0;
-	rotHeading = false;
+        rotStopped = true;
+        rotVal = 0;
+        rotHeading = false;
       }
       else
       {
-	//printf("delta %.0f\n", myActionDesired.getDeltaHeading());
-	//encTh = ArMath::subAngle(myRotVal, myEncoderTransform.getTh());
-	encTh = ArMath::subAngle(
-		ArMath::addAngle(myActionDesired.getDeltaHeading(), 
-				 getTh()),
-		myEncoderTransform.getTh());
-	//printf("final th %.0f\n", th);
-	rawTh = ArMath::addAngle(encTh, 
-				 ArMath::subAngle(myRawEncoderPose.getTh(),
-						  myEncoderPose.getTh()));
-	rotVal = ArMath::roundShort(rawTh);
-	rotStopped = false;
-	rotHeading = true;
-	myTryingToMove = true;
+        //printf("delta %.0f\n", myActionDesired.getDeltaHeading());
+        //encTh = ArMath::subAngle(myRotVal, myEncoderTransform.getTh());
+        encTh = ArMath::subAngle(ArMath::addAngle(myActionDesired.getDeltaHeading(), getTh()), myEncoderTransform.getTh());
+        //printf("final th %.0f\n", th);
+        rawTh = ArMath::addAngle(encTh, 
+				ArMath::subAngle(myRawEncoderPose.getTh(), myEncoderPose.getTh()));
+        rotVal = ArMath::roundShort(rawTh);
+        rotStopped = false;
+        rotHeading = true;
+        myTryingToMove = true;
       }
       myActionRotSet = true;
     } 
-    else if (myActionDesired.getRotVelStrength() >=
-	                                     ArActionDesired::MIN_STRENGTH)
+    else if (myActionDesired.getRotVelStrength() >= ArActionDesired::MIN_STRENGTH)
     {
       if (ArMath::roundShort(myActionDesired.getRotVel()) == 0)
       {
-	rotStopped = true;
-	rotVal = 0;
-	rotHeading = false;
+        rotStopped = true;
+        rotVal = 0;
+        rotHeading = false;
       }
       else
       {
-	double rotVelocity = ArMath::roundShort(myActionDesired.getRotVel());
-	if (maxRotVelPos > -.5 && rotVelocity > 0)
-	{
-	  if (maxRotVelPos < 1.1)
-	  {
-	    rotVelocity = 0;
-	    rotStopped = false;
-	    rotVal = 0;
-	    rotHeading = false;
-	  }
-	  else
-	  {
-	    rotVelocity = ArUtil::findMin(rotVelocity, maxRotVelPos);
-	    rotStopped = false;
-	    rotVal = ArMath::roundShort(rotVelocity);
-	    rotHeading = false;
-	  }
-	}
-	else if (maxRotVelNeg > -.5 && rotVelocity < 0)
-	{
-	  if (maxRotVelNeg < 1.1)
-	  {
-	    rotVelocity = 0;
-	    rotStopped = false;
-	    rotVal = 0;
-	    rotHeading = false;
-	  }
-	  else
-	  {
-	    rotVelocity = ArUtil::findMax(rotVelocity, -maxRotVelNeg);
-	    rotStopped = false;
-	    rotVal = ArMath::roundShort(rotVelocity);
-	    rotHeading = false;
-	  }
-	}
-	else
-	{
-	  rotStopped = false;
-	  rotVal = ArMath::roundShort(myActionDesired.getRotVel());
-	  rotHeading = false;
-	}
-	myTryingToMove = true;
+        double rotVelocity = ArMath::roundShort(myActionDesired.getRotVel());
+        if (maxRotVelPos > -.5 && rotVelocity > 0)
+        {
+          if (maxRotVelPos < 1.1)
+          {
+            rotVelocity = 0;
+            rotStopped = false;
+            rotVal = 0;
+            rotHeading = false;
+          }
+          else
+          {
+            rotVelocity = ArUtil::findMin(rotVelocity, maxRotVelPos);
+            rotStopped = false;
+            rotVal = ArMath::roundShort(rotVelocity);
+            rotHeading = false;
+          }
+        }
+        else if (maxRotVelNeg > -.5 && rotVelocity < 0)
+        {
+          if (maxRotVelNeg < 1.1)
+          {
+            rotVelocity = 0;
+            rotStopped = false;
+            rotVal = 0;
+            rotHeading = false;
+          }
+          else
+          {
+            rotVelocity = ArUtil::findMax(rotVelocity, -maxRotVelNeg);
+            rotStopped = false;
+            rotVal = ArMath::roundShort(rotVelocity);
+            rotHeading = false;
+          }
+        }
+        else
+        {
+          rotStopped = false;
+          rotVal = ArMath::roundShort(myActionDesired.getRotVel());
+          rotHeading = false;
+        }
+        myTryingToMove = true;
       }
       myActionRotSet = true;
     }
@@ -4249,31 +4223,27 @@ void ArRobot::stateReflector()
     {
       if (rotStopped)
       {
-	comInt(ArCommands::RVEL, 0);
-	if (myLogMovementSent)
-	  ArLog::log(ArLog::Normal, 
-		     "%25sAction rot vel of 0 (rotStopped)",
-		     "");
+        comInt(ArCommands::RVEL, 0);
+        if (myLogMovementSent) 
+          ArLog::log(ArLog::Normal, "%25sAction rot vel of 0 (rotStopped)", "");
       }
       else if (rotHeading)
       {
-	comInt(ArCommands::HEAD, rotVal);
-	if (myLogMovementSent)
-	  ArLog::log(ArLog::Normal, 
-		     "%25sAction rot heading of %d (encoder %d, raw %d)",
-		     "",
-		     ArMath::roundShort(ArMath::addAngle(
-			     myActionDesired.getDeltaHeading(), 
-			     getTh())),
-		     ArMath::roundShort(encTh),
-		     ArMath::roundShort(rotVal));
+        comInt(ArCommands::HEAD, rotVal);
+        if (myLogMovementSent)
+          ArLog::log(ArLog::Normal, "%25sAction rot heading of %d (encoder %d, raw %d)", "",
+           ArMath::roundShort(ArMath::addAngle(
+			      myActionDesired.getDeltaHeading(), 
+			      getTh())
+           ),
+		       ArMath::roundShort(encTh),
+		       ArMath::roundShort(rotVal));
       }
       else
       {
-	comInt(ArCommands::RVEL, rotVal);
-	if (myLogMovementSent)
-	  ArLog::log(ArLog::Normal, "%25sAction rot vel of %d", "", 
-		     rotVal);
+        comInt(ArCommands::RVEL, rotVal);
+        if (myLogMovementSent)
+          ArLog::log(ArLog::Normal, "%25sAction rot vel of %d", "", rotVal);
       }
       myLastRotSent.setToNow();
     }		    
@@ -4322,11 +4292,10 @@ void ArRobot::stateReflector()
 	ArMath::fabs(myLastSentLatDecel - myLatDecel) >= 1)
     {
       comInt(ArCommands::LATACCEL,
-	     -ArMath::roundShort(myLatDecel));
+	    ArMath::roundShort(-myLatDecel));
       myLastSentLatDecel = myLatDecel;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "%12sNon-action lat decel of %d", "",
-		   -ArMath::roundShort(myLatDecel));
+        ArLog::log(ArLog::Normal, "%12sNon-action lat decel of %d", "", ArMath::roundShort(-myLatDecel));
     }
 
     if (myLatType == LAT_VEL)
@@ -4459,44 +4428,37 @@ void ArRobot::stateReflector()
 	ArActionDesired::MIN_STRENGTH)
     {
       latDecel = ArMath::roundShort(myActionDesired.getLatDecel());
-      if (ArMath::fabs(latDecel) > 1 &&
-	  ArMath::fabs(myLastSentLatDecel - latDecel) >= 1)
+      if (ArMath::fabs(latDecel) > 1 && ArMath::fabs(myLastSentLatDecel - latDecel) >= 1)
       {
-	comInt(ArCommands::LATACCEL,
-	       -ArMath::roundShort(latDecel));
-	myLastSentLatDecel = latDecel;
-	if (myLogMovementSent)
-	  ArLog::log(ArLog::Normal, "%12sAction lat decel of %d", "",
-		     -ArMath::roundShort(latDecel));
+        comInt(ArCommands::LATACCEL, ArMath::roundShort(-latDecel));
+        myLastSentLatDecel = latDecel;
+        if (myLogMovementSent)
+          ArLog::log(ArLog::Normal, "%12sAction lat decel of %d", "", ArMath::roundShort(-latDecel));
       }
     }
-    else if (ArMath::fabs(myLatDecel) > 1 &&
-	ArMath::fabs(myLastSentLatDecel - myLatDecel) >= 1)
+    else if (ArMath::fabs(myLatDecel) > 1 && ArMath::fabs(myLastSentLatDecel - myLatDecel) >= 1)
     {
       comInt(ArCommands::LATACCEL,
-	     -ArMath::roundShort(myLatDecel));
+	    ArMath::roundShort(-myLatDecel));
       myLastSentLatDecel = myLatDecel;
       if (myLogMovementSent)
-	ArLog::log(ArLog::Normal, "%12sAction-but-robot lat decel of %d", "",
-		   -ArMath::roundShort(myLatDecel));
+        ArLog::log(ArLog::Normal, "%12sAction-but-robot lat decel of %d", "", ArMath::roundShort(-myLatDecel));
     }
 
-    if (myActionDesired.getMaxLeftLatVelStrength() >= 
-	ArActionDesired::MIN_STRENGTH)
+    if (myActionDesired.getMaxLeftLatVelStrength() >= ArActionDesired::MIN_STRENGTH)
     {
       maxLeftLatVel = myActionDesired.getMaxLeftLatVel();
       if (maxLeftLatVel > myLatVelMax)
-	maxLeftLatVel = myLatVelMax;
+        maxLeftLatVel = myLatVelMax;
     }
     else
       maxLeftLatVel = myLatVelMax;
 
-    if (myActionDesired.getMaxRightLatVelStrength() >= 
-	ArActionDesired::MIN_STRENGTH)
+    if (myActionDesired.getMaxRightLatVelStrength() >= ArActionDesired::MIN_STRENGTH)
     {
       maxRightLatVel = myActionDesired.getMaxRightLatVel();
       if (maxRightLatVel > myLatVelMax)
-	maxRightLatVel = myLatVelMax;
+        maxRightLatVel = myLatVelMax;
     }
     else
       maxRightLatVel = myLatVelMax;
