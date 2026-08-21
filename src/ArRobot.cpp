@@ -2640,7 +2640,8 @@ AREXPORT double ArRobot::getIOAnalogVoltage(int num) const
  */
 AREXPORT unsigned char ArRobot::getIODigIn(int num) const
 {
-  if (num <= getIODigInSize())
+  if (num >= 0 && num < getIODigInSize() &&
+      static_cast<size_t>(num) < sizeof(myIODigIn))
     return myIODigIn[num];
   else
     return (unsigned char) 0;
@@ -2651,7 +2652,8 @@ AREXPORT unsigned char ArRobot::getIODigIn(int num) const
  */
 AREXPORT unsigned char  ArRobot::getIODigOut(int num) const
 {
-  if (num <= getIODigOutSize() && num <= sizeof(myIODigOut))
+  if (num >= 0 && num < getIODigOutSize() &&
+      static_cast<size_t>(num) < sizeof(myIODigOut))
     return myIODigOut[num];
   else
     return (unsigned char) 0;
