@@ -1098,7 +1098,8 @@ bool ArBatteryMTX::getBasicInfo()
 			obuf[0] = '\0';
 			int j = 0;
 			for (int i = 0; i < packet->getLength() - 2; i++) {
-				sprintf (&obuf[j], "_%02x", buf[i]);
+				//sprintf (&obuf[j], "_%02x", buf[i]);
+        snprintf(&obuf[j], sizeof(obuf) - (size_t)j, "_%02x", buf[i]);
 				j= j+3;
 			}
 IFDEBUG(

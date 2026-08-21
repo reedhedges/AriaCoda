@@ -300,7 +300,8 @@ AREXPORT ArRobotPacket* ArRobotPacketReceiver::receivePacket(unsigned int msWait
 				obuf[0] = '\0';
 				int j = 0;
 				for (int i = 0; i < packet->getLength(); i++) {
-					sprintf (&obuf[j], "_%02x", buf2[i]);
+					//sprintf (&obuf[j], "_%02x", buf2[i]);
+          snprintf(&obuf[j], sizeof(obuf) - (size_t)j, "_%02x", buf2[i]);
 					j= j+3;
 				}
 
